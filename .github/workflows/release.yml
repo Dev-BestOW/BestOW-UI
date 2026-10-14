@@ -3,6 +3,7 @@ name: Release
 # main 에 changeset 이 쌓이면 "Version Packages" PR 을 만들고,
 # 그 PR 이 머지되면 npm 에 배포한다.
 # npm 인증은 토큰 없이 Trusted Publishing(OIDC)으로 한다.
+# pnpm 11 의 publish 가 OIDC 토큰 교환을 직접 처리한다 (pnpm 10 은 미지원).
 on:
   push:
     branches: [main]
@@ -23,11 +24,6 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
-
-      # npm Trusted Publishing(OIDC)은 npm CLI 11.5.1 이상이 필요하다.
-      # pnpm publish 는 내부적으로 npm CLI 를 호출하므로 npm 만 올리면 된다.
-      - name: Update npm for trusted publishing
-        run: npm install -g npm@^11.5.1
 
       - name: Create release PR or publish
         uses: changesets/action@v2
