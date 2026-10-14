@@ -1,7 +1,7 @@
 import * as RadixToast from '@radix-ui/react-toast';
 import { createContext, useCallback, useContext, useMemo, useRef, useState, type ReactNode } from 'react';
 import { XIcon } from '@bestow-ui/icons';
-import { usePortalClassName } from '../../theme/ThemeProvider';
+import { usePortalProps } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
 import { Button } from '../Button';
 import * as styles from './Toast.css';
@@ -52,7 +52,7 @@ export interface ToastProviderProps {
 export function ToastProvider({ children, duration = 5000, label = '알림' }: ToastProviderProps) {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
   const nextId = useRef(0);
-  const portalClassName = usePortalClassName();
+  const portal = usePortalProps();
 
   const toast = useCallback((options: ToastOptions) => {
     const id = nextId.current++;
@@ -97,7 +97,7 @@ export function ToastProvider({ children, duration = 5000, label = '알림' }: T
             </RadixToast.Close>
           </RadixToast.Root>
         ))}
-        <RadixToast.Viewport className={cx(portalClassName, styles.viewport)} />
+        <RadixToast.Viewport className={cx(portal.className, styles.viewport)} style={portal.style} />
       </RadixToast.Provider>
     </ToastContext.Provider>
   );

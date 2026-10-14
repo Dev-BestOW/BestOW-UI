@@ -1,7 +1,7 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import type { ReactNode } from 'react';
 import { XIcon } from '@bestow-ui/icons';
-import { usePortalClassName } from '../../theme/ThemeProvider';
+import { usePortalProps } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
 import * as styles from './Modal.css';
 
@@ -46,15 +46,16 @@ export function Modal({
   closeOnOverlayClick = true,
   className,
 }: ModalProps) {
-  const portalClassName = usePortalClassName();
+  const portal = usePortalProps();
 
   return (
     <Dialog.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
       {trigger && <Dialog.Trigger asChild>{trigger}</Dialog.Trigger>}
       <Dialog.Portal>
-        <Dialog.Overlay className={cx(portalClassName, styles.overlay)} />
+        <Dialog.Overlay className={cx(portal.className, styles.overlay)} style={portal.style} />
         <Dialog.Content
-          className={cx(portalClassName, styles.content({ size }), className)}
+          className={cx(portal.className, styles.content({ size }), className)}
+          style={portal.style}
           onPointerDownOutside={closeOnOverlayClick ? undefined : (event) => event.preventDefault()}
           {...(description ? {} : { 'aria-describedby': undefined })}
         >

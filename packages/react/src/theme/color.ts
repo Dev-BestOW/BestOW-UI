@@ -1,0 +1,153 @@
+// 대표색 하나로 intent 색 세트를 만드는 색 계산 유틸.
+// OKLCH(사람이 느끼는 밝기에 가까운 색 공간)에서 밝기를 조절하고, WCAG 대비(4.5:1)를 만족하도록 글자색을 찾는다.
+import { darkColors, lightColors, palette } from '@bestow-ui/tokens';
+import type { ThemeInput } from './createTheme';
+
+type Rgb = [number, number, number]; // 0~1, sRGB
+interface Oklch {
+  l: number;
+  c: number;
+  h: number;
+}
+
+export function parseHex(hex: string): Rgb {
+  const m = /^#?([0-9a-f]{3}|[0-9a-f]{6})$/i.exec(hex.trim());
+  if (!m) throw new Error(`올바른 hex 색이 아니에요: "${hex}" (예: "#7c3aed")`);
+  let h = m[1]!;
+  if (h.length === 3) h = h.replace(/./g, (c) => c + c);
+  return [0, 2, 4].map((i) => parseInt(h.slice(i, i + 2), 16) / 255) as Rgb;
+}
+
+export function toHex(rgb: Rgb): string {
+  return `#${rgb.map((v) => Math.round(Math.min(1, Math.max(0, v)) * 255).toString(16).padStart(2, '0')).join('')}`;
+}
+
+const toLinear = (c: number) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+const fromLinear = (c: number) => (c <= 0.0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - 0.055);
+
+function rgbToOklch([r, g, b]: Rgb): Oklch {
+  const [lr, lg, lb] = [toLinear(r), toLinear(g), toLinear(b)];
+  const l_ = Math.cbrt(0.4122214708 * lr + 0.5363325363 * lg + 0.0514459929 * lb);
+  const m_ = Math.cbrt(0.2119034982 * lr + 0.6806995451 * lg + 0.1073969566 * lb);
+  const s_ = Math.cbrt(0.0883024619 * lr + 0.2817188376 * lg + 0.6299787005 * lb);
+  const L = 0.2104542553 * l_ + 0.793617785 * m_ - 0.0040720468 * s_;
+  const a = 1.9779984951 * l_ - 2.428592205 * m_ + 0.4505937099 * s_;
+  const bb = 0.0259040371 * l_ + 0.7827717662 * m_ - 0.808675766 * s_;
+  return { l: L, c: Math.hypot(a, bb), h: Math.atan2(bb, a) };
+}
+
+function oklchToRgbUnclamped({ l, c, h }: Oklch): Rgb {
+  const a = c * Math.cos(h);
+  const b = c * Math.sin(h);
+  const l_ = (l + 0.3963377774 * a + 0.2158037573 * b) ** 3;
+  const m_ = (l - 0.1055613458 * a - 0.0638541728 * b) ** 3;
+  const s_ = (l - 0.0894841775 * a - 1.291485548 * b) ** 3;
+  return [
+    fromLinear(4.0767416621 * l_ - 3.3077115913 * m_ + 0.2309699292 * s_),
+    fromLinear(-1.2684380046 * l_ + 2.6097574011 * m_ - 0.3413193965 * s_),
+    fromLinear(-0.0041960863 * l_ - 0.7034186147 * m_ + 1.707614701 * s_),
+  ];
+}
+
+const inGamut = (rgb: Rgb) => rgb.every((v) => v >= -1e-4 && v <= 1 + 1e-4);
+
+/** sRGB 범위를 벗어나면 채도(c)를 줄여 범위 안으로 맞춘다. */
+function oklchToRgb(color: Oklch): Rgb {
+  const l = Math.min(1, Math.max(0, color.l));
+  let rgb = oklchToRgbUnclamped({ ...color, l });
+  if (inGamut(rgb)) return rgb;
+  let lo = 0;
+  let hi = color.c;
+  for (let i = 0; i < 20; i++) {
+    const mid = (lo + hi) / 2;
+    if (inGamut(oklchToRgbUnclamped({ l, c: mid, h: color.h }))) lo = mid;
+    else hi = mid;
+  }
+  rgb = oklchToRgbUnclamped({ l, c: lo, h: color.h });
+  return rgb;
+}
+
+function luminance([r, g, b]: Rgb): number {
+  return 0.2126 * toLinear(r) + 0.7152 * toLinear(g) + 0.0722 * toLinear(b);
+}
+
+/** WCAG 대비율 (1 ~ 21) */
+export function contrastRatio(a: string, b: string): number {
+  const [la, lb] = [luminance(parseHex(a)), luminance(parseHex(b))];
+  return (Math.max(la, lb) + 0.05) / (Math.min(la, lb) + 0.05);
+}
+
+/** fg 를 alpha 만큼 bg 위에 겹친 결과 색 */
+function blend(fg: string, alpha: number, bg: string): string {
+  const [f, b] = [parseHex(fg), parseHex(bg)];
+  return toHex(f.map((v, i) => v * alpha + b[i]! * (1 - alpha)) as Rgb);
+}
+
+const withL = (base: Oklch, l: number, c = base.c) => toHex(oklchToRgb({ l, c, h: base.h }));
+
+/** 대상 배경들 위에서 대비 4.5 를 넘을 때까지 밝기를 step 만큼 옮긴다. */
+function findReadable(base: Oklch, startL: number, step: number, backgrounds: string[]): string {
+  let l = startL;
+  for (let i = 0; i < 40; i++) {
+    const hex = withL(base, l);
+    if (backgrounds.every((bg) => contrastRatio(hex, bg) >= 4.5)) return hex;
+    l = Math.min(1, Math.max(0, l + step));
+  }
+  return step < 0 ? palette.black : palette.white;
+}
+
+/** solid 배경 위 글자색: 흰색이 4.5 를 넘으면 흰색, 아니면 대비가 더 큰 쪽 */
+function pickContrast(solid: string): string {
+  const white = palette.white;
+  const dark = palette.gray[900];
+  if (contrastRatio(white, solid) >= 4.5) return white;
+  return contrastRatio(dark, solid) >= contrastRatio(white, solid) ? dark : white;
+}
+
+const rgba = (hex: string, alpha: number) => {
+  const [r, g, b] = parseHex(hex).map((v) => Math.round(v * 255));
+  return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+};
+
+export type IntentName = 'primary' | 'neutral' | 'danger' | 'success';
+
+/**
+ * 대표색 하나로 intent(primary 등)의 라이트·다크 색 세트를 만든다. 결과는 createTheme 에 넘긴다.
+ * - solid 는 넘긴 색을 그대로 쓴다 (다크모드에서 너무 어두우면 조금 밝힌다).
+ * - text 와 contrast(solid 위 글자색)는 WCAG AA 대비 4.5:1 을 만족하도록 계산한다.
+ *
+ * @example createTheme(createIntentColors('primary', '#7c3aed'))
+ */
+export function createIntentColors(intent: IntentName, color: string): ThemeInput {
+  const solid = toHex(parseHex(color));
+  const base = rgbToOklch(parseHex(solid));
+
+  // 라이트
+  const lightSubtle = withL(base, 0.97, Math.min(base.c, 0.12) * 0.3);
+  const lightSubtleHover = withL(base, 0.93, Math.min(base.c, 0.12) * 0.45);
+  const light = {
+    solid,
+    solidHover: withL(base, Math.max(0, base.l - 0.06)),
+    contrast: pickContrast(solid),
+    subtle: lightSubtle,
+    subtleHover: lightSubtleHover,
+    text: findReadable(base, Math.min(base.l, 0.55), -0.02, [lightColors.bg.default, lightSubtle, lightSubtleHover]),
+  };
+
+  // 다크
+  const darkBg = darkColors.bg.default;
+  const darkSolid = base.l < 0.5 ? withL(base, 0.55) : solid;
+  const darkBase = rgbToOklch(parseHex(darkSolid));
+  const darkSubtleOnBg = blend(darkSolid, 0.16, darkBg);
+  const darkSubtleHoverOnBg = blend(darkSolid, 0.26, darkBg);
+  const dark = {
+    solid: darkSolid,
+    solidHover: withL(darkBase, Math.min(1, darkBase.l + 0.06)),
+    contrast: pickContrast(darkSolid),
+    subtle: rgba(darkSolid, 0.16),
+    subtleHover: rgba(darkSolid, 0.26),
+    text: findReadable(darkBase, Math.max(darkBase.l, 0.75), 0.02, [darkBg, darkSubtleOnBg, darkSubtleHoverOnBg]),
+  };
+
+  return { light: { color: { [intent]: light } }, dark: { color: { [intent]: dark } } } as ThemeInput;
+}

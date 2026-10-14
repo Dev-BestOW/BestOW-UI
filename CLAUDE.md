@@ -32,9 +32,13 @@ apps/
 
 ### react 패키지 내부
 
-- `src/theme/contract.css.ts` — `vars`(createThemeContract) 와 `themeClass.light/dark`(createTheme). `:root` 에 라이트 기본값.
-- `src/theme/ThemeProvider.tsx` — `<ThemeProvider theme>` 는 `data-theme` + 테마 클래스를 가진 div 를 렌더링. `useTheme()`,
-  `usePortalClassName()`(portal 로 body 에 렌더링되는 요소에 현재 테마 클래스를 다시 붙임).
+- `src/theme/contract.css.ts` — `vars`(createGlobalThemeContract, **변수 이름 고정 `--bestow-<경로 kebab>`, 공개 API**)와
+  `themeClass.light/dark`. `:root` 에 라이트 기본값. `ThemeTokens` 타입.
+- `src/theme/createTheme.ts` — `createTheme(...inputs)`(common/light/dark 깊은 병합 → `BestowTheme`), `themeToStyle`(assignInlineVars).
+- `src/theme/color.ts` — `createIntentColors(intent, hex)`: OKLCH 로 라이트·다크 intent 색 세트 생성, WCAG 대비 4.5 보장. `contrastRatio`.
+- `src/theme/ThemeProvider.tsx` — `<ThemeProvider theme overrides>`: `data-theme` + 테마 클래스 + 오버라이드 인라인 CSS 변수.
+  `theme` 생략 시 바깥 모드 상속, `overrides` 는 바깥과 병합(안쪽 우선). `useTheme()`,
+  `usePortalProps()`(portal 요소용 className+style — 오버라이드까지 적용). `usePortalClassName()` 은 deprecated.
 - `src/components/<Name>/` — `<Name>.tsx`, `<Name>.css.ts`, `<Name>.stories.tsx`, `<Name>.test.tsx`, `index.ts`.
 - `src/styles/animations.css.ts` — 공용 keyframes, `reducedMotion` 미디어쿼리.
 - `src/utils/` — `cx`, `mergeRefs`. `src/test/setup.ts` — jsdom 폴리필(ResizeObserver, pointer capture 등).
@@ -45,7 +49,7 @@ apps/
 - variant 는 `@vanilla-extract/recipes` 의 `recipe()` 로. prop 이름은 기존과 통일: `variant`, `color`, `size`(sm/md/lg), `fullWidth`.
 - `forwardRef` 로 ref 전달, `className` 과 나머지 HTML 속성 전달. HTML `color` 속성과 겹치면 `Omit` 한다.
 - 폼 컴포넌트는 TextField/Select 패턴을 따른다: `label`, `helperText`, `error`, `required`, `useId` 로 label/aria-describedby 연결.
-- 오버레이(Popover, Menu 등)는 **Radix primitive** 위에 스타일만 입힌다. Portal 콘텐츠에는 `usePortalClassName()` 을 붙이고,
+- 오버레이(Popover, Menu 등)는 **Radix primitive** 위에 스타일만 입힌다. Portal 콘텐츠에는 `usePortalProps()` 의 className·style 을 붙이고,
   z-index 는 `vars.zIndex.*` 를 쓴다. 열림/닫힘 애니메이션은 `data-state` 셀렉터 + `reducedMotion` 에서 끈다.
 - 아이콘은 `@bestow-ui/icons` 에서 가져온다 (react 패키지 안에 SVG 를 새로 만들지 않는다).
 - 스토리: `tags: ['autodocs']`, Playground + 변형별 스토리. 테스트: 역할/라벨 기반(Testing Library), 접근성 속성 확인.
@@ -98,5 +102,6 @@ pnpm build && pnpm typecheck && pnpm test && pnpm build-storybook && rm -rf apps
 - `@bestow` 스코프는 다른 회사(Bestow Inc) 소유라 쓸 수 없다. 스코프는 `@bestow-ui`.
 - GitHub Actions 로그는 인증이 필요해 Claude 가 직접 못 읽는다(공개 API 로 run/step 상태와 annotation 만 보임).
   배포 실패 시 추측으로 고치지 말고 사용자에게 **"Create release PR or publish" 단계 로그**를 붙여 달라고 요청한다.
-- Radix 의 portal 콘텐츠는 ThemeProvider div 밖(body)에 렌더링된다 → `usePortalClassName()` 을 안 붙이면 다크모드가 깨진다.
+- Radix 의 portal 콘텐츠는 ThemeProvider div 밖(body)에 렌더링된다 → `usePortalProps()` 를 안 붙이면 다크모드·브랜드 테마가 깨진다.
+- `vars` 의 CSS 변수 이름(`--bestow-*`)은 사용자가 CSS 로 덮어쓰는 공개 API 다. 토큰 키 이름을 바꾸면 breaking change.
 - npm 배포를 실행하는 명령(`changeset publish`, `pnpm publish` 실제 실행)은 Claude 가 실행하지 않는다.

@@ -1,6 +1,6 @@
 import * as RadixTooltip from '@radix-ui/react-tooltip';
 import type { ReactElement, ReactNode } from 'react';
-import { usePortalClassName } from '../../theme/ThemeProvider';
+import { usePortalProps } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
 import * as styles from './Tooltip.css';
 
@@ -39,7 +39,7 @@ export function Tooltip({
   disabled,
   className,
 }: TooltipProps) {
-  const portalClassName = usePortalClassName();
+  const portal = usePortalProps();
 
   if (disabled || content == null || content === '') return children;
 
@@ -53,7 +53,8 @@ export function Tooltip({
             align={align}
             sideOffset={6}
             collisionPadding={8}
-            className={cx(portalClassName, styles.content, className)}
+            className={cx(portal.className, styles.content, className)}
+            style={portal.style}
           >
             {content}
             <RadixTooltip.Arrow className={styles.arrow} width={10} height={5} />

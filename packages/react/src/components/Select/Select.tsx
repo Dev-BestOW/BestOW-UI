@@ -1,7 +1,7 @@
 import * as RadixSelect from '@radix-ui/react-select';
 import { forwardRef, useId, type ReactNode } from 'react';
 import { CheckIcon, ChevronDownIcon } from '@bestow-ui/icons';
-import { usePortalClassName } from '../../theme/ThemeProvider';
+import { usePortalProps } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
 import * as fieldStyles from '../Input/Input.css';
 import * as styles from './Select.css';
@@ -68,7 +68,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
   const generatedId = useId();
   const triggerId = id ?? generatedId;
   const helperId = helperText ? `${triggerId}-helper` : undefined;
-  const portalClassName = usePortalClassName();
+  const portal = usePortalProps();
 
   return (
     <div className={cx(fieldStyles.field, fullWidth && fieldStyles.fieldFullWidth)}>
@@ -111,7 +111,8 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
             position="popper"
             sideOffset={4}
             collisionPadding={8}
-            className={cx(portalClassName, styles.content)}
+            className={cx(portal.className, styles.content)}
+            style={portal.style}
           >
             <RadixSelect.Viewport className={styles.viewport}>
               {options.map((option) => (

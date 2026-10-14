@@ -12,7 +12,7 @@
 |---|---|---|
 | `@bestow-ui/tokens` | 0.2.0 | palette, space, radius, font, shadow, duration, zIndex, light/dark 의미 색상 |
 | `@bestow-ui/icons` | 0.1.0 | 아이콘 57종 (Lucide 기반), SVG → 컴포넌트 생성 스크립트 |
-| `@bestow-ui/react` | 0.2.1 | ThemeProvider(light/dark), Button, Typography, Stack, Input, TextField, Checkbox, Modal, Select, Tooltip, Toast |
+| `@bestow-ui/react` | 0.2.1 (0.3.0 대기: 테마 커스터마이징) | ThemeProvider(light/dark), Button, Typography, Stack, Input, TextField, Checkbox, Modal, Select, Tooltip, Toast |
 
 운영: CI(생성물 확인·빌드·타입·테스트·Storybook 빌드), changesets + npm Trusted Publishing(OIDC) 자동 배포,
 Storybook → https://dev-bestow.github.io/BestOW-UI/
@@ -21,7 +21,7 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/
 
 ## P1. 다른 프로젝트에서 쓰기 위한 기반 ⭐
 
-### P1-1. 사용자 테마 커스터마이징 — [ ] 미착수
+### P1-1. 사용자 테마 커스터마이징 — [x] 완료 (2026-10-14, react 0.3.0 예정)
 
 **왜:** 지금은 light/dark 두 테마가 고정이라 프로젝트마다 브랜드 색·글꼴·radius 를 바꿀 수 없다. MUI 의 `createTheme` 에 해당하는 기능이 없으면 "가져다 쓰는" 디자인 시스템이 되기 어렵다.
 
@@ -29,7 +29,11 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/
 - `packages/react/src/theme/contract.css.ts` 의 `createThemeContract` 는 CSS 변수 이름이 해시(`--xrnmlt0` 등)라서 사용자가 CSS 로 덮어쓸 수 없다.
 - 테마 값은 빌드 타임에 `createTheme` 으로 고정된다.
 
-**설계 방향 (권장안 — 구현 전 사용자와 API 확정)**
+**확정된 API (사용자 결정: 모드와 브랜드 분리, 색 자동 생성 포함)**
+`createTheme(...inputs: { common?, light?, dark? }[])` → `<ThemeProvider theme={mode} overrides={brand}>`,
+`createIntentColors(intent, hex)`, `usePortalProps()`. 아래는 당시 설계 메모.
+
+**설계 방향**
 1. 계약을 `createGlobalThemeContract` 로 바꿔 **안정적인 변수 이름**을 쓴다: `--bestow-color-primary-solid`, `--bestow-space-4` …
    → 사용자가 순수 CSS 로도 덮어쓸 수 있다. (`vars` 를 쓰는 컴포넌트 코드는 바뀌지 않는다.)
 2. 런타임 오버라이드: `@vanilla-extract/dynamic` 의 `assignInlineVars` 로 ThemeProvider div 에 인라인 CSS 변수를 넣는다.
@@ -43,12 +47,12 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/
    context 로 인라인 변수를 넘겨 Modal/Select/Tooltip/Toast 콘텐츠에 같이 적용한다.
 
 **완료 조건**
-- [ ] `overrides` 로 primary 색을 바꾸면 Button·Checkbox·Select 등 모든 컴포넌트에 반영된다.
-- [ ] portal 콘텐츠(Modal, Select 목록, Tooltip, Toast)에도 반영된다 (테스트로 확인).
-- [ ] 중첩 ThemeProvider 에서 안쪽 오버라이드가 우선한다.
-- [ ] CSS 변수 이름이 문서화된다 (README 또는 Storybook 문서).
-- [ ] Storybook 에 "Theming" 스토리 (color control 로 primary 를 바꿔 보는 예시).
-- [ ] changeset: react minor, tokens(타입 export 추가 시) minor.
+- [x] `overrides` 로 primary 색을 바꾸면 Button·Checkbox·Select 등 모든 컴포넌트에 반영된다.
+- [x] portal 콘텐츠(Modal, Select 목록, Tooltip, Toast)에도 반영된다 (테스트로 확인).
+- [x] 중첩 ThemeProvider 에서 안쪽 오버라이드가 우선한다.
+- [x] CSS 변수 이름이 문서화된다 (README 또는 Storybook 문서).
+- [x] Storybook 에 "Theming" 스토리 (color control 로 primary 를 바꿔 보는 예시).
+- [x] changeset: react minor, tokens(타입 export 추가 시) minor.
 
 ### P1-2. Next.js 예제 앱 (`apps/playground`) — [ ] 미착수
 
@@ -143,3 +147,4 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 | 2026-10-14 | 모노레포·tokens·react 기본 컴포넌트·Storybook·CI/CD 구축, npm `@bestow-ui` org 생성 |
 | 2026-10-14 | 0.1.0 첫 배포 (토큰), Trusted Publishing 전환 → pnpm 11 업그레이드, Direct publishing 권한 이슈 해결 |
 | 2026-10-14 | react 0.2.0 (Modal/Select/Tooltip/Toast), icons 0.1.0 + react 0.2.1 배포. 이 로드맵 작성 |
+| 2026-10-14 | P1-1 완료: CSS 변수 이름 고정(`--bestow-*`), `createTheme`/`overrides`/`createIntentColors`/`usePortalProps`, 중첩 시 모드·브랜드 상속, Theming 스토리. 다음은 P1-2 (Next.js 예제 앱) |

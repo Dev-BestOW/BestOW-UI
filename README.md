@@ -30,6 +30,28 @@ export function App() {
 }
 ```
 
+### 브랜드 테마 (커스터마이징)
+
+```tsx
+import { ThemeProvider, createTheme, createIntentColors } from '@bestow-ui/react';
+
+const brand = createTheme(
+  createIntentColors('primary', '#7c3aed'),           // 대표색 하나로 라이트·다크 색 세트 자동 생성 (대비 4.5:1 보장)
+  {
+    common: { radius: { md: '6px' }, font: { family: { sans: 'Inter, sans-serif' } } },
+    dark: { color: { bg: { default: '#0b0b10' } } },   // 모드별 값
+  },
+);
+
+<ThemeProvider theme={mode} overrides={brand}>…</ThemeProvider>
+```
+
+- `theme`(light/dark)과 `overrides`(브랜드)는 따로 동작해서, 모드를 바꿔도 브랜드는 유지돼요.
+- 중첩한 ThemeProvider 는 바깥의 모드와 브랜드를 이어받고, 안쪽에서 준 값이 우선해요.
+- CSS 변수 이름이 고정돼 있어서 CSS 로만 바꿀 수도 있어요: `:root { --bestow-color-primary-solid: #7c3aed; }`
+  전체 목록은 Storybook **Foundations › Theming › CSS 변수**.
+- 직접 만든 portal 요소에는 `usePortalProps()` 의 `className`/`style` 을 붙여야 테마가 적용돼요.
+
 ### 아이콘
 
 ```tsx
