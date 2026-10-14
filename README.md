@@ -4,19 +4,19 @@ React + vanilla-extract 기반 디자인 시스템.
 
 | 패키지 | 설명 |
 |---|---|
-| `@bestow/tokens` | 색상·간격·타이포그래피 등 디자인 토큰 (원시 값) |
-| `@bestow/react` | 테마(ThemeProvider)와 React 컴포넌트 |
+| `@bestow-ui/tokens` | 색상·간격·타이포그래피 등 디자인 토큰 (원시 값) |
+| `@bestow-ui/react` | 테마(ThemeProvider)와 React 컴포넌트 |
 | `apps/storybook` | 컴포넌트 문서 / 개발 환경 |
 
 ## 사용하기
 
 ```bash
-pnpm add @bestow/react
+pnpm add @bestow-ui/react
 ```
 
 ```tsx
-import '@bestow/react/styles.css';
-import { ThemeProvider, Button } from '@bestow/react';
+import '@bestow-ui/react/styles.css';
+import { ThemeProvider, Button } from '@bestow-ui/react';
 
 export function App() {
   return (

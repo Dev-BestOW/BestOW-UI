@@ -3,9 +3,9 @@
   "changelog": "@changesets/cli/changelog",
   "commit": false,
   "fixed": [],
-  "linked": [["@bestow/react", "@bestow/tokens"]],
+  "linked": [["@bestow-ui/react", "@bestow-ui/tokens"]],
   "access": "public",
   "baseBranch": "main",
   "updateInternalDependencies": "patch",
-  "ignore": ["@bestow/storybook"]
+  "ignore": ["@bestow-ui/storybook"]
 }

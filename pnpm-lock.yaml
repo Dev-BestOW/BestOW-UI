@@ -17,10 +17,10 @@ importers:
 
   apps/storybook:
     dependencies:
-      '@bestow/react':
+      '@bestow-ui/react':
         specifier: workspace:*
         version: link:../../packages/react
-      '@bestow/tokens':
+      '@bestow-ui/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens
       react:
@@ -60,7 +60,7 @@ importers:
 
   packages/react:
     dependencies:
-      '@bestow/tokens':
+      '@bestow-ui/tokens':
         specifier: workspace:^
         version: link:../tokens
       '@vanilla-extract/css':

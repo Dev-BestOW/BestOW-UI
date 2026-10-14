@@ -1,4 +1,4 @@
-import type { space } from '@bestow/tokens';
+import type { space } from '@bestow-ui/tokens';
 import { forwardRef, type ElementType, type HTMLAttributes } from 'react';
 import { cx } from '../../utils/cx';
 import * as styles from './Stack.css';

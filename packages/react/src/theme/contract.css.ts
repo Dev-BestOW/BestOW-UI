@@ -9,7 +9,7 @@ import {
   radius,
   shadow,
   space,
-} from '@bestow/tokens';
+} from '@bestow-ui/tokens';
 import { createGlobalTheme, createTheme, createThemeContract } from '@vanilla-extract/css';
 
 const baseTokens = {

@@ -1,6 +1,6 @@
 /**
  * BestOW UI 디자인 토큰.
- * 플랫폼에 독립적인 원시 값만 정의한다. 컴포넌트는 @bestow/react 의 테마(vars)를 통해 참조한다.
+ * 플랫폼에 독립적인 원시 값만 정의한다. 컴포넌트는 @bestow-ui/react 의 테마(vars)를 통해 참조한다.
  */
 
 export const palette = {

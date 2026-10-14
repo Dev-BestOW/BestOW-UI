@@ -1,5 +1,5 @@
 {
-  "name": "@bestow/storybook",
+  "name": "@bestow-ui/storybook",
   "private": true,
   "type": "module",
   "scripts": {
@@ -8,8 +8,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@bestow/react": "workspace:*",
-    "@bestow/tokens": "workspace:*",
+    "@bestow-ui/react": "workspace:*",
+    "@bestow-ui/tokens": "workspace:*",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },

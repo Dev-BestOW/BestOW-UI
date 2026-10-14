@@ -15,8 +15,8 @@ const config: StorybookConfig = {
       // 빌드 결과물(dist)이 아닌 소스를 바로 보도록 워크스페이스 패키지를 src 로 연결한다.
       resolve: {
         alias: {
-          '@bestow/react': fromRoot('packages/react/src/index.ts'),
-          '@bestow/tokens': fromRoot('packages/tokens/src/index.ts'),
+          '@bestow-ui/react': fromRoot('packages/react/src/index.ts'),
+          '@bestow-ui/tokens': fromRoot('packages/tokens/src/index.ts'),
         },
       },
     }),

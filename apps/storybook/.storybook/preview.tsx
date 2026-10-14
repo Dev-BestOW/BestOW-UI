@@ -1,5 +1,5 @@
 import type { Preview } from '@storybook/react-vite';
-import { ThemeProvider, type ThemeName } from '@bestow/react';
+import { ThemeProvider, type ThemeName } from '@bestow-ui/react';
 
 const preview: Preview = {
   globalTypes: {
