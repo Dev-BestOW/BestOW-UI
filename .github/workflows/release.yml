@@ -2,6 +2,7 @@ name: Release
 
 # main 에 changeset 이 쌓이면 "Version Packages" PR 을 만들고,
 # 그 PR 이 머지되면 npm 에 배포한다.
+# npm 인증은 토큰 없이 Trusted Publishing(OIDC)으로 한다.
 on:
   push:
     branches: [main]
@@ -13,7 +14,7 @@ concurrency:
 permissions:
   contents: write
   pull-requests: write
-  id-token: write # npm provenance
+  id-token: write # npm Trusted Publishing (OIDC) + provenance
 
 jobs:
   release:
@@ -23,21 +24,12 @@ jobs:
       - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
 
-      - name: Configure npm auth
-        id: npm
-        run: |
-          if [ -z "$NPM_TOKEN" ]; then
-            echo "::warning::NPM_TOKEN 시크릿이 없어 배포를 건너뜁니다."
-            echo "enabled=false" >> "$GITHUB_OUTPUT"
-          else
-            echo "//registry.npmjs.org/:_authToken=${NPM_TOKEN}" > ~/.npmrc
-            echo "enabled=true" >> "$GITHUB_OUTPUT"
-          fi
-        env:
-          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+      # npm Trusted Publishing(OIDC)은 npm CLI 11.5.1 이상이 필요하다.
+      # pnpm publish 는 내부적으로 npm CLI 를 호출하므로 npm 만 올리면 된다.
+      - name: Update npm for trusted publishing
+        run: npm install -g npm@^11.5.1
 
       - name: Create release PR or publish
-        if: steps.npm.outputs.enabled == 'true'
         uses: changesets/action@v2
         with:
           version-script: pnpm version-packages
@@ -46,4 +38,3 @@ jobs:
           pr-title: "chore: version packages"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NPM_CONFIG_PROVENANCE: true
