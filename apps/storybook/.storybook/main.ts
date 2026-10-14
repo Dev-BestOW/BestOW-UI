@@ -6,7 +6,11 @@ import { mergeConfig } from 'vite';
 const fromRoot = (path: string) => fileURLToPath(new URL(`../../../${path}`, import.meta.url));
 
 const config: StorybookConfig = {
-  stories: ['../../../packages/*/src/**/*.mdx', '../../../packages/*/src/**/*.stories.@(ts|tsx)'],
+  stories: [
+    '../../../packages/*/src/**/*.mdx',
+    '../../../packages/*/src/**/*.stories.@(ts|tsx)',
+    '../stories/**/*.stories.@(ts|tsx)',
+  ],
   addons: ['@storybook/addon-docs', '@storybook/addon-a11y'],
   framework: '@storybook/react-vite',
   viteFinal: (config) =>
@@ -15,6 +19,7 @@ const config: StorybookConfig = {
       // 빌드 결과물(dist)이 아닌 소스를 바로 보도록 워크스페이스 패키지를 src 로 연결한다.
       resolve: {
         alias: {
+          '@bestow-ui/icons': fromRoot('packages/icons/src/index.ts'),
           '@bestow-ui/react': fromRoot('packages/react/src/index.ts'),
           '@bestow-ui/tokens': fromRoot('packages/tokens/src/index.ts'),
         },

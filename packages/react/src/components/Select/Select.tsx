@@ -1,6 +1,6 @@
 import * as RadixSelect from '@radix-ui/react-select';
 import { forwardRef, useId, type ReactNode } from 'react';
-import { CheckIcon, ChevronDownIcon } from '../../icons';
+import { CheckIcon, ChevronDownIcon } from '@bestow-ui/icons';
 import { usePortalClassName } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
 import * as fieldStyles from '../Input/Input.css';
@@ -103,7 +103,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
             <RadixSelect.Value placeholder={placeholder} />
           </span>
           <RadixSelect.Icon className={styles.icon}>
-            <ChevronDownIcon />
+            <ChevronDownIcon size={16} />
           </RadixSelect.Icon>
         </RadixSelect.Trigger>
         <RadixSelect.Portal>
@@ -123,7 +123,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
                 >
                   <RadixSelect.ItemText>{option.label}</RadixSelect.ItemText>
                   <RadixSelect.ItemIndicator className={styles.itemIndicator}>
-                    <CheckIcon />
+                    <CheckIcon size={16} />
                   </RadixSelect.ItemIndicator>
                 </RadixSelect.Item>
               ))}

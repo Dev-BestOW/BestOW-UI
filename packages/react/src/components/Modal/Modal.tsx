@@ -1,6 +1,6 @@
 import * as Dialog from '@radix-ui/react-dialog';
 import type { ReactNode } from 'react';
-import { CloseIcon } from '../../icons';
+import { XIcon } from '@bestow-ui/icons';
 import { usePortalClassName } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
 import * as styles from './Modal.css';
@@ -65,7 +65,7 @@ export function Modal({
             </div>
             {!hideCloseButton && (
               <Dialog.Close className={styles.closeButton} aria-label="닫기">
-                <CloseIcon />
+                <XIcon size={16} />
               </Dialog.Close>
             )}
           </div>

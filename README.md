@@ -6,6 +6,7 @@ React + vanilla-extract 기반 디자인 시스템.
 |---|---|
 | `@bestow-ui/tokens` | 색상·간격·타이포그래피 등 디자인 토큰 (원시 값) |
 | `@bestow-ui/react` | 테마(ThemeProvider)와 React 컴포넌트 |
+| `@bestow-ui/icons` | SVG 아이콘 React 컴포넌트 (기본 세트는 [Lucide](https://lucide.dev), ISC) |
 | `apps/storybook` | 컴포넌트 문서 / 개발 환경 |
 
 ## 사용하기
@@ -26,6 +27,20 @@ export function App() {
   );
 }
 ```
+
+### 아이콘
+
+```tsx
+import { SearchIcon, TrashIcon } from '@bestow-ui/icons';
+
+<SearchIcon />                         // 24px, 장식용(aria-hidden)
+<TrashIcon size={16} strokeWidth={1.5} />
+<SearchIcon title="검색" />             // 스크린리더가 읽는 아이콘
+```
+
+필요한 아이콘만 import 하면 그 아이콘만 번들에 포함돼요.
+
+**아이콘 추가하기:** `packages/icons/svg/` 에 24×24 SVG 파일(`kebab-case.svg`)을 넣고 `pnpm --filter @bestow-ui/icons generate` 를 실행하면 `PascalCaseIcon` 컴포넌트가 만들어져요. 생성된 `src/generated/icons.ts` 도 함께 커밋해야 해요 (CI 가 확인해요).
 
 ## 개발
 

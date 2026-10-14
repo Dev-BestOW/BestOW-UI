@@ -8,6 +8,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@bestow-ui/icons": "workspace:*",
     "@bestow-ui/react": "workspace:*",
     "@bestow-ui/tokens": "workspace:*",
     "react": "^19.2.0",

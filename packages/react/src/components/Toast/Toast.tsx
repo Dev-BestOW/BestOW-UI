@@ -1,6 +1,6 @@
 import * as RadixToast from '@radix-ui/react-toast';
 import { createContext, useCallback, useContext, useMemo, useRef, useState, type ReactNode } from 'react';
-import { CloseIcon } from '../../icons';
+import { XIcon } from '@bestow-ui/icons';
 import { usePortalClassName } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
 import { Button } from '../Button';
@@ -93,7 +93,7 @@ export function ToastProvider({ children, duration = 5000, label = '알림' }: T
               </RadixToast.Action>
             )}
             <RadixToast.Close className={styles.close} aria-label="닫기">
-              <CloseIcon />
+              <XIcon size={16} />
             </RadixToast.Close>
           </RadixToast.Root>
         ))}
