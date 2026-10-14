@@ -53,3 +53,13 @@ pnpm changeset          # 변경 내역 기록
 pnpm version-packages   # 버전 올리기 + CHANGELOG 생성
 pnpm release            # 빌드 후 npm 배포
 ```
+
+## CI/CD (GitHub Actions)
+
+| 워크플로 | 트리거 | 내용 |
+|---|---|---|
+| `ci.yml` | PR, main push | 빌드 → 타입 체크 → 테스트 → Storybook 빌드 |
+| `release.yml` | main push | changeset 이 있으면 "version packages" PR 생성, 그 PR 이 머지되면 npm 배포 |
+| `storybook.yml` | main push (패키지 변경 시), 수동 | Storybook 을 GitHub Pages 에 배포 |
+
+배포 흐름: 작업 브랜치에서 `pnpm changeset` → PR 머지 → 자동 생성된 버전 PR 머지 → npm 배포.
