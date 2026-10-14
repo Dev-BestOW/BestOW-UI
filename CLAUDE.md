@@ -25,11 +25,13 @@ apps/
                                vite alias 로 dist 가 아닌 각 패키지 src 를 바로 본다.
   playground/ (private)        Next.js 16 App Router 예제 앱. alias 없이 패키지 dist 를 그대로 써서 실제 설치와 같은 조건으로
                                SSR·서버 컴포넌트·portal 테마를 확인한다 (packages 를 먼저 build 해야 함). 헤더에 다크/브랜드 토글.
+                               `PLAYGROUND_BASE_PATH` 가 있을 때만 정적 export(+basePath) — Pages 배포용. 평소엔 일반 서버 모드.
 .github/
   actions/setup/               pnpm + Node(.nvmrc=22) + pnpm install 공통 composite action
   workflows/ci.yml             PR·main: 아이콘 생성물 확인 → build → typecheck → test → build-storybook → build-playground
   workflows/release.yml        main: changesets/action — 버전 PR 생성 또는 npm 배포 (OIDC)
-  workflows/storybook.yml      main: Storybook 을 GitHub Pages 로 배포
+  workflows/storybook.yml      main: Storybook + playground(정적 export, /playground/) 를 GitHub Pages 로 배포
+                               → https://dev-bestow.github.io/BestOW-UI/ , …/BestOW-UI/playground/
 ```
 
 ### react 패키지 내부

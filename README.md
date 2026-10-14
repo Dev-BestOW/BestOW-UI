@@ -12,6 +12,9 @@ React + vanilla-extract 기반 디자인 시스템.
 | `apps/storybook` | 컴포넌트 문서 / 개발 환경 |
 | `apps/playground` | Next.js 예제 앱 (실제 설치와 같은 조건으로 확인) |
 
+- Storybook: https://dev-bestow.github.io/BestOW-UI/
+- 예제 앱: https://dev-bestow.github.io/BestOW-UI/playground/
+
 ## 사용하기
 
 ```bash
@@ -101,6 +104,6 @@ pnpm release            # 빌드 후 npm 배포
 |---|---|---|
 | `ci.yml` | PR, main push | 빌드 → 타입 체크 → 테스트 → Storybook 빌드 |
 | `release.yml` | main push | changeset 이 있으면 "version packages" PR 생성, 그 PR 이 머지되면 npm 배포 |
-| `storybook.yml` | main push (패키지 변경 시), 수동 | Storybook 을 GitHub Pages 에 배포 |
+| `storybook.yml` | main push (패키지·앱 변경 시), 수동 | Storybook 과 예제 앱(정적 export)을 GitHub Pages 에 배포 |
 
 배포 흐름: 작업 브랜치에서 `pnpm changeset` → PR 머지 → 자동 생성된 버전 PR 머지 → npm 배포.

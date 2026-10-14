@@ -6,3 +6,4 @@ storybook-static
 coverage
 .next
 next-env.d.ts
+out
