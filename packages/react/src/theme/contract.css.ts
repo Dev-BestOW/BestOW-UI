@@ -9,6 +9,7 @@ import {
   radius,
   shadow,
   space,
+  zIndex,
 } from '@bestow-ui/tokens';
 import { createGlobalTheme, createTheme, createThemeContract } from '@vanilla-extract/css';
 
@@ -18,6 +19,7 @@ const baseTokens = {
   font: { family: fontFamily, size: fontSize, weight: fontWeight, lineHeight },
   shadow,
   duration,
+  zIndex,
 };
 
 const lightTokens = { ...baseTokens, color: lightColors };

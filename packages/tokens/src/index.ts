@@ -121,10 +121,18 @@ export const duration = {
   slow: '320ms',
 } as const;
 
+export const zIndex = {
+  dropdown: '1000',
+  overlay: '1300',
+  modal: '1310',
+  toast: '1400',
+  tooltip: '1500',
+} as const;
+
 /** 의미 기반(semantic) 색상. 라이트/다크 테마가 같은 키를 가져야 한다. */
 /** solid 배경 위 글자색은 각 그룹의 contrast 를 사용한다. */
 export interface SemanticColors {
-  bg: { default: string; subtle: string; muted: string; inverse: string };
+  bg: { default: string; subtle: string; muted: string; inverse: string; overlay: string };
   fg: { default: string; muted: string; subtle: string; inverse: string };
   border: { default: string; strong: string; focus: string };
   primary: { solid: string; solidHover: string; contrast: string; subtle: string; subtleHover: string; text: string };
@@ -134,7 +142,7 @@ export interface SemanticColors {
 }
 
 export const lightColors: SemanticColors = {
-  bg: { default: palette.white, subtle: palette.gray[50], muted: palette.gray[100], inverse: palette.gray[900] },
+  bg: { default: palette.white, subtle: palette.gray[50], muted: palette.gray[100], inverse: palette.gray[900], overlay: 'rgba(0, 0, 0, 0.45)' },
   fg: { default: palette.gray[900], muted: palette.gray[700], subtle: palette.gray[600], inverse: palette.white },
   border: { default: palette.gray[300], strong: palette.gray[500], focus: palette.blue[500] },
   primary: { solid: palette.blue[600], solidHover: palette.blue[700], contrast: palette.white, subtle: palette.blue[50], subtleHover: palette.blue[100], text: palette.blue[700] },
@@ -144,7 +152,7 @@ export const lightColors: SemanticColors = {
 };
 
 export const darkColors: SemanticColors = {
-  bg: { default: palette.gray[950], subtle: palette.gray[900], muted: palette.gray[800], inverse: palette.gray[50] },
+  bg: { default: palette.gray[950], subtle: palette.gray[900], muted: palette.gray[800], inverse: palette.gray[50], overlay: 'rgba(0, 0, 0, 0.65)' },
   fg: { default: palette.gray[50], muted: palette.gray[300], subtle: palette.gray[500], inverse: palette.gray[900] },
   border: { default: palette.gray[700], strong: palette.gray[500], focus: palette.blue[400] },
   primary: { solid: palette.blue[600], solidHover: palette.blue[500], contrast: palette.white, subtle: 'rgba(59, 111, 246, 0.16)', subtleHover: 'rgba(59, 111, 246, 0.26)', text: palette.blue[300] },

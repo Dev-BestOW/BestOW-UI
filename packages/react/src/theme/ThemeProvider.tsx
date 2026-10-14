@@ -27,3 +27,11 @@ export const ThemeProvider = forwardRef<HTMLDivElement, ThemeProviderProps>(func
 export function useTheme(): ThemeName {
   return useContext(ThemeContext);
 }
+
+/**
+ * Portal 로 ThemeProvider 바깥(body)에 렌더링되는 요소에 붙일 className.
+ * 현재 테마의 CSS 변수와 기본 글꼴을 다시 적용한다.
+ */
+export function usePortalClassName(): string {
+  return cx(themeClass[useTheme()], styles.portal);
+}
