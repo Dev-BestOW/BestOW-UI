@@ -15,7 +15,7 @@ export interface SelectOption {
 export interface SelectProps {
   /** 선택지 목록 */
   options: SelectOption[];
-  /** 선택된 값 (제어 모드) */
+  /** 선택된 값 (제어 모드). undefined 를 넘기면 선택 없음(placeholder)으로 표시한다 */
   value?: string;
   /** 처음 선택된 값 (비제어 모드) */
   defaultValue?: string;
@@ -44,8 +44,8 @@ export interface SelectProps {
   className?: string;
 }
 
-export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(
-  {
+export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(props, ref) {
+  const {
     options,
     value,
     defaultValue,
@@ -62,9 +62,10 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
     id,
     'aria-label': ariaLabel,
     className,
-  },
-  ref,
-) {
+  } = props;
+  // value prop 을 넘겼다면 undefined 여도 제어 모드로 본다 (useState<string>() 처럼 초기값이 없을 때
+  // "uncontrolled → controlled" 경고가 나지 않도록). Radix 는 빈 문자열을 "선택 없음(placeholder)"으로 처리한다.
+  const isControlled = 'value' in props;
   const generatedId = useId();
   const triggerId = id ?? generatedId;
   const helperId = helperText ? `${triggerId}-helper` : undefined;
@@ -83,7 +84,7 @@ export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select
         </label>
       )}
       <RadixSelect.Root
-        value={value}
+        value={isControlled ? (value ?? '') : undefined}
         defaultValue={defaultValue}
         onValueChange={onValueChange}
         disabled={disabled}

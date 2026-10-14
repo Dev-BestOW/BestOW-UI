@@ -26,6 +26,24 @@ describe('Select', () => {
     expect(onValueChange).toHaveBeenCalledWith('apple');
   });
 
+  it('value 를 undefined 로 시작해도 제어 모드로 동작하고 경고가 없다', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const { rerender } = render(<Select label="과일" placeholder="선택하세요" options={options} value={undefined} />);
+    expect(screen.getByRole('combobox').textContent).toContain('선택하세요');
+
+    rerender(<Select label="과일" placeholder="선택하세요" options={options} value="banana" />);
+    expect(screen.getByRole('combobox').textContent).toContain('바나나');
+
+    rerender(<Select label="과일" placeholder="선택하세요" options={options} value={undefined} />);
+    expect(screen.getByRole('combobox').textContent).toContain('선택하세요');
+
+    const messages = [...warn.mock.calls, ...error.mock.calls].flat().join(' ');
+    expect(messages).not.toMatch(/uncontrolled|controlled/);
+    warn.mockRestore();
+    error.mockRestore();
+  });
+
   it('error 이면 aria-invalid 와 helperText 를 연결한다', () => {
     render(<Select label="과일" options={options} error helperText="필수예요" />);
     const trigger = screen.getByRole('combobox');

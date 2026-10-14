@@ -10,6 +10,7 @@ React + vanilla-extract 기반 디자인 시스템.
 | `@bestow-ui/react` | 테마(ThemeProvider)와 React 컴포넌트 |
 | `@bestow-ui/icons` | SVG 아이콘 React 컴포넌트 (기본 세트는 [Lucide](https://lucide.dev), ISC) |
 | `apps/storybook` | 컴포넌트 문서 / 개발 환경 |
+| `apps/playground` | Next.js 예제 앱 (실제 설치와 같은 조건으로 확인) |
 
 ## 사용하기
 
@@ -72,6 +73,7 @@ import { SearchIcon, TrashIcon } from '@bestow-ui/icons';
 corepack enable        # pnpm 활성화 (최초 1회)
 pnpm install
 pnpm storybook         # http://localhost:6006
+pnpm build && pnpm playground   # Next.js 예제 앱 http://localhost:3000
 pnpm test
 pnpm build
 ```

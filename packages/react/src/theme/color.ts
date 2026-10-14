@@ -115,6 +115,7 @@ export type IntentName = 'primary' | 'neutral' | 'danger' | 'success';
  * 대표색 하나로 intent(primary 등)의 라이트·다크 색 세트를 만든다. 결과는 createTheme 에 넘긴다.
  * - solid 는 넘긴 색을 그대로 쓴다 (다크모드에서 너무 어두우면 조금 밝힌다).
  * - text 와 contrast(solid 위 글자색)는 WCAG AA 대비 4.5:1 을 만족하도록 계산한다.
+ * - intent 가 'primary' 면 포커스 링 색(border.focus)도 함께 바꾼다.
  *
  * @example createTheme(createIntentColors('primary', '#7c3aed'))
  */
@@ -149,5 +150,11 @@ export function createIntentColors(intent: IntentName, color: string): ThemeInpu
     text: findReadable(darkBase, Math.max(darkBase.l, 0.75), 0.02, [darkBg, darkSubtleOnBg, darkSubtleHoverOnBg]),
   };
 
-  return { light: { color: { [intent]: light } }, dark: { color: { [intent]: dark } } } as ThemeInput;
+  // primary 는 포커스 링(border.focus)도 브랜드 색을 따라가게 한다.
+  const focus = intent === 'primary' ? { light: { border: { focus: light.solid } }, dark: { border: { focus: dark.solidHover } } } : undefined;
+
+  return {
+    light: { color: { [intent]: light, ...focus?.light } },
+    dark: { color: { [intent]: dark, ...focus?.dark } },
+  } as ThemeInput;
 }

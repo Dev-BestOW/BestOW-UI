@@ -23,9 +23,11 @@ packages/
 apps/
   storybook/ (private)         Storybook 10. packages/*/src 의 스토리 + apps/storybook/stories(아이콘 갤러리 등).
                                vite alias 로 dist 가 아닌 각 패키지 src 를 바로 본다.
+  playground/ (private)        Next.js 16 App Router 예제 앱. alias 없이 패키지 dist 를 그대로 써서 실제 설치와 같은 조건으로
+                               SSR·서버 컴포넌트·portal 테마를 확인한다 (packages 를 먼저 build 해야 함). 헤더에 다크/브랜드 토글.
 .github/
   actions/setup/               pnpm + Node(.nvmrc=22) + pnpm install 공통 composite action
-  workflows/ci.yml             PR·main: 아이콘 생성물 확인 → build → typecheck → test → build-storybook
+  workflows/ci.yml             PR·main: 아이콘 생성물 확인 → build → typecheck → test → build-storybook → build-playground
   workflows/release.yml        main: changesets/action — 버전 PR 생성 또는 npm 배포 (OIDC)
   workflows/storybook.yml      main: Storybook 을 GitHub Pages 로 배포
 ```
@@ -71,6 +73,8 @@ pnpm build                           # packages/* (tokens → icons → react �
 pnpm typecheck                       # react/storybook 의 typecheck 는 의존 패키지 dist 가 필요 → build 먼저
 pnpm test                            # vitest (icons, react)
 pnpm build-storybook
+pnpm playground                      # http://localhost:3000 (packages 를 build 한 뒤. dist 를 쓰므로 패키지 수정 후 다시 build)
+pnpm build-playground
 pnpm --filter @bestow-ui/icons generate
 pnpm changeset                       # 변경 내역 기록 (대화형) — 비대화형이면 .changeset/<이름>.md 를 직접 작성
 ```
@@ -78,8 +82,14 @@ pnpm changeset                       # 변경 내역 기록 (대화형) — 비�
 ### 검증 (변경 후 항상)
 
 ```bash
-pnpm build && pnpm typecheck && pnpm test && pnpm build-storybook && rm -rf apps/storybook/storybook-static
+pnpm build && pnpm typecheck && pnpm test && pnpm build-storybook && pnpm build-playground && rm -rf apps/storybook/storybook-static
 ```
+
+### 브라우저 점검 (UI 를 바꿨을 때)
+
+시스템 Chrome 이 있으면 scratchpad 에 `playwright-core` 를 설치해(브라우저 다운로드 없음) `chromium.launch({ channel: 'chrome' })` 로
+playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)를 열고 콘솔 경고·hydration 경고·portal 색을 확인한다.
+애니메이션 중에 찍으면 흐리게 나오므로 열고 300~400ms 기다린 뒤 측정·스크린샷한다.
 
 ## 배포
 

@@ -12,7 +12,7 @@
 |---|---|---|
 | `@bestow-ui/tokens` | 0.2.0 | palette, space, radius, font, shadow, duration, zIndex, light/dark 의미 색상 |
 | `@bestow-ui/icons` | 0.1.0 | 아이콘 57종 (Lucide 기반), SVG → 컴포넌트 생성 스크립트 |
-| `@bestow-ui/react` | 0.2.1 (0.3.0 대기: 테마 커스터마이징) | ThemeProvider(light/dark), Button, Typography, Stack, Input, TextField, Checkbox, Modal, Select, Tooltip, Toast |
+| `@bestow-ui/react` | 0.3.0 (0.3.1 대기: 포커스 링·Select 수정) | ThemeProvider(light/dark + 브랜드 테마), Button, Typography, Stack, Input, TextField, Checkbox, Modal, Select, Tooltip, Toast |
 
 운영: CI(생성물 확인·빌드·타입·테스트·Storybook 빌드), changesets + npm Trusted Publishing(OIDC) 자동 배포,
 Storybook → https://dev-bestow.github.io/BestOW-UI/
@@ -54,7 +54,7 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/
 - [x] Storybook 에 "Theming" 스토리 (color control 로 primary 를 바꿔 보는 예시).
 - [x] changeset: react minor, tokens(타입 export 추가 시) minor.
 
-### P1-2. Next.js 예제 앱 (`apps/playground`) — [ ] 미착수
+### P1-2. Next.js 예제 앱 (`apps/playground`) — [x] 완료 (2026-10-14)
 
 **왜:** 실제 사용 환경(SSR, React Server Components, `styles.css` import)에서의 문제를 배포 전에 잡기 위해.
 
@@ -71,9 +71,17 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/
 - pnpm 11 의 minimumReleaseAge(24시간) 때문에 Next.js 최신 버전 설치가 막히면 하루 전 버전을 쓴다.
 
 **완료 조건**
-- [ ] `next build` 성공, 개발 모드에서 hydration 경고 없음.
-- [ ] 다크모드 전환 시 portal 콘텐츠까지 색이 맞다.
-- [ ] CI 에서 playground 빌드가 돈다.
+- [x] `next build` 성공, 개발 모드에서 hydration 경고 없음.
+- [x] 다크모드 전환 시 portal 콘텐츠까지 색이 맞다.
+- [x] CI 에서 playground 빌드가 돈다.
+
+**결과 메모 (Next.js 16.4.0, Turbopack)**
+- 추가 설정 없이 `next build` 성공. 서버 컴포넌트 페이지에서 react 컴포넌트(클라이언트 경계)와 아이콘(서버 렌더링) 모두 정상.
+- 시스템 Chrome + `playwright-core` 로 자동 점검: 개발·프로덕션 모드 콘솔 경고 0, hydration 경고 0.
+  다크모드 + 브랜드 테마에서 Select 목록·Modal·Toast·Tooltip 색이 모두 맞음.
+- 점검 중 발견해 고친 것: ① 브랜드 primary 를 바꿔도 포커스 링(`border.focus`)이 기본 파랑으로 남음 → `createIntentColors('primary')` 가 함께 설정
+  ② `useState<string>()` 로 Select 를 제어하면 "uncontrolled → controlled" 경고 → `value` prop 을 넘기면 undefined 여도 제어 모드로 처리.
+- `"use client"` 배너 때문에 모든 react 컴포넌트가 클라이언트 경계가 되는 점은 현재 문제 없음. 서버 전용 번들 크기가 문제 되면 그때 엔트리 분리 검토 (백로그).
 
 ---
 
@@ -132,7 +140,8 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 
 ## 백로그 / 알려진 이슈
 
-- 다크모드·애니메이션을 **브라우저에서 눈으로 검수한 적이 없다** (테스트·빌드로만 확인). 다음에 Storybook 에서 Modal/Select/Toast 를 다크모드로 확인할 것.
+- 브라우저 점검은 playground 에서 자동화 스크립트로 한 번 했다(스크린샷 확인 포함). 반복 실행 가능한 E2E 테스트로 만드는 것은 P3 에서 검토.
+- react 번들 전체에 `"use client"` 가 붙어 있다. 서버 전용으로 쓸 수 있는 컴포넌트(Typography, Stack)를 별도 엔트리로 분리할지는 필요해지면 검토.
 - `@bestow-ui/icons@0.1.0` 은 수동 배포라 provenance·GitHub Release 가 없다 (다음 버전부터 자동).
 - GitHub `ubuntu-latest` 가 2026-10-19 부터 Ubuntu 26 으로 바뀐다는 안내가 있다. CI 가 깨지면 확인.
 - 아이콘을 더 늘릴 때: Lucide 에서 가져오면 `svg/` 에 넣고 `generate`. 자체 아이콘은 같은 규격(24×24, stroke 2, round)으로 그린다.
@@ -147,4 +156,5 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 | 2026-10-14 | 모노레포·tokens·react 기본 컴포넌트·Storybook·CI/CD 구축, npm `@bestow-ui` org 생성 |
 | 2026-10-14 | 0.1.0 첫 배포 (토큰), Trusted Publishing 전환 → pnpm 11 업그레이드, Direct publishing 권한 이슈 해결 |
 | 2026-10-14 | react 0.2.0 (Modal/Select/Tooltip/Toast), icons 0.1.0 + react 0.2.1 배포. 이 로드맵 작성 |
-| 2026-10-14 | P1-1 완료: CSS 변수 이름 고정(`--bestow-*`), `createTheme`/`overrides`/`createIntentColors`/`usePortalProps`, 중첩 시 모드·브랜드 상속, Theming 스토리. 다음은 P1-2 (Next.js 예제 앱) |
+| 2026-10-14 | P1-1 완료: CSS 변수 이름 고정(`--bestow-*`), `createTheme`/`overrides`/`createIntentColors`/`usePortalProps`, 중첩 시 모드·브랜드 상속, Theming 스토리. react 0.3.0 배포 |
+| 2026-10-14 | P1-2 완료: `apps/playground`(Next.js 16, dist 사용), CI 빌드 단계, 브라우저 자동 점검. 포커스 링 브랜드색·Select 제어 모드 경고 수정. 다음은 P2-1 (Switch, RadioGroup, Textarea) |

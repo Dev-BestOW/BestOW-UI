@@ -10,6 +10,8 @@
     "dev": "pnpm --filter @bestow-ui/storybook dev",
     "storybook": "pnpm --filter @bestow-ui/storybook dev",
     "build-storybook": "pnpm --filter @bestow-ui/storybook build",
+    "playground": "pnpm --filter @bestow-ui/playground dev",
+    "build-playground": "pnpm --filter @bestow-ui/playground build",
     "test": "pnpm -r test",
     "typecheck": "pnpm -r typecheck",
     "changeset": "changeset",

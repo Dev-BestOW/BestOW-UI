@@ -56,6 +56,13 @@ describe('createIntentColors', () => {
     },
   );
 
+  it('primary 는 포커스 링 색도 브랜드를 따라가고, 다른 intent 는 건드리지 않는다', () => {
+    const primary = createIntentColors('primary', '#7c3aed');
+    expect(primary.light?.color?.border?.focus).toBe('#7c3aed');
+    expect(primary.dark?.color?.border?.focus).toBe(primary.dark?.color?.primary?.solidHover);
+    expect(createIntentColors('danger', '#e11d48').light?.color?.border).toBeUndefined();
+  });
+
   it('잘못된 색은 에러를 낸다', () => {
     expect(() => createIntentColors('primary', 'purple')).toThrow('hex');
   });
