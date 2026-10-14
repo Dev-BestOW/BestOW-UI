@@ -2,6 +2,8 @@
 
 React + vanilla-extract 기반 디자인 시스템.
 
+앞으로의 작업 계획은 [docs/ROADMAP.md](docs/ROADMAP.md), 개발 규칙은 [CLAUDE.md](CLAUDE.md)를 참고하세요.
+
 | 패키지 | 설명 |
 |---|---|
 | `@bestow-ui/tokens` | 색상·간격·타이포그래피 등 디자인 토큰 (원시 값) |
