@@ -53,6 +53,9 @@ apps/
 - variant 는 `@vanilla-extract/recipes` 의 `recipe()` 로. prop 이름은 기존과 통일: `variant`, `color`, `size`(sm/md/lg), `fullWidth`.
 - `forwardRef` 로 ref 전달, `className` 과 나머지 HTML 속성 전달. HTML `color` 속성과 겹치면 `Omit` 한다.
 - 폼 컴포넌트는 TextField/Select 패턴을 따른다: `label`, `helperText`, `error`, `required`, `useId` 로 label/aria-describedby 연결.
+  - 값을 고르는 Radix 컴포넌트(Select, RadioGroup 등)는 `'value' in props` 이면 `value ?? ''` 로 넘겨 **항상 제어 모드**로 둔다
+    (`useState<string>()` 처럼 초기값이 없을 때 "uncontrolled → controlled" 경고 방지).
+  - 접근 가능한 이름(label)에는 짧은 레이블만 넣고, 보조 설명은 별도 요소 + `aria-describedby` 로 연결한다.
 - 오버레이(Popover, Menu 등)는 **Radix primitive** 위에 스타일만 입힌다. Portal 콘텐츠에는 `usePortalProps()` 의 className·style 을 붙이고,
   z-index 는 `vars.zIndex.*` 를 쓴다. 열림/닫힘 애니메이션은 `data-state` 셀렉터 + `reducedMotion` 에서 끈다.
 - 아이콘은 `@bestow-ui/icons` 에서 가져온다 (react 패키지 안에 SVG 를 새로 만들지 않는다).
@@ -92,6 +95,8 @@ pnpm build && pnpm typecheck && pnpm test && pnpm build-storybook && pnpm build-
 시스템 Chrome 이 있으면 scratchpad 에 `playwright-core` 를 설치해(브라우저 다운로드 없음) `chromium.launch({ channel: 'chrome' })` 로
 playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)를 열고 콘솔 경고·hydration 경고·portal 색을 확인한다.
 애니메이션 중에 찍으면 흐리게 나오므로 열고 300~400ms 기다린 뒤 측정·스크린샷한다.
+사용자가 이미 `pnpm playground`(포트 3000)를 띄워 두었을 수 있다 — Next.js 는 같은 폴더에서 dev 서버를 하나만 허용하므로
+새로 띄우지 말고 그 서버를 사용한다 (사용자 프로세스를 종료하지 않는다).
 
 ## 배포
 

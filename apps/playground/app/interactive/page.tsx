@@ -6,9 +6,12 @@ import {
   Checkbox,
   Modal,
   ModalClose,
+  RadioGroup,
   Select,
   Stack,
+  Switch,
   TextField,
+  Textarea,
   Tooltip,
   Typography,
   useToast,
@@ -19,6 +22,8 @@ export default function InteractivePage() {
   const { toast } = useToast();
   const [plan, setPlan] = useState<string>();
   const [agreed, setAgreed] = useState(false);
+  const [billing, setBilling] = useState<string>();
+  const [memo, setMemo] = useState('');
 
   return (
     <Stack gap={6}>
@@ -35,7 +40,11 @@ export default function InteractivePage() {
         style={{ maxWidth: 400 }}
         onSubmit={(e) => {
           e.preventDefault();
-          toast({ title: '가입했어요', description: `플랜: ${plan ?? '선택 안 함'}`, variant: 'success' });
+          toast({
+            title: '가입했어요',
+            description: `플랜: ${plan ?? '선택 안 함'} · 결제: ${billing ?? '선택 안 함'}`,
+            variant: 'success',
+          });
         }}
       >
         <TextField label="이메일" type="email" required fullWidth />
@@ -51,6 +60,28 @@ export default function InteractivePage() {
             { value: 'team', label: 'Team' },
           ]}
         />
+        <RadioGroup
+          label="결제 주기"
+          orientation="horizontal"
+          value={billing}
+          onValueChange={setBilling}
+          options={[
+            { value: 'monthly', label: '월간' },
+            { value: 'yearly', label: '연간' },
+          ]}
+        />
+        <Textarea
+          label="메모"
+          placeholder="요청 사항을 적어 주세요"
+          fullWidth
+          autoResize
+          rows={2}
+          showCount
+          maxLength={200}
+          value={memo}
+          onChange={(e) => setMemo(e.target.value)}
+        />
+        <Switch label="마케팅 알림 받기" />
         <Checkbox label="이용약관에 동의합니다" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />
         <Button type="submit" disabled={!agreed}>
           가입하기
