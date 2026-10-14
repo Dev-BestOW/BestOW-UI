@@ -6,13 +6,31 @@
 > **갱신 규칙:** 작업을 시작/완료하면 체크박스를 바꾸고 맨 아래 "진행 기록"에 한 줄 추가한다.
 > 설계가 문서와 달라지면 이 문서도 함께 고친다.
 
+## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-14 작업 종료 시점)
+
+**마지막 상태**
+- P1(테마 커스터마이징, Next.js 예제 앱)과 P2-1(Switch·RadioGroup·Textarea)까지 완료하고 main 에 push 됨 (`78d6803`).
+- **버전 PR #6 `chore: version packages` (react 0.4.0, 폼 컴포넌트) 가 열려 있고 아직 머지 전.** 머지하면 npm 에 0.4.0 배포.
+- 로컬에 **staged 상태로 남은 변경**: `apps/playground/tsconfig.tsbuildinfo` 를 git 추적에서 제거 (`.gitignore` 에 `*.tsbuildinfo` 는 이미 반영). 사용자가 커밋할 예정.
+
+**세션 시작 체크리스트**
+1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다 (Claude 는 커밋·push 하지 않음).
+2. 열린 버전 PR 이 있는지 확인: `curl -s https://api.github.com/repos/Dev-BestOW/BestOW-UI/pulls?state=open`
+   — 있으면 머지 여부를 사용자에게 알린다. 머지 후 npm 반영은 수 분 걸릴 수 있다.
+3. 배포 버전 확인: `curl -s https://registry.npmjs.org/@bestow-ui%2freact | python3 -c "import json,sys;print(json.load(sys.stdin)['dist-tags'])"`
+4. `pnpm install && pnpm build` 후 아래 **다음 작업**부터 진행.
+
+**다음 작업: P2-2 표시 컴포넌트** — Spinner(+ Button `loading`) → Badge → Card → Divider → Avatar → Skeleton.
+각 컴포넌트는 CLAUDE.md "컴포넌트 작성 규칙" + 스토리 + 테스트 + `src/index.ts` export + changeset(react minor) +
+playground 에 사용 예 추가 후 브라우저 점검. 끝나면 이 섹션과 체크박스·진행 기록을 갱신한다.
+
 ## 현재 상태 (2026-10-14)
 
 | 패키지 | 배포 버전 | 내용 |
 |---|---|---|
 | `@bestow-ui/tokens` | 0.2.0 | palette, space, radius, font, shadow, duration, zIndex, light/dark 의미 색상 |
 | `@bestow-ui/icons` | 0.1.0 | 아이콘 57종 (Lucide 기반), SVG → 컴포넌트 생성 스크립트 |
-| `@bestow-ui/react` | 0.3.0 (0.3.1 대기: 포커스 링·Select 수정) | ThemeProvider(light/dark + 브랜드 테마), Button, Typography, Stack, Input, TextField, Checkbox, Modal, Select, Tooltip, Toast |
+| `@bestow-ui/react` | 0.3.1 (0.4.0 = 버전 PR #6 머지 대기) | ThemeProvider(light/dark + 브랜드 테마 `createTheme`/`overrides`), Button, Typography, Stack, Input, TextField, Checkbox, Modal, Select, Tooltip, Toast, (0.4.0) Switch, RadioGroup, Textarea |
 
 운영: CI(생성물 확인·빌드·타입·테스트·Storybook·playground 빌드), changesets + npm Trusted Publishing(OIDC) 자동 배포,
 Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://dev-bestow.github.io/BestOW-UI/playground/
@@ -21,7 +39,7 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 
 ## P1. 다른 프로젝트에서 쓰기 위한 기반 ⭐
 
-### P1-1. 사용자 테마 커스터마이징 — [x] 완료 (2026-10-14, react 0.3.0 예정)
+### P1-1. 사용자 테마 커스터마이징 — [x] 완료 (2026-10-14, react 0.3.0 배포)
 
 **왜:** 지금은 light/dark 두 테마가 고정이라 프로젝트마다 브랜드 색·글꼴·radius 를 바꿀 수 없다. MUI 의 `createTheme` 에 해당하는 기능이 없으면 "가져다 쓰는" 디자인 시스템이 되기 어렵다.
 
@@ -160,3 +178,4 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 | 2026-10-14 | P1-2 완료: `apps/playground`(Next.js 16, dist 사용), CI 빌드 단계, 브라우저 자동 점검. 포커스 링 브랜드색·Select 제어 모드 경고 수정. 다음은 P2-1 (Switch, RadioGroup, Textarea) |
 | 2026-10-14 | playground 를 GitHub Pages `/playground/` 에 정적 export 로 함께 배포하도록 storybook.yml 확장 |
 | 2026-10-14 | P2-1 완료: Switch, RadioGroup(options 배열, 보조 설명은 aria-describedby), Textarea(autoResize, showCount). playground 폼에 추가, 브라우저 점검(키보드 조작·다크·브랜드) 통과. 다음은 P2-2 (Spinner + Button loading, Badge, Card …) |
+| 2026-10-14 | 세션 종료. react 0.3.1 배포 완료, 0.4.0 은 버전 PR #6 머지 대기. 인수인계 섹션 작성 |
