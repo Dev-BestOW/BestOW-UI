@@ -1,5 +1,12 @@
 # @bestow-ui/react
 
+## 0.6.0
+
+### Minor Changes
+
+- e9e628d: Badge 컴포넌트 추가 — `variant`(solid/soft/outline) × `color`(primary/neutral/danger/success), `size`(sm/md/lg), `startIcon`.
+- e9e628d: Card 컴포넌트 추가 — `variant`(outline/elevated/soft), `padding`(none/sm/md/lg), `as`. 영역 구분용 `CardHeader`, `CardBody`, `CardFooter`.
+
 ## 0.5.0
 
 ### Minor Changes
