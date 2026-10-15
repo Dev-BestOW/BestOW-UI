@@ -1,5 +1,14 @@
 # @bestow-ui/react
 
+## 0.7.0
+
+### Minor Changes
+
+- 33f9dba: Avatar 컴포넌트 추가 (`@radix-ui/react-avatar`) — `src`, `alt`/`name`(접근 가능한 이름), `size`(sm/md/lg), `shape`(circle/square).
+  이미지가 없거나 실패하면 이름 이니셜 → 사용자 아이콘 순으로 대체하고, `fallback` 으로 직접 지정할 수 있다.
+- 33f9dba: Divider 컴포넌트 추가 — `orientation`(horizontal/vertical, `role="separator"`), `decorative`, 가운데 텍스트(`children`).
+- 33f9dba: Skeleton 컴포넌트 추가 — `variant`(text/rect/circle), `width`/`height`(숫자는 px), `lines`(text 여러 줄). shimmer 애니메이션은 움직임 줄이기 설정에서 멈춘다.
+
 ## 0.6.0
 
 ### Minor Changes
