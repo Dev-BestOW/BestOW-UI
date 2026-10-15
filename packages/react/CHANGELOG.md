@@ -1,5 +1,19 @@
 # @bestow-ui/react
 
+## 0.8.0
+
+### Minor Changes
+
+- f1d315a: Accordion 컴포넌트 추가 (`@radix-ui/react-accordion`) — `Accordion`(`type` single/multiple, `collapsible`), `AccordionItem`(`title`, `headingLevel`, `disabled`).
+  펼침/접힘 높이 애니메이션은 움직임 줄이기 설정에서 끈다.
+- f1d315a: DropdownMenu 컴포넌트 추가 (`@radix-ui/react-dropdown-menu`) — `DropdownMenu`, `DropdownMenuTrigger`, `DropdownMenuContent`(`side`/`align`),
+  `DropdownMenuItem`(`icon`, `shortcut`, `color="danger"`, `disabled`), `DropdownMenuLabel`, `DropdownMenuGroup`, `DropdownMenuSeparator`.
+- f1d315a: Pagination 컴포넌트 추가 — `totalPages`, `page`/`defaultPage`/`onPageChange`, `siblingCount`, `boundaryCount`, `size`(sm/md), `getItemLabel`(다국어).
+  `nav` + 목록 구조, 현재 페이지 `aria-current="page"`, 생략 부호(…)는 스크린리더에서 숨김. 현재 페이지가 바뀌어도 버튼 수가 일정하다.
+- f1d315a: Popover 컴포넌트 추가 (`@radix-ui/react-popover`) — `content`, `title`(dialog 이름)/`aria-label`, `showClose`, `showArrow`, Tooltip 과 같은 `side`/`align`,
+  `open`/`defaultOpen`/`onOpenChange`, `modal`. 내용 안에서 닫는 요소용 `PopoverClose`.
+- f1d315a: Tabs 컴포넌트 추가 (`@radix-ui/react-tabs`) — `Tabs`, `TabsList`, `TabsTrigger`, `TabsContent`. `variant`(line/soft), `size`(sm/md), `activationMode`(automatic/manual).
+
 ## 0.7.0
 
 ### Minor Changes
