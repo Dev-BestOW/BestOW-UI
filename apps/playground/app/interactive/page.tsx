@@ -12,6 +12,7 @@ import {
   RadioGroup,
   Select,
   Skeleton,
+  Slider,
   Stack,
   Switch,
   TextField,
@@ -31,6 +32,7 @@ export default function InteractivePage() {
   const [submitting, setSubmitting] = useState(false);
   const [loadingPost, setLoadingPost] = useState(false);
   const [upload, setUpload] = useState<number | null>(null);
+  const [price, setPrice] = useState([20000, 80000]);
 
   const startUpload = () => {
     setUpload(0);
@@ -151,6 +153,22 @@ export default function InteractivePage() {
             </>
           )}
         </Card>
+      </Stack>
+
+      <Stack gap={3} style={{ maxWidth: 400 }}>
+        <Slider label="음량" defaultValue={[40]} showValue />
+        <Slider
+          label="가격"
+          value={price}
+          onValueChange={setPrice}
+          min={0}
+          max={100000}
+          step={5000}
+          minStepsBetweenThumbs={1}
+          showValue
+          formatValue={(v) => `${v.toLocaleString('ko-KR')}원`}
+          helperText="두 손잡이로 범위를 정해요."
+        />
       </Stack>
 
       <Stack gap={3} style={{ maxWidth: 400 }}>

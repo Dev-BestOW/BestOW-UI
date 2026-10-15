@@ -16,7 +16,8 @@
   다크 그림자·Card·Badge·Typography·Toast 스토리 화면이 바뀌므로 **push 후 Visual regression 이 실패한다 → 확인 후 update 로 기준 이미지 갱신.**
 - Alert·IconButton 커밋됨(`368b6d5`). **커밋 전: Progress, 번들 한도 상향, Drawer, recipe tree-shaking 수정, Link·Breadcrumb**
   (changeset `progress`, `drawer`, `pure-recipes`, `link-breadcrumb`) → `e63b3b1` 로 커밋됨. 시각 회귀 자동화 `33a3eeb`.
-- **커밋 전: Table** (changeset `table`). 새 스토리 + Tooltip/DropdownMenu/Icons 스토리 화면 변경
+- Table 커밋됨(`240c926`, push 전일 수 있음). **커밋 전: Slider** (changeset `slider`, react 의존성 추가 → pnpm-lock 변경).
+- 번들: react JS 55.3/65 kB, **styles.css 26.2/28 kB** — 컴포넌트 2~3개 뒤 다시 한도 검토(또는 CSS 분리). 새 스토리 + Tooltip/DropdownMenu/Icons 스토리 화면 변경
   → push 후 Visual regression update 로 기준 이미지 갱신.
 - 번들 한도 상향(사용자 결정, 2026-10-15): react 전체 JS 55→65 kB, styles.css 23→28 kB (현재 51.0 / 22.3). Button 하나 3 kB 는 유지.
   styles.css 는 모든 컴포넌트 CSS 를 담은 한 파일이라 컴포넌트가 늘면 커진다. 컴포넌트별 CSS 분리는 필요해지면 검토(백로그).
@@ -215,7 +216,7 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
   CSS 변수 이름(`--bestow-shadow-*`)은 그대로라 breaking 아님. Card elevated 의 다크 보완 테두리도 재검토.
 - [x] **`warning` 의미 색** (2026-10-15, 커밋 전 — tokens `palette.amber`·`warning`, Badge/Typography/Toast/createIntentColors.
   함께 발견·수정: 다크 solidHover 흰 글자 대비 3.3~4.38 → 한 단계 어둡게, createIntentColors hover 도 대비 보장) — 지금 intent 는 primary/neutral/danger/success 뿐. Badge·Toast·(향후) Alert 에 흔히 필요.
-- [ ] **새 컴포넌트 후보** — ~~Alert~~·~~IconButton~~·~~Progress~~·~~Drawer~~·~~Link~~·~~Breadcrumb~~·~~Table~~(2026-10-15 완료, 아래), 남은 것: Slider, Combobox.
+- [ ] **새 컴포넌트 후보** — ~~Alert~~·~~IconButton~~·~~Progress~~·~~Drawer~~·~~Link~~·~~Breadcrumb~~·~~Table~~·~~Slider~~(2026-10-15 완료, 아래), 남은 것: Combobox.
 - [x] **Alert** (2026-10-15, 커밋 전) — `variant`(soft/outline/solid) × `color`(primary/neutral/success/warning/danger), `title`,
   color 별 기본 아이콘(`icon` 교체·`false` 숨김, 감싸는 span 이 aria-hidden), `action`, `onClose`+`closeLabel`(닫기 버튼, hover 는 `color-mix(currentColor)`).
   기본 role 없음 — 동적 메시지는 `role="alert"`/`"status"` (스토리 "동적으로 나타나는 메시지"). Radix 없이 직접 구현, 서버 컴포넌트에서 사용 가능.
@@ -243,6 +244,9 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
   머리 셀 scope 자동(thead col / tbody·tfoot row, section context). 바깥 스크롤 영역은 이름 있는 region + tabIndex=0
   (axe scrollable-region-focusable, jsx-a11y no-noninteractive-tabindex 는 그 줄만 끔). 한글 word-break: keep-all.
   scope·aria-sort·포커스는 변이 확인, 키보드 스크롤·sticky 브라우저 확인. playground 서버 페이지에 표.
+- [x] **Slider** (2026-10-15, 커밋 전) — `@radix-ui/react-slider@1.6.1` 추가. 값 배열, 제어/비제어(비제어도 화면 표시를 위해 내부 state 로 따라감),
+  label·helperText·showValue·formatValue(aria-valuetext), 범위 손잡이 이름은 숨김 span + aria-labelledby("가격 최소"; Radix 기본 영어
+  "Minimum" 대신). 막대·손잡이 테두리 primary.text (range/track 라이트 6.69, 다크 5.58). 변이 확인 3종, 드래그·키보드·playground 확인.
 - [ ] **기존 컴포넌트 보강** — DropdownMenu CheckboxItem/RadioItem/Sub, Tabs 세로 방향.
 
 
@@ -290,3 +294,4 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 | 2026-10-15 | Link·Breadcrumb 구현(테스트 10개 — Breadcrumb 마지막 항목·구분 기호는 변이 확인). 테스트가 외부 링크 이름 붙음("예시(새 창)") 발견 → 수정. 서버 컴포넌트용 asChild 추가. 스토리 278개 통과 |
 | 2026-10-15 | visual.yml: 새 스토리 기준 이미지 자동 생성·커밋(main), 기존 화면 변경만 수동 update. Playwright 1.64 의 missing 모드 동작을 로컬에서 검증 |
 | 2026-10-15 | Table 구현(테스트 7개, scope·aria-sort·포커스 변이 확인). 좁은 스크롤 표에서 한글 단어 중간 줄바꿈 발견 → keep-all. 스토리 288개 통과 |
+| 2026-10-15 | Slider 구현(테스트 7개, 범위 이름·제어 모드·valuetext 변이 확인). 스토리 300개 통과. styles.css 26.2/28 kB |

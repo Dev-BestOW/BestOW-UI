@@ -20,6 +20,7 @@ export * from './components/Progress';
 export * from './components/RadioGroup';
 export * from './components/Select';
 export * from './components/Skeleton';
+export * from './components/Slider';
 export * from './components/Spinner';
 export * from './components/Stack';
 export * from './components/Switch';
