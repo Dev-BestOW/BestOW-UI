@@ -6,6 +6,7 @@ import {
   Button,
   Card,
   Checkbox,
+  Combobox,
   Modal,
   ModalClose,
   Progress,
@@ -156,6 +157,20 @@ export default function InteractivePage() {
       </Stack>
 
       <Stack gap={3} style={{ maxWidth: 400 }}>
+        <Combobox
+          label="배송 도시"
+          placeholder="도시를 검색하세요"
+          options={[
+            { value: 'seoul', label: '서울' },
+            { value: 'busan', label: '부산' },
+            { value: 'incheon', label: '인천' },
+            { value: 'daegu', label: '대구' },
+            { value: 'daejeon', label: '대전' },
+            { value: 'jeju', label: '제주' },
+          ]}
+          onValueChange={(value) => toast({ title: `${value} 를 골랐어요` })}
+          fullWidth
+        />
         <Slider label="음량" defaultValue={[40]} showValue />
         <Slider
           label="가격"

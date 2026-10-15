@@ -7,6 +7,7 @@ export * from './components/Breadcrumb';
 export * from './components/Button';
 export * from './components/Card';
 export * from './components/Checkbox';
+export * from './components/Combobox';
 export * from './components/Divider';
 export * from './components/Drawer';
 export * from './components/DropdownMenu';

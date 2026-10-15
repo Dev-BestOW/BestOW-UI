@@ -85,7 +85,7 @@ All tokens are plain CSS variables with stable names, so you can also override t
 | Layout | `Stack`, `Divider`, `Card` |
 | Typography | `Typography` |
 | Actions | `Button`, `IconButton`, `Link` |
-| Forms | `Input`, `TextField`, `Textarea`, `Select`, `Checkbox`, `RadioGroup`, `Switch`, `Slider` |
+| Forms | `Input`, `TextField`, `Textarea`, `Select`, `Combobox`, `Checkbox`, `RadioGroup`, `Switch`, `Slider` |
 | Feedback | `Alert`, `Progress`, `ToastProvider` + `useToast`, `Spinner`, `Skeleton`, `Badge` |
 | Overlays | `Modal`, `Drawer`, `Popover`, `Tooltip`, `DropdownMenu` |
 | Navigation | `Tabs`, `Accordion`, `Pagination`, `Breadcrumb` |

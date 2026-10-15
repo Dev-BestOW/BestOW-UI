@@ -68,7 +68,7 @@ apps/
 - 다른 컴포넌트로 렌더링하는 prop(`as={NextLink}`, `linkAs`)은 함수라 **서버 컴포넌트에서 넘길 수 없다**.
   서버 컴포넌트에서도 쓰여야 하면 `asChild`(`@radix-ui/react-slot`)를 함께 제공한다(Link 참고).
 - 스토리: `tags: ['autodocs']`, Playground + 변형별 스토리. 모든 스토리는 CI 에서 라이트·다크 두 테마로 axe 검사를 통과해야 한다(대비 4.5:1 등).
-  스크린샷에서 뺄 스토리는 `tags: ['!visual']`.
+  스크린샷에서 뺄 스토리는 `tags: ['!visual']`. 열린 상태(목록·팝업)도 axe 로 검사하려면 `play` 로 열어 둔 스토리를 만든다(Combobox "Open").
 - 테스트: 역할/라벨 기반(Testing Library), 접근성 속성 확인. 상호작용은 `@testing-library/user-event`(`userEvent.setup()`).
 - **최상위 `forwardRef(...)`/`createContext(...)` 에는 `/* @__PURE__ */` 를 붙인다** — 없으면 tree-shaking 이 깨져
   Button 하나만 써도 전체 Radix 가 번들에 들어간다(size-limit 의 "Button 하나" 항목이 감시, 한도 2 kB).
