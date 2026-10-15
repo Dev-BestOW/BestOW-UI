@@ -90,6 +90,7 @@ All tokens are plain CSS variables with stable names, so you can also override t
 | Overlays | `Modal`, `Drawer`, `Popover`, `Tooltip`, `DropdownMenu` |
 | Navigation | `Tabs`, `Accordion`, `Pagination`, `Breadcrumb` |
 | Display | `Avatar`, `Table` |
+| Korean kit | `AgreementGroup` (약관 동의), `VerificationCodeInput` (인증번호) |
 | Theming | `ThemeProvider`, `createTheme`, `createIntentColors`, `vars`, `useTheme`, `usePortalProps` |
 
 ## Links

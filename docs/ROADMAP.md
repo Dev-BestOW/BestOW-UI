@@ -13,7 +13,8 @@
 - npm: react·tokens **0.9.0**, icons 0.1.1. 로컬 = origin/main (`ab549af`, 버전 PR #15 머지). 열린 PR 없음.
 - 컴포넌트 32개. P1~P5 완료. 포지셔닝 확정: **"한국 서비스를 만들 때 바로 쓰는, 접근성이 검증된 React 디자인 시스템"** (POSITIONING.md).
 - 다음 단계: **P6 차별화**(한국 서비스 키트·KWCAG 근거·테마 빌더) — 아래 추천 순서 참고, 최종 순서는 사용자와 확정.
-- 번들: react 전체 JS 56.4/65 kB, **styles.css 26.8/28 kB**(여유 적음), Button 하나 1.48/2 kB.
+- 번들: react 전체 JS 57.8/65 kB, styles.css 28.5/**36** kB(2026-10-15 한국 키트로 28 초과 → 사용자 결정으로 상향), Button 하나 1.48/2 kB.
+  CSS 분리는 P7 에서 1.0 전에 결정.
 - 시각 회귀: 새 스토리는 기준 이미지가 자동 생성·봇 커밋된다. 기존 화면을 의도적으로 바꾼 커밋만 Visual regression 수동 update.
 
 **세션 시작 체크리스트**
@@ -74,7 +75,9 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
   play 테스트로 '미달 0' 을 CI 에서 확인. **만들다가 발견·수정: 밝은 브랜드 색(노랑·하늘·분홍)이면 라이트 포커스 링 대비 1.5~2.8:1
   → 3:1 미만이면 text 색 사용**, changeset `focus-ring-contrast`) (Storybook 페이지) — 대표색 입력 → 라이트·다크 미리보기 + intent 별 대비 리포트(글자 4.5 / 그래픽 3) +
   `createTheme(createIntentColors(...))` 코드 복사. 이미 있는 `createIntentColors`·`contrastRatio` 를 그대로 보여 주는 작업.
-- [ ] **P6-2. 한국 서비스 키트 1차 — 약관 동의 그룹, 인증번호 입력**
+- [x] **P6-2. 한국 서비스 키트 1차 — 약관 동의 그룹, 인증번호 입력** (2026-10-15, 커밋 전 — Storybook "Korean Kit" 그룹.
+  인증번호는 입력창 하나 + 표시용 칸. 테스트가 `maxLength` 때문에 "987-654…" 붙여넣기가 걸러지기 전에 잘리는 버그를 잡아 제거.
+  약관 "필수" 표시 뒤 공백(이름 "필수서비스…" 방지). 변이 4종 확인, playground 가입 폼에 적용)
   - 약관 동의: 전체 동의 ↔ 개별 동기화(부분 선택 indeterminate), 필수·선택 표시, 약관 내용 펼쳐 보기(Accordion/Modal 연결),
     필수 미동의 오류 메시지(aria-describedby), 제어/비제어.
   - 인증번호: N칸 입력(기본 6), 붙여넣기 분배·자동 이동·Backspace 역이동, `autocomplete="one-time-code"`·`inputmode="numeric"`,
@@ -177,3 +180,5 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-15 | 로드맵 재정리: P1~P5 상세를 ROADMAP-HISTORY.md 로 보관, 현재 상태(0.9.0, 컴포넌트 32개) 갱신, 다음 단계 P6(1.0 API 안정화)~P10 제안. API 불일치 발견(Toast variant vs color, DropdownMenu default vs neutral, Button intent 범위) |
 | 2026-10-15 | 포지셔닝 문서(POSITIONING.md) 작성 — 대상·약속 4축·비교(SEED·Vapor·Bezier 확인 출처)·KWCAG 2.2(KS X OT0003:2022). 로드맵에 P6 차별화 추가, 1.0 은 P8 로 |
 | 2026-10-15 | P6-1 테마 빌더(입력·라이트/다크 미리보기·대비 리포트 42항목·코드 복사, play 테스트). 리포트가 createIntentColors 포커스 링 대비 미달(#facc15 1.53 등) 을 찾아 수정·회귀 테스트(변이 확인) |
+| 2026-10-15 | P6-2 한국 서비스 키트 1차: AgreementGroup·VerificationCodeInput(테스트 10개, 변이 4종). 붙여넣기 maxLength 버그 발견·수정. 스토리 "Korean Kit" 그룹, playground 가입 폼 교체 |
+| 2026-10-15 | styles.css 28.49 kB 로 한도 초과 → 사용자 결정으로 36 kB 로 상향(분리는 P7). |

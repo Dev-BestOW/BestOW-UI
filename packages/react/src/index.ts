@@ -1,5 +1,6 @@
 export * from './theme';
 export * from './components/Accordion';
+export * from './components/AgreementGroup';
 export * from './components/Alert';
 export * from './components/Avatar';
 export * from './components/Badge';
@@ -31,3 +32,4 @@ export * from './components/Textarea';
 export * from './components/Toast';
 export * from './components/Tooltip';
 export * from './components/Typography';
+export * from './components/VerificationCodeInput';

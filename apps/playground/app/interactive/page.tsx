@@ -2,10 +2,10 @@
 
 import { useState } from 'react';
 import {
+  AgreementGroup,
   Avatar,
   Button,
   Card,
-  Checkbox,
   Combobox,
   Modal,
   ModalClose,
@@ -20,14 +20,28 @@ import {
   Textarea,
   Tooltip,
   Typography,
+  VerificationCodeInput,
+  hasAllRequiredAgreements,
   useToast,
 } from '@bestow-ui/react';
 import { InfoIcon, TrashIcon } from '@bestow-ui/icons';
 
+const agreements = [
+  {
+    value: 'terms',
+    label: '서비스 이용약관 동의',
+    required: true,
+    content: '제1조 (목적) 이 약관은 서비스 이용 조건을 정합니다.',
+  },
+  { value: 'privacy', label: '개인정보 수집·이용 동의', required: true, content: '수집 항목: 이메일, 휴대폰 번호' },
+  { value: 'marketing', label: '마케팅 정보 수신 동의' },
+];
+
 export default function InteractivePage() {
   const { toast } = useToast();
   const [plan, setPlan] = useState<string>();
-  const [agreed, setAgreed] = useState(false);
+  const [agreed, setAgreed] = useState<string[]>([]);
+  const [code, setCode] = useState('');
   const [billing, setBilling] = useState<string>();
   const [memo, setMemo] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -107,8 +121,19 @@ export default function InteractivePage() {
           onChange={(e) => setMemo(e.target.value)}
         />
         <Switch label="마케팅 알림 받기" />
-        <Checkbox label="이용약관에 동의합니다" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />
-        <Button type="submit" disabled={!agreed} loading={submitting}>
+        <VerificationCodeInput
+          expiresIn={180}
+          value={code}
+          onValueChange={setCode}
+          onResend={() => toast({ title: '인증번호를 다시 보냈어요' })}
+          helperText="휴대폰으로 받은 6자리 숫자를 입력하세요. (예제: 아무 숫자)"
+        />
+        <AgreementGroup label="약관 동의" items={agreements} value={agreed} onValueChange={setAgreed} />
+        <Button
+          type="submit"
+          disabled={!hasAllRequiredAgreements(agreements, agreed) || code.length < 6}
+          loading={submitting}
+        >
           {submitting ? '가입하는 중' : '가입하기'}
         </Button>
       </Stack>

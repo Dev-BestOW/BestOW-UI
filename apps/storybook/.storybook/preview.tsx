@@ -40,6 +40,7 @@ const preview: Preview = {
           ['Design Tokens', 'Theming', 'Theme Builder', 'Icons'],
           'Layout',
           'Components',
+          'Korean Kit',
         ],
       },
     },
