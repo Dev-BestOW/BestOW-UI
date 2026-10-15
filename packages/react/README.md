@@ -3,12 +3,17 @@
 [![npm](https://img.shields.io/npm/v/@bestow-ui/react)](https://www.npmjs.com/package/@bestow-ui/react)
 [![license](https://img.shields.io/npm/l/@bestow-ui/react)](https://github.com/Dev-BestOW/BestOW-UI/blob/main/LICENSE)
 
-React components and theming for **BestOW UI**, a design system built on [vanilla-extract](https://vanilla-extract.style) and [Radix UI](https://www.radix-ui.com).
+**A React design system for building Korean services — with accessibility you can verify.**
+Built on [vanilla-extract](https://vanilla-extract.style) and [Radix UI](https://www.radix-ui.com).
 
-- **Zero-runtime styles** — CSS is extracted at build time into a single stylesheet. Works with Next.js App Router and React Server Components.
-- **Light / dark mode and brand themes** — switch modes with one prop, generate an accessible color set from a single brand color.
-- **Accessible by default** — keyboard and screen reader support via Radix primitives. Every story is checked with axe in both light and dark themes.
-- **Tree-shakable** — import only what you use (a single `Button` is about 2.4 kB, minified + brotli).
+- **Korean service kit** — terms agreement (agree-to-all), SMS verification code (one-time-code autofill, countdown), phone / business registration
+  number (checksum) / amount (Korean reading like “12만 5,000원”), address (Kakao postcode), and a date picker (Sunday-first, holidays).
+- **Accessibility, tested** — every story is rendered in a real browser and checked with axe in both light and dark themes on CI.
+  Item-by-item notes for KWCAG 2.2 (the Korean web accessibility standard), plus a log of real issues the checks caught.
+- **One brand color → accessible theme** — brand colors keep 4.5:1 text contrast (including hover) and a 3:1 focus ring, light and dark.
+  Try the [Theme Builder](https://dev-bestow.github.io/BestOW-UI/?path=/story/foundations-theme-builder--builder).
+- **Zero-runtime CSS & RSC-friendly** — works with the Next.js App Router; tree-shakable (a single `Button` is about 1.5 kB, minified + brotli).
+- **Korean by default, any language** — default UI strings are Korean; switch them all with `LocaleProvider` (English included).
 
 📖 **Docs & live examples:** [Storybook](https://dev-bestow.github.io/BestOW-UI/) · [Next.js example app](https://dev-bestow.github.io/BestOW-UI/playground/)
 
@@ -118,12 +123,13 @@ import { LocaleProvider, en } from '@bestow-ui/react';
 
 ## 한국어
 
-**BestOW UI** 의 React 컴포넌트와 테마 패키지예요. [vanilla-extract](https://vanilla-extract.style) 와 [Radix UI](https://www.radix-ui.com) 위에 만들었어요.
+**한국 서비스를 만들 때 바로 쓰는, 접근성이 검증된 React 디자인 시스템**이에요.
 
-- **런타임 비용 없는 스타일** — 빌드 때 CSS 파일 하나로 뽑혀서, Next.js App Router·서버 컴포넌트에서도 그대로 써요.
-- **라이트·다크 모드와 브랜드 테마** — prop 하나로 모드를 바꾸고, 대표색 하나로 대비 4.5:1 을 지키는 색 세트를 만들어요.
-- **기본으로 접근성 지원** — Radix 기반 키보드·스크린리더 지원. 모든 스토리를 라이트·다크 두 테마에서 axe 로 검사해요.
-- **tree-shaking** — 쓰는 것만 번들에 들어가요 (`Button` 하나 약 2.4 kB).
+- **한국 서비스 키트** — 약관 동의, 인증번호(문자 자동 채우기·남은 시간), 전화번호·사업자등록번호·금액·주소·날짜 입력.
+- **검사로 증명하는 접근성** — 모든 스토리를 라이트·다크에서 axe 로 검사(CI), [KWCAG 2.2 항목별 대응 근거](https://dev-bestow.github.io/BestOW-UI/?path=/docs/accessibility-kwcag-2-2-%EB%8C%80%EC%9D%91--docs).
+- **대표색 하나로 테마** — 브랜드 색을 넣어도 대비 기준을 자동으로 지켜요. [테마 빌더](https://dev-bestow.github.io/BestOW-UI/?path=/story/foundations-theme-builder--builder)
+- **가벼움** — 런타임 CSS 0, 서버 컴포넌트 지원, 쓰는 컴포넌트만 번들에.
+- **다국어** — 기본 문구는 한국어, `LocaleProvider` 로 한 번에 바꿔요.
 
 ```bash
 npm install @bestow-ui/react

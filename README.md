@@ -1,8 +1,19 @@
 # BestOW UI
 
-React + vanilla-extract 기반 디자인 시스템.
+**한국 서비스를 만들 때 바로 쓰는, 접근성이 검증된 React 디자인 시스템.**
 
-사용 방법은 Storybook 의 **Introduction** 페이지, 기여 방법은 [CONTRIBUTING.md](CONTRIBUTING.md), 앞으로의 작업 계획은 [docs/ROADMAP.md](docs/ROADMAP.md)를 참고하세요.
+대표색 하나로 내 브랜드 테마를 만들고, 약관 동의부터 인증번호·주소·날짜 입력까지 한국 서비스에 늘 필요한 부품을 기본으로 써요.
+
+- 🇰🇷 **한국 서비스 키트** — 약관 동의(전체 동의), 인증번호(문자 자동 채우기·남은 시간), 전화번호·사업자등록번호(검증 공식)·금액(“12만 5,000원” 읽기),
+  주소(카카오 우편번호), 날짜(일요일 시작·공휴일 표시). → [Storybook › Korean Kit](https://dev-bestow.github.io/BestOW-UI/?path=/docs/korean-kit-agreementgroup--docs)
+- ♿ **검사로 증명하는 접근성** — 모든 스토리를 실제 브라우저에서 라이트·다크 두 테마로 axe 검사(CI). KWCAG 2.2 33개 항목별 대응 근거와
+  검사가 실제로 찾아 고친 문제 기록. → [KWCAG 2.2 대응](https://dev-bestow.github.io/BestOW-UI/?path=/docs/accessibility-kwcag-2-2-%EB%8C%80%EC%9D%91--docs)
+- 🎨 **대표색 하나로 끝나는 테마** — 브랜드 색을 넣어도 글자 대비 4.5:1(hover 포함)·포커스 링 3:1 을 자동으로 지켜요. → [테마 빌더](https://dev-bestow.github.io/BestOW-UI/?path=/story/foundations-theme-builder--builder)
+- ⚡ **가볍고 서버 컴포넌트 친화적** — 런타임 CSS 0(vanilla-extract), Next.js App Router 지원, 쓰는 컴포넌트만 번들에(Button 하나 1.5 kB).
+- 🌐 **한국어 기본, 다국어 가능** — 기본 문구는 한국어, `LocaleProvider` 로 영어 등으로 한 번에 바꿔요. 한글은 단어 단위로 줄바꿈.
+
+사용 방법은 [Storybook 시작하기](https://dev-bestow.github.io/BestOW-UI/), 기여 방법은 [CONTRIBUTING.md](CONTRIBUTING.md), 왜 이렇게 만드는지는 [docs/POSITIONING.md](docs/POSITIONING.md),
+앞으로의 계획은 [docs/ROADMAP.md](docs/ROADMAP.md)를 참고하세요.
 
 | 패키지 | 설명 |
 |---|---|

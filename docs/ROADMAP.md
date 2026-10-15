@@ -103,7 +103,8 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
   전체 문구가 번들에 딸려 와 "Button 하나 2 kB" 를 넘음). ThemeProvider 기본 `word-break: keep-all` + `overflow-wrap: break-word`.
   줄 간격 토큰은 유지(Pretendard 기준 무리 없음, 바꾸면 전 컴포넌트 영향)) — 전역 한글 줄바꿈 기본값 검토, 줄 간격 스케일 점검, 숫자 tabular 기본,
   기본 문구("닫기", "결과가 없어요" 등)를 한곳에서 바꾸는 방법(다국어 대응).
-- [ ] **P6-6. 메시지 반영** — README·npm README·Storybook Introduction 첫 화면을 POSITIONING.md 의 메시지로. 비교표는 경쟁 제품 문서를 다시 확인한 뒤.
+- [x] **P6-6. 메시지 반영** (2026-10-15, 커밋 전 — 루트 README·npm README(영/한)·Storybook Introduction 첫 화면.
+  비교표는 넣지 않음(경쟁 제품 세부 기능 미확인). 숫자는 바뀌기 쉬운 스토리 수 대신 검증된 기준(4.5:1, 3:1, Button 1.5 kB)만. npm README 의 낡은 2.4 kB 수정) — README·npm README·Storybook Introduction 첫 화면을 POSITIONING.md 의 메시지로. 비교표는 경쟁 제품 문서를 다시 확인한 뒤.
 
 ### P7. 번들·성능
 
@@ -205,3 +206,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-15 | P6-3 날짜 선택: Calendar·DatePicker(+date 유틸). axe 가 날짜 버튼의 레이블-이름 불일치(WCAG 2.5.3) 발견 → 이름을 보이는 숫자로 시작. 제어 모드 입력 지워짐 버그 재현 테스트(덮어쓰기)로 찾아 수정. |
 | 2026-10-15 | P6-4 KWCAG 2.2 대응 근거 문서(Storybook Accessibility). 항목 대조 중 달력 공휴일 색 의존 발견·수정. 문서 페이지 axe 위반 0 |
 | 2026-10-15 | P6-5: LocaleProvider·en(다국어 문구, 테스트 4개 — 중첩 병합 변이 확인), 한글 줄바꿈 기본값(keep-all). |
+| 2026-10-15 | P6-6 메시지 반영(README·npm README·Introduction). P6 차별화 단계 완료. |

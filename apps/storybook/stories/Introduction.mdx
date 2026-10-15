@@ -4,8 +4,14 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 # BestOW UI
 
-React + [vanilla-extract](https://vanilla-extract.style) 로 만든 디자인 시스템이에요.
-스타일은 빌드 때 정적 CSS 로 뽑혀서 런타임 CSS-in-JS 비용이 없고, Next.js App Router(서버 컴포넌트)에서도 그대로 쓸 수 있어요.
+**한국 서비스를 만들 때 바로 쓰는, 접근성이 검증된 React 디자인 시스템이에요.**
+대표색 하나로 내 브랜드 테마를 만들고, 약관 동의부터 인증번호·주소·날짜 입력까지 한국 서비스에 늘 필요한 부품을 기본으로 써요.
+
+- **한국 서비스 키트** — 약관 동의, 인증번호, 전화번호·사업자등록번호·금액·주소·날짜 입력 → [Korean Kit](?path=/docs/korean-kit-agreementgroup--docs)
+- **검사로 증명하는 접근성** — 모든 스토리를 라이트·다크에서 axe 로 자동 검사, KWCAG 2.2 항목별 대응 근거 → [KWCAG 2.2 대응](?path=/docs/accessibility-kwcag-2-2-대응--docs)
+- **대표색 하나로 끝나는 테마** — 브랜드 색을 넣어도 글자 대비·포커스 링 기준을 자동으로 지켜요 → [테마 빌더](?path=/story/foundations-theme-builder--builder)
+- **가볍고 서버 컴포넌트 친화적** — 스타일은 빌드 때 정적 CSS 로 뽑혀 런타임 비용이 없고, Next.js App Router 에서 그대로 써요.
+- **한국어 기본, 다국어 가능** — 기본 문구는 한국어, `LocaleProvider` 로 한 번에 바꿔요.
 
 - **`@bestow-ui/react`** — 테마(`ThemeProvider`)와 컴포넌트
 - **`@bestow-ui/icons`** — SVG 아이콘 컴포넌트 (기본 세트는 [Lucide](https://lucide.dev), ISC)
