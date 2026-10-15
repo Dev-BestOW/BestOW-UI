@@ -1,5 +1,16 @@
 # @bestow-ui/react
 
+## 0.8.1
+
+### Patch Changes
+
+- 159c13e: 접근성 대비 수정 — 라이트 테마 `fg.subtle`(= `palette.gray[600]`)을 `#868e96` → `#666e76` 으로 바꿔 흰색·gray50·gray100 배경에서 4.5:1 이상을 맞춘다
+  (helperText, placeholder, caption 등). RadioGroup 의 비활성 옵션은 컨트롤과 레이블만 흐리게 하고 설명 텍스트는 그대로 읽히게 한다.
+- 159c13e: tree-shaking 개선 — 컴포넌트 정의(`forwardRef`/`createContext`)에 `/* @__PURE__ */` 를 붙여, 쓰지 않는 컴포넌트와 그 Radix 의존성이
+  사용자 번들에서 빠지도록 했다. 예: `Button` 하나만 import 할 때 40 kB → 2.4 kB (minified + brotli).
+- Updated dependencies [159c13e]
+  - @bestow-ui/tokens@0.8.1
+
 ## 0.8.0
 
 ### Minor Changes
