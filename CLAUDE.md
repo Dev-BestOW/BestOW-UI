@@ -147,4 +147,6 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
 - 시각 회귀 기준 이미지(`apps/storybook/visual/__screenshots__/linux`)는 **Linux Docker 이미지에서만** 만든다(글꼴·렌더링 차이).
   `playwright`/`@playwright/test` 버전과 visual.yml 의 `mcr.microsoft.com/playwright:vX.Y.Z` 태그를 항상 같이 올린다.
   macOS 에서 돌리면 `__screenshots__/darwin` 에 따로 저장된다(커밋 안 함).
+- CI 러너는 `ubuntu-24.04` 로 고정했다 (`ubuntu-latest` 가 2026-10-19 부터 Ubuntu 26). 올릴 때는 모든 workflow 를 같이 바꾸고
+  `playwright install --with-deps` 가 새 OS 를 지원하는지 확인한다.
 - GitHub Actions `pull_request` 의 `branches`/`branches-ignore` 는 **base 브랜치** 기준이다. head 브랜치(예: changeset-release/**)로 거르려면 job 의 `if` 를 쓴다.

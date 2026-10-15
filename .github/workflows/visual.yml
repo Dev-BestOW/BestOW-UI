@@ -24,7 +24,7 @@ permissions:
 jobs:
   visual:
     name: Storybook screenshots
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     # playwright / @playwright/test 버전(apps/storybook/package.json)과 반드시 같은 태그를 쓴다
     container: mcr.microsoft.com/playwright:v1.64.0-noble
     permissions:
