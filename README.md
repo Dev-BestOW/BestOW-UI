@@ -101,3 +101,7 @@ pnpm release            # 빌드 후 npm 배포
 | `storybook.yml` | main push (패키지·앱 변경 시), 수동 | Storybook 과 예제 앱(정적 export)을 GitHub Pages 에 배포 |
 
 배포 흐름: 작업 브랜치에서 `pnpm changeset` → PR 머지 → 자동 생성된 버전 PR 머지 → npm 배포.
+
+## 라이선스
+
+[MIT](LICENSE) © Dev-BestOW. 단, `@bestow-ui/icons` 의 아이콘 그림은 Lucide 기반이라 [ISC](packages/icons/LICENSE) 예요.

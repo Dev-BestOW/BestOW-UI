@@ -1,14 +1,31 @@
 {
   "name": "@bestow-ui/react",
   "version": "0.8.2",
-  "description": "BestOW UI React components",
+  "description": "React components and theming for BestOW UI — vanilla-extract + Radix, light/dark and brand themes, accessible by default",
+  "keywords": [
+    "bestow-ui",
+    "design-system",
+    "react",
+    "components",
+    "ui",
+    "vanilla-extract",
+    "radix-ui",
+    "dark-mode",
+    "theming",
+    "accessibility",
+    "nextjs"
+  ],
   "license": "MIT",
+  "author": "Dev-BestOW",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dev-BestOW/BestOW-UI.git",
     "directory": "packages/react"
   },
   "homepage": "https://dev-bestow.github.io/BestOW-UI/",
+  "bugs": {
+    "url": "https://github.com/Dev-BestOW/BestOW-UI/issues"
+  },
   "publishConfig": {
     "access": "public"
   },

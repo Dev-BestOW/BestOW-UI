@@ -9,12 +9,10 @@
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-15 작업 종료 시점)
 
 **마지막 상태**
-- npm: react·tokens **0.8.1** (P3 1~4 와 대비·tree-shaking patch 까지 배포 완료, 버전 PR #11).
-- **시각 회귀 기준 이미지가 아직 없다.** Actions → Visual regression → Run workflow(main, update 체크)를 한 번 실행해야
-  `apps/storybook/visual/__screenshots__/linux` 가 봇 커밋으로 생긴다. 그 전까지 비교 단계는 경고만 내고 통과한다.
-- **P3-5 수정 완료 (커밋 e7e6e63, push 후 Release run 성공 — App 토큰 발급 단계 확인).** 원인은 봇(GITHUB_TOKEN) PR 의 workflow 승인 대기.
-  GitHub App `bestow-ui-release` 토큰으로 버전 PR 을 만들도록 바꿈. 사용자가 App 생성·설치, `RELEASE_APP_CLIENT_ID`(variable)·
-  `RELEASE_APP_PRIVATE_KEY`(secret) 등록 완료. **다음 버전 PR 에서 CI 가 승인 없이 실행되는지 확인** 필요.
+- npm: react **0.8.2**, tokens 0.8.1, icons 0.1.0. P1~P4 체크박스 모두 완료. 로컬 = origin/main (`eec98b8`).
+- **P3-5 동작 확인 완료:** 버전 PR #12 작성자가 `bestow-ui-release[bot]`, CI·Visual regression 이 승인 없이 실행돼 성공.
+- **시각 회귀 기준 이미지가 아직 없다 (사용자 작업 필요).** Actions → Visual regression → Run workflow(main, update 체크)를 한 번 실행해야
+  `apps/storybook/visual/__screenshots__/linux` 가 봇 커밋으로 생긴다. 그 전까지 비교 단계는 경고만 내고 통과한다(= 사실상 꺼져 있음).
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다 (Claude 는 커밋·push 하지 않음).
@@ -23,13 +21,7 @@
 3. 배포 버전 확인: `curl -s https://registry.npmjs.org/@bestow-ui%2freact | python3 -c "import json,sys;print(json.load(sys.stdin)['dist-tags'])"`
 4. `pnpm install && pnpm build` 후 아래 **다음 작업**부터 진행.
 
-- **P4 문서 완료, 커밋 전 (로컬 변경).** `apps/storybook/stories/Introduction.mdx`, `Tokens.stories.tsx`(Foundations/Design Tokens),
-  루트 `CONTRIBUTING.md`, README 정리. 새 스토리 6개가 생겨 **시각 회귀 기준 이미지 생성 시 함께 들어간다.**
-
-**다음 작업:** ① 다음 버전 PR 에서 P3-5 동작 확인(작성자가 `bestow-ui-release[bot]`, CI·Visual regression 이 바로 실행)
-→ ② 백로그에서 고르거나 새 컴포넌트.
-- **스토리 axe 다크 테마 검사 추가, 커밋 전** (`apps/storybook/vitest.config.ts`).
-- **Accordion `collapsible` 경고 수정, 커밋 전.** changeset `accordion-collapsible`(react patch).
+**다음 작업:** 아래 "P5. 다음 후보" 에서 우선순위대로 (사용자와 정한다).
 P2 컴포넌트를 더 만들 때: Radix 패키지는 올라온 지 24시간 넘은 버전을 고른다(pnpm minimumReleaseAge). `package.json` 을 바꾸기 전에
 origin 보다 뒤처져 있으면 먼저 `git pull` 을 요청한다(버전 PR 머지분과 충돌 방지).
 상호작용 테스트는 `@testing-library/user-event`(`userEvent.setup()`)로 쓰고, 핵심 테스트는 구현을 일부러 망가뜨려 실패하는지 확인한다
@@ -44,7 +36,7 @@ playground 에 사용 예 추가 후 브라우저 점검. 끝나면 이 섹션�
 |---|---|---|
 | `@bestow-ui/tokens` | 0.8.1 | palette, space, radius, font, shadow, duration, zIndex, light/dark 의미 색상 |
 | `@bestow-ui/icons` | 0.1.0 | 아이콘 57종 (Lucide 기반), SVG → 컴포넌트 생성 스크립트 |
-| `@bestow-ui/react` | 0.8.1 | ThemeProvider(light/dark + 브랜드 테마 `createTheme`/`overrides`), Button(`loading`), Typography, Stack, Input, TextField, Checkbox, Modal, Select, Tooltip, Toast, Switch, RadioGroup, Textarea, Spinner, Badge, Card, Divider, Avatar, Skeleton, Tabs, DropdownMenu, Popover, Accordion, Pagination |
+| `@bestow-ui/react` | 0.8.2 | ThemeProvider(light/dark + 브랜드 테마 `createTheme`/`overrides`), Button(`loading`), Typography, Stack, Input, TextField, Checkbox, Modal, Select, Tooltip, Toast, Switch, RadioGroup, Textarea, Spinner, Badge, Card, Divider, Avatar, Skeleton, Tabs, DropdownMenu, Popover, Accordion, Pagination |
 
 운영: CI(생성물 확인·lint·format·빌드·size·타입·테스트·스토리 렌더링+axe(라이트·다크)·Storybook·playground 빌드), 시각 회귀(visual.yml), changesets + npm Trusted Publishing(OIDC) 자동 배포,
 Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://dev-bestow.github.io/BestOW-UI/playground/
@@ -204,7 +196,21 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 
 ---
 
-## 백로그 / 알려진 이슈
+## P5. 다음 후보 (2026-10-15 정리, 순서는 추천 — 사용자와 확정)
+
+- [x] **npm 패키지 페이지 정리** (2026-10-15, 커밋 전) — 세 패키지에 README(영어 + 한국어, 사용자 선택)·LICENSE(MIT © Dev-BestOW, icons 는 기존 ISC 유지),
+  `keywords`·`author`·`bugs`·설명 보강, 루트 `LICENSE` 추가. changeset `npm-readme`(세 패키지 patch) — npm 페이지는 다음 배포부터 바뀐다.
+  icons 도 이번에 처음 CI 로 배포되어 provenance·GitHub Release 가 생긴다. (GitHub 저장소 About 의 설명·website·topics 는 비어 있음 — 사용자가 설정)
+- [ ] **시각 회귀 기준 이미지 생성** (사용자: Visual regression → Run workflow, update 체크). 없으면 시각 회귀가 동작하지 않는다.
+- [ ] **CI 러너 고정** — `ubuntu-latest` 가 2026-10-19 부터 Ubuntu 26 으로 바뀐다. ci/release/storybook 은 `playwright install --with-deps`
+  등 OS 패키지에 의존하므로 `ubuntu-24.04` 로 고정하고, 26 대응은 따로 확인한다. (visual.yml 은 컨테이너라 영향 적음)
+- [ ] **다크 모드 shadow** — shadow 토큰이 공통이라 다크에서 그림자가 안 보인다. `shadow` 를 라이트·다크 테마 값으로 옮기면
+  CSS 변수 이름(`--bestow-shadow-*`)은 그대로라 breaking 아님. Card elevated 의 다크 보완 테두리도 재검토.
+- [ ] **`warning` 의미 색** — 지금 intent 는 primary/neutral/danger/success 뿐. Badge·Toast·(향후) Alert 에 흔히 필요.
+- [ ] **새 컴포넌트 후보** — 자주 쓰는데 없는 것: Alert(Callout), IconButton, Link, Progress, Drawer(Sheet), Breadcrumb, Table, Slider, Combobox.
+- [ ] **기존 컴포넌트 보강** — DropdownMenu CheckboxItem/RadioItem/Sub, Tabs 세로 방향.
+
+
 
 - playground 브라우저 점검은 아직 일회성 스크립트(scratchpad)다. 반복 실행 가능한 E2E(playground 대상 Playwright)로 만들지는 필요해지면 검토.
 - react 번들 전체에 `"use client"` 가 붙어 있다. 서버 전용으로 쓸 수 있는 컴포넌트(Typography, Stack)를 별도 엔트리로 분리할지는 필요해지면 검토.
@@ -241,3 +247,4 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 | 2026-10-15 | P4 완료: Storybook Introduction(설치·설정·Next.js·다크 모드·브랜드 테마·아이콘·토큰 사용·접근성), Foundations/Design Tokens 스토리 6개, CONTRIBUTING.md, README 정리. 사이드바 순서 지정. 스토리 105개 axe 통과, 라이트·다크 화면 확인 |
 | 2026-10-15 | Accordion: `type="multiple"` 에 `collapsible` 이 섞여 오면(Storybook args 병합 등) Radix 가 DOM 으로 넘겨 React 경고 → 컴포넌트에서 제거. 회귀 테스트 추가(수정 전 실패 확인), react 154 테스트·스토리 105개 통과, 경고 사라짐 |
 | 2026-10-15 | 스토리 axe 를 라이트·다크 두 project 로 실행(210개 통과, 시간 약 2배). 다크 fg.muted 를 일부러 낮춰 다크 project 만 21개 실패하는 것 확인 후 원복 |
+| 2026-10-15 | npm 페이지 정리: 패키지별 README(영/한)·LICENSE, package.json 메타데이터, 루트 LICENSE. `npm pack --dry-run` 으로 README·LICENSE 포함 확인 |

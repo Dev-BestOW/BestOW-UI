@@ -1,14 +1,26 @@
 {
   "name": "@bestow-ui/tokens",
   "version": "0.8.1",
-  "description": "BestOW UI design tokens",
+  "description": "Design tokens for BestOW UI — colors, spacing, radius, typography, shadow, motion",
+  "keywords": [
+    "bestow-ui",
+    "design-system",
+    "design-tokens",
+    "tokens",
+    "colors",
+    "theme"
+  ],
   "license": "MIT",
+  "author": "Dev-BestOW",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dev-BestOW/BestOW-UI.git",
     "directory": "packages/tokens"
   },
   "homepage": "https://dev-bestow.github.io/BestOW-UI/",
+  "bugs": {
+    "url": "https://github.com/Dev-BestOW/BestOW-UI/issues"
+  },
   "publishConfig": {
     "access": "public"
   },

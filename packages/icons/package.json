@@ -1,14 +1,27 @@
 {
   "name": "@bestow-ui/icons",
   "version": "0.1.0",
-  "description": "BestOW UI icons as React components",
+  "description": "SVG icons as tree-shakable React components for BestOW UI (based on Lucide)",
+  "keywords": [
+    "bestow-ui",
+    "design-system",
+    "react",
+    "icons",
+    "svg",
+    "react-icons",
+    "lucide"
+  ],
   "license": "ISC",
+  "author": "Dev-BestOW",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Dev-BestOW/BestOW-UI.git",
     "directory": "packages/icons"
   },
   "homepage": "https://dev-bestow.github.io/BestOW-UI/",
+  "bugs": {
+    "url": "https://github.com/Dev-BestOW/BestOW-UI/issues"
+  },
   "publishConfig": {
     "access": "public"
   },
