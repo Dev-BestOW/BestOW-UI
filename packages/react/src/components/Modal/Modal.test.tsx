@@ -1,4 +1,6 @@
-import { fireEvent, render, screen } from '@testing-library/react';
+import { useState } from 'react';
+import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import { Modal, ModalClose } from './Modal';
 
 describe('Modal', () => {
@@ -32,5 +34,27 @@ describe('Modal', () => {
   it('hideCloseButton 이면 X 버튼이 없다', () => {
     render(<Modal defaultOpen hideCloseButton title="제목" />);
     expect(screen.queryByRole('button', { name: '닫기' })).toBeNull();
+  });
+
+  it('trigger 없이 open 으로 제어해도 닫히면 연 버튼으로 포커스가 돌아간다 (body 로 사라지지 않는다)', async () => {
+    const user = userEvent.setup();
+    function Controlled() {
+      const [open, setOpen] = useState(false);
+      return (
+        <>
+          <button type="button" onClick={() => setOpen(true)}>
+            코드로 열기
+          </button>
+          <Modal open={open} onOpenChange={setOpen} title="제목" />
+        </>
+      );
+    }
+    render(<Controlled />);
+    const opener = screen.getByRole('button', { name: '코드로 열기' });
+    await user.click(opener);
+    expect(screen.getByRole('dialog', { name: '제목' })).toBeTruthy();
+    await user.keyboard('{Escape}');
+    await waitFor(() => expect(screen.queryByRole('dialog')).toBeNull());
+    await waitFor(() => expect(document.activeElement).toBe(opener));
   });
 });

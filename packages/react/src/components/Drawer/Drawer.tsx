@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { XIcon } from '@bestow-ui/icons';
 import { usePortalProps } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
+import { useReturnFocus } from '../../utils/useReturnFocus';
 import { IconButton } from '../IconButton';
 import * as styles from './Drawer.css';
 
@@ -55,6 +56,7 @@ export function Drawer({
   className,
 }: DrawerProps) {
   const portal = usePortalProps();
+  const focus = useReturnFocus(Boolean(trigger));
 
   return (
     <Dialog.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
@@ -66,6 +68,8 @@ export function Drawer({
           style={portal.style}
           data-side={side ?? 'right'}
           onPointerDownOutside={closeOnOverlayClick ? undefined : (event) => event.preventDefault()}
+          onOpenAutoFocus={focus.onOpenAutoFocus}
+          onCloseAutoFocus={focus.onCloseAutoFocus}
           {...(description ? {} : { 'aria-describedby': undefined })}
         >
           <div className={styles.header}>

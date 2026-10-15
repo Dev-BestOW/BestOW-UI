@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import {
+  AddressInput,
   AgreementGroup,
   AmountInput,
   BusinessNumberInput,
@@ -187,6 +188,8 @@ export default function InteractivePage() {
 
       <Stack as="section" aria-label="정산 정보" gap={3} style={{ maxWidth: 400 }}>
         <BusinessNumberInput fullWidth />
+        {/* 기본 공급자: 카카오 우편번호 (검색을 누를 때 스크립트를 불러온다) */}
+        <AddressInput label="사업장 주소" />
         <AmountInput label="정산 금액" max={100000000} fullWidth />
       </Stack>
 

@@ -86,7 +86,9 @@ export const VerificationCodeInput = /* @__PURE__ */ forwardRef<HTMLInputElement
     const [remaining, setRemaining] = useState(expiresIn ?? 0);
     const expired = expiresIn !== undefined && remaining <= 0;
     const onExpireRef = useRef(onExpire);
-    onExpireRef.current = onExpire;
+    useEffect(() => {
+      onExpireRef.current = onExpire;
+    });
 
     useEffect(() => {
       if (endAt === null) return;

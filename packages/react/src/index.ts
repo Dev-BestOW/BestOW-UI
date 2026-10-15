@@ -1,5 +1,6 @@
 export * from './theme';
 export * from './components/Accordion';
+export * from './components/AddressInput';
 export * from './components/AgreementGroup';
 export * from './components/Alert';
 export * from './components/AmountInput';

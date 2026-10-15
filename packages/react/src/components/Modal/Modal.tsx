@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { XIcon } from '@bestow-ui/icons';
 import { usePortalProps } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
+import { useReturnFocus } from '../../utils/useReturnFocus';
 import * as styles from './Modal.css';
 
 export interface ModalProps {
@@ -30,6 +31,11 @@ export interface ModalProps {
   closeOnOverlayClick?: boolean;
   /** 내용 영역 className */
   className?: string;
+  /**
+   * 닫힐 때 포커스를 어디로 보낼지 정한다. 기본은 모달을 연 요소로 돌아간다.
+   * `event.preventDefault()` 후 원하는 요소에 focus() 하면 그쪽으로 보낸다 (예: 주소 선택 뒤 상세 주소 입력창).
+   */
+  onCloseAutoFocus?: (event: Event) => void;
 }
 
 export function Modal({
@@ -45,8 +51,10 @@ export function Modal({
   hideCloseButton = false,
   closeOnOverlayClick = true,
   className,
+  onCloseAutoFocus,
 }: ModalProps) {
   const portal = usePortalProps();
+  const focus = useReturnFocus(Boolean(trigger), onCloseAutoFocus);
 
   return (
     <Dialog.Root open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange}>
@@ -57,6 +65,8 @@ export function Modal({
           className={cx(portal.className, styles.content({ size }), className)}
           style={portal.style}
           onPointerDownOutside={closeOnOverlayClick ? undefined : (event) => event.preventDefault()}
+          onOpenAutoFocus={focus.onOpenAutoFocus}
+          onCloseAutoFocus={focus.onCloseAutoFocus}
           {...(description ? {} : { 'aria-describedby': undefined })}
         >
           <div className={styles.header}>
