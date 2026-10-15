@@ -9,13 +9,12 @@
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-15 작업 종료 시점)
 
 **마지막 상태**
-- npm: react **0.8.0** (P2-3 까지 배포 완료).
-- **P3 품질 자동화 1~4 완료, 커밋 전 (로컬 변경).** ESLint+Prettier(저장소 전체 포맷), 스토리 테스트(브라우저 렌더링 + axe) CI,
-  size-limit, 시각 회귀(Playwright Docker). changeset 2개: `subtle-contrast`(tokens·react patch — axe 가 찾은 대비 문제),
-  `tree-shaking`(react patch — size-limit 이 찾은 tree-shaking 문제).
-- **시각 회귀 기준 이미지가 아직 없다.** 커밋·push 후 Actions → Visual regression → Run workflow(main, update 체크)를 한 번 실행해야
+- npm: react·tokens **0.8.1** (P3 1~4 와 대비·tree-shaking patch 까지 배포 완료, 버전 PR #11).
+- **시각 회귀 기준 이미지가 아직 없다.** Actions → Visual regression → Run workflow(main, update 체크)를 한 번 실행해야
   `apps/storybook/visual/__screenshots__/linux` 가 봇 커밋으로 생긴다. 그 전까지 비교 단계는 경고만 내고 통과한다.
-- **P3-5(버전 PR CI ❌)는 사용자 확인 대기** — 아래 P3 항목 참고.
+- **P3-5 수정 완료, 커밋 전 (로컬 변경: `release.yml`).** 원인은 봇(GITHUB_TOKEN) PR 의 workflow 승인 대기.
+  GitHub App `bestow-ui-release` 토큰으로 버전 PR 을 만들도록 바꿈. 사용자가 App 생성·설치, `RELEASE_APP_CLIENT_ID`(variable)·
+  `RELEASE_APP_PRIVATE_KEY`(secret) 등록 완료. **다음 버전 PR 에서 CI 가 승인 없이 실행되는지 확인** 필요.
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다 (Claude 는 커밋·push 하지 않음).
@@ -24,7 +23,7 @@
 3. 배포 버전 확인: `curl -s https://registry.npmjs.org/@bestow-ui%2freact | python3 -c "import json,sys;print(json.load(sys.stdin)['dist-tags'])"`
 4. `pnpm install && pnpm build` 후 아래 **다음 작업**부터 진행.
 
-**다음 작업:** ① P3-5 원인 확인(사용자에게 버전 PR 의 CI 화면 메시지를 받아서) → ② P4 문서(Introduction.mdx → 디자인 토큰 페이지 → 기여 가이드).
+**다음 작업:** ① 다음 버전 PR 에서 P3-5 동작 확인(작성자가 `bestow-ui-release[bot]`, CI·Visual regression 이 바로 실행) → ② P4 문서(Introduction.mdx → 디자인 토큰 페이지 → 기여 가이드).
 P2 컴포넌트를 더 만들 때: Radix 패키지는 올라온 지 24시간 넘은 버전을 고른다(pnpm minimumReleaseAge). `package.json` 을 바꾸기 전에
 origin 보다 뒤처져 있으면 먼저 `git pull` 을 요청한다(버전 PR 머지분과 충돌 방지).
 상호작용 테스트는 `@testing-library/user-event`(`userEvent.setup()`)로 쓰고, 핵심 테스트는 구현을 일부러 망가뜨려 실패하는지 확인한다
@@ -37,9 +36,9 @@ playground 에 사용 예 추가 후 브라우저 점검. 끝나면 이 섹션�
 
 | 패키지 | 배포 버전 | 내용 |
 |---|---|---|
-| `@bestow-ui/tokens` | 0.2.0 | palette, space, radius, font, shadow, duration, zIndex, light/dark 의미 색상 |
+| `@bestow-ui/tokens` | 0.8.1 | palette, space, radius, font, shadow, duration, zIndex, light/dark 의미 색상 |
 | `@bestow-ui/icons` | 0.1.0 | 아이콘 57종 (Lucide 기반), SVG → 컴포넌트 생성 스크립트 |
-| `@bestow-ui/react` | 0.8.0 (다음: 대비·tree-shaking 수정 patch — 커밋 대기) | ThemeProvider(light/dark + 브랜드 테마 `createTheme`/`overrides`), Button(`loading`), Typography, Stack, Input, TextField, Checkbox, Modal, Select, Tooltip, Toast, Switch, RadioGroup, Textarea, Spinner, Badge, Card, Divider, Avatar, Skeleton, Tabs, DropdownMenu, Popover, Accordion, Pagination |
+| `@bestow-ui/react` | 0.8.1 | ThemeProvider(light/dark + 브랜드 테마 `createTheme`/`overrides`), Button(`loading`), Typography, Stack, Input, TextField, Checkbox, Modal, Select, Tooltip, Toast, Switch, RadioGroup, Textarea, Spinner, Badge, Card, Divider, Avatar, Skeleton, Tabs, DropdownMenu, Popover, Accordion, Pagination |
 
 운영: CI(생성물 확인·lint·format·빌드·size·타입·테스트·스토리 렌더링+axe·Storybook·playground 빌드), 시각 회귀(visual.yml), changesets + npm Trusted Publishing(OIDC) 자동 배포,
 Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://dev-bestow.github.io/BestOW-UI/playground/
@@ -173,10 +172,15 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
   모든 스토리를 라이트·다크로 찍어 비교(198장). `.github/workflows/visual.yml` 은 `mcr.microsoft.com/playwright:v1.64.0-noble` 컨테이너에서 실행,
   수동 실행 + update 로 기준 이미지 갱신·봇 커밋. 로컬(macOS)에서 2회 연속 동일, Badge 모양을 바꾸면 해당 스토리만 실패하는 것 확인.
   **기준 이미지(linux)는 아직 없음 — 위 "마지막 상태" 참고.**
-- [ ] **버전 PR 의 CI ❌ 정리** — 조사 결과: 버전 PR #7~#10 모두 CI run 이 `github-actions[bot]` 으로 생성되지만 **job 0개로 대기하다가
+- [x] **버전 PR 의 CI ❌ 정리** (2026-10-15, 다음 버전 PR 에서 동작 확인 필요) — 조사 결과: 버전 PR #7~#10 모두 CI run 이 `github-actions[bot]` 으로 생성되지만 **job 0개로 대기하다가
   PR 머지 순간 failure** 로 끝남(머지 시각과 1초 차). 코드 실패가 아니라 run 이 시작되지 못한 것. 봇이 만든 PR 의 workflow 승인 대기로 추정되나
   로그를 볼 수 없어 **사용자에게 버전 PR 의 Checks 화면 메시지 확인을 요청함.**
-  - 승인 대기라면: release.yml 에서 GitHub App 토큰(`actions/create-github-app-token`)으로 PR 을 만들면 CI 가 정상 실행된다(사용자가 App 생성·Secret 등록 필요).
+  - **확인됨:** run 화면 메시지 "This workflow run required approval but was not approved before it expired."
+  - **해결:** release.yml 이 `actions/create-github-app-token@v3`(`client-id` 입력 — `app-id` 는 deprecated)로 App 토큰을 받아
+    `changesets/action` 의 `github-token` 입력에 넘긴다(v2 는 `GITHUB_TOKEN` 환경 변수를 읽지 않는다). 커밋·태그는 API 로 push 되므로
+    checkout 토큰은 그대로, workflow `permissions` 는 `contents: read` + `id-token: write` 로 줄임.
+    App: `bestow-ui-release`(Contents·Pull requests 읽기/쓰기, BestOW-UI 에만 설치). 키는 App 설정 Credentials → **Key pairs** 탭
+    (예전 General 의 "Private keys"). Variable/Secret 은 **Repository** 범위(Environment 를 쓰면 npm Trusted Publisher 조건이 어긋남).
   - 주의: `pull_request.branches-ignore` 는 base 브랜치 기준이라 head 가 changeset-release/** 인 PR 을 거를 수 없다 → job `if` 로 거른다.
 
 ---
@@ -223,3 +227,4 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 | 2026-10-15 | P2-2 완료: Skeleton 구현, playground 상호작용 페이지에 "게시글 다시 불러오기"(Button loading + Skeleton + aria-busy) 예시. reducedMotion 정지·콘솔 경고 0 확인. 다음은 P2-3 Tabs |
 | 2026-10-15 | react 0.7.0 배포 확인. P2-3 완료: Tabs, DropdownMenu, Popover, Accordion, Pagination + playground `/navigation`. user-event 도입, 테스트 63개 추가(react 총 153), 핵심 테스트는 변이 확인. 라이트·다크+브랜드, 키보드, portal 색, reducedMotion, dev·prod 콘솔/hydration 경고 0 확인. 다음은 P3 |
 | 2026-10-15 | P3 1~4 완료: ESLint 9 + Prettier(전체 포맷), 스토리 테스트(addon-vitest, axe) CI, size-limit, 시각 회귀(Playwright Docker, 198장). 도입하며 발견·수정: fg.subtle 대비(3.32→5.18), RadioGroup 비활성 설명, tree-shaking(Button 40→2.4 kB). P3-5 는 원인 조사 후 사용자 확인 대기 |
+| 2026-10-15 | P3-5: 원인 확인(봇 PR workflow 승인 대기 → 만료). release.yml 을 GitHub App(`bestow-ui-release`) 토큰으로 변경, 사용자가 App·variable·secret 등록. 다음 버전 PR 에서 동작 확인 필요 |

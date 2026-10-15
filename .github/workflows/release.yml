@@ -4,6 +4,10 @@ name: Release
 # 그 PR 이 머지되면 npm 에 배포한다.
 # npm 인증은 토큰 없이 Trusted Publishing(OIDC)으로 한다.
 # pnpm 11 의 publish 가 OIDC 토큰 교환을 직접 처리한다 (pnpm 10 은 미지원).
+#
+# 버전 PR·커밋·태그·GitHub Release 는 GitHub App(bestow-ui-release) 토큰으로 만든다.
+# 기본 GITHUB_TOKEN 으로 만든 PR 은 CI 가 승인 대기로 멈추기 때문이다.
+# 필요한 설정: Repository variable RELEASE_APP_CLIENT_ID, Repository secret RELEASE_APP_PRIVATE_KEY.
 on:
   push:
     branches: [main]
@@ -13,8 +17,7 @@ concurrency:
   cancel-in-progress: false
 
 permissions:
-  contents: write
-  pull-requests: write
+  contents: read # 쓰기 작업은 모두 App 토큰으로 한다
   id-token: write # npm Trusted Publishing (OIDC) + provenance
 
 jobs:
@@ -22,15 +25,20 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/create-github-app-token@v3
+        id: app-token
+        with:
+          client-id: ${{ vars.RELEASE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+
       - uses: actions/checkout@v7
       - uses: ./.github/actions/setup
 
       - name: Create release PR or publish
         uses: changesets/action@v2
         with:
+          github-token: ${{ steps.app-token.outputs.token }}
           version-script: pnpm version-packages
           publish-script: pnpm release
           commit-message: 'chore: version packages'
           pr-title: 'chore: version packages'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
