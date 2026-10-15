@@ -34,6 +34,8 @@ export interface PopoverProps {
   className?: string;
   /** 팝오버 style (너비 지정 등) */
   style?: CSSProperties;
+  /** 열릴 때 포커스 처리. 기본은 내용의 첫 요소로 간다 — `event.preventDefault()` 후 원하는 요소에 focus() 할 수 있다 */
+  onOpenAutoFocus?: (event: Event) => void;
 }
 
 export function Popover({
@@ -51,6 +53,7 @@ export function Popover({
   modal,
   className,
   style,
+  onOpenAutoFocus,
 }: PopoverProps) {
   const portal = usePortalProps();
   const titleId = useId();
@@ -63,6 +66,7 @@ export function Popover({
           side={side}
           align={align}
           sideOffset={6}
+          onOpenAutoFocus={onOpenAutoFocus}
           collisionPadding={8}
           aria-labelledby={title ? titleId : undefined}
           aria-label={title ? undefined : ariaLabel}

@@ -87,7 +87,11 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
   서식 전후 문자열이 달라지는 입력으로 골라야 변이 확인이 됨. 함수 4종 공개). ~~주소 검색~~ (2026-10-15 완료, 커밋 전: `AddressInput`,
   공급자 교체형 `provider`, 기본 `kakaoPostcodeProvider` — 공식 가이드 확인 결과 현재 이름 `kakao.Postcode`·`t1.kakaocdn.net`,
   검색을 누를 때 스크립트 로드. **함께 발견·수정: trigger 없이 제어하는 Modal·Drawer 가 닫히면 포커스가 body 로 사라짐 → `useReturnFocus`**,
-  Modal `onCloseAutoFocus` 추가). 남은 것:
+  Modal `onCloseAutoFocus` 추가). ~~날짜 선택~~ (2026-10-15 완료, 커밋 전: `Calendar`(WAI-ARIA grid, 일요일 시작·일/공휴일 빨강·토 파랑,
+  키보드 ←→↑↓ Home/End PageUp/Down(+Shift 1년)), `DatePicker`(YYYY-MM-DD 입력 + 달력 Popover, 값은 'YYYY-MM-DD' 문자열, `today` 고정 prop).
+  **발견·수정: ① axe label-content-name-mismatch — 날짜 이름 "2026년 10월 15일 …" 은 보이는 "15" 를 낱말로 담지 않음 → "15, 2026년 10월 목요일"
+  (KWCAG 2.2 "레이블과 네임" 과 같은 항목) ② 제어 모드에서 올바른 날짜를 없는 날짜로 고치면 입력이 지워짐 → 가드 수정(변이 확인)**.
+  Popover `onOpenAutoFocus` 추가). 남은 것: (없음 — 키트 2차 완료)
   날짜 선택(한국어 표기, 선택적 공휴일), 주소 검색(Daum 우편번호 — 외부 스크립트라 별도 진입점/어댑터로, 코어 번들에 넣지 않음).
 - [ ] **P6-4. KWCAG 2.2 대응 근거 문서** — KS X OT0003:2022(4원칙·14지침·33검사항목) 항목별로 컴포넌트가 해 둔 것 / 사용자가 할 것 표.
   Storybook docs 에 컴포넌트별 키보드 조작표·스크린리더 메모. 표현은 "대응 근거" — "인증 보장" 금지. 항목 번호는 원문 PDF 로 확인.
@@ -192,3 +196,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-15 | P7 CSS 결정: styles.css 하나 유지(A), 컴포넌트별 선택 import(B)는 1.0 이후 minor 로. CSS 비중 측정(테마·공통 15%, 컴포넌트당 2~5%) |
 | 2026-10-15 | P6-3 일부: PhoneNumberInput·BusinessNumberInput·AmountInput + 서식 함수. 커서 유지 테스트를 jsdom → 실제 브라우저 play 로 옮기고 변이 확인(처음 고른 예시는 서식 전후가 같아 무의미했음) |
 | 2026-10-15 | P6-3 주소 검색: AddressInput(+카카오 우편번호 공급자, 가짜 공급자로 테스트). 테스트가 Modal·Drawer 제어 모드 포커스 유실 발견 → useReturnFocus 로 수정(변이 확인). |
+| 2026-10-15 | P6-3 날짜 선택: Calendar·DatePicker(+date 유틸). axe 가 날짜 버튼의 레이블-이름 불일치(WCAG 2.5.3) 발견 → 이름을 보이는 숫자로 시작. 제어 모드 입력 지워짐 버그 재현 테스트(덮어쓰기)로 찾아 수정. |

@@ -89,5 +89,8 @@ export function useFormattedInput({
     }
   };
 
-  return { raw, display, onChange, onKeyDown };
+  /** 원본 값을 직접 바꾼다 (비제어 모드에서 바깥 값과 맞출 때). onValueChange 는 부르지 않는다 */
+  const setRaw = (next: string) => setInnerValue(sanitize(next));
+
+  return { raw, display, onChange, onKeyDown, setRaw };
 }
