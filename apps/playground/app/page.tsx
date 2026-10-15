@@ -1,5 +1,6 @@
 // 서버 컴포넌트: 'use client' 없이 디자인 시스템을 import 해서 렌더링되는지 확인한다.
 import {
+  Alert,
   Avatar,
   Badge,
   Button,
@@ -74,6 +75,17 @@ export default function ServerPage() {
             점검 예정
           </Badge>
         </Stack>
+      </Stack>
+
+      <Stack gap={2}>
+        <Typography variant="h3">Alert</Typography>
+        <Alert title="점검 안내">9월 30일 새벽 2시부터 4시까지 서비스 점검이 있어요.</Alert>
+        <Alert color="warning" variant="outline" title="저장 공간이 부족해요">
+          남은 공간이 10% 미만이에요.
+        </Alert>
+        <Alert color="danger" variant="solid" title="결제에 실패했어요">
+          카드 정보를 확인한 뒤 다시 시도해 주세요.
+        </Alert>
       </Stack>
 
       <Stack gap={2}>

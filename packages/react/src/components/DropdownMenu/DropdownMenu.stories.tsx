@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { fn } from 'storybook/test';
 import { CopyIcon, EllipsisIcon, PencilIcon, ShareIcon, TrashIcon } from '@bestow-ui/icons';
 import { Button } from '../Button';
+import { IconButton } from '../IconButton';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -65,9 +66,9 @@ export const IconTrigger: Story = {
     <div style={{ display: 'flex', justifyContent: 'flex-end' }}>
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" color="neutral" aria-label="더보기">
-            <EllipsisIcon size={18} />
-          </Button>
+          <IconButton aria-label="더보기">
+            <EllipsisIcon />
+          </IconButton>
         </DropdownMenuTrigger>
         <DropdownMenuContent {...args}>
           <DropdownMenuItem>이름 바꾸기</DropdownMenuItem>

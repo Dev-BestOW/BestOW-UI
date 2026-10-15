@@ -12,8 +12,11 @@
 - npm: react **0.8.2**, tokens 0.8.1, icons 0.1.0. P1~P4 체크박스 모두 완료. 로컬 = origin/main (`eec98b8`).
 - **P3-5 동작 확인 완료:** 버전 PR #12 작성자가 `bestow-ui-release[bot]`, CI·Visual regression 이 승인 없이 실행돼 성공.
 - PR #13 머지 → react·tokens 0.8.3, icons 0.1.1 배포(npm README 반영). 시각 회귀 기준 이미지 생성됨(`de54b29`).
-- **커밋 전 로컬 변경:** 다크 shadow, warning 색 + 다크 hover 대비 수정 (changeset `dark-shadow`, `warning-color`).
+- 다크 shadow, warning 색 + 다크 hover 대비 수정 커밋됨(`02111c5`).
   다크 그림자·Card·Badge·Typography·Toast 스토리 화면이 바뀌므로 **push 후 Visual regression 이 실패한다 → 확인 후 update 로 기준 이미지 갱신.**
+- **Alert·IconButton 추가, 커밋 전** (changeset `alert`, `icon-button` — react minor). 새 스토리 + Tooltip/DropdownMenu/Icons 스토리 화면 변경
+  → push 후 Visual regression update 로 기준 이미지 갱신.
+- 번들 여유가 줄고 있다: react 전체 JS 50.6/55 kB, styles.css 21.4/23 kB. 컴포넌트를 몇 개 더 넣으면 한도 조정이 필요하다.
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다 (Claude 는 커밋·push 하지 않음).
@@ -209,7 +212,13 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
   CSS 변수 이름(`--bestow-shadow-*`)은 그대로라 breaking 아님. Card elevated 의 다크 보완 테두리도 재검토.
 - [x] **`warning` 의미 색** (2026-10-15, 커밋 전 — tokens `palette.amber`·`warning`, Badge/Typography/Toast/createIntentColors.
   함께 발견·수정: 다크 solidHover 흰 글자 대비 3.3~4.38 → 한 단계 어둡게, createIntentColors hover 도 대비 보장) — 지금 intent 는 primary/neutral/danger/success 뿐. Badge·Toast·(향후) Alert 에 흔히 필요.
-- [ ] **새 컴포넌트 후보** — 자주 쓰는데 없는 것: Alert(Callout), IconButton, Link, Progress, Drawer(Sheet), Breadcrumb, Table, Slider, Combobox.
+- [ ] **새 컴포넌트 후보** — ~~Alert~~·~~IconButton~~(2026-10-15 완료, 아래), 남은 것: Link, Progress, Drawer(Sheet), Breadcrumb, Table, Slider, Combobox.
+- [x] **Alert** (2026-10-15, 커밋 전) — `variant`(soft/outline/solid) × `color`(primary/neutral/success/warning/danger), `title`,
+  color 별 기본 아이콘(`icon` 교체·`false` 숨김, 감싸는 span 이 aria-hidden), `action`, `onClose`+`closeLabel`(닫기 버튼, hover 는 `color-mix(currentColor)`).
+  기본 role 없음 — 동적 메시지는 `role="alert"`/`"status"` (스토리 "동적으로 나타나는 메시지"). Radix 없이 직접 구현, 서버 컴포넌트에서 사용 가능.
+- [x] **IconButton** (2026-10-15, 커밋 전) — Button 을 감싸 정사각형(32/40/48) + 아이콘 크기 자동(16/20/24, `globalStyle` 로 svg 크기 지정),
+  `aria-label` 타입 필수(`@ts-expect-error` 테스트), 기본 ghost·neutral, `loading` 이면 아이콘 대신 스피너. Tooltip·DropdownMenu·Icons 스토리와
+  playground 헤더 다크 모드 토글을 IconButton 으로 교체. react-docgen 이 Omit 상속 타입을 못 풀어 주요 prop 을 직접 선언(CLAUDE.md 함정).
 - [ ] **기존 컴포넌트 보강** — DropdownMenu CheckboxItem/RadioItem/Sub, Tabs 세로 방향.
 
 
@@ -249,3 +258,5 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 | 2026-10-15 | npm 페이지 정리: 패키지별 README(영/한)·LICENSE, package.json 메타데이터, 루트 LICENSE. `npm pack --dry-run` 으로 README·LICENSE 포함 확인 |
 | 2026-10-15 | CI 러너 고정: ci/release/storybook/visual 의 `ubuntu-latest` → `ubuntu-24.04` (2026-10-19 Ubuntu 26 전환 대비). CLAUDE.md 함정에 기록 |
 | 2026-10-15 | 다크 shadow(`darkShadow` + ring, Card elevated 테두리 제거), warning 의미 색(amber, 대비 4.5 이상) 추가. 기본 intent 대비 테스트를 넣다가 다크 solidHover 대비 미달(3.3~4.38) 발견 → 수정, createIntentColors hover 도 대비 보장(이전 방식이면 #7c3aed 등 실패하는 것 확인). react 160 테스트·스토리 210개 통과 |
+| 2026-10-15 | Alert 구현(스토리 9개, 테스트 8개 — 아이콘 aria-hidden·닫기 버튼은 변이 확인), playground 서버 컴포넌트 페이지에 추가. 라이트·다크 axe 228개 통과, 키보드 닫기·RSC 렌더링·콘솔 경고 없음 확인 |
+| 2026-10-15 | IconButton 구현(테스트 6개 — loading 처리는 변이 확인, aria-label 필수는 타입 테스트), 아이콘 전용 Button 사용처 교체. Storybook "Control of type color" 경고 원인(react-docgen 의 Omit 상속 미해석) 찾아 해결. 라이트·다크 axe 238개 통과 |

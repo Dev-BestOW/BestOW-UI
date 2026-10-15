@@ -149,4 +149,6 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
   macOS 에서 돌리면 `__screenshots__/darwin` 에 따로 저장된다(커밋 안 함).
 - CI 러너는 `ubuntu-24.04` 로 고정했다 (`ubuntu-latest` 가 2026-10-19 부터 Ubuntu 26). 올릴 때는 모든 workflow 를 같이 바꾸고
   `playwright install --with-deps` 가 새 OS 를 지원하는지 확인한다.
+- Storybook 의 react-docgen 은 `Omit<ButtonProps, …>` 처럼 **다른 컴포넌트 props 를 물려받은 타입을 풀지 못한다** → 자동 문서에 타입이 비고,
+  `color` 같은 이름은 색상 선택기로 잘못 잡혀 "Control of type color only supports string" 경고가 난다. 주요 prop 은 직접 선언한다(IconButton 참고).
 - GitHub Actions `pull_request` 의 `branches`/`branches-ignore` 는 **base 브랜치** 기준이다. head 브랜치(예: changeset-release/**)로 거르려면 job 의 `if` 를 쓴다.

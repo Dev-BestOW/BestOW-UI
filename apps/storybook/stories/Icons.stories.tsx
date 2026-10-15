@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import * as icons from '@bestow-ui/icons';
 import type { Icon, IconProps } from '@bestow-ui/icons';
-import { Button, Stack, TextField, Tooltip, Typography, vars } from '@bestow-ui/react';
+import { Button, IconButton, Stack, TextField, Tooltip, Typography, vars } from '@bestow-ui/react';
 
 const iconEntries = Object.entries(icons).filter(
   (entry): entry is [string, Icon] => entry[0].endsWith('Icon') && typeof entry[1] === 'object',
@@ -116,9 +116,9 @@ export const UsageWithComponents: Story = {
         문서 열기
       </Button>
       <Tooltip content="삭제">
-        <Button variant="ghost" color="danger" aria-label="삭제">
-          <icons.TrashIcon size={18} />
-        </Button>
+        <IconButton color="danger" aria-label="삭제">
+          <icons.TrashIcon />
+        </IconButton>
       </Tooltip>
       <TextField aria-label="검색" placeholder="검색" startAdornment={<icons.SearchIcon size={16} />} />
     </Stack>

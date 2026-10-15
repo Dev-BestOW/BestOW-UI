@@ -4,6 +4,7 @@ import {
   Button,
   createIntentColors,
   createTheme,
+  IconButton,
   Stack,
   ThemeProvider,
   ToastProvider,
@@ -52,15 +53,13 @@ export function Providers({ children }: { children: ReactNode }) {
             <Button variant="outline" color="neutral" size="sm" onClick={() => setBranded((b) => !b)}>
               브랜드: {branded ? '보라' : '기본'}
             </Button>
-            <Button
-              variant="ghost"
-              color="neutral"
+            <IconButton
               size="sm"
               aria-label={mode === 'light' ? '다크 모드로 전환' : '라이트 모드로 전환'}
               onClick={() => setMode((m) => (m === 'light' ? 'dark' : 'light'))}
             >
-              {mode === 'light' ? <MoonIcon size={18} /> : <SunIcon size={18} />}
-            </Button>
+              {mode === 'light' ? <MoonIcon /> : <SunIcon />}
+            </IconButton>
           </Stack>
         </Stack>
         <main style={{ padding: 24, maxWidth: 960, margin: '0 auto' }}>{children}</main>

@@ -1,5 +1,8 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { SettingsIcon } from '@bestow-ui/icons';
 import { Button } from '../Button';
+// 스토리 이름(IconButton)과 겹치지 않게 별칭으로 가져온다
+import { IconButton as IconOnlyButton } from '../IconButton';
 import { Stack } from '../Stack';
 import { Tooltip } from './Tooltip';
 
@@ -48,9 +51,9 @@ export const IconButton: Story = {
   args: {
     content: '설정',
     children: (
-      <Button variant="ghost" color="neutral" aria-label="설정">
-        ⚙
-      </Button>
+      <IconOnlyButton aria-label="설정">
+        <SettingsIcon />
+      </IconOnlyButton>
     ),
   },
 };
