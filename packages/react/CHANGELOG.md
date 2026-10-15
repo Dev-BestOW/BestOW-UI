@@ -1,5 +1,15 @@
 # @bestow-ui/react
 
+## 0.8.3
+
+### Patch Changes
+
+- b511f80: npm 패키지 페이지 정리 — 각 패키지에 README(영어 + 한국어)와 LICENSE 파일을 넣고, `keywords`·`author`·`bugs`·설명을 보강했다.
+  코드 변경은 없다.
+- Updated dependencies [b511f80]
+  - @bestow-ui/tokens@0.8.3
+  - @bestow-ui/icons@0.1.1
+
 ## 0.8.2
 
 ### Patch Changes
