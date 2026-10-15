@@ -33,7 +33,8 @@ apps/
   workflows/ci.yml             PR·main: 아이콘 생성물 확인 → lint → format:check → build → size → typecheck → test
                                → test:stories(브라우저 렌더링 + axe, 라이트·다크) → build-storybook → build-playground
   workflows/visual.yml         PR·main: Playwright Docker 이미지에서 모든 스토리 라이트·다크 스크린샷 비교.
-                               수동 실행 + update 체크 → 기준 이미지 갱신 후 그 브랜치에 봇이 커밋
+                               새 스토리(기준 이미지 없음)는 자동 생성 → main push 면 봇이 커밋(--update-snapshots=missing).
+                               기존 화면이 바뀌면 실패 → 수동 실행 + update 체크 → 기준 이미지 갱신 후 그 브랜치에 봇이 커밋
   workflows/release.yml        main: changesets/action — 버전 PR 생성 또는 npm 배포 (OIDC)
   workflows/storybook.yml      main: Storybook + playground(정적 export, /playground/) 를 GitHub Pages 로 배포
                                → https://dev-bestow.github.io/BestOW-UI/ , …/BestOW-UI/playground/
