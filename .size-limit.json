@@ -4,20 +4,20 @@
     "path": "packages/react/dist/index.js",
     "import": "*",
     "ignore": ["react", "react-dom"],
-    "limit": "55 kB"
+    "limit": "65 kB"
   },
   {
     "name": "react: Button 하나 (JS) — tree-shaking 회귀 감시",
     "path": "packages/react/dist/index.js",
     "import": "{ Button }",
     "ignore": ["react", "react-dom"],
-    "limit": "3 kB"
+    "limit": "2 kB"
   },
   {
     "name": "react: styles.css",
     "path": "packages/react/dist/index.css",
     "rolldown": false,
-    "limit": "23 kB"
+    "limit": "28 kB"
   },
   {
     "name": "icons: 아이콘 하나",

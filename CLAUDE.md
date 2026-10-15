@@ -64,11 +64,14 @@ apps/
 - 오버레이(Popover, Menu 등)는 **Radix primitive** 위에 스타일만 입힌다. Portal 콘텐츠에는 `usePortalProps()` 의 className·style 을 붙이고,
   z-index 는 `vars.zIndex.*` 를 쓴다. 열림/닫힘 애니메이션은 `data-state` 셀렉터 + `reducedMotion` 에서 끈다.
 - 아이콘은 `@bestow-ui/icons` 에서 가져온다 (react 패키지 안에 SVG 를 새로 만들지 않는다).
+- 다른 컴포넌트로 렌더링하는 prop(`as={NextLink}`, `linkAs`)은 함수라 **서버 컴포넌트에서 넘길 수 없다**.
+  서버 컴포넌트에서도 쓰여야 하면 `asChild`(`@radix-ui/react-slot`)를 함께 제공한다(Link 참고).
 - 스토리: `tags: ['autodocs']`, Playground + 변형별 스토리. 모든 스토리는 CI 에서 라이트·다크 두 테마로 axe 검사를 통과해야 한다(대비 4.5:1 등).
   스크린샷에서 뺄 스토리는 `tags: ['!visual']`.
 - 테스트: 역할/라벨 기반(Testing Library), 접근성 속성 확인. 상호작용은 `@testing-library/user-event`(`userEvent.setup()`).
 - **최상위 `forwardRef(...)`/`createContext(...)` 에는 `/* @__PURE__ */` 를 붙인다** — 없으면 tree-shaking 이 깨져
-  Button 하나만 써도 전체 Radix 가 번들에 들어간다(size-limit 의 "Button 하나" 항목이 감시).
+  Button 하나만 써도 전체 Radix 가 번들에 들어간다(size-limit 의 "Button 하나" 항목이 감시, 한도 2 kB).
+  `.css.ts` 의 recipe() 호출은 `packages/react/tsup.config.ts` 의 `withPureRecipes` 가 빌드 때 자동으로 표시한다.
 - 새 컴포넌트는 `packages/react/src/index.ts` 에 export 를 추가한다.
 
 ### 아이콘 추가

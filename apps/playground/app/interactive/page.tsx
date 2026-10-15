@@ -8,6 +8,7 @@ import {
   Checkbox,
   Modal,
   ModalClose,
+  Progress,
   RadioGroup,
   Select,
   Skeleton,
@@ -29,6 +30,18 @@ export default function InteractivePage() {
   const [memo, setMemo] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [loadingPost, setLoadingPost] = useState(false);
+  const [upload, setUpload] = useState<number | null>(null);
+
+  const startUpload = () => {
+    setUpload(0);
+    const timer = setInterval(() => {
+      setUpload((v) => {
+        const next = Math.min(100, (v ?? 0) + 10);
+        if (next >= 100) clearInterval(timer);
+        return next;
+      });
+    }, 150);
+  };
 
   return (
     <Stack gap={6}>
@@ -138,6 +151,18 @@ export default function InteractivePage() {
             </>
           )}
         </Card>
+      </Stack>
+
+      <Stack gap={3} style={{ maxWidth: 400 }}>
+        <Progress
+          label={upload === 100 ? '업로드 완료' : 'report.pdf 업로드'}
+          value={upload ?? 0}
+          showValue
+          color={upload === 100 ? 'success' : 'primary'}
+        />
+        <Button variant="outline" color="neutral" onClick={startUpload} style={{ alignSelf: 'start' }}>
+          업로드 시작
+        </Button>
       </Stack>
 
       <Stack direction="row" gap={2} align="center">

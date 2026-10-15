@@ -5,6 +5,7 @@ import {
   createIntentColors,
   createTheme,
   IconButton,
+  Link,
   Stack,
   ThemeProvider,
   ToastProvider,
@@ -12,11 +13,8 @@ import {
   type ThemeName,
 } from '@bestow-ui/react';
 import { MoonIcon, SunIcon } from '@bestow-ui/icons';
-import Link from 'next/link';
+import NextLink from 'next/link';
 import { useState, type ReactNode } from 'react';
-
-// 디자인 시스템의 CSS 변수(--bestow-*)는 앱 코드에서도 그대로 쓸 수 있다.
-const linkStyle = { color: 'var(--bestow-color-primary-text)', textDecoration: 'none', fontWeight: 500 };
 
 const purple = createTheme(createIntentColors('primary', '#7c3aed'), { common: { radius: { md: '12px' } } });
 
@@ -39,13 +37,14 @@ export function Providers({ children }: { children: ReactNode }) {
             <Typography variant="h4" as="span">
               BestOW UI Playground
             </Typography>
-            <Link href="/" style={linkStyle}>
+            {/* 클라이언트 컴포넌트라 as 로 라우터 링크를 넘길 수 있다 (서버 컴포넌트에서는 asChild) */}
+            <Link as={NextLink} href="/" underline="hover">
               서버 컴포넌트
             </Link>
-            <Link href="/interactive" style={linkStyle}>
+            <Link as={NextLink} href="/interactive" underline="hover">
               상호작용
             </Link>
-            <Link href="/navigation" style={linkStyle}>
+            <Link as={NextLink} href="/navigation" underline="hover">
               탐색·오버레이
             </Link>
           </Stack>

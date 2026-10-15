@@ -3,15 +3,18 @@ import {
   Alert,
   Avatar,
   Badge,
+  Breadcrumb,
   Button,
   Card,
   CardBody,
   CardFooter,
   CardHeader,
   Divider,
+  Link,
   Stack,
   Typography,
 } from '@bestow-ui/react';
+import NextLink from 'next/link';
 import { BellIcon, CircleCheckIcon, SearchIcon, SettingsIcon, TriangleAlertIcon, UserIcon } from '@bestow-ui/icons';
 
 // 외부 요청 없이 이미지 로딩을 확인하기 위한 data URI
@@ -25,6 +28,7 @@ export default function ServerPage() {
   return (
     <Stack gap={6}>
       <Stack gap={2}>
+        <Breadcrumb items={[{ label: '홈', href: '/' }, { label: '예제', href: '/' }, { label: '서버 컴포넌트' }]} />
         <Typography variant="h1">서버 컴포넌트 페이지</Typography>
         <Typography color="muted">
           이 페이지는 서버 컴포넌트예요. Typography·Stack·Button 은 클라이언트 경계로, 아이콘은 서버에서 바로
@@ -75,6 +79,22 @@ export default function ServerPage() {
             점검 예정
           </Badge>
         </Stack>
+      </Stack>
+
+      <Stack gap={2}>
+        <Typography variant="h3">Link</Typography>
+        <Typography>
+          {/* 서버 컴포넌트에서는 함수(NextLink)를 prop 으로 넘길 수 없으므로 asChild 로 감싼다 */}
+          다음으로{' '}
+          <Link asChild>
+            <NextLink href="/interactive">상호작용 페이지</NextLink>
+          </Link>
+          를 보거나{' '}
+          <Link href="https://github.com/Dev-BestOW/BestOW-UI" external>
+            GitHub 저장소
+          </Link>
+          를 열어 보세요.
+        </Typography>
       </Stack>
 
       <Stack gap={2}>

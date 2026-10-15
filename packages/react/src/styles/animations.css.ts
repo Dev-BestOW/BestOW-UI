@@ -40,3 +40,9 @@ export const accordionUp = keyframes({
   from: { height: 'var(--radix-accordion-content-height)' },
   to: { height: 0 },
 });
+
+// Progress(값을 모를 때): 막대 조각이 트랙을 왼쪽에서 오른쪽으로 지나간다
+export const indeterminate = keyframes({
+  from: { transform: 'translateX(-100%)' },
+  to: { transform: 'translateX(250%)' },
+});

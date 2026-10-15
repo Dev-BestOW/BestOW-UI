@@ -4,7 +4,11 @@ import { useState } from 'react';
 import {
   Accordion,
   AccordionItem,
+  Breadcrumb,
   Button,
+  Checkbox,
+  Drawer,
+  DrawerClose,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -23,7 +27,8 @@ import {
   Typography,
   useToast,
 } from '@bestow-ui/react';
-import { CopyIcon, EllipsisIcon, PencilIcon, TrashIcon } from '@bestow-ui/icons';
+import NextLink from 'next/link';
+import { CopyIcon, EllipsisIcon, FilterIcon, PencilIcon, TrashIcon } from '@bestow-ui/icons';
 
 const posts = Array.from({ length: 48 }, (_, i) => `게시글 ${i + 1}`);
 const PAGE_SIZE = 5;
@@ -36,10 +41,11 @@ export default function NavigationPage() {
   return (
     <Stack gap={8}>
       <Stack gap={2}>
+        <Breadcrumb linkAs={NextLink} items={[{ label: '홈', href: '/' }, { label: '탐색·오버레이' }]} />
         <Typography variant="h1">탐색·오버레이 페이지</Typography>
         <Typography color="muted">
-          Tabs·DropdownMenu·Popover·Accordion·Pagination 을 확인해요. 메뉴와 팝오버는 portal 이라 테마를 따라가는지 함께
-          봐요.
+          Tabs·DropdownMenu·Popover·Drawer·Accordion·Pagination 을 확인해요. 메뉴와 팝오버는 portal 이라 테마를
+          따라가는지 함께 봐요.
         </Typography>
       </Stack>
 
@@ -124,6 +130,53 @@ export default function NavigationPage() {
           <Popover aria-label="요금 안내" showArrow side="top" content="Pro 플랜은 사용자당 월 9,900원이에요.">
             <Button variant="ghost">요금</Button>
           </Popover>
+        </Stack>
+      </Stack>
+
+      <Stack gap={3}>
+        <Typography variant="h3" as="h2">
+          Drawer
+        </Typography>
+        <Stack direction="row" gap={2}>
+          <Drawer
+            title="필터"
+            description="조건을 고르고 적용을 누르세요."
+            trigger={
+              <Button variant="outline" color="neutral" startIcon={<FilterIcon size={16} />}>
+                필터
+              </Button>
+            }
+            footer={
+              <>
+                <DrawerClose asChild>
+                  <Button variant="ghost" color="neutral">
+                    취소
+                  </Button>
+                </DrawerClose>
+                <DrawerClose asChild>
+                  <Button onClick={() => toast({ title: '필터를 적용했어요', variant: 'success' })}>적용</Button>
+                </DrawerClose>
+              </>
+            }
+          >
+            <Stack gap={3}>
+              <Checkbox label="판매 중" defaultChecked />
+              <Checkbox label="예약 중" />
+              <Checkbox label="판매 완료" />
+            </Stack>
+          </Drawer>
+          <Drawer
+            side="bottom"
+            size="sm"
+            title="공유하기"
+            trigger={
+              <Button variant="outline" color="neutral">
+                아래에서 열기
+              </Button>
+            }
+          >
+            <TextField label="링크" defaultValue="https://example.com/post/42" readOnly />
+          </Drawer>
         </Stack>
       </Stack>
 
