@@ -89,7 +89,7 @@ All tokens are plain CSS variables with stable names, so you can also override t
 | Feedback | `Alert`, `Progress`, `ToastProvider` + `useToast`, `Spinner`, `Skeleton`, `Badge` |
 | Overlays | `Modal`, `Drawer`, `Popover`, `Tooltip`, `DropdownMenu` |
 | Navigation | `Tabs`, `Accordion`, `Pagination`, `Breadcrumb` |
-| Display | `Avatar` |
+| Display | `Avatar`, `Table` |
 | Theming | `ThemeProvider`, `createTheme`, `createIntentColors`, `vars`, `useTheme`, `usePortalProps` |
 
 ## Links

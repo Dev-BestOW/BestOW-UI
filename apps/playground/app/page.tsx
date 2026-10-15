@@ -12,6 +12,12 @@ import {
   Divider,
   Link,
   Stack,
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow,
   Typography,
 } from '@bestow-ui/react';
 import NextLink from 'next/link';
@@ -79,6 +85,36 @@ export default function ServerPage() {
             점검 예정
           </Badge>
         </Stack>
+      </Stack>
+
+      <Stack gap={2}>
+        <Typography variant="h3">Table</Typography>
+        <Table caption="최근 결제" size="sm">
+          <TableHeader>
+            <TableRow>
+              <TableHead>번호</TableHead>
+              <TableHead>고객</TableHead>
+              <TableHead>상태</TableHead>
+              <TableHead align="right">금액</TableHead>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {[
+              ['INV-001', '김하늘', '결제 완료', 125000],
+              ['INV-002', '이바다', '대기', 48000],
+              ['INV-003', '박구름', '결제 완료', 310000],
+            ].map(([id, customer, status, amount]) => (
+              <TableRow key={id}>
+                <TableCell>{id}</TableCell>
+                <TableCell>{customer}</TableCell>
+                <TableCell>
+                  <Badge color={status === '대기' ? 'warning' : 'success'}>{status}</Badge>
+                </TableCell>
+                <TableCell align="right">{amount.toLocaleString('ko-KR')}원</TableCell>
+              </TableRow>
+            ))}
+          </TableBody>
+        </Table>
       </Stack>
 
       <Stack gap={2}>
