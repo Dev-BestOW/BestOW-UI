@@ -1,6 +1,6 @@
 {
   "name": "@bestow-ui/tokens",
-  "version": "0.8.3",
+  "version": "0.9.0",
   "description": "Design tokens for BestOW UI — colors, spacing, radius, typography, shadow, motion",
   "keywords": [
     "bestow-ui",

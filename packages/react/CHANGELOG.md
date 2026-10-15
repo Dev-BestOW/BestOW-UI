@@ -1,5 +1,47 @@
 # @bestow-ui/react
 
+## 0.9.0
+
+### Minor Changes
+
+- 368b6d5: Alert 컴포넌트 추가 — 페이지 안 안내 문구(callout). `variant`(soft/outline/solid) × `color`(primary/neutral/success/warning/danger),
+  `title`, color 별 기본 아이콘(`icon` 으로 교체, `false` 로 숨김), `action`, `onClose`(닫기 버튼, `closeLabel`).
+  기본으로 role 이 없고, 동적으로 나타나는 메시지는 `role="alert"`/`"status"` 를 넘긴다.
+- e63b3b1: Drawer 컴포넌트 추가 — 화면 가장자리에서 밀려 나오는 패널(시트). Modal 과 같은 API(`open`/`defaultOpen`/`onOpenChange`, `trigger`,
+  `title`, `description`, `footer`, `hideCloseButton`, `closeOnOverlayClick`) + `side`(right/left/top/bottom), `size`(sm/md/lg),
+  `DrawerClose`. Radix Dialog 기반(포커스 가두기·Esc·포커스 복귀), portal 에 테마·브랜드 오버라이드 적용, reducedMotion 시 애니메이션 끔.
+- 368b6d5: IconButton 컴포넌트 추가 — 아이콘만 있는 정사각형 버튼. Button 과 같은 `variant`·`color`·`size`·`loading`·`disabled` 를 받고
+  기본은 ghost·neutral. `aria-label` 은 타입에서 필수이고, 아이콘 크기는 size 에 맞춰 자동 조절된다(sm 16 · md 20 · lg 24px).
+- e63b3b1: Link·Breadcrumb 컴포넌트 추가.
+  
+  - Link — `color`(primary/neutral/inherit), `underline`(always 기본 — 색만으로 구분되지 않게 / hover), `external`(새 창 + `rel` +
+    아이콘 + 스크린리더용 "(새 창)", `externalLabel`). 라우터 링크는 클라이언트 컴포넌트에서 `as={NextLink}`,
+    서버 컴포넌트에서 `asChild`(`<Link asChild><NextLink href="/">홈</NextLink></Link>`).
+  - Breadcrumb — `items`(`{ label, href? }[]`), `nav` > `ol` 구조, 마지막 항목은 링크가 아닌 `aria-current="page"`, 장식용 구분 기호
+    (`separator` 로 변경), `linkAs` 로 라우터 링크, `aria-label`(기본 "이동 경로").
+  
+  `@radix-ui/react-slot` 의존성이 추가됐다.
+- e63b3b1: Progress 컴포넌트 추가 — `role="progressbar"` 진행 막대. `value`/`max`(범위 밖 값은 보정), 생략하면 진행률을 모르는 상태(움직이는 막대,
+  동작 줄이기 설정에서는 정지), `label`(이름) 또는 `aria-label`, `showValue`·`formatValue`(화면 표시와 aria-valuetext 에 함께 사용),
+  `size`(sm/md/lg), `color`. 막대는 intent 의 text 색을 써서 라이트·다크 모두 트랙과 3:1 이상 구분된다.
+- 02111c5: `warning` 의미 색 추가 — tokens 에 `palette.amber` 와 `lightColors`/`darkColors` 의 `warning` 그룹(라이트·다크 모두 대비 4.5:1 이상)을,
+  react 에 `--bestow-color-warning-*` CSS 변수와 Badge `color="warning"`, Typography `color="warning"`, Toast `variant: 'warning'`,
+  `createIntentColors('warning', hex)` 를 추가했다. 노란색이라 solid 위 글자는 어두운 색(gray900)이다.
+  
+  다크 모드 solid hover 대비 수정 — 다크의 primary·danger·success `solidHover` 가 흰 글자와 대비 4.5:1 미만(3.3~4.38)이라
+  한 단계 어두운 색으로 바꿨다. `createIntentColors` 도 hover 색이 글자 대비를 해치면 반대 방향(어둡게/밝게)으로 만들도록 고쳤다.
+
+### Patch Changes
+
+- 02111c5: 다크 모드 그림자 — 그림자 토큰을 모드별로 나눴다. tokens 에 `darkShadow`(`shadow` 와 같은 키)를 추가하고, react 테마는 다크 모드에서
+  이 값을 쓴다. 어두운 배경에서도 보이도록 더 진하게 하고, 떠 있는 면(md·lg)에는 가장자리를 구분하는 옅은 밝은 테두리(ring)를 넣었다.
+  CSS 변수 이름(`--bestow-shadow-*`)은 그대로다. 이에 맞춰 Card `elevated` 는 보완용 테두리를 빼고 그림자만 쓴다.
+- e63b3b1: tree-shaking 개선 — vanilla-extract recipe 가 만드는 스타일 함수 호출(createRuntimeFn)에 `/* @__PURE__ */` 를 붙이도록 빌드를 고쳤다.
+  이전에는 컴포넌트 하나만 import 해도 모든 컴포넌트의 recipe 가 번들에 남았다. 예: `Button` 하나 2.6 kB → 1.5 kB (minified + brotli).
+- Updated dependencies [02111c5]
+- Updated dependencies [02111c5]
+  - @bestow-ui/tokens@0.9.0
+
 ## 0.8.3
 
 ### Patch Changes
