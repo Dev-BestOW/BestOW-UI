@@ -2,6 +2,7 @@ import { forwardRef, type HTMLAttributes, type ReactNode } from 'react';
 import { CircleAlertIcon, CircleCheckIcon, InfoIcon, TriangleAlertIcon, XIcon } from '@bestow-ui/icons';
 import { cx } from '../../utils/cx';
 import * as styles from './Alert.css';
+import { useMessages } from '../../i18n/LocaleProvider';
 
 type AlertColor = 'primary' | 'neutral' | 'danger' | 'success' | 'warning';
 
@@ -36,9 +37,22 @@ export interface AlertProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color'
  * `role="status"`(일반 알림)를 넘긴다. 잠깐 떴다 사라지는 알림은 Toast 를 쓴다.
  */
 export const Alert = /* @__PURE__ */ forwardRef<HTMLDivElement, AlertProps>(function Alert(
-  { variant, color = 'primary', title, icon, action, onClose, closeLabel = '닫기', className, children, ...rest },
+  {
+    variant,
+    color = 'primary',
+    title,
+    icon,
+    action,
+    onClose,
+    closeLabel: closeLabelProp,
+    className,
+    children,
+    ...rest
+  },
   ref,
 ) {
+  const m = useMessages();
+  const closeLabel = closeLabelProp ?? m.close ?? '닫기';
   const DefaultIcon = defaultIcons[color];
   const iconNode = icon === undefined ? <DefaultIcon size={18} /> : icon;
 

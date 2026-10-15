@@ -3,6 +3,7 @@ import { forwardRef, type HTMLAttributes } from 'react';
 import { visuallyHidden } from '../../styles/visuallyHidden.css';
 import { cx } from '../../utils/cx';
 import * as styles from './Spinner.css';
+import { useMessages } from '../../i18n/LocaleProvider';
 
 export interface SpinnerProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'> {
   /** 크기 (sm 16px, md 20px, lg 28px) */
@@ -17,9 +18,11 @@ export interface SpinnerProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'col
 }
 
 export const Spinner = /* @__PURE__ */ forwardRef<HTMLSpanElement, SpinnerProps>(function Spinner(
-  { size, color, label = '로딩 중', className, ...rest },
+  { size, color, label: labelProp, className, ...rest },
   ref,
 ) {
+  const m = useMessages();
+  const label = labelProp ?? m.loading ?? '로딩 중';
   const a11y = label ? { role: 'status' } : { 'aria-hidden': true };
   return (
     <span ref={ref} className={cx(styles.spinner({ size, color }), className)} {...a11y} {...rest}>

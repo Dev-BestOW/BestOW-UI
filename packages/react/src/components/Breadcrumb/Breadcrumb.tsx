@@ -2,6 +2,7 @@ import { forwardRef, type ElementType, type HTMLAttributes, type ReactNode } fro
 import { ChevronRightIcon } from '@bestow-ui/icons';
 import { Link } from '../Link';
 import * as styles from './Breadcrumb.css';
+import { useMessages } from '../../i18n/LocaleProvider';
 
 export interface BreadcrumbItemData {
   /** 표시할 이름 */
@@ -28,9 +29,11 @@ export interface BreadcrumbProps extends HTMLAttributes<HTMLElement> {
  * 현재 페이지까지의 경로를 보여 주는 탐색. `<nav>` > `<ol>` 구조이고 마지막 항목에 `aria-current="page"` 를 붙인다.
  */
 export const Breadcrumb = /* @__PURE__ */ forwardRef<HTMLElement, BreadcrumbProps>(function Breadcrumb(
-  { items, linkAs, separator, 'aria-label': ariaLabel = '이동 경로', className, ...rest },
+  { items, linkAs, separator, 'aria-label': ariaLabelProp, className, ...rest },
   ref,
 ) {
+  const m = useMessages();
+  const ariaLabel = ariaLabelProp ?? m.breadcrumb ?? '이동 경로';
   const sep = separator ?? <ChevronRightIcon size={14} />;
   return (
     <nav ref={ref} aria-label={ariaLabel} className={className} {...rest}>

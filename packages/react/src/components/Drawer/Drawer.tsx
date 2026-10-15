@@ -6,6 +6,7 @@ import { cx } from '../../utils/cx';
 import { useReturnFocus } from '../../utils/useReturnFocus';
 import { IconButton } from '../IconButton';
 import * as styles from './Drawer.css';
+import { useMessages } from '../../i18n/LocaleProvider';
 
 export interface DrawerProps {
   /** 열림 상태 (제어 모드) */
@@ -56,6 +57,7 @@ export function Drawer({
   className,
 }: DrawerProps) {
   const portal = usePortalProps();
+  const m = useMessages();
   const focus = useReturnFocus(Boolean(trigger));
 
   return (
@@ -79,7 +81,7 @@ export function Drawer({
             </div>
             {!hideCloseButton && (
               <Dialog.Close asChild>
-                <IconButton aria-label="닫기" size="sm" className={styles.closeButton}>
+                <IconButton aria-label={m.close ?? '닫기'} size="sm" className={styles.closeButton}>
                   <XIcon />
                 </IconButton>
               </Dialog.Close>

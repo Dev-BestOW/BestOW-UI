@@ -7,6 +7,7 @@ import { Calendar } from '../Calendar';
 import { IconButton } from '../IconButton';
 import { TextField } from '../Input';
 import { Popover } from '../Popover';
+import { useMessages } from '../../i18n/LocaleProvider';
 
 export interface DatePickerProps {
   /** 날짜 'YYYY-MM-DD' (제어 모드). 비어 있으면 '' */
@@ -68,22 +69,28 @@ export const DatePicker = /* @__PURE__ */ forwardRef<HTMLInputElement, DatePicke
       isDateDisabled,
       isHoliday,
       today,
-      label = '날짜',
+      label: labelProp,
       helperText,
       error,
       required,
       disabled,
       fullWidth,
       placeholder = 'YYYY-MM-DD',
-      calendarLabel = '달력 열기',
-      invalidText = '올바른 날짜가 아니에요.',
-      unavailableText = '고를 수 없는 날짜예요.',
-      incompleteText = '날짜를 YYYY-MM-DD 형식으로 입력해 주세요.',
+      calendarLabel: calendarLabelProp,
+      invalidText: invalidTextProp,
+      unavailableText: unavailableTextProp,
+      incompleteText: incompleteTextProp,
       name,
       id,
       className,
     } = props;
     const inputRef = useRef<HTMLInputElement>(null);
+    const m = useMessages();
+    const label = labelProp ?? m.date ?? '날짜';
+    const calendarLabel = calendarLabelProp ?? m.openCalendar ?? '달력 열기';
+    const invalidText = invalidTextProp ?? m.dateInvalid ?? '올바른 날짜가 아니에요.';
+    const unavailableText = unavailableTextProp ?? m.dateUnavailable ?? '고를 수 없는 날짜예요.';
+    const incompleteText = incompleteTextProp ?? m.dateIncomplete ?? '날짜를 YYYY-MM-DD 형식으로 입력해 주세요.';
     const [open, setOpen] = useState(false);
     const [touched, setTouched] = useState(false);
     const isControlled = 'value' in props;
@@ -174,7 +181,7 @@ export const DatePicker = /* @__PURE__ */ forwardRef<HTMLInputElement, DatePicke
               onOpenChange={setOpen}
               modal
               align="end"
-              aria-label={calendarLabel.replace(/ 열기$/, '')}
+              aria-label={m.calendar ?? '달력'}
               // 달력이 선택된 날짜(없으면 오늘)로 직접 포커스를 옮긴다
               onOpenAutoFocus={(event) => event.preventDefault()}
               content={

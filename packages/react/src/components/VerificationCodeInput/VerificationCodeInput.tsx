@@ -4,6 +4,7 @@ import { mergeRefs } from '../../utils/mergeRefs';
 import { Button } from '../Button';
 import * as fieldStyles from '../Input/Input.css';
 import * as styles from './VerificationCodeInput.css';
+import { useMessages } from '../../i18n/LocaleProvider';
 
 export interface VerificationCodeInputProps {
   /** 자릿수 */
@@ -55,7 +56,7 @@ export const VerificationCodeInput = /* @__PURE__ */ forwardRef<HTMLInputElement
       onValueChange,
       onComplete,
       type = 'numeric',
-      label = '인증번호',
+      label: labelProp,
       helperText,
       error,
       disabled,
@@ -63,12 +64,16 @@ export const VerificationCodeInput = /* @__PURE__ */ forwardRef<HTMLInputElement
       expiresIn,
       onExpire,
       onResend,
-      resendText = '재전송',
-      expiredText = '인증 시간이 지났어요. 재전송해 주세요.',
+      resendText: resendTextProp,
+      expiredText: expiredTextProp,
       name,
       id,
       className,
     } = props;
+    const m = useMessages();
+    const label = labelProp ?? m.verificationCode ?? '인증번호';
+    const resendText = resendTextProp ?? m.resend ?? '재전송';
+    const expiredText = expiredTextProp ?? m.verificationExpired ?? '인증 시간이 지났어요. 재전송해 주세요.';
     const generatedId = useId();
     const inputId = id ?? generatedId;
     const helperId = `${inputId}-helper`;
@@ -129,7 +134,10 @@ export const VerificationCodeInput = /* @__PURE__ */ forwardRef<HTMLInputElement
       inputRef.current?.focus();
     };
 
-    const description = helperText ?? `${length}자리 ${type === 'numeric' ? '숫자' : '문자'}를 입력하세요.`;
+    const description =
+      helperText ??
+      m.verificationCodeHint?.(length, type) ??
+      `${length}자리 ${type === 'numeric' ? '숫자' : '문자'}를 입력하세요.`;
     const activeIndex = Math.min(code.length, length - 1);
 
     return (

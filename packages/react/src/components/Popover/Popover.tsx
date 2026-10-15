@@ -4,6 +4,7 @@ import { useId, type CSSProperties, type ReactElement, type ReactNode } from 're
 import { usePortalProps } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
 import * as styles from './Popover.css';
+import { useMessages } from '../../i18n/LocaleProvider';
 
 export interface PopoverProps {
   /** 팝오버 내용 */
@@ -56,6 +57,7 @@ export function Popover({
   onOpenAutoFocus,
 }: PopoverProps) {
   const portal = usePortalProps();
+  const m = useMessages();
   const titleId = useId();
 
   return (
@@ -81,7 +83,7 @@ export function Popover({
                 </h2>
               )}
               {showClose && (
-                <RadixPopover.Close className={styles.closeButton} aria-label="닫기">
+                <RadixPopover.Close className={styles.closeButton} aria-label={m.close ?? '닫기'}>
                   <XIcon size={16} />
                 </RadixPopover.Close>
               )}

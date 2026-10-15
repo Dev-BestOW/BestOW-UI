@@ -17,6 +17,7 @@ import { mergeRefs } from '../../utils/mergeRefs';
 import * as fieldStyles from '../Input/Input.css';
 import * as selectStyles from '../Select/Select.css';
 import * as styles from './Combobox.css';
+import { useMessages } from '../../i18n/LocaleProvider';
 
 export interface ComboboxOption {
   value: string;
@@ -73,7 +74,7 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
     defaultValue,
     onValueChange,
     filter = defaultFilter,
-    emptyMessage = '결과가 없어요',
+    emptyMessage: emptyMessageProp,
     placeholder,
     label,
     helperText,
@@ -85,9 +86,12 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
     name,
     id,
     'aria-label': ariaLabel,
-    toggleLabel = '목록 열기',
+    toggleLabel: toggleLabelProp,
     className,
   } = props;
+  const m = useMessages();
+  const emptyMessage = emptyMessageProp ?? m.noResults ?? '결과가 없어요';
+  const toggleLabel = toggleLabelProp ?? m.openList ?? '목록 열기';
   const generatedId = useId();
   const inputId = id ?? generatedId;
   const labelId = `${inputId}-label`;

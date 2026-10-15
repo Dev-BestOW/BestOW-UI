@@ -1,4 +1,5 @@
 export * from './theme';
+export * from './i18n';
 export * from './components/Accordion';
 export * from './components/AddressInput';
 export * from './components/AgreementGroup';

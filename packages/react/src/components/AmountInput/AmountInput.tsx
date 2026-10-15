@@ -5,6 +5,7 @@ import { formatKoreanAmount } from '../../utils/koreanFormat';
 import { useFormattedInput } from '../../utils/useFormattedInput';
 import { TextField, type TextFieldProps } from '../Input';
 import * as styles from './AmountInput.css';
+import { useMessages } from '../../i18n/LocaleProvider';
 
 export interface AmountInputProps extends Omit<
   TextFieldProps,
@@ -41,9 +42,9 @@ export const AmountInput = /* @__PURE__ */ forwardRef<HTMLInputElement, AmountIn
       defaultValue,
       onValueChange,
       max,
-      unit = '원',
+      unit: unitProp,
       showKoreanAmount = true,
-      label = '금액',
+      label: labelProp,
       placeholder = '0',
       helperText,
       onKeyDown,
@@ -51,6 +52,9 @@ export const AmountInput = /* @__PURE__ */ forwardRef<HTMLInputElement, AmountIn
       ...rest
     } = props;
     const inputRef = useRef<HTMLInputElement>(null);
+    const m = useMessages();
+    const unit = unitProp ?? m.currencyUnit ?? '원';
+    const label = labelProp ?? m.amount ?? '금액';
 
     const sanitize = (input: string) => {
       let digits = input

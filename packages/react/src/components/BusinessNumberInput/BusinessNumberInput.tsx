@@ -3,6 +3,7 @@ import { mergeRefs } from '../../utils/mergeRefs';
 import { formatBusinessNumber, isValidBusinessNumber } from '../../utils/koreanFormat';
 import { useFormattedInput } from '../../utils/useFormattedInput';
 import { TextField, type TextFieldProps } from '../Input';
+import { useMessages } from '../../i18n/LocaleProvider';
 
 export interface BusinessNumberInputProps extends Omit<
   TextFieldProps,
@@ -37,8 +38,8 @@ export const BusinessNumberInput = /* @__PURE__ */ forwardRef<HTMLInputElement, 
       defaultValue,
       onValueChange,
       validate = true,
-      invalidText = '올바른 사업자등록번호가 아니에요. 번호를 다시 확인해 주세요.',
-      label = '사업자등록번호',
+      invalidText: invalidTextProp,
+      label: labelProp,
       placeholder = '000-00-00000',
       error,
       helperText,
@@ -47,6 +48,11 @@ export const BusinessNumberInput = /* @__PURE__ */ forwardRef<HTMLInputElement, 
       ...rest
     } = props;
     const inputRef = useRef<HTMLInputElement>(null);
+    const m = useMessages();
+    const invalidText =
+      invalidTextProp ?? m.businessNumberInvalid ?? '올바른 사업자등록번호가 아니에요. 번호를 다시 확인해 주세요.';
+    const label = labelProp ?? m.businessNumber ?? '사업자등록번호';
+    const incompleteText = m.businessNumberIncomplete ?? '10자리를 모두 입력해 주세요.';
     // 입력 중에는 오류를 띄우지 않고, 10자리를 채웠거나 입력창을 벗어난 뒤에 보여 준다
     const [touched, setTouched] = useState(false);
     const field = useFormattedInput({
@@ -80,7 +86,7 @@ export const BusinessNumberInput = /* @__PURE__ */ forwardRef<HTMLInputElement, 
           onBlur?.(event);
         }}
         error={error ?? autoInvalid}
-        helperText={showAuto ? (complete ? invalidText : '10자리를 모두 입력해 주세요.') : helperText}
+        helperText={showAuto ? (complete ? invalidText : incompleteText) : helperText}
         {...rest}
       />
     );

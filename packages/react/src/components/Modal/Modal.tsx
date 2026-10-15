@@ -5,6 +5,7 @@ import { usePortalProps } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
 import { useReturnFocus } from '../../utils/useReturnFocus';
 import * as styles from './Modal.css';
+import { useMessages } from '../../i18n/LocaleProvider';
 
 export interface ModalProps {
   /** 열림 상태 (제어 모드) */
@@ -54,6 +55,7 @@ export function Modal({
   onCloseAutoFocus,
 }: ModalProps) {
   const portal = usePortalProps();
+  const m = useMessages();
   const focus = useReturnFocus(Boolean(trigger), onCloseAutoFocus);
 
   return (
@@ -75,7 +77,7 @@ export function Modal({
               {description && <Dialog.Description className={styles.description}>{description}</Dialog.Description>}
             </div>
             {!hideCloseButton && (
-              <Dialog.Close className={styles.closeButton} aria-label="닫기">
+              <Dialog.Close className={styles.closeButton} aria-label={m.close ?? '닫기'}>
                 <XIcon size={16} />
               </Dialog.Close>
             )}

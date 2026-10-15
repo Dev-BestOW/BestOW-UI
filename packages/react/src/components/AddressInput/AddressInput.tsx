@@ -7,6 +7,7 @@ import { Modal } from '../Modal';
 import { Spinner } from '../Spinner';
 import { kakaoPostcodeProvider, type AddressProvider, type AddressSearchResult } from './addressProviders';
 import * as styles from './AddressInput.css';
+import { useMessages } from '../../i18n/LocaleProvider';
 
 export interface AddressValue {
   /** 우편번호 */
@@ -51,10 +52,12 @@ function SearchArea({
   provider,
   onSelect,
   loadErrorText,
+  loadingText,
 }: {
   provider: AddressProvider;
   onSelect: (result: AddressSearchResult) => void;
   loadErrorText: string;
+  loadingText: string;
 }) {
   const containerRef = useRef<HTMLDivElement>(null);
   const [status, setStatus] = useState<'loading' | 'ready' | 'error'>('loading');
@@ -90,7 +93,7 @@ function SearchArea({
       <div ref={containerRef} style={{ width: '100%', height: '100%' }} />
       {status !== 'ready' && (
         <div className={styles.searchStatus} role="status">
-          {status === 'loading' ? <Spinner label="주소 검색을 불러오는 중" /> : loadErrorText}
+          {status === 'loading' ? <Spinner label={loadingText} /> : loadErrorText}
         </div>
       )}
     </div>
@@ -107,18 +110,24 @@ export const AddressInput = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, Addr
       value,
       defaultValue,
       onValueChange,
-      label = '주소',
+      label: labelProp,
       required,
       helperText,
       error,
       disabled,
       provider = kakaoPostcodeProvider,
-      searchLabel = '주소 검색',
-      detailPlaceholder = '상세 주소 (동·호수 등)',
-      loadErrorText = '주소 검색을 불러오지 못했어요. 잠시 뒤 다시 시도해 주세요.',
+      searchLabel: searchLabelProp,
+      detailPlaceholder: detailPlaceholderProp,
+      loadErrorText: loadErrorTextProp,
       name,
       className,
     } = props;
+    const m = useMessages();
+    const label = labelProp ?? m.address ?? '주소';
+    const searchLabel = searchLabelProp ?? m.addressSearch ?? '주소 검색';
+    const detailPlaceholder = detailPlaceholderProp ?? m.detailAddressPlaceholder ?? '상세 주소 (동·호수 등)';
+    const loadErrorText =
+      loadErrorTextProp ?? m.addressLoadError ?? '주소 검색을 불러오지 못했어요. 잠시 뒤 다시 시도해 주세요.';
     const baseId = useId();
     const helperId = helperText ? `${baseId}-helper` : undefined;
     const detailRef = useRef<HTMLInputElement>(null);
@@ -166,10 +175,10 @@ export const AddressInput = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, Addr
         </legend>
         <div className={styles.row}>
           <TextField
-            aria-label="우편번호"
+            aria-label={m.postalCode ?? '우편번호'}
             readOnly
             value={current.zonecode}
-            placeholder="우편번호"
+            placeholder={m.postalCode ?? '우편번호'}
             error={error && !current.zonecode}
             aria-required={required || undefined}
             rootClassName={styles.zonecode}
@@ -180,10 +189,10 @@ export const AddressInput = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, Addr
           </Button>
         </div>
         <TextField
-          aria-label="기본 주소"
+          aria-label={m.baseAddress ?? '기본 주소'}
           readOnly
           value={fullAddress}
-          placeholder={`${searchLabel}을 눌러 주소를 고르세요`}
+          placeholder={m.baseAddressPlaceholder ?? `${searchLabel}을 눌러 주소를 고르세요`}
           error={error && !current.address}
           aria-required={required || undefined}
           fullWidth
@@ -191,7 +200,7 @@ export const AddressInput = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, Addr
         />
         <TextField
           ref={detailRef}
-          aria-label="상세 주소"
+          aria-label={m.detailAddress ?? '상세 주소'}
           value={current.detail}
           placeholder={detailPlaceholder}
           onChange={(event) => update({ ...current, detail: event.target.value })}
@@ -214,7 +223,7 @@ export const AddressInput = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, Addr
           open={open}
           onOpenChange={setOpen}
           title={searchLabel}
-          description="도로명, 건물명, 지번으로 검색할 수 있어요."
+          description={m.addressSearchDescription ?? '도로명, 건물명, 지번으로 검색할 수 있어요.'}
           onCloseAutoFocus={(event) => {
             // 주소를 골랐으면 상세 주소 입력창으로, 그냥 닫았으면 원래 버튼으로 포커스를 보낸다
             if (selectedRef.current) {
@@ -223,7 +232,12 @@ export const AddressInput = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, Addr
             }
           }}
         >
-          <SearchArea provider={provider} onSelect={handleSelect} loadErrorText={loadErrorText} />
+          <SearchArea
+            provider={provider}
+            onSelect={handleSelect}
+            loadErrorText={loadErrorText}
+            loadingText={m.addressLoading ?? '주소 검색을 불러오는 중'}
+          />
         </Modal>
       </fieldset>
     );

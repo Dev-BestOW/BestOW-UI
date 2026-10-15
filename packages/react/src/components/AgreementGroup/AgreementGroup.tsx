@@ -4,6 +4,7 @@ import { cx } from '../../utils/cx';
 import { Checkbox } from '../Checkbox';
 import * as fieldStyles from '../Input/Input.css';
 import * as styles from './AgreementGroup.css';
+import { useMessages } from '../../i18n/LocaleProvider';
 
 export interface AgreementItem {
   value: string;
@@ -59,17 +60,23 @@ export const AgreementGroup = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, Ag
       defaultValue,
       onValueChange,
       label,
-      allLabel = '전체 동의',
+      allLabel: allLabelProp,
       helperText,
       error,
       disabled,
-      requiredText = '필수',
-      optionalText = '선택',
-      showText = '보기',
-      hideText = '접기',
+      requiredText: requiredTextProp,
+      optionalText: optionalTextProp,
+      showText: showTextProp,
+      hideText: hideTextProp,
       name,
       className,
     } = props;
+    const m = useMessages();
+    const allLabel = allLabelProp ?? m.agreeAll ?? '전체 동의';
+    const requiredText = requiredTextProp ?? m.required ?? '필수';
+    const optionalText = optionalTextProp ?? m.optional ?? '선택';
+    const showText = showTextProp ?? m.show ?? '보기';
+    const hideText = hideTextProp ?? m.hide ?? '접기';
     const baseId = useId();
     const helperId = helperText ? `${baseId}-helper` : undefined;
 

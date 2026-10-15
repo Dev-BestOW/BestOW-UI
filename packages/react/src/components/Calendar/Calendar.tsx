@@ -14,6 +14,7 @@ import {
 } from '../../utils/date';
 import { IconButton } from '../IconButton';
 import * as styles from './Calendar.css';
+import { useMessages } from '../../i18n/LocaleProvider';
 
 export interface CalendarProps {
   /** 선택된 날짜 'YYYY-MM-DD' (제어 모드) */
@@ -55,10 +56,15 @@ export const Calendar = /* @__PURE__ */ forwardRef<HTMLDivElement, CalendarProps
     isHoliday,
     today: todayProp,
     initialFocus,
-    prevMonthLabel = '이전 달',
-    nextMonthLabel = '다음 달',
+    prevMonthLabel: prevMonthLabelProp,
+    nextMonthLabel: nextMonthLabelProp,
     className,
   } = props;
+  const m = useMessages();
+  const prevMonthLabel = prevMonthLabelProp ?? m.previousMonth ?? '이전 달';
+  const nextMonthLabel = nextMonthLabelProp ?? m.nextMonth ?? '다음 달';
+  const weekdaysShort = m.weekdaysShort ?? KOREAN_WEEKDAYS;
+  const weekdaysLong = m.weekdaysLong ?? KOREAN_WEEKDAYS.map((name) => `${name}요일`);
   const headingId = useId();
   const gridRef = useRef<HTMLTableElement>(null);
 
@@ -149,7 +155,8 @@ export const Calendar = /* @__PURE__ */ forwardRef<HTMLDivElement, CalendarProps
         </IconButton>
         {/* 달이 바뀌면 스크린리더가 새 달을 읽는다 */}
         <div id={headingId} className={styles.heading} aria-live="polite">
-          {visible.getFullYear()}년 {visible.getMonth() + 1}월
+          {m.monthTitle?.(visible.getFullYear(), visible.getMonth() + 1) ??
+            `${visible.getFullYear()}년 ${visible.getMonth() + 1}월`}
         </div>
         <IconButton
           aria-label={nextMonthLabel}
@@ -163,8 +170,8 @@ export const Calendar = /* @__PURE__ */ forwardRef<HTMLDivElement, CalendarProps
       <table ref={gridRef} role="grid" aria-labelledby={headingId} className={styles.grid} onKeyDown={handleKeyDown}>
         <thead>
           <tr>
-            {KOREAN_WEEKDAYS.map((name, index) => (
-              <th key={name} scope="col" abbr={`${name}요일`} className={styles.weekday} data-weekday={index}>
+            {weekdaysShort.map((name, index) => (
+              <th key={index} scope="col" abbr={weekdaysLong[index]} className={styles.weekday} data-weekday={index}>
                 {name}
               </th>
             ))}
@@ -183,9 +190,10 @@ export const Calendar = /* @__PURE__ */ forwardRef<HTMLDivElement, CalendarProps
                 // 이름은 화면에 보이는 숫자로 시작해야 한다 (WCAG 2.5.3 / KWCAG 2.2 "레이블과 네임") — "15일 …" 이면
                 // 보이는 "15" 가 낱말로 들어 있지 않아 음성 명령("15 누르기")으로 찾을 수 없다
                 const label = [
-                  `${date.getDate()}, ${date.getFullYear()}년 ${date.getMonth() + 1}월 ${KOREAN_WEEKDAYS[date.getDay()]}요일`,
-                  holiday && '공휴일',
-                  isToday && '오늘',
+                  m.dayLabel?.(date, weekdaysLong[date.getDay()]!) ??
+                    `${date.getDate()}, ${date.getFullYear()}년 ${date.getMonth() + 1}월 ${weekdaysLong[date.getDay()]}`,
+                  holiday && (m.holiday ?? '공휴일'),
+                  isToday && (m.today ?? '오늘'),
                 ]
                   .filter(Boolean)
                   .join(', ');

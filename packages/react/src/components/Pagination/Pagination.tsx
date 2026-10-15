@@ -3,11 +3,9 @@ import { forwardRef, useState, type HTMLAttributes } from 'react';
 import { cx } from '../../utils/cx';
 import { getPaginationItems } from './getPaginationItems';
 import * as styles from './Pagination.css';
+import { useMessages } from '../../i18n/LocaleProvider';
 
 type ItemType = 'previous' | 'next' | 'page';
-
-const defaultItemLabel = (type: ItemType, page: number) =>
-  type === 'previous' ? '이전 페이지' : type === 'next' ? '다음 페이지' : `${page} 페이지`;
 
 export interface PaginationProps extends Omit<HTMLAttributes<HTMLElement>, 'onChange'> {
   /** 전체 페이지 수. 1 미만이면 아무것도 렌더링하지 않는다 */
@@ -37,14 +35,24 @@ export const Pagination = /* @__PURE__ */ forwardRef<HTMLElement, PaginationProp
     siblingCount = 1,
     boundaryCount = 1,
     size,
-    getItemLabel = defaultItemLabel,
+    getItemLabel: getItemLabelProp,
     className,
-    'aria-label': ariaLabel = '페이지 탐색',
+    'aria-label': ariaLabelProp,
     ...rest
   },
   ref,
 ) {
   const [uncontrolledPage, setUncontrolledPage] = useState(defaultPage);
+  const m = useMessages();
+  const ariaLabel = ariaLabelProp ?? m.pagination ?? '페이지 탐색';
+  const getItemLabel =
+    getItemLabelProp ??
+    ((type: ItemType, n: number) =>
+      type === 'previous'
+        ? (m.paginationPrevious ?? '이전 페이지')
+        : type === 'next'
+          ? (m.paginationNext ?? '다음 페이지')
+          : (m.paginationPage?.(n) ?? `${n} 페이지`));
   if (totalPages < 1) return null;
 
   const page = Math.min(Math.max(pageProp ?? uncontrolledPage, 1), totalPages);

@@ -2,6 +2,7 @@ import * as RadixSlider from '@radix-ui/react-slider';
 import { forwardRef, useId, useState, type ReactNode } from 'react';
 import { cx } from '../../utils/cx';
 import * as styles from './Slider.css';
+import { useMessages } from '../../i18n/LocaleProvider';
 
 export interface SliderProps {
   /** 값 (제어 모드). 손잡이 하나면 `[50]`, 범위면 `[20, 80]` */
@@ -56,13 +57,15 @@ export const Slider = /* @__PURE__ */ forwardRef<HTMLSpanElement, SliderProps>(f
     helperText,
     showValue,
     formatValue = String,
-    thumbLabels = ['최소', '최대'],
+    thumbLabels: thumbLabelsProp,
     size,
     id,
     className,
     disabled,
     ...rest
   } = props;
+  const m = useMessages();
+  const thumbLabels = thumbLabelsProp ?? [m.rangeStart ?? '최소', m.rangeEnd ?? '최대'];
   const generatedId = useId();
   const baseId = id ?? generatedId;
   const labelId = `${baseId}-label`;

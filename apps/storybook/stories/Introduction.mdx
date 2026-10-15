@@ -145,6 +145,20 @@ ThemeProvider 없이 CSS 만으로도 바꿀 수 있어요. 변수 이름(`--bes
 - 미리보기는 [Foundations › Theming](?path=/story/foundations-theming--playground),
   변수 전체 목록은 [CSS 변수](?path=/story/foundations-theming--css-variables) 에서 볼 수 있어요.
 
+## 문구 바꾸기 · 다국어
+
+컴포넌트의 기본 문구("닫기", "결과가 없어요", "이전 달" 등)는 한국어예요. `LocaleProvider` 로 한곳에서 바꿀 수 있고,
+영어 묶음 `en` 도 들어 있어요. 컴포넌트에 직접 준 prop 이 가장 우선해요.
+
+```tsx
+import { LocaleProvider, en } from '@bestow-ui/react';
+
+<LocaleProvider messages={en}>…</LocaleProvider>                 // 전부 영어로
+<LocaleProvider messages={{ close: '창 닫기' }}>…</LocaleProvider>  // 일부만 바꾸기
+```
+
+ThemeProvider 안에서는 한글을 단어 단위로 줄바꿈해요(`word-break: keep-all`). 띄어쓰기 없는 긴 문자열(URL 등)만 넘치지 않게 끊어요.
+
 ## 아이콘
 
 ```tsx

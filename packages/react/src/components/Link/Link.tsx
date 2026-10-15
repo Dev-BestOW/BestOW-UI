@@ -4,6 +4,7 @@ import { ExternalLinkIcon } from '@bestow-ui/icons';
 import { visuallyHidden } from '../../styles/visuallyHidden.css';
 import { cx } from '../../utils/cx';
 import * as styles from './Link.css';
+import { useMessages } from '../../i18n/LocaleProvider';
 
 export interface LinkProps extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'color'> {
   /**
@@ -37,7 +38,7 @@ export const Link = /* @__PURE__ */ forwardRef<HTMLAnchorElement, LinkProps>(fun
     color,
     underline,
     external,
-    externalLabel = '(새 창)',
+    externalLabel: externalLabelProp,
     target,
     rel,
     className,
@@ -46,6 +47,8 @@ export const Link = /* @__PURE__ */ forwardRef<HTMLAnchorElement, LinkProps>(fun
   },
   ref,
 ) {
+  const m = useMessages();
+  const externalLabel = externalLabelProp ?? m.newWindow ?? '(새 창)';
   const linkClassName = cx(styles.link({ color, underline }), className);
   if (asChild) {
     return (

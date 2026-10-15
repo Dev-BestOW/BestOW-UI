@@ -71,3 +71,18 @@ export const Truncate: Story = {
     ),
   ],
 };
+
+/** ThemeProvider 안에서는 한글을 단어 단위로 줄바꿈하고(keep-all), 긴 URL 같은 문자열만 넘치지 않게 끊는다 */
+export const KoreanLineBreak: Story = {
+  name: '한글 줄바꿈',
+  render: () => (
+    <div style={{ maxWidth: 260, display: 'grid', gap: 12 }}>
+      <Typography>
+        정산 예정 금액은 매월 말일에 등록하신 계좌로 입금되며, 공휴일인 경우 다음 영업일에 입금됩니다.
+      </Typography>
+      <Typography variant="body-sm" color="muted">
+        자세한 내용: https://example.com/settlement/guide/very-long-path/2026-10
+      </Typography>
+    </div>
+  ),
+};

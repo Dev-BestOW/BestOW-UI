@@ -3,6 +3,7 @@ import { mergeRefs } from '../../utils/mergeRefs';
 import { formatPhoneNumber, phoneNumberMaxDigits } from '../../utils/koreanFormat';
 import { useFormattedInput } from '../../utils/useFormattedInput';
 import { TextField, type TextFieldProps } from '../Input';
+import { useMessages } from '../../i18n/LocaleProvider';
 
 export interface PhoneNumberInputProps extends Omit<
   TextFieldProps,
@@ -32,12 +33,14 @@ export const PhoneNumberInput = /* @__PURE__ */ forwardRef<HTMLInputElement, Pho
       value,
       defaultValue,
       onValueChange,
-      label = '휴대폰 번호',
+      label: labelProp,
       placeholder = '010-0000-0000',
       onKeyDown,
       ...rest
     } = props;
     const inputRef = useRef<HTMLInputElement>(null);
+    const m = useMessages();
+    const label = labelProp ?? m.phoneNumber ?? '휴대폰 번호';
     const field = useFormattedInput({
       isControlled: 'value' in props,
       value,

@@ -5,6 +5,7 @@ import { usePortalProps } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
 import { Button } from '../Button';
 import * as styles from './Toast.css';
+import { useMessages } from '../../i18n/LocaleProvider';
 
 export interface ToastOptions {
   /** 제목 */
@@ -49,7 +50,9 @@ export interface ToastProviderProps {
 }
 
 /** 앱 최상단(ThemeProvider 안쪽)에 한 번 감싸고, 하위에서 useToast() 로 토스트를 띄운다. */
-export function ToastProvider({ children, duration = 5000, label = '알림' }: ToastProviderProps) {
+export function ToastProvider({ children, duration = 5000, label: labelProp }: ToastProviderProps) {
+  const m = useMessages();
+  const label = labelProp ?? m.notifications ?? '알림';
   const [toasts, setToasts] = useState<ToastItem[]>([]);
   const nextId = useRef(0);
   const portal = usePortalProps();
@@ -94,7 +97,7 @@ export function ToastProvider({ children, duration = 5000, label = '알림' }: T
                 </Button>
               </RadixToast.Action>
             )}
-            <RadixToast.Close className={styles.close} aria-label="닫기">
+            <RadixToast.Close className={styles.close} aria-label={m.close ?? '닫기'}>
               <XIcon size={16} />
             </RadixToast.Close>
           </RadixToast.Root>
