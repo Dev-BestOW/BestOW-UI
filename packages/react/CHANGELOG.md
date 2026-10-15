@@ -1,5 +1,38 @@
 # @bestow-ui/react
 
+## 0.11.0
+
+### Minor Changes
+
+- a1ad94b: 한국 서비스 키트 1차 — `AgreementGroup`(약관 동의)와 `VerificationCodeInput`(인증번호) 추가.
+  
+  - AgreementGroup — "전체 동의" ↔ 개별 항목 동기화(일부만 동의하면 부분 선택), 필수·선택 표시, 약관 내용 펼쳐 보기
+    ("필수 서비스 이용약관 동의 보기" 처럼 어떤 약관인지 담은 버튼 이름, aria-expanded), 오류는 fieldset 의 aria-describedby,
+    필수 확인 헬퍼 `hasAllRequiredAgreements(items, value)`, `name` 으로 form 제출.
+  - VerificationCodeInput — 실제 입력창 하나 + 칸 모양 표시(문자 자동 채우기 `autocomplete="one-time-code"`, 숫자 키패드,
+    "123-456" 붙여넣기 정리), `onComplete`, `expiresIn`(남은 시간, `role="timer"`)·`onExpire`(만료 안내를 알림 영역에)·`onResend`(재전송 버튼,
+    입력·시간 초기화), `type="alphanumeric"`.
+- e46f8cf: 한국 서비스 키트 2차 — `PhoneNumberInput`(전화번호), `BusinessNumberInput`(사업자등록번호), `AmountInput`(금액) 추가.
+  
+  - 입력하는 대로 하이픈·쉼표를 넣고 값은 서식 없이 넘긴다(전화·사업자번호는 숫자 문자열, 금액은 number).
+    중간에 입력하거나 서식 문자 바로 뒤에서 지워도 커서가 제자리에 머문다(실제 브라우저 스토리 테스트로 확인).
+  - 전화번호: 010-1234-5678 / 02-123-4567 / 1588-1234, `type="tel"`·`autocomplete="tel-national"`.
+  - 사업자등록번호: 123-45-67890, 10자리를 채우면 검증 공식으로 확인해 자동 오류(`validate`, `invalidText`), `onValueChange(digits, valid)`.
+  - 금액: 천 단위 쉼표, 단위("원"), "12만 5,000원" 읽기(`showKoreanAmount`), `max`.
+  - 함수도 공개: `formatPhoneNumber`, `formatBusinessNumber`, `isValidBusinessNumber`, `formatKoreanAmount`.
+- 56be911: 한국 서비스 키트 — `AddressInput`(주소 입력) 추가, Modal·Drawer 포커스 복귀 수정.
+  
+  - AddressInput — 우편번호·기본 주소·상세 주소를 "주소" 그룹으로. "주소 검색" 을 누르면 검색 창(Modal)에서 고르고, 고르면 상세 주소로 포커스 이동.
+    `provider` 로 주소 서비스를 바꿔 끼운다(기본 `kakaoPostcodeProvider` — 카카오 우편번호 서비스, 검색할 때 스크립트를 불러와 코어 번들에 영향 없음).
+    도로명 주소 참고 항목은 카카오 가이드 방식(`composeExtraAddress`). `name` 으로 form 제출.
+  - Modal `onCloseAutoFocus` 추가 — 닫힐 때 포커스를 보낼 곳을 정한다.
+  - 수정: `trigger` 없이 `open` 으로 제어하는 Modal·Drawer 가 닫히면 포커스가 body 로 사라지던 문제 — 열 때 포커스가 있던 요소로 돌아간다.
+
+### Patch Changes
+
+- 68527b8: `createIntentColors('primary', hex)` 의 포커스 링 대비 수정 — 노랑·하늘색·분홍처럼 밝은 브랜드 색이면 라이트 모드 포커스 링이
+  흰 배경과 3:1 미만(예: #facc15 → 1.53:1)이라 잘 보이지 않았다. 배경과 3:1 이 안 되면 대비가 보장된 text 색을 쓴다(다크도 같은 규칙).
+
 ## 0.10.0
 
 ### Minor Changes
