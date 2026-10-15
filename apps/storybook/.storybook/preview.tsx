@@ -34,7 +34,13 @@ const preview: Preview = {
     a11y: { test: 'error' },
     options: {
       storySort: {
-        order: ['Introduction', 'Foundations', ['Design Tokens', 'Theming', 'Icons'], 'Layout', 'Components'],
+        order: [
+          'Introduction',
+          'Foundations',
+          ['Design Tokens', 'Theming', 'Theme Builder', 'Icons'],
+          'Layout',
+          'Components',
+        ],
       },
     },
   },

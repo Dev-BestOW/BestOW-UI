@@ -169,11 +169,17 @@ export function createIntentColors(intent: IntentName, color: string): ThemeInpu
   };
 
   // primary 는 포커스 링(border.focus)도 브랜드 색을 따라가게 한다. 다크는 어두운 배경에서 잘 보이도록 solid 보다 밝게.
+  // 포커스 링은 그래픽이라 배경과 3:1 이상이어야 한다(WCAG 1.4.11). 노랑·하늘색처럼 밝은 색은 라이트에서 미달이므로
+  // 그때는 배경 대비 4.5:1 이 보장된 text 색을 쓴다.
+  const focusOn = (candidate: string, fallback: string, bg: string) =>
+    contrastRatio(candidate, bg) >= 3 ? candidate : fallback;
   const focus =
     intent === 'primary'
       ? {
-          light: { border: { focus: light.solid } },
-          dark: { border: { focus: withL(darkBase, Math.min(1, darkBase.l + 0.06)) } },
+          light: { border: { focus: focusOn(light.solid, light.text, lightColors.bg.default) } },
+          dark: {
+            border: { focus: focusOn(withL(darkBase, Math.min(1, darkBase.l + 0.06)), dark.text, darkBg) },
+          },
         }
       : undefined;
 

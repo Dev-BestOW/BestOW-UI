@@ -74,6 +74,10 @@ describe('createIntentColors', () => {
       expect(contrastRatio(l.text!, lightColors.bg.default)).toBeGreaterThanOrEqual(4.5);
       expect(contrastRatio(l.text!, l.subtleHover!)).toBeGreaterThanOrEqual(4.5);
       expect(contrastRatio(d.text!, darkColors.bg.default)).toBeGreaterThanOrEqual(4.5);
+      // 포커스 링은 배경과 3:1 이상 (밝은 브랜드 색도) — 테마 빌더에서 발견
+      const { light: lf, dark: df } = createIntentColors('primary', color);
+      expect(contrastRatio(lf!.color!.border!.focus!, lightColors.bg.default)).toBeGreaterThanOrEqual(3);
+      expect(contrastRatio(df!.color!.border!.focus!, darkColors.bg.default)).toBeGreaterThanOrEqual(3);
       // 노랑처럼 밝은 색은 흰 글자가 안 보이므로 어두운 글자를 고른다
       if (contrastRatio('#ffffff', color) < 4.5) expect(l.contrast).not.toBe('#ffffff');
     },

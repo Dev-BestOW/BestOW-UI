@@ -57,9 +57,10 @@
 이미 있는 것: `createIntentColors(intent, hex)` 가 대표색 하나로 라이트·다크의 solid·hover·subtle·text·contrast 를 만들고
 대비 4.5:1(hover 포함)을 테스트로 보장한다. CSS 변수 이름(`--bestow-*`)이 고정이라 CSS 만으로도 덮어쓸 수 있다.
 
-더할 것:
-- **테마 빌더 페이지** (Storybook) — 색을 고르면 라이트·다크 미리보기 + 대비 리포트 + `createTheme(...)` 코드 복사.
-  "우리 브랜드 색으로 바꿔도 되는가" 를 10초 만에 보여 준다.
+더한 것 (2026-10-15):
+- **테마 빌더 페이지** ([Storybook › Foundations › Theme Builder](https://dev-bestow.github.io/BestOW-UI/?path=/story/foundations-theme-builder--builder))
+  — 색을 고르면 라이트·다크 미리보기 + 대비 리포트(intent 별 글자·hover·subtle·막대·포커스 링) + `createTheme(...)` 코드 복사.
+  만들면서 밝은 브랜드 색의 포커스 링 대비 미달을 찾아 고쳤다 — "보장" 이 실제로 검사로 지켜진다는 사례.
 
 ### 4. 한글 타이포그래피 기본값 — "한국어로 만들면 확실히 다르다"
 
