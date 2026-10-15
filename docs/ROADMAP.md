@@ -82,7 +82,9 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
     필수 미동의 오류 메시지(aria-describedby), 제어/비제어.
   - 인증번호: N칸 입력(기본 6), 붙여넣기 분배·자동 이동·Backspace 역이동, `autocomplete="one-time-code"`·`inputmode="numeric"`,
     남은 시간 타이머·만료 안내(aria-live), 재전송 버튼, 하나의 접근 가능한 이름("인증번호 6자리").
-- [ ] **P6-3. 한국 서비스 키트 2차** — 전화번호·사업자등록번호 입력(하이픈 자동, 사업자번호 검증 공식), 금액 입력(쉼표, 원/만원, 한글 금액 읽기),
+- [ ] **P6-3. 한국 서비스 키트 2차** — ~~전화번호·사업자등록번호 입력, 금액 입력~~ (2026-10-15 완료, 커밋 전: 공통 `useFormattedInput`
+  — 원본/표시 분리, 커서 유지, 서식 문자 뒤 Backspace/Delete. 커서 검증은 jsdom 이 커서를 되살려 무의미 → 실제 Chromium 스토리 play 로,
+  서식 전후 문자열이 달라지는 입력으로 골라야 변이 확인이 됨. 함수 4종 공개). 남은 것:
   날짜 선택(한국어 표기, 선택적 공휴일), 주소 검색(Daum 우편번호 — 외부 스크립트라 별도 진입점/어댑터로, 코어 번들에 넣지 않음).
 - [ ] **P6-4. KWCAG 2.2 대응 근거 문서** — KS X OT0003:2022(4원칙·14지침·33검사항목) 항목별로 컴포넌트가 해 둔 것 / 사용자가 할 것 표.
   Storybook docs 에 컴포넌트별 키보드 조작표·스크린리더 메모. 표현은 "대응 근거" — "인증 보장" 금지. 항목 번호는 원문 PDF 로 확인.
@@ -90,11 +92,13 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
   기본 문구("닫기", "결과가 없어요" 등)를 한곳에서 바꾸는 방법(다국어 대응).
 - [ ] **P6-6. 메시지 반영** — README·npm README·Storybook Introduction 첫 화면을 POSITIONING.md 의 메시지로. 비교표는 경쟁 제품 문서를 다시 확인한 뒤.
 
-### P7. 번들·성능 (CSS 결정은 1.0 전에)
+### P7. 번들·성능
 
-- [ ] **styles.css 분리 검토** (26.8/28 kB) — 지금은 쓰지 않는 컴포넌트 CSS 까지 한 파일로 받는다.
-  선택지: ① 한도만 올림 ② 컴포넌트별 CSS 엔트리(`@bestow-ui/react/button.css` …) ③ JS 가 자기 CSS 를 import(번들러 의존).
-  사용법이 바뀌므로 P8(1.0) 전에 정하는 게 좋다.
+- [x] **CSS 배포 방식 결정** (2026-10-15, 사용자 결정: **A 유지** — `styles.css` 하나. 측정: 테마·공통 약 15%, 컴포넌트당 2~5%,
+  컴포넌트 10개 앱이면 필요한 CSS 는 절반 정도.) 컴포넌트별 선택 import(B, Mantine 방식 `styles/base.css` + `styles/<컴포넌트>.css`)는
+  기존 사용법을 깨지 않는 추가라 **1.0 이후 필요할 때 minor 로**. JS 가 CSS 를 자동 import(C)는 breaking·환경 문제로 하지 않음.
+- [ ] (나중에) **컴포넌트별 CSS 선택 import (B)** — 공통(base) + 컴포넌트별 CSS, 컴포넌트 간 CSS 의존(Combobox → Select·Input,
+  Drawer → IconButton 등)을 문서화. 빌드는 vanilla-extract 출력에서 컴포넌트별로 나누는 후처리 필요.
 - [ ] **서버 컴포넌트 엔트리 분리** — 번들 전체에 `"use client"` 가 붙어 Typography·Stack 처럼 hook 없는 컴포넌트도 클라이언트 경계가 된다.
 - [ ] size-limit 결과를 PR 코멘트로 (size-limit-action).
 
@@ -182,3 +186,5 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-15 | P6-1 테마 빌더(입력·라이트/다크 미리보기·대비 리포트 42항목·코드 복사, play 테스트). 리포트가 createIntentColors 포커스 링 대비 미달(#facc15 1.53 등) 을 찾아 수정·회귀 테스트(변이 확인) |
 | 2026-10-15 | P6-2 한국 서비스 키트 1차: AgreementGroup·VerificationCodeInput(테스트 10개, 변이 4종). 붙여넣기 maxLength 버그 발견·수정. 스토리 "Korean Kit" 그룹, playground 가입 폼 교체 |
 | 2026-10-15 | styles.css 28.49 kB 로 한도 초과 → 사용자 결정으로 36 kB 로 상향(분리는 P7). |
+| 2026-10-15 | P7 CSS 결정: styles.css 하나 유지(A), 컴포넌트별 선택 import(B)는 1.0 이후 minor 로. CSS 비중 측정(테마·공통 15%, 컴포넌트당 2~5%) |
+| 2026-10-15 | P6-3 일부: PhoneNumberInput·BusinessNumberInput·AmountInput + 서식 함수. 커서 유지 테스트를 jsdom → 실제 브라우저 play 로 옮기고 변이 확인(처음 고른 예시는 서식 전후가 같아 무의미했음) |

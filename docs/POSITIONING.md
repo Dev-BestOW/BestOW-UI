@@ -28,7 +28,7 @@
 
 ### 1. 한국 서비스 키트 — "한국 서비스에 늘 필요한 부품이 기본으로"
 
-진행: 약관 동의(`AgreementGroup`)·인증번호(`VerificationCodeInput`) 완료 (2026-10-15, Storybook › Korean Kit).
+진행: 약관 동의(`AgreementGroup`)·인증번호(`VerificationCodeInput`)·전화번호·사업자등록번호·금액 입력 완료 (2026-10-15, Storybook › Korean Kit). 남은 것: 주소 검색, 날짜 선택.
 
 글로벌 DS 에는 없고, 한국 서비스는 거의 매번 직접 만드는 것들. (다른 한국 DS 의 제공 여부는 **(확인 필요)**)
 

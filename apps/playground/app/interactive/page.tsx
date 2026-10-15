@@ -3,11 +3,14 @@
 import { useState } from 'react';
 import {
   AgreementGroup,
+  AmountInput,
+  BusinessNumberInput,
   Avatar,
   Button,
   Card,
   Combobox,
   Modal,
+  PhoneNumberInput,
   ModalClose,
   Progress,
   RadioGroup,
@@ -121,6 +124,7 @@ export default function InteractivePage() {
           onChange={(e) => setMemo(e.target.value)}
         />
         <Switch label="마케팅 알림 받기" />
+        <PhoneNumberInput fullWidth />
         <VerificationCodeInput
           expiresIn={180}
           value={code}
@@ -179,6 +183,11 @@ export default function InteractivePage() {
             </>
           )}
         </Card>
+      </Stack>
+
+      <Stack as="section" aria-label="정산 정보" gap={3} style={{ maxWidth: 400 }}>
+        <BusinessNumberInput fullWidth />
+        <AmountInput label="정산 금액" max={100000000} fullWidth />
       </Stack>
 
       <Stack gap={3} style={{ maxWidth: 400 }}>
