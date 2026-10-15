@@ -9,9 +9,10 @@
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-15 작업 종료 시점)
 
 **마지막 상태**
-- 버전 PR #7 머지 완료 → npm 에 react **0.5.0** 배포됨 (Spinner, Button `loading`).
-- **Badge, Card** 구현 완료, **커밋 전 (로컬 변경)**. changeset `badge.md`, `card.md`(react minor) 포함 — 커밋·push 하면 다음 버전 PR(react 0.6.0)이 만들어진다.
-- 작업 종료 시점에 로컬 main 이 origin 보다 2커밋 뒤처져 있었다(버전 PR 머지분). 사용자가 `git pull` 후 커밋 예정.
+- 버전 PR #8 머지 완료 → npm 에 react **0.6.0** 배포됨 (Badge, Card).
+- **P2-2 전체 완료.** Divider, Avatar, Skeleton 은 **커밋 전 (로컬 변경)**. changeset `divider.md`, `avatar.md`, `skeleton.md`(react minor) 포함 —
+  커밋·push 하면 다음 버전 PR(react 0.7.0)이 만들어진다.
+- Avatar 때문에 `packages/react/package.json` 에 `@radix-ui/react-avatar` 가 추가됐다(`pnpm-lock.yaml` 도 변경).
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다 (Claude 는 커밋·push 하지 않음).
@@ -20,8 +21,9 @@
 3. 배포 버전 확인: `curl -s https://registry.npmjs.org/@bestow-ui%2freact | python3 -c "import json,sys;print(json.load(sys.stdin)['dist-tags'])"`
 4. `pnpm install && pnpm build` 후 아래 **다음 작업**부터 진행.
 
-**다음 작업: P2-2 표시 컴포넌트 계속** — Divider → Avatar → Skeleton. (Spinner·Button `loading`·Badge·Card 는 완료)
-스크린리더 전용 텍스트는 `src/styles/visuallyHidden.css.ts` 를 재사용한다.
+**다음 작업: P2-3 탐색·오버레이** — Tabs → DropdownMenu → Popover → Accordion → Pagination.
+Radix 패키지는 올라온 지 24시간 넘은 버전을 고른다(pnpm minimumReleaseAge). `package.json` 을 바꾸기 전에 origin 보다 뒤처져 있으면 먼저 `git pull` 을 요청한다(버전 PR 머지분과 충돌 방지).
+스크린리더 전용 텍스트는 `src/styles/visuallyHidden.css.ts`, 애니메이션은 `src/styles/animations.css.ts`(`spin`, `shimmer` 등)를 재사용한다.
 각 컴포넌트는 CLAUDE.md "컴포넌트 작성 규칙" + 스토리 + 테스트 + `src/index.ts` export + changeset(react minor) +
 playground 에 사용 예 추가 후 브라우저 점검. 끝나면 이 섹션과 체크박스·진행 기록을 갱신한다.
 
@@ -31,7 +33,7 @@ playground 에 사용 예 추가 후 브라우저 점검. 끝나면 이 섹션�
 |---|---|---|
 | `@bestow-ui/tokens` | 0.2.0 | palette, space, radius, font, shadow, duration, zIndex, light/dark 의미 색상 |
 | `@bestow-ui/icons` | 0.1.0 | 아이콘 57종 (Lucide 기반), SVG → 컴포넌트 생성 스크립트 |
-| `@bestow-ui/react` | 0.5.0 (다음: Badge, Card — 커밋 대기) | ThemeProvider(light/dark + 브랜드 테마 `createTheme`/`overrides`), Button(`loading`), Typography, Stack, Input, TextField, Checkbox, Modal, Select, Tooltip, Toast, Switch, RadioGroup, Textarea, Spinner |
+| `@bestow-ui/react` | 0.6.0 (다음: Divider, Avatar, Skeleton — 커밋 대기) | ThemeProvider(light/dark + 브랜드 테마 `createTheme`/`overrides`), Button(`loading`), Typography, Stack, Input, TextField, Checkbox, Modal, Select, Tooltip, Toast, Switch, RadioGroup, Textarea, Spinner, Badge, Card |
 
 운영: CI(생성물 확인·빌드·타입·테스트·Storybook·playground 빌드), changesets + npm Trusted Publishing(OIDC) 자동 배포,
 Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://dev-bestow.github.io/BestOW-UI/playground/
@@ -116,16 +118,19 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 - [x] **RadioGroup** — `@radix-ui/react-radio-group`. `options` 배열 또는 `RadioGroup.Item` 조합, `orientation`, `label`/`helperText`/`error`.
 - [x] **Textarea** — Input 스타일 재사용, `TextField` 처럼 label/helperText/error, (선택) `autoResize`.
 
-**P2-2. 표시**
+**P2-2. 표시** — 완료 (2026-10-15)
 - [x] **Spinner** — `LoaderIcon` + 회전 애니메이션(reducedMotion 시 느리게). `role="status"` + 숨김 텍스트 `label`(기본 "로딩 중", 빈 문자열이면 장식용).
   이어서 **Button `loading` prop** — startIcon 자리에 스피너, `aria-busy`·`aria-disabled`, 클릭·폼 제출 차단 (`disabled` 를 쓰지 않아 포커스 유지).
 - [x] **Badge** — `variant`(solid/soft/outline) × `color`(primary/neutral/danger/success), `size`(sm/md/lg), `startIcon`. 기본 soft/neutral, pill 모양.
   12개 조합 모두 라이트·다크에서 대비 4.5 이상 확인.
 - [x] **Card** — `variant`(outline/elevated/soft), `padding`(none/sm/md/lg), `as`. 영역은 named export `CardHeader`/`CardBody`/`CardFooter`
   (`ModalClose` 처럼 점 표기 대신 개별 export). elevated 는 다크에서 그림자가 안 보여 테두리를 함께 둔다.
-- [ ] **Divider** — 가로/세로, `role="separator"`.
-- [ ] **Avatar** — `@radix-ui/react-avatar`. 이미지 실패 시 이니셜/아이콘 fallback, `size`.
-- [ ] **Skeleton** — 로딩 자리 표시, shimmer 애니메이션(reducedMotion 시 정지).
+- [x] **Divider** — 가로/세로(`aria-orientation`), `role="separator"`, `decorative`(role=none). 가운데 텍스트(`children`)가 있으면
+  separator 대신 텍스트를 읽히게 하고 선만 `aria-hidden` (separator 의 자식은 스크린리더가 읽지 않으므로). Radix 없이 직접 구현.
+- [x] **Avatar** — `@radix-ui/react-avatar`. `src`, `alt`/`name`, `size`(sm/md/lg = 28/36/48px), `shape`(circle/square), `fallback`.
+  실패 시 이니셜("Jane Doe"→JD, "홍길동"→홍) → `UserIcon`. 이름은 루트에 `role="img"`+`aria-label`(로딩 상태와 무관하게 같은 이름), 이름 없으면 aria-hidden.
+- [x] **Skeleton** — `variant`(text/rect/circle), `width`/`height`(숫자=px, CSS 변수로 전달), `lines`(마지막 줄 60%). shimmer, reducedMotion 시 정지.
+  장식용 `aria-hidden` — 로딩 상태는 감싸는 영역의 `aria-busy` 로 알린다(스토리·playground 예시).
 
 **P2-3. 탐색·오버레이**
 - [ ] **Tabs** — `@radix-ui/react-tabs`. `variant`(line/soft).
@@ -187,3 +192,6 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 | 2026-10-15 | PR #6 머지·react 0.4.0 배포 확인. P2-2 Spinner + Button `loading` 구현(공용 `visuallyHidden`·`spin` 추가), playground 가입 버튼에 적용, 브라우저 점검(포커스 유지·중복 제출 차단·콘솔 경고 0) 통과. 다음은 Badge |
 | 2026-10-15 | P2-2 Badge 구현, playground 서버 컴포넌트 페이지에 추가. 라이트·다크 12개 조합 대비 4.5 이상, 콘솔 경고 0. 다음은 Card |
 | 2026-10-15 | react 0.5.0 배포 확인(Spinner). P2-2 Card(+Header/Body/Footer) 구현, playground 서버 컴포넌트 페이지에 추가, 라이트·다크 점검·콘솔 경고 0. 다음은 Divider |
+| 2026-10-15 | Badge·Card push 확인(버전 PR #8). P2-2 Divider 구현, playground 서버 컴포넌트 페이지에 추가, 라이트·다크 점검·콘솔 경고 0. 다음은 Avatar |
+| 2026-10-15 | react 0.6.0 배포 확인(Badge, Card). P2-2 Avatar 구현(`@radix-ui/react-avatar` 추가), playground 에 추가. dev·prod 모두 hydration 경고 0, fallback 대비 라이트 10.3/다크 12.9. 다음은 Skeleton |
+| 2026-10-15 | P2-2 완료: Skeleton 구현, playground 상호작용 페이지에 "게시글 다시 불러오기"(Button loading + Skeleton + aria-busy) 예시. reducedMotion 정지·콘솔 경고 0 확인. 다음은 P2-3 Tabs |

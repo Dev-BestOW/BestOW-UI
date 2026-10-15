@@ -1,6 +1,13 @@
 // 서버 컴포넌트: 'use client' 없이 디자인 시스템을 import 해서 렌더링되는지 확인한다.
-import { Badge, Button, Card, CardBody, CardFooter, CardHeader, Stack, Typography } from '@bestow-ui/react';
+import { Avatar, Badge, Button, Card, CardBody, CardFooter, CardHeader, Divider, Stack, Typography } from '@bestow-ui/react';
 import { BellIcon, CircleCheckIcon, SearchIcon, SettingsIcon, UserIcon } from '@bestow-ui/icons';
+
+// 외부 요청 없이 이미지 로딩을 확인하기 위한 data URI
+const photo =
+  'data:image/svg+xml;utf8,' +
+  encodeURIComponent(
+    '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#7c3aed"/><circle cx="32" cy="26" r="11" fill="#fff"/><path d="M12 60c2-12 10-18 20-18s18 6 20 18" fill="#fff"/></svg>',
+  );
 
 export default function ServerPage() {
   return (
@@ -74,6 +81,32 @@ export default function ServerPage() {
             </Card>
           ))}
         </div>
+      </Stack>
+
+      <Stack gap={2}>
+        <Typography variant="h3">Divider</Typography>
+        <Stack direction="row" gap={3} align="center">
+          <Typography variant="body-sm">프로필</Typography>
+          <Divider orientation="vertical" />
+          <Typography variant="body-sm">설정</Typography>
+          <Divider orientation="vertical" />
+          <Typography variant="body-sm">로그아웃</Typography>
+        </Stack>
+        <Divider />
+        <Divider>또는</Divider>
+      </Stack>
+
+      <Stack gap={2}>
+        <Typography variant="h3">Avatar</Typography>
+        <Stack direction="row" gap={3} align="center">
+          <Avatar src={photo} name="Jane Doe" size="lg" />
+          <Avatar src="/no-such-image.png" name="Jane Doe" size="lg" />
+          <Avatar name="홍길동" size="lg" />
+          <Avatar size="lg" />
+          <Avatar src={photo} name="Jane Doe" shape="square" size="lg" />
+          <Avatar name="Bestow UI" size="sm" />
+          <Avatar name="Bestow UI" />
+        </Stack>
       </Stack>
     </Stack>
   );

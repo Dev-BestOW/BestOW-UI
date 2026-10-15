@@ -2,12 +2,15 @@
 
 import { useState } from 'react';
 import {
+  Avatar,
   Button,
+  Card,
   Checkbox,
   Modal,
   ModalClose,
   RadioGroup,
   Select,
+  Skeleton,
   Stack,
   Switch,
   TextField,
@@ -25,6 +28,7 @@ export default function InteractivePage() {
   const [billing, setBilling] = useState<string>();
   const [memo, setMemo] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const [loadingPost, setLoadingPost] = useState(false);
 
   return (
     <Stack gap={6}>
@@ -91,6 +95,49 @@ export default function InteractivePage() {
         <Button type="submit" disabled={!agreed} loading={submitting}>
           {submitting ? '가입하는 중' : '가입하기'}
         </Button>
+      </Stack>
+
+      <Stack gap={3} style={{ maxWidth: 400 }}>
+        <Button
+          variant="outline"
+          color="neutral"
+          loading={loadingPost}
+          onClick={() => {
+            setLoadingPost(true);
+            setTimeout(() => setLoadingPost(false), 1500);
+          }}
+        >
+          게시글 다시 불러오기
+        </Button>
+        <Card as="section" aria-label="게시글" aria-busy={loadingPost}>
+          {loadingPost ? (
+            <>
+              <Stack direction="row" gap={3} align="center">
+                <Skeleton variant="circle" width={36} />
+                <Stack gap={2} style={{ flex: 1 }}>
+                  <Skeleton width="40%" />
+                  <Skeleton width="25%" height={12} />
+                </Stack>
+              </Stack>
+              <Skeleton lines={3} />
+            </>
+          ) : (
+            <>
+              <Stack direction="row" gap={3} align="center">
+                <Avatar name="Jane Doe" />
+                <Stack gap={1}>
+                  <Typography weight="semibold">Jane Doe</Typography>
+                  <Typography variant="caption" color="muted">
+                    방금 전
+                  </Typography>
+                </Stack>
+              </Stack>
+              <Typography variant="body-sm">
+                Skeleton 은 장식용이라 스크린리더에서 숨기고, 로딩 상태는 감싸는 영역의 aria-busy 로 알려요.
+              </Typography>
+            </>
+          )}
+        </Card>
       </Stack>
 
       <Stack direction="row" gap={2} align="center">
