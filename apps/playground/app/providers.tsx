@@ -44,6 +44,9 @@ export function Providers({ children }: { children: ReactNode }) {
             <Link href="/interactive" style={linkStyle}>
               상호작용
             </Link>
+            <Link href="/navigation" style={linkStyle}>
+              탐색·오버레이
+            </Link>
           </Stack>
           <Stack direction="row" gap={2}>
             <Button variant="outline" color="neutral" size="sm" onClick={() => setBranded((b) => !b)}>

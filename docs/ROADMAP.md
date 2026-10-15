@@ -9,10 +9,11 @@
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-15 작업 종료 시점)
 
 **마지막 상태**
-- 버전 PR #8 머지 완료 → npm 에 react **0.6.0** 배포됨 (Badge, Card).
-- **P2-2 전체 완료.** Divider, Avatar, Skeleton 은 **커밋 전 (로컬 변경)**. changeset `divider.md`, `avatar.md`, `skeleton.md`(react minor) 포함 —
-  커밋·push 하면 다음 버전 PR(react 0.7.0)이 만들어진다.
-- Avatar 때문에 `packages/react/package.json` 에 `@radix-ui/react-avatar` 가 추가됐다(`pnpm-lock.yaml` 도 변경).
+- 버전 PR #9 머지 완료 → npm 에 react **0.7.0** 배포됨 (Divider, Avatar, Skeleton). **P2-2 까지 배포 완료.**
+- **P2-3 전체 구현 완료 (Tabs, DropdownMenu, Popover, Accordion, Pagination), 커밋 전 (로컬 변경).**
+  changeset 5개(`tabs`, `dropdown-menu`, `popover`, `accordion`, `pagination` — 모두 react minor) 포함 → 커밋·push 하면 react 0.8.0 버전 PR.
+- `packages/react/package.json` 에 Radix 4개(tabs, dropdown-menu, popover, accordion) + devDependency `@testing-library/user-event` 추가 (`pnpm-lock.yaml` 변경).
+- playground 에 `/navigation` 페이지(헤더 "탐색·오버레이") 추가.
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다 (Claude 는 커밋·push 하지 않음).
@@ -21,9 +22,12 @@
 3. 배포 버전 확인: `curl -s https://registry.npmjs.org/@bestow-ui%2freact | python3 -c "import json,sys;print(json.load(sys.stdin)['dist-tags'])"`
 4. `pnpm install && pnpm build` 후 아래 **다음 작업**부터 진행.
 
-**다음 작업: P2-3 탐색·오버레이** — Tabs → DropdownMenu → Popover → Accordion → Pagination.
-Radix 패키지는 올라온 지 24시간 넘은 버전을 고른다(pnpm minimumReleaseAge). `package.json` 을 바꾸기 전에 origin 보다 뒤처져 있으면 먼저 `git pull` 을 요청한다(버전 PR 머지분과 충돌 방지).
-스크린리더 전용 텍스트는 `src/styles/visuallyHidden.css.ts`, 애니메이션은 `src/styles/animations.css.ts`(`spin`, `shimmer` 등)를 재사용한다.
+**다음 작업: P3 품질 자동화** — 접근성 검사 CI → ESLint/Prettier → size-limit → (사용자 확인 후) 시각 회귀 → 버전 PR CI 정리.
+P2 컴포넌트를 더 만들 때: Radix 패키지는 올라온 지 24시간 넘은 버전을 고른다(pnpm minimumReleaseAge). `package.json` 을 바꾸기 전에
+origin 보다 뒤처져 있으면 먼저 `git pull` 을 요청한다(버전 PR 머지분과 충돌 방지).
+상호작용 테스트는 `@testing-library/user-event`(`userEvent.setup()`)로 쓰고, 핵심 테스트는 구현을 일부러 망가뜨려 실패하는지 확인한다
+(**복원은 scratchpad 백업 파일 복사로만 — `git checkout` 금지**, 커밋 안 된 변경까지 되돌린다).
+스크린리더 전용 텍스트는 `src/styles/visuallyHidden.css.ts`, 애니메이션은 `src/styles/animations.css.ts`(`spin`, `shimmer`, `accordionDown/Up` 등)를 재사용한다.
 각 컴포넌트는 CLAUDE.md "컴포넌트 작성 규칙" + 스토리 + 테스트 + `src/index.ts` export + changeset(react minor) +
 playground 에 사용 예 추가 후 브라우저 점검. 끝나면 이 섹션과 체크박스·진행 기록을 갱신한다.
 
@@ -33,7 +37,7 @@ playground 에 사용 예 추가 후 브라우저 점검. 끝나면 이 섹션�
 |---|---|---|
 | `@bestow-ui/tokens` | 0.2.0 | palette, space, radius, font, shadow, duration, zIndex, light/dark 의미 색상 |
 | `@bestow-ui/icons` | 0.1.0 | 아이콘 57종 (Lucide 기반), SVG → 컴포넌트 생성 스크립트 |
-| `@bestow-ui/react` | 0.6.0 (다음: Divider, Avatar, Skeleton — 커밋 대기) | ThemeProvider(light/dark + 브랜드 테마 `createTheme`/`overrides`), Button(`loading`), Typography, Stack, Input, TextField, Checkbox, Modal, Select, Tooltip, Toast, Switch, RadioGroup, Textarea, Spinner, Badge, Card |
+| `@bestow-ui/react` | 0.7.0 (다음: Tabs, DropdownMenu, Popover, Accordion, Pagination — 커밋 대기) | ThemeProvider(light/dark + 브랜드 테마 `createTheme`/`overrides`), Button(`loading`), Typography, Stack, Input, TextField, Checkbox, Modal, Select, Tooltip, Toast, Switch, RadioGroup, Textarea, Spinner, Badge, Card, Divider, Avatar, Skeleton |
 
 운영: CI(생성물 확인·빌드·타입·테스트·Storybook·playground 빌드), changesets + npm Trusted Publishing(OIDC) 자동 배포,
 Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://dev-bestow.github.io/BestOW-UI/playground/
@@ -132,12 +136,18 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 - [x] **Skeleton** — `variant`(text/rect/circle), `width`/`height`(숫자=px, CSS 변수로 전달), `lines`(마지막 줄 60%). shimmer, reducedMotion 시 정지.
   장식용 `aria-hidden` — 로딩 상태는 감싸는 영역의 `aria-busy` 로 알린다(스토리·playground 예시).
 
-**P2-3. 탐색·오버레이**
-- [ ] **Tabs** — `@radix-ui/react-tabs`. `variant`(line/soft).
-- [ ] **DropdownMenu** — `@radix-ui/react-dropdown-menu`. 항목 아이콘, 구분선, 위험 항목(danger), 단축키 표시.
-- [ ] **Popover** — `@radix-ui/react-popover`. Tooltip 과 같은 위치 옵션.
-- [ ] **Accordion** — `@radix-ui/react-accordion`. single/multiple.
-- [ ] **Pagination** — 직접 구현. `page`, `totalPages`, `onPageChange`, 생략 부호(…), `aria-current="page"`.
+**P2-3. 탐색·오버레이** — 완료 (2026-10-15)
+- [x] **Tabs** — `Tabs`/`TabsList`/`TabsTrigger`/`TabsContent`. `variant`(line/soft), `size`(sm/md), `activationMode`. variant·size 는 context 로 전달.
+  `value` 를 넘기면 `?? ''` 로 항상 제어 모드. (세로 `orientation` 은 미지원 — 필요하면 추가)
+- [x] **DropdownMenu** — Root/Trigger/Group 은 Radix 그대로, `DropdownMenuContent`(portal + `usePortalProps`, `side`/`align`),
+  `DropdownMenuItem`(`icon`, `shortcut`, `color="danger"`), `Label`, `Separator`. 아이콘·단축키는 `aria-hidden` 이라 항목 이름에 섞이지 않는다.
+  (CheckboxItem/RadioItem/Sub 메뉴는 미구현 — 백로그)
+- [x] **Popover** — props 기반(Tooltip 과 같은 `side`/`align`). `title`(h2 + `aria-labelledby`) 또는 `aria-label`, `showClose`, `showArrow`, `modal`, `PopoverClose`.
+  `showClose` 이면 열릴 때 첫 포커스가 X 버튼으로 간다 (Modal 과 같은 동작).
+- [x] **Accordion** — `Accordion`(type single/multiple, collapsible) + `AccordionItem`(`title`, `headingLevel` 기본 3, `disabled`).
+  높이 애니메이션은 `--radix-accordion-content-height`, reducedMotion 시 끔. 제어 모드는 single `''` / multiple `[]`.
+- [x] **Pagination** — 직접 구현. 계산은 `getPaginationItems`(내부 함수, MUI 방식: 항목 수 일정). `nav` > `ul` > `button`,
+  `aria-current="page"`, 생략 부호 `aria-hidden`, `getItemLabel` 로 다국어. 제어/비제어 모두 지원, 범위 밖 page 는 보정.
 
 토큰이 더 필요하면(예: `success` 외 `warning` 색) tokens 에 추가하고 light/dark 둘 다 정의한다.
 
@@ -173,6 +183,7 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 - GitHub `ubuntu-latest` 가 2026-10-19 부터 Ubuntu 26 으로 바뀐다는 안내가 있다. CI 가 깨지면 확인.
 - 아이콘을 더 늘릴 때: Lucide 에서 가져오면 `svg/` 에 넣고 `generate`. 자체 아이콘은 같은 규격(24×24, stroke 2, round)으로 그린다.
 - 0.x 를 벗어나 1.0.0 을 낼 시점(공개 API 안정화) 판단 필요.
+- DropdownMenu 의 CheckboxItem / RadioGroup / Sub 메뉴, Tabs 세로 방향은 아직 없다. 필요해지면 추가.
 - `shadow` 토큰이 라이트·다크 공통이라 다크 모드에서 그림자가 거의 안 보인다(Card elevated 가 outline 과 비슷해 보임). 모드별 shadow 토큰 분리 검토.
 
 ---
@@ -195,3 +206,4 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 | 2026-10-15 | Badge·Card push 확인(버전 PR #8). P2-2 Divider 구현, playground 서버 컴포넌트 페이지에 추가, 라이트·다크 점검·콘솔 경고 0. 다음은 Avatar |
 | 2026-10-15 | react 0.6.0 배포 확인(Badge, Card). P2-2 Avatar 구현(`@radix-ui/react-avatar` 추가), playground 에 추가. dev·prod 모두 hydration 경고 0, fallback 대비 라이트 10.3/다크 12.9. 다음은 Skeleton |
 | 2026-10-15 | P2-2 완료: Skeleton 구현, playground 상호작용 페이지에 "게시글 다시 불러오기"(Button loading + Skeleton + aria-busy) 예시. reducedMotion 정지·콘솔 경고 0 확인. 다음은 P2-3 Tabs |
+| 2026-10-15 | react 0.7.0 배포 확인. P2-3 완료: Tabs, DropdownMenu, Popover, Accordion, Pagination + playground `/navigation`. user-event 도입, 테스트 63개 추가(react 총 153), 핵심 테스트는 변이 확인. 라이트·다크+브랜드, 키보드, portal 색, reducedMotion, dev·prod 콘솔/hydration 경고 0 확인. 다음은 P3 |

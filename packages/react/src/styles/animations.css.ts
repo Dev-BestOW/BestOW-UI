@@ -30,3 +30,13 @@ export const shimmer = keyframes({
   from: { backgroundPosition: '100% 0' },
   to: { backgroundPosition: '-100% 0' },
 });
+
+// Radix Accordion/Collapsible 이 콘텐츠 높이를 CSS 변수로 넘겨준다
+export const accordionDown = keyframes({
+  from: { height: 0 },
+  to: { height: 'var(--radix-accordion-content-height)' },
+});
+export const accordionUp = keyframes({
+  from: { height: 'var(--radix-accordion-content-height)' },
+  to: { height: 0 },
+});
