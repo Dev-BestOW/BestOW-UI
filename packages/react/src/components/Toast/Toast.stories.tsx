@@ -46,6 +46,15 @@ function Demo() {
       </Button>
       <Button
         variant="outline"
+        color="neutral"
+        onClick={() =>
+          toast({ title: '저장 공간이 부족해요', description: '남은 공간이 10% 미만이에요.', variant: 'warning' })
+        }
+      >
+        경고
+      </Button>
+      <Button
+        variant="outline"
         color="danger"
         onClick={() => toast({ title: '저장 실패', description: '네트워크 연결을 확인해 주세요.', variant: 'danger' })}
       >

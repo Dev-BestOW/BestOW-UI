@@ -17,6 +17,28 @@ describe('vars', () => {
   });
 });
 
+describe('기본 intent 색', () => {
+  const intents = ['primary', 'neutral', 'danger', 'success', 'warning'] as const;
+
+  it.each(intents)('%s: 라이트·다크 모두 글자 대비가 4.5:1 이상이다', (intent) => {
+    for (const colors of [lightColors, darkColors]) {
+      const c = colors[intent];
+      expect(contrastRatio(c.contrast, c.solid)).toBeGreaterThanOrEqual(4.5);
+      expect(contrastRatio(c.contrast, c.solidHover)).toBeGreaterThanOrEqual(4.5);
+      expect(contrastRatio(c.text, colors.bg.default)).toBeGreaterThanOrEqual(4.5);
+      // 다크의 subtle 은 반투명(rgba)이라 배경과 섞인 색은 스토리 axe 검사가 확인한다
+      if (c.subtle.startsWith('#')) {
+        expect(contrastRatio(c.text, c.subtle)).toBeGreaterThanOrEqual(4.5);
+        expect(contrastRatio(c.text, c.subtleHover)).toBeGreaterThanOrEqual(4.5);
+      }
+    }
+  });
+
+  it('warning 도 고정된 CSS 변수 이름을 가진다', () => {
+    expect(vars.color.warning.solid).toBe('var(--bestow-color-warning-solid)');
+  });
+});
+
 describe('createTheme', () => {
   it('common 을 모드별 값에 병합하고 모드별 값이 우선한다', () => {
     const theme = createTheme({
@@ -46,6 +68,9 @@ describe('createIntentColors', () => {
       const d = dark!.color!.primary!;
       expect(l.solid).toBe(color);
       expect(contrastRatio(l.contrast!, l.solid!)).toBeGreaterThanOrEqual(4.5);
+      expect(contrastRatio(l.contrast!, l.solidHover!)).toBeGreaterThanOrEqual(4.5);
+      expect(contrastRatio(d.contrast!, d.solid!)).toBeGreaterThanOrEqual(4.5);
+      expect(contrastRatio(d.contrast!, d.solidHover!)).toBeGreaterThanOrEqual(4.5);
       expect(contrastRatio(l.text!, lightColors.bg.default)).toBeGreaterThanOrEqual(4.5);
       expect(contrastRatio(l.text!, l.subtleHover!)).toBeGreaterThanOrEqual(4.5);
       expect(contrastRatio(d.text!, darkColors.bg.default)).toBeGreaterThanOrEqual(4.5);
@@ -57,7 +82,12 @@ describe('createIntentColors', () => {
   it('primary 는 포커스 링 색도 브랜드를 따라가고, 다른 intent 는 건드리지 않는다', () => {
     const primary = createIntentColors('primary', '#7c3aed');
     expect(primary.light?.color?.border?.focus).toBe('#7c3aed');
-    expect(primary.dark?.color?.border?.focus).toBe(primary.dark?.color?.primary?.solidHover);
+    // 다크 포커스 링은 어두운 배경에서 보이도록 solid 보다 밝다 (3:1 이상)
+    const darkFocus = primary.dark!.color!.border!.focus!;
+    expect(contrastRatio(darkFocus, darkColors.bg.default)).toBeGreaterThan(
+      contrastRatio(primary.dark!.color!.primary!.solid!, darkColors.bg.default),
+    );
+    expect(contrastRatio(darkFocus, darkColors.bg.default)).toBeGreaterThanOrEqual(3);
     expect(createIntentColors('danger', '#e11d48').light?.color?.border).toBeUndefined();
   });
 

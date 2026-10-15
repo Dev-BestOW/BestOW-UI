@@ -11,8 +11,9 @@
 **마지막 상태**
 - npm: react **0.8.2**, tokens 0.8.1, icons 0.1.0. P1~P4 체크박스 모두 완료. 로컬 = origin/main (`eec98b8`).
 - **P3-5 동작 확인 완료:** 버전 PR #12 작성자가 `bestow-ui-release[bot]`, CI·Visual regression 이 승인 없이 실행돼 성공.
-- **시각 회귀 기준 이미지가 아직 없다 (사용자 작업 필요).** Actions → Visual regression → Run workflow(main, update 체크)를 한 번 실행해야
-  `apps/storybook/visual/__screenshots__/linux` 가 봇 커밋으로 생긴다. 그 전까지 비교 단계는 경고만 내고 통과한다(= 사실상 꺼져 있음).
+- PR #13 머지 → react·tokens 0.8.3, icons 0.1.1 배포(npm README 반영). 시각 회귀 기준 이미지 생성됨(`de54b29`).
+- **커밋 전 로컬 변경:** 다크 shadow, warning 색 + 다크 hover 대비 수정 (changeset `dark-shadow`, `warning-color`).
+  다크 그림자·Card·Badge·Typography·Toast 스토리 화면이 바뀌므로 **push 후 Visual regression 이 실패한다 → 확인 후 update 로 기준 이미지 갱신.**
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다 (Claude 는 커밋·push 하지 않음).
@@ -198,15 +199,16 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 
 ## P5. 다음 후보 (2026-10-15 정리, 순서는 추천 — 사용자와 확정)
 
-- [x] **npm 패키지 페이지 정리** (2026-10-15, 커밋 전) — 세 패키지에 README(영어 + 한국어, 사용자 선택)·LICENSE(MIT © Dev-BestOW, icons 는 기존 ISC 유지),
+- [x] **npm 패키지 페이지 정리** (2026-10-15, 커밋 b511f80) — 세 패키지에 README(영어 + 한국어, 사용자 선택)·LICENSE(MIT © Dev-BestOW, icons 는 기존 ISC 유지),
   `keywords`·`author`·`bugs`·설명 보강, 루트 `LICENSE` 추가. changeset `npm-readme`(세 패키지 patch) — npm 페이지는 다음 배포부터 바뀐다.
   icons 도 이번에 처음 CI 로 배포되어 provenance·GitHub Release 가 생긴다. (GitHub 저장소 About 의 설명·website·topics 는 비어 있음 — 사용자가 설정)
 - [ ] **시각 회귀 기준 이미지 생성** (사용자: Visual regression → Run workflow, update 체크). 없으면 시각 회귀가 동작하지 않는다.
-- [x] **CI 러너 고정** (2026-10-15, 커밋 전 — 모든 workflow `runs-on: ubuntu-24.04`) — `ubuntu-latest` 가 2026-10-19 부터 Ubuntu 26 으로 바뀐다. ci/release/storybook 은 `playwright install --with-deps`
+- [x] **CI 러너 고정** (2026-10-15, 커밋 e542386 — 모든 workflow `runs-on: ubuntu-24.04`) — `ubuntu-latest` 가 2026-10-19 부터 Ubuntu 26 으로 바뀐다. ci/release/storybook 은 `playwright install --with-deps`
   등 OS 패키지에 의존하므로 `ubuntu-24.04` 로 고정하고, 26 대응은 따로 확인한다. (visual.yml 은 컨테이너라 영향 적음)
-- [ ] **다크 모드 shadow** — shadow 토큰이 공통이라 다크에서 그림자가 안 보인다. `shadow` 를 라이트·다크 테마 값으로 옮기면
+- [x] **다크 모드 shadow** (2026-10-15, 커밋 전 — tokens `darkShadow`, react 테마가 다크에서 사용, Card elevated 테두리 제거) — shadow 토큰이 공통이라 다크에서 그림자가 안 보인다. `shadow` 를 라이트·다크 테마 값으로 옮기면
   CSS 변수 이름(`--bestow-shadow-*`)은 그대로라 breaking 아님. Card elevated 의 다크 보완 테두리도 재검토.
-- [ ] **`warning` 의미 색** — 지금 intent 는 primary/neutral/danger/success 뿐. Badge·Toast·(향후) Alert 에 흔히 필요.
+- [x] **`warning` 의미 색** (2026-10-15, 커밋 전 — tokens `palette.amber`·`warning`, Badge/Typography/Toast/createIntentColors.
+  함께 발견·수정: 다크 solidHover 흰 글자 대비 3.3~4.38 → 한 단계 어둡게, createIntentColors hover 도 대비 보장) — 지금 intent 는 primary/neutral/danger/success 뿐. Badge·Toast·(향후) Alert 에 흔히 필요.
 - [ ] **새 컴포넌트 후보** — 자주 쓰는데 없는 것: Alert(Callout), IconButton, Link, Progress, Drawer(Sheet), Breadcrumb, Table, Slider, Combobox.
 - [ ] **기존 컴포넌트 보강** — DropdownMenu CheckboxItem/RadioItem/Sub, Tabs 세로 방향.
 
@@ -214,12 +216,9 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 
 - playground 브라우저 점검은 아직 일회성 스크립트(scratchpad)다. 반복 실행 가능한 E2E(playground 대상 Playwright)로 만들지는 필요해지면 검토.
 - react 번들 전체에 `"use client"` 가 붙어 있다. 서버 전용으로 쓸 수 있는 컴포넌트(Typography, Stack)를 별도 엔트리로 분리할지는 필요해지면 검토.
-- `@bestow-ui/icons@0.1.0` 은 수동 배포라 provenance·GitHub Release 가 없다 (다음 버전부터 자동).
 - CI 러너는 `ubuntu-24.04` 고정. Ubuntu 26 으로 올리는 건 Playwright 지원 확인 후 (24.04 러너 지원 종료 공지가 나오기 전에).
 - 아이콘을 더 늘릴 때: Lucide 에서 가져오면 `svg/` 에 넣고 `generate`. 자체 아이콘은 같은 규격(24×24, stroke 2, round)으로 그린다.
 - 0.x 를 벗어나 1.0.0 을 낼 시점(공개 API 안정화) 판단 필요.
-- DropdownMenu 의 CheckboxItem / RadioGroup / Sub 메뉴, Tabs 세로 방향은 아직 없다. 필요해지면 추가.
-- `shadow` 토큰이 라이트·다크 공통이라 다크 모드에서 그림자가 거의 안 보인다(Card elevated 가 outline 과 비슷해 보임). 모드별 shadow 토큰 분리 검토.
 
 ---
 
@@ -249,3 +248,4 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 | 2026-10-15 | 스토리 axe 를 라이트·다크 두 project 로 실행(210개 통과, 시간 약 2배). 다크 fg.muted 를 일부러 낮춰 다크 project 만 21개 실패하는 것 확인 후 원복 |
 | 2026-10-15 | npm 페이지 정리: 패키지별 README(영/한)·LICENSE, package.json 메타데이터, 루트 LICENSE. `npm pack --dry-run` 으로 README·LICENSE 포함 확인 |
 | 2026-10-15 | CI 러너 고정: ci/release/storybook/visual 의 `ubuntu-latest` → `ubuntu-24.04` (2026-10-19 Ubuntu 26 전환 대비). CLAUDE.md 함정에 기록 |
+| 2026-10-15 | 다크 shadow(`darkShadow` + ring, Card elevated 테두리 제거), warning 의미 색(amber, 대비 4.5 이상) 추가. 기본 intent 대비 테스트를 넣다가 다크 solidHover 대비 미달(3.3~4.38) 발견 → 수정, createIntentColors hover 도 대비 보장(이전 방식이면 #7c3aed 등 실패하는 것 확인). react 160 테스트·스토리 210개 통과 |

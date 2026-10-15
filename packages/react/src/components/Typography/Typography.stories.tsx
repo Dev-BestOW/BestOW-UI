@@ -12,7 +12,10 @@ const meta = {
   },
   argTypes: {
     variant: { control: 'select', options: variants },
-    color: { control: 'select', options: ['default', 'muted', 'subtle', 'primary', 'danger', 'success', 'inherit'] },
+    color: {
+      control: 'select',
+      options: ['default', 'muted', 'subtle', 'primary', 'danger', 'success', 'warning', 'inherit'],
+    },
     weight: { control: 'inline-radio', options: ['regular', 'medium', 'semibold', 'bold'] },
     align: { control: 'inline-radio', options: ['start', 'center', 'end'] },
     as: { control: false },
@@ -45,7 +48,7 @@ export const Scale: Story = {
 export const Colors: Story = {
   render: (args) => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      {(['default', 'muted', 'subtle', 'primary', 'danger', 'success'] as const).map((color) => (
+      {(['default', 'muted', 'subtle', 'primary', 'danger', 'success', 'warning'] as const).map((color) => (
         <Typography key={color} {...args} color={color}>
           {color} — {args.children}
         </Typography>

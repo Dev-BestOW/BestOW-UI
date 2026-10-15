@@ -2,6 +2,7 @@ import type { CSSProperties, ReactNode } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
   darkColors,
+  darkShadow,
   duration,
   fontFamily,
   fontSize,
@@ -326,29 +327,49 @@ function RadiusTokens() {
   );
 }
 
+function ShadowColumn({ theme, values }: { theme: ThemeName; values: Record<string, string> }) {
+  return (
+    <ThemeProvider theme={theme} style={{ flex: '1 1 320px', padding: 24, borderRadius: 12, border: swatchBorder }}>
+      <Stack gap={4}>
+        <Typography variant="h4">{theme === 'light' ? 'Light' : 'Dark'}</Typography>
+        <Stack direction="row" gap={6} wrap>
+          {Object.entries(values).map(([key, value]) => (
+            <Stack key={key} gap={3} style={{ width: 160 }}>
+              <span
+                style={{
+                  display: 'block',
+                  height: 80,
+                  borderRadius: vars.radius.lg,
+                  background: vars.color.bg.default,
+                  boxShadow: vars.shadow[key as keyof typeof shadow],
+                }}
+              />
+              <Stack gap={0}>
+                <span style={mono}>shadow.{key}</span>
+                <span style={{ ...mono, color: vars.color.fg.muted, overflowWrap: 'anywhere' }}>{value}</span>
+              </Stack>
+            </Stack>
+          ))}
+        </Stack>
+      </Stack>
+    </ThemeProvider>
+  );
+}
+
 function ShadowTokens() {
   return (
-    <Section title="그림자 (shadow)">
-      <Stack direction="row" gap={6} wrap>
-        {Object.entries(shadow).map(([key, value]) => (
-          <Stack key={key} gap={3} style={{ width: 200 }}>
-            <span
-              style={{
-                display: 'block',
-                height: 96,
-                borderRadius: vars.radius.lg,
-                background: vars.color.bg.default,
-                border: swatchBorder,
-                boxShadow: vars.shadow[key as keyof typeof shadow],
-              }}
-            />
-            <Stack gap={0}>
-              <span style={mono}>shadow.{key}</span>
-              <span style={{ ...mono, color: vars.color.fg.muted }}>{cssVar('shadow', key)}</span>
-              <span style={{ ...mono, color: vars.color.fg.muted }}>{value}</span>
-            </Stack>
-          </Stack>
-        ))}
+    <Section
+      title="그림자 (shadow)"
+      description={
+        <>
+          CSS 변수(<code>{cssVar('shadow', 'md')}</code> …)는 같고 값만 모드마다 달라요. 다크는 더 진하게 하고, 떠 있는
+          면(md·lg)은 가장자리를 구분하는 옅은 밝은 테두리를 함께 둬요.
+        </>
+      }
+    >
+      <Stack direction="row" gap={4} align="start" wrap>
+        <ShadowColumn theme="light" values={shadow} />
+        <ShadowColumn theme="dark" values={darkShadow} />
       </Stack>
     </Section>
   );

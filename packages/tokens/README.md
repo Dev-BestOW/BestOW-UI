@@ -29,12 +29,13 @@ darkColors.fg.default; // '#f8f9fa'
 
 | Export | Contents |
 |---|---|
-| `palette` | Raw color scales (`gray`, `blue`, `red`, `green`, `white`, `black`) |
-| `lightColors`, `darkColors` | Semantic colors (`bg`, `fg`, `border`, `primary`, `neutral`, `danger`, `success`) — same keys in both modes |
+| `palette` | Raw color scales (`gray`, `blue`, `red`, `green`, `amber`, `white`, `black`) |
+| `lightColors`, `darkColors` | Semantic colors (`bg`, `fg`, `border`, `primary`, `neutral`, `danger`, `success`, `warning`) — same keys in both modes |
 | `space` | `0`–`16` (4px grid) |
 | `radius` | `none`, `sm`, `md`, `lg`, `xl`, `full` |
 | `fontFamily`, `fontSize`, `fontWeight`, `lineHeight` | Typography |
-| `shadow`, `duration`, `zIndex` | Elevation, motion and stacking order |
+| `shadow`, `darkShadow` | Elevation for light / dark mode (same keys) |
+| `duration`, `zIndex` | Motion and stacking order |
 
 ### Using with React
 

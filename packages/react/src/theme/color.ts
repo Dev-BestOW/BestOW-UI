@@ -102,6 +102,16 @@ function findReadable(base: Oklch, startL: number, step: number, backgrounds: st
   return step < 0 ? palette.black : palette.white;
 }
 
+/**
+ * solid 의 hover 색: 밝기를 delta 만큼 옮기되, 그 결과에서 글자색(contrast) 대비가 4.5 아래로 떨어지면 반대 방향으로 옮긴다.
+ * (예: 다크 모드에서 파란 버튼을 밝게 하면 흰 글자 대비가 떨어지므로 어둡게 한다)
+ */
+function hoverFor(base: Oklch, delta: number, contrast: string): string {
+  const preferred = withL(base, Math.min(1, Math.max(0, base.l + delta)));
+  if (contrastRatio(contrast, preferred) >= 4.5) return preferred;
+  return withL(base, Math.min(1, Math.max(0, base.l - delta)));
+}
+
 /** solid 배경 위 글자색: 흰색이 4.5 를 넘으면 흰색, 아니면 대비가 더 큰 쪽 */
 function pickContrast(solid: string): string {
   const white = palette.white;
@@ -115,7 +125,7 @@ const rgba = (hex: string, alpha: number) => {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
 
-export type IntentName = 'primary' | 'neutral' | 'danger' | 'success';
+export type IntentName = 'primary' | 'neutral' | 'danger' | 'success' | 'warning';
 
 /**
  * 대표색 하나로 intent(primary 등)의 라이트·다크 색 세트를 만든다. 결과는 createTheme 에 넘긴다.
@@ -132,10 +142,11 @@ export function createIntentColors(intent: IntentName, color: string): ThemeInpu
   // 라이트
   const lightSubtle = withL(base, 0.97, Math.min(base.c, 0.12) * 0.3);
   const lightSubtleHover = withL(base, 0.93, Math.min(base.c, 0.12) * 0.45);
+  const lightContrast = pickContrast(solid);
   const light = {
     solid,
-    solidHover: withL(base, Math.max(0, base.l - 0.06)),
-    contrast: pickContrast(solid),
+    solidHover: hoverFor(base, -0.06, lightContrast),
+    contrast: lightContrast,
     subtle: lightSubtle,
     subtleHover: lightSubtleHover,
     text: findReadable(base, Math.min(base.l, 0.55), -0.02, [lightColors.bg.default, lightSubtle, lightSubtleHover]),
@@ -147,19 +158,23 @@ export function createIntentColors(intent: IntentName, color: string): ThemeInpu
   const darkBase = rgbToOklch(parseHex(darkSolid));
   const darkSubtleOnBg = blend(darkSolid, 0.16, darkBg);
   const darkSubtleHoverOnBg = blend(darkSolid, 0.26, darkBg);
+  const darkContrast = pickContrast(darkSolid);
   const dark = {
     solid: darkSolid,
-    solidHover: withL(darkBase, Math.min(1, darkBase.l + 0.06)),
-    contrast: pickContrast(darkSolid),
+    solidHover: hoverFor(darkBase, 0.06, darkContrast),
+    contrast: darkContrast,
     subtle: rgba(darkSolid, 0.16),
     subtleHover: rgba(darkSolid, 0.26),
     text: findReadable(darkBase, Math.max(darkBase.l, 0.75), 0.02, [darkBg, darkSubtleOnBg, darkSubtleHoverOnBg]),
   };
 
-  // primary 는 포커스 링(border.focus)도 브랜드 색을 따라가게 한다.
+  // primary 는 포커스 링(border.focus)도 브랜드 색을 따라가게 한다. 다크는 어두운 배경에서 잘 보이도록 solid 보다 밝게.
   const focus =
     intent === 'primary'
-      ? { light: { border: { focus: light.solid } }, dark: { border: { focus: dark.solidHover } } }
+      ? {
+          light: { border: { focus: light.solid } },
+          dark: { border: { focus: withL(darkBase, Math.min(1, darkBase.l + 0.06)) } },
+        }
       : undefined;
 
   return {

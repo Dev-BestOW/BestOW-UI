@@ -55,6 +55,18 @@ export const palette = {
     800: '#166534',
     900: '#14532d',
   },
+  amber: {
+    50: '#fffbeb',
+    100: '#fef3c7',
+    200: '#fde68a',
+    300: '#fcd34d',
+    400: '#fbbf24',
+    500: '#f59e0b',
+    600: '#d97706',
+    700: '#b45309',
+    800: '#92400e',
+    900: '#78350f',
+  },
 } as const;
 
 export const space = {
@@ -109,11 +121,22 @@ export const lineHeight = {
   relaxed: '1.75',
 } as const;
 
+/** 라이트 모드 그림자. 다크 모드는 darkShadow 를 쓴다 (같은 키). */
 export const shadow = {
   sm: '0 1px 2px rgba(0, 0, 0, 0.06)',
   md: '0 4px 12px rgba(0, 0, 0, 0.08)',
   lg: '0 12px 32px rgba(0, 0, 0, 0.12)',
 } as const;
+
+/**
+ * 다크 모드 그림자. 어두운 배경에서는 옅은 그림자가 보이지 않으므로 더 진하게 하고,
+ * 떠 있는 면(md·lg)은 가장자리를 구분하는 옅은 밝은 테두리(ring)를 함께 둔다.
+ */
+export const darkShadow = {
+  sm: '0 1px 2px rgba(0, 0, 0, 0.5)',
+  md: '0 0 0 1px rgba(255, 255, 255, 0.08), 0 4px 12px rgba(0, 0, 0, 0.5)',
+  lg: '0 0 0 1px rgba(255, 255, 255, 0.1), 0 12px 32px rgba(0, 0, 0, 0.6)',
+} as const satisfies Record<keyof typeof shadow, string>;
 
 export const duration = {
   fast: '120ms',
@@ -139,6 +162,7 @@ export interface SemanticColors {
   neutral: { solid: string; solidHover: string; contrast: string; subtle: string; subtleHover: string; text: string };
   danger: { solid: string; solidHover: string; contrast: string; subtle: string; subtleHover: string; text: string };
   success: { solid: string; solidHover: string; contrast: string; subtle: string; subtleHover: string; text: string };
+  warning: { solid: string; solidHover: string; contrast: string; subtle: string; subtleHover: string; text: string };
 }
 
 export const lightColors: SemanticColors = {
@@ -183,6 +207,15 @@ export const lightColors: SemanticColors = {
     subtleHover: palette.green[100],
     text: palette.green[700],
   },
+  // 노란색은 밝아서 solid 위 글자는 흰색이 아닌 어두운 색이다
+  warning: {
+    solid: palette.amber[500],
+    solidHover: palette.amber[600],
+    contrast: palette.gray[900],
+    subtle: palette.amber[50],
+    subtleHover: palette.amber[100],
+    text: palette.amber[800],
+  },
 };
 
 export const darkColors: SemanticColors = {
@@ -197,7 +230,7 @@ export const darkColors: SemanticColors = {
   border: { default: palette.gray[700], strong: palette.gray[500], focus: palette.blue[400] },
   primary: {
     solid: palette.blue[600],
-    solidHover: palette.blue[500],
+    solidHover: palette.blue[700], // 흰 글자 대비 유지를 위해 다크에서도 hover 는 어둡게 (blue500 은 4.38)
     contrast: palette.white,
     subtle: 'rgba(59, 111, 246, 0.16)',
     subtleHover: 'rgba(59, 111, 246, 0.26)',
@@ -213,7 +246,7 @@ export const darkColors: SemanticColors = {
   },
   danger: {
     solid: palette.red[600],
-    solidHover: palette.red[500],
+    solidHover: palette.red[700],
     contrast: palette.white,
     subtle: 'rgba(239, 68, 68, 0.16)',
     subtleHover: 'rgba(239, 68, 68, 0.26)',
@@ -221,10 +254,18 @@ export const darkColors: SemanticColors = {
   },
   success: {
     solid: palette.green[700],
-    solidHover: palette.green[600],
+    solidHover: palette.green[800],
     contrast: palette.white,
     subtle: 'rgba(34, 197, 94, 0.16)',
     subtleHover: 'rgba(34, 197, 94, 0.26)',
     text: palette.green[300],
+  },
+  warning: {
+    solid: palette.amber[500],
+    solidHover: palette.amber[400],
+    contrast: palette.gray[900],
+    subtle: 'rgba(245, 158, 11, 0.16)',
+    subtleHover: 'rgba(245, 158, 11, 0.26)',
+    text: palette.amber[300],
   },
 };

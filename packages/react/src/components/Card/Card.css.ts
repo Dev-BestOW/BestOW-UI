@@ -17,8 +17,8 @@ export const card = recipe({
   variants: {
     variant: {
       outline: { borderColor: vars.color.border.default },
-      // 다크 모드에서는 그림자가 잘 안 보이므로 테두리를 함께 둔다
-      elevated: { borderColor: vars.color.border.default, boxShadow: vars.shadow.md },
+      // 다크 모드는 shadow 토큰에 가장자리 ring 이 들어 있어 테두리 없이도 구분된다
+      elevated: { boxShadow: vars.shadow.md },
       soft: { backgroundColor: vars.color.bg.subtle },
     },
     padding: {

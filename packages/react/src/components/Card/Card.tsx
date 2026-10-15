@@ -3,7 +3,7 @@ import { cx } from '../../utils/cx';
 import * as styles from './Card.css';
 
 export interface CardProps extends HTMLAttributes<HTMLElement> {
-  /** 시각적 스타일. elevated 는 테두리 + 그림자 */
+  /** 시각적 스타일. outline 은 테두리, elevated 는 그림자(다크 모드는 가장자리 ring 포함), soft 는 옅은 배경 */
   variant?: 'outline' | 'elevated' | 'soft';
   /** 안쪽 여백 (sm 16px, md 24px, lg 32px). 이미지를 가장자리까지 붙이려면 none */
   padding?: 'none' | 'sm' | 'md' | 'lg';

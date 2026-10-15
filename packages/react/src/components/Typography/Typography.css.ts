@@ -32,6 +32,7 @@ export const typography = recipe({
       primary: { color: vars.color.primary.text },
       danger: { color: vars.color.danger.text },
       success: { color: vars.color.success.text },
+      warning: { color: vars.color.warning.text },
       inherit: { color: 'inherit' },
     },
     weight: {

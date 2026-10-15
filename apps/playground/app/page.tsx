@@ -11,7 +11,7 @@ import {
   Stack,
   Typography,
 } from '@bestow-ui/react';
-import { BellIcon, CircleCheckIcon, SearchIcon, SettingsIcon, UserIcon } from '@bestow-ui/icons';
+import { BellIcon, CircleCheckIcon, SearchIcon, SettingsIcon, TriangleAlertIcon, UserIcon } from '@bestow-ui/icons';
 
 // 외부 요청 없이 이미지 로딩을 확인하기 위한 data URI
 const photo =
@@ -54,7 +54,7 @@ export default function ServerPage() {
 
       <Stack gap={2}>
         <Typography variant="h3">Badge</Typography>
-        {(['primary', 'neutral', 'danger', 'success'] as const).map((color) => (
+        {(['primary', 'neutral', 'danger', 'success', 'warning'] as const).map((color) => (
           <Stack key={color} direction="row" gap={2} align="center">
             {(['solid', 'soft', 'outline'] as const).map((variant) => (
               <Badge key={variant} color={color} variant={variant}>
@@ -69,6 +69,9 @@ export default function ServerPage() {
           <Badge size="lg">lg</Badge>
           <Badge color="success" startIcon={<CircleCheckIcon size={12} />}>
             배포 완료
+          </Badge>
+          <Badge color="warning" startIcon={<TriangleAlertIcon size={12} />}>
+            점검 예정
           </Badge>
         </Stack>
       </Stack>

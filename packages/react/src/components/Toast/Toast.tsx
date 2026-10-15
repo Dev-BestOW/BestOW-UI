@@ -12,7 +12,7 @@ export interface ToastOptions {
   /** 설명 */
   description?: ReactNode;
   /** 의미 색상 */
-  variant?: 'default' | 'success' | 'danger';
+  variant?: 'default' | 'success' | 'warning' | 'danger';
   /** 자동으로 닫히기까지 시간(ms). Infinity 면 자동으로 닫히지 않는다 */
   duration?: number;
   /** 실행 버튼 */

@@ -22,7 +22,7 @@ export interface TypographyProps extends Omit<HTMLAttributes<HTMLElement>, 'colo
   /** 렌더링할 요소. 기본값은 variant 에 따라 결정된다 (h1, p, span 등) */
   as?: ElementType;
   /** 글자 색상 */
-  color?: 'default' | 'muted' | 'subtle' | 'primary' | 'danger' | 'success' | 'inherit';
+  color?: 'default' | 'muted' | 'subtle' | 'primary' | 'danger' | 'success' | 'warning' | 'inherit';
   /** variant 의 기본 굵기를 덮어쓴다 */
   weight?: 'regular' | 'medium' | 'semibold' | 'bold';
   /** 정렬 */

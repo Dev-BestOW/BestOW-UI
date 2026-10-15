@@ -56,6 +56,7 @@ export const toast = recipe({
     variant: {
       default: { '::before': { backgroundColor: vars.color.neutral.solid } },
       success: { '::before': { backgroundColor: vars.color.success.solid } },
+      warning: { '::before': { backgroundColor: vars.color.warning.solid } },
       danger: { '::before': { backgroundColor: vars.color.danger.solid } },
     },
   },

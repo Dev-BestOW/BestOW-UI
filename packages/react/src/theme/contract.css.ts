@@ -1,5 +1,6 @@
 import {
   darkColors,
+  darkShadow,
   duration,
   fontFamily,
   fontSize,
@@ -17,13 +18,13 @@ const baseTokens = {
   space,
   radius,
   font: { family: fontFamily, size: fontSize, weight: fontWeight, lineHeight },
-  shadow,
   duration,
   zIndex,
 };
 
-const lightTokens = { ...baseTokens, color: lightColors };
-const darkTokens = { ...baseTokens, color: darkColors };
+// 색과 그림자는 모드마다 다르다 (CSS 변수 이름은 같다: --bestow-shadow-md …)
+const lightTokens = { ...baseTokens, color: lightColors, shadow };
+const darkTokens = { ...baseTokens, color: darkColors, shadow: darkShadow };
 
 type Contract<T> = { [K in keyof T]: T[K] extends string ? null : Contract<T[K]> };
 
