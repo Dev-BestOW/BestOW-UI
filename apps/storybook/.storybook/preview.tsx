@@ -38,6 +38,7 @@ const preview: Preview = {
           'Introduction',
           'Foundations',
           ['Design Tokens', 'Theming', 'Theme Builder', 'Icons'],
+          'Accessibility',
           'Layout',
           'Components',
           'Korean Kit',

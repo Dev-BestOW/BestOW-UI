@@ -47,6 +47,7 @@ export const cell = style({
 });
 
 export const day = style({
+  position: 'relative',
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
@@ -63,6 +64,18 @@ export const day = style({
   cursor: 'pointer',
   selectors: {
     '&[data-weekday="0"], &[data-holiday]': { color: vars.color.danger.text },
+    // 공휴일을 색만으로 알리지 않도록 숫자 아래에 점을 찍는다 (KWCAG 5.4.1 / WCAG 1.4.1)
+    '&[data-holiday]::after': {
+      content: '""',
+      position: 'absolute',
+      bottom: '4px',
+      left: '50%',
+      width: '4px',
+      height: '4px',
+      marginLeft: '-2px',
+      borderRadius: vars.radius.full,
+      backgroundColor: 'currentColor',
+    },
     '&[data-weekday="6"]:not([data-holiday])': { color: vars.color.primary.text },
     '&:hover:not([aria-disabled="true"])': { backgroundColor: vars.color.bg.muted },
     '&[aria-current="date"]': { borderColor: vars.color.border.strong, fontWeight: vars.font.weight.semibold },

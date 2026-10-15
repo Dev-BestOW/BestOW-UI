@@ -93,7 +93,10 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
   (KWCAG 2.2 "레이블과 네임" 과 같은 항목) ② 제어 모드에서 올바른 날짜를 없는 날짜로 고치면 입력이 지워짐 → 가드 수정(변이 확인)**.
   Popover `onOpenAutoFocus` 추가). 남은 것: (없음 — 키트 2차 완료)
   날짜 선택(한국어 표기, 선택적 공휴일), 주소 검색(Daum 우편번호 — 외부 스크립트라 별도 진입점/어댑터로, 코어 번들에 넣지 않음).
-- [ ] **P6-4. KWCAG 2.2 대응 근거 문서** — KS X OT0003:2022(4원칙·14지침·33검사항목) 항목별로 컴포넌트가 해 둔 것 / 사용자가 할 것 표.
+- [x] **P6-4. KWCAG 2.2 대응 근거 문서** (2026-10-15, 커밋 전 — Storybook › Accessibility › KWCAG 2.2 대응.
+  데이터 `apps/storybook/stories/accessibility/kwcag.ts`(33항목: 지원 18 · 일부 8 · 사용자 몫 3 · 해당 없음 4) + "검사로 찾아 고친 문제" 6건.
+  항목명은 a11ykr·websoul 두 출처 대조(번호 체계 5.x / 1.x 병기). 대조 중 **달력 공휴일이 색으로만 표시** 발견 → 점 표시 추가.
+  6.5.2 는 Select·DropdownMenu 목록 열기가 pointerdown 이라는 점을 그대로 적음. MDX 문서는 스토리 axe 대상이 아니라 수동 axe 로 위반 0 확인) — KS X OT0003:2022(4원칙·14지침·33검사항목) 항목별로 컴포넌트가 해 둔 것 / 사용자가 할 것 표.
   Storybook docs 에 컴포넌트별 키보드 조작표·스크린리더 메모. 표현은 "대응 근거" — "인증 보장" 금지. 항목 번호는 원문 PDF 로 확인.
 - [ ] **P6-5. 한글 타이포그래피·문구** — 전역 한글 줄바꿈 기본값 검토, 줄 간격 스케일 점검, 숫자 tabular 기본,
   기본 문구("닫기", "결과가 없어요" 등)를 한곳에서 바꾸는 방법(다국어 대응).
@@ -197,3 +200,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-15 | P6-3 일부: PhoneNumberInput·BusinessNumberInput·AmountInput + 서식 함수. 커서 유지 테스트를 jsdom → 실제 브라우저 play 로 옮기고 변이 확인(처음 고른 예시는 서식 전후가 같아 무의미했음) |
 | 2026-10-15 | P6-3 주소 검색: AddressInput(+카카오 우편번호 공급자, 가짜 공급자로 테스트). 테스트가 Modal·Drawer 제어 모드 포커스 유실 발견 → useReturnFocus 로 수정(변이 확인). |
 | 2026-10-15 | P6-3 날짜 선택: Calendar·DatePicker(+date 유틸). axe 가 날짜 버튼의 레이블-이름 불일치(WCAG 2.5.3) 발견 → 이름을 보이는 숫자로 시작. 제어 모드 입력 지워짐 버그 재현 테스트(덮어쓰기)로 찾아 수정. |
+| 2026-10-15 | P6-4 KWCAG 2.2 대응 근거 문서(Storybook Accessibility). 항목 대조 중 달력 공휴일 색 의존 발견·수정. 문서 페이지 axe 위반 0 |
