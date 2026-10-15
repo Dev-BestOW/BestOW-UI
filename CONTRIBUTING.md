@@ -35,7 +35,7 @@ pnpm storybook    # http://localhost:6006
 | `pnpm storybook` | Storybook 개발 서버 |
 | `pnpm playground` | Next.js 예제 앱 (http://localhost:3000). 패키지를 고친 뒤엔 `pnpm build` 를 다시 해요 |
 | `pnpm test` | 단위 테스트 (Vitest + jsdom) |
-| `pnpm test:stories` | 모든 스토리를 실제 브라우저에서 렌더링 + axe 접근성 검사. `pnpm build` 먼저 |
+| `pnpm test:stories` | 모든 스토리를 실제 브라우저에서 라이트·다크로 렌더링 + axe 접근성 검사. `pnpm build` 먼저 |
 | `pnpm lint` / `pnpm format` | ESLint / Prettier |
 | `pnpm size` | 번들 크기 검사 (`.size-limit.json`). `pnpm build` 먼저 |
 | `pnpm changeset` | 변경 내역 기록 |
@@ -129,7 +129,7 @@ TextField·Select 와 같은 패턴을 따라요.
 
 ### 스토리
 
-- 모든 스토리는 CI 에서 실제 브라우저로 렌더링되고 **axe 접근성 검사**(글자 대비 4.5:1 등)를 통과해야 해요.
+- 모든 스토리는 CI 에서 실제 브라우저로 렌더링되고, 라이트·다크 두 테마 모두에서 **axe 접근성 검사**(글자 대비 4.5:1 등)를 통과해야 해요.
 - 모든 스토리는 라이트·다크 스크린샷으로 **시각 회귀 검사**를 받아요. 애니메이션처럼 매번 결과가 달라지는 스토리는 `tags: ['!visual']` 로 빼요.
 - 화면을 의도적으로 바꿨다면 PR 브랜치에서 Actions → **Visual regression** → Run workflow(**update** 체크)로 기준 이미지를 갱신해요.
   봇이 새 기준 이미지를 그 브랜치에 커밋해 줘요. 기준 이미지는 글꼴 렌더링 차이 때문에 CI 의 Linux 환경에서만 만들어요.

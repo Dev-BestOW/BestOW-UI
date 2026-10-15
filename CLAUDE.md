@@ -31,7 +31,7 @@ apps/
 .github/
   actions/setup/               pnpm + Node(.nvmrc=22) + pnpm install 공통 composite action
   workflows/ci.yml             PR·main: 아이콘 생성물 확인 → lint → format:check → build → size → typecheck → test
-                               → test:stories(브라우저 렌더링 + axe) → build-storybook → build-playground
+                               → test:stories(브라우저 렌더링 + axe, 라이트·다크) → build-storybook → build-playground
   workflows/visual.yml         PR·main: Playwright Docker 이미지에서 모든 스토리 라이트·다크 스크린샷 비교.
                                수동 실행 + update 체크 → 기준 이미지 갱신 후 그 브랜치에 봇이 커밋
   workflows/release.yml        main: changesets/action — 버전 PR 생성 또는 npm 배포 (OIDC)
@@ -64,7 +64,7 @@ apps/
 - 오버레이(Popover, Menu 등)는 **Radix primitive** 위에 스타일만 입힌다. Portal 콘텐츠에는 `usePortalProps()` 의 className·style 을 붙이고,
   z-index 는 `vars.zIndex.*` 를 쓴다. 열림/닫힘 애니메이션은 `data-state` 셀렉터 + `reducedMotion` 에서 끈다.
 - 아이콘은 `@bestow-ui/icons` 에서 가져온다 (react 패키지 안에 SVG 를 새로 만들지 않는다).
-- 스토리: `tags: ['autodocs']`, Playground + 변형별 스토리. 모든 스토리는 CI 에서 axe 검사를 통과해야 한다(대비 4.5:1 등).
+- 스토리: `tags: ['autodocs']`, Playground + 변형별 스토리. 모든 스토리는 CI 에서 라이트·다크 두 테마로 axe 검사를 통과해야 한다(대비 4.5:1 등).
   스크린샷에서 뺄 스토리는 `tags: ['!visual']`.
 - 테스트: 역할/라벨 기반(Testing Library), 접근성 속성 확인. 상호작용은 `@testing-library/user-event`(`userEvent.setup()`).
 - **최상위 `forwardRef(...)`/`createContext(...)` 에는 `/* @__PURE__ */` 를 붙인다** — 없으면 tree-shaking 이 깨져
@@ -86,7 +86,8 @@ pnpm storybook                       # http://localhost:6006
 pnpm build                           # packages/* (tokens → icons → react 순서)
 pnpm typecheck                       # react/storybook 의 typecheck 는 의존 패키지 dist 가 필요 → build 먼저
 pnpm test                            # vitest (icons, react) — jsdom 단위 테스트
-pnpm test:stories                    # 모든 스토리를 브라우저(로컬은 시스템 Chrome)에서 렌더링 + axe. build 먼저
+pnpm test:stories                    # 모든 스토리를 브라우저(로컬은 시스템 Chrome)에서 라이트·다크로 렌더링 + axe. build 먼저
+                                     # (vitest project storybook-light / storybook-dark — `--project storybook-dark` 로 하나만)
 pnpm test:visual                     # 스크린샷 비교 (build-storybook 먼저). 기준 이미지는 Linux 것만 — 아래 함정 참고
 pnpm lint                            # ESLint (typescript-eslint, react-hooks, jsx-a11y, storybook)
 pnpm format / pnpm format:check      # Prettier (작은따옴표, 세미콜론, trailing comma, 120자). *.md 는 제외

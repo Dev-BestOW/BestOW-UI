@@ -181,7 +181,7 @@ export const panel = style({ padding: vars.space[4], background: vars.color.bg.s
 ## 접근성
 
 - 대화형 컴포넌트는 [Radix UI](https://www.radix-ui.com) primitive 위에 만들어 키보드 조작·포커스 관리·ARIA 속성을 지원해요.
-- 모든 스토리는 CI 에서 실제 브라우저로 렌더링하고 axe 로 검사해요 (글자 대비 4.5:1 등).
+- 모든 스토리는 CI 에서 실제 브라우저로 렌더링하고, 라이트·다크 두 테마에서 axe 로 검사해요 (글자 대비 4.5:1 등).
 - 폼 컴포넌트는 `label` 을 꼭 넘겨 주세요. 보이는 레이블이 없으면 `aria-label` 을 줘요.
 - 애니메이션은 사용자의 "동작 줄이기(prefers-reduced-motion)" 설정을 따라요.
 
