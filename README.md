@@ -2,7 +2,7 @@
 
 React + vanilla-extract 기반 디자인 시스템.
 
-앞으로의 작업 계획은 [docs/ROADMAP.md](docs/ROADMAP.md), 개발 규칙은 [CLAUDE.md](CLAUDE.md)를 참고하세요.
+사용 방법은 Storybook 의 **Introduction** 페이지, 기여 방법은 [CONTRIBUTING.md](CONTRIBUTING.md), 앞으로의 작업 계획은 [docs/ROADMAP.md](docs/ROADMAP.md)를 참고하세요.
 
 | 패키지 | 설명 |
 |---|---|
@@ -81,14 +81,7 @@ pnpm test
 pnpm build
 ```
 
-### 새 컴포넌트 추가
-
-`packages/react/src/components/<Name>/` 아래에 다음 파일을 만들고 `src/index.ts`에서 export 한다.
-
-- `<Name>.tsx` — 컴포넌트 (forwardRef, className/나머지 props 전달)
-- `<Name>.css.ts` — 스타일. 값은 반드시 `vars`(테마 토큰)로 참조
-- `<Name>.stories.tsx` — Storybook 스토리 (`tags: ['autodocs']`)
-- `<Name>.test.tsx` — 테스트
+컴포넌트·아이콘 추가 체크리스트, changeset 작성법은 [CONTRIBUTING.md](CONTRIBUTING.md) 를 봐 주세요.
 
 ## 배포
 
@@ -102,8 +95,9 @@ pnpm release            # 빌드 후 npm 배포
 
 | 워크플로 | 트리거 | 내용 |
 |---|---|---|
-| `ci.yml` | PR, main push | 빌드 → 타입 체크 → 테스트 → Storybook 빌드 |
-| `release.yml` | main push | changeset 이 있으면 "version packages" PR 생성, 그 PR 이 머지되면 npm 배포 |
+| `ci.yml` | PR, main push | 아이콘 생성물 확인 → lint → 포맷 → 빌드 → 번들 크기 → 타입 체크 → 테스트 → 스토리 렌더링·axe → Storybook·예제 앱 빌드 |
+| `visual.yml` | PR, main push, 수동 | 모든 스토리의 라이트·다크 스크린샷 비교 (수동 실행 + update 로 기준 이미지 갱신) |
+| `release.yml` | main push | changeset 이 있으면 "version packages" PR 생성(GitHub App 토큰), 그 PR 이 머지되면 npm 배포 |
 | `storybook.yml` | main push (패키지·앱 변경 시), 수동 | Storybook 과 예제 앱(정적 export)을 GitHub Pages 에 배포 |
 
 배포 흐름: 작업 브랜치에서 `pnpm changeset` → PR 머지 → 자동 생성된 버전 PR 머지 → npm 배포.

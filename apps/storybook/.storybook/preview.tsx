@@ -32,6 +32,11 @@ const preview: Preview = {
       matchers: { color: /(background|color)$/i, date: /Date$/i },
     },
     a11y: { test: 'error' },
+    options: {
+      storySort: {
+        order: ['Introduction', 'Foundations', ['Design Tokens', 'Theming', 'Icons'], 'Layout', 'Components'],
+      },
+    },
   },
 };
 

@@ -12,7 +12,7 @@
 - npm: react·tokens **0.8.1** (P3 1~4 와 대비·tree-shaking patch 까지 배포 완료, 버전 PR #11).
 - **시각 회귀 기준 이미지가 아직 없다.** Actions → Visual regression → Run workflow(main, update 체크)를 한 번 실행해야
   `apps/storybook/visual/__screenshots__/linux` 가 봇 커밋으로 생긴다. 그 전까지 비교 단계는 경고만 내고 통과한다.
-- **P3-5 수정 완료, 커밋 전 (로컬 변경: `release.yml`).** 원인은 봇(GITHUB_TOKEN) PR 의 workflow 승인 대기.
+- **P3-5 수정 완료 (커밋 e7e6e63, push 후 Release run 성공 — App 토큰 발급 단계 확인).** 원인은 봇(GITHUB_TOKEN) PR 의 workflow 승인 대기.
   GitHub App `bestow-ui-release` 토큰으로 버전 PR 을 만들도록 바꿈. 사용자가 App 생성·설치, `RELEASE_APP_CLIENT_ID`(variable)·
   `RELEASE_APP_PRIVATE_KEY`(secret) 등록 완료. **다음 버전 PR 에서 CI 가 승인 없이 실행되는지 확인** 필요.
 
@@ -23,7 +23,12 @@
 3. 배포 버전 확인: `curl -s https://registry.npmjs.org/@bestow-ui%2freact | python3 -c "import json,sys;print(json.load(sys.stdin)['dist-tags'])"`
 4. `pnpm install && pnpm build` 후 아래 **다음 작업**부터 진행.
 
-**다음 작업:** ① 다음 버전 PR 에서 P3-5 동작 확인(작성자가 `bestow-ui-release[bot]`, CI·Visual regression 이 바로 실행) → ② P4 문서(Introduction.mdx → 디자인 토큰 페이지 → 기여 가이드).
+- **P4 문서 완료, 커밋 전 (로컬 변경).** `apps/storybook/stories/Introduction.mdx`, `Tokens.stories.tsx`(Foundations/Design Tokens),
+  루트 `CONTRIBUTING.md`, README 정리. 새 스토리 6개가 생겨 **시각 회귀 기준 이미지 생성 시 함께 들어간다.**
+
+**다음 작업:** ① 다음 버전 PR 에서 P3-5 동작 확인(작성자가 `bestow-ui-release[bot]`, CI·Visual regression 이 바로 실행)
+→ ② 백로그에서 고른다(스토리 axe 다크 테마 검사 등) 또는 새 컴포넌트.
+- **Accordion `collapsible` 경고 수정, 커밋 전.** changeset `accordion-collapsible`(react patch).
 P2 컴포넌트를 더 만들 때: Radix 패키지는 올라온 지 24시간 넘은 버전을 고른다(pnpm minimumReleaseAge). `package.json` 을 바꾸기 전에
 origin 보다 뒤처져 있으면 먼저 `git pull` 을 요청한다(버전 PR 머지분과 충돌 방지).
 상호작용 테스트는 `@testing-library/user-event`(`userEvent.setup()`)로 쓰고, 핵심 테스트는 구현을 일부러 망가뜨려 실패하는지 확인한다
@@ -187,9 +192,14 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 
 ## P4. 문서
 
-- [ ] **Storybook 시작하기 페이지** (`Introduction.mdx`) — 설치, `styles.css` import, ThemeProvider/ToastProvider 설정, 다크모드, 아이콘 사용법, (P1-1 이후) 테마 커스터마이징.
-- [ ] **디자인 토큰 페이지** — Colors(light/dark 나란히), Typography 스케일, Spacing, Radius, Shadow, zIndex. `@bestow-ui/tokens` 값을 읽어 자동으로 그린다.
-- [ ] **기여 가이드** — 컴포넌트 추가 체크리스트, changeset 작성법, 아이콘 추가 방법 (CLAUDE.md 내용을 사람용으로 정리).
+- [x] **Storybook 시작하기 페이지** (2026-10-15, `apps/storybook/stories/Introduction.mdx`) — 설치, `styles.css` import, ThemeProvider/ToastProvider 설정, 다크모드, 아이콘 사용법, (P1-1 이후) 테마 커스터마이징.
+- [x] **디자인 토큰 페이지** (2026-10-15, `apps/storybook/stories/Tokens.stories.tsx` → Foundations/Design Tokens) — Colors(의미 색상 light/dark 나란히 + 팔레트),
+  Typography(family·size·weight·lineHeight + variant 스케일), Spacing, Radius, Shadow, Duration·zIndex. `@bestow-ui/tokens` 값을 읽어 자동으로 그리고,
+  미리보기 도형은 `vars` 로 그려 브랜드 테마가 반영된다. 일반 스토리라서 axe·시각 회귀 대상.
+- [x] **기여 가이드** (2026-10-15, 루트 `CONTRIBUTING.md`) — 개발 환경, 작업 흐름, 컴포넌트 체크리스트·스타일/폼/오버레이/스토리/테스트 규칙,
+  아이콘 추가, 토큰 수정, changeset 작성법. README 는 이 문서로 연결.
+  - 참고: Storybook MDX 는 GFM 표를 지원하지 않는다(remark-gfm 미설정) → Introduction 에서는 표 대신 목록을 쓴다.
+    MDX 안의 `?path=/story/...` 링크는 manager 안에서 정상 이동한다. 사이드바 순서는 `preview.tsx` 의 `storySort`.
 
 ---
 
@@ -228,3 +238,5 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 | 2026-10-15 | react 0.7.0 배포 확인. P2-3 완료: Tabs, DropdownMenu, Popover, Accordion, Pagination + playground `/navigation`. user-event 도입, 테스트 63개 추가(react 총 153), 핵심 테스트는 변이 확인. 라이트·다크+브랜드, 키보드, portal 색, reducedMotion, dev·prod 콘솔/hydration 경고 0 확인. 다음은 P3 |
 | 2026-10-15 | P3 1~4 완료: ESLint 9 + Prettier(전체 포맷), 스토리 테스트(addon-vitest, axe) CI, size-limit, 시각 회귀(Playwright Docker, 198장). 도입하며 발견·수정: fg.subtle 대비(3.32→5.18), RadioGroup 비활성 설명, tree-shaking(Button 40→2.4 kB). P3-5 는 원인 조사 후 사용자 확인 대기 |
 | 2026-10-15 | P3-5: 원인 확인(봇 PR workflow 승인 대기 → 만료). release.yml 을 GitHub App(`bestow-ui-release`) 토큰으로 변경, 사용자가 App·variable·secret 등록. 다음 버전 PR 에서 동작 확인 필요 |
+| 2026-10-15 | P4 완료: Storybook Introduction(설치·설정·Next.js·다크 모드·브랜드 테마·아이콘·토큰 사용·접근성), Foundations/Design Tokens 스토리 6개, CONTRIBUTING.md, README 정리. 사이드바 순서 지정. 스토리 105개 axe 통과, 라이트·다크 화면 확인 |
+| 2026-10-15 | Accordion: `type="multiple"` 에 `collapsible` 이 섞여 오면(Storybook args 병합 등) Radix 가 DOM 으로 넘겨 React 경고 → 컴포넌트에서 제거. 회귀 테스트 추가(수정 전 실패 확인), react 154 테스트·스토리 105개 통과, 경고 사라짐 |

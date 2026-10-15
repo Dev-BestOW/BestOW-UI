@@ -14,9 +14,13 @@ export const Accordion = /* @__PURE__ */ forwardRef<HTMLDivElement, AccordionPro
   { className, ...props },
   ref,
 ) {
+  // collapsible 은 single 전용이다. multiple 에 섞여 들어오면 Radix 가 DOM 까지 넘겨 React 경고가 나므로 뺀다
+  // (single ↔ multiple 을 바꾸며 props 를 펼쳐 넘기는 경우, 예: Storybook args 병합)
+  const { collapsible, ...multipleProps } = props as AccordionProps & { collapsible?: boolean };
+  const typedProps = props.type === 'multiple' ? multipleProps : { ...multipleProps, collapsible };
   // value 를 넘기면 undefined 여도 제어 모드로 둔다 (uncontrolled → controlled 경고 방지)
   const rootProps = (
-    'value' in props ? { ...props, value: props.value ?? (props.type === 'multiple' ? [] : '') } : props
+    'value' in props ? { ...typedProps, value: props.value ?? (props.type === 'multiple' ? [] : '') } : typedProps
   ) as AccordionProps;
   return <RadixAccordion.Root ref={ref} className={cx(styles.root, className)} {...rootProps} />;
 });

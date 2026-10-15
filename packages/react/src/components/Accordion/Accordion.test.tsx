@@ -153,6 +153,20 @@ describe('Accordion', () => {
     },
   );
 
+  it('multiple 에 collapsible 이 섞여 들어와도 DOM 속성으로 새지 않고 경고가 없다', async () => {
+    // single ↔ multiple 을 바꾸는 코드(예: Storybook args 병합)에서 collapsible 이 남아 있는 경우
+    const user = userEvent.setup();
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const { container } = render(<Example {...({ type: 'multiple', collapsible: true } as Partial<AccordionProps>)} />);
+
+    expect(container.querySelector('[collapsible]')).toBeNull();
+    await user.click(button(REFUND));
+    await user.click(button(TEAM));
+    expect(screen.getAllByRole('region')).toHaveLength(2);
+    expect(error.mock.calls.flat().join(' ')).not.toMatch(/collapsible/);
+    error.mockRestore();
+  });
+
   it('ref 와 className 을 전달한다', () => {
     const rootRef = createRef<HTMLDivElement>();
     const itemRef = createRef<HTMLDivElement>();
