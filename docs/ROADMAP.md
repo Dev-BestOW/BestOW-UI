@@ -1,7 +1,8 @@
 # BestOW UI 로드맵
 
 > 이 문서는 다음 작업 세션(사람 또는 Claude)이 **무엇을, 어떤 순서로, 어디까지 하면 되는지** 바로 알 수 있게 쓴다.
-> 작업 규칙·구조·함정은 [`CLAUDE.md`](../CLAUDE.md), 완료된 단계(P1~P5)의 설계 메모는 [`ROADMAP-HISTORY.md`](ROADMAP-HISTORY.md).
+> 작업 규칙·구조·함정은 [`CLAUDE.md`](../CLAUDE.md), 완료된 단계(P1~P5)의 설계 메모는 [`ROADMAP-HISTORY.md`](ROADMAP-HISTORY.md),
+> 누구를 위해 무엇을 차별화하는지는 [`POSITIONING.md`](POSITIONING.md).
 >
 > **갱신 규칙:** 작업을 시작/완료하면 체크박스를 바꾸고 맨 아래 "진행 기록"에 한 줄 추가한다.
 > 단계가 끝나면 상세 메모는 ROADMAP-HISTORY.md 로 옮기고 여기에는 한 줄 요약만 남긴다.
@@ -10,7 +11,8 @@
 
 **마지막 상태**
 - npm: react·tokens **0.9.0**, icons 0.1.1. 로컬 = origin/main (`ab549af`, 버전 PR #15 머지). 열린 PR 없음.
-- 컴포넌트 32개. P1~P5 완료. 다음 단계는 아래 **P6 부터 — 순서는 사용자와 확정**.
+- 컴포넌트 32개. P1~P5 완료. 포지셔닝 확정: **"한국 서비스를 만들 때 바로 쓰는, 접근성이 검증된 React 디자인 시스템"** (POSITIONING.md).
+- 다음 단계: **P6 차별화**(한국 서비스 키트·KWCAG 근거·테마 빌더) — 아래 추천 순서 참고, 최종 순서는 사용자와 확정.
 - 번들: react 전체 JS 56.4/65 kB, **styles.css 26.8/28 kB**(여유 적음), Button 하나 1.48/2 kB.
 - 시각 회귀: 새 스토리는 기준 이미지가 자동 생성·봇 커밋된다. 기존 화면을 의도적으로 바꾼 커밋만 Visual regression 수동 update.
 
@@ -63,7 +65,35 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 
 ## 다음 단계 (2026-10-15 제안 — 순서는 사용자와 확정)
 
-### P6. 1.0.0 준비 — 공개 API 안정화 ⭐ 추천 1순위
+**추천 순서:** P6-1(테마 빌더, 작음·강점을 바로 보여 줌) → P6-2(약관 동의·인증번호, 체감 큼) → P7 번들 결정(CSS 사용법이 바뀔 수 있어 1.0 전에)
+→ P6-3 나머지 키트·P6-4 KWCAG 문서 → P8 1.0. 한국 키트 부품은 1.0 이후 minor 로 추가해도 된다.
+
+### P6. 차별화 — "한국 서비스 키트 + 검증된 접근성" ⭐ (근거: POSITIONING.md)
+
+- [ ] **P6-1. 테마 빌더** (Storybook 페이지) — 대표색 입력 → 라이트·다크 미리보기 + intent 별 대비 리포트(글자 4.5 / 그래픽 3) +
+  `createTheme(createIntentColors(...))` 코드 복사. 이미 있는 `createIntentColors`·`contrastRatio` 를 그대로 보여 주는 작업.
+- [ ] **P6-2. 한국 서비스 키트 1차 — 약관 동의 그룹, 인증번호 입력**
+  - 약관 동의: 전체 동의 ↔ 개별 동기화(부분 선택 indeterminate), 필수·선택 표시, 약관 내용 펼쳐 보기(Accordion/Modal 연결),
+    필수 미동의 오류 메시지(aria-describedby), 제어/비제어.
+  - 인증번호: N칸 입력(기본 6), 붙여넣기 분배·자동 이동·Backspace 역이동, `autocomplete="one-time-code"`·`inputmode="numeric"`,
+    남은 시간 타이머·만료 안내(aria-live), 재전송 버튼, 하나의 접근 가능한 이름("인증번호 6자리").
+- [ ] **P6-3. 한국 서비스 키트 2차** — 전화번호·사업자등록번호 입력(하이픈 자동, 사업자번호 검증 공식), 금액 입력(쉼표, 원/만원, 한글 금액 읽기),
+  날짜 선택(한국어 표기, 선택적 공휴일), 주소 검색(Daum 우편번호 — 외부 스크립트라 별도 진입점/어댑터로, 코어 번들에 넣지 않음).
+- [ ] **P6-4. KWCAG 2.2 대응 근거 문서** — KS X OT0003:2022(4원칙·14지침·33검사항목) 항목별로 컴포넌트가 해 둔 것 / 사용자가 할 것 표.
+  Storybook docs 에 컴포넌트별 키보드 조작표·스크린리더 메모. 표현은 "대응 근거" — "인증 보장" 금지. 항목 번호는 원문 PDF 로 확인.
+- [ ] **P6-5. 한글 타이포그래피·문구** — 전역 한글 줄바꿈 기본값 검토, 줄 간격 스케일 점검, 숫자 tabular 기본,
+  기본 문구("닫기", "결과가 없어요" 등)를 한곳에서 바꾸는 방법(다국어 대응).
+- [ ] **P6-6. 메시지 반영** — README·npm README·Storybook Introduction 첫 화면을 POSITIONING.md 의 메시지로. 비교표는 경쟁 제품 문서를 다시 확인한 뒤.
+
+### P7. 번들·성능 (CSS 결정은 1.0 전에)
+
+- [ ] **styles.css 분리 검토** (26.8/28 kB) — 지금은 쓰지 않는 컴포넌트 CSS 까지 한 파일로 받는다.
+  선택지: ① 한도만 올림 ② 컴포넌트별 CSS 엔트리(`@bestow-ui/react/button.css` …) ③ JS 가 자기 CSS 를 import(번들러 의존).
+  사용법이 바뀌므로 P8(1.0) 전에 정하는 게 좋다.
+- [ ] **서버 컴포넌트 엔트리 분리** — 번들 전체에 `"use client"` 가 붙어 Typography·Stack 처럼 hook 없는 컴포넌트도 클라이언트 경계가 된다.
+- [ ] size-limit 결과를 PR 코멘트로 (size-limit-action).
+
+### P8. 1.0.0 준비 — 공개 API 안정화
 
 **왜:** 컴포넌트 수가 충분해졌고(32개), 0.x 동안 쌓인 이름·타입 불일치를 지금 정리하지 않으면 1.0 이후엔 전부 breaking change 가 된다.
 
@@ -79,27 +109,19 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 - [ ] **문서** — 0.x → 1.0 마이그레이션 가이드, 컴포넌트별 접근성 메모(키보드·스크린리더)를 Storybook docs 에.
 - [ ] **1.0.0 배포** — changeset major (tokens·react 는 linked, icons 는 별도 판단).
 
-### P7. 번들·성능
-
-- [ ] **styles.css 분리 검토** (26.8/28 kB) — 지금은 쓰지 않는 컴포넌트 CSS 까지 한 파일로 받는다.
-  선택지: ① 한도만 올림 ② 컴포넌트별 CSS 엔트리(`@bestow-ui/react/button.css` …) ③ JS 가 자기 CSS 를 import(번들러 의존).
-  사용법이 바뀌므로 P6(1.0) 전에 정하는 게 좋다.
-- [ ] **서버 컴포넌트 엔트리 분리** — 번들 전체에 `"use client"` 가 붙어 Typography·Stack 처럼 hook 없는 컴포넌트도 클라이언트 경계가 된다.
-- [ ] size-limit 결과를 PR 코멘트로 (size-limit-action).
-
-### P8. 기존 컴포넌트 보강 · 새 컴포넌트
+### P9. 기존 컴포넌트 보강 · 새 컴포넌트
 
 - [ ] DropdownMenu `CheckboxItem`/`RadioItem`/하위 메뉴, Tabs 세로 방향.
 - [ ] Combobox 다중 선택·비동기 검색·긴 목록 가상화.
 - [ ] 새 후보: DatePicker, NumberInput, SegmentedControl(Toggle group), FileUpload, Stepper, Tag 입력. (수요가 생기면)
 
-### P9. 테스트·운영
+### P10. 테스트·운영
 
 - [ ] **playground E2E 정식화** — 지금 브라우저 점검은 매번 scratchpad 스크립트다. Playwright 로 저장소에 두고 CI 에서 실행
   (다크 모드 portal 색, 키보드 시나리오, hydration 경고 0).
 - [ ] 시각 회귀에 열린 상태(오버레이·목록) 스토리를 늘린다 (`play` 로 연 스토리).
 
-### P10. (선택) 디자인 도구 연동
+### P11. (선택) 디자인 도구 연동
 
 - [ ] Figma 변수 ↔ `@bestow-ui/tokens` 동기화, Figma Code Connect 로 컴포넌트 매핑. (이 환경에 Figma MCP 가 연결돼 있음)
 
@@ -151,3 +173,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-15 | Slider 구현(테스트 7개, 범위 이름·제어 모드·valuetext 변이 확인). 스토리 300개 통과. styles.css 26.2/28 kB |
 | 2026-10-15 | Combobox 구현(테스트 8개, 변이 4종 확인, play 스토리로 열린 목록 axe). P5 새 컴포넌트 후보 모두 완료. 스토리 312개 통과 |
 | 2026-10-15 | 로드맵 재정리: P1~P5 상세를 ROADMAP-HISTORY.md 로 보관, 현재 상태(0.9.0, 컴포넌트 32개) 갱신, 다음 단계 P6(1.0 API 안정화)~P10 제안. API 불일치 발견(Toast variant vs color, DropdownMenu default vs neutral, Button intent 범위) |
+| 2026-10-15 | 포지셔닝 문서(POSITIONING.md) 작성 — 대상·약속 4축·비교(SEED·Vapor·Bezier 확인 출처)·KWCAG 2.2(KS X OT0003:2022). 로드맵에 P6 차별화 추가, 1.0 은 P8 로 |
