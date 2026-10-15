@@ -1,5 +1,22 @@
 # @bestow-ui/react
 
+## 0.10.0
+
+### Minor Changes
+
+- 2b0ce51: Combobox 컴포넌트 추가 — 입력해서 거르며 고르는 선택 상자 (WAI-ARIA combobox + listbox 패턴). 입력창 `role="combobox"`·
+  `aria-expanded`·`aria-controls`·`aria-activedescendant`(포커스는 입력창 유지), ↓/↑ 이동(비활성 항목 건너뜀)·Enter 선택·Esc 닫기(입력 되돌림),
+  `filter`(기본: label 포함 검색), `emptyMessage`, Select 와 같은 폼 props(`label`, `helperText`, `error`, `required`, `size`, `fullWidth`,
+  `disabled`, `name` → hidden input). 목록은 Radix Popover 로 portal 에 띄우며 테마·브랜드 오버라이드를 따른다.
+- b17ebf8: Slider 컴포넌트 추가 — Radix Slider 기반. 값은 배열(`[50]`, 범위는 `[20, 80]`), 제어(`value`/`onValueChange`)·비제어(`defaultValue`),
+  `onValueCommit`, `min`/`max`/`step`/`minStepsBetweenThumbs`, `label`(손잡이 이름)·`helperText`(aria-describedby)·`showValue`·`formatValue`
+  (aria-valuetext 공용), 범위 손잡이 이름 `thumbLabels`(기본 "최소"/"최대"), `size`(sm/md), `disabled`.
+  막대·손잡이는 primary text 색이라 라이트·다크 모두 트랙과 3:1 이상 구분된다. `@radix-ui/react-slider` 의존성이 추가됐다.
+- 240c926: Table 컴포넌트 추가 — 네이티브 `<table>` 기반 `Table`/`TableHeader`/`TableBody`/`TableFooter`/`TableRow`/`TableHead`/`TableCell`.
+  `size`(sm/md), `striped`, `stickyHeader`, `caption`(표·스크롤 영역의 이름) 또는 `aria-label`, 셀 `align`, 행 `selected`,
+  머리 셀 정렬(`sortDirection` + `onSort` → 정렬 버튼과 `aria-sort`). 머리 셀 `scope` 는 위치에 따라 자동(col/row).
+  넘치는 표는 바깥 영역이 스크롤되고 키보드로 스크롤할 수 있도록 포커스를 받는다.
+
 ## 0.9.0
 
 ### Minor Changes
