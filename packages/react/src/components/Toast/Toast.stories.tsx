@@ -14,7 +14,13 @@ const meta = {
       },
     },
   },
-  decorators: [(Story) => <ToastProvider><Story /></ToastProvider>],
+  decorators: [
+    (Story) => (
+      <ToastProvider>
+        <Story />
+      </ToastProvider>
+    ),
+  ],
   args: { children: null },
   argTypes: { children: { control: false } },
 } satisfies Meta<typeof ToastProvider>;
@@ -32,7 +38,9 @@ function Demo() {
       <Button
         variant="outline"
         color="neutral"
-        onClick={() => toast({ title: '업로드 완료', description: 'report.pdf 파일이 업로드됐어요.', variant: 'success' })}
+        onClick={() =>
+          toast({ title: '업로드 완료', description: 'report.pdf 파일이 업로드됐어요.', variant: 'success' })
+        }
       >
         성공
       </Button>

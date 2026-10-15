@@ -9,11 +9,13 @@
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-15 작업 종료 시점)
 
 **마지막 상태**
-- 버전 PR #9 머지 완료 → npm 에 react **0.7.0** 배포됨 (Divider, Avatar, Skeleton). **P2-2 까지 배포 완료.**
-- **P2-3 전체 구현 완료 (Tabs, DropdownMenu, Popover, Accordion, Pagination), 커밋 전 (로컬 변경).**
-  changeset 5개(`tabs`, `dropdown-menu`, `popover`, `accordion`, `pagination` — 모두 react minor) 포함 → 커밋·push 하면 react 0.8.0 버전 PR.
-- `packages/react/package.json` 에 Radix 4개(tabs, dropdown-menu, popover, accordion) + devDependency `@testing-library/user-event` 추가 (`pnpm-lock.yaml` 변경).
-- playground 에 `/navigation` 페이지(헤더 "탐색·오버레이") 추가.
+- npm: react **0.8.0** (P2-3 까지 배포 완료).
+- **P3 품질 자동화 1~4 완료, 커밋 전 (로컬 변경).** ESLint+Prettier(저장소 전체 포맷), 스토리 테스트(브라우저 렌더링 + axe) CI,
+  size-limit, 시각 회귀(Playwright Docker). changeset 2개: `subtle-contrast`(tokens·react patch — axe 가 찾은 대비 문제),
+  `tree-shaking`(react patch — size-limit 이 찾은 tree-shaking 문제).
+- **시각 회귀 기준 이미지가 아직 없다.** 커밋·push 후 Actions → Visual regression → Run workflow(main, update 체크)를 한 번 실행해야
+  `apps/storybook/visual/__screenshots__/linux` 가 봇 커밋으로 생긴다. 그 전까지 비교 단계는 경고만 내고 통과한다.
+- **P3-5(버전 PR CI ❌)는 사용자 확인 대기** — 아래 P3 항목 참고.
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다 (Claude 는 커밋·push 하지 않음).
@@ -22,7 +24,7 @@
 3. 배포 버전 확인: `curl -s https://registry.npmjs.org/@bestow-ui%2freact | python3 -c "import json,sys;print(json.load(sys.stdin)['dist-tags'])"`
 4. `pnpm install && pnpm build` 후 아래 **다음 작업**부터 진행.
 
-**다음 작업: P3 품질 자동화** — 접근성 검사 CI → ESLint/Prettier → size-limit → (사용자 확인 후) 시각 회귀 → 버전 PR CI 정리.
+**다음 작업:** ① P3-5 원인 확인(사용자에게 버전 PR 의 CI 화면 메시지를 받아서) → ② P4 문서(Introduction.mdx → 디자인 토큰 페이지 → 기여 가이드).
 P2 컴포넌트를 더 만들 때: Radix 패키지는 올라온 지 24시간 넘은 버전을 고른다(pnpm minimumReleaseAge). `package.json` 을 바꾸기 전에
 origin 보다 뒤처져 있으면 먼저 `git pull` 을 요청한다(버전 PR 머지분과 충돌 방지).
 상호작용 테스트는 `@testing-library/user-event`(`userEvent.setup()`)로 쓰고, 핵심 테스트는 구현을 일부러 망가뜨려 실패하는지 확인한다
@@ -37,9 +39,9 @@ playground 에 사용 예 추가 후 브라우저 점검. 끝나면 이 섹션�
 |---|---|---|
 | `@bestow-ui/tokens` | 0.2.0 | palette, space, radius, font, shadow, duration, zIndex, light/dark 의미 색상 |
 | `@bestow-ui/icons` | 0.1.0 | 아이콘 57종 (Lucide 기반), SVG → 컴포넌트 생성 스크립트 |
-| `@bestow-ui/react` | 0.7.0 (다음: Tabs, DropdownMenu, Popover, Accordion, Pagination — 커밋 대기) | ThemeProvider(light/dark + 브랜드 테마 `createTheme`/`overrides`), Button(`loading`), Typography, Stack, Input, TextField, Checkbox, Modal, Select, Tooltip, Toast, Switch, RadioGroup, Textarea, Spinner, Badge, Card, Divider, Avatar, Skeleton |
+| `@bestow-ui/react` | 0.8.0 (다음: 대비·tree-shaking 수정 patch — 커밋 대기) | ThemeProvider(light/dark + 브랜드 테마 `createTheme`/`overrides`), Button(`loading`), Typography, Stack, Input, TextField, Checkbox, Modal, Select, Tooltip, Toast, Switch, RadioGroup, Textarea, Spinner, Badge, Card, Divider, Avatar, Skeleton, Tabs, DropdownMenu, Popover, Accordion, Pagination |
 
-운영: CI(생성물 확인·빌드·타입·테스트·Storybook·playground 빌드), changesets + npm Trusted Publishing(OIDC) 자동 배포,
+운영: CI(생성물 확인·lint·format·빌드·size·타입·테스트·스토리 렌더링+axe·Storybook·playground 빌드), 시각 회귀(visual.yml), changesets + npm Trusted Publishing(OIDC) 자동 배포,
 Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://dev-bestow.github.io/BestOW-UI/playground/
 
 ---
@@ -155,15 +157,27 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 
 ## P3. 품질 자동화
 
-- [ ] **접근성 검사를 CI 에서 실행** — `.storybook/preview.tsx` 에 `a11y: { test: 'error' }` 는 설정돼 있지만 실행하는 러너가 없다.
-  `@storybook/addon-vitest`(Vitest 브라우저 모드 + Playwright) 로 모든 스토리를 렌더링하고 axe 위반 시 실패시키는 job 추가.
-  CI 에서 Playwright Chromium 설치 필요.
-- [ ] **ESLint + Prettier** — flat config, `typescript-eslint`, `eslint-plugin-react-hooks`, `eslint-plugin-jsx-a11y`. CI 단계 추가.
-  기존 코드 스타일: 작은따옴표, 세미콜론, trailing comma, 120자 정도 줄 길이.
-- [ ] **번들 크기 검사** — `size-limit` 로 `@bestow-ui/react` 전체와 아이콘 1개 import 크기 상한 설정, PR 에서 확인.
-- [ ] **시각 회귀 테스트** — Chromatic(외부 서비스, 프로젝트 토큰 시크릿 필요) 또는 Playwright 스크린샷 비교. **어느 쪽으로 할지 사용자에게 먼저 확인.**
-- [ ] **버전 PR 의 CI ❌ 정리** — changesets 봇이 만든 PR 에서 CI 가 job 없이 실패로 기록된다(코드 문제 아님).
-  `ci.yml` 의 `pull_request` 에서 `changeset-release/**` 브랜치를 제외하거나, GitHub App 토큰으로 PR 을 만들어 CI 가 정상 실행되게 한다.
+- [x] **접근성 검사를 CI 에서 실행** (2026-10-15) — `@storybook/addon-vitest` + Vitest 브라우저 모드(Playwright). `pnpm test:stories`.
+  로컬은 시스템 Chrome(`channel: 'chrome'`), CI 는 `playwright install --with-deps chromium`. 스토리 99개(라이트) 렌더링 + axe.
+  처음 돌렸을 때 실제 위반 발견 → 수정: 라이트 `fg.subtle`(gray600) 대비 3.32 → `#666e76`(5.18), RadioGroup 비활성 설명 흐림 제거.
+  캐시 없는 첫 실행에서 Vite 재로딩으로 파일이 실패 → `optimizeDeps.include` (CLAUDE.md 함정 참고).
+  (남은 것: 다크 테마로도 axe 돌리기 — 지금은 라이트만)
+- [x] **ESLint + Prettier** (2026-10-15) — ESLint 9 flat config(`eslint.config.mjs`): js recommended, typescript-eslint, react-hooks(recommended-latest),
+  jsx-a11y, storybook, eslint-config-prettier. Prettier: 작은따옴표·세미콜론·trailing comma·120자, `*.md` 제외. 저장소 전체 한 번 포맷.
+  CI 에 `pnpm lint`, `pnpm format:check`.
+- [x] **번들 크기 검사** (2026-10-15) — `size-limit`(rolldown) + `.size-limit.json`. CI `pnpm size`.
+  react 전체 JS 50 kB/55, **Button 하나 2.4 kB/3**, styles.css 20.4 kB/23, 아이콘 하나 366 B/500, tokens 1.15 kB/1.5 (brotli).
+  도입하면서 발견: `forwardRef` 에 `/* @__PURE__ */` 가 없어 Button 하나만 써도 40 kB(거의 전체) → 소스에 annotation 추가로 해결.
+  (PR 코멘트로 크기 변화를 보여 주는 size-limit-action 은 미도입 — 필요하면 추가)
+- [x] **시각 회귀 테스트** (2026-10-15, 사용자 선택: Playwright 스크린샷) — `apps/storybook/visual/`. storybook-static 의 index.json 에서
+  모든 스토리를 라이트·다크로 찍어 비교(198장). `.github/workflows/visual.yml` 은 `mcr.microsoft.com/playwright:v1.64.0-noble` 컨테이너에서 실행,
+  수동 실행 + update 로 기준 이미지 갱신·봇 커밋. 로컬(macOS)에서 2회 연속 동일, Badge 모양을 바꾸면 해당 스토리만 실패하는 것 확인.
+  **기준 이미지(linux)는 아직 없음 — 위 "마지막 상태" 참고.**
+- [ ] **버전 PR 의 CI ❌ 정리** — 조사 결과: 버전 PR #7~#10 모두 CI run 이 `github-actions[bot]` 으로 생성되지만 **job 0개로 대기하다가
+  PR 머지 순간 failure** 로 끝남(머지 시각과 1초 차). 코드 실패가 아니라 run 이 시작되지 못한 것. 봇이 만든 PR 의 workflow 승인 대기로 추정되나
+  로그를 볼 수 없어 **사용자에게 버전 PR 의 Checks 화면 메시지 확인을 요청함.**
+  - 승인 대기라면: release.yml 에서 GitHub App 토큰(`actions/create-github-app-token`)으로 PR 을 만들면 CI 가 정상 실행된다(사용자가 App 생성·Secret 등록 필요).
+  - 주의: `pull_request.branches-ignore` 는 base 브랜치 기준이라 head 가 changeset-release/** 인 PR 을 거를 수 없다 → job `if` 로 거른다.
 
 ---
 
@@ -177,7 +191,8 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 
 ## 백로그 / 알려진 이슈
 
-- 브라우저 점검은 playground 에서 자동화 스크립트로 한 번 했다(스크린샷 확인 포함). 반복 실행 가능한 E2E 테스트로 만드는 것은 P3 에서 검토.
+- playground 브라우저 점검은 아직 일회성 스크립트(scratchpad)다. 반복 실행 가능한 E2E(playground 대상 Playwright)로 만들지는 필요해지면 검토.
+- 스토리 axe 검사를 다크 테마로도 돌리기 (현재 라이트만).
 - react 번들 전체에 `"use client"` 가 붙어 있다. 서버 전용으로 쓸 수 있는 컴포넌트(Typography, Stack)를 별도 엔트리로 분리할지는 필요해지면 검토.
 - `@bestow-ui/icons@0.1.0` 은 수동 배포라 provenance·GitHub Release 가 없다 (다음 버전부터 자동).
 - GitHub `ubuntu-latest` 가 2026-10-19 부터 Ubuntu 26 으로 바뀐다는 안내가 있다. CI 가 깨지면 확인.
@@ -207,3 +222,4 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 | 2026-10-15 | react 0.6.0 배포 확인(Badge, Card). P2-2 Avatar 구현(`@radix-ui/react-avatar` 추가), playground 에 추가. dev·prod 모두 hydration 경고 0, fallback 대비 라이트 10.3/다크 12.9. 다음은 Skeleton |
 | 2026-10-15 | P2-2 완료: Skeleton 구현, playground 상호작용 페이지에 "게시글 다시 불러오기"(Button loading + Skeleton + aria-busy) 예시. reducedMotion 정지·콘솔 경고 0 확인. 다음은 P2-3 Tabs |
 | 2026-10-15 | react 0.7.0 배포 확인. P2-3 완료: Tabs, DropdownMenu, Popover, Accordion, Pagination + playground `/navigation`. user-event 도입, 테스트 63개 추가(react 총 153), 핵심 테스트는 변이 확인. 라이트·다크+브랜드, 키보드, portal 색, reducedMotion, dev·prod 콘솔/hydration 경고 0 확인. 다음은 P3 |
+| 2026-10-15 | P3 1~4 완료: ESLint 9 + Prettier(전체 포맷), 스토리 테스트(addon-vitest, axe) CI, size-limit, 시각 회귀(Playwright Docker, 198장). 도입하며 발견·수정: fg.subtle 대비(3.32→5.18), RadioGroup 비활성 설명, tree-shaking(Button 40→2.4 kB). P3-5 는 원인 조사 후 사용자 확인 대기 |

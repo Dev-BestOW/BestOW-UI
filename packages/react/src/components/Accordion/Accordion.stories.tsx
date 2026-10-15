@@ -2,7 +2,11 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Accordion, AccordionItem } from './Accordion';
 
 const faq = [
-  { value: 'refund', title: '환불은 어떻게 하나요?', body: '결제 후 7일 이내라면 설정 > 결제에서 바로 환불할 수 있어요.' },
+  {
+    value: 'refund',
+    title: '환불은 어떻게 하나요?',
+    body: '결제 후 7일 이내라면 설정 > 결제에서 바로 환불할 수 있어요.',
+  },
   { value: 'plan', title: '플랜을 바꿀 수 있나요?', body: '언제든 바꿀 수 있어요. 남은 기간은 일할 계산해요.' },
   { value: 'team', title: '팀원을 초대하려면?', body: '설정 > 멤버에서 이메일로 초대해요.' },
 ];

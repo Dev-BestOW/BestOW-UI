@@ -38,7 +38,8 @@ export default function NavigationPage() {
       <Stack gap={2}>
         <Typography variant="h1">탐색·오버레이 페이지</Typography>
         <Typography color="muted">
-          Tabs·DropdownMenu·Popover·Accordion·Pagination 을 확인해요. 메뉴와 팝오버는 portal 이라 테마를 따라가는지 함께 봐요.
+          Tabs·DropdownMenu·Popover·Accordion·Pagination 을 확인해요. 메뉴와 팝오버는 portal 이라 테마를 따라가는지 함께
+          봐요.
         </Typography>
       </Stack>
 
@@ -84,7 +85,11 @@ export default function NavigationPage() {
               <DropdownMenuItem icon={<PencilIcon size={16} />} shortcut="⌘E" onSelect={() => toast({ title: '편집' })}>
                 편집
               </DropdownMenuItem>
-              <DropdownMenuItem icon={<CopyIcon size={16} />} shortcut="⌘D" onSelect={() => toast({ title: '복제했어요' })}>
+              <DropdownMenuItem
+                icon={<CopyIcon size={16} />}
+                shortcut="⌘D"
+                onSelect={() => toast({ title: '복제했어요' })}
+              >
                 복제
               </DropdownMenuItem>
               <DropdownMenuItem disabled>공유 (권한 없음)</DropdownMenuItem>

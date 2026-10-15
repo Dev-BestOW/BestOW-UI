@@ -14,7 +14,7 @@ export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement
   invalid?: boolean;
 }
 
-export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox(
+export const Checkbox = /* @__PURE__ */ forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox(
   { label, size, indeterminate = false, invalid, disabled, className, ...rest },
   ref,
 ) {
@@ -37,7 +37,13 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
           {...rest}
         />
         <svg className={styles.checkIcon} viewBox="0 0 20 20" fill="none" aria-hidden>
-          <path d="M5 10.5l3.2 3L15 7" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+          <path
+            d="M5 10.5l3.2 3L15 7"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
         </svg>
         <svg className={styles.indeterminateIcon} viewBox="0 0 20 20" fill="none" aria-hidden>
           <path d="M6 10h8" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />

@@ -26,7 +26,7 @@ export function getInitials(name: string): string {
   return (first(a) + first(b)).toUpperCase();
 }
 
-export const Avatar = forwardRef<HTMLSpanElement, AvatarProps>(function Avatar(
+export const Avatar = /* @__PURE__ */ forwardRef<HTMLSpanElement, AvatarProps>(function Avatar(
   { src, alt, name, fallback, size, shape, className, ...rest },
   ref,
 ) {

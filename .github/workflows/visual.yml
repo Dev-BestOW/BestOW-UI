@@ -1,0 +1,78 @@
+name: Visual regression
+
+# 모든 스토리를 라이트·다크로 찍어 기준 이미지(apps/storybook/visual/__screenshots__/linux)와 비교한다.
+# 기준 이미지는 OS 마다 렌더링이 달라 항상 이 워크플로의 Docker 이미지에서 만든다.
+# 갱신: Actions → Visual regression → Run workflow → 브랜치 선택 + "update" 체크 → 그 브랜치에 봇이 커밋한다.
+on:
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      update:
+        description: '기준 스크린샷을 새로 만들어 이 브랜치에 커밋'
+        type: boolean
+        default: false
+
+concurrency:
+  group: visual-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  visual:
+    name: Storybook screenshots
+    runs-on: ubuntu-latest
+    # playwright / @playwright/test 버전(apps/storybook/package.json)과 반드시 같은 태그를 쓴다
+    container: mcr.microsoft.com/playwright:v1.64.0-noble
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v7
+      - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+      - uses: ./.github/actions/setup
+
+      - name: Build packages and Storybook
+        run: pnpm build && pnpm build-storybook
+        env:
+          STORYBOOK_DISABLE_TELEMETRY: 1
+
+      - name: Compare screenshots
+        if: ${{ !inputs.update }}
+        run: |
+          if [ ! -d apps/storybook/visual/__screenshots__/linux ]; then
+            echo "::warning::기준 이미지가 없어 비교를 건너뜁니다. Visual regression 워크플로를 update 옵션으로 한 번 실행하세요."
+            exit 0
+          fi
+          pnpm test:visual
+
+      - name: Update baselines
+        if: ${{ inputs.update }}
+        run: |
+          rm -rf apps/storybook/visual/__screenshots__/linux
+          pnpm test:visual:update
+
+      - name: Commit updated baselines
+        if: ${{ inputs.update }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add apps/storybook/visual/__screenshots__/linux
+          if git diff --cached --quiet; then
+            echo "기준 이미지 변경 없음"
+          else
+            git commit -m "📸 시각 회귀 기준 이미지 갱신"
+            git push
+          fi
+
+      - name: Upload report
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: visual-report
+          path: |
+            apps/storybook/playwright-report
+            apps/storybook/test-results
+          retention-days: 7

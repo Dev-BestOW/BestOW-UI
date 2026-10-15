@@ -44,7 +44,7 @@ export interface SelectProps {
   className?: string;
 }
 
-export const Select = forwardRef<HTMLButtonElement, SelectProps>(function Select(props, ref) {
+export const Select = /* @__PURE__ */ forwardRef<HTMLButtonElement, SelectProps>(function Select(props, ref) {
   const {
     options,
     value,

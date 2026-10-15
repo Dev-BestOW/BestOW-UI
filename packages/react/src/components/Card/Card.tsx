@@ -12,7 +12,7 @@ export interface CardProps extends HTMLAttributes<HTMLElement> {
 }
 
 /** 배경·테두리·radius·padding 을 가진 컨테이너. 자식 사이 간격은 16px. */
-export const Card = forwardRef<HTMLElement, CardProps>(function Card(
+export const Card = /* @__PURE__ */ forwardRef<HTMLElement, CardProps>(function Card(
   { variant, padding, as: Component = 'div', className, ...rest },
   ref,
 ) {
@@ -22,16 +22,25 @@ export const Card = forwardRef<HTMLElement, CardProps>(function Card(
 export type CardSectionProps = HTMLAttributes<HTMLDivElement>;
 
 /** 제목·설명 영역. Typography 와 함께 쓴다. */
-export const CardHeader = forwardRef<HTMLDivElement, CardSectionProps>(function CardHeader({ className, ...rest }, ref) {
+export const CardHeader = /* @__PURE__ */ forwardRef<HTMLDivElement, CardSectionProps>(function CardHeader(
+  { className, ...rest },
+  ref,
+) {
   return <div ref={ref} className={cx(styles.header, className)} {...rest} />;
 });
 
 /** 본문 영역 */
-export const CardBody = forwardRef<HTMLDivElement, CardSectionProps>(function CardBody({ className, ...rest }, ref) {
+export const CardBody = /* @__PURE__ */ forwardRef<HTMLDivElement, CardSectionProps>(function CardBody(
+  { className, ...rest },
+  ref,
+) {
   return <div ref={ref} className={cx(styles.body, className)} {...rest} />;
 });
 
 /** 버튼 등 동작 영역. 오른쪽 정렬 */
-export const CardFooter = forwardRef<HTMLDivElement, CardSectionProps>(function CardFooter({ className, ...rest }, ref) {
+export const CardFooter = /* @__PURE__ */ forwardRef<HTMLDivElement, CardSectionProps>(function CardFooter(
+  { className, ...rest },
+  ref,
+) {
   return <div ref={ref} className={cx(styles.footer, className)} {...rest} />;
 });

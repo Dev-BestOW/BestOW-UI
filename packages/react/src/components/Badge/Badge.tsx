@@ -13,7 +13,7 @@ export interface BadgeProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'color
   startIcon?: ReactNode;
 }
 
-export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
+export const Badge = /* @__PURE__ */ forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
   { variant, color, size, startIcon, className, children, ...rest },
   ref,
 ) {

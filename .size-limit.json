@@ -1,0 +1,35 @@
+[
+  {
+    "name": "react: 전체 (JS)",
+    "path": "packages/react/dist/index.js",
+    "import": "*",
+    "ignore": ["react", "react-dom"],
+    "limit": "55 kB"
+  },
+  {
+    "name": "react: Button 하나 (JS) — tree-shaking 회귀 감시",
+    "path": "packages/react/dist/index.js",
+    "import": "{ Button }",
+    "ignore": ["react", "react-dom"],
+    "limit": "3 kB"
+  },
+  {
+    "name": "react: styles.css",
+    "path": "packages/react/dist/index.css",
+    "rolldown": false,
+    "limit": "23 kB"
+  },
+  {
+    "name": "icons: 아이콘 하나",
+    "path": "packages/icons/dist/index.js",
+    "import": "{ SearchIcon }",
+    "ignore": ["react"],
+    "limit": "500 B"
+  },
+  {
+    "name": "tokens: 전체",
+    "path": "packages/tokens/dist/index.js",
+    "import": "*",
+    "limit": "1.5 kB"
+  }
+]

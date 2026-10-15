@@ -20,7 +20,7 @@ const toCss = (value: number | string) => (typeof value === 'number' ? `${value}
  * 콘텐츠를 불러오는 동안 자리를 표시한다. 장식용이라 스크린리더에서 숨긴다 —
  * 로딩 중인 영역(감싸는 요소)에 `aria-busy="true"` 를 붙여 상태를 알린다.
  */
-export const Skeleton = forwardRef<HTMLSpanElement, SkeletonProps>(function Skeleton(
+export const Skeleton = /* @__PURE__ */ forwardRef<HTMLSpanElement, SkeletonProps>(function Skeleton(
   { variant = 'text', width, height, lines = 1, className, style, ...rest },
   ref,
 ) {

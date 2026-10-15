@@ -16,7 +16,9 @@ const meta = {
     footer: (
       <>
         <ModalClose asChild>
-          <Button variant="ghost" color="neutral">취소</Button>
+          <Button variant="ghost" color="neutral">
+            취소
+          </Button>
         </ModalClose>
         <ModalClose asChild>
           <Button color="danger">삭제</Button>
@@ -50,7 +52,9 @@ export const WithForm: Story = {
     footer: (
       <>
         <ModalClose asChild>
-          <Button variant="ghost" color="neutral">취소</Button>
+          <Button variant="ghost" color="neutral">
+            취소
+          </Button>
         </ModalClose>
         <Button>초대 보내기</Button>
       </>
@@ -64,7 +68,9 @@ export const LongContent: Story = {
     description: undefined,
     size: 'lg',
     trigger: <Button variant="outline">약관 보기</Button>,
-    children: Array.from({ length: 30 }, (_, i) => <p key={i}>제{i + 1}조 — 내용이 길어지면 본문 영역만 스크롤돼요.</p>),
+    children: Array.from({ length: 30 }, (_, i) => (
+      <p key={i}>제{i + 1}조 — 내용이 길어지면 본문 영역만 스크롤돼요.</p>
+    )),
     footer: (
       <ModalClose asChild>
         <Button>동의</Button>

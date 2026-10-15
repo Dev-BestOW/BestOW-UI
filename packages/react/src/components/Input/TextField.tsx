@@ -12,7 +12,7 @@ export interface TextFieldProps extends Omit<InputProps, 'invalid'> {
   error?: boolean;
 }
 
-export const TextField = forwardRef<HTMLInputElement, TextFieldProps>(function TextField(
+export const TextField = /* @__PURE__ */ forwardRef<HTMLInputElement, TextFieldProps>(function TextField(
   { label, helperText, error, required, fullWidth, id, 'aria-describedby': ariaDescribedBy, ...rest },
   ref,
 ) {

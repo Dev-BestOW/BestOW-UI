@@ -4,11 +4,11 @@ on:
   push:
     branches: [main]
     paths:
-      - "packages/**"
-      - "apps/storybook/**"
-      - "apps/playground/**"
-      - "pnpm-lock.yaml"
-      - ".github/workflows/storybook.yml"
+      - 'packages/**'
+      - 'apps/storybook/**'
+      - 'apps/playground/**'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/storybook.yml'
   workflow_dispatch:
 
 concurrency:

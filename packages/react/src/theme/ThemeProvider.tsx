@@ -11,7 +11,7 @@ interface ThemeContextValue {
   style?: CSSProperties;
 }
 
-const ThemeContext = createContext<ThemeContextValue>({ theme: 'light' });
+const ThemeContext = /* @__PURE__ */ createContext<ThemeContextValue>({ theme: 'light' });
 
 export interface ThemeProviderProps extends HTMLAttributes<HTMLDivElement> {
   /** 라이트/다크 모드. 생략하면 바깥 ThemeProvider 의 모드를 이어받는다 (최상위는 light). */
@@ -23,7 +23,7 @@ export interface ThemeProviderProps extends HTMLAttributes<HTMLDivElement> {
   overrides?: BestowTheme;
 }
 
-export const ThemeProvider = forwardRef<HTMLDivElement, ThemeProviderProps>(function ThemeProvider(
+export const ThemeProvider = /* @__PURE__ */ forwardRef<HTMLDivElement, ThemeProviderProps>(function ThemeProvider(
   { theme: themeProp, overrides, className, style, children, ...rest },
   ref,
 ) {

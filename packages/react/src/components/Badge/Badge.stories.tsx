@@ -39,9 +39,15 @@ export const Variants: Story = {
 export const Sizes: Story = {
   render: (args) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-      <Badge {...args} size="sm">Small</Badge>
-      <Badge {...args} size="md">Medium</Badge>
-      <Badge {...args} size="lg">Large</Badge>
+      <Badge {...args} size="sm">
+        Small
+      </Badge>
+      <Badge {...args} size="md">
+        Medium
+      </Badge>
+      <Badge {...args} size="lg">
+        Large
+      </Badge>
     </div>
   ),
 };

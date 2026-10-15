@@ -44,7 +44,8 @@ function parseSvg(file) {
     children.push([tag, attrs]);
     return '';
   });
-  if (rest.trim()) throw new Error(`${file}: 그룹(<g>)이나 닫는 태그가 있는 요소는 지원하지 않아요. 도형을 평탄화해 주세요.`);
+  if (rest.trim())
+    throw new Error(`${file}: 그룹(<g>)이나 닫는 태그가 있는 요소는 지원하지 않아요. 도형을 평탄화해 주세요.`);
 
   const overrides = Object.fromEntries(
     Object.entries(rootAttrs)
@@ -54,7 +55,9 @@ function parseSvg(file) {
   return { children, overrides };
 }
 
-const files = readdirSync(svgDir).filter((f) => f.endsWith('.svg')).sort();
+const files = readdirSync(svgDir)
+  .filter((f) => f.endsWith('.svg'))
+  .sort();
 const lines = [
   '// 이 파일은 scripts/generate.mjs 가 만든다. 직접 수정하지 말고 svg/ 폴더를 수정한 뒤 `pnpm generate` 를 실행하세요.',
   "import { createIcon } from '../createIcon';",

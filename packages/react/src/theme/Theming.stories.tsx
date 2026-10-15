@@ -134,7 +134,10 @@ export const CssVariables: Story = {
         <thead>
           <tr>
             {['토큰 경로 (vars.…)', 'CSS 변수', '미리보기 · 사용 예'].map((h) => (
-              <th key={h} style={{ textAlign: 'left', padding: 8, borderBottom: `1px solid ${vars.color.border.default}` }}>
+              <th
+                key={h}
+                style={{ textAlign: 'left', padding: 8, borderBottom: `1px solid ${vars.color.border.default}` }}
+              >
                 {h}
               </th>
             ))}

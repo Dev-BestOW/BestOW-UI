@@ -6,7 +6,10 @@ import { Pagination } from './Pagination';
 const nav = () => screen.getByRole('navigation', { name: '페이지 탐색' });
 const current = () => screen.getAllByRole('button').find((el) => el.getAttribute('aria-current') === 'page');
 /** 화면에 보이는 순서대로 페이지 버튼 텍스트 + 생략 부호 */
-const visibleItems = () => Array.from(nav().querySelectorAll('li')).map((li) => li.textContent).slice(1, -1);
+const visibleItems = () =>
+  Array.from(nav().querySelectorAll('li'))
+    .map((li) => li.textContent)
+    .slice(1, -1);
 
 describe('Pagination', () => {
   it('nav(기본 이름 "페이지 탐색") 안의 목록으로 렌더링하고 현재 페이지에 aria-current="page" 를 붙인다', () => {

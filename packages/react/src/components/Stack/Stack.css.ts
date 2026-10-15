@@ -3,9 +3,10 @@ import { vars } from '../../theme/contract.css';
 
 type SpaceKey = keyof typeof vars.space;
 
-const gap = Object.fromEntries(
-  Object.entries(vars.space).map(([key, value]) => [key, { gap: value }]),
-) as Record<SpaceKey, { gap: string }>;
+const gap = Object.fromEntries(Object.entries(vars.space).map(([key, value]) => [key, { gap: value }])) as Record<
+  SpaceKey,
+  { gap: string }
+>;
 
 export const stack = recipe({
   base: {

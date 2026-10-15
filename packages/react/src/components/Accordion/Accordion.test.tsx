@@ -129,26 +129,29 @@ describe('Accordion', () => {
     expect(document.activeElement).toBe(button(TEAM));
   });
 
-  it.each(['single', 'multiple'] as const)('%s: value 를 undefined 로 시작해도 제어 모드로 동작하고 경고가 없다', async (type) => {
-    const user = userEvent.setup();
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+  it.each(['single', 'multiple'] as const)(
+    '%s: value 를 undefined 로 시작해도 제어 모드로 동작하고 경고가 없다',
+    async (type) => {
+      const user = userEvent.setup();
+      const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+      const error = vi.spyOn(console, 'error').mockImplementation(() => {});
 
-    function Controlled() {
-      const [value, setValue] = useState<string | string[]>();
-      return <Example {...({ type, value, onValueChange: setValue } as Partial<AccordionProps>)} />;
-    }
-    render(<Controlled />);
-    expect(screen.queryByRole('region')).toBeNull();
+      function Controlled() {
+        const [value, setValue] = useState<string | string[]>();
+        return <Example {...({ type, value, onValueChange: setValue } as Partial<AccordionProps>)} />;
+      }
+      render(<Controlled />);
+      expect(screen.queryByRole('region')).toBeNull();
 
-    await user.click(button(TEAM));
-    expect(screen.getByRole('region', { name: TEAM })).toBeTruthy();
+      await user.click(button(TEAM));
+      expect(screen.getByRole('region', { name: TEAM })).toBeTruthy();
 
-    const messages = [...warn.mock.calls, ...error.mock.calls].flat().join(' ');
-    expect(messages).not.toMatch(/uncontrolled|controlled/);
-    warn.mockRestore();
-    error.mockRestore();
-  });
+      const messages = [...warn.mock.calls, ...error.mock.calls].flat().join(' ');
+      expect(messages).not.toMatch(/uncontrolled|controlled/);
+      warn.mockRestore();
+      error.mockRestore();
+    },
+  );
 
   it('ref 와 className 을 전달한다', () => {
     const rootRef = createRef<HTMLDivElement>();

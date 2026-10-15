@@ -44,7 +44,10 @@ export const toast = recipe({
       '&[data-state="open"]': { animation: `${slideInRight} ${vars.duration.normal} cubic-bezier(0.16, 1, 0.3, 1)` },
       '&[data-state="closed"]': { animation: `${fadeOut} ${vars.duration.fast} ease-in` },
       '&[data-swipe="move"]': { transform: 'translateX(var(--radix-toast-swipe-move-x))' },
-      '&[data-swipe="cancel"]': { transform: 'translateX(0)', transition: `transform ${vars.duration.normal} ease-out` },
+      '&[data-swipe="cancel"]': {
+        transform: 'translateX(0)',
+        transition: `transform ${vars.duration.normal} ease-out`,
+      },
       '&[data-swipe="end"]': { animation: `${fadeOut} ${vars.duration.fast} ease-out` },
     },
     '@media': { [reducedMotion]: { animation: 'none !important' } },

@@ -1,5 +1,16 @@
 // 서버 컴포넌트: 'use client' 없이 디자인 시스템을 import 해서 렌더링되는지 확인한다.
-import { Avatar, Badge, Button, Card, CardBody, CardFooter, CardHeader, Divider, Stack, Typography } from '@bestow-ui/react';
+import {
+  Avatar,
+  Badge,
+  Button,
+  Card,
+  CardBody,
+  CardFooter,
+  CardHeader,
+  Divider,
+  Stack,
+  Typography,
+} from '@bestow-ui/react';
 import { BellIcon, CircleCheckIcon, SearchIcon, SettingsIcon, UserIcon } from '@bestow-ui/icons';
 
 // 외부 요청 없이 이미지 로딩을 확인하기 위한 data URI
@@ -15,7 +26,8 @@ export default function ServerPage() {
       <Stack gap={2}>
         <Typography variant="h1">서버 컴포넌트 페이지</Typography>
         <Typography color="muted">
-          이 페이지는 서버 컴포넌트예요. Typography·Stack·Button 은 클라이언트 경계로, 아이콘은 서버에서 바로 렌더링돼요.
+          이 페이지는 서버 컴포넌트예요. Typography·Stack·Button 은 클라이언트 경계로, 아이콘은 서버에서 바로
+          렌더링돼요.
         </Typography>
       </Stack>
 

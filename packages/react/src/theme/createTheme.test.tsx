@@ -28,11 +28,9 @@ describe('createTheme', () => {
   });
 
   it('여러 입력을 순서대로 깊게 병합한다', () => {
-    const theme = createTheme(
-      createIntentColors('primary', '#7c3aed'),
-      createIntentColors('danger', '#e11d48'),
-      { light: { color: { primary: { solid: '#000000' } } } },
-    );
+    const theme = createTheme(createIntentColors('primary', '#7c3aed'), createIntentColors('danger', '#e11d48'), {
+      light: { color: { primary: { solid: '#000000' } } },
+    });
     expect(theme.light.color?.primary?.solid).toBe('#000000');
     expect(theme.light.color?.primary?.text).toBeDefined();
     expect(theme.light.color?.danger?.solid).toBe('#e11d48');

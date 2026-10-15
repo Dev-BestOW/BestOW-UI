@@ -19,7 +19,13 @@ export function parseHex(hex: string): Rgb {
 }
 
 export function toHex(rgb: Rgb): string {
-  return `#${rgb.map((v) => Math.round(Math.min(1, Math.max(0, v)) * 255).toString(16).padStart(2, '0')).join('')}`;
+  return `#${rgb
+    .map((v) =>
+      Math.round(Math.min(1, Math.max(0, v)) * 255)
+        .toString(16)
+        .padStart(2, '0'),
+    )
+    .join('')}`;
 }
 
 const toLinear = (c: number) => (c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
@@ -151,7 +157,10 @@ export function createIntentColors(intent: IntentName, color: string): ThemeInpu
   };
 
   // primary 는 포커스 링(border.focus)도 브랜드 색을 따라가게 한다.
-  const focus = intent === 'primary' ? { light: { border: { focus: light.solid } }, dark: { border: { focus: dark.solidHover } } } : undefined;
+  const focus =
+    intent === 'primary'
+      ? { light: { border: { focus: light.solid } }, dark: { border: { focus: dark.solidHover } } }
+      : undefined;
 
   return {
     light: { color: { [intent]: light, ...focus?.light } },

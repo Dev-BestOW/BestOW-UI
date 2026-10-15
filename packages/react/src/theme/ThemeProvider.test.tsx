@@ -18,6 +18,8 @@ describe('ThemeProvider', () => {
     // portal 이므로 ThemeProvider div 바깥(body 직속)에 렌더링된다
     expect(dialog.closest('[data-theme]')).toBeNull();
     expect(dialog.classList.contains(themeClass.dark)).toBe(true);
-    expect(document.querySelector('[data-radix-popper-content-wrapper] > *')?.classList.contains(themeClass.dark)).toBe(true);
+    expect(document.querySelector('[data-radix-popper-content-wrapper] > *')?.classList.contains(themeClass.dark)).toBe(
+      true,
+    );
   });
 });

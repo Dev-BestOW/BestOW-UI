@@ -16,7 +16,7 @@ export interface SpinnerProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'col
   label?: string;
 }
 
-export const Spinner = forwardRef<HTMLSpanElement, SpinnerProps>(function Spinner(
+export const Spinner = /* @__PURE__ */ forwardRef<HTMLSpanElement, SpinnerProps>(function Spinner(
   { size, color, label = '로딩 중', className, ...rest },
   ref,
 ) {

@@ -15,7 +15,13 @@ const meta = {
     startAdornment: { control: false },
     endAdornment: { control: false },
   },
-  decorators: [(Story) => <div style={{ width: 320 }}><Story /></div>],
+  decorators: [
+    (Story) => (
+      <div style={{ width: 320 }}>
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof TextField>;
 
 export default meta;

@@ -27,7 +27,7 @@ export interface SwitchProps {
   className?: string;
 }
 
-export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch(
+export const Switch = /* @__PURE__ */ forwardRef<HTMLButtonElement, SwitchProps>(function Switch(
   { label, size, id, className, disabled, 'aria-label': ariaLabel, ...rest },
   ref,
 ) {

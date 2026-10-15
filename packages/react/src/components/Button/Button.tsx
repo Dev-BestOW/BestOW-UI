@@ -23,8 +23,21 @@ export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement
   loading?: boolean;
 }
 
-export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
-  { variant, color, size, fullWidth, startIcon, endIcon, loading, className, type = 'button', onClick, children, ...rest },
+export const Button = /* @__PURE__ */ forwardRef<HTMLButtonElement, ButtonProps>(function Button(
+  {
+    variant,
+    color,
+    size,
+    fullWidth,
+    startIcon,
+    endIcon,
+    loading,
+    className,
+    type = 'button',
+    onClick,
+    children,
+    ...rest
+  },
   ref,
 ) {
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {

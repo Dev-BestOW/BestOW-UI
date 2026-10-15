@@ -22,26 +22,28 @@ export interface DropdownMenuContentProps extends ComponentPropsWithoutRef<typeo
   align?: 'start' | 'center' | 'end';
 }
 
-export const DropdownMenuContent = forwardRef<HTMLDivElement, DropdownMenuContentProps>(function DropdownMenuContent(
-  { className, style, side = 'bottom', align = 'start', sideOffset = 4, collisionPadding = 8, ...rest },
-  ref,
-) {
-  const portal = usePortalProps();
-  return (
-    <RadixMenu.Portal>
-      <RadixMenu.Content
-        ref={ref}
-        side={side}
-        align={align}
-        sideOffset={sideOffset}
-        collisionPadding={collisionPadding}
-        className={cx(portal.className, styles.content, className)}
-        style={{ ...portal.style, ...style }}
-        {...rest}
-      />
-    </RadixMenu.Portal>
-  );
-});
+export const DropdownMenuContent = /* @__PURE__ */ forwardRef<HTMLDivElement, DropdownMenuContentProps>(
+  function DropdownMenuContent(
+    { className, style, side = 'bottom', align = 'start', sideOffset = 4, collisionPadding = 8, ...rest },
+    ref,
+  ) {
+    const portal = usePortalProps();
+    return (
+      <RadixMenu.Portal>
+        <RadixMenu.Content
+          ref={ref}
+          side={side}
+          align={align}
+          sideOffset={sideOffset}
+          collisionPadding={collisionPadding}
+          className={cx(portal.className, styles.content, className)}
+          style={{ ...portal.style, ...style }}
+          {...rest}
+        />
+      </RadixMenu.Portal>
+    );
+  },
+);
 
 export interface DropdownMenuItemProps extends Omit<ComponentPropsWithoutRef<typeof RadixMenu.Item>, 'color'> {
   /** 텍스트 앞 아이콘 (장식용) */
@@ -52,40 +54,38 @@ export interface DropdownMenuItemProps extends Omit<ComponentPropsWithoutRef<typ
   color?: 'default' | 'danger';
 }
 
-export const DropdownMenuItem = forwardRef<HTMLDivElement, DropdownMenuItemProps>(function DropdownMenuItem(
-  { icon, shortcut, color = 'default', className, children, ...rest },
-  ref,
-) {
-  return (
-    <RadixMenu.Item ref={ref} className={cx(styles.item, color === 'danger' && styles.danger, className)} {...rest}>
-      {icon && (
-        <span className={styles.icon} aria-hidden>
-          {icon}
-        </span>
-      )}
-      {children}
-      {shortcut && (
-        <span className={styles.shortcut} aria-hidden>
-          {shortcut}
-        </span>
-      )}
-    </RadixMenu.Item>
-  );
-});
+export const DropdownMenuItem = /* @__PURE__ */ forwardRef<HTMLDivElement, DropdownMenuItemProps>(
+  function DropdownMenuItem({ icon, shortcut, color = 'default', className, children, ...rest }, ref) {
+    return (
+      <RadixMenu.Item ref={ref} className={cx(styles.item, color === 'danger' && styles.danger, className)} {...rest}>
+        {icon && (
+          <span className={styles.icon} aria-hidden>
+            {icon}
+          </span>
+        )}
+        {children}
+        {shortcut && (
+          <span className={styles.shortcut} aria-hidden>
+            {shortcut}
+          </span>
+        )}
+      </RadixMenu.Item>
+    );
+  },
+);
 
 export type DropdownMenuLabelProps = ComponentPropsWithoutRef<typeof RadixMenu.Label>;
 
 /** 항목 묶음의 제목 (선택할 수 없음) */
-export const DropdownMenuLabel = forwardRef<HTMLDivElement, DropdownMenuLabelProps>(function DropdownMenuLabel(
-  { className, ...rest },
-  ref,
-) {
-  return <RadixMenu.Label ref={ref} className={cx(styles.label, className)} {...rest} />;
-});
+export const DropdownMenuLabel = /* @__PURE__ */ forwardRef<HTMLDivElement, DropdownMenuLabelProps>(
+  function DropdownMenuLabel({ className, ...rest }, ref) {
+    return <RadixMenu.Label ref={ref} className={cx(styles.label, className)} {...rest} />;
+  },
+);
 
 export type DropdownMenuSeparatorProps = ComponentPropsWithoutRef<typeof RadixMenu.Separator>;
 
-export const DropdownMenuSeparator = forwardRef<HTMLDivElement, DropdownMenuSeparatorProps>(
+export const DropdownMenuSeparator = /* @__PURE__ */ forwardRef<HTMLDivElement, DropdownMenuSeparatorProps>(
   function DropdownMenuSeparator({ className, ...rest }, ref) {
     return <RadixMenu.Separator ref={ref} className={cx(styles.separator, className)} {...rest} />;
   },

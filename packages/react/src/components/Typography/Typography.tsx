@@ -31,7 +31,7 @@ export interface TypographyProps extends Omit<HTMLAttributes<HTMLElement>, 'colo
   truncate?: boolean;
 }
 
-export const Typography = forwardRef<HTMLElement, TypographyProps>(function Typography(
+export const Typography = /* @__PURE__ */ forwardRef<HTMLElement, TypographyProps>(function Typography(
   { variant = 'body', as, color, weight, align, truncate, className, ...rest },
   ref,
 ) {

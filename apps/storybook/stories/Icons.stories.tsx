@@ -8,7 +8,7 @@ const iconEntries = Object.entries(icons).filter(
   (entry): entry is [string, Icon] => entry[0].endsWith('Icon') && typeof entry[1] === 'object',
 );
 
-interface GalleryArgs extends Pick<IconProps, 'size' | 'strokeWidth' | 'color'> {}
+type GalleryArgs = Pick<IconProps, 'size' | 'strokeWidth' | 'color'>;
 
 function IconGallery({ size, strokeWidth, color }: GalleryArgs) {
   const [query, setQuery] = useState('');

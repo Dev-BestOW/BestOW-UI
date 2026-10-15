@@ -28,7 +28,10 @@ export const Scale: Story = {
   render: (args) => (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
       {variants.map((variant) => (
-        <div key={variant} style={{ display: 'grid', gridTemplateColumns: '80px 1fr', alignItems: 'baseline', gap: 16 }}>
+        <div
+          key={variant}
+          style={{ display: 'grid', gridTemplateColumns: '80px 1fr', alignItems: 'baseline', gap: 16 }}
+        >
           <Typography variant="caption" color="subtle">
             {variant}
           </Typography>
@@ -54,7 +57,14 @@ export const Colors: Story = {
 export const Truncate: Story = {
   args: {
     truncate: true,
-    children: '아주 긴 텍스트는 truncate 옵션을 주면 한 줄로 잘리고 끝에 말줄임표가 표시됩니다. 컨테이너 너비를 넘어가면 잘립니다.',
+    children:
+      '아주 긴 텍스트는 truncate 옵션을 주면 한 줄로 잘리고 끝에 말줄임표가 표시됩니다. 컨테이너 너비를 넘어가면 잘립니다.',
   },
-  decorators: [(Story) => <div style={{ width: 280 }}><Story /></div>],
+  decorators: [
+    (Story) => (
+      <div style={{ width: 280 }}>
+        <Story />
+      </div>
+    ),
+  ],
 };

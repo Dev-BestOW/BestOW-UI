@@ -17,7 +17,7 @@ export interface InputProps extends Omit<InputHTMLAttributes<HTMLInputElement>, 
   rootClassName?: string;
 }
 
-export const Input = forwardRef<HTMLInputElement, InputProps>(function Input(
+export const Input = /* @__PURE__ */ forwardRef<HTMLInputElement, InputProps>(function Input(
   { size, invalid, fullWidth, startAdornment, endAdornment, rootClassName, className, disabled, ...rest },
   ref,
 ) {

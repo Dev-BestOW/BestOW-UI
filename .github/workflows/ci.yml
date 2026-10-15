@@ -28,14 +28,32 @@ jobs:
             exit 1
           }
 
+      - name: Lint
+        run: pnpm lint
+
+      - name: Format check
+        run: pnpm format:check
+
       - name: Build packages
         run: pnpm build
+
+      # 번들 크기 상한(.size-limit.json). Button 하나만 import 했을 때의 크기로 tree-shaking 이 깨지지 않았는지도 본다.
+      - name: Bundle size
+        run: pnpm size
 
       - name: Typecheck
         run: pnpm typecheck
 
       - name: Test
         run: pnpm test
+
+      # 모든 스토리를 실제 브라우저에서 렌더링하고 axe 접근성 검사(a11y.test: 'error')를 실행한다.
+      # vanilla-extract 가 토큰을 dist 에서 읽으므로 Build packages 다음에 실행해야 한다.
+      - name: Install Playwright Chromium
+        run: pnpm --filter @bestow-ui/storybook exec playwright install --with-deps chromium
+
+      - name: Test stories (render + a11y)
+        run: pnpm test:stories
 
       - name: Build Storybook
         run: pnpm build-storybook

@@ -10,7 +10,10 @@ import * as styles from './Accordion.css';
  */
 export type AccordionProps = ComponentPropsWithoutRef<typeof RadixAccordion.Root>;
 
-export const Accordion = forwardRef<HTMLDivElement, AccordionProps>(function Accordion({ className, ...props }, ref) {
+export const Accordion = /* @__PURE__ */ forwardRef<HTMLDivElement, AccordionProps>(function Accordion(
+  { className, ...props },
+  ref,
+) {
   // value 를 넘기면 undefined 여도 제어 모드로 둔다 (uncontrolled → controlled 경고 방지)
   const rootProps = (
     'value' in props ? { ...props, value: props.value ?? (props.type === 'multiple' ? [] : '') } : props
@@ -29,7 +32,7 @@ export interface AccordionItemProps extends Omit<ComponentPropsWithoutRef<typeof
   children?: ReactNode;
 }
 
-export const AccordionItem = forwardRef<HTMLDivElement, AccordionItemProps>(function AccordionItem(
+export const AccordionItem = /* @__PURE__ */ forwardRef<HTMLDivElement, AccordionItemProps>(function AccordionItem(
   { title, headingLevel = 3, className, children, ...rest },
   ref,
 ) {

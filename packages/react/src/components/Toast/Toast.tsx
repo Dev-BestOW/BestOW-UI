@@ -38,7 +38,7 @@ interface ToastContextValue {
 
 const REMOVE_DELAY = 500;
 
-const ToastContext = createContext<ToastContextValue | null>(null);
+const ToastContext = /* @__PURE__ */ createContext<ToastContextValue | null>(null);
 
 export interface ToastProviderProps {
   children: ReactNode;
@@ -84,7 +84,9 @@ export function ToastProvider({ children, duration = 5000, label = '알림' }: T
             className={styles.toast({ variant })}
           >
             <RadixToast.Title className={styles.title}>{title}</RadixToast.Title>
-            {description && <RadixToast.Description className={styles.description}>{description}</RadixToast.Description>}
+            {description && (
+              <RadixToast.Description className={styles.description}>{description}</RadixToast.Description>
+            )}
             {action && (
               <RadixToast.Action asChild altText={action.altText ?? action.label} className={styles.action}>
                 <Button size="sm" variant="soft" color="neutral" onClick={action.onClick}>

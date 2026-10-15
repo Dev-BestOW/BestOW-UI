@@ -18,14 +18,22 @@ describe('Button', () => {
 
   it('disabled 상태에서는 클릭되지 않는다', () => {
     const onClick = vi.fn();
-    render(<Button disabled onClick={onClick}>확인</Button>);
+    render(
+      <Button disabled onClick={onClick}>
+        확인
+      </Button>,
+    );
     fireEvent.click(screen.getByRole('button'));
     expect(onClick).not.toHaveBeenCalled();
   });
 
   it('ref 와 className 을 전달한다', () => {
     const ref = createRef<HTMLButtonElement>();
-    render(<Button ref={ref} className="custom">확인</Button>);
+    render(
+      <Button ref={ref} className="custom">
+        확인
+      </Button>,
+    );
     expect(ref.current).toBeInstanceOf(HTMLButtonElement);
     expect(ref.current?.classList.contains('custom')).toBe(true);
   });

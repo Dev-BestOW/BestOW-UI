@@ -16,7 +16,13 @@ const meta = {
     align: { control: 'inline-radio', options: ['start', 'center', 'end'] },
     children: { control: false },
   },
-  decorators: [(Story) => <div style={{ padding: 48 }}><Story /></div>],
+  decorators: [
+    (Story) => (
+      <div style={{ padding: 48 }}>
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof Tooltip>;
 
 export default meta;
@@ -29,7 +35,9 @@ export const Sides: Story = {
     <Stack direction="row" gap={3}>
       {(['top', 'right', 'bottom', 'left'] as const).map((side) => (
         <Tooltip key={side} {...args} side={side} content={side}>
-          <Button variant="soft" color="neutral">{side}</Button>
+          <Button variant="soft" color="neutral">
+            {side}
+          </Button>
         </Tooltip>
       ))}
     </Stack>
@@ -40,7 +48,9 @@ export const IconButton: Story = {
   args: {
     content: '설정',
     children: (
-      <Button variant="ghost" color="neutral" aria-label="설정">⚙</Button>
+      <Button variant="ghost" color="neutral" aria-label="설정">
+        ⚙
+      </Button>
     ),
   },
 };

@@ -64,8 +64,16 @@ export const thumb = recipe({
   },
   variants: {
     size: {
-      sm: { width: '12px', height: '12px', selectors: { '&[data-state="checked"]': { transform: 'translateX(12px)' } } },
-      md: { width: '16px', height: '16px', selectors: { '&[data-state="checked"]': { transform: 'translateX(16px)' } } },
+      sm: {
+        width: '12px',
+        height: '12px',
+        selectors: { '&[data-state="checked"]': { transform: 'translateX(12px)' } },
+      },
+      md: {
+        width: '16px',
+        height: '16px',
+        selectors: { '&[data-state="checked"]': { transform: 'translateX(16px)' } },
+      },
     },
   },
   defaultVariants: { size: 'md' },

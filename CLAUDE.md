@@ -30,7 +30,10 @@ apps/
                                `PLAYGROUND_BASE_PATH` 가 있을 때만 정적 export(+basePath) — Pages 배포용. 평소엔 일반 서버 모드.
 .github/
   actions/setup/               pnpm + Node(.nvmrc=22) + pnpm install 공통 composite action
-  workflows/ci.yml             PR·main: 아이콘 생성물 확인 → build → typecheck → test → build-storybook → build-playground
+  workflows/ci.yml             PR·main: 아이콘 생성물 확인 → lint → format:check → build → size → typecheck → test
+                               → test:stories(브라우저 렌더링 + axe) → build-storybook → build-playground
+  workflows/visual.yml         PR·main: Playwright Docker 이미지에서 모든 스토리 라이트·다크 스크린샷 비교.
+                               수동 실행 + update 체크 → 기준 이미지 갱신 후 그 브랜치에 봇이 커밋
   workflows/release.yml        main: changesets/action — 버전 PR 생성 또는 npm 배포 (OIDC)
   workflows/storybook.yml      main: Storybook + playground(정적 export, /playground/) 를 GitHub Pages 로 배포
                                → https://dev-bestow.github.io/BestOW-UI/ , …/BestOW-UI/playground/
@@ -61,7 +64,11 @@ apps/
 - 오버레이(Popover, Menu 등)는 **Radix primitive** 위에 스타일만 입힌다. Portal 콘텐츠에는 `usePortalProps()` 의 className·style 을 붙이고,
   z-index 는 `vars.zIndex.*` 를 쓴다. 열림/닫힘 애니메이션은 `data-state` 셀렉터 + `reducedMotion` 에서 끈다.
 - 아이콘은 `@bestow-ui/icons` 에서 가져온다 (react 패키지 안에 SVG 를 새로 만들지 않는다).
-- 스토리: `tags: ['autodocs']`, Playground + 변형별 스토리. 테스트: 역할/라벨 기반(Testing Library), 접근성 속성 확인.
+- 스토리: `tags: ['autodocs']`, Playground + 변형별 스토리. 모든 스토리는 CI 에서 axe 검사를 통과해야 한다(대비 4.5:1 등).
+  스크린샷에서 뺄 스토리는 `tags: ['!visual']`.
+- 테스트: 역할/라벨 기반(Testing Library), 접근성 속성 확인. 상호작용은 `@testing-library/user-event`(`userEvent.setup()`).
+- **최상위 `forwardRef(...)`/`createContext(...)` 에는 `/* @__PURE__ */` 를 붙인다** — 없으면 tree-shaking 이 깨져
+  Button 하나만 써도 전체 Radix 가 번들에 들어간다(size-limit 의 "Button 하나" 항목이 감시).
 - 새 컴포넌트는 `packages/react/src/index.ts` 에 export 를 추가한다.
 
 ### 아이콘 추가
@@ -78,7 +85,12 @@ pnpm install
 pnpm storybook                       # http://localhost:6006
 pnpm build                           # packages/* (tokens → icons → react 순서)
 pnpm typecheck                       # react/storybook 의 typecheck 는 의존 패키지 dist 가 필요 → build 먼저
-pnpm test                            # vitest (icons, react)
+pnpm test                            # vitest (icons, react) — jsdom 단위 테스트
+pnpm test:stories                    # 모든 스토리를 브라우저(로컬은 시스템 Chrome)에서 렌더링 + axe. build 먼저
+pnpm test:visual                     # 스크린샷 비교 (build-storybook 먼저). 기준 이미지는 Linux 것만 — 아래 함정 참고
+pnpm lint                            # ESLint (typescript-eslint, react-hooks, jsx-a11y, storybook)
+pnpm format / pnpm format:check      # Prettier (작은따옴표, 세미콜론, trailing comma, 120자). *.md 는 제외
+pnpm size                            # size-limit (.size-limit.json). build 먼저
 pnpm build-storybook
 pnpm playground                      # http://localhost:3000 (packages 를 build 한 뒤. dist 를 쓰므로 패키지 수정 후 다시 build)
 pnpm build-playground
@@ -89,7 +101,8 @@ pnpm changeset                       # 변경 내역 기록 (대화형) — 비�
 ### 검증 (변경 후 항상)
 
 ```bash
-pnpm build && pnpm typecheck && pnpm test && pnpm build-storybook && pnpm build-playground && rm -rf apps/storybook/storybook-static
+pnpm lint && pnpm format:check && pnpm build && pnpm size && pnpm typecheck && pnpm test && pnpm test:stories \
+  && pnpm build-storybook && pnpm build-playground && rm -rf apps/storybook/storybook-static
 ```
 
 ### 브라우저 점검 (UI 를 바꿨을 때)
@@ -124,3 +137,13 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
 - Radix 의 portal 콘텐츠는 ThemeProvider div 밖(body)에 렌더링된다 → `usePortalProps()` 를 안 붙이면 다크모드·브랜드 테마가 깨진다.
 - `vars` 의 CSS 변수 이름(`--bestow-*`)은 사용자가 CSS 로 덮어쓰는 공개 API 다. 토큰 키 이름을 바꾸면 breaking change.
 - npm 배포를 실행하는 명령(`changeset publish`, `pnpm publish` 실제 실행)은 Claude 가 실행하지 않는다.
+- **vanilla-extract 는 `.css.ts` 를 평가할 때 Storybook 의 alias 를 거치지 않고 `packages/tokens/dist` 를 읽는다.**
+  토큰 값을 바꾸면 `pnpm build` 를 해야 Storybook·스토리 테스트에 반영된다 (JS import 는 src alias).
+- 스토리 테스트 첫 실행(캐시 없음, CI)에서 Vite 가 늦게 발견한 의존성을 최적화하며 페이지를 다시 불러오면 테스트 파일이 통째로 실패한다
+  ("Failed to fetch dynamically imported module"). `.storybook/main.ts` 의 `optimizeDeps.include` 에 추가한다.
+  react 패키지의 의존성은 루트에서 못 찾으므로 `'@bestow-ui/react > 패키지'` 형식으로 쓴다.
+- ESLint 는 9.x 를 쓴다 — `eslint-plugin-jsx-a11y` 가 아직 ESLint 10 을 지원하지 않는다.
+- 시각 회귀 기준 이미지(`apps/storybook/visual/__screenshots__/linux`)는 **Linux Docker 이미지에서만** 만든다(글꼴·렌더링 차이).
+  `playwright`/`@playwright/test` 버전과 visual.yml 의 `mcr.microsoft.com/playwright:vX.Y.Z` 태그를 항상 같이 올린다.
+  macOS 에서 돌리면 `__screenshots__/darwin` 에 따로 저장된다(커밋 안 함).
+- GitHub Actions `pull_request` 의 `branches`/`branches-ignore` 는 **base 브랜치** 기준이다. head 브랜치(예: changeset-release/**)로 거르려면 job 의 `if` 를 쓴다.

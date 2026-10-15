@@ -25,7 +25,13 @@ const meta = {
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
     options: { control: false },
   },
-  decorators: [(Story) => <div style={{ width: 280, minHeight: 280 }}><Story /></div>],
+  decorators: [
+    (Story) => (
+      <div style={{ width: 280, minHeight: 280 }}>
+        <Story />
+      </div>
+    ),
+  ],
 } satisfies Meta<typeof Select>;
 
 export default meta;

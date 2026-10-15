@@ -1,0 +1,9 @@
+# 빌드 결과물·생성물
+dist
+storybook-static
+.next
+out
+packages/icons/src/generated
+pnpm-lock.yaml
+# 문서는 손으로 정렬한 표·줄바꿈을 유지한다 (changesets 가 만드는 CHANGELOG 포함)
+*.md

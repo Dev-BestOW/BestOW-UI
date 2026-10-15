@@ -42,7 +42,7 @@ export interface RadioGroupProps {
   className?: string;
 }
 
-export const RadioGroup = forwardRef<HTMLDivElement, RadioGroupProps>(function RadioGroup(props, ref) {
+export const RadioGroup = /* @__PURE__ */ forwardRef<HTMLDivElement, RadioGroupProps>(function RadioGroup(props, ref) {
   const {
     options,
     value,

@@ -28,7 +28,7 @@ export interface PaginationProps extends Omit<HTMLAttributes<HTMLElement>, 'onCh
   getItemLabel?: (type: ItemType, page: number) => string;
 }
 
-export const Pagination = forwardRef<HTMLElement, PaginationProps>(function Pagination(
+export const Pagination = /* @__PURE__ */ forwardRef<HTMLElement, PaginationProps>(function Pagination(
   {
     totalPages,
     page: pageProp,

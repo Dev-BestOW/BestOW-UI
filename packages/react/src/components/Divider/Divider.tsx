@@ -14,7 +14,7 @@ export interface DividerProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
 }
 
-export const Divider = forwardRef<HTMLDivElement, DividerProps>(function Divider(
+export const Divider = /* @__PURE__ */ forwardRef<HTMLDivElement, DividerProps>(function Divider(
   { orientation = 'horizontal', decorative, className, children, ...rest },
   ref,
 ) {

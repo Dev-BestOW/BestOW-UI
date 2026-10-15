@@ -16,7 +16,11 @@ describe('Typography', () => {
   });
 
   it('as 로 요소를 바꿀 수 있다', () => {
-    render(<Typography variant="h1" as="div">제목</Typography>);
+    render(
+      <Typography variant="h1" as="div">
+        제목
+      </Typography>,
+    );
     expect(screen.getByText('제목').tagName).toBe('DIV');
   });
 });

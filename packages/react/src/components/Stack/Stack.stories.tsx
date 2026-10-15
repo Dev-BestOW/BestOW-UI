@@ -61,5 +61,11 @@ export const Wrap: Story = {
     wrap: true,
     children: Array.from({ length: 16 }, (_, i) => <Item key={i} label={String(i + 1)} />),
   },
-  decorators: [(Story) => <div style={{ width: 360 }}><Story /></div>],
+  decorators: [
+    (Story) => (
+      <div style={{ width: 360 }}>
+        <Story />
+      </div>
+    ),
+  ],
 };

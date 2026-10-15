@@ -10,7 +10,12 @@ export const typography = recipe({
   },
   variants: {
     variant: {
-      display: { fontSize: size['4xl'], fontWeight: weight.bold, lineHeight: lineHeight.tight, letterSpacing: '-0.02em' },
+      display: {
+        fontSize: size['4xl'],
+        fontWeight: weight.bold,
+        lineHeight: lineHeight.tight,
+        letterSpacing: '-0.02em',
+      },
       h1: { fontSize: size['3xl'], fontWeight: weight.bold, lineHeight: lineHeight.tight, letterSpacing: '-0.02em' },
       h2: { fontSize: size['2xl'], fontWeight: weight.bold, lineHeight: lineHeight.tight, letterSpacing: '-0.01em' },
       h3: { fontSize: size.xl, fontWeight: weight.semibold, lineHeight: lineHeight.tight },

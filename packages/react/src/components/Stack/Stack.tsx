@@ -18,15 +18,11 @@ export interface StackProps extends HTMLAttributes<HTMLElement> {
   wrap?: boolean;
 }
 
-export const Stack = forwardRef<HTMLElement, StackProps>(function Stack(
+export const Stack = /* @__PURE__ */ forwardRef<HTMLElement, StackProps>(function Stack(
   { as: Component = 'div', direction, gap, align, justify, wrap, className, ...rest },
   ref,
 ) {
   return (
-    <Component
-      ref={ref}
-      className={cx(styles.stack({ direction, gap, align, justify, wrap }), className)}
-      {...rest}
-    />
+    <Component ref={ref} className={cx(styles.stack({ direction, gap, align, justify, wrap }), className)} {...rest} />
   );
 });
