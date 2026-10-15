@@ -24,6 +24,7 @@ export default function InteractivePage() {
   const [agreed, setAgreed] = useState(false);
   const [billing, setBilling] = useState<string>();
   const [memo, setMemo] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
   return (
     <Stack gap={6}>
@@ -40,11 +41,15 @@ export default function InteractivePage() {
         style={{ maxWidth: 400 }}
         onSubmit={(e) => {
           e.preventDefault();
-          toast({
-            title: '가입했어요',
-            description: `플랜: ${plan ?? '선택 안 함'} · 결제: ${billing ?? '선택 안 함'}`,
-            variant: 'success',
-          });
+          setSubmitting(true);
+          setTimeout(() => {
+            setSubmitting(false);
+            toast({
+              title: '가입했어요',
+              description: `플랜: ${plan ?? '선택 안 함'} · 결제: ${billing ?? '선택 안 함'}`,
+              variant: 'success',
+            });
+          }, 1500);
         }}
       >
         <TextField label="이메일" type="email" required fullWidth />
@@ -83,8 +88,8 @@ export default function InteractivePage() {
         />
         <Switch label="마케팅 알림 받기" />
         <Checkbox label="이용약관에 동의합니다" checked={agreed} onChange={(e) => setAgreed(e.target.checked)} />
-        <Button type="submit" disabled={!agreed}>
-          가입하기
+        <Button type="submit" disabled={!agreed} loading={submitting}>
+          {submitting ? '가입하는 중' : '가입하기'}
         </Button>
       </Stack>
 

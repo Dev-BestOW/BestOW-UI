@@ -29,4 +29,29 @@ describe('Button', () => {
     expect(ref.current).toBeInstanceOf(HTMLButtonElement);
     expect(ref.current?.classList.contains('custom')).toBe(true);
   });
+
+  it('loading 이면 aria-busy 를 붙이고 클릭·폼 제출을 막는다', () => {
+    const onClick = vi.fn();
+    const onSubmit = vi.fn((event: Event) => event.preventDefault());
+    render(
+      <form onSubmit={onSubmit as never}>
+        <Button type="submit" loading onClick={onClick}>
+          저장
+        </Button>
+      </form>,
+    );
+    const button = screen.getByRole('button', { name: '저장' });
+    expect(button.getAttribute('aria-busy')).toBe('true');
+    expect(button.getAttribute('aria-disabled')).toBe('true');
+    expect(button.hasAttribute('disabled')).toBe(false);
+    fireEvent.click(button);
+    expect(onClick).not.toHaveBeenCalled();
+    expect(onSubmit).not.toHaveBeenCalled();
+  });
+
+  it('loading 스피너는 버튼 이름에 섞이지 않는다', () => {
+    render(<Button loading>저장</Button>);
+    expect(screen.queryByRole('status')).toBeNull();
+    expect(screen.getByRole('button').textContent).toBe('저장');
+  });
 });

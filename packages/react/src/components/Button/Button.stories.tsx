@@ -55,6 +55,10 @@ export const WithIcons: Story = {
   },
 };
 
+export const Loading: Story = {
+  args: { loading: true, children: '저장 중' },
+};
+
 export const Disabled: Story = {
   args: { disabled: true },
 };

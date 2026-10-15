@@ -23,3 +23,5 @@ export const slideInRight = keyframes({
 });
 
 export const reducedMotion = '(prefers-reduced-motion: reduce)';
+
+export const spin = keyframes({ from: { transform: 'rotate(0deg)' }, to: { transform: 'rotate(360deg)' } });

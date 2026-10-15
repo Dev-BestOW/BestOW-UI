@@ -6,12 +6,12 @@
 > **갱신 규칙:** 작업을 시작/완료하면 체크박스를 바꾸고 맨 아래 "진행 기록"에 한 줄 추가한다.
 > 설계가 문서와 달라지면 이 문서도 함께 고친다.
 
-## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-14 작업 종료 시점)
+## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-15 작업 종료 시점)
 
 **마지막 상태**
-- P1(테마 커스터마이징, Next.js 예제 앱)과 P2-1(Switch·RadioGroup·Textarea)까지 완료하고 main 에 push 됨 (`78d6803`).
-- **버전 PR #6 `chore: version packages` (react 0.4.0, 폼 컴포넌트) 가 열려 있고 아직 머지 전.** 머지하면 npm 에 0.4.0 배포.
-- 로컬에 **staged 상태로 남은 변경**: `apps/playground/tsconfig.tsbuildinfo` 를 git 추적에서 제거 (`.gitignore` 에 `*.tsbuildinfo` 는 이미 반영). 사용자가 커밋할 예정.
+- 버전 PR #6 머지 완료 → npm 에 react **0.4.0** 배포됨 (Switch, RadioGroup, Textarea).
+- P2-2 첫 항목 **Spinner + Button `loading`** 구현 완료, **커밋 전 (로컬 변경)**. changeset `spinner-button-loading.md`(react minor) 포함.
+  사용자가 커밋·push 하면 다음 버전 PR(react 0.5.0)이 만들어진다.
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다 (Claude 는 커밋·push 하지 않음).
@@ -20,17 +20,18 @@
 3. 배포 버전 확인: `curl -s https://registry.npmjs.org/@bestow-ui%2freact | python3 -c "import json,sys;print(json.load(sys.stdin)['dist-tags'])"`
 4. `pnpm install && pnpm build` 후 아래 **다음 작업**부터 진행.
 
-**다음 작업: P2-2 표시 컴포넌트** — Spinner(+ Button `loading`) → Badge → Card → Divider → Avatar → Skeleton.
+**다음 작업: P2-2 표시 컴포넌트 계속** — Badge → Card → Divider → Avatar → Skeleton. (Spinner·Button `loading` 은 완료)
+스크린리더 전용 텍스트는 `src/styles/visuallyHidden.css.ts` 를 재사용한다.
 각 컴포넌트는 CLAUDE.md "컴포넌트 작성 규칙" + 스토리 + 테스트 + `src/index.ts` export + changeset(react minor) +
 playground 에 사용 예 추가 후 브라우저 점검. 끝나면 이 섹션과 체크박스·진행 기록을 갱신한다.
 
-## 현재 상태 (2026-10-14)
+## 현재 상태 (2026-10-15)
 
 | 패키지 | 배포 버전 | 내용 |
 |---|---|---|
 | `@bestow-ui/tokens` | 0.2.0 | palette, space, radius, font, shadow, duration, zIndex, light/dark 의미 색상 |
 | `@bestow-ui/icons` | 0.1.0 | 아이콘 57종 (Lucide 기반), SVG → 컴포넌트 생성 스크립트 |
-| `@bestow-ui/react` | 0.3.1 (0.4.0 = 버전 PR #6 머지 대기) | ThemeProvider(light/dark + 브랜드 테마 `createTheme`/`overrides`), Button, Typography, Stack, Input, TextField, Checkbox, Modal, Select, Tooltip, Toast, (0.4.0) Switch, RadioGroup, Textarea |
+| `@bestow-ui/react` | 0.4.0 (다음: Spinner, Button `loading` — 커밋 대기) | ThemeProvider(light/dark + 브랜드 테마 `createTheme`/`overrides`), Button, Typography, Stack, Input, TextField, Checkbox, Modal, Select, Tooltip, Toast, Switch, RadioGroup, Textarea |
 
 운영: CI(생성물 확인·빌드·타입·테스트·Storybook·playground 빌드), changesets + npm Trusted Publishing(OIDC) 자동 배포,
 Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://dev-bestow.github.io/BestOW-UI/playground/
@@ -116,7 +117,8 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 - [x] **Textarea** — Input 스타일 재사용, `TextField` 처럼 label/helperText/error, (선택) `autoResize`.
 
 **P2-2. 표시**
-- [ ] **Spinner** — `LoaderIcon` + 회전 애니메이션(reducedMotion 시 느리게/정지). 이어서 **Button `loading` prop** (스피너 표시 + `aria-busy` + 클릭 막기).
+- [x] **Spinner** — `LoaderIcon` + 회전 애니메이션(reducedMotion 시 느리게). `role="status"` + 숨김 텍스트 `label`(기본 "로딩 중", 빈 문자열이면 장식용).
+  이어서 **Button `loading` prop** — startIcon 자리에 스피너, `aria-busy`·`aria-disabled`, 클릭·폼 제출 차단 (`disabled` 를 쓰지 않아 포커스 유지).
 - [ ] **Badge** — `variant`(solid/soft/outline) × `color`(primary/neutral/danger/success), `size`.
 - [ ] **Card** — 배경·테두리·radius·padding 만 가진 컨테이너. (선택) `Card.Header/Body/Footer`.
 - [ ] **Divider** — 가로/세로, `role="separator"`.
@@ -179,3 +181,4 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 | 2026-10-14 | playground 를 GitHub Pages `/playground/` 에 정적 export 로 함께 배포하도록 storybook.yml 확장 |
 | 2026-10-14 | P2-1 완료: Switch, RadioGroup(options 배열, 보조 설명은 aria-describedby), Textarea(autoResize, showCount). playground 폼에 추가, 브라우저 점검(키보드 조작·다크·브랜드) 통과. 다음은 P2-2 (Spinner + Button loading, Badge, Card …) |
 | 2026-10-14 | 세션 종료. react 0.3.1 배포 완료, 0.4.0 은 버전 PR #6 머지 대기. 인수인계 섹션 작성 |
+| 2026-10-15 | PR #6 머지·react 0.4.0 배포 확인. P2-2 Spinner + Button `loading` 구현(공용 `visuallyHidden`·`spin` 추가), playground 가입 버튼에 적용, 브라우저 점검(포커스 유지·중복 제출 차단·콘솔 경고 0) 통과. 다음은 Badge |

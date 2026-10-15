@@ -50,6 +50,9 @@ export const button = recipe({
         opacity: 0.5,
         cursor: 'not-allowed',
       },
+      '&[aria-busy="true"]': {
+        cursor: 'progress',
+      },
     },
   },
   variants: {
