@@ -26,13 +26,9 @@ describe('Spinner', () => {
     expect(ref.current?.classList.contains('custom')).toBe(true);
   });
 
-  it('deprecated color="current" 는 inherit 와 같은 스타일이고 개발 모드에서 경고한다', () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    render(<Spinner color="inherit" data-testid="new" />);
-    expect(warn).not.toHaveBeenCalled();
-    render(<Spinner color="current" data-testid="old" />);
-    expect(screen.getByTestId('old').className).toBe(screen.getByTestId('new').className);
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('color="inherit"'));
-    warn.mockRestore();
+  it('1.0 에서 제거한 color="current" 는 타입 오류다 (inherit 를 쓴다)', () => {
+    // @ts-expect-error -- 0.x 의 옛 이름. 1.0 에서 제거됨 (docs/MIGRATION-1.0.md)
+    const removed = <Spinner color="current" />;
+    expect(removed).toBeTruthy();
   });
 });

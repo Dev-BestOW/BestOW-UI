@@ -1,13 +1,16 @@
 # 0.x → 1.0 마이그레이션 가이드
 
-1.0 에서는 0.x 동안 생긴 이름 불일치를 정리해요. 바뀌는 이름은 **0.x 마지막 minor 에서 새 이름을 먼저 추가**하고,
-옛 이름은 그대로 동작하면서 **개발 모드 콘솔에 한 번 경고**(`[BestOW UI] … deprecated …`)를 띄워요. 1.0 에서 옛 이름을 제거해요.
+1.0 에서는 0.x 동안 생긴 이름 불일치를 정리했어요. **0.12.0** 에서 새 이름을 먼저 추가하고 옛 이름은 그대로 동작하면서
+**개발 모드 콘솔에 한 번 경고**(`[BestOW UI] … deprecated …`)를 띄웠고, **1.0.0** 에서 옛 이름을 제거했어요.
 
-**권장 순서:** 0.x 최신 버전으로 올린다 → 콘솔 경고와 TypeScript 의 `@deprecated` 취소선을 보며 아래 표대로 바꾼다 → 1.0 으로 올린다.
+**권장 순서:** 0.12.0 으로 올린다 → 콘솔 경고와 TypeScript 의 `@deprecated` 취소선을 보며 아래 표대로 바꾼다 → 1.0 으로 올린다.
+(바로 1.0 으로 올려도 돼요 — 옛 이름은 모두 TypeScript 오류로 드러나요.)
+
+`@bestow-ui/tokens` 도 1.0.0 이 돼요(코드 변경 없음, 이름 안정화). `@bestow-ui/icons` 는 0.x 를 유지해요.
 
 ## 바뀌는 이름
 
-| 대상 | 0.x (deprecated) | 1.0 | 이유 |
+| 대상 | 0.x (0.12.0 에서 deprecated) | 1.0 | 이유 |
 | --- | --- | --- | --- |
 | `toast()` 옵션 | `variant: 'default' \| 'success' \| 'warning' \| 'danger'` | `color: 'neutral' \| 'primary' \| 'success' \| 'warning' \| 'danger'` | 의미 색은 모든 컴포넌트에서 `color`, 중립은 `'neutral'` |
 | `DropdownMenuItem` | `color="default"` | `color="neutral"` (기본값이라 생략해도 됨) | 중립 색 이름 통일 |
@@ -31,7 +34,7 @@ toast({ title: '알림' }); // color 기본값 neutral
 한 번에 찾기: `grep -rnE "variant: '(default|success|warning|danger)'|color=\"(default|current)\"|usePortalClassName" src`
 (`variant:` 는 Toast 외의 객체에도 걸릴 수 있으니 `toast(` 호출인지 확인하세요.)
 
-## 추가된 것 (0.x 에서 바로 쓸 수 있음, 바꿀 필요 없음)
+## 0.12.0 에서 추가된 것 (바꿀 필요 없음)
 
 - `Checkbox` 의 `onCheckedChange(checked: boolean)` — Switch 와 같은 이름. 기존 `onChange` 도 계속 지원해요.
 - 타입: `AlertColor`, `ToastColor`, `ToastContextValue`, `TableSize`, `TableAlign`.

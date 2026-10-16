@@ -17,7 +17,7 @@ React + vanilla-extract 기반 디자인 시스템 모노레포. npm 에 `@besto
 - 변경 후에는 아래 "검증" 명령을 모두 실행하고 결과를 보고한다.
 - 공개 API 를 바꾸거나 컴포넌트를 추가하면 `.changeset/*.md` 를 만든다 (아래 "배포" 참고).
 - 공개 API 이름을 바꿀 때는 옛 이름을 바로 지우지 않는다 — 새 이름 추가 + 옛 이름 `@deprecated` JSDoc + `warnOnce` 개발 모드 경고,
-  `docs/MIGRATION-1.0.md`(이후 버전이면 해당 가이드) 표에 추가 → 다음 major 에서 제거.
+  마이그레이션 가이드(`docs/MIGRATION-<다음 major>.md`) 표에 추가 → 다음 major 에서 제거.
 
 ## 구조
 
@@ -58,7 +58,7 @@ apps/
 - `src/theme/color.ts` — `createIntentColors(intent, hex)`: OKLCH 로 라이트·다크 intent 색 세트 생성, WCAG 대비 4.5 보장. `contrastRatio`.
 - `src/theme/ThemeProvider.tsx` — `<ThemeProvider theme overrides>`: `data-theme` + 테마 클래스 + 오버라이드 인라인 CSS 변수.
   `theme` 생략 시 바깥 모드 상속, `overrides` 는 바깥과 병합(안쪽 우선). `useTheme()`,
-  `usePortalProps()`(portal 요소용 className+style — 오버라이드까지 적용). `usePortalClassName()` 은 deprecated.
+  `usePortalProps()`(portal 요소용 className+style — 오버라이드까지 적용).
 - `src/components/<Name>/` — `<Name>.tsx`, `<Name>.css.ts`, `<Name>.stories.tsx`, `<Name>.test.tsx`, `index.ts`.
 - `src/styles/animations.css.ts` — 공용 keyframes, `reducedMotion` 미디어쿼리.
 - `src/i18n/` — `LocaleProvider`·`useMessages()`(기본 문구 바꾸기), `en`(영어 묶음). `BestowMessages` 타입이 문구 키 목록.
@@ -144,7 +144,8 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
 2. main 에 머지되면 release.yml 이 "chore: version packages" PR 을 만든다.
 3. 그 PR 을 머지하면 changesets 가 npm 에 배포 + git 태그 + GitHub Release.
 
-버전 규칙(0.x 동안): 새 컴포넌트/기능 = minor, 버그·내부 변경 = patch.
+버전 규칙(react·tokens 1.0 이후, semver): 기존 이름·타입·CSS 변수를 바꾸거나 지움 = **major**, 새 컴포넌트/기능/prop = minor,
+버그·내부 변경 = patch. 이름을 바꿀 때는 위 "작업 규칙" 의 deprecated 절차를 먼저 minor 로 배포한다. icons 는 아직 0.x(기능 = minor).
 
 ## 꼭 알아야 할 함정 (실제로 겪은 문제)
 

@@ -39,46 +39,9 @@ describe('Toast', () => {
     expect(() => render(<Trigger title="x" />)).toThrow('ToastProvider');
   });
 
-  it('deprecated variant 는 color 로 바뀐다 (default → neutral) — 개발 모드에서 경고한다', () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    const { unmount } = render(
-      <ToastProvider>
-        <Trigger title="새 이름" color="neutral" />
-      </ToastProvider>,
-    );
-    fireEvent.click(screen.getByText('띄우기'));
-    const expected = screen.getByText('새 이름').closest('li')!.className;
-    expect(warn).not.toHaveBeenCalled();
-    unmount();
-
-    render(
-      <ToastProvider>
-        <Trigger title="옛 이름" variant="default" />
-      </ToastProvider>,
-    );
-    fireEvent.click(screen.getByText('띄우기'));
-    expect(screen.getByText('옛 이름').closest('li')!.className).toBe(expected);
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('variant 는 deprecated'));
-    warn.mockRestore();
-  });
-
-  it('color 와 deprecated variant 를 함께 주면 color 가 우선한다', () => {
-    vi.spyOn(console, 'warn').mockImplementation(() => {});
-    const { unmount } = render(
-      <ToastProvider>
-        <Trigger title="기준" color="danger" />
-      </ToastProvider>,
-    );
-    fireEvent.click(screen.getByText('띄우기'));
-    const expected = screen.getByText('기준').closest('li')!.className;
-    unmount();
-    render(
-      <ToastProvider>
-        <Trigger title="둘 다" color="danger" variant="success" />
-      </ToastProvider>,
-    );
-    fireEvent.click(screen.getByText('띄우기'));
-    expect(screen.getByText('둘 다').closest('li')!.className).toBe(expected);
-    vi.restoreAllMocks();
+  it('1.0 에서 제거한 variant 는 타입 오류다 (color 를 쓴다)', () => {
+    // @ts-expect-error -- 0.x 의 옛 이름. 1.0 에서 제거됨 (docs/MIGRATION-1.0.md)
+    const removed: ToastOptions = { title: 'x', variant: 'success' };
+    expect(removed).toBeTruthy();
   });
 });

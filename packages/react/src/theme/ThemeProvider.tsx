@@ -65,10 +65,3 @@ export function usePortalProps(): { className: string; style?: CSSProperties } {
   const { theme, style } = useContext(ThemeContext);
   return { className: cx(themeClass[theme], styles.portal), style };
 }
-
-/**
- * @deprecated usePortalProps() 를 쓰세요. className 만으로는 overrides(브랜드 테마)가 portal 에 적용되지 않습니다.
- */
-export function usePortalClassName(): string {
-  return usePortalProps().className;
-}

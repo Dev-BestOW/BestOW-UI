@@ -2,7 +2,6 @@ import * as RadixMenu from '@radix-ui/react-dropdown-menu';
 import { forwardRef, type ComponentPropsWithoutRef, type ReactNode } from 'react';
 import { usePortalProps } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
-import { warnOnce } from '../../utils/warnOnce';
 import * as styles from './DropdownMenu.css';
 
 /** 메뉴 루트. `open`/`defaultOpen`/`onOpenChange`/`modal` 을 받는다 */
@@ -51,18 +50,12 @@ export interface DropdownMenuItemProps extends Omit<ComponentPropsWithoutRef<typ
   icon?: ReactNode;
   /** 오른쪽에 표시할 단축키 (예: "⌘K"). 표시용이라 항목 이름에는 포함되지 않는다 */
   shortcut?: string;
-  /**
-   * danger 는 삭제처럼 되돌리기 어려운 동작.
-   * `default` 는 0.x 의 옛 이름으로 `neutral` 과 같다 — **deprecated, 1.0 에서 제거**.
-   */
-  color?: 'neutral' | 'danger' | 'default';
+  /** danger 는 삭제처럼 되돌리기 어려운 동작 */
+  color?: 'neutral' | 'danger';
 }
 
 export const DropdownMenuItem = /* @__PURE__ */ forwardRef<HTMLDivElement, DropdownMenuItemProps>(
   function DropdownMenuItem({ icon, shortcut, color = 'neutral', className, children, ...rest }, ref) {
-    if (color === 'default') {
-      warnOnce('DropdownMenuItem 의 color="default" 는 deprecated 예요. color="neutral" 을 쓰세요 (1.0 에서 제거).');
-    }
     return (
       <RadixMenu.Item ref={ref} className={cx(styles.item, color === 'danger' && styles.danger, className)} {...rest}>
         {icon && (

@@ -113,7 +113,7 @@ import { LocaleProvider, en } from '@bestow-ui/react';
 
 - [Storybook](https://dev-bestow.github.io/BestOW-UI/) — docs, design tokens, all components
 - [GitHub](https://github.com/Dev-BestOW/BestOW-UI) — source, [issues](https://github.com/Dev-BestOW/BestOW-UI/issues), [contributing guide](https://github.com/Dev-BestOW/BestOW-UI/blob/main/CONTRIBUTING.md)
-- [Changelog](https://github.com/Dev-BestOW/BestOW-UI/blob/main/packages/react/CHANGELOG.md)
+- [Changelog](https://github.com/Dev-BestOW/BestOW-UI/blob/main/packages/react/CHANGELOG.md) · [Upgrading from 0.x (MIGRATION-1.0, Korean)](https://github.com/Dev-BestOW/BestOW-UI/blob/main/docs/MIGRATION-1.0.md)
 
 ## License
 

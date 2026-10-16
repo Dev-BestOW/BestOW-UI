@@ -3,7 +3,6 @@ import { createContext, useCallback, useContext, useMemo, useRef, useState, type
 import { XIcon } from '@bestow-ui/icons';
 import { usePortalProps } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
-import { warnOnce } from '../../utils/warnOnce';
 import { Button } from '../Button';
 import * as styles from './Toast.css';
 import { useMessages } from '../../i18n/LocaleProvider';
@@ -17,10 +16,6 @@ export interface ToastOptions {
   description?: ReactNode;
   /** 의미 색상 (기본 neutral) — Alert·Badge 의 `color` 와 같은 이름 */
   color?: ToastColor;
-  /**
-   * @deprecated `color` 를 쓰세요 (`'default'` → `'neutral'`). 1.0 에서 제거.
-   */
-  variant?: 'default' | 'success' | 'warning' | 'danger';
   /** 자동으로 닫히기까지 시간(ms). Infinity 면 자동으로 닫히지 않는다 */
   duration?: number;
   /** 실행 버튼 */
@@ -64,15 +59,9 @@ export function ToastProvider({ children, duration = 5000, label: labelProp }: T
   const nextId = useRef(0);
   const portal = usePortalProps();
 
-  const toast = useCallback(({ variant, ...options }: ToastOptions) => {
-    if (variant !== undefined) {
-      warnOnce(
-        'toast() 의 variant 는 deprecated 예요. color 를 쓰세요 (variant "default" → color "neutral", 1.0 에서 제거).',
-      );
-    }
-    const color = options.color ?? (variant === 'default' ? 'neutral' : variant);
+  const toast = useCallback((options: ToastOptions) => {
     const id = nextId.current++;
-    setToasts((prev) => [...prev, { ...options, color, id, open: true }]);
+    setToasts((prev) => [...prev, { ...options, id, open: true }]);
     return id;
   }, []);
 

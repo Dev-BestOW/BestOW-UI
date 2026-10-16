@@ -10,14 +10,14 @@
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-16 작업 종료 시점)
 
 **마지막 상태**
-- npm: react **0.11.0**, tokens 0.9.0, icons 0.1.1. **버전 PR #17 열림**(날짜 선택·KWCAG·LocaleProvider·README 등 → react 0.12.0 예정) — 머지 여부 확인.
-  로컬 = origin/main (`9a3b294`).
+- npm: react **0.12.0**(2026-10-16 — deprecated 경고가 들어간 0.x 마지막 minor), tokens 0.9.0, icons 0.1.1. 열린 버전 PR 없음.
+  로컬 = origin/main (`d288011`).
 - 컴포넌트 40개(한국 서비스 키트 8개 포함) + 테마·다국어(LocaleProvider). **P1~P6 완료.**
-- 시각 회귀: 한글 줄바꿈(keep-all)·공휴일 점 표시로 기존 화면이 바뀌어 main 의 Visual regression 이 실패 → 사용자가 update 를 실행함(완료 여부 확인).
-- 번들: react 전체 JS **63.8/70 kB**(2026-10-16 65 → 70 kB 상향), styles.css 30.2/36 kB, Button 하나 1.66/2 kB.
-- **다음 작업: P8 1.0.0 마무리** — 감사·deprecated·마이그레이션 가이드·토큰 확정·컴포넌트별 접근성 문서까지 끝남(2026-10-16).
-  남은 것: ① deprecated 를 담은 0.x minor 배포(버전 PR 머지)
-  ② 1.0 major — 옛 이름 제거(MIGRATION-1.0.md 표 기준) + changeset major.
+- main 의 CI·Visual regression·Release·Storybook 배포 모두 성공(`d288011`).
+- 번들: react 전체 JS **63.5/70 kB**(2026-10-16 65 → 70 kB 상향), styles.css 30.2/36 kB, Button 하나 1.51/2 kB.
+- **1.0.0 준비 완료(2026-10-16)** — 옛 이름 4개 제거 + changeset major(react·tokens → 1.0.0, icons 는 0.x 유지).
+  **사용자 확인:** 커밋·push → 버전 PR("chore: version packages")에서 react·tokens 가 1.0.0 인지 확인 후 머지 → npm 배포 확인.
+- **그다음 작업:** P10 playground E2E 정식화 → P9 보강·새 컴포넌트 (P7 남은 항목은 1.0 이후 minor 로).
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다
@@ -72,7 +72,7 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 
 ## 다음 단계 (순서는 사용자와 확정)
 
-**추천 순서:** P8 1.0.0 준비(API 불일치 정리 → deprecated → 1.0) → P10 playground E2E 정식화 → P9 보강·새 컴포넌트.
+**추천 순서:** P8 1.0.0(배포만 남음) → P10 playground E2E 정식화 → P9 보강·새 컴포넌트.
 P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기존 사용법을 깨지 않는 추가라 1.0 이후에 해도 된다.
 
 ### P7. 번들·성능
@@ -93,7 +93,7 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
   [`MIGRATION-1.0.md`](MIGRATION-1.0.md). 바꾼 것: Toast `variant`→`color`, DropdownMenuItem `'default'`→`'neutral'`,
   Spinner `'current'`→`'inherit'`, Checkbox `onCheckedChange` 추가.
 - [x] **바꿀 것은 0.x 마지막 minor 에서 새 이름 추가 + 옛 이름 deprecated**(JSDoc + 개발 모드 경고 `utils/warnOnce`) → 1.0 에서 제거.
-  deprecated 목록: Toast `variant`, DropdownMenuItem `color="default"`, Spinner `color="current"`, `usePortalClassName`.
+  deprecated 목록(0.12.0 배포, 1.0 에서 제거함): Toast `variant`, DropdownMenuItem `color="default"`, Spinner `color="current"`, `usePortalClassName`.
   changeset `api-consistency-deprecations`(minor). **1.0 에서 제거할 때 이 목록과 MIGRATION-1.0.md 표를 기준으로 한다.**
 - [x] **공개 export·타입 점검** — 내부용이 새어 나가지 않았는지, 필요한 `*Props` 타입이 모두 export 되는지. `vars` 토큰 키(=CSS 변수 이름) 확정.
   - [x] d.ts 에 선언됐지만 export 안 된 타입 중 공개 prop 에 쓰이는 것 export: `AlertColor`, `ToastColor`, `ToastContextValue`, `TableSize`, `TableAlign`
@@ -103,7 +103,9 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
     `src/theme/contract.test.ts` 가 이름 목록을 고정 — 실패하면 breaking(추가는 목록에 더하고 minor).
 - [x] **문서** — [x] 0.x → 1.0 마이그레이션 가이드(`docs/MIGRATION-1.0.md`), [x] 컴포넌트별 접근성 메모(키보드·스크린리더)를 Storybook docs 에.
 - [x] **번들 한도 재설정** (2026-10-16, 사용자 결정) — react 전체 JS 65 → **70 kB** (현재 63.8 kB). 1.0 이후 새 컴포넌트를 추가할 때 다시 본다.
-- [ ] **1.0.0 배포** — changeset major (tokens·react 는 linked, icons 는 별도 판단).
+- [x] **1.0.0 배포 준비** (2026-10-16) — 옛 이름 제거(`@ts-expect-error` 테스트로 제거 고정), changeset `v1-react`·`v1-tokens`(major).
+  icons 는 0.1.x 로 아직 세트가 작아 0.x 유지. 버전 규칙(CLAUDE.md·CONTRIBUTING)을 1.0 이후 semver 로 갱신.
+  - [ ] 버전 PR 머지 → npm 1.0.0 배포 확인 (사용자)
 
 ### P9. 기존 컴포넌트 보강 · 새 컴포넌트
 
@@ -188,3 +190,5 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 | 2026-10-16 | P8 API 감사(d.ts 의 모든 Props 비교) → Toast `color`·DropdownMenuItem `neutral`·Spinner `inherit`·Checkbox `onCheckedChange` 추가, 옛 이름 deprecated(warnOnce, 변이 확인), 타입 5개 export, MIGRATION-1.0.md |
 | 2026-10-16 | P8: `vars` 이름 87개 확정 + 고정 테스트(변이 확인), Storybook "Accessibility/컴포넌트별 키보드·스크린리더" 문서(코드 대조로 8곳 정정, 문서 페이지 axe 위반 0) |
 | 2026-10-16 | 사용자 결정: react 전체 JS 한도 65 → 70 kB |
+| 2026-10-16 | react 0.12.0 배포 확인(npm·태그·GitHub Release, d.ts 에 새 타입·dist 에 deprecated 경고 포함) |
+| 2026-10-16 | 1.0 준비: 옛 이름 4개 제거(타입 오류로 고정, 변이 확인), changeset major(react·tokens), 버전 규칙·MIGRATION·CONTRIBUTING 갱신 |

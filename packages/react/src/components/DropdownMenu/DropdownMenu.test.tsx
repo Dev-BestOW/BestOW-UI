@@ -143,24 +143,9 @@ describe('DropdownMenu', () => {
     expect(menu.classList.contains(themeClass.dark)).toBe(true);
   });
 
-  it('deprecated color="default" 는 neutral 과 같은 스타일이고 개발 모드에서 경고한다', () => {
-    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
-    render(
-      <DropdownMenu open>
-        <DropdownMenuTrigger asChild>
-          <Button>열기</Button>
-        </DropdownMenuTrigger>
-        <DropdownMenuContent>
-          <DropdownMenuItem color="neutral">새 이름</DropdownMenuItem>
-          <DropdownMenuItem color="default">옛 이름</DropdownMenuItem>
-        </DropdownMenuContent>
-      </DropdownMenu>,
-    );
-    expect(screen.getByRole('menuitem', { name: '옛 이름' }).className).toBe(
-      screen.getByRole('menuitem', { name: '새 이름' }).className,
-    );
-    expect(warn).toHaveBeenCalledTimes(1);
-    expect(warn).toHaveBeenCalledWith(expect.stringContaining('color="neutral"'));
-    warn.mockRestore();
+  it('1.0 에서 제거한 color="default" 는 타입 오류다 (neutral 이 기본값)', () => {
+    // @ts-expect-error -- 0.x 의 옛 이름. 1.0 에서 제거됨 (docs/MIGRATION-1.0.md)
+    const removed = <DropdownMenuItem color="default">복제</DropdownMenuItem>;
+    expect(removed).toBeTruthy();
   });
 });

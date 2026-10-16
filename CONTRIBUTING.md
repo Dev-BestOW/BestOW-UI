@@ -73,7 +73,8 @@ pnpm storybook    # http://localhost:6006
 - [ ] 테스트: 역할·라벨 기반으로 쓰고, 접근성 속성과 키보드 상호작용을 확인했다
 - [ ] 화면에 보이는 기본 문구는 `useMessages()` 로 바꿀 수 있게 했다 (`prop ?? m.키 ?? '한국어 기본값'`, 새 키는 `BestowMessages`·`en` 에도)
 - [ ] 목록·대화상자처럼 열어야 보이는 상태가 있으면 `play` 로 열어 둔 스토리를 만들었다 (axe 가 그 상태도 검사)
-- [ ] 키보드·포커스·이름 등 접근성 동작이 바뀌면 [KWCAG 2.2 대응 문서](apps/storybook/stories/accessibility/kwcag.ts) 해당 항목을 고쳤다
+- [ ] 키보드·포커스·이름 등 접근성 동작이 바뀌면 [KWCAG 2.2 대응 문서](apps/storybook/stories/accessibility/kwcag.ts)와
+  [컴포넌트별 키보드·스크린리더 문서](apps/storybook/stories/accessibility/componentA11y.ts) 해당 항목을 고쳤다(새 컴포넌트는 추가)
 - [ ] `apps/playground` 에 사용 예를 추가하고 브라우저에서 확인했다 (콘솔·hydration 경고 없음)
 - [ ] changeset(`"@bestow-ui/react": minor`)을 추가했다
 
@@ -190,10 +191,14 @@ pnpm changeset   # 대화형으로 패키지와 버전 종류를 고르고 설�
 Rating 컴포넌트 추가 — 별점 입력. `value`/`onValueChange`, `max`, `size`(sm/md/lg), `readOnly` 지원.
 ```
 
-| 변경 | 버전 (0.x 동안) |
+| 변경 | 버전 (react·tokens 1.0 이후) |
 |---|---|
+| 기존 prop·타입·export·CSS 변수(`--bestow-*`) 이름을 바꾸거나 지움 | `major` |
 | 새 컴포넌트·새 기능·새 prop | `minor` |
 | 버그 수정·스타일 수정·내부 변경 | `patch` |
+
+- 이름을 바꾸고 싶으면 바로 지우지 말고, 새 이름을 추가하고 옛 이름은 `@deprecated` + 개발 모드 경고(`warnOnce`)로 남기는 `minor` 를 먼저 내요.
+  옛 이름은 다음 major 에서 지워요. `@bestow-ui/icons` 는 아직 0.x 라 기능 추가 = `minor` 예요.
 
 - 설명은 CHANGELOG 와 GitHub Release 에 그대로 실려요. 사용자 입장에서 무엇이 바뀌었는지 써 주세요.
 - `@bestow-ui/react` 와 `@bestow-ui/tokens` 는 linked 설정이라, 같은 릴리스에서 함께 바뀌면 같은 버전 번호를 써요.
