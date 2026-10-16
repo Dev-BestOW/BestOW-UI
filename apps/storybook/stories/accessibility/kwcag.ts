@@ -174,10 +174,11 @@ export const kwcag: KwcagGroup[] = [
       {
         id: '6.4.1',
         name: '반복 영역 건너뛰기',
-        coverage: '사용자 몫',
-        provided: '아직 건너뛰기 링크 컴포넌트가 없다(후보).',
-        yours: '본문 바로가기 링크.',
-        verified: '—',
+        coverage: '일부',
+        provided:
+          'SkipLink(본문 바로가기) — 평소에는 숨었다가 첫 Tab 에 나타나고, 누르면 본문으로 포커스를 옮긴다(본문이 포커스를 못 받으면 tabindex="-1" 을 붙임).',
+        yours: '페이지 맨 앞(머리글보다 먼저)에 SkipLink 를 두고 본문 요소에 id="main" 을 준다.',
+        verified: '단위 테스트(포커스 이동·tabindex), playground E2E(첫 Tab 표시·Enter 로 본문 이동)',
       },
       {
         id: '6.4.2',

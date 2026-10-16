@@ -33,6 +33,7 @@ export const en: BestowMessages = {
   noResults: 'No results',
   openList: 'Show options',
   clearSelection: 'Clear selection',
+  skipToContent: 'Skip to main content',
   rangeStart: 'minimum',
   rangeEnd: 'maximum',
   agreeAll: 'Agree to all',

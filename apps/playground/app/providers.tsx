@@ -6,6 +6,7 @@ import {
   createTheme,
   IconButton,
   Link,
+  SkipLink,
   Stack,
   ThemeProvider,
   ToastProvider,
@@ -25,6 +26,8 @@ export function Providers({ children }: { children: ReactNode }) {
   return (
     <ThemeProvider theme={mode} overrides={branded ? purple : undefined} style={{ minHeight: '100vh' }}>
       <ToastProvider>
+        {/* 페이지 맨 앞: 첫 Tab 에 나타나 머리글·메뉴를 건너뛰고 본문(#main)으로 간다 */}
+        <SkipLink />
         <Stack
           as="header"
           direction="row"
@@ -61,7 +64,9 @@ export function Providers({ children }: { children: ReactNode }) {
             </IconButton>
           </Stack>
         </Stack>
-        <main style={{ padding: 24, maxWidth: 960, margin: '0 auto' }}>{children}</main>
+        <main id="main" style={{ padding: 24, maxWidth: 960, margin: '0 auto' }}>
+          {children}
+        </main>
       </ToastProvider>
     </ThemeProvider>
   );

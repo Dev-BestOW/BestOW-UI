@@ -188,6 +188,12 @@ export const componentA11y: ComponentA11yGroup[] = [
         screenReader: '머리글 button 의 aria-expanded, 본문은 머리글로 이름 붙은 region.',
       },
       {
+        name: 'SkipLink',
+        keyboard: '페이지에서 첫 Tab 에 왼쪽 위에 나타나고, Enter 로 본문으로 포커스가 간다.',
+        screenReader: 'link "본문 바로가기". 숨김은 위치로만 해서(display:none 아님) Tab·스크린리더 모두 닿는다.',
+        yours: '페이지 맨 앞에 두고 본문 요소에 id="main"(기본 href) 을 준다.',
+      },
+      {
         name: 'Breadcrumb',
         keyboard: '링크를 Tab 으로.',
         screenReader: 'nav "이동 경로", 현재 페이지는 aria-current="page". 구분자는 숨김.',

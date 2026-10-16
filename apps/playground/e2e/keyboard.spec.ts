@@ -79,3 +79,19 @@ test('Tabs: 화살표로 탭을 옮기면 패널이 바뀐다', async ({ page })
   await expect(tablist.getByRole('tab', { name: '비밀번호' })).toBeFocused();
   await expect(tablist.getByRole('tab', { name: '비밀번호' })).toHaveAttribute('aria-selected', 'true');
 });
+
+test('SkipLink: 첫 Tab 에 "본문 바로가기" 가 화면에 나타나고, Enter 로 머리글을 건너뛰어 본문으로 간다', async ({
+  page,
+}) => {
+  await page.goto('/interactive');
+  const skip = page.getByRole('link', { name: '본문 바로가기' });
+  await expect(skip).not.toBeInViewport();
+  await page.keyboard.press('Tab');
+  await expect(skip).toBeFocused();
+  await expect(skip).toBeInViewport();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('main')).toBeFocused();
+  // 다음 Tab 은 머리글 링크가 아니라 본문 안의 요소로 간다
+  await page.keyboard.press('Tab');
+  expect(await page.getByRole('main').evaluate((main) => main.contains(document.activeElement))).toBe(true);
+});

@@ -103,7 +103,7 @@ import { LocaleProvider, en } from '@bestow-ui/react';
 | Forms | `Input`, `TextField`, `Textarea`, `Select`, `Combobox`, `Checkbox`, `RadioGroup`, `Switch`, `Slider` |
 | Feedback | `Alert`, `Progress`, `ToastProvider` + `useToast`, `Spinner`, `Skeleton`, `Badge` |
 | Overlays | `Modal`, `Drawer`, `Popover`, `Tooltip`, `DropdownMenu` |
-| Navigation | `Tabs`, `Accordion`, `Pagination`, `Breadcrumb` |
+| Navigation | `Tabs`, `Accordion`, `Pagination`, `Breadcrumb`, `SkipLink` |
 | Display | `Avatar`, `Table` |
 | Korean kit | `AgreementGroup` (약관 동의), `VerificationCodeInput` (인증번호), `PhoneNumberInput`, `BusinessNumberInput`, `AmountInput`, `AddressInput`, `DatePicker`, `Calendar` (+ `formatPhoneNumber`, `formatBusinessNumber`, `isValidBusinessNumber`, `formatKoreanAmount`, `formatKoreanDate`, `parseISODate`, `toISODate`) |
 | Locale | `LocaleProvider`, `en` (English messages) |
