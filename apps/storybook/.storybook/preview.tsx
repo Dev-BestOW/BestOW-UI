@@ -21,7 +21,16 @@ const preview: Preview = {
   },
   decorators: [
     (Story, context) => (
-      <ThemeProvider theme={context.globals.theme as ThemeName} style={{ padding: 24, minHeight: '100%' }}>
+      <ThemeProvider
+        theme={context.globals.theme as ThemeName}
+        // 스토리 화면에서는 테마 배경을 화면 높이까지 채운다(다크에서 아래가 흰색으로 남지 않게).
+        // 자동 문서 페이지는 스토리가 여러 개 이어지므로 내용 높이만 쓴다.
+        style={{
+          padding: 24,
+          boxSizing: 'border-box',
+          minHeight: context.viewMode === 'story' ? '100vh' : undefined,
+        }}
+      >
         <Story />
       </ThemeProvider>
     ),
