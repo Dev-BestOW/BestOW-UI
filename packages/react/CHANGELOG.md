@@ -1,5 +1,34 @@
 # @bestow-ui/react
 
+## 0.12.0
+
+### Minor Changes
+
+- 948ec39: 1.0 준비: 공개 API 이름 통일 (옛 이름은 deprecated — 그대로 동작하고 개발 모드에서 한 번 경고, 1.0 에서 제거)
+  
+  - `toast()` 의 `variant` → **`color`** (`'default'` → `'neutral'`, `'primary'` 추가). Alert·Badge 와 같은 이름.
+  - `DropdownMenuItem` 의 `color="default"` → **`color="neutral"`**.
+  - `Spinner` 의 `color="current"` → **`color="inherit"`** (Link·Typography 와 같은 이름).
+  - `Checkbox` 에 **`onCheckedChange(checked)`** 추가 (Switch 와 같은 이름). `onChange` 도 그대로 쓸 수 있다.
+  - 빠져 있던 타입 export: `AlertColor`, `ToastColor`, `ToastContextValue`, `TableSize`, `TableAlign`.
+- 25da752: 한국 서비스 키트 — `Calendar`(달력)와 `DatePicker`(날짜 입력) 추가.
+  
+  - Calendar — WAI-ARIA grid. 일요일부터 시작, 일요일·공휴일(`isHoliday`) 빨강, 토요일 파랑. 날짜 이름은 "15, 2026년 10월 목요일"
+    (보이는 숫자로 시작 — WCAG 2.5.3 / KWCAG 2.2 "레이블과 네임"), 오늘은 `aria-current="date"`. 키보드 ←→↑↓, Home/End,
+    PageUp/PageDown(Shift 와 함께 1년), Enter/Space. `min`·`max`·`isDateDisabled`, `today`(고정용), `initialFocus`.
+  - DatePicker — `YYYY-MM-DD` 직접 입력(하이픈 자동) + 달력 버튼(Popover). 열면 선택된 날짜(없으면 오늘)로 포커스, 고르면 버튼으로 복귀.
+    없는 날짜·범위 밖 날짜는 자동 오류. 값은 시간대 문제가 없는 'YYYY-MM-DD' 문자열.
+  - Popover `onOpenAutoFocus` 추가. 날짜 함수 `formatKoreanDate`, `parseISODate`, `toISODate` 공개.
+- 3beb564: `LocaleProvider` 와 영어 문구 묶음 `en` 추가 — 컴포넌트 기본 문구(닫기, 결과 없음, 페이지·달력·날짜·주소·인증번호 문구 등)를
+  한곳에서 바꾼다. 우선순위는 컴포넌트 prop > LocaleProvider > 한국어 기본값이고, 중첩하면 바깥 값을 이어받는다.
+  ThemeProvider 안의 글자는 한글을 단어 단위로 줄바꿈한다(`word-break: keep-all`, 긴 URL 등은 `overflow-wrap: break-word`).
+
+### Patch Changes
+
+- c2dd829: Calendar 공휴일을 색만으로 알리지 않도록 숫자 아래에 점을 표시한다 (KWCAG 2.2 5.4.1 / WCAG 1.4.1).
+- 9a3b294: npm README 를 포지셔닝("한국 서비스를 만들 때 바로 쓰는, 접근성이 검증된 React 디자인 시스템")에 맞게 고쳤다 — 한국 서비스 키트,
+  검사로 증명하는 접근성(KWCAG 2.2 대응 근거), 테마 빌더, 다국어 안내. 번들 크기 안내를 현재 값(Button 하나 약 1.5 kB)으로 갱신.
+
 ## 0.11.0
 
 ### Minor Changes
