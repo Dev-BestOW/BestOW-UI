@@ -16,6 +16,8 @@ React + vanilla-extract 기반 디자인 시스템 모노레포. npm 에 `@besto
   🗑️ deprecated · 💥 breaking · 🔧 설정 · 📸 스냅숏 · ♿️ 접근성 · 🌐 다국어 · 💄 UI 스타일 · ⚡️ 성능.
 - 변경 후에는 아래 "검증" 명령을 모두 실행하고 결과를 보고한다.
 - 공개 API 를 바꾸거나 컴포넌트를 추가하면 `.changeset/*.md` 를 만든다 (아래 "배포" 참고).
+- 공개 API 이름을 바꿀 때는 옛 이름을 바로 지우지 않는다 — 새 이름 추가 + 옛 이름 `@deprecated` JSDoc + `warnOnce` 개발 모드 경고,
+  `docs/MIGRATION-1.0.md`(이후 버전이면 해당 가이드) 표에 추가 → 다음 major 에서 제거.
 
 ## 구조
 
@@ -28,7 +30,8 @@ packages/
   react/    @bestow-ui/react   테마 + 컴포넌트. tokens, icons, Radix primitives, vanilla-extract 에 의존.
 apps/
   storybook/ (private)         Storybook 10. packages/*/src 의 스토리 + apps/storybook/stories(Introduction.mdx, Design Tokens,
-                               Theme Builder, Icons, accessibility/ — KWCAG 2.2 대응 문서(데이터 kwcag.ts + Kwcag.mdx)).
+                               Theme Builder, Icons, accessibility/ — KWCAG 2.2 대응 문서(데이터 kwcag.ts + Kwcag.mdx),
+                               컴포넌트별 키보드·스크린리더 문서(데이터 componentA11y.ts + ComponentA11y.mdx)).
                                사이드바: Introduction → Foundations → Accessibility → Layout → Components → Korean Kit.
                                vite alias 로 dist 가 아닌 각 패키지 src 를 바로 본다.
   playground/ (private)        Next.js 16 App Router 예제 앱. alias 없이 패키지 dist 를 그대로 써서 실제 설치와 같은 조건으로
@@ -89,7 +92,8 @@ apps/
 - 서식이 붙는 입력은 `useFormattedInput` 을, trigger 없이 여닫는 Dialog 류는 `useReturnFocus` 를 쓴다(Modal·Drawer 참고).
 - 날짜 값은 시간대 문제가 없는 `'YYYY-MM-DD'` 문자열로 다루고, "오늘" 이 들어가는 컴포넌트는 `today` prop 으로 고정할 수 있게 한다(시각 회귀 안정).
 - 접근 가능한 이름은 **화면 글자를 낱말로 포함**해야 한다(axe label-content-name-mismatch, KWCAG 6.5.3) — "15" 버튼 이름은 "15, …" 로 시작.
-- 접근성에 영향을 주는 동작을 바꾸면 `apps/storybook/stories/accessibility/kwcag.ts` 의 해당 항목도 고친다.
+- 접근성에 영향을 주는 동작을 바꾸면 `apps/storybook/stories/accessibility/` 의 `kwcag.ts`·`componentA11y.ts` 해당 항목도 고친다
+  (새 컴포넌트는 componentA11y.ts 에 추가).
 
 ### 아이콘 추가
 
@@ -157,6 +161,7 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
   배포 실패 시 추측으로 고치지 말고 사용자에게 **"Create release PR or publish" 단계 로그**를 붙여 달라고 요청한다.
 - Radix 의 portal 콘텐츠는 ThemeProvider div 밖(body)에 렌더링된다 → `usePortalProps()` 를 안 붙이면 다크모드·브랜드 테마가 깨진다.
 - `vars` 의 CSS 변수 이름(`--bestow-*`)은 사용자가 CSS 로 덮어쓰는 공개 API 다. 토큰 키 이름을 바꾸면 breaking change.
+  `src/theme/contract.test.ts` 가 이름 목록을 고정한다 — 토큰을 **추가**하면 그 목록에도 더한다.
 - npm 배포를 실행하는 명령(`changeset publish`, `pnpm publish` 실제 실행)은 Claude 가 실행하지 않는다.
 - **vanilla-extract 는 `.css.ts` 를 평가할 때 Storybook 의 alias 를 거치지 않고 `packages/tokens/dist` 를 읽는다.**
   토큰 값을 바꾸면 `pnpm build` 를 해야 Storybook·스토리 테스트에 반영된다 (JS import 는 src alias).

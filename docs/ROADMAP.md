@@ -15,8 +15,9 @@
 - 컴포넌트 40개(한국 서비스 키트 8개 포함) + 테마·다국어(LocaleProvider). **P1~P6 완료.**
 - 시각 회귀: 한글 줄바꿈(keep-all)·공휴일 점 표시로 기존 화면이 바뀌어 main 의 Visual regression 이 실패 → 사용자가 update 를 실행함(완료 여부 확인).
 - 번들: react 전체 JS **63.5/65 kB**(여유 거의 없음), styles.css 30.2/36 kB, Button 하나 1.51/2 kB.
-- **다음 작업: P8 1.0.0 준비 계속** — 감사·deprecated 추가·마이그레이션 가이드는 끝남(2026-10-16). 남은 것: `vars` 토큰 키 확정,
-  컴포넌트별 접근성 메모, react 전체 JS 한도(사용자와 결정), deprecated 를 담은 0.x minor 배포 후 1.0 major(옛 이름 제거).
+- **다음 작업: P8 1.0.0 마무리** — 감사·deprecated·마이그레이션 가이드·토큰 확정·컴포넌트별 접근성 문서까지 끝남(2026-10-16).
+  남은 것: ① react 전체 JS 한도(사용자 결정 필요, 63.8/65 kB) ② deprecated 를 담은 0.x minor 배포(버전 PR 머지)
+  ③ 1.0 major — 옛 이름 제거(MIGRATION-1.0.md 표 기준) + changeset major.
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다
@@ -94,11 +95,13 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 - [x] **바꿀 것은 0.x 마지막 minor 에서 새 이름 추가 + 옛 이름 deprecated**(JSDoc + 개발 모드 경고 `utils/warnOnce`) → 1.0 에서 제거.
   deprecated 목록: Toast `variant`, DropdownMenuItem `color="default"`, Spinner `color="current"`, `usePortalClassName`.
   changeset `api-consistency-deprecations`(minor). **1.0 에서 제거할 때 이 목록과 MIGRATION-1.0.md 표를 기준으로 한다.**
-- [ ] **공개 export·타입 점검** — 내부용이 새어 나가지 않았는지, 필요한 `*Props` 타입이 모두 export 되는지. `vars` 토큰 키(=CSS 변수 이름) 확정.
+- [x] **공개 export·타입 점검** — 내부용이 새어 나가지 않았는지, 필요한 `*Props` 타입이 모두 export 되는지. `vars` 토큰 키(=CSS 변수 이름) 확정.
   - [x] d.ts 에 선언됐지만 export 안 된 타입 중 공개 prop 에 쓰이는 것 export: `AlertColor`, `ToastColor`, `ToastContextValue`, `TableSize`, `TableAlign`
     (남은 `ItemType`·`Widen`·`KakaoPostcodeData` 는 내부용).
-  - [ ] `vars` 토큰 키 확정 (1.0 이후 바꾸면 breaking).
-- [ ] **문서** — [x] 0.x → 1.0 마이그레이션 가이드(`docs/MIGRATION-1.0.md`), [ ] 컴포넌트별 접근성 메모(키보드·스크린리더)를 Storybook docs 에.
+  - [x] `vars` 토큰 키 확정 (2026-10-16) — 87개 그대로 확정. 색은 모두 vars 경유(하드코딩은 컴포넌트 치수 px 뿐).
+    bg 는 subtle 이 muted 보다 옅고, fg 는 muted 가 subtle 보다 진하다 — 어긋나 보이지만 Chakra 와 같은 관례라 유지.
+    `src/theme/contract.test.ts` 가 이름 목록을 고정 — 실패하면 breaking(추가는 목록에 더하고 minor).
+- [x] **문서** — [x] 0.x → 1.0 마이그레이션 가이드(`docs/MIGRATION-1.0.md`), [x] 컴포넌트별 접근성 메모(키보드·스크린리더)를 Storybook docs 에.
 - [ ] **번들 한도 재설정** — react 전체 JS 63.5/65 kB (컴포넌트 40개 + en 묶음). 1.0 감사와 함께 사용자와 정한다.
 - [ ] **1.0.0 배포** — changeset major (tokens·react 는 linked, icons 는 별도 판단).
 
@@ -183,3 +186,4 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 | 2026-10-16 | 문서 점검: ROADMAP 인수인계·현재 상태 갱신(0.11.0, 컴포넌트 40개), P6 상세를 ROADMAP-HISTORY 로 이동, CLAUDE.md·CONTRIBUTING·POSITIONING·npm README 보완 |
 | 2026-10-16 | visual.yml: update 실행이 도중의 push 실행에 취소되던 문제(같은 concurrency 그룹) → update 를 별도 그룹·취소 안 함, 갱신 커밋 push 실패 시 rebase 후 재시도 |
 | 2026-10-16 | P8 API 감사(d.ts 의 모든 Props 비교) → Toast `color`·DropdownMenuItem `neutral`·Spinner `inherit`·Checkbox `onCheckedChange` 추가, 옛 이름 deprecated(warnOnce, 변이 확인), 타입 5개 export, MIGRATION-1.0.md |
+| 2026-10-16 | P8: `vars` 이름 87개 확정 + 고정 테스트(변이 확인), Storybook "Accessibility/컴포넌트별 키보드·스크린리더" 문서(코드 대조로 8곳 정정, 문서 페이지 axe 위반 0) |
