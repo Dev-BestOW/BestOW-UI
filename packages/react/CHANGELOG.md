@@ -1,5 +1,23 @@
 # @bestow-ui/react
 
+## 1.1.0
+
+### Minor Changes
+
+- e831b9c: `Combobox` 선택 지우기
+  
+  - 입력창 글자를 모두 지우고 닫으면(포커스 이동·Esc·Enter) 선택이 지워지고 `onValueChange('')` 가 호출된다.
+    (지금까지는 한 번 고르면 빈 값으로 되돌릴 수 없었다.) 글자를 모두 지운 상태에서는 Enter 가 첫 항목을 고르지 않는다.
+  - `clearable` prop — 값이 있을 때 "선택 지우기" 버튼을 보여 준다. 이름은 `clearLabel` 또는 `LocaleProvider` 의 `clearSelection`(선택 키, `en` 에 포함).
+  - Storybook 자동 문서에 `PhoneNumberInput`·`BusinessNumberInput`·`AmountInput`·`TextField`·`Accordion` 의 주요 prop(label·error·size 등)이 보이도록 했다 (타입 변화 없음).
+- 9ad5028: `SegmentedControl` 추가 — 여러 값 중 하나를 고르는 칸 묶음(기간 일/주/월, 정렬, 화면 모드 등).
+  WAI-ARIA radiogroup 의미: Tab 으로 선택된 칸에 들어가고 ←/→ 로 옮기면 바로 선택된다.
+  `options`(label·icon·disabled), `value`/`defaultValue`/`onValueChange`, `label` 또는 `aria-label`, `size`(sm/md/lg — 전체 높이가 Button 과 같음),
+  `fullWidth`, `disabled`, `name`. 선택에 따라 패널이 바뀌면 Tabs 를 쓴다.
+- 3e54d8c: `SkipLink`(본문 바로가기) 추가 — KWCAG 2.2 6.4.1 반복 영역 건너뛰기 / WCAG 2.4.1.
+  페이지 맨 앞에 두면 평소에는 보이지 않다가 첫 Tab 에 왼쪽 위에 나타나고, 누르면 본문(기본 `#main`)으로 포커스를 옮긴다
+  (본문이 포커스를 받지 못하면 `tabindex="-1"` 을 붙인다). 문구는 `LocaleProvider` 의 `skipToContent`(선택 키, `en` 에 포함).
+
 ## 1.0.0
 
 ### Major Changes
