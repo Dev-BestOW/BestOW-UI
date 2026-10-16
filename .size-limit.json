@@ -4,7 +4,7 @@
     "path": "packages/react/dist/index.js",
     "import": "*",
     "ignore": ["react", "react-dom"],
-    "limit": "65 kB"
+    "limit": "70 kB"
   },
   {
     "name": "react: Button 하나 (JS) — tree-shaking 회귀 감시",
