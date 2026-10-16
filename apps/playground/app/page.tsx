@@ -9,8 +9,14 @@ import {
   CardBody,
   CardFooter,
   CardHeader,
+  createIntentColors,
+  createTheme,
   Divider,
+  formatKoreanAmount,
+  formatKoreanDate,
+  formatPhoneNumber,
   Link,
+  parseISODate,
   Stack,
   Table,
   TableBody,
@@ -18,7 +24,9 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  ThemeProvider,
   Typography,
+  vars,
 } from '@bestow-ui/react';
 import NextLink from 'next/link';
 import { BellIcon, CircleCheckIcon, SearchIcon, SettingsIcon, TriangleAlertIcon, UserIcon } from '@bestow-ui/icons';
@@ -31,6 +39,8 @@ const photo =
   );
 
 export default function ServerPage() {
+  // 함수·값은 "use client" 가 아닌 파일로 배포돼 서버 컴포넌트에서 바로 부를 수 있다 (안 되면 이 페이지 빌드가 실패한다)
+  const greenTheme = createTheme(createIntentColors('primary', '#059669'));
   return (
     <Stack gap={6}>
       <Stack gap={2}>
@@ -43,7 +53,9 @@ export default function ServerPage() {
       </Stack>
 
       <Stack gap={2}>
-        <Typography variant="h3">아이콘 (서버 렌더링)</Typography>
+        <Typography variant="h3" as="h2">
+          아이콘 (서버 렌더링)
+        </Typography>
         <Stack direction="row" gap={4} align="center">
           <SearchIcon />
           <BellIcon />
@@ -54,7 +66,9 @@ export default function ServerPage() {
       </Stack>
 
       <Stack gap={2}>
-        <Typography variant="h3">서버에서 넘긴 아이콘을 받는 클라이언트 컴포넌트</Typography>
+        <Typography variant="h3" as="h2">
+          서버에서 넘긴 아이콘을 받는 클라이언트 컴포넌트
+        </Typography>
         <Stack direction="row" gap={2}>
           <Button startIcon={<SearchIcon size={16} />}>검색</Button>
           <Button variant="soft" endIcon={<BellIcon size={16} />}>
@@ -64,7 +78,25 @@ export default function ServerPage() {
       </Stack>
 
       <Stack gap={2}>
-        <Typography variant="h3">Badge</Typography>
+        <Typography variant="h3" as="h2">
+          서버에서 부르는 함수·값
+        </Typography>
+        <Typography>
+          {formatKoreanAmount(1250000)} · {formatPhoneNumber('01012345678')} ·{' '}
+          {formatKoreanDate(parseISODate('2026-10-16')!)}
+        </Typography>
+        <ThemeProvider overrides={greenTheme} style={{ background: 'transparent' }}>
+          <Stack direction="row" gap={2} align="center">
+            <Button>서버에서 만든 브랜드 테마</Button>
+            <span style={{ color: vars.color.primary.text }}>vars 로 칠한 글자</span>
+          </Stack>
+        </ThemeProvider>
+      </Stack>
+
+      <Stack gap={2}>
+        <Typography variant="h3" as="h2">
+          Badge
+        </Typography>
         {(['primary', 'neutral', 'danger', 'success', 'warning'] as const).map((color) => (
           <Stack key={color} direction="row" gap={2} align="center">
             {(['solid', 'soft', 'outline'] as const).map((variant) => (
@@ -88,7 +120,9 @@ export default function ServerPage() {
       </Stack>
 
       <Stack gap={2}>
-        <Typography variant="h3">Table</Typography>
+        <Typography variant="h3" as="h2">
+          Table
+        </Typography>
         <Table caption="최근 결제" size="sm">
           <TableHeader>
             <TableRow>
@@ -118,7 +152,9 @@ export default function ServerPage() {
       </Stack>
 
       <Stack gap={2}>
-        <Typography variant="h3">Link</Typography>
+        <Typography variant="h3" as="h2">
+          Link
+        </Typography>
         <Typography>
           {/* 서버 컴포넌트에서는 함수(NextLink)를 prop 으로 넘길 수 없으므로 asChild 로 감싼다 */}
           다음으로{' '}
@@ -134,7 +170,9 @@ export default function ServerPage() {
       </Stack>
 
       <Stack gap={2}>
-        <Typography variant="h3">Alert</Typography>
+        <Typography variant="h3" as="h2">
+          Alert
+        </Typography>
         <Alert title="점검 안내">9월 30일 새벽 2시부터 4시까지 서비스 점검이 있어요.</Alert>
         <Alert color="warning" variant="outline" title="저장 공간이 부족해요">
           남은 공간이 10% 미만이에요.
@@ -145,12 +183,16 @@ export default function ServerPage() {
       </Stack>
 
       <Stack gap={2}>
-        <Typography variant="h3">Card</Typography>
+        <Typography variant="h3" as="h2">
+          Card
+        </Typography>
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
           {(['outline', 'elevated', 'soft'] as const).map((variant) => (
             <Card key={variant} variant={variant} as="article">
               <CardHeader>
-                <Typography variant="h4">{variant}</Typography>
+                <Typography variant="h4" as="h3">
+                  {variant}
+                </Typography>
                 <Typography variant="body-sm" color="muted">
                   서버 컴포넌트에서 렌더링한 카드
                 </Typography>
@@ -167,7 +209,9 @@ export default function ServerPage() {
       </Stack>
 
       <Stack gap={2}>
-        <Typography variant="h3">Divider</Typography>
+        <Typography variant="h3" as="h2">
+          Divider
+        </Typography>
         <Stack direction="row" gap={3} align="center">
           <Typography variant="body-sm">프로필</Typography>
           <Divider orientation="vertical" />
@@ -180,7 +224,9 @@ export default function ServerPage() {
       </Stack>
 
       <Stack gap={2}>
-        <Typography variant="h3">Avatar</Typography>
+        <Typography variant="h3" as="h2">
+          Avatar
+        </Typography>
         <Stack direction="row" gap={3} align="center">
           <Avatar src={photo} name="Jane Doe" size="lg" />
           <Avatar src="/no-such-image.png" name="Jane Doe" size="lg" />

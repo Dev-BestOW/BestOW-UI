@@ -12,6 +12,7 @@ import {
   parseISODate,
   toISODate,
 } from '../../utils/date';
+import { useIsClient } from '../../utils/useIsClient';
 import { IconButton } from '../IconButton';
 import * as styles from './Calendar.css';
 import { useMessages } from '../../i18n/LocaleProvider';
@@ -31,7 +32,11 @@ export interface CalendarProps {
   isDateDisabled?: (date: Date) => boolean;
   /** 공휴일. 일요일처럼 빨갛게 표시하고 스크린리더에 "공휴일" 을 덧붙인다 */
   isHoliday?: (date: Date) => boolean;
-  /** 오늘 날짜 'YYYY-MM-DD'. 기본은 실제 오늘 — 테스트·스크린샷에서 고정할 때 쓴다 */
+  /**
+   * 오늘 날짜 'YYYY-MM-DD'. 기본은 브라우저의 오늘 — 테스트·스크린샷에서 고정할 때 쓴다.
+   * 서버 렌더링에서는 서버와 브라우저의 날짜(시간대)가 다를 수 있어, 없으면 hydration 이 끝난 뒤에 정한다
+   * (선택된 날짜도 없으면 그 전까지 날짜 칸을 비워 둔다).
+   */
   today?: string;
   /** 처음 그릴 때 날짜(선택된 날짜, 없으면 오늘)로 포커스를 옮긴다 — 팝업 안에서 쓸 때 */
   initialFocus?: boolean;
@@ -71,7 +76,9 @@ export const Calendar = /* @__PURE__ */ forwardRef<HTMLDivElement, CalendarProps
   const isControlled = 'value' in props;
   const [innerValue, setInnerValue] = useState(defaultValue ?? '');
   const selected = parseISODate(isControlled ? value : innerValue);
-  const today = parseISODate(todayProp) ?? new Date();
+  // 서버(UTC 등)와 브라우저(KST)의 "오늘" 이 달라 hydration 이 어긋나지 않게, today prop 이 없으면 브라우저에서만 정한다
+  const isClient = useIsClient();
+  const today = parseISODate(todayProp) ?? (isClient ? new Date() : null);
   const minDate = parseISODate(min);
   const maxDate = parseISODate(max);
 
@@ -86,7 +93,10 @@ export const Calendar = /* @__PURE__ */ forwardRef<HTMLDivElement, CalendarProps
     !!isDateDisabled?.(date);
 
   // 키보드 포커스가 있는(또는 다음에 받을) 날짜. 보이는 달은 이 날짜를 따른다.
-  const [focused, setFocused] = useState(() => clamp(selected ?? today));
+  // 아직 기준 날짜가 없으면(서버 렌더링 중, 선택값·today 없음) null — 정해지면 그 날짜의 달을 보여 준다
+  const [focusedState, setFocused] = useState<Date | null>(null);
+  const base = selected ?? today;
+  const focused = focusedState ?? (base ? clamp(base) : null);
   const moveFocus = useRef(initialFocus ?? false);
 
   // 바깥에서 값이 바뀌면(제어 모드, 입력창에 직접 입력 등) 그 날짜의 달을 보여 준다
@@ -97,7 +107,7 @@ export const Calendar = /* @__PURE__ */ forwardRef<HTMLDivElement, CalendarProps
   }, [selectedIso]);
 
   useEffect(() => {
-    if (!moveFocus.current) return;
+    if (!moveFocus.current || !focused) return;
     moveFocus.current = false;
     gridRef.current?.querySelector<HTMLElement>(`[data-date="${toISODate(focused)}"]`)?.focus();
   }, [focused]);
@@ -116,6 +126,7 @@ export const Calendar = /* @__PURE__ */ forwardRef<HTMLDivElement, CalendarProps
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLTableElement>) => {
+    if (!focused) return;
     const moves: Record<string, () => Date> = {
       ArrowLeft: () => addDays(focused, -1),
       ArrowRight: () => addDays(focused, 1),
@@ -134,13 +145,15 @@ export const Calendar = /* @__PURE__ */ forwardRef<HTMLDivElement, CalendarProps
   };
 
   const visible = focused;
-  const weeks = getCalendarWeeks(visible.getFullYear(), visible.getMonth()).filter((week) =>
-    week.some((date) => isSameMonth(date, visible)),
-  );
-  const prevMonth = addMonths(visible, -1);
-  const nextMonth = addMonths(visible, 1);
-  const canPrev = !minDate || compareDays(new Date(visible.getFullYear(), visible.getMonth(), 0), minDate) >= 0;
-  const canNext = !maxDate || compareDays(new Date(visible.getFullYear(), visible.getMonth() + 1, 1), maxDate) <= 0;
+  const weeks = visible
+    ? getCalendarWeeks(visible.getFullYear(), visible.getMonth()).filter((week) =>
+        week.some((date) => isSameMonth(date, visible)),
+      )
+    : [];
+  const canPrev =
+    !!visible && (!minDate || compareDays(new Date(visible.getFullYear(), visible.getMonth(), 0), minDate) >= 0);
+  const canNext =
+    !!visible && (!maxDate || compareDays(new Date(visible.getFullYear(), visible.getMonth() + 1, 1), maxDate) <= 0);
 
   return (
     <div ref={ref} className={cx(styles.root, className)}>
@@ -149,20 +162,21 @@ export const Calendar = /* @__PURE__ */ forwardRef<HTMLDivElement, CalendarProps
           aria-label={prevMonthLabel}
           size="sm"
           disabled={!canPrev}
-          onClick={() => setFocused(clamp(prevMonth))}
+          onClick={() => visible && setFocused(clamp(addMonths(visible, -1)))}
         >
           <ChevronLeftIcon />
         </IconButton>
         {/* 달이 바뀌면 스크린리더가 새 달을 읽는다 */}
         <div id={headingId} className={styles.heading} aria-live="polite">
-          {m.monthTitle?.(visible.getFullYear(), visible.getMonth() + 1) ??
-            `${visible.getFullYear()}년 ${visible.getMonth() + 1}월`}
+          {visible &&
+            (m.monthTitle?.(visible.getFullYear(), visible.getMonth() + 1) ??
+              `${visible.getFullYear()}년 ${visible.getMonth() + 1}월`)}
         </div>
         <IconButton
           aria-label={nextMonthLabel}
           size="sm"
           disabled={!canNext}
-          onClick={() => setFocused(clamp(nextMonth))}
+          onClick={() => visible && setFocused(clamp(addMonths(visible, 1)))}
         >
           <ChevronRightIcon />
         </IconButton>
@@ -182,7 +196,8 @@ export const Calendar = /* @__PURE__ */ forwardRef<HTMLDivElement, CalendarProps
             <tr key={toISODate(week[0]!)}>
               {week.map((date) => {
                 const iso = toISODate(date);
-                if (!isSameMonth(date, visible)) return <td key={iso} role="gridcell" className={styles.cell} />;
+                if (!visible || !isSameMonth(date, visible))
+                  return <td key={iso} role="gridcell" className={styles.cell} />;
                 const isSelected = isSameDay(date, selected);
                 const isToday = isSameDay(date, today);
                 const holiday = !!isHoliday?.(date);

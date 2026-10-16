@@ -60,28 +60,46 @@ describe('createTheme', () => {
 });
 
 describe('createIntentColors', () => {
-  it.each(['#7c3aed', '#facc15', '#0ea5e9', '#111827', '#f472b6', '#16a34a'])(
+  /** 대비 기준: 글자 4.5:1(hover 포함), 포커스 링 3:1 */
+  const failures = (color: string) => {
+    const { light, dark } = createIntentColors('primary', color);
+    const l = light!.color!.primary!;
+    const d = dark!.color!.primary!;
+    const checks: [string, number, number][] = [
+      ['light solid', contrastRatio(l.contrast!, l.solid!), 4.5],
+      ['light hover', contrastRatio(l.contrast!, l.solidHover!), 4.5],
+      ['dark solid', contrastRatio(d.contrast!, d.solid!), 4.5],
+      ['dark hover', contrastRatio(d.contrast!, d.solidHover!), 4.5],
+      ['light text', contrastRatio(l.text!, lightColors.bg.default), 4.5],
+      ['light text on subtleHover', contrastRatio(l.text!, l.subtleHover!), 4.5],
+      ['dark text', contrastRatio(d.text!, darkColors.bg.default), 4.5],
+      ['light focus', contrastRatio(light!.color!.border!.focus!, lightColors.bg.default), 3],
+      ['dark focus', contrastRatio(dark!.color!.border!.focus!, darkColors.bg.default), 3],
+    ];
+    return checks
+      .filter(([, ratio, min]) => ratio < min)
+      .map(([name, ratio]) => `${color} ${name} ${ratio.toFixed(2)}`);
+  };
+
+  it.each(['#7c3aed', '#facc15', '#0ea5e9', '#111827', '#f472b6', '#16a34a', '#059669', '#ea580c'])(
     '%s 로 만든 색이 대비 기준(4.5:1)을 만족한다',
     (color) => {
-      const { light, dark } = createIntentColors('primary', color);
-      const l = light!.color!.primary!;
-      const d = dark!.color!.primary!;
-      expect(l.solid).toBe(color);
-      expect(contrastRatio(l.contrast!, l.solid!)).toBeGreaterThanOrEqual(4.5);
-      expect(contrastRatio(l.contrast!, l.solidHover!)).toBeGreaterThanOrEqual(4.5);
-      expect(contrastRatio(d.contrast!, d.solid!)).toBeGreaterThanOrEqual(4.5);
-      expect(contrastRatio(d.contrast!, d.solidHover!)).toBeGreaterThanOrEqual(4.5);
-      expect(contrastRatio(l.text!, lightColors.bg.default)).toBeGreaterThanOrEqual(4.5);
-      expect(contrastRatio(l.text!, l.subtleHover!)).toBeGreaterThanOrEqual(4.5);
-      expect(contrastRatio(d.text!, darkColors.bg.default)).toBeGreaterThanOrEqual(4.5);
-      // 포커스 링은 배경과 3:1 이상 (밝은 브랜드 색도) — 테마 빌더에서 발견
-      const { light: lf, dark: df } = createIntentColors('primary', color);
-      expect(contrastRatio(lf!.color!.border!.focus!, lightColors.bg.default)).toBeGreaterThanOrEqual(3);
-      expect(contrastRatio(df!.color!.border!.focus!, darkColors.bg.default)).toBeGreaterThanOrEqual(3);
+      expect(failures(color)).toEqual([]);
+      const l = createIntentColors('primary', color).light!.color!.primary!;
+      // 넘긴 색에 흰 글자나 짙은 글자가 4.5 를 넘으면 solid 는 넘긴 색 그대로다
+      if (contrastRatio('#ffffff', color) >= 4.5 || contrastRatio('#212529', color) >= 4.5) {
+        expect(l.solid).toBe(color);
+      }
       // 노랑처럼 밝은 색은 흰 글자가 안 보이므로 어두운 글자를 고른다
-      if (contrastRatio('#ffffff', color) < 4.5) expect(l.contrast).not.toBe('#ffffff');
+      if (contrastRatio('#ffffff', l.solid!) < 4.5) expect(l.contrast).not.toBe('#ffffff');
     },
   );
+
+  it('어떤 색을 넣어도 대비 기준을 만족한다 (색 공간 전체 표본 — 초록·주황처럼 흰 글자·짙은 글자 모두 4.5 미만인 중간 밝기 포함)', () => {
+    const steps = ['00', '33', '59', '80', 'a6', 'cc', 'ff'];
+    const colors = steps.flatMap((r) => steps.flatMap((g) => steps.map((b) => `#${r}${g}${b}`)));
+    expect(colors.flatMap(failures)).toEqual([]);
+  });
 
   it('primary 는 포커스 링 색도 브랜드를 따라가고, 다른 intent 는 건드리지 않는다', () => {
     const primary = createIntentColors('primary', '#7c3aed');

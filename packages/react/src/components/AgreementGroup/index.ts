@@ -1,6 +1,2 @@
-export {
-  AgreementGroup,
-  hasAllRequiredAgreements,
-  type AgreementGroupProps,
-  type AgreementItem,
-} from './AgreementGroup';
+export { AgreementGroup, type AgreementGroupProps } from './AgreementGroup';
+export { hasAllRequiredAgreements, type AgreementItem } from './agreements';

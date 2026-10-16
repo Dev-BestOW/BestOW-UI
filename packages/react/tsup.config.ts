@@ -28,14 +28,49 @@ function withPureRecipes(plugin: EsbuildPlugin): EsbuildPlugin {
   };
 }
 
-export default defineConfig({
-  entry: ['src/index.ts'],
-  format: ['esm', 'cjs'],
-  dts: true,
-  clean: true,
+const common = {
   sourcemap: true,
   external: ['react', 'react-dom'],
-  // Next.js App Router 등 RSC 환경에서 클라이언트 컴포넌트로 인식되도록 한다.
-  banner: { js: '"use client";' },
   esbuildPlugins: [withPureRecipes(vanillaExtractPlugin({ identifiers: 'short' }))],
-});
+} satisfies Options;
+
+/**
+ * ESM 은 두 파일로 나눈다 — Next.js App Router 의 서버 컴포넌트에서 함수·값(createTheme, vars, formatKoreanAmount …)을
+ * 그대로 호출할 수 있게 하려는 것. 번들 전체에 "use client" 를 붙이면 이런 함수도 클라이언트 참조가 되어
+ * 서버에서 부르면 "Attempted to call createTheme() from the server" 로 실패한다.
+ *   dist/client.js  "use client" — 컴포넌트·hook (src/client.ts)
+ *   dist/shared.js  지시어 없음 — 순수 함수·값 (src/shared.ts)
+ *   dist/index.js   둘을 export * 로 합침 (onSuccess 에서 작성)
+ * 두 entry 가 함께 쓰는 모듈(vars, cx …)은 esbuild 가 chunk 로 뽑는다 — 순수 모듈뿐이라 지시어가 필요 없다.
+ * CSS 는 CJS 빌드가 만드는 dist/index.css(모든 CSS) 를 쓰고, ESM 빌드가 entry 별로 만드는 CSS 는 지운다.
+ */
+const esm: Options = {
+  ...common,
+  entry: { client: 'src/client.ts', shared: 'src/shared.ts' },
+  format: ['esm'],
+  splitting: true,
+  dts: { entry: { index: 'src/index.ts' } },
+  async onSuccess() {
+    const { readFile, rm, writeFile } = await import('node:fs/promises');
+    // "use client" 는 src/client.ts 맨 위의 지시어를 esbuild 가 entry 출력에 그대로 남긴다 — 빠지면 빌드를 실패시킨다
+    if (!(await readFile('dist/client.js', 'utf8')).startsWith('"use client";')) {
+      throw new Error('dist/client.js 맨 앞에 "use client" 가 없습니다');
+    }
+    await writeFile('dist/index.js', "export * from './shared.js';\nexport * from './client.js';\n");
+    for (const file of ['client.css', 'client.css.map', 'shared.css', 'shared.css.map']) {
+      await rm(`dist/${file}`, { force: true });
+    }
+  },
+};
+
+/** CJS 는 지금처럼 한 파일 (require 로 서버 컴포넌트를 쓰는 경우는 드물다). dist/index.css 도 여기서 나온다. */
+const cjs: Options = {
+  ...common,
+  entry: { index: 'src/index.ts' },
+  format: ['cjs'],
+  dts: { entry: { index: 'src/index.ts' } },
+  banner: { js: '"use client";' },
+};
+
+// 두 설정이 동시에 돌기 때문에 clean 은 build 스크립트에서 한 번만 한다
+export default defineConfig([esm, cjs]);

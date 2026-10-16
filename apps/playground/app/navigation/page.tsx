@@ -72,6 +72,9 @@ export default function NavigationPage() {
             <TabsTrigger value="week">주</TabsTrigger>
             <TabsTrigger value="month">월</TabsTrigger>
           </TabsList>
+          <TabsContent value="day">오늘 통계</TabsContent>
+          <TabsContent value="week">이번 주 통계</TabsContent>
+          <TabsContent value="month">이번 달 통계</TabsContent>
         </Tabs>
       </Stack>
 

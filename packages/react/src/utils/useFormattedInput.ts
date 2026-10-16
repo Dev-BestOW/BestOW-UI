@@ -1,4 +1,5 @@
-import { useLayoutEffect, useRef, useState, type ChangeEvent, type KeyboardEvent, type RefObject } from 'react';
+import { useRef, useState, type ChangeEvent, type KeyboardEvent, type RefObject } from 'react';
+import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
 
 interface Options {
   /** 제어 모드 여부와 값 (원본 — 서식 문자 없는 값) */
@@ -49,7 +50,7 @@ export function useFormattedInput({
   // 다음 렌더 뒤 커서를 둘 위치 (의미 있는 문자 개수 기준)
   const pendingCaret = useRef<number | null>(null);
 
-  useLayoutEffect(() => {
+  useIsomorphicLayoutEffect(() => {
     const input = inputRef.current;
     if (pendingCaret.current === null || !input || document.activeElement !== input) return;
     const position = caretAfter(input.value, pendingCaret.current, isMeaningful);

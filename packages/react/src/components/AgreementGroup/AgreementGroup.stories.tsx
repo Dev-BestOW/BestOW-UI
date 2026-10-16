@@ -3,7 +3,8 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, within } from 'storybook/test';
 import { Button } from '../Button';
 import { Stack } from '../Stack';
-import { AgreementGroup, hasAllRequiredAgreements, type AgreementItem } from './AgreementGroup';
+import { AgreementGroup } from './AgreementGroup';
+import { hasAllRequiredAgreements, type AgreementItem } from './agreements';
 
 const items: AgreementItem[] = [
   { value: 'age', label: '만 14세 이상입니다', required: true },

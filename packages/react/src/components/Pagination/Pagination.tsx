@@ -5,7 +5,8 @@ import { getPaginationItems } from './getPaginationItems';
 import * as styles from './Pagination.css';
 import { useMessages } from '../../i18n/LocaleProvider';
 
-type ItemType = 'previous' | 'next' | 'page';
+/** getItemLabel 이 이름을 만드는 버튼 종류 */
+export type PaginationItemType = 'previous' | 'next' | 'page';
 
 export interface PaginationProps extends Omit<HTMLAttributes<HTMLElement>, 'onChange'> {
   /** 전체 페이지 수. 1 미만이면 아무것도 렌더링하지 않는다 */
@@ -23,7 +24,7 @@ export interface PaginationProps extends Omit<HTMLAttributes<HTMLElement>, 'onCh
   /** 크기 */
   size?: 'sm' | 'md';
   /** 버튼의 스크린리더용 이름 (다국어 대응). 기본: "이전 페이지", "다음 페이지", "3 페이지" */
-  getItemLabel?: (type: ItemType, page: number) => string;
+  getItemLabel?: (type: PaginationItemType, page: number) => string;
 }
 
 export const Pagination = /* @__PURE__ */ forwardRef<HTMLElement, PaginationProps>(function Pagination(
@@ -47,7 +48,7 @@ export const Pagination = /* @__PURE__ */ forwardRef<HTMLElement, PaginationProp
   const ariaLabel = ariaLabelProp ?? m.pagination ?? '페이지 탐색';
   const getItemLabel =
     getItemLabelProp ??
-    ((type: ItemType, n: number) =>
+    ((type: PaginationItemType, n: number) =>
       type === 'previous'
         ? (m.paginationPrevious ?? '이전 페이지')
         : type === 'next'

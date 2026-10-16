@@ -1,9 +1,7 @@
 import {
   forwardRef,
   useCallback,
-  useEffect,
   useId,
-  useLayoutEffect,
   useRef,
   useState,
   type ChangeEvent,
@@ -12,11 +10,9 @@ import {
 } from 'react';
 import { cx } from '../../utils/cx';
 import { mergeRefs } from '../../utils/mergeRefs';
+import { useIsomorphicLayoutEffect } from '../../utils/useIsomorphicLayoutEffect';
 import * as fieldStyles from '../Input/Input.css';
 import * as styles from './Textarea.css';
-
-// 서버 렌더링에서는 useLayoutEffect 대신 useEffect 를 쓴다.
-const useIsomorphicLayoutEffect = typeof window !== 'undefined' ? useLayoutEffect : useEffect;
 
 export interface TextareaProps extends Omit<TextareaHTMLAttributes<HTMLTextAreaElement>, 'size'> {
   /** 입력창 위에 표시할 레이블 */

@@ -112,12 +112,24 @@ function hoverFor(base: Oklch, delta: number, contrast: string): string {
   return withL(base, Math.min(1, Math.max(0, base.l - delta)));
 }
 
-/** solid 배경 위 글자색: 흰색이 4.5 를 넘으면 흰색, 아니면 대비가 더 큰 쪽 */
-function pickContrast(solid: string): string {
+/**
+ * solid 배경과 그 위 글자색(contrast). 흰 글자가 4.5 를 넘으면 흰색, 아니면 짙은 글자.
+ * 둘 다 4.5 미만인 중간 밝기 색(초록 #059669, 주황 #ea580c 등)은 solid 의 밝기를 가장 적게 옮겨 4.5 를 맞춘다
+ * (같은 거리면 어둡게 + 흰 글자를 먼저 고른다).
+ */
+function solidWithContrast(color: string): { solid: string; contrast: string } {
   const white = palette.white;
   const dark = palette.gray[900];
-  if (contrastRatio(white, solid) >= 4.5) return white;
-  return contrastRatio(dark, solid) >= contrastRatio(white, solid) ? dark : white;
+  if (contrastRatio(white, color) >= 4.5) return { solid: color, contrast: white };
+  if (contrastRatio(dark, color) >= 4.5) return { solid: color, contrast: dark };
+  const base = rgbToOklch(parseHex(color));
+  for (let delta = 0.005; delta <= 1; delta += 0.005) {
+    const darker = withL(base, Math.max(0, base.l - delta));
+    if (contrastRatio(white, darker) >= 4.5) return { solid: darker, contrast: white };
+    const lighter = withL(base, Math.min(1, base.l + delta));
+    if (contrastRatio(dark, lighter) >= 4.5) return { solid: lighter, contrast: dark };
+  }
+  return { solid: palette.black, contrast: white };
 }
 
 const rgba = (hex: string, alpha: number) => {
@@ -129,23 +141,24 @@ export type IntentName = 'primary' | 'neutral' | 'danger' | 'success' | 'warning
 
 /**
  * 대표색 하나로 intent(primary 등)의 라이트·다크 색 세트를 만든다. 결과는 createTheme 에 넘긴다.
- * - solid 는 넘긴 색을 그대로 쓴다 (다크모드에서 너무 어두우면 조금 밝힌다).
+ * - solid 는 넘긴 색을 그대로 쓴다 (다크모드에서 너무 어두우면 조금 밝힌다). 단 흰 글자·짙은 글자 모두
+ *   대비 4.5:1 이 안 나오는 중간 밝기 색이면 4.5 가 나올 만큼만 밝기를 옮긴다.
  * - text 와 contrast(solid 위 글자색)는 WCAG AA 대비 4.5:1 을 만족하도록 계산한다.
  * - intent 가 'primary' 면 포커스 링 색(border.focus)도 함께 바꾼다.
  *
  * @example createTheme(createIntentColors('primary', '#7c3aed'))
  */
 export function createIntentColors(intent: IntentName, color: string): ThemeInput {
-  const solid = toHex(parseHex(color));
-  const base = rgbToOklch(parseHex(solid));
+  const input = toHex(parseHex(color));
+  const base = rgbToOklch(parseHex(input));
 
   // 라이트
   const lightSubtle = withL(base, 0.97, Math.min(base.c, 0.12) * 0.3);
   const lightSubtleHover = withL(base, 0.93, Math.min(base.c, 0.12) * 0.45);
-  const lightContrast = pickContrast(solid);
+  const { solid, contrast: lightContrast } = solidWithContrast(input);
   const light = {
     solid,
-    solidHover: hoverFor(base, -0.06, lightContrast),
+    solidHover: hoverFor(rgbToOklch(parseHex(solid)), -0.06, lightContrast),
     contrast: lightContrast,
     subtle: lightSubtle,
     subtleHover: lightSubtleHover,
@@ -154,11 +167,10 @@ export function createIntentColors(intent: IntentName, color: string): ThemeInpu
 
   // 다크
   const darkBg = darkColors.bg.default;
-  const darkSolid = base.l < 0.5 ? withL(base, 0.55) : solid;
+  const { solid: darkSolid, contrast: darkContrast } = solidWithContrast(base.l < 0.5 ? withL(base, 0.55) : input);
   const darkBase = rgbToOklch(parseHex(darkSolid));
   const darkSubtleOnBg = blend(darkSolid, 0.16, darkBg);
   const darkSubtleHoverOnBg = blend(darkSolid, 0.26, darkBg);
-  const darkContrast = pickContrast(darkSolid);
   const dark = {
     solid: darkSolid,
     solidHover: hoverFor(darkBase, 0.06, darkContrast),

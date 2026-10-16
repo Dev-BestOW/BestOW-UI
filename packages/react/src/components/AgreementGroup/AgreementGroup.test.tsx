@@ -1,7 +1,8 @@
 import { useState } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { AgreementGroup, hasAllRequiredAgreements, type AgreementItem } from './AgreementGroup';
+import { AgreementGroup } from './AgreementGroup';
+import { hasAllRequiredAgreements, type AgreementItem } from './agreements';
 
 const items: AgreementItem[] = [
   { value: 'terms', label: '서비스 이용약관 동의', required: true, content: '제1조 목적 …' },

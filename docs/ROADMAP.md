@@ -16,6 +16,8 @@
 - main 의 CI·Visual regression·Release·Storybook 배포 모두 성공(`d288011`).
 - 번들: react 전체 JS **63.5/70 kB**(2026-10-16 65 → 70 kB 상향), styles.css 30.2/36 kB, Button 하나 1.51/2 kB.
 - **1.0.0 준비 완료(2026-10-16)** — 옛 이름 4개 제거 + changeset major(react·tokens → 1.0.0, icons 는 0.x 유지).
+  출시 전 점검(패킹한 tarball 을 새 프로젝트에 설치·React 18/19·TS 5.4/5.9·ESM/CJS·Next 서버 컴포넌트·브라우저)에서 5건을 찾아 고침
+  — changeset `cjs-types-and-ssr-fixes`(진행 기록 참고).
   **사용자 확인:** 커밋·push → 버전 PR("chore: version packages")에서 react·tokens 가 1.0.0 인지 확인 후 머지 → npm 배포 확인.
 - **그다음 작업:** P10 playground E2E 정식화 → P9 보강·새 컴포넌트 (P7 남은 항목은 1.0 이후 minor 로).
 
@@ -82,7 +84,8 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
   기존 사용법을 깨지 않는 추가라 **1.0 이후 필요할 때 minor 로**. JS 가 CSS 를 자동 import(C)는 breaking·환경 문제로 하지 않음.
 - [ ] (나중에) **컴포넌트별 CSS 선택 import (B)** — 공통(base) + 컴포넌트별 CSS, 컴포넌트 간 CSS 의존(Combobox → Select·Input,
   Drawer → IconButton 등)을 문서화. 빌드는 vanilla-extract 출력에서 컴포넌트별로 나누는 후처리 필요.
-- [ ] **서버 컴포넌트 엔트리 분리** — 번들 전체에 `"use client"` 가 붙어 Typography·Stack 처럼 hook 없는 컴포넌트도 클라이언트 경계가 된다.
+- [~] **서버 컴포넌트 엔트리 분리** — 2026-10-16 함수·값은 `dist/shared.js`(지시어 없음)로 분리해 서버에서 호출 가능(1.0 점검 중 버그로 발견).
+  남은 것: Typography·Stack 처럼 hook 없는 **컴포넌트**도 지금은 클라이언트 경계 — 필요하면 1.0 이후 minor 로.
 - [ ] size-limit 결과를 PR 코멘트로 (size-limit-action).
 
 ### P8. 1.0.0 준비 — 공개 API 안정화
@@ -110,7 +113,7 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 ### P9. 기존 컴포넌트 보강 · 새 컴포넌트
 
 - [ ] DropdownMenu `CheckboxItem`/`RadioItem`/하위 메뉴, Tabs 세로 방향.
-- [ ] Combobox 다중 선택·비동기 검색·긴 목록 가상화.
+- [ ] Combobox 다중 선택·비동기 검색·긴 목록 가상화, **선택 지우기**(지금은 한 번 고르면 빈 값으로 되돌릴 수 없음 — 1.0 점검에서 확인).
 - [ ] 새 후보: DatePicker, NumberInput, SegmentedControl(Toggle group), FileUpload, Stepper, Tag 입력. (수요가 생기면)
 
 ### P10. 테스트·운영
@@ -192,3 +195,4 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 | 2026-10-16 | 사용자 결정: react 전체 JS 한도 65 → 70 kB |
 | 2026-10-16 | react 0.12.0 배포 확인(npm·태그·GitHub Release, d.ts 에 새 타입·dist 에 deprecated 경고 포함) |
 | 2026-10-16 | 1.0 준비: 옛 이름 4개 제거(타입 오류로 고정, 변이 확인), changeset major(react·tokens), 버전 규칙·MIGRATION·CONTRIBUTING 갱신 |
+| 2026-10-16 | 1.0 출시 전 점검 — 고친 것: ① CJS 타입(exports require→d.cts, TS ≤5.7 TS1479) ② React 18 SSR useLayoutEffect 경고(서식 입력) ③ Next 서버 컴포넌트에서 createTheme·vars·서식 함수 호출 실패("use client" 전체 적용) → ESM 을 client/shared 로 분리, playground 서버 페이지가 회귀 감시 ④ createIntentColors 중간 밝기 색(#059669·#ea580c 등 343색 중 41색) 버튼 대비 4.5 미달 → solid 밝기 보정 + 표본 테스트 ⑤ 인라인 Calendar SSR "오늘" hydration 불일치(UTC 서버) → hydration 뒤 결정. 모두 변이 확인. 그 외 playground 제목 순서·패널 없는 Tabs 수정. 확인만: Radix Select·DropdownMenu 열림 중 axe aria-hidden-focus 는 Radix 의 포커스 가둠 방식이라 유지 |

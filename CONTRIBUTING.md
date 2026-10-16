@@ -65,7 +65,7 @@ pnpm storybook    # http://localhost:6006
 | `<Name>.test.tsx` | 테스트 |
 | `index.ts` | export |
 
-- [ ] `packages/react/src/index.ts` 에 `export * from './components/<Name>';` 를 추가했다
+- [ ] `packages/react/src/client.ts` 에 `export * from './components/<Name>';` 를 추가했다 (서버 컴포넌트에서도 부를 순수 함수는 hook 없는 파일에 두고 `shared.ts` 에서 export)
 - [ ] 스타일 값은 모두 `vars` 로 참조했다 (하드코딩한 색·간격 없음)
 - [ ] `forwardRef` 로 ref 를 넘기고, `className` 과 나머지 HTML 속성을 전달했다
 - [ ] 최상위 `forwardRef(...)`·`createContext(...)` 앞에 `/* @__PURE__ */` 를 붙였다

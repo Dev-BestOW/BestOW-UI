@@ -1,4 +1,6 @@
-import { render, screen } from '@testing-library/react';
+import { hydrateRoot } from 'react-dom/client';
+import { renderToString } from 'react-dom/server';
+import { act, render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Calendar } from './Calendar';
 
@@ -75,5 +77,31 @@ describe('Calendar', () => {
   it('공휴일은 이름에 "공휴일" 을 덧붙인다', () => {
     render(<Calendar today={TODAY} isHoliday={(date) => date.getMonth() === 9 && date.getDate() === 9} />);
     expect(day('9, 2026년 10월 금요일, 공휴일').getAttribute('data-holiday')).not.toBeNull();
+  });
+
+  it('서버 렌더링: 서버와 브라우저의 오늘이 달라도(UTC 서버·KST 브라우저 등) hydration 이 어긋나지 않는다', async () => {
+    vi.useFakeTimers({ toFake: ['Date'] });
+    try {
+      vi.setSystemTime(new Date(2026, 9, 31, 23)); // 서버: 10월 31일
+      const html = renderToString(<Calendar />);
+      vi.setSystemTime(new Date(2026, 10, 1, 8)); // 브라우저: 11월 1일
+      const container = document.createElement('div');
+      container.innerHTML = html;
+      document.body.append(container);
+      const onRecoverableError = vi.fn();
+      const consoleError = vi.spyOn(console, 'error').mockImplementation(() => {});
+      await act(async () => {
+        hydrateRoot(container, <Calendar />, { onRecoverableError });
+      });
+      expect(onRecoverableError).not.toHaveBeenCalled();
+      expect(consoleError).not.toHaveBeenCalled();
+      // hydration 뒤에는 브라우저의 오늘로 그린다
+      expect(screen.getByRole('grid', { name: '2026년 11월' })).toBeTruthy();
+      expect(container.querySelector('[aria-current="date"]')?.textContent).toBe('1');
+      consoleError.mockRestore();
+      container.remove();
+    } finally {
+      vi.useRealTimers();
+    }
   });
 });

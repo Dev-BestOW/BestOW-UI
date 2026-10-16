@@ -4,17 +4,8 @@ import { cx } from '../../utils/cx';
 import { Checkbox } from '../Checkbox';
 import * as fieldStyles from '../Input/Input.css';
 import * as styles from './AgreementGroup.css';
+import type { AgreementItem } from './agreements';
 import { useMessages } from '../../i18n/LocaleProvider';
-
-export interface AgreementItem {
-  value: string;
-  /** 약관 이름 (예: "서비스 이용약관 동의") */
-  label: ReactNode;
-  /** 필수 동의 여부. 이름 앞에 "필수"/"선택" 이 붙는다 */
-  required?: boolean;
-  /** 펼쳐서 보여 줄 약관 내용. 있으면 "보기" 버튼이 생긴다 */
-  content?: ReactNode;
-}
 
 export interface AgreementGroupProps {
   items: AgreementItem[];
@@ -41,11 +32,6 @@ export interface AgreementGroupProps {
   /** form 제출 시 사용할 이름. 동의한 value 마다 hidden input 이 생긴다 */
   name?: string;
   className?: string;
-}
-
-/** 필수 항목에 모두 동의했는지 */
-export function hasAllRequiredAgreements(items: AgreementItem[], value: string[]): boolean {
-  return items.every((item) => !item.required || value.includes(item.value));
 }
 
 /**
