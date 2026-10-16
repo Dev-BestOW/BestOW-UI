@@ -197,6 +197,9 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
 - **jsdom 은 커서(selection)를 실제 브라우저와 다르게 다룬다** — 커서 위치 테스트는 스토리 `play`(실제 Chromium)로 한다.
   이때 서식 적용 전후 문자열이 **달라지는** 입력을 골라야 한다(같으면 React 가 값을 다시 쓰지 않아 복원 코드 없이도 통과한다).
 - 테스트가 너무 쉽게 통과하면 의심한다 — 구현을 망가뜨려도 통과한다면 테스트가 그 상황을 만들지 못한 것(DatePicker 덮어쓰기 사례).
+- Radix RadioGroup 은 "포커스가 옮겨질 때 화살표 키가 아직 눌려 있는지(document keydown/keyup)" 로 선택을 정한다 →
+  키를 바로 떼는 입력(user-event·Playwright press·일부 보조기기)에서는 포커스만 옮겨지고 선택이 빠질 수 있다(jsdom 은 항상 빠짐).
+  SegmentedControl 은 그래서 직접 구현했다. RadioGroup 컴포넌트는 아직 Radix 그대로 — 화살표 선택을 테스트하려면 실제 브라우저에서.
 - Radix Popover Content 는 기본 `role="dialog"` — 목록 팝업(Combobox)으로 쓸 때는 `role="presentation"` 으로 덮어쓴다(props 가 뒤에 적용됨).
 - MDX 문서 페이지는 스토리 axe 테스트 대상이 아니다 — 문서에 컴포넌트를 그리면 axe 를 직접 돌려 확인한다.
   Storybook 문서의 기본 표 스타일이 Table 컴포넌트를 덮으므로 `<Unstyled>` 로 감싼다. MDX 는 GFM 표를 지원하지 않는다.

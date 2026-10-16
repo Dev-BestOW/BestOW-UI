@@ -70,6 +70,12 @@ export const componentA11y: ComponentA11yGroup[] = [
         screenReader: 'radiogroup (label 이 그룹 이름), 각 radio 의 선택 상태. helperText·error 는 그룹에 연결.',
       },
       {
+        name: 'SegmentedControl',
+        keyboard: 'Tab 으로 들어가면 선택된 칸, ←/→ 로 옮기면 바로 선택(끝에서 처음으로 돈다, 비활성 칸은 건너뜀).',
+        screenReader: 'radiogroup(label 또는 aria-label 이 이름) / radio 의 선택 상태. 아이콘은 숨김.',
+        yours: '선택에 따라 아래 내용(패널)이 바뀌면 Tabs 를 쓴다. 칸이 5개를 넘으면 Select.',
+      },
+      {
         name: 'Select',
         keyboard: 'Enter·Space·↓ 로 열기, 화살표 이동, 글자 입력으로 항목 찾기, Enter 선택, Esc 닫기.',
         screenReader: 'combobox 버튼 + listbox. 선택된 값이 버튼 글자로 읽힌다.',

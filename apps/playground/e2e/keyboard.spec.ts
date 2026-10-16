@@ -95,3 +95,21 @@ test('SkipLink: 첫 Tab 에 "본문 바로가기" 가 화면에 나타나고, En
   await page.keyboard.press('Tab');
   expect(await page.getByRole('main').evaluate((main) => main.contains(document.activeElement))).toBe(true);
 });
+
+test('SegmentedControl: Tab 으로 선택된 칸에 들어가고, 화살표로 옮기면 바로 선택된다(끝에서 처음으로)', async ({
+  page,
+}) => {
+  await page.goto('/navigation');
+  const group = page.getByRole('radiogroup', { name: '정렬' });
+  await group.getByRole('radio', { name: '최신순' }).click();
+  await page.keyboard.press('ArrowRight');
+  await expect(group.getByRole('radio', { name: '인기순' })).toBeFocused();
+  await expect(group.getByRole('radio', { name: '인기순' })).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByText('정렬: popular')).toBeVisible();
+  // 지연 없이 연달아 눌러도 매번 선택돼야 한다 — Radix RadioGroup 을 썼을 때 여기서 약 20% 실패해 직접 구현으로 바꿨다
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('ArrowRight');
+  await expect(group.getByRole('radio', { name: '최신순' })).toHaveAttribute('aria-checked', 'true');
+  await expect(group.getByRole('radio', { name: '최신순' })).toBeFocused();
+  await expect(page.getByText('정렬: latest')).toBeVisible();
+});

@@ -16,6 +16,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
   Pagination,
+  SegmentedControl,
   Popover,
   PopoverClose,
   Stack,
@@ -37,6 +38,7 @@ export default function NavigationPage() {
   const { toast } = useToast();
   const [page, setPage] = useState(1);
   const [tab, setTab] = useState<string>();
+  const [sort, setSort] = useState('latest');
 
   return (
     <Stack gap={8}>
@@ -76,6 +78,20 @@ export default function NavigationPage() {
           <TabsContent value="week">이번 주 통계</TabsContent>
           <TabsContent value="month">이번 달 통계</TabsContent>
         </Tabs>
+        {/* 아래 내용(패널)이 바뀌는 게 아니라 값을 고르는 것이면 Tabs 대신 SegmentedControl */}
+        <SegmentedControl
+          aria-label="정렬"
+          options={[
+            { value: 'latest', label: '최신순' },
+            { value: 'popular', label: '인기순' },
+            { value: 'price', label: '낮은 가격순' },
+          ]}
+          value={sort}
+          onValueChange={setSort}
+        />
+        <Typography variant="caption" color="muted">
+          정렬: {sort}
+        </Typography>
       </Stack>
 
       <Stack gap={3}>

@@ -12,7 +12,7 @@
 **마지막 상태**
 - npm: **react 1.0.0 · tokens 1.0.0**(2026-10-16 정식 출시), icons 0.1.2. 열린 버전 PR 없음.
   배포본을 npm 에서 새로 설치해 확인함(ESM·CJS·SSR, TS 5.4 CJS 타입, 서버 컴포넌트용 client/shared 분리, 색 대비 보정).
-- 컴포넌트 41개(한국 서비스 키트 8개 포함) + 테마·다국어(LocaleProvider). **P1~P6, P8(1.0) 완료.**
+- 컴포넌트 42개(한국 서비스 키트 8개 포함) + 테마·다국어(LocaleProvider). **P1~P6, P8(1.0) 완료.**
 - main 의 CI·Visual regression·Release·Storybook 배포 모두 성공(`a433bdd`, 로컬 = origin/main).
 - 번들: react 전체 JS **63.7/70 kB**(2026-10-16 65 → 70 kB 상향), styles.css 30.2/36 kB, Button 하나 1.51/2 kB.
 - **1.0.0 출시 완료(2026-10-16)** — 옛 이름 4개 제거 + changeset major(react·tokens → 1.0.0, icons 는 0.x 유지).
@@ -116,7 +116,8 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 - [x] Combobox **선택 지우기** (2026-10-16) — 글자를 모두 지우고 닫으면 지움 + `clearable` 버튼. changeset `combobox-clear`(minor).
 - [ ] Combobox 다중 선택·비동기 검색·긴 목록 가상화.
 - [x] **SkipLink**(본문 바로가기) (2026-10-16) — KWCAG 6.4.1 을 "사용자 몫" → "일부" 로. changeset `skip-link`(minor).
-- [ ] 새 후보: NumberInput, SegmentedControl(Toggle group), FileUpload, Stepper, Tag 입력. (수요가 생기면 — DatePicker 는 P6 에서 완료)
+- [x] **SegmentedControl** (2026-10-16) — radiogroup 의미를 직접 구현(roving tabindex, 화살표 = 즉시 선택), changeset `segmented-control`(minor).
+- [ ] 새 후보: NumberInput, FileUpload, Stepper, Tag 입력. (수요가 생기면 — DatePicker 는 P6 에서 완료)
 
 ### P10. 테스트·운영
 
@@ -202,3 +203,4 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 | 2026-10-16 | Storybook 다크 배경이 스토리 높이까지만 칠해지던 문제 — 스토리 화면에서 테마 영역 min-height 100vh(문서 페이지는 그대로). 다크 기준 이미지 전체 갱신 필요 |
 | 2026-10-16 | P9: Combobox 선택 지우기(글자 모두 지우고 닫기 + clearable 버튼, 테스트 4개·변이 3종 확인, 새 문구 키 clearSelection 은 선택 키). 자동 문서 prop 누락 수정 — Phone·Business·Amount·TextField 주요 prop 직접 선언(DatePicker 는 이미 직접 선언), Accordion 은 argTypes |
 | 2026-10-16 | P9: SkipLink 추가(테스트 6개·변이 3종, playground 맨 앞 배치 + E2E), KWCAG 6.4.1 사용자 몫 → 일부, 컴포넌트별 접근성 문서 추가 |
+| 2026-10-16 | P9: SegmentedControl(radiogroup 의미, 테스트 9개·변이 2종, E2E 연속 화살표 5회 반복). 처음엔 Radix RadioGroup 위로 만들었으나 Radix 가 "포커스 이동 때 화살표가 아직 눌려 있는지" 로 선택해 빠른 키 입력에서 약 20% 선택 누락 → 직접 구현. playground 정렬 예제 |
