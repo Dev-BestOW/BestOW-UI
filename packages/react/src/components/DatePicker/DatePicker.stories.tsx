@@ -51,7 +51,6 @@ export const WithRange: Story = {
 /** play 로 달력을 연 상태 — 스토리 테스트의 axe 가 달력(grid)까지 검사한다 */
 export const CalendarOpen: Story = {
   name: '달력 열림',
-  tags: ['!visual'],
   args: { defaultValue: '2026-10-21' },
   play: async ({ canvasElement }) => {
     await userEvent.click(within(canvasElement).getByRole('button', { name: '달력 열기' }));

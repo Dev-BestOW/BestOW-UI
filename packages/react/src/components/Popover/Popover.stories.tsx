@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, within } from 'storybook/test';
 import { Button } from '../Button';
 import { Stack } from '../Stack';
 import { TextField } from '../Input';
@@ -55,4 +56,13 @@ export const SimpleWithArrow: Story = {
     children: <Button variant="ghost">요금이 궁금해요</Button>,
   },
   decorators: [(Story) => <div style={{ paddingTop: 80 }}>{Story()}</div>],
+};
+
+/** play 로 연 상태 — 스토리 테스트의 axe 와 시각 회귀가 열린 팝오버까지 확인한다 */
+export const Open: Story = {
+  name: '열린 상태',
+  play: async ({ canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole('button', { name: '공유' }));
+    await expect(within(document.body).getByRole('dialog', { name: '공유 설정' })).toBeInTheDocument();
+  },
 };

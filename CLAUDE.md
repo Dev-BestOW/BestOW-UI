@@ -37,10 +37,12 @@ apps/
   playground/ (private)        Next.js 16 App Router 예제 앱. alias 없이 패키지 dist 를 그대로 써서 실제 설치와 같은 조건으로
                                SSR·서버 컴포넌트·portal 테마를 확인한다 (packages 를 먼저 build 해야 함). 헤더에 다크/브랜드 토글.
                                `PLAYGROUND_BASE_PATH` 가 있을 때만 정적 export(+basePath) — Pages 배포용. 평소엔 일반 서버 모드.
+                               e2e/ — Playwright E2E(`pnpm test:e2e`, 포트 3107): 콘솔·hydration 오류 0(fixtures 의 자동 검사),
+                               axe(라이트·다크+브랜드), portal 테마, 키보드 시나리오, 서버 컴포넌트에서 부른 함수.
 .github/
   actions/setup/               pnpm + Node(.nvmrc=22) + pnpm install 공통 composite action
   workflows/ci.yml             PR·main: 아이콘 생성물 확인 → lint → format:check → build → size → typecheck → test
-                               → test:stories(브라우저 렌더링 + axe, 라이트·다크) → build-storybook → build-playground
+                               → test:stories(브라우저 렌더링 + axe, 라이트·다크) → build-storybook → build-playground → test:e2e
   workflows/visual.yml         PR·main: Playwright Docker 이미지에서 모든 스토리 라이트·다크 스크린샷 비교.
                                새 스토리(기준 이미지 없음)는 자동 생성 → main push 면 봇이 커밋(--update-snapshots=missing).
                                기존 화면이 바뀌면 실패 → 수동 실행 + update 체크 → 기준 이미지 갱신 후 그 브랜치에 봇이 커밋.
@@ -124,6 +126,7 @@ pnpm size                            # size-limit (.size-limit.json). build 먼�
 pnpm build-storybook
 pnpm playground                      # http://localhost:3000 (packages 를 build 한 뒤. dist 를 쓰므로 패키지 수정 후 다시 build)
 pnpm build-playground
+pnpm test:e2e                        # playground E2E (build + build-playground 먼저). 로컬은 시스템 Chrome, 포트 3107
 pnpm --filter @bestow-ui/icons generate
 pnpm changeset                       # 변경 내역 기록 (대화형) — 비대화형이면 .changeset/<이름>.md 를 직접 작성
 ```
@@ -132,11 +135,13 @@ pnpm changeset                       # 변경 내역 기록 (대화형) — 비�
 
 ```bash
 pnpm lint && pnpm format:check && pnpm build && pnpm size && pnpm typecheck && pnpm test && pnpm test:stories \
-  && pnpm build-storybook && pnpm build-playground && rm -rf apps/storybook/storybook-static
+  && pnpm build-storybook && pnpm build-playground && pnpm test:e2e && rm -rf apps/storybook/storybook-static
 ```
 
 ### 브라우저 점검 (UI 를 바꿨을 때)
 
+반복되는 확인(콘솔·hydration 오류, axe, portal 색, 키보드)은 `apps/playground/e2e` 에 테스트로 둔다 — 새 상호작용을 playground 에
+추가하면 E2E 도 함께 추가한다. 일회성 확인만 아래처럼 scratchpad 스크립트로 한다.
 시스템 Chrome 이 있으면 scratchpad 에 `playwright-core` 를 설치해(브라우저 다운로드 없음) `chromium.launch({ channel: 'chrome' })` 로
 playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)를 열고 콘솔 경고·hydration 경고·portal 색을 확인한다.
 애니메이션 중에 찍으면 흐리게 나오므로 열고 300~400ms 기다린 뒤 측정·스크린샷한다.
@@ -175,6 +180,11 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
   ("Failed to fetch dynamically imported module"). `.storybook/main.ts` 의 `optimizeDeps.include` 에 추가한다.
   react 패키지의 의존성은 루트에서 못 찾으므로 `'@bestow-ui/react > 패키지'` 형식으로 쓴다.
 - ESLint 는 9.x 를 쓴다 — `eslint-plugin-jsx-a11y` 가 아직 ESLint 10 을 지원하지 않는다.
+- 열린 상태(목록·대화상자) 스토리는 `defaultOpen` 이 아니라 **`play` 로 연다** — defaultOpen 은 자동 문서 페이지에서도 열려 문서를 가린다.
+  시각 회귀는 play 가 끝난 뒤(`__STORYBOOK_PREVIEW__.currentRender.phase === 'finished'`, Storybook 10 기준) 찍는다.
+  play 안에서 열린 요소는 `toBeVisible()` 이 아니라 `toBeInTheDocument()` 로 확인한다(여는 애니메이션 중 opacity 0).
+  모달형 Select·DropdownMenu 를 연 스토리는 axe `aria-hidden-focus` 를 그 스토리에서만 끈다 — Radix 가 바깥(트리거 포함)을
+  aria-hidden 으로 숨기고 포커스를 가두는 정상 패턴이라 실제로는 닿지 않는다(Modal·Drawer 는 걸리지 않음).
 - 시각 회귀 기준 이미지(`apps/storybook/visual/__screenshots__/linux`)는 **Linux Docker 이미지에서만** 만든다(글꼴·렌더링 차이).
   `playwright`/`@playwright/test` 버전과 visual.yml 의 `mcr.microsoft.com/playwright:vX.Y.Z` 태그를 항상 같이 올린다.
   macOS 에서 돌리면 `__screenshots__/darwin` 에 따로 저장된다(커밋 안 함).

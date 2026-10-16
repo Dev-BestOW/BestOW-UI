@@ -74,7 +74,6 @@ export const Filled: Story = {
 /** play 로 검색 창을 연 상태 — 스토리 테스트의 axe 가 검색 창(Modal)까지 검사한다 */
 export const SearchOpen: Story = {
   name: '검색 창 열림',
-  tags: ['!visual'], // 여는 애니메이션 도중에 찍힐 수 있다
   play: async ({ canvasElement }) => {
     await userEvent.click(within(canvasElement).getByRole('button', { name: '주소 검색' }));
     const dialog = within(document.body).getByRole('dialog', { name: '주소 검색' });

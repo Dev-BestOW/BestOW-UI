@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, within } from 'storybook/test';
 import { Button } from '../Button';
 import { TextField } from '../Input';
 import { Stack } from '../Stack';
@@ -89,5 +90,14 @@ export const Controlled: Story = {
         <Modal {...args} trigger={undefined} open={open} onOpenChange={setOpen} />
       </Stack>
     );
+  },
+};
+
+/** play 로 연 상태 — 스토리 테스트의 axe 와 시각 회귀가 열린 대화상자까지 확인한다 */
+export const Open: Story = {
+  name: '열린 상태',
+  play: async ({ canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole('button', { name: '프로젝트 삭제' }));
+    await expect(within(document.body).getByRole('dialog', { name: '프로젝트 삭제' })).toBeInTheDocument();
   },
 };

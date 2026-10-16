@@ -16,6 +16,7 @@
     "test": "pnpm -r test",
     "test:stories": "pnpm --filter @bestow-ui/storybook test:stories",
     "test:visual": "pnpm --filter @bestow-ui/storybook test:visual",
+    "test:e2e": "pnpm --filter @bestow-ui/playground test:e2e",
     "test:visual:update": "pnpm --filter @bestow-ui/storybook test:visual:update",
     "typecheck": "pnpm -r typecheck",
     "lint": "eslint .",

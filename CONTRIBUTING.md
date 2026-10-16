@@ -48,7 +48,7 @@ pnpm storybook    # http://localhost:6006
 
    ```bash
    pnpm lint && pnpm format:check && pnpm build && pnpm size && pnpm typecheck \
-     && pnpm test && pnpm test:stories && pnpm build-storybook && pnpm build-playground
+     && pnpm test && pnpm test:stories && pnpm build-storybook && pnpm build-playground && pnpm test:e2e
    ```
 
 4. PR 이 `main` 에 머지되면 봇이 "chore: version packages" PR 을 만들어요. 그 PR 을 머지하면 npm 배포와 GitHub Release 가 자동으로 진행돼요.

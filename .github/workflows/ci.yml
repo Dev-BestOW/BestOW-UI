@@ -65,3 +65,20 @@ jobs:
         run: pnpm build-playground
         env:
           NEXT_TELEMETRY_DISABLED: 1
+
+      # 빌드한 playground 를 브라우저로 열어 콘솔·hydration 오류, axe(라이트·다크·브랜드), portal 테마, 키보드 시나리오를 확인한다.
+      # Chromium 은 위 "Install Playwright Chromium" 에서 받은 것을 쓴다(같은 Playwright 버전).
+      - name: E2E (playground)
+        run: pnpm test:e2e
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+
+      - name: Upload E2E report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-report
+          path: |
+            apps/playground/playwright-report
+            apps/playground/test-results
+          retention-days: 7

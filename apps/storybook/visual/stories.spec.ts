@@ -23,6 +23,12 @@ for (const theme of ['light', 'dark'] as const) {
       test(`${story.title} / ${story.name}`, async ({ page }) => {
         await page.goto(`/iframe.html?id=${story.id}&viewMode=story&globals=theme:${theme}`);
         await page.locator('#storybook-root').waitFor();
+        // play 가 있는 스토리(목록·대화상자를 연 상태)는 play 가 끝난 뒤 찍는다
+        await page.waitForFunction(() => {
+          const preview = (window as { __STORYBOOK_PREVIEW__?: { currentRender?: { phase?: string } } })
+            .__STORYBOOK_PREVIEW__;
+          return ['finished', 'errored', 'aborted'].includes(preview?.currentRender?.phase ?? '');
+        });
         // 글꼴·이미지 로딩이 끝난 뒤 찍는다
         await page.evaluate(async () => {
           await document.fonts.ready;

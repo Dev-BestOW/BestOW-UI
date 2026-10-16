@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { fn } from 'storybook/test';
+import { expect, fn, userEvent, within } from 'storybook/test';
 import { CopyIcon, EllipsisIcon, PencilIcon, ShareIcon, TrashIcon } from '@bestow-ui/icons';
 import { Button } from '../Button';
 import { IconButton } from '../IconButton';
@@ -79,4 +79,20 @@ export const IconTrigger: Story = {
       </DropdownMenu>
     </div>
   ),
+};
+
+/** play 로 메뉴를 연 상태 — 스토리 테스트의 axe 와 시각 회귀가 열린 메뉴까지 확인한다 */
+export const Open: Story = {
+  name: '메뉴 열림',
+  parameters: {
+    a11y: {
+      // 열려 있는 동안 Radix 가 메뉴 바깥을 aria-hidden 으로 숨기고 포커스를 메뉴 안에 가둔다 — 숨겨진 트리거는
+      // 키보드·스크린리더로 닿지 않고 닫히면 포커스가 돌아간다. axe 는 "숨긴 영역 안에 포커스 가능한 요소" 로 본다.
+      config: { rules: [{ id: 'aria-hidden-focus', enabled: false }] },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole('button', { name: '문서 메뉴' }));
+    await expect(within(document.body).getByRole('menu')).toBeInTheDocument();
+  },
 };

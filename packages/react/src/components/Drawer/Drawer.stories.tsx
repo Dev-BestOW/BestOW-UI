@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, within } from 'storybook/test';
 import { FilterIcon, MenuIcon } from '@bestow-ui/icons';
 import { Button } from '../Button';
 import { Checkbox } from '../Checkbox';
@@ -162,8 +163,14 @@ export const Controlled: Story = {
   },
 };
 
+/**
+ * play 로 연 상태 — 스토리 테스트의 axe 와 시각 회귀가 열린 서랍까지 확인한다.
+ * (defaultOpen 으로 열면 자동 문서 페이지에서도 열려 문서를 가린다)
+ */
 export const Opened: Story = {
   name: '열린 상태',
-  tags: ['!visual'], // 여는 애니메이션 도중에 찍힐 수 있다
-  args: { defaultOpen: true },
+  play: async ({ canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole('button', { name: '필터' }));
+    await expect(within(document.body).getByRole('dialog', { name: '필터' })).toBeInTheDocument();
+  },
 };

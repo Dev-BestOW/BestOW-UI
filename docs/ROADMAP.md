@@ -10,16 +10,16 @@
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-16 작업 종료 시점)
 
 **마지막 상태**
-- npm: react **0.12.0**(2026-10-16 — deprecated 경고가 들어간 0.x 마지막 minor), tokens 0.9.0, icons 0.1.1. 열린 버전 PR 없음.
-  로컬 = origin/main (`d288011`).
-- 컴포넌트 40개(한국 서비스 키트 8개 포함) + 테마·다국어(LocaleProvider). **P1~P6 완료.**
-- main 의 CI·Visual regression·Release·Storybook 배포 모두 성공(`d288011`).
-- 번들: react 전체 JS **63.5/70 kB**(2026-10-16 65 → 70 kB 상향), styles.css 30.2/36 kB, Button 하나 1.51/2 kB.
-- **1.0.0 준비 완료(2026-10-16)** — 옛 이름 4개 제거 + changeset major(react·tokens → 1.0.0, icons 는 0.x 유지).
+- npm: **react 1.0.0 · tokens 1.0.0**(2026-10-16 정식 출시), icons 0.1.2. 열린 버전 PR 없음.
+  배포본을 npm 에서 새로 설치해 확인함(ESM·CJS·SSR, TS 5.4 CJS 타입, 서버 컴포넌트용 client/shared 분리, 색 대비 보정).
+- 컴포넌트 40개(한국 서비스 키트 8개 포함) + 테마·다국어(LocaleProvider). **P1~P6, P8(1.0) 완료.**
+- main 의 CI·Visual regression·Release·Storybook 배포 모두 성공(`a433bdd`, 로컬 = origin/main).
+- 번들: react 전체 JS **63.7/70 kB**(2026-10-16 65 → 70 kB 상향), styles.css 30.2/36 kB, Button 하나 1.51/2 kB.
+- **1.0.0 출시 완료(2026-10-16)** — 옛 이름 4개 제거 + changeset major(react·tokens → 1.0.0, icons 는 0.x 유지).
   출시 전 점검(패킹한 tarball 을 새 프로젝트에 설치·React 18/19·TS 5.4/5.9·ESM/CJS·Next 서버 컴포넌트·브라우저)에서 5건을 찾아 고침
   — changeset `cjs-types-and-ssr-fixes`(진행 기록 참고).
-  **사용자 확인:** 커밋·push → 버전 PR("chore: version packages")에서 react·tokens 가 1.0.0 인지 확인 후 머지 → npm 배포 확인.
-- **그다음 작업:** P10 playground E2E 정식화 → P9 보강·새 컴포넌트 (P7 남은 항목은 1.0 이후 minor 로).
+  이제부터 semver: 기존 이름·타입·CSS 변수 변경 = major (CLAUDE.md "배포" 참고).
+- **그다음 작업:** P9 보강·새 컴포넌트 (P10 완료 2026-10-16 · P7 남은 항목은 1.0 이후 minor 로).
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다
@@ -74,7 +74,7 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 
 ## 다음 단계 (순서는 사용자와 확정)
 
-**추천 순서:** P8 1.0.0(배포만 남음) → P10 playground E2E 정식화 → P9 보강·새 컴포넌트.
+**추천 순서:** (P8·P10 완료) P9 보강·새 컴포넌트.
 P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기존 사용법을 깨지 않는 추가라 1.0 이후에 해도 된다.
 
 ### P7. 번들·성능
@@ -88,7 +88,7 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
   남은 것: Typography·Stack 처럼 hook 없는 **컴포넌트**도 지금은 클라이언트 경계 — 필요하면 1.0 이후 minor 로.
 - [ ] size-limit 결과를 PR 코멘트로 (size-limit-action).
 
-### P8. 1.0.0 준비 — 공개 API 안정화
+### P8. 1.0.0 준비 — 공개 API 안정화 ✅ (2026-10-16 출시)
 
 **왜:** 컴포넌트 수가 충분해졌고(40개), 0.x 동안 쌓인 이름·타입 불일치를 지금 정리하지 않으면 1.0 이후엔 전부 breaking change 가 된다.
 
@@ -108,7 +108,7 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 - [x] **번들 한도 재설정** (2026-10-16, 사용자 결정) — react 전체 JS 65 → **70 kB** (현재 63.8 kB). 1.0 이후 새 컴포넌트를 추가할 때 다시 본다.
 - [x] **1.0.0 배포 준비** (2026-10-16) — 옛 이름 제거(`@ts-expect-error` 테스트로 제거 고정), changeset `v1-react`·`v1-tokens`(major).
   icons 는 0.1.x 로 아직 세트가 작아 0.x 유지. 버전 규칙(CLAUDE.md·CONTRIBUTING)을 1.0 이후 semver 로 갱신.
-  - [ ] 버전 PR 머지 → npm 1.0.0 배포 확인 (사용자)
+  - [x] 버전 PR #18 머지 → npm react·tokens 1.0.0, icons 0.1.2 배포 확인 (2026-10-16)
 
 ### P9. 기존 컴포넌트 보강 · 새 컴포넌트
 
@@ -118,9 +118,11 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 
 ### P10. 테스트·운영
 
-- [ ] **playground E2E 정식화** — 지금 브라우저 점검은 매번 scratchpad 스크립트다. Playwright 로 저장소에 두고 CI 에서 실행
-  (다크 모드 portal 색, 키보드 시나리오, hydration 경고 0).
-- [ ] 시각 회귀에 열린 상태(오버레이·목록) 스토리를 늘린다 (`play` 로 연 스토리).
+- [x] **playground E2E 정식화** (2026-10-16) — `apps/playground/e2e`(Playwright, CI "E2E (playground)" 단계, 실패 시 리포트 업로드).
+  17개: 페이지별 콘솔·hydration 오류 0 + axe(WCAG 2.2 AA, 라이트·다크+브랜드), portal 테마(DropdownMenu·Popover·Drawer·Select·Modal),
+  키보드(DropdownMenu·Modal 포커스 가둠/복귀·Combobox·Select·Tabs·서식 입력), 서버 컴포넌트 함수. 5회 반복 안정성·변이(portal·hydration) 확인.
+- [x] 시각 회귀에 열린 상태 스토리 추가 (2026-10-16) — Select·DropdownMenu·Popover·Modal "열린 상태" 새로, Drawer(defaultOpen→play)·
+  DatePicker·AddressInput 열린 스토리를 시각 회귀에 포함. visual 스펙이 play 완료를 기다린다. 새 기준 이미지는 main push 때 봇이 커밋.
 
 ### P11. (선택) 디자인 도구 연동
 
@@ -196,3 +198,5 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 | 2026-10-16 | react 0.12.0 배포 확인(npm·태그·GitHub Release, d.ts 에 새 타입·dist 에 deprecated 경고 포함) |
 | 2026-10-16 | 1.0 준비: 옛 이름 4개 제거(타입 오류로 고정, 변이 확인), changeset major(react·tokens), 버전 규칙·MIGRATION·CONTRIBUTING 갱신 |
 | 2026-10-16 | 1.0 출시 전 점검 — 고친 것: ① CJS 타입(exports require→d.cts, TS ≤5.7 TS1479) ② React 18 SSR useLayoutEffect 경고(서식 입력) ③ Next 서버 컴포넌트에서 createTheme·vars·서식 함수 호출 실패("use client" 전체 적용) → ESM 을 client/shared 로 분리, playground 서버 페이지가 회귀 감시 ④ createIntentColors 중간 밝기 색(#059669·#ea580c 등 343색 중 41색) 버튼 대비 4.5 미달 → solid 밝기 보정 + 표본 테스트 ⑤ 인라인 Calendar SSR "오늘" hydration 불일치(UTC 서버) → hydration 뒤 결정. 모두 변이 확인. 그 외 playground 제목 순서·패널 없는 Tabs 수정. 확인만: Radix Select·DropdownMenu 열림 중 axe aria-hidden-focus 는 Radix 의 포커스 가둠 방식이라 유지 |
+| 2026-10-16 | 🎉 **1.0.0 출시** — react·tokens 1.0.0, icons 0.1.2. npm 설치본으로 ESM·CJS·SSR·타입·색 대비 재확인 |
+| 2026-10-16 | P10: playground E2E 17개(CI 단계 추가, 반복·변이 확인 — Select 타이핑 타이밍 불안정 1건 수정), 열린 상태 스토리 7개 시각 회귀 포함(play 완료 대기 — Storybook 10 의 마지막 phase 는 'finished') |

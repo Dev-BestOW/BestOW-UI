@@ -88,6 +88,7 @@ corepack enable        # pnpm 활성화 (최초 1회)
 pnpm install
 pnpm storybook         # http://localhost:6006
 pnpm build && pnpm playground   # Next.js 예제 앱 http://localhost:3000
+pnpm build-playground && pnpm test:e2e   # 예제 앱 E2E (Playwright)
 pnpm test
 pnpm build
 ```

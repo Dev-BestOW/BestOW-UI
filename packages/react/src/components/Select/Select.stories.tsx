@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { fn } from 'storybook/test';
+import { expect, fn, userEvent, within } from 'storybook/test';
 import { Select } from './Select';
 
 const fruits = [
@@ -60,5 +60,23 @@ export const Controlled: Story = {
         <span>value: {value}</span>
       </div>
     );
+  },
+};
+
+/** play 로 목록을 연 상태 — 스토리 테스트의 axe 와 시각 회귀가 열린 목록까지 확인한다 */
+export const Open: Story = {
+  name: '목록 열림',
+  args: { defaultValue: 'banana' },
+  parameters: {
+    a11y: {
+      // 열려 있는 동안 Radix 가 목록 바깥을 aria-hidden 으로 숨기고 포커스를 목록 안에 가둔다 — 숨겨진 트리거는
+      // 키보드·스크린리더로 닿지 않고 닫히면 포커스가 돌아간다. axe 는 "숨긴 영역 안에 포커스 가능한 요소" 로 본다.
+      config: { rules: [{ id: 'aria-hidden-focus', enabled: false }] },
+    },
+  },
+  play: async ({ canvasElement }) => {
+    await userEvent.click(within(canvasElement).getByRole('combobox', { name: '과일' }));
+    const listbox = within(document.body).getByRole('listbox');
+    await expect(within(listbox).getByRole('option', { name: '바나나' })).toHaveAttribute('aria-selected', 'true');
   },
 };
