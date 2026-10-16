@@ -1,6 +1,6 @@
 {
   "name": "@bestow-ui/icons",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "SVG icons as tree-shakable React components for BestOW UI (based on Lucide)",
   "keywords": [
     "bestow-ui",
