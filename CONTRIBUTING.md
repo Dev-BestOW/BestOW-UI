@@ -71,6 +71,9 @@ pnpm storybook    # http://localhost:6006
 - [ ] 최상위 `forwardRef(...)`·`createContext(...)` 앞에 `/* @__PURE__ */` 를 붙였다
 - [ ] 스토리: `tags: ['autodocs']`, Playground + 변형별 스토리. 라이트·다크 모두 확인했다
 - [ ] 테스트: 역할·라벨 기반으로 쓰고, 접근성 속성과 키보드 상호작용을 확인했다
+- [ ] 화면에 보이는 기본 문구는 `useMessages()` 로 바꿀 수 있게 했다 (`prop ?? m.키 ?? '한국어 기본값'`, 새 키는 `BestowMessages`·`en` 에도)
+- [ ] 목록·대화상자처럼 열어야 보이는 상태가 있으면 `play` 로 열어 둔 스토리를 만들었다 (axe 가 그 상태도 검사)
+- [ ] 키보드·포커스·이름 등 접근성 동작이 바뀌면 [KWCAG 2.2 대응 문서](apps/storybook/stories/accessibility/kwcag.ts) 해당 항목을 고쳤다
 - [ ] `apps/playground` 에 사용 예를 추가하고 브라우저에서 확인했다 (콘솔·hydration 경고 없음)
 - [ ] changeset(`"@bestow-ui/react": minor`)을 추가했다
 
@@ -135,8 +138,12 @@ TextField·Select 와 같은 패턴을 따라요.
 - **기존 화면을 의도적으로 바꿨다면** Visual regression 이 실패해요. 실패한 실행의 `visual-report` 아티팩트로 의도한 변경인지 확인한 뒤,
   Actions → **Visual regression** → Run workflow(브랜치 선택 + **update** 체크)로 기준 이미지를 갱신해요. 봇이 그 브랜치에 커밋해 줘요.
 - 기준 이미지는 글꼴 렌더링 차이 때문에 CI 의 Linux 환경에서만 만들어요. 봇 커밋 뒤에는 로컬에서 `git pull` 을 해 주세요.
+- "오늘" 처럼 날마다 바뀌는 값은 prop 으로 고정해요(예: `Calendar` 의 `today`). 그렇지 않으면 스크린샷이 매일 달라져요.
+- 한국 서비스 키트 부품은 `title: 'Korean Kit/<이름>'` 으로 둬요. 외부 서비스를 쓰는 부품은 가짜 공급자로 스토리·테스트를 돌려요.
 
 ### 테스트
+
+- 커서 위치처럼 jsdom 이 실제 브라우저와 다르게 다루는 동작은 스토리 `play`(실제 Chromium)로 확인해요.
 
 - [Testing Library](https://testing-library.com) 의 역할·라벨 쿼리(`getByRole`, `getByLabelText`)를 써요.
 - 상호작용은 `@testing-library/user-event` 의 `userEvent.setup()` 으로 써요.

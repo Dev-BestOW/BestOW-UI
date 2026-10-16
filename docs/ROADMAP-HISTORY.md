@@ -1,7 +1,7 @@
-# BestOW UI 로드맵 — 완료 기록 (P1 ~ P5)
+# BestOW UI 로드맵 — 완료 기록 (P1 ~ P6)
 
 > 완료된 단계의 설계 메모·결정 이유·함정 기록 보관용. 현재 계획은 [`ROADMAP.md`](ROADMAP.md).
-> 여기 적힌 "커밋 전" 등의 표기는 당시 상태다 (모두 커밋·배포됨, 2026-10-15 기준 react·tokens 0.9.0).
+> 여기 적힌 "커밋 전" 등의 표기는 당시 상태다 (모두 커밋·배포됨).
 
 ## P1. 다른 프로젝트에서 쓰기 위한 기반 ⭐
 
@@ -205,3 +205,33 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
   (빈 listbox 는 axe aria-required-children 위반). option 의 jsx-a11y 2개 규칙은 패턴상 끔. play 로 연 스토리로 axe 가 열린 목록도 검사.
   변이 4종 확인, 휠·바깥 클릭·Tab·playground 선택 확인. (가상화·자유 입력·다중 선택은 미지원 — 필요해지면)
 - [ ] **기존 컴포넌트 보강** — DropdownMenu CheckboxItem/RadioItem/Sub, Tabs 세로 방향.
+
+---
+
+## P6. 차별화 — "한국 서비스 키트 + 검증된 접근성" (2026-10-15 완료, react 0.10~0.12)
+
+근거: [`POSITIONING.md`](POSITIONING.md). 각 항목의 결정·발견한 문제를 남긴다.
+
+- **P6-1 테마 빌더** — `apps/storybook/stories/ThemeBuilder.stories.tsx`(Foundations › Theme Builder). 대표색 → 라이트·다크 미리보기 +
+  intent 별 대비 리포트(글자 4.5 / 그래픽 3) + `createTheme(createIntentColors(...))` 코드 복사. play 테스트로 "미달 0" 을 CI 에서 확인.
+  **발견·수정:** 밝은 브랜드 색(노랑·하늘·분홍)이면 라이트 포커스 링 대비 1.5~2.8:1 → 3:1 미만이면 text 색 사용.
+- **P6-2 키트 1차** — `AgreementGroup`(전체 동의 ↔ 개별, indeterminate, 필수·선택, 약관 펼치기 버튼 이름 "필수 … 보기", `hasAllRequiredAgreements`),
+  `VerificationCodeInput`(입력창 하나 + 표시용 칸, `one-time-code`, 타이머 `role="timer"`·만료 안내 `role="status"`, 재전송).
+  **발견·수정:** `maxLength` 때문에 "987-654 321" 붙여넣기가 숫자만 남기기 전에 잘림 → 제거. "필수" 뒤 공백(이름 "필수서비스…" 방지).
+- **P6-3 키트 2차** — 공통 `useFormattedInput`(원본/표시 분리, 커서 유지, 서식 문자 뒤 Backspace/Delete, `setRaw`).
+  `PhoneNumberInput`·`BusinessNumberInput`(검증 공식)·`AmountInput`(쉼표, "12만 5,000원") + 함수 `formatPhoneNumber` 등.
+  `AddressInput`(공급자 교체형, 기본 `kakaoPostcodeProvider` — 공식 가이드 확인: `kakao.Postcode`, `t1.kakaocdn.net`, 검색 시 스크립트 로드).
+  `Calendar`(WAI-ARIA grid, 일요일 시작, 일·공휴일 빨강/토 파랑, 키보드) · `DatePicker`(YYYY-MM-DD 입력 + Popover 달력, 값은 문자열, `today` 고정).
+  **발견·수정:** ① 커서 테스트는 jsdom 이 커서를 되살려 무의미 → 실제 Chromium play 로, 서식 전후 문자열이 달라지는 입력으로 골라야 변이 확인됨
+  ② trigger 없이 제어하는 Modal·Drawer 닫힘 시 포커스가 body 로 사라짐 → `useReturnFocus` ③ 달력 날짜 이름이 보이는 "15" 를 낱말로 담지 않음
+  (axe label-content-name-mismatch) → "15, 2026년 10월 목요일" ④ DatePicker 제어 모드에서 올바른 날짜를 없는 날짜로 덮어쓰면 입력이 지워짐 → 가드.
+  Modal `onCloseAutoFocus`, Popover `onOpenAutoFocus` 추가.
+- **P6-4 KWCAG 2.2 대응 근거** — Storybook › Accessibility(`apps/storybook/stories/accessibility/kwcag.ts` 데이터 + MDX).
+  33항목: 지원 18 · 일부 8 · 사용자 몫 3 · 해당 없음 4, "검사로 찾아 고친 문제" 기록. 항목명은 a11ykr·websoul 두 출처 대조(번호 5.x / 1.x 병기).
+  **발견·수정:** 달력 공휴일이 색으로만 표시 → 점 표시. 6.5.2 는 Select·DropdownMenu 목록 열기가 pointerdown 이라는 점을 그대로 적음.
+  MDX 문서는 스토리 axe 대상이 아니라 수동 axe 로 위반 0 확인.
+- **P6-5 다국어·한글** — `LocaleProvider` + `en`(문구 60여 개, 19개 컴포넌트), 우선순위 prop > Provider > 한국어 기본값.
+  한국어 기본값은 공용 객체로 모으지 않고 각 컴포넌트에 둔다(모으면 Button → Spinner 로 전체 문구가 번들에 딸려 옴).
+  ThemeProvider 기본 `word-break: keep-all` + `overflow-wrap: break-word`. 줄 간격 토큰은 유지.
+- **P6-6 메시지** — 루트 README · npm README(영/한) · Storybook Introduction 첫 화면. 비교표는 경쟁 제품 확인 전까지 넣지 않음.
+- 그 밖에 P6 기간: CSS 배포 방식 결정(styles.css 하나 유지, 컴포넌트별 선택 import 는 1.0 이후), styles.css 한도 28 → 36 kB.

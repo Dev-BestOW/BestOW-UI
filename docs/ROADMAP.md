@@ -7,15 +7,15 @@
 > **갱신 규칙:** 작업을 시작/완료하면 체크박스를 바꾸고 맨 아래 "진행 기록"에 한 줄 추가한다.
 > 단계가 끝나면 상세 메모는 ROADMAP-HISTORY.md 로 옮기고 여기에는 한 줄 요약만 남긴다.
 
-## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-15 작업 종료 시점)
+## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-16 작업 종료 시점)
 
 **마지막 상태**
-- npm: react·tokens **0.9.0**, icons 0.1.1. 로컬 = origin/main (`ab549af`, 버전 PR #15 머지). 열린 PR 없음.
-- 컴포넌트 32개. P1~P5 완료. 포지셔닝 확정: **"한국 서비스를 만들 때 바로 쓰는, 접근성이 검증된 React 디자인 시스템"** (POSITIONING.md).
-- 다음 단계: **P6 차별화**(한국 서비스 키트·KWCAG 근거·테마 빌더) — 아래 추천 순서 참고, 최종 순서는 사용자와 확정.
-- 번들: react 전체 JS 57.8/65 kB, styles.css 28.5/**36** kB(2026-10-15 한국 키트로 28 초과 → 사용자 결정으로 상향), Button 하나 1.48/2 kB.
-  CSS 분리는 P7 에서 1.0 전에 결정.
-- 시각 회귀: 새 스토리는 기준 이미지가 자동 생성·봇 커밋된다. 기존 화면을 의도적으로 바꾼 커밋만 Visual regression 수동 update.
+- npm: react **0.11.0**, tokens 0.9.0, icons 0.1.1. **버전 PR #17 열림**(날짜 선택·KWCAG·LocaleProvider·README 등 → react 0.12.0 예정) — 머지 여부 확인.
+  로컬 = origin/main (`9a3b294`).
+- 컴포넌트 40개(한국 서비스 키트 8개 포함) + 테마·다국어(LocaleProvider). **P1~P6 완료.**
+- 시각 회귀: 한글 줄바꿈(keep-all)·공휴일 점 표시로 기존 화면이 바뀌어 main 의 Visual regression 이 실패 → 사용자가 update 를 실행함(완료 여부 확인).
+- 번들: react 전체 JS **63.5/65 kB**(여유 거의 없음), styles.css 30.2/36 kB, Button 하나 1.51/2 kB.
+- **다음 작업: P8 1.0.0 준비** — 시작 전에 사용자와 정할 것: ① react 전체 JS 한도 ② API 불일치 정리 방식(새 이름 추가 + 옛 이름 deprecated).
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다
@@ -31,13 +31,13 @@
 - 색을 고를 때는 대비를 계산한다: 글자 4.5:1, 막대·테두리 등 그래픽 3:1. solid 색은 다크에서 트랙 대비가 낮아 막대에는 `text` 색을 쓴다(Progress·Slider).
 - 브라우저 점검은 scratchpad 의 `playwright-core` + 시스템 Chrome. 사용자 dev 서버(3000)는 건드리지 않고 `next start -p 3107` 등 다른 포트를 쓴다.
 
-## 현재 상태 (2026-10-15)
+## 현재 상태 (2026-10-16)
 
 | 패키지 | 배포 버전 | 내용 |
 |---|---|---|
 | `@bestow-ui/tokens` | 0.9.0 | palette(gray·blue·red·green·amber), space, radius, font, shadow/darkShadow, duration, zIndex, light/dark 의미 색상(primary·neutral·danger·success·warning) |
 | `@bestow-ui/icons` | 0.1.1 | 아이콘 57종 (Lucide 기반), SVG → 컴포넌트 생성 스크립트 |
-| `@bestow-ui/react` | 0.9.0 | 아래 32개 + 테마(ThemeProvider·createTheme·createIntentColors·vars·usePortalProps) |
+| `@bestow-ui/react` | 0.11.0 (0.12.0 버전 PR 대기) | 아래 40개 + 테마(ThemeProvider·createTheme·createIntentColors·vars·usePortalProps) + 다국어(LocaleProvider·en) |
 
 | 분류 | 컴포넌트 |
 |---|---|
@@ -47,9 +47,12 @@
 | 피드백 | Alert, Progress, Toast, Spinner, Skeleton |
 | 오버레이 | Modal, Drawer, Popover, Tooltip, DropdownMenu |
 | 탐색 | Tabs, Accordion, Pagination, Breadcrumb |
+| 한국 서비스 키트 | AgreementGroup, VerificationCodeInput, PhoneNumberInput, BusinessNumberInput, AmountInput, AddressInput, Calendar, DatePicker |
 
 운영: CI(생성물·lint·format·build·size·typecheck·test·스토리 렌더링+axe 라이트·다크·Storybook·playground 빌드), 시각 회귀(visual.yml, 새 스토리 자동),
 changesets + npm Trusted Publishing(OIDC, 버전 PR 은 GitHub App 토큰), CI 러너 ubuntu-24.04 고정.
+문서: Storybook(Introduction, Foundations — Design Tokens·Theming·Theme Builder·Icons, Accessibility — KWCAG 2.2 대응, Korean Kit),
+README(GitHub)·npm README(영/한), CONTRIBUTING.md, docs/POSITIONING.md.
 Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://dev-bestow.github.io/BestOW-UI/playground/
 
 ### 완료한 단계 (상세는 ROADMAP-HISTORY.md)
@@ -61,50 +64,14 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | P3 | ESLint/Prettier, 스토리 axe(라이트·다크), size-limit, 시각 회귀, 버전 PR CI(GitHub App) |
 | P4 | Storybook Introduction·Design Tokens, CONTRIBUTING.md |
 | P5 | npm README/LICENSE, 러너 고정, 다크 shadow, warning 색, Alert·IconButton·Progress·Drawer·Link·Breadcrumb·Table·Slider·Combobox, recipe tree-shaking 수정, 시각 회귀 자동화 |
+| P6 | 차별화: 테마 빌더, 한국 서비스 키트 8종(약관·인증번호·전화·사업자번호·금액·주소·달력·날짜), KWCAG 2.2 대응 근거 문서, LocaleProvider·한글 줄바꿈, README 메시지. CSS 배포 방식 결정 |
 
 ---
 
-## 다음 단계 (2026-10-15 제안 — 순서는 사용자와 확정)
+## 다음 단계 (순서는 사용자와 확정)
 
-**추천 순서:** P6-1(테마 빌더, 작음·강점을 바로 보여 줌) → P6-2(약관 동의·인증번호, 체감 큼) → P7 번들 결정(CSS 사용법이 바뀔 수 있어 1.0 전에)
-→ P6-3 나머지 키트·P6-4 KWCAG 문서 → P8 1.0. 한국 키트 부품은 1.0 이후 minor 로 추가해도 된다.
-
-### P6. 차별화 — "한국 서비스 키트 + 검증된 접근성" ⭐ (근거: POSITIONING.md)
-
-- [x] **P6-1. 테마 빌더** (2026-10-15, 커밋 전 — `apps/storybook/stories/ThemeBuilder.stories.tsx`, Foundations › Theme Builder.
-  play 테스트로 '미달 0' 을 CI 에서 확인. **만들다가 발견·수정: 밝은 브랜드 색(노랑·하늘·분홍)이면 라이트 포커스 링 대비 1.5~2.8:1
-  → 3:1 미만이면 text 색 사용**, changeset `focus-ring-contrast`) (Storybook 페이지) — 대표색 입력 → 라이트·다크 미리보기 + intent 별 대비 리포트(글자 4.5 / 그래픽 3) +
-  `createTheme(createIntentColors(...))` 코드 복사. 이미 있는 `createIntentColors`·`contrastRatio` 를 그대로 보여 주는 작업.
-- [x] **P6-2. 한국 서비스 키트 1차 — 약관 동의 그룹, 인증번호 입력** (2026-10-15, 커밋 전 — Storybook "Korean Kit" 그룹.
-  인증번호는 입력창 하나 + 표시용 칸. 테스트가 `maxLength` 때문에 "987-654…" 붙여넣기가 걸러지기 전에 잘리는 버그를 잡아 제거.
-  약관 "필수" 표시 뒤 공백(이름 "필수서비스…" 방지). 변이 4종 확인, playground 가입 폼에 적용)
-  - 약관 동의: 전체 동의 ↔ 개별 동기화(부분 선택 indeterminate), 필수·선택 표시, 약관 내용 펼쳐 보기(Accordion/Modal 연결),
-    필수 미동의 오류 메시지(aria-describedby), 제어/비제어.
-  - 인증번호: N칸 입력(기본 6), 붙여넣기 분배·자동 이동·Backspace 역이동, `autocomplete="one-time-code"`·`inputmode="numeric"`,
-    남은 시간 타이머·만료 안내(aria-live), 재전송 버튼, 하나의 접근 가능한 이름("인증번호 6자리").
-- [ ] **P6-3. 한국 서비스 키트 2차** — ~~전화번호·사업자등록번호 입력, 금액 입력~~ (2026-10-15 완료, 커밋 전: 공통 `useFormattedInput`
-  — 원본/표시 분리, 커서 유지, 서식 문자 뒤 Backspace/Delete. 커서 검증은 jsdom 이 커서를 되살려 무의미 → 실제 Chromium 스토리 play 로,
-  서식 전후 문자열이 달라지는 입력으로 골라야 변이 확인이 됨. 함수 4종 공개). ~~주소 검색~~ (2026-10-15 완료, 커밋 전: `AddressInput`,
-  공급자 교체형 `provider`, 기본 `kakaoPostcodeProvider` — 공식 가이드 확인 결과 현재 이름 `kakao.Postcode`·`t1.kakaocdn.net`,
-  검색을 누를 때 스크립트 로드. **함께 발견·수정: trigger 없이 제어하는 Modal·Drawer 가 닫히면 포커스가 body 로 사라짐 → `useReturnFocus`**,
-  Modal `onCloseAutoFocus` 추가). ~~날짜 선택~~ (2026-10-15 완료, 커밋 전: `Calendar`(WAI-ARIA grid, 일요일 시작·일/공휴일 빨강·토 파랑,
-  키보드 ←→↑↓ Home/End PageUp/Down(+Shift 1년)), `DatePicker`(YYYY-MM-DD 입력 + 달력 Popover, 값은 'YYYY-MM-DD' 문자열, `today` 고정 prop).
-  **발견·수정: ① axe label-content-name-mismatch — 날짜 이름 "2026년 10월 15일 …" 은 보이는 "15" 를 낱말로 담지 않음 → "15, 2026년 10월 목요일"
-  (KWCAG 2.2 "레이블과 네임" 과 같은 항목) ② 제어 모드에서 올바른 날짜를 없는 날짜로 고치면 입력이 지워짐 → 가드 수정(변이 확인)**.
-  Popover `onOpenAutoFocus` 추가). 남은 것: (없음 — 키트 2차 완료)
-  날짜 선택(한국어 표기, 선택적 공휴일), 주소 검색(Daum 우편번호 — 외부 스크립트라 별도 진입점/어댑터로, 코어 번들에 넣지 않음).
-- [x] **P6-4. KWCAG 2.2 대응 근거 문서** (2026-10-15, 커밋 전 — Storybook › Accessibility › KWCAG 2.2 대응.
-  데이터 `apps/storybook/stories/accessibility/kwcag.ts`(33항목: 지원 18 · 일부 8 · 사용자 몫 3 · 해당 없음 4) + "검사로 찾아 고친 문제" 6건.
-  항목명은 a11ykr·websoul 두 출처 대조(번호 체계 5.x / 1.x 병기). 대조 중 **달력 공휴일이 색으로만 표시** 발견 → 점 표시 추가.
-  6.5.2 는 Select·DropdownMenu 목록 열기가 pointerdown 이라는 점을 그대로 적음. MDX 문서는 스토리 axe 대상이 아니라 수동 axe 로 위반 0 확인) — KS X OT0003:2022(4원칙·14지침·33검사항목) 항목별로 컴포넌트가 해 둔 것 / 사용자가 할 것 표.
-  Storybook docs 에 컴포넌트별 키보드 조작표·스크린리더 메모. 표현은 "대응 근거" — "인증 보장" 금지. 항목 번호는 원문 PDF 로 확인.
-- [x] **P6-5. 한글 타이포그래피·문구** (2026-10-15, 커밋 전 — `LocaleProvider` + `en` 묶음(문구 60여 개, 19개 컴포넌트),
-  우선순위 prop > Provider > 한국어 기본값. 한국어 기본값은 공용 객체로 모으지 않고 각 컴포넌트에 둠(모으면 Button→Spinner 로
-  전체 문구가 번들에 딸려 와 "Button 하나 2 kB" 를 넘음). ThemeProvider 기본 `word-break: keep-all` + `overflow-wrap: break-word`.
-  줄 간격 토큰은 유지(Pretendard 기준 무리 없음, 바꾸면 전 컴포넌트 영향)) — 전역 한글 줄바꿈 기본값 검토, 줄 간격 스케일 점검, 숫자 tabular 기본,
-  기본 문구("닫기", "결과가 없어요" 등)를 한곳에서 바꾸는 방법(다국어 대응).
-- [x] **P6-6. 메시지 반영** (2026-10-15, 커밋 전 — 루트 README·npm README(영/한)·Storybook Introduction 첫 화면.
-  비교표는 넣지 않음(경쟁 제품 세부 기능 미확인). 숫자는 바뀌기 쉬운 스토리 수 대신 검증된 기준(4.5:1, 3:1, Button 1.5 kB)만. npm README 의 낡은 2.4 kB 수정) — README·npm README·Storybook Introduction 첫 화면을 POSITIONING.md 의 메시지로. 비교표는 경쟁 제품 문서를 다시 확인한 뒤.
+**추천 순서:** P8 1.0.0 준비(API 불일치 정리 → deprecated → 1.0) → P10 playground E2E 정식화 → P9 보강·새 컴포넌트.
+P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기존 사용법을 깨지 않는 추가라 1.0 이후에 해도 된다.
 
 ### P7. 번들·성능
 
@@ -118,7 +85,7 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 
 ### P8. 1.0.0 준비 — 공개 API 안정화
 
-**왜:** 컴포넌트 수가 충분해졌고(32개), 0.x 동안 쌓인 이름·타입 불일치를 지금 정리하지 않으면 1.0 이후엔 전부 breaking change 가 된다.
+**왜:** 컴포넌트 수가 충분해졌고(40개), 0.x 동안 쌓인 이름·타입 불일치를 지금 정리하지 않으면 1.0 이후엔 전부 breaking change 가 된다.
 
 - [ ] **API 일관성 감사** — 실제로 발견된 불일치부터:
   - 의미 색 prop 이름: 대부분 `color` 인데 **Toast 만 `variant`**(`'default' | 'success' | 'warning' | 'danger'`).
@@ -130,6 +97,7 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
   이미 deprecated: `usePortalClassName`.
 - [ ] **공개 export·타입 점검** — 내부용이 새어 나가지 않았는지, 필요한 `*Props` 타입이 모두 export 되는지. `vars` 토큰 키(=CSS 변수 이름) 확정.
 - [ ] **문서** — 0.x → 1.0 마이그레이션 가이드, 컴포넌트별 접근성 메모(키보드·스크린리더)를 Storybook docs 에.
+- [ ] **번들 한도 재설정** — react 전체 JS 63.5/65 kB (컴포넌트 40개 + en 묶음). 1.0 감사와 함께 사용자와 정한다.
 - [ ] **1.0.0 배포** — changeset major (tokens·react 는 linked, icons 는 별도 판단).
 
 ### P9. 기존 컴포넌트 보강 · 새 컴포넌트
@@ -155,7 +123,10 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 - CI 러너는 `ubuntu-24.04` 고정. Ubuntu 26 으로 올리는 건 Playwright 지원 확인 후 (24.04 러너 지원 종료 공지가 나오기 전에).
 - 아이콘을 더 늘릴 때: Lucide 에서 가져오면 `svg/` 에 넣고 `generate`. 자체 아이콘은 같은 규격(24×24, stroke 2, round)으로 그린다.
 - 라이트 모드 Slider·Progress 트랙(bg.muted)은 흰 배경과 대비가 낮다(값을 알리는 막대·손잡이는 3:1 이상). 필요하면 트랙 색 토큰 검토.
-- GitHub 저장소 About(설명·website·topics) — 사용자가 설정했는지 확인.
+- 건너뛰기 링크(SkipLink) 컴포넌트 없음 — KWCAG 6.4.1 이 "사용자 몫" 으로 남아 있다. 만들면 KWCAG 문서도 갱신.
+- Select·DropdownMenu 의 목록 열기는 pointerdown(Radix 기본). KWCAG 문서 6.5.2 에 적어 둠.
+- 한국 키트 입력(Phone/Business/Amount)과 DatePicker 는 TextField props 를 Omit 으로 물려받아 Storybook 자동 문서에 상속 prop(label·error 등)이
+  보이지 않는다(react-docgen 한계, CLAUDE.md 함정). 1.0 문서 작업 때 주요 prop 직접 선언 검토.
 
 ---
 
@@ -207,3 +178,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-15 | P6-4 KWCAG 2.2 대응 근거 문서(Storybook Accessibility). 항목 대조 중 달력 공휴일 색 의존 발견·수정. 문서 페이지 axe 위반 0 |
 | 2026-10-15 | P6-5: LocaleProvider·en(다국어 문구, 테스트 4개 — 중첩 병합 변이 확인), 한글 줄바꿈 기본값(keep-all). |
 | 2026-10-15 | P6-6 메시지 반영(README·npm README·Introduction). P6 차별화 단계 완료. |
+| 2026-10-16 | 문서 점검: ROADMAP 인수인계·현재 상태 갱신(0.11.0, 컴포넌트 40개), P6 상세를 ROADMAP-HISTORY 로 이동, CLAUDE.md·CONTRIBUTING·POSITIONING·npm README 보완 |

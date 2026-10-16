@@ -23,7 +23,9 @@ packages/
                                기본 세트는 Lucide(ISC) — LICENSE 유지 필수.
   react/    @bestow-ui/react   테마 + 컴포넌트. tokens, icons, Radix primitives, vanilla-extract 에 의존.
 apps/
-  storybook/ (private)         Storybook 10. packages/*/src 의 스토리 + apps/storybook/stories(아이콘 갤러리 등).
+  storybook/ (private)         Storybook 10. packages/*/src 의 스토리 + apps/storybook/stories(Introduction.mdx, Design Tokens,
+                               Theme Builder, Icons, accessibility/ — KWCAG 2.2 대응 문서(데이터 kwcag.ts + Kwcag.mdx)).
+                               사이드바: Introduction → Foundations → Accessibility → Layout → Components → Korean Kit.
                                vite alias 로 dist 가 아닌 각 패키지 src 를 바로 본다.
   playground/ (private)        Next.js 16 App Router 예제 앱. alias 없이 패키지 dist 를 그대로 써서 실제 설치와 같은 조건으로
                                SSR·서버 컴포넌트·portal 테마를 확인한다 (packages 를 먼저 build 해야 함). 헤더에 다크/브랜드 토글.
@@ -51,7 +53,10 @@ apps/
   `usePortalProps()`(portal 요소용 className+style — 오버라이드까지 적용). `usePortalClassName()` 은 deprecated.
 - `src/components/<Name>/` — `<Name>.tsx`, `<Name>.css.ts`, `<Name>.stories.tsx`, `<Name>.test.tsx`, `index.ts`.
 - `src/styles/animations.css.ts` — 공용 keyframes, `reducedMotion` 미디어쿼리.
-- `src/utils/` — `cx`, `mergeRefs`. `src/test/setup.ts` — jsdom 폴리필(ResizeObserver, pointer capture 등).
+- `src/i18n/` — `LocaleProvider`·`useMessages()`(기본 문구 바꾸기), `en`(영어 묶음). `BestowMessages` 타입이 문구 키 목록.
+- `src/utils/` — `cx`, `mergeRefs`, `useFormattedInput`(하이픈·쉼표 서식 입력: 원본/표시 분리, 커서 유지, 서식 문자 뒤 Backspace),
+  `useReturnFocus`(trigger 없는 Dialog 의 포커스 복귀), `date`('YYYY-MM-DD' 문자열 기반 날짜 계산), `koreanFormat`(전화·사업자번호·금액 서식).
+- `src/styles/visuallyHidden.css.ts` — 스크린리더 전용 텍스트. `src/test/setup.ts` — jsdom 폴리필(ResizeObserver, pointer capture 등).
 
 ## 컴포넌트 작성 규칙
 
@@ -74,6 +79,12 @@ apps/
   Button 하나만 써도 전체 Radix 가 번들에 들어간다(size-limit 의 "Button 하나" 항목이 감시, 한도 2 kB).
   `.css.ts` 의 recipe() 호출은 `packages/react/tsup.config.ts` 의 `withPureRecipes` 가 빌드 때 자동으로 표시한다.
 - 새 컴포넌트는 `packages/react/src/index.ts` 에 export 를 추가한다.
+- **기본 문구는 `useMessages()` 로**: `prop ?? m.키 ?? '한국어 기본값'`. 새 문구면 `BestowMessages` 에 키를 추가하고 `en` 에도 넣는다.
+  한국어 기본값은 공용 객체로 모으지 않는다(모으면 Button 하나에도 모든 문구가 번들에 딸려 와 "Button 하나 2 kB" 를 넘는다).
+- 서식이 붙는 입력은 `useFormattedInput` 을, trigger 없이 여닫는 Dialog 류는 `useReturnFocus` 를 쓴다(Modal·Drawer 참고).
+- 날짜 값은 시간대 문제가 없는 `'YYYY-MM-DD'` 문자열로 다루고, "오늘" 이 들어가는 컴포넌트는 `today` prop 으로 고정할 수 있게 한다(시각 회귀 안정).
+- 접근 가능한 이름은 **화면 글자를 낱말로 포함**해야 한다(axe label-content-name-mismatch, KWCAG 6.5.3) — "15" 버튼 이름은 "15, …" 로 시작.
+- 접근성에 영향을 주는 동작을 바꾸면 `apps/storybook/stories/accessibility/kwcag.ts` 의 해당 항목도 고친다.
 
 ### 아이콘 추가
 
@@ -155,4 +166,11 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
   `playwright install --with-deps` 가 새 OS 를 지원하는지 확인한다.
 - Storybook 의 react-docgen 은 `Omit<ButtonProps, …>` 처럼 **다른 컴포넌트 props 를 물려받은 타입을 풀지 못한다** → 자동 문서에 타입이 비고,
   `color` 같은 이름은 색상 선택기로 잘못 잡혀 "Control of type color only supports string" 경고가 난다. 주요 prop 은 직접 선언한다(IconButton 참고).
+- **jsdom 은 커서(selection)를 실제 브라우저와 다르게 다룬다** — 커서 위치 테스트는 스토리 `play`(실제 Chromium)로 한다.
+  이때 서식 적용 전후 문자열이 **달라지는** 입력을 골라야 한다(같으면 React 가 값을 다시 쓰지 않아 복원 코드 없이도 통과한다).
+- 테스트가 너무 쉽게 통과하면 의심한다 — 구현을 망가뜨려도 통과한다면 테스트가 그 상황을 만들지 못한 것(DatePicker 덮어쓰기 사례).
+- Radix Popover Content 는 기본 `role="dialog"` — 목록 팝업(Combobox)으로 쓸 때는 `role="presentation"` 으로 덮어쓴다(props 가 뒤에 적용됨).
+- MDX 문서 페이지는 스토리 axe 테스트 대상이 아니다 — 문서에 컴포넌트를 그리면 axe 를 직접 돌려 확인한다.
+  Storybook 문서의 기본 표 스타일이 Table 컴포넌트를 덮으므로 `<Unstyled>` 로 감싼다. MDX 는 GFM 표를 지원하지 않는다.
+- 외부 서비스(카카오 우편번호 등)는 공급자(provider)로 주입하고, 테스트·기본 스토리는 가짜 공급자로 네트워크 없이 돌린다.
 - GitHub Actions `pull_request` 의 `branches`/`branches-ignore` 는 **base 브랜치** 기준이다. head 브랜치(예: changeset-release/**)로 거르려면 job 의 `if` 를 쓴다.
