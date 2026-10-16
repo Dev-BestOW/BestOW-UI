@@ -53,15 +53,16 @@ export const toast = recipe({
     '@media': { [reducedMotion]: { animation: 'none !important' } },
   },
   variants: {
-    variant: {
-      default: { '::before': { backgroundColor: vars.color.neutral.solid } },
+    color: {
+      primary: { '::before': { backgroundColor: vars.color.primary.solid } },
+      neutral: { '::before': { backgroundColor: vars.color.neutral.solid } },
       success: { '::before': { backgroundColor: vars.color.success.solid } },
       warning: { '::before': { backgroundColor: vars.color.warning.solid } },
       danger: { '::before': { backgroundColor: vars.color.danger.solid } },
     },
   },
   defaultVariants: {
-    variant: 'default',
+    color: 'neutral',
   },
 });
 

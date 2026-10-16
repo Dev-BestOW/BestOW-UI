@@ -39,7 +39,7 @@ function Demo() {
         variant="outline"
         color="neutral"
         onClick={() =>
-          toast({ title: '업로드 완료', description: 'report.pdf 파일이 업로드됐어요.', variant: 'success' })
+          toast({ title: '업로드 완료', description: 'report.pdf 파일이 업로드됐어요.', color: 'success' })
         }
       >
         성공
@@ -48,7 +48,7 @@ function Demo() {
         variant="outline"
         color="neutral"
         onClick={() =>
-          toast({ title: '저장 공간이 부족해요', description: '남은 공간이 10% 미만이에요.', variant: 'warning' })
+          toast({ title: '저장 공간이 부족해요', description: '남은 공간이 10% 미만이에요.', color: 'warning' })
         }
       >
         경고
@@ -56,7 +56,7 @@ function Demo() {
       <Button
         variant="outline"
         color="danger"
-        onClick={() => toast({ title: '저장 실패', description: '네트워크 연결을 확인해 주세요.', variant: 'danger' })}
+        onClick={() => toast({ title: '저장 실패', description: '네트워크 연결을 확인해 주세요.', color: 'danger' })}
       >
         에러
       </Button>

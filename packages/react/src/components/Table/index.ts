@@ -6,8 +6,10 @@ export {
   TableHead,
   TableHeader,
   TableRow,
+  type TableAlign,
   type TableCellProps,
   type TableHeadProps,
   type TableProps,
   type TableRowProps,
+  type TableSize,
 } from './Table';

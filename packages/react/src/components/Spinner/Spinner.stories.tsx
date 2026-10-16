@@ -7,7 +7,7 @@ const meta = {
   tags: ['autodocs'],
   argTypes: {
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
-    color: { control: 'inline-radio', options: ['current', 'primary', 'neutral', 'danger'] },
+    color: { control: 'inline-radio', options: ['inherit', 'primary', 'neutral', 'danger'] },
   },
 } satisfies Meta<typeof Spinner>;
 
@@ -29,14 +29,14 @@ export const Sizes: Story = {
 export const Colors: Story = {
   render: (args) => (
     <div style={{ display: 'flex', alignItems: 'center', gap: 16 }}>
-      {(['current', 'primary', 'neutral', 'danger'] as const).map((color) => (
+      {(['inherit', 'primary', 'neutral', 'danger'] as const).map((color) => (
         <Spinner key={color} {...args} color={color} />
       ))}
     </div>
   ),
 };
 
-/** 기본 `color="current"` 는 부모 글자색을 따른다. */
+/** 기본 `color="inherit"` 는 부모 글자색을 따른다. */
 export const InheritColor: Story = {
   render: (args) => (
     <p style={{ display: 'flex', alignItems: 'center', gap: 8, color: 'var(--bestow-color-success-text)' }}>

@@ -12,10 +12,12 @@ export interface CheckboxProps extends Omit<InputHTMLAttributes<HTMLInputElement
   indeterminate?: boolean;
   /** 에러 상태 */
   invalid?: boolean;
+  /** 체크 상태가 바뀌면 호출된다 (Switch 와 같은 이름). 기본 `onChange` 도 그대로 쓸 수 있다 */
+  onCheckedChange?: (checked: boolean) => void;
 }
 
 export const Checkbox = /* @__PURE__ */ forwardRef<HTMLInputElement, CheckboxProps>(function Checkbox(
-  { label, size, indeterminate = false, invalid, disabled, className, ...rest },
+  { label, size, indeterminate = false, invalid, disabled, onChange, onCheckedChange, className, ...rest },
   ref,
 ) {
   const innerRef = useRef<HTMLInputElement>(null);
@@ -34,6 +36,10 @@ export const Checkbox = /* @__PURE__ */ forwardRef<HTMLInputElement, CheckboxPro
           className={styles.input}
           disabled={disabled}
           aria-invalid={invalid || undefined}
+          onChange={(event) => {
+            onChange?.(event);
+            onCheckedChange?.(event.target.checked);
+          }}
           {...rest}
         />
         <svg className={styles.checkIcon} viewBox="0 0 20 20" fill="none" aria-hidden>

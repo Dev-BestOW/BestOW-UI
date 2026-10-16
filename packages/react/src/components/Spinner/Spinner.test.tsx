@@ -25,4 +25,14 @@ describe('Spinner', () => {
     expect(ref.current).toBeInstanceOf(HTMLSpanElement);
     expect(ref.current?.classList.contains('custom')).toBe(true);
   });
+
+  it('deprecated color="current" 는 inherit 와 같은 스타일이고 개발 모드에서 경고한다', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    render(<Spinner color="inherit" data-testid="new" />);
+    expect(warn).not.toHaveBeenCalled();
+    render(<Spinner color="current" data-testid="old" />);
+    expect(screen.getByTestId('old').className).toBe(screen.getByTestId('new').className);
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('color="inherit"'));
+    warn.mockRestore();
+  });
 });

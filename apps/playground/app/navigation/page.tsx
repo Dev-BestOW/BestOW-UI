@@ -103,7 +103,7 @@ export default function NavigationPage() {
               <DropdownMenuItem
                 icon={<TrashIcon size={16} />}
                 color="danger"
-                onSelect={() => toast({ title: '삭제했어요', variant: 'danger' })}
+                onSelect={() => toast({ title: '삭제했어요', color: 'danger' })}
               >
                 삭제
               </DropdownMenuItem>
@@ -117,7 +117,7 @@ export default function NavigationPage() {
               <Stack gap={3}>
                 <TextField label="이메일" type="email" fullWidth />
                 <PopoverClose asChild>
-                  <Button size="sm" onClick={() => toast({ title: '초대했어요', variant: 'success' })}>
+                  <Button size="sm" onClick={() => toast({ title: '초대했어요', color: 'success' })}>
                     초대
                   </Button>
                 </PopoverClose>
@@ -154,7 +154,7 @@ export default function NavigationPage() {
                   </Button>
                 </DrawerClose>
                 <DrawerClose asChild>
-                  <Button onClick={() => toast({ title: '필터를 적용했어요', variant: 'success' })}>적용</Button>
+                  <Button onClick={() => toast({ title: '필터를 적용했어요', color: 'success' })}>적용</Button>
                 </DrawerClose>
               </>
             }

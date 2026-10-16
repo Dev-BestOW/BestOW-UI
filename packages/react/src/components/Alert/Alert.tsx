@@ -4,7 +4,7 @@ import { cx } from '../../utils/cx';
 import * as styles from './Alert.css';
 import { useMessages } from '../../i18n/LocaleProvider';
 
-type AlertColor = 'primary' | 'neutral' | 'danger' | 'success' | 'warning';
+export type AlertColor = 'primary' | 'neutral' | 'danger' | 'success' | 'warning';
 
 const defaultIcons: Record<AlertColor, typeof InfoIcon> = {
   primary: InfoIcon,

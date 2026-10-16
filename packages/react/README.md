@@ -46,7 +46,7 @@ export function App() {
 
 function SaveButton() {
   const { toast } = useToast();
-  return <Button onClick={() => toast({ title: 'Saved', variant: 'success' })}>Save</Button>;
+  return <Button onClick={() => toast({ title: 'Saved', color: 'success' })}>Save</Button>;
 }
 ```
 

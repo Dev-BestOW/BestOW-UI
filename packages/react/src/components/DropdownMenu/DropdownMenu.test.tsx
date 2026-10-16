@@ -142,4 +142,25 @@ describe('DropdownMenu', () => {
     expect(menu.closest('[data-theme]')).toBeNull();
     expect(menu.classList.contains(themeClass.dark)).toBe(true);
   });
+
+  it('deprecated color="default" 는 neutral 과 같은 스타일이고 개발 모드에서 경고한다', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    render(
+      <DropdownMenu open>
+        <DropdownMenuTrigger asChild>
+          <Button>열기</Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent>
+          <DropdownMenuItem color="neutral">새 이름</DropdownMenuItem>
+          <DropdownMenuItem color="default">옛 이름</DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>,
+    );
+    expect(screen.getByRole('menuitem', { name: '옛 이름' }).className).toBe(
+      screen.getByRole('menuitem', { name: '새 이름' }).className,
+    );
+    expect(warn).toHaveBeenCalledTimes(1);
+    expect(warn).toHaveBeenCalledWith(expect.stringContaining('color="neutral"'));
+    warn.mockRestore();
+  });
 });

@@ -13,7 +13,7 @@ export const spinner = recipe({
   },
   variants: {
     color: {
-      current: { color: 'currentColor' },
+      inherit: { color: 'currentColor' },
       primary: { color: vars.color.primary.text },
       neutral: { color: vars.color.fg.muted },
       danger: { color: vars.color.danger.text },
@@ -25,7 +25,7 @@ export const spinner = recipe({
     },
   },
   defaultVariants: {
-    color: 'current',
+    color: 'inherit',
     size: 'md',
   },
 });

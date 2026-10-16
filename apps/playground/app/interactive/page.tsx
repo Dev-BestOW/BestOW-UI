@@ -86,7 +86,7 @@ export default function InteractivePage() {
             toast({
               title: '가입했어요',
               description: `플랜: ${plan ?? '선택 안 함'} · 결제: ${billing ?? '선택 안 함'}`,
-              variant: 'success',
+              color: 'success',
             });
           }, 1500);
         }}
@@ -254,7 +254,7 @@ export default function InteractivePage() {
                 </Button>
               </ModalClose>
               <ModalClose asChild>
-                <Button color="danger" onClick={() => toast({ title: '삭제했어요', variant: 'danger' })}>
+                <Button color="danger" onClick={() => toast({ title: '삭제했어요', color: 'danger' })}>
                   삭제
                 </Button>
               </ModalClose>

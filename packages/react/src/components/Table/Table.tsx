@@ -13,7 +13,7 @@ import { ArrowDownIcon, ArrowUpIcon } from '@bestow-ui/icons';
 import { cx } from '../../utils/cx';
 import * as styles from './Table.css';
 
-type TableSize = 'sm' | 'md';
+export type TableSize = 'sm' | 'md';
 
 // 셀 여백(size)과 footer 여부를 하위 셀에 전달한다
 const TableSizeContext = /* @__PURE__ */ createContext<TableSize>('md');
@@ -131,11 +131,11 @@ export const TableRow = /* @__PURE__ */ forwardRef<HTMLTableRowElement, TableRow
   );
 });
 
-type Align = 'left' | 'center' | 'right';
+export type TableAlign = 'left' | 'center' | 'right';
 
 export interface TableHeadProps extends Omit<ThHTMLAttributes<HTMLTableCellElement>, 'align'> {
   /** 정렬 */
-  align?: Align;
+  align?: TableAlign;
   /**
    * 이 열의 정렬 상태. onSort 와 함께 주면 머리 셀이 정렬 버튼이 되고 `aria-sort` 를 붙인다.
    * 정렬되지 않은 열은 'none'.
@@ -182,7 +182,7 @@ export const TableHead = /* @__PURE__ */ forwardRef<HTMLTableCellElement, TableH
 
 export interface TableCellProps extends Omit<TdHTMLAttributes<HTMLTableCellElement>, 'align'> {
   /** 정렬 (숫자는 right 권장) */
-  align?: Align;
+  align?: TableAlign;
 }
 
 export const TableCell = /* @__PURE__ */ forwardRef<HTMLTableCellElement, TableCellProps>(function TableCell(

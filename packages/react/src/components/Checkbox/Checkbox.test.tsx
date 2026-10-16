@@ -1,3 +1,4 @@
+import userEvent from '@testing-library/user-event';
 import { createRef } from 'react';
 import { fireEvent, render, screen } from '@testing-library/react';
 import { Checkbox } from './Checkbox';
@@ -22,5 +23,16 @@ describe('Checkbox', () => {
     const ref = createRef<HTMLInputElement>();
     render(<Checkbox ref={ref} label="동의" />);
     expect(ref.current).toBeInstanceOf(HTMLInputElement);
+  });
+
+  it('onCheckedChange 는 체크 상태(boolean)를, onChange 는 이벤트를 받는다', async () => {
+    const user = userEvent.setup();
+    const onCheckedChange = vi.fn();
+    const onChange = vi.fn();
+    render(<Checkbox label="동의" onCheckedChange={onCheckedChange} onChange={onChange} />);
+    await user.click(screen.getByRole('checkbox', { name: '동의' }));
+    await user.click(screen.getByRole('checkbox', { name: '동의' }));
+    expect(onCheckedChange.mock.calls).toEqual([[true], [false]]);
+    expect(onChange).toHaveBeenCalledTimes(2);
   });
 });

@@ -15,7 +15,8 @@
 - 컴포넌트 40개(한국 서비스 키트 8개 포함) + 테마·다국어(LocaleProvider). **P1~P6 완료.**
 - 시각 회귀: 한글 줄바꿈(keep-all)·공휴일 점 표시로 기존 화면이 바뀌어 main 의 Visual regression 이 실패 → 사용자가 update 를 실행함(완료 여부 확인).
 - 번들: react 전체 JS **63.5/65 kB**(여유 거의 없음), styles.css 30.2/36 kB, Button 하나 1.51/2 kB.
-- **다음 작업: P8 1.0.0 준비** — 시작 전에 사용자와 정할 것: ① react 전체 JS 한도 ② API 불일치 정리 방식(새 이름 추가 + 옛 이름 deprecated).
+- **다음 작업: P8 1.0.0 준비 계속** — 감사·deprecated 추가·마이그레이션 가이드는 끝남(2026-10-16). 남은 것: `vars` 토큰 키 확정,
+  컴포넌트별 접근성 메모, react 전체 JS 한도(사용자와 결정), deprecated 를 담은 0.x minor 배포 후 1.0 major(옛 이름 제거).
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다
@@ -87,16 +88,17 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 
 **왜:** 컴포넌트 수가 충분해졌고(40개), 0.x 동안 쌓인 이름·타입 불일치를 지금 정리하지 않으면 1.0 이후엔 전부 breaking change 가 된다.
 
-- [ ] **API 일관성 감사** — 실제로 발견된 불일치부터:
-  - 의미 색 prop 이름: 대부분 `color` 인데 **Toast 만 `variant`**(`'default' | 'success' | 'warning' | 'danger'`).
-  - 중립 색 이름: 대부분 `'neutral'` 인데 **DropdownMenuItem 은 `'default'`**.
-  - intent 지원 범위: Button·IconButton 은 primary/neutral/danger 만(success·warning 없음), Spinner 는 `'current'` 추가 — 의도인지 정한다.
-  - size 스케일(sm/md/lg vs sm/md), 이벤트 이름(onValueChange/onCheckedChange/onPageChange), 값 타입(Slider 배열 vs 나머지 단일),
-    ref 대상(바깥 래퍼 vs 실제 컨트롤), `as`/`asChild` 지원 범위.
-- [ ] **바꿀 것은 0.x 마지막 minor 에서 새 이름 추가 + 옛 이름 deprecated**(JSDoc `@deprecated` + 개발 모드 경고) → 1.0 에서 제거.
-  이미 deprecated: `usePortalClassName`.
+- [x] **API 일관성 감사** (2026-10-16) — `dist/index.d.ts` 에서 모든 `*Props` 를 뽑아 비교. 결과와 "그대로 두는 것"의 이유는
+  [`MIGRATION-1.0.md`](MIGRATION-1.0.md). 바꾼 것: Toast `variant`→`color`, DropdownMenuItem `'default'`→`'neutral'`,
+  Spinner `'current'`→`'inherit'`, Checkbox `onCheckedChange` 추가.
+- [x] **바꿀 것은 0.x 마지막 minor 에서 새 이름 추가 + 옛 이름 deprecated**(JSDoc + 개발 모드 경고 `utils/warnOnce`) → 1.0 에서 제거.
+  deprecated 목록: Toast `variant`, DropdownMenuItem `color="default"`, Spinner `color="current"`, `usePortalClassName`.
+  changeset `api-consistency-deprecations`(minor). **1.0 에서 제거할 때 이 목록과 MIGRATION-1.0.md 표를 기준으로 한다.**
 - [ ] **공개 export·타입 점검** — 내부용이 새어 나가지 않았는지, 필요한 `*Props` 타입이 모두 export 되는지. `vars` 토큰 키(=CSS 변수 이름) 확정.
-- [ ] **문서** — 0.x → 1.0 마이그레이션 가이드, 컴포넌트별 접근성 메모(키보드·스크린리더)를 Storybook docs 에.
+  - [x] d.ts 에 선언됐지만 export 안 된 타입 중 공개 prop 에 쓰이는 것 export: `AlertColor`, `ToastColor`, `ToastContextValue`, `TableSize`, `TableAlign`
+    (남은 `ItemType`·`Widen`·`KakaoPostcodeData` 는 내부용).
+  - [ ] `vars` 토큰 키 확정 (1.0 이후 바꾸면 breaking).
+- [ ] **문서** — [x] 0.x → 1.0 마이그레이션 가이드(`docs/MIGRATION-1.0.md`), [ ] 컴포넌트별 접근성 메모(키보드·스크린리더)를 Storybook docs 에.
 - [ ] **번들 한도 재설정** — react 전체 JS 63.5/65 kB (컴포넌트 40개 + en 묶음). 1.0 감사와 함께 사용자와 정한다.
 - [ ] **1.0.0 배포** — changeset major (tokens·react 는 linked, icons 는 별도 판단).
 
@@ -180,3 +182,4 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 | 2026-10-15 | P6-6 메시지 반영(README·npm README·Introduction). P6 차별화 단계 완료. |
 | 2026-10-16 | 문서 점검: ROADMAP 인수인계·현재 상태 갱신(0.11.0, 컴포넌트 40개), P6 상세를 ROADMAP-HISTORY 로 이동, CLAUDE.md·CONTRIBUTING·POSITIONING·npm README 보완 |
 | 2026-10-16 | visual.yml: update 실행이 도중의 push 실행에 취소되던 문제(같은 concurrency 그룹) → update 를 별도 그룹·취소 안 함, 갱신 커밋 push 실패 시 rebase 후 재시도 |
+| 2026-10-16 | P8 API 감사(d.ts 의 모든 Props 비교) → Toast `color`·DropdownMenuItem `neutral`·Spinner `inherit`·Checkbox `onCheckedChange` 추가, 옛 이름 deprecated(warnOnce, 변이 확인), 타입 5개 export, MIGRATION-1.0.md |

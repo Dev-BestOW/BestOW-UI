@@ -1,1 +1,8 @@
-export { ToastProvider, useToast, type ToastOptions, type ToastProviderProps } from './Toast';
+export {
+  ToastProvider,
+  useToast,
+  type ToastColor,
+  type ToastContextValue,
+  type ToastOptions,
+  type ToastProviderProps,
+} from './Toast';

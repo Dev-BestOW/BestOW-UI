@@ -3,16 +3,23 @@ import { createContext, useCallback, useContext, useMemo, useRef, useState, type
 import { XIcon } from '@bestow-ui/icons';
 import { usePortalProps } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
+import { warnOnce } from '../../utils/warnOnce';
 import { Button } from '../Button';
 import * as styles from './Toast.css';
 import { useMessages } from '../../i18n/LocaleProvider';
+
+export type ToastColor = 'primary' | 'neutral' | 'danger' | 'success' | 'warning';
 
 export interface ToastOptions {
   /** 제목 */
   title: ReactNode;
   /** 설명 */
   description?: ReactNode;
-  /** 의미 색상 */
+  /** 의미 색상 (기본 neutral) — Alert·Badge 의 `color` 와 같은 이름 */
+  color?: ToastColor;
+  /**
+   * @deprecated `color` 를 쓰세요 (`'default'` → `'neutral'`). 1.0 에서 제거.
+   */
   variant?: 'default' | 'success' | 'warning' | 'danger';
   /** 자동으로 닫히기까지 시간(ms). Infinity 면 자동으로 닫히지 않는다 */
   duration?: number;
@@ -30,7 +37,7 @@ interface ToastItem extends ToastOptions {
   open: boolean;
 }
 
-interface ToastContextValue {
+export interface ToastContextValue {
   /** 토스트를 띄우고 id 를 반환한다 */
   toast: (options: ToastOptions) => number;
   /** id 의 토스트를 닫는다. id 가 없으면 모두 닫는다 */
@@ -57,9 +64,15 @@ export function ToastProvider({ children, duration = 5000, label: labelProp }: T
   const nextId = useRef(0);
   const portal = usePortalProps();
 
-  const toast = useCallback((options: ToastOptions) => {
+  const toast = useCallback(({ variant, ...options }: ToastOptions) => {
+    if (variant !== undefined) {
+      warnOnce(
+        'toast() 의 variant 는 deprecated 예요. color 를 쓰세요 (variant "default" → color "neutral", 1.0 에서 제거).',
+      );
+    }
+    const color = options.color ?? (variant === 'default' ? 'neutral' : variant);
     const id = nextId.current++;
-    setToasts((prev) => [...prev, { ...options, id, open: true }]);
+    setToasts((prev) => [...prev, { ...options, color, id, open: true }]);
     return id;
   }, []);
 
@@ -76,7 +89,7 @@ export function ToastProvider({ children, duration = 5000, label: labelProp }: T
     <ToastContext.Provider value={value}>
       <RadixToast.Provider duration={duration} label={label} swipeDirection="right">
         {children}
-        {toasts.map(({ id, open, title, description, variant, duration: itemDuration, action }) => (
+        {toasts.map(({ id, open, title, description, color, duration: itemDuration, action }) => (
           <RadixToast.Root
             key={id}
             open={open}
@@ -84,7 +97,7 @@ export function ToastProvider({ children, duration = 5000, label: labelProp }: T
             onOpenChange={(nextOpen) => {
               if (!nextOpen) dismiss(id);
             }}
-            className={styles.toast({ variant })}
+            className={styles.toast({ color })}
           >
             <RadixToast.Title className={styles.title}>{title}</RadixToast.Title>
             {description && (
