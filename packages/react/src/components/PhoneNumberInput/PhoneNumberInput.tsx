@@ -1,4 +1,4 @@
-import { forwardRef, useRef } from 'react';
+import { forwardRef, useRef, type ReactNode } from 'react';
 import { mergeRefs } from '../../utils/mergeRefs';
 import { formatPhoneNumber, phoneNumberMaxDigits } from '../../utils/koreanFormat';
 import { useFormattedInput } from '../../utils/useFormattedInput';
@@ -15,6 +15,24 @@ export interface PhoneNumberInputProps extends Omit<
   defaultValue?: string;
   /** 숫자만 있는 값으로 호출된다 (하이픈 없음) */
   onValueChange?: (digits: string) => void;
+  // ── 아래는 TextFieldProps 에서 물려받는 prop 중 자주 쓰는 것. 타입은 같고, Storybook 자동 문서(react-docgen 이
+  //    Omit 으로 물려받은 prop 을 풀지 못함)에 보이도록 다시 적는다.
+  /** 입력창 위에 표시할 레이블 */
+  label?: ReactNode;
+  /** 입력창 아래에 표시할 도움말. error 일 때는 에러 메시지로 표시된다 */
+  helperText?: ReactNode;
+  /** 에러 상태 */
+  error?: boolean;
+  /** 필수 입력 (레이블에 * 표시, required 속성) */
+  required?: boolean;
+  disabled?: boolean;
+  /** 크기 */
+  size?: 'sm' | 'md' | 'lg';
+  /** 부모 너비를 꽉 채운다 */
+  fullWidth?: boolean;
+  placeholder?: string;
+  /** form 제출 시 사용할 이름 */
+  name?: string;
 }
 
 const sanitize = (input: string) => {

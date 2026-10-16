@@ -26,6 +26,11 @@ export interface BestowMessages {
   /** Combobox — "결과가 없어요", "목록 열기" */
   noResults: string;
   openList: string;
+  /**
+   * Combobox clearable — "선택 지우기".
+   * 1.0 이후에 추가한 키는 선택(?)으로 둔다 — 직접 만든 BestowMessages 객체(다른 언어 묶음)가 타입 오류로 깨지지 않게.
+   */
+  clearSelection?: string;
   /** Slider 범위 손잡이 — "최소", "최대" */
   rangeStart: string;
   rangeEnd: string;

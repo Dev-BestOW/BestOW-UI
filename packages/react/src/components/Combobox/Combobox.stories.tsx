@@ -53,6 +53,11 @@ type Story = StoryObj<typeof meta>;
 
 export const Playground: Story = {};
 
+/** 값이 있을 때 "선택 지우기" 버튼이 보인다. 버튼 없이도 글자를 모두 지우고 닫으면 선택이 지워진다. */
+export const Clearable: Story = {
+  args: { clearable: true, defaultValue: 'busan' },
+};
+
 /** play 로 목록을 연 상태 — 스토리 테스트의 axe 가 열린 listbox 까지 검사한다 */
 export const Open: Story = {
   name: '검색해서 연 상태',

@@ -32,6 +32,7 @@ export const en: BestowMessages = {
   newWindow: '(opens in a new window)',
   noResults: 'No results',
   openList: 'Show options',
+  clearSelection: 'Clear selection',
   rangeStart: 'minimum',
   rangeEnd: 'maximum',
   agreeAll: 'Agree to all',

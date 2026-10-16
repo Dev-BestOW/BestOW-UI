@@ -16,8 +16,39 @@ const meta = {
   component: Accordion,
   tags: ['autodocs'],
   args: { type: 'single', collapsible: true },
+  // AccordionProps 는 Radix 의 single/multiple 유니온 타입이라 react-docgen 이 prop 을 풀지 못한다 → 자동 문서 표를 여기서 채운다
   argTypes: {
-    type: { control: 'inline-radio', options: ['single', 'multiple'] },
+    type: {
+      control: 'inline-radio',
+      options: ['single', 'multiple'],
+      description: 'single: 하나만 펼침, multiple: 여러 개 펼침 (필수)',
+      table: { type: { summary: "'single' | 'multiple'" } },
+    },
+    collapsible: {
+      control: 'boolean',
+      description: 'single 일 때 펼친 항목을 다시 눌러 접을 수 있다 (multiple 에서는 무시)',
+      table: { type: { summary: 'boolean' }, defaultValue: { summary: 'false' } },
+    },
+    value: {
+      control: false,
+      description: '펼친 항목 (제어 모드). single 은 문자열, multiple 은 배열',
+      table: { type: { summary: 'string | string[]' } },
+    },
+    defaultValue: {
+      control: false,
+      description: '처음 펼친 항목 (비제어 모드)',
+      table: { type: { summary: 'string | string[]' } },
+    },
+    onValueChange: {
+      control: false,
+      description: '펼친 항목이 바뀔 때 호출된다',
+      table: { type: { summary: '(value: string) => void | (value: string[]) => void' } },
+    },
+    disabled: {
+      control: 'boolean',
+      description: '모든 항목을 비활성화한다',
+      table: { type: { summary: 'boolean' } },
+    },
   },
   render: (args) => (
     <Accordion {...args} style={{ maxWidth: 520 }}>

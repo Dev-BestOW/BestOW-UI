@@ -119,4 +119,68 @@ describe('Combobox', () => {
     expect(input().getAttribute('aria-required')).toBe('true');
     expect(input().getAttribute('aria-describedby')).toBe(screen.getByText('하나를 골라 주세요').id);
   });
+
+  describe('선택 지우기', () => {
+    it('글자를 모두 지우고 포커스를 옮기면 선택이 지워지고 onValueChange("") 가 호출된다', async () => {
+      const user = userEvent.setup();
+      const onValueChange = vi.fn();
+      const { container } = render(
+        <>
+          <Combobox label="과일" name="fruit" options={fruits} defaultValue="apple" onValueChange={onValueChange} />
+          <button type="button">다음</button>
+        </>,
+      );
+      await user.clear(input());
+      await user.tab();
+      expect((input() as HTMLInputElement).value).toBe('');
+      expect(onValueChange).toHaveBeenCalledWith('');
+      expect(container.querySelector<HTMLInputElement>('input[type=hidden][name=fruit]')?.value).toBe('');
+    });
+
+    it('글자를 모두 지운 채 Enter 를 누르면 첫 항목이 아니라 선택 지우기가 된다 (제어 모드)', async () => {
+      const user = userEvent.setup();
+      function Controlled() {
+        const [value, setValue] = useState('banana');
+        return (
+          <>
+            <Combobox label="과일" options={fruits} value={value} onValueChange={setValue} />
+            <span data-testid="value">{value}</span>
+          </>
+        );
+      }
+      render(<Controlled />);
+      await user.clear(input());
+      expect(input().getAttribute('aria-activedescendant')).toBeNull();
+      await user.keyboard('{Enter}');
+      expect(screen.queryByRole('listbox')).toBeNull();
+      expect((input() as HTMLInputElement).value).toBe('');
+      expect(screen.getByTestId('value').textContent).toBe('');
+    });
+
+    it('글자를 모두 지운 뒤 다른 항목을 고르면 그 항목이 선택된다 (지우기로 처리하지 않는다)', async () => {
+      const user = userEvent.setup();
+      const onValueChange = vi.fn();
+      render(<Combobox label="과일" options={fruits} defaultValue="apple" onValueChange={onValueChange} />);
+      await user.clear(input());
+      await user.click(screen.getByRole('option', { name: '배' }));
+      expect((input() as HTMLInputElement).value).toBe('배');
+      expect(onValueChange.mock.calls).toEqual([['pear']]);
+    });
+
+    it('clearable 이면 값이 있을 때만 "선택 지우기" 버튼이 보이고, 누르면 지우고 입력창에 포커스를 둔다', async () => {
+      const user = userEvent.setup();
+      const onValueChange = vi.fn();
+      render(<Combobox label="과일" options={fruits} clearable onValueChange={onValueChange} />);
+      expect(screen.queryByRole('button', { name: '선택 지우기' })).toBeNull();
+      input().focus();
+      await user.keyboard('{ArrowDown}{Enter}');
+      expect((input() as HTMLInputElement).value).toBe('사과');
+
+      await user.click(screen.getByRole('button', { name: '선택 지우기' }));
+      expect((input() as HTMLInputElement).value).toBe('');
+      expect(onValueChange).toHaveBeenLastCalledWith('');
+      expect(document.activeElement).toBe(input());
+      expect(screen.queryByRole('button', { name: '선택 지우기' })).toBeNull();
+    });
+  });
 });

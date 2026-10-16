@@ -10,7 +10,7 @@ import {
   type KeyboardEvent,
   type ReactNode,
 } from 'react';
-import { CheckIcon, ChevronDownIcon } from '@bestow-ui/icons';
+import { CheckIcon, ChevronDownIcon, XIcon } from '@bestow-ui/icons';
 import { usePortalProps } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
 import { mergeRefs } from '../../utils/mergeRefs';
@@ -56,6 +56,13 @@ export interface ComboboxProps {
   'aria-label'?: string;
   /** 목록 열기 버튼의 이름 */
   toggleLabel?: string;
+  /**
+   * 값이 있을 때 "선택 지우기" 버튼을 보여 준다. 버튼이 없어도 입력창 글자를 모두 지우고 닫으면(포커스 이동·Esc·Enter) 선택이 지워진다.
+   * 지우면 `onValueChange('')` 가 호출된다.
+   */
+  clearable?: boolean;
+  /** "선택 지우기" 버튼의 이름 */
+  clearLabel?: string;
   /** 입력창 래퍼 className */
   className?: string;
 }
@@ -87,11 +94,14 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
     id,
     'aria-label': ariaLabel,
     toggleLabel: toggleLabelProp,
+    clearable,
+    clearLabel: clearLabelProp,
     className,
   } = props;
   const m = useMessages();
   const emptyMessage = emptyMessageProp ?? m.noResults ?? '결과가 없어요';
   const toggleLabel = toggleLabelProp ?? m.openList ?? '목록 열기';
+  const clearLabel = clearLabelProp ?? m.clearSelection ?? '선택 지우기';
   const generatedId = useId();
   const inputId = id ?? generatedId;
   const labelId = `${inputId}-label`;
@@ -133,17 +143,28 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
     );
   };
 
-  const close = () => {
+  const reset = () => {
     setOpen(false);
     setQuery(null); // 입력하다 닫으면 선택된 이름으로 되돌린다
     setActiveIndex(-1);
+  };
+
+  const clearSelection = () => {
+    if (!isControlled) setInnerValue(undefined);
+    if (selectedValue) onValueChange?.('');
+  };
+
+  /** 고르지 않고 닫는다. 입력창 글자를 모두 지운 채 닫으면 선택도 지운다 */
+  const close = () => {
+    if (query === '' && selectedValue) clearSelection();
+    reset();
   };
 
   const select = (option: ComboboxOption) => {
     if (option.disabled) return;
     if (!isControlled) setInnerValue(option.value);
     if (option.value !== selectedValue) onValueChange?.(option.value);
-    close();
+    reset();
   };
 
   const move = (step: 1 | -1) => {
@@ -157,7 +178,8 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
     const nextList = nextQuery ? options.filter((o) => filter(o, nextQuery)) : options;
     setQuery(nextQuery);
     setOpen(true);
-    setActiveIndex(firstEnabled(nextList));
+    // 모두 지웠을 때는 아무 항목도 가리키지 않는다 — 그대로 Enter 를 누르면 첫 항목이 아니라 "선택 지우기" 가 된다
+    setActiveIndex(nextQuery ? firstEnabled(nextList) : -1);
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
@@ -177,6 +199,7 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
           event.preventDefault(); // 목록이 열려 있을 때는 form 제출 대신 선택
           const option = filtered[activeIndex];
           if (option) select(option);
+          else close();
         }
         break;
       case 'Escape':
@@ -246,6 +269,23 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
               }}
               className={fieldStyles.input}
             />
+            {clearable && selectedOption && !disabled && (
+              <button
+                type="button"
+                // 키보드는 글자를 지워서 선택을 지울 수 있어 Tab 순서에 넣지 않는다 (목록 열기 버튼과 같음)
+                tabIndex={-1}
+                aria-label={clearLabel}
+                className={styles.clear}
+                onMouseDown={(event) => event.preventDefault()}
+                onClick={() => {
+                  clearSelection();
+                  reset();
+                  inputRef.current?.focus();
+                }}
+              >
+                <XIcon size={16} />
+              </button>
+            )}
             <button
               type="button"
               tabIndex={-1}

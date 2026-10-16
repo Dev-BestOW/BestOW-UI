@@ -95,6 +95,7 @@ apps/
   `.css.ts` 의 recipe() 호출은 `packages/react/tsup.config.ts` 의 `withPureRecipes` 가 빌드 때 자동으로 표시한다.
 - 새 컴포넌트는 `packages/react/src/client.ts` 에 export 를 추가한다 (순수 함수는 `shared.ts`).
 - **기본 문구는 `useMessages()` 로**: `prop ?? m.키 ?? '한국어 기본값'`. 새 문구면 `BestowMessages` 에 키를 추가하고 `en` 에도 넣는다.
+  1.0 이후 추가하는 키는 **선택(`?`)** 으로 둔다 — 사용자가 직접 만든 `BestowMessages` 객체(다른 언어)가 타입 오류로 깨지지 않게(그러면 breaking).
   한국어 기본값은 공용 객체로 모으지 않는다(모으면 Button 하나에도 모든 문구가 번들에 딸려 와 "Button 하나 2 kB" 를 넘는다).
 - 서식이 붙는 입력은 `useFormattedInput` 을, trigger 없이 여닫는 Dialog 류는 `useReturnFocus` 를 쓴다(Modal·Drawer 참고).
 - 날짜 값은 시간대 문제가 없는 `'YYYY-MM-DD'` 문자열로 다루고, "오늘" 이 들어가는 컴포넌트는 `today` prop 으로 고정할 수 있게 한다(시각 회귀 안정).
@@ -191,7 +192,8 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
 - CI 러너는 `ubuntu-24.04` 로 고정했다 (`ubuntu-latest` 가 2026-10-19 부터 Ubuntu 26). 올릴 때는 모든 workflow 를 같이 바꾸고
   `playwright install --with-deps` 가 새 OS 를 지원하는지 확인한다.
 - Storybook 의 react-docgen 은 `Omit<ButtonProps, …>` 처럼 **다른 컴포넌트 props 를 물려받은 타입을 풀지 못한다** → 자동 문서에 타입이 비고,
-  `color` 같은 이름은 색상 선택기로 잘못 잡혀 "Control of type color only supports string" 경고가 난다. 주요 prop 은 직접 선언한다(IconButton 참고).
+  `color` 같은 이름은 색상 선택기로 잘못 잡혀 "Control of type color only supports string" 경고가 난다. 주요 prop 은 직접 선언한다(IconButton·TextField·
+  PhoneNumberInput 참고). 유니온 타입이라 다시 선언할 수 없으면(Accordion) 스토리 meta 의 `argTypes` 에 설명·타입을 적는다.
 - **jsdom 은 커서(selection)를 실제 브라우저와 다르게 다룬다** — 커서 위치 테스트는 스토리 `play`(실제 Chromium)로 한다.
   이때 서식 적용 전후 문자열이 **달라지는** 입력을 골라야 한다(같으면 React 가 값을 다시 쓰지 않아 복원 코드 없이도 통과한다).
 - 테스트가 너무 쉽게 통과하면 의심한다 — 구현을 망가뜨려도 통과한다면 테스트가 그 상황을 만들지 못한 것(DatePicker 덮어쓰기 사례).
