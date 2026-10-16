@@ -114,7 +114,7 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 
 - [ ] DropdownMenu `CheckboxItem`/`RadioItem`/하위 메뉴, Tabs 세로 방향.
 - [ ] Combobox 다중 선택·비동기 검색·긴 목록 가상화, **선택 지우기**(지금은 한 번 고르면 빈 값으로 되돌릴 수 없음 — 1.0 점검에서 확인).
-- [ ] 새 후보: DatePicker, NumberInput, SegmentedControl(Toggle group), FileUpload, Stepper, Tag 입력. (수요가 생기면)
+- [ ] 새 후보: NumberInput, SegmentedControl(Toggle group), FileUpload, Stepper, Tag 입력. (수요가 생기면 — DatePicker 는 P6 에서 완료)
 
 ### P10. 테스트·운영
 
