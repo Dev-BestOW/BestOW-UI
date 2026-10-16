@@ -16,9 +16,11 @@ on:
         type: boolean
         default: false
 
+# 같은 브랜치의 비교 실행은 새 push 가 오면 이전 것을 취소한다.
+# 기준 이미지 갱신(update) 실행은 따로 묶어 취소하지 않는다 — 갱신 도중 push 가 와도 끝까지 돌아 커밋하게 한다.
 concurrency:
-  group: visual-${{ github.ref }}
-  cancel-in-progress: true
+  group: visual-${{ github.ref }}-${{ inputs.update && 'update' || 'compare' }}
+  cancel-in-progress: ${{ !inputs.update }}
 
 permissions:
   contents: read
@@ -76,7 +78,8 @@ jobs:
             echo "기준 이미지 변경 없음"
           else
             git commit -m "📸 시각 회귀 기준 이미지 갱신"
-            git push
+            # 갱신하는 동안 브랜치가 앞서 갔으면(다른 커밋 push 등) 그 위로 옮겨서 push 한다
+            git push || (git fetch --unshallow origin "$GITHUB_REF_NAME" || git fetch origin "$GITHUB_REF_NAME"; git rebase "origin/$GITHUB_REF_NAME" && git push)
           fi
 
       - name: Upload report
