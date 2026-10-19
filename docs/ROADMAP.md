@@ -11,15 +11,16 @@
 
 **마지막 상태**
 - npm: **react 1.1.0**(Combobox 선택 지우기·SkipLink·SegmentedControl) · tokens 1.0.0, icons 0.1.2.
-- 로컬 = origin/main (`a8daec9` — size-limit PR 코멘트) + **커밋 안 한 변경: RadioGroup 네이티브 radio 로 재구현**(changeset `radio-group-native`, patch).
-  아직 배포 안 된 changeset 3개(DropdownMenu·Tabs minor, RadioGroup patch) → 다음 버전 PR 은 react 1.2.0.
+- 로컬 = origin/main (`440209b` — RadioGroup 네이티브 radio) + **커밋 안 한 변경: Slider·Progress 트랙 테두리**(changeset `track-contrast`, patch).
+  **push 하면 Visual regression 이 실패한다(의도한 변경 30장: Progress·Slider·Theme Builder)** → Actions → Visual regression → Run workflow(main, update 체크)로 기준 이미지 갱신.
+  버전 PR #20(react 1.2.0: DropdownMenu·Tabs minor, RadioGroup patch) 열림 — 트랙 변경도 같은 PR 에 합쳐진다.
   **size.yml 은 PR 에서만 돈다 — 다음 PR 에서 코멘트가 달리는지(권한·gh api) 확인한다.** 실패하면 Actions 의 "Comment on PR" 단계 상태를 본다.
 - 컴포넌트 43개(한국 서비스 키트 8개 포함, 폴더 42 — Input 폴더에 Input·TextField) + 테마·다국어(LocaleProvider).
   **P1~P6, P8(1.0), P10 완료.** P9 의 기존 컴포넌트 보강 완료(Combobox 선택 지우기·SkipLink·SegmentedControl·DropdownMenu 체크/라디오/하위 메뉴·Tabs 세로).
 - 번들: react 전체 JS **64.7/70 kB**, styles.css **31.7/36 kB**, Button 하나 1.51/2 kB. (전체 JS 여유 5.3 kB — 큰 컴포넌트를 더하면 한도 검토)
 - semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
 - **다음 작업 후보:** 정해진 필수 작업은 없음 — 사용자에게 고르게 한다.
-  백로그(Slider·Progress 트랙 대비), P9 새 컴포넌트(NumberInput·FileUpload·Stepper·Tag 입력 — 전체 JS 여유 5.3 kB 주의),
+  P9 새 컴포넌트(NumberInput·FileUpload·Stepper·Tag 입력 — 전체 JS 여유 5.3 kB 주의),
   Combobox 다중 선택·비동기 검색, P7 남은 것(컴포넌트별 CSS·서버 컴포넌트용 컴포넌트), P11(Figma).
 
 **세션 시작 체크리스트**
@@ -80,7 +81,7 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 
 ## 다음 단계 (순서는 사용자와 확정)
 
-**추천 순서:** 백로그 Slider·Progress 트랙 대비 → 새 컴포넌트는 수요에 따라.
+**추천 순서:** 1.2.0 배포 후 사용 피드백을 보고 결정(새 컴포넌트는 수요에 따라).
 P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기존 사용법을 깨지 않는 추가라 1.0 이후에 해도 된다.
 
 ### P7. 번들·성능
@@ -117,7 +118,9 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 
 - CI 러너는 `ubuntu-24.04` 고정. Ubuntu 26 으로 올리는 건 Playwright 지원 확인 후 (24.04 러너 지원 종료 공지가 나오기 전에).
 - 아이콘을 더 늘릴 때: Lucide 에서 가져오면 `svg/` 에 넣고 `generate`. 자체 아이콘은 같은 규격(24×24, stroke 2, round)으로 그린다.
-- 라이트 모드 Slider·Progress 트랙(bg.muted)은 흰 배경과 대비가 낮다(값을 알리는 막대·손잡이는 3:1 이상). 필요하면 트랙 색 토큰 검토.
+- ~~Slider·Progress 트랙 대비~~ → 2026-10-19 트랙에 `fg.subtle` 안쪽 테두리(라이트 5.18·다크 8.57:1), 새 토큰 없이 해결.
+- 입력 테두리(border.default gray300)도 흰 배경과 1.3:1 이다. 레이블·placeholder 로 입력임을 알 수 있어 지금은 두지만, 비텍스트 대비를 더 엄격히 보려면
+  다음 major 후보로 검토(모든 입력 화면이 바뀜).
 - Select·DropdownMenu 의 목록 열기는 pointerdown(Radix 기본). KWCAG 문서 6.5.2 에 적어 둠.
 - ~~RadioGroup 의 Radix 화살표 선택 누락~~ → 2026-10-19 네이티브 radio 로 재구현해 해결(아래 진행 기록).
 
@@ -190,3 +193,4 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 | 2026-10-19 | P9 Tabs `orientation="vertical"` — 테스트 2개(변이 확인), 스토리 Vertical·VerticalSoft, playground 세로 탭 + E2E(↑/↓·레이아웃 위치, 5회 반복 안정), 접근성 문서. P9 기존 컴포넌트 보강 마무리 |
 | 2026-10-19 | P7 size-limit PR 코멘트: `size.yml`(PR·base 각각 빌드·측정 → 코멘트 하나 갱신, 포크는 Summary) + `scripts/size-report.mjs`. 로컬에서 87537ab 를 base 로 실제 비교·경계 사례(초과·근접·추가/삭제) 확인, actionlint 통과. 실제 PR 동작은 미확인 |
 | 2026-10-19 | 백로그 RadioGroup: E2E 로 재현(키를 바로 떼는 화살표 입력에서 20회 중 19회 선택 누락) → 네이티브 `<input type="radio">` 로 재구현(props·ref 동일, Radix 의존성 제거). 테스트 6개 추가(변이 2종), E2E 20회 반복 통과, 시각 회귀는 macOS 에서 이전 커밋과 픽셀 동일(허용치 0) 확인 |
+| 2026-10-19 | 백로그 Slider·Progress 트랙 대비: 트랙 1.11(라이트)/1.55(다크):1 → 후보 3개(현행·fg.subtle 테두리·새 토큰)를 그려 비교, 사용자 결정으로 **fg.subtle 안쪽 테두리**(새 토큰 없음, 고대비 모드 외곽선). 기준 이미지 30장 갱신 필요 |

@@ -63,6 +63,13 @@ export const track = recipe({
     overflow: 'hidden',
     borderRadius: vars.radius.full,
     backgroundColor: vars.color.bg.muted,
+    // 트랙 바탕(bg.muted)은 배경과 대비가 1.1~1.6:1 이라 끝이 안 보인다 → 3:1 이상인 fg.subtle 로 안쪽 테두리를 그려
+    // "전체 중 어디까지인지" 를 보이게 한다(WCAG 1.4.11). 채움 막대는 자식이라 테두리 위에 그려진다
+    boxShadow: `inset 0 0 0 1px ${vars.color.fg.subtle}`,
+    '@media': {
+      // 고대비(강제 색상) 모드는 배경·그림자를 지운다 → 테두리를 시스템 글자색 외곽선으로
+      '(forced-colors: active)': { outline: '1px solid CanvasText' },
+    },
   },
   variants: {
     size: {
