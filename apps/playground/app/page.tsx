@@ -17,6 +17,8 @@ import {
   formatPhoneNumber,
   Link,
   parseISODate,
+  Progress,
+  Skeleton,
   Stack,
   Table,
   TableBody,
@@ -28,6 +30,7 @@ import {
   Typography,
   vars,
 } from '@bestow-ui/react';
+import type { ComponentPropsWithoutRef } from 'react';
 import NextLink from 'next/link';
 import { BellIcon, CircleCheckIcon, SearchIcon, SettingsIcon, TriangleAlertIcon, UserIcon } from '@bestow-ui/icons';
 
@@ -38,6 +41,12 @@ const photo =
     '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" fill="#7c3aed"/><circle cx="32" cy="26" r="11" fill="#fff"/><path d="M12 60c2-12 10-18 20-18s18 6 20 18" fill="#fff"/></svg>',
   );
 
+// 서버에서만 정의한 함수 컴포넌트. 클라이언트 컴포넌트에는 함수를 prop 으로 넘길 수 없어서("Functions cannot be passed directly
+// to Client Components"), 이걸 `as` 로 받는 Card·Typography 가 클라이언트 경계로 돌아가면 이 페이지 빌드가 실패한다.
+function ServerSection(props: ComponentPropsWithoutRef<'section'>) {
+  return <section data-rendered-on="server" {...props} />;
+}
+
 export default function ServerPage() {
   // 함수·값은 "use client" 가 아닌 파일로 배포돼 서버 컴포넌트에서 바로 부를 수 있다 (안 되면 이 페이지 빌드가 실패한다)
   const greenTheme = createTheme(createIntentColors('primary', '#059669'));
@@ -47,8 +56,8 @@ export default function ServerPage() {
         <Breadcrumb items={[{ label: '홈', href: '/' }, { label: '예제', href: '/' }, { label: '서버 컴포넌트' }]} />
         <Typography variant="h1">서버 컴포넌트 페이지</Typography>
         <Typography color="muted">
-          이 페이지는 서버 컴포넌트예요. Typography·Stack·Button 은 클라이언트 경계로, 아이콘은 서버에서 바로
-          렌더링돼요.
+          이 페이지는 서버 컴포넌트예요. Typography·Stack·Card·Badge·Divider·Progress·Skeleton 과 아이콘은 서버에서 바로
+          렌더링되고, Button 처럼 상호작용이 있는 컴포넌트는 클라이언트 경계로 들어가요.
         </Typography>
       </Stack>
 
@@ -91,6 +100,21 @@ export default function ServerPage() {
             <span style={{ color: vars.color.primary.text }}>vars 로 칠한 글자</span>
           </Stack>
         </ThemeProvider>
+      </Stack>
+
+      <Stack gap={2}>
+        <Typography variant="h3" as="h2">
+          서버 컴포넌트로 렌더링되는 표시용 컴포넌트
+        </Typography>
+        <Card as={ServerSection} aria-label="서버 렌더링 카드">
+          <CardBody>
+            <Stack gap={3}>
+              <Typography>`as` 에 서버에서 정의한 컴포넌트를 넘겼어요.</Typography>
+              <Progress label="서버에서 그린 진행률" value={60} showValue />
+              <Skeleton width="60%" />
+            </Stack>
+          </CardBody>
+        </Card>
       </Stack>
 
       <Stack gap={2}>

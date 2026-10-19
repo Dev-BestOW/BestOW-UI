@@ -32,3 +32,11 @@ test('서버 컴포넌트에서 부른 함수·값(createTheme·vars·서식 함
   const text = await brand.evaluate((el) => getComputedStyle(el).color.match(/\d+/g)!.slice(0, 3).map(Number));
   expect(contrast(brandBg, text)).toBeGreaterThanOrEqual(4.5);
 });
+
+test('hook 없는 표시용 컴포넌트는 서버 컴포넌트로 렌더링된다 — `as` 에 서버 함수를 넘길 수 있다', async ({ page }) => {
+  await page.goto('/');
+  // ServerSection(서버에서 정의한 함수)이 Card 의 요소로 그려졌다 — Card 가 클라이언트 컴포넌트였다면 빌드가 실패한다
+  const card = page.getByRole('region', { name: '서버 렌더링 카드' });
+  await expect(card).toHaveAttribute('data-rendered-on', 'server');
+  await expect(card.getByRole('progressbar', { name: '서버에서 그린 진행률' })).toHaveAttribute('aria-valuenow', '60');
+});

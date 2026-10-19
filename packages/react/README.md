@@ -50,7 +50,7 @@ function SaveButton() {
 }
 ```
 
-With the Next.js App Router, put the providers in a `'use client'` file and wrap them in `app/layout.tsx`. Components can be rendered from Server Components, and plain functions and values (`createTheme`, `createIntentColors`, `vars`, `formatKoreanAmount`, …) can be called there directly. See the [Introduction](https://dev-bestow.github.io/BestOW-UI/) page for the full setup.
+With the Next.js App Router, put the providers in a `'use client'` file and wrap them in `app/layout.tsx`. Components can be rendered from Server Components — display components without state (`Typography`, `Stack`, `Card`, `Badge`, `Divider`, `Progress`, `Skeleton`) render as Server Components themselves (no client JS) — and plain functions and values (`createTheme`, `createIntentColors`, `vars`, `formatKoreanAmount`, …) can be called there directly. See the [Introduction](https://dev-bestow.github.io/BestOW-UI/) page for the full setup.
 
 Upgrading from 0.x? See the [migration guide](https://github.com/Dev-BestOW/BestOW-UI/blob/main/docs/MIGRATION-1.0.md).
 

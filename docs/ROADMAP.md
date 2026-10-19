@@ -11,17 +11,17 @@
 
 **마지막 상태**
 - npm: **react 1.1.0**(Combobox 선택 지우기·SkipLink·SegmentedControl) · tokens 1.0.0, icons 0.1.2.
-- 로컬 = origin/main (`440209b` — RadioGroup 네이티브 radio) + **커밋 안 한 변경: Slider·Progress 트랙 테두리**(changeset `track-contrast`, patch).
-  **push 하면 Visual regression 이 실패한다(의도한 변경 30장: Progress·Slider·Theme Builder)** → Actions → Visual regression → Run workflow(main, update 체크)로 기준 이미지 갱신.
-  버전 PR #20(react 1.2.0: DropdownMenu·Tabs minor, RadioGroup patch) 열림 — 트랙 변경도 같은 PR 에 합쳐진다.
-  **size.yml 은 PR 에서만 돈다 — 다음 PR 에서 코멘트가 달리는지(권한·gh api) 확인한다.** 실패하면 Actions 의 "Comment on PR" 단계 상태를 본다.
+- 로컬 = origin/main (`2ba8793` — 트랙 테두리) + **커밋 안 한 변경: 표시용 컴포넌트 7개 서버 컴포넌트화**(changeset `server-components`, minor).
+  **main 의 Visual regression 이 `2ba8793` 에서 실패 중(의도한 트랙 변경 30장)** → 사용자가 Actions → Visual regression → Run workflow(main, update 체크)로 갱신해야 한다.
+  버전 PR #20(react 1.2.0) 열림 — changeset 4개(DropdownMenu·Tabs·서버 컴포넌트 minor, RadioGroup·트랙 patch). 배포 순서는 아래 진행 기록(2026-10-19) 참고:
+  기준 이미지 갱신 → main 녹색 → 배포된 playground 확인 → PR #20 머지.
 - 컴포넌트 43개(한국 서비스 키트 8개 포함, 폴더 42 — Input 폴더에 Input·TextField) + 테마·다국어(LocaleProvider).
   **P1~P6, P8(1.0), P10 완료.** P9 의 기존 컴포넌트 보강 완료(Combobox 선택 지우기·SkipLink·SegmentedControl·DropdownMenu 체크/라디오/하위 메뉴·Tabs 세로).
 - 번들: react 전체 JS **64.7/70 kB**, styles.css **31.7/36 kB**, Button 하나 1.51/2 kB. (전체 JS 여유 5.3 kB — 큰 컴포넌트를 더하면 한도 검토)
 - semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
 - **다음 작업 후보:** 정해진 필수 작업은 없음 — 사용자에게 고르게 한다.
   P9 새 컴포넌트(NumberInput·FileUpload·Stepper·Tag 입력 — 전체 JS 여유 5.3 kB 주의),
-  Combobox 다중 선택·비동기 검색, P7 남은 것(컴포넌트별 CSS·서버 컴포넌트용 컴포넌트), P11(Figma).
+  Combobox 다중 선택·비동기 검색, P7 남은 것(컴포넌트별 CSS), P11(Figma).
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다
@@ -91,8 +91,9 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
   기존 사용법을 깨지 않는 추가라 **1.0 이후 필요할 때 minor 로**. JS 가 CSS 를 자동 import(C)는 breaking·환경 문제로 하지 않음.
 - [ ] (나중에) **컴포넌트별 CSS 선택 import (B)** — 공통(base) + 컴포넌트별 CSS, 컴포넌트 간 CSS 의존(Combobox → Select·Input,
   Drawer → IconButton 등)을 문서화. 빌드는 vanilla-extract 출력에서 컴포넌트별로 나누는 후처리 필요.
-- [~] **서버 컴포넌트 엔트리 분리** — 2026-10-16 함수·값은 `dist/shared.js`(지시어 없음)로 분리해 서버에서 호출 가능(1.0 점검 중 버그로 발견).
-  남은 것: Typography·Stack 처럼 hook 없는 **컴포넌트**도 지금은 클라이언트 경계 — 필요하면 1.0 이후 minor 로.
+- [x] **서버 컴포넌트 엔트리 분리** — 2026-10-16 함수·값은 `dist/shared.js`(지시어 없음)로 분리. 2026-10-19 hook 없는 표시용 컴포넌트
+  7개(Typography·Stack·Card·Badge·Divider·Progress·Skeleton)도 shared 로 → 서버 컴포넌트로 렌더링. `src/shared.test.ts`(import 그래프 검사·이름 중복)
+  + playground 첫 페이지가 서버 함수를 Card `as` 로 넘겨 빌드로 감시. changeset `server-components`(minor).
 - [x] **size-limit 결과를 PR 코멘트로** (2026-10-19) — 서드파티 action 대신 `size.yml` + `scripts/size-report.mjs`(base 를 따로 checkout·빌드해 비교, `gh api` 로 코멘트 하나 갱신,
   한도 95% 이상 ⚠️). 보고 전용(실패는 ci.yml). 포크 PR 은 Summary 만. 실제 PR 에서 첫 동작 확인 필요.
 
@@ -194,3 +195,4 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 | 2026-10-19 | P7 size-limit PR 코멘트: `size.yml`(PR·base 각각 빌드·측정 → 코멘트 하나 갱신, 포크는 Summary) + `scripts/size-report.mjs`. 로컬에서 87537ab 를 base 로 실제 비교·경계 사례(초과·근접·추가/삭제) 확인, actionlint 통과. 실제 PR 동작은 미확인 |
 | 2026-10-19 | 백로그 RadioGroup: E2E 로 재현(키를 바로 떼는 화살표 입력에서 20회 중 19회 선택 누락) → 네이티브 `<input type="radio">` 로 재구현(props·ref 동일, Radix 의존성 제거). 테스트 6개 추가(변이 2종), E2E 20회 반복 통과, 시각 회귀는 macOS 에서 이전 커밋과 픽셀 동일(허용치 0) 확인 |
 | 2026-10-19 | 백로그 Slider·Progress 트랙 대비: 트랙 1.11(라이트)/1.55(다크):1 → 후보 3개(현행·fg.subtle 테두리·새 토큰)를 그려 비교, 사용자 결정으로 **fg.subtle 안쪽 테두리**(새 토큰 없음, 고대비 모드 외곽선). 기준 이미지 30장 갱신 필요 |
+| 2026-10-19 | P7 서버 컴포넌트: hook 없는 표시용 7개를 shared 로(서버 컴포넌트 렌더링). `shared.test.ts`(import 그래프에 hook·Context·Radix·핸들러·"use client" 없음, 이름 중복 없음 — 변이 확인), playground 서버 페이지에 Card `as`=서버 함수(Card 를 client 로 되돌리면 빌드 실패 확인) + E2E |

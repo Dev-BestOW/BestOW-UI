@@ -63,11 +63,13 @@ apps/
 - `src/theme/ThemeProvider.tsx` — `<ThemeProvider theme overrides>`: `data-theme` + 테마 클래스 + 오버라이드 인라인 CSS 변수.
   `theme` 생략 시 바깥 모드 상속, `overrides` 는 바깥과 병합(안쪽 우선). `useTheme()`,
   `usePortalProps()`(portal 요소용 className+style — 오버라이드까지 적용).
-- `src/index.ts` = `shared.ts`(서버 컴포넌트에서도 부르는 순수 함수·값: createTheme, vars, 서식·날짜 함수, en …) +
-  `client.ts`(`'use client'` — 컴포넌트·hook). ESM 빌드는 둘을 `dist/shared.js`·`dist/client.js` 로 나눠 함수가 클라이언트 참조가 되지 않게 한다
-  (tsup.config.ts 주석 참고, CJS 는 한 파일). **새 순수 함수는 hook·Context·Radix 를 import 하지 않는 파일에 두고 shared.ts 에서 export,
-  컴포넌트는 client.ts 에서 export** 한다. 같은 이름을 양쪽에서 export 하면 안 된다(Next.js 에서 이름이 모호해져 사라짐).
-  playground 첫 페이지(서버 컴포넌트)가 이 함수들을 서버에서 불러 빌드로 확인한다.
+- `src/index.ts` = `shared.ts`(서버 컴포넌트에서도 쓰는 순수 함수·값 + hook 없는 표시용 컴포넌트: createTheme, vars, 서식·날짜 함수, en,
+  Typography·Stack·Card·Badge·Divider·Progress·Skeleton) + `client.ts`(`'use client'` — 나머지 컴포넌트·hook).
+  ESM 빌드는 둘을 `dist/shared.js`·`dist/client.js` 로 나눠 함수가 클라이언트 참조가 되지 않게 한다(tsup.config.ts 주석 참고, CJS 는 한 파일).
+  **새 순수 함수와 hook(useId 제외)·Context·Radix·이벤트 핸들러·useMessages 가 없는 표시용 컴포넌트는 shared.ts, 나머지 컴포넌트는 client.ts** 에서
+  export 한다. 같은 이름을 양쪽에서 export 하면 안 된다(Next.js 에서 이름이 모호해져 사라짐). `src/shared.test.ts` 가 shared 의 import 그래프에
+  클라이언트 전용 코드가 없는지·이름 중복이 없는지 검사한다 — shared 컴포넌트에 hook 을 더해야 하면 client.ts 로 옮긴다(옮기면 서버 컴포넌트 사용자의 `as` 가 깨질 수 있어 신중히).
+  playground 첫 페이지(서버 컴포넌트)가 함수를 서버에서 부르고, 서버 함수를 Card `as` 로 넘겨 빌드로 확인한다.
 - `src/components/<Name>/` — `<Name>.tsx`, `<Name>.css.ts`, `<Name>.stories.tsx`, `<Name>.test.tsx`, `index.ts`.
 - `src/styles/animations.css.ts` — 공용 keyframes, `reducedMotion` 미디어쿼리.
 - `src/i18n/` — `LocaleProvider`·`useMessages()`(기본 문구 바꾸기), `en`(영어 묶음). `BestowMessages` 타입이 문구 키 목록.
@@ -97,7 +99,7 @@ apps/
 - **최상위 `forwardRef(...)`/`createContext(...)` 에는 `/* @__PURE__ */` 를 붙인다** — 없으면 tree-shaking 이 깨져
   Button 하나만 써도 전체 Radix 가 번들에 들어간다(size-limit 의 "Button 하나" 항목이 감시, 한도 2 kB).
   `.css.ts` 의 recipe() 호출은 `packages/react/tsup.config.ts` 의 `withPureRecipes` 가 빌드 때 자동으로 표시한다.
-- 새 컴포넌트는 `packages/react/src/client.ts` 에 export 를 추가한다 (순수 함수는 `shared.ts`).
+- 새 컴포넌트는 `packages/react/src/client.ts` 에 export 를 추가한다 (순수 함수·hook 없는 표시용 컴포넌트는 `shared.ts` — 위 "react 패키지 내부" 참고).
 - **기본 문구는 `useMessages()` 로**: `prop ?? m.키 ?? '한국어 기본값'`. 새 문구면 `BestowMessages` 에 키를 추가하고 `en` 에도 넣는다.
   1.0 이후 추가하는 키는 **선택(`?`)** 으로 둔다 — 사용자가 직접 만든 `BestowMessages` 객체(다른 언어)가 타입 오류로 깨지지 않게(그러면 breaking).
   한국어 기본값은 공용 객체로 모으지 않는다(모으면 Button 하나에도 모든 문구가 번들에 딸려 와 "Button 하나 2 kB" 를 넘는다).

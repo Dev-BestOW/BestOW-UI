@@ -64,7 +64,8 @@ function SaveButton() {
 ```
 
 Next.js App Router 에서는 상태를 가진 Provider 를 `'use client'` 파일로 분리하고 `layout.tsx` 에서 감싸면 돼요.
-컴포넌트 자체는 서버 컴포넌트에서도 바로 쓸 수 있어요. `createTheme`·`createIntentColors`·`vars`·`formatKoreanAmount` 같은
+컴포넌트 자체는 서버 컴포넌트에서도 바로 쓸 수 있어요. 특히 Typography·Stack·Card·Badge·Divider·Progress·Skeleton 은 hook 이 없어
+**서버 컴포넌트로 렌더링**돼요(클라이언트 JS 없음, `as` 에 서버 컴포넌트도 넘길 수 있음). `createTheme`·`createIntentColors`·`vars`·`formatKoreanAmount` 같은
 함수·값도 서버 컴포넌트에서 그대로 불러요(예: 서버에서 브랜드 테마를 만들어 `ThemeProvider` 의 `overrides` 로 넘기기).
 
 ```tsx
