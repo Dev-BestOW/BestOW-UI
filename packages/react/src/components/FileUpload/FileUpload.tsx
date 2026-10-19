@@ -72,6 +72,8 @@ function matchesAccept(file: File, accept: string | undefined) {
     );
 }
 
+/** value 가 없을 때 쓰는 빈 목록 — 렌더마다 새 배열을 만들면 files 에 걸린 effect 가 매번 다시 돈다 */
+const NO_FILES: File[] = [];
 const sameFile = (a: File, b: File) => a.name === b.name && a.size === b.size && a.lastModified === b.lastModified;
 
 /**
@@ -101,7 +103,7 @@ export const FileUpload = /* @__PURE__ */ forwardRef<HTMLDivElement, FileUploadP
   const m = useMessages();
   const isControlled = 'value' in props;
   const [innerFiles, setInnerFiles] = useState<File[]>(defaultValue ?? []);
-  const files = isControlled ? (value ?? []) : innerFiles;
+  const files = isControlled ? (value ?? NO_FILES) : innerFiles;
   const [rejections, setRejections] = useState<FileRejection[]>([]);
   const [announcement, setAnnouncement] = useState('');
   const [dragging, setDragging] = useState(false);

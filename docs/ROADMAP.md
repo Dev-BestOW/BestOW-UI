@@ -18,7 +18,7 @@
 - 번들: react 전체 JS **67.3/70 kB**(여유 2.7 kB — P12-4 에서 한도 결정), styles.css **9.4/12 kB**, Button 하나 1.51/2 kB.
 - semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
 - 보고할 때 시각 회귀는 "허용치 안 통과" 와 "픽셀 동일" 을 구분한다(RadioGroup 사례).
-- **다음 작업:** 아래 "다음 단계 — 프로덕션 준비" 의 추천 순서대로. 첫 작업은 **P12-1 WebKit·Firefox CI**.
+- **다음 작업:** P12-1 마무리 — push 후 CI `Cross-browser (firefox)` 결과 확인(실패하면 사용자에게 로그 요청). 그다음 P12-2 모바일·터치 E2E.
   새 컴포넌트는 P12-4(번들 한도 결정) 전에는 넣지 않는다.
 
 **세션 시작 체크리스트**
@@ -99,7 +99,8 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 
 ### P12. 신뢰성 기반 — 검증 범위 넓히기 (최우선)
 
-- [ ] **P12-1. WebKit·Firefox CI** — 스토리 테스트(vitest browser 의 instances 에 webkit·firefox 추가)와 playground E2E(Playwright projects)를
+- [~] **P12-1. WebKit·Firefox CI** — 2026-10-19 설정 완료(`STORYBOOK_BROWSERS`·`E2E_BROWSERS`, ci.yml `browsers` job). 로컬 WebKit: 스토리 470·E2E 28 통과
+  (E2E 는 Safari 기본 동작 3가지에 맞게 수정). **Firefox 는 로컬 실행 불가(macOS 27) → 첫 CI 결과 확인 필요.** 원래 메모: — 스토리 테스트(vitest browser 의 instances 에 webkit·firefox 추가)와 playground E2E(Playwright projects)를
   세 브라우저로. 시각 회귀는 기준 이미지 비용 때문에 Chromium 유지. 처음 돌리면 실패가 나올 것 — 브라우저 차이(포커스·selection·Radix·DataTransfer 등)를 고친다.
   CI 시간이 늘면 WebKit·Firefox 는 main push·PR 의 별도 job 으로 나눈다. (Claude 가 할 수 있음)
 - [ ] **P12-2. 모바일·터치 E2E** — Playwright 기기 에뮬레이션(iPhone WebKit·Pixel Chromium, 좁은 화면 + touch)으로
@@ -231,3 +232,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-19 | 문서 정리: 인수인계를 현재 상태(1.2.0 배포, PR #21 = 1.3.0)로 다시 씀, 추천 순서 갱신 |
 | 2026-10-19 | P9 FileUpload: 테스트 9개(변이 4종 — 제어 모드 변이는 결과가 같은 변이), 스토리 7개(폼 제출 play 는 실제 브라우저에서 input.files 동기화 변이 확인), 비활성 대비 수정(영역 투명도 제거), playground 통장 사본 + E2E |
 | 2026-10-19 | 로드맵 재정리: 프로덕션 수준 평가를 바탕으로 P12(신뢰성: 크로스 브라우저·모바일·React 18·번들 한도·지원 정책) → P13(접근성 실사용 검증) → P14(파일럿·빈칸) → P15(문서), 보류 P16. 프로덕션 권장 선언 기준 추가. 완료한 P7·P9 상세는 ROADMAP-HISTORY 로 이동 |
+| 2026-10-19 | P12-1 크로스 브라우저: 스토리 테스트·E2E 브라우저 선택(env) + ci.yml browsers job(webkit·firefox). 로컬 WebKit 스토리 470 통과, E2E 실패 2건은 Safari 기본 동작(Tab 이 링크 건너뜀·클릭 시 포커스 없음·라디오 끝에서 안 돎) → 테스트 수정·문서화, 3회 반복 84/84. Firefox 는 로컬 실행 불가 → CI 확인 |

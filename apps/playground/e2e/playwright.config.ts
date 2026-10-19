@@ -4,6 +4,9 @@ import { defineConfig, devices } from '@playwright/test';
 // 콘솔·hydration 오류, axe 접근성(라이트·다크·브랜드), portal 테마, 키보드 시나리오를 확인한다.
 // 먼저 `pnpm build && pnpm build-playground` 가 필요하다. 사용자의 dev 서버(3000)와 겹치지 않게 3107 을 쓴다.
 const PORT = 3107;
+// 브라우저는 E2E_BROWSERS(쉼표 구분: chromium,webkit,firefox)로 고른다. 기본 chromium — CI 는 브라우저마다 job 을 나눈다.
+const browsers = (process.env.E2E_BROWSERS ?? 'chromium').split(',').map((name) => name.trim());
+const desktop = { chromium: 'Desktop Chrome', webkit: 'Desktop Safari', firefox: 'Desktop Firefox' } as const;
 
 export default defineConfig({
   testDir: '.',
@@ -13,13 +16,18 @@ export default defineConfig({
   reporter: process.env.CI ? [['list'], ['html', { open: 'never' }]] : 'list',
   use: {
     baseURL: `http://localhost:${PORT}`,
-    ...devices['Desktop Chrome'],
-    viewport: { width: 1280, height: 900 },
     reducedMotion: 'reduce',
     trace: 'retain-on-failure',
-    // 로컬은 시스템 Chrome, CI 는 `playwright install chromium` 으로 받은 Chromium
-    channel: process.env.CI ? undefined : (process.env.PLAYWRIGHT_CHANNEL ?? 'chrome'),
   },
+  projects: browsers.map((browser) => ({
+    name: browser,
+    use: {
+      ...devices[desktop[browser as keyof typeof desktop]],
+      viewport: { width: 1280, height: 900 },
+      // Chromium 은 로컬에서 시스템 Chrome, CI 는 `playwright install` 로 받은 Chromium
+      channel: browser === 'chromium' && !process.env.CI ? (process.env.PLAYWRIGHT_CHANNEL ?? 'chrome') : undefined,
+    },
+  })),
   webServer: {
     command: `pnpm exec next start -p ${PORT}`,
     cwd: '..',

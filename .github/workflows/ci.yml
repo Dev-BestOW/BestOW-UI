@@ -82,3 +82,48 @@ jobs:
             apps/playground/playwright-report
             apps/playground/test-results
           retention-days: 7
+
+  # 같은 스토리 테스트(렌더링 + play + axe)와 playground E2E 를 WebKit(Safari)·Firefox 로도 돌린다.
+  # 시각 회귀는 기준 이미지 비용 때문에 Chromium(visual.yml)만. check job 과 나란히 돌아 전체 시간이 늘지 않는다.
+  browsers:
+    name: Cross-browser (${{ matrix.browser }})
+    runs-on: ubuntu-24.04
+    strategy:
+      fail-fast: false
+      matrix:
+        browser: [webkit, firefox]
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+
+      - name: Build packages
+        run: pnpm build
+
+      - name: Install Playwright ${{ matrix.browser }}
+        run: pnpm --filter @bestow-ui/storybook exec playwright install --with-deps ${{ matrix.browser }}
+
+      - name: Test stories (render + a11y)
+        run: pnpm test:stories
+        env:
+          STORYBOOK_BROWSERS: ${{ matrix.browser }}
+
+      - name: Build playground (Next.js)
+        run: pnpm build-playground
+        env:
+          NEXT_TELEMETRY_DISABLED: 1
+
+      - name: E2E (playground)
+        run: pnpm test:e2e
+        env:
+          E2E_BROWSERS: ${{ matrix.browser }}
+          NEXT_TELEMETRY_DISABLED: 1
+
+      - name: Upload E2E report
+        if: failure()
+        uses: actions/upload-artifact@v7
+        with:
+          name: e2e-report-${{ matrix.browser }}
+          path: |
+            apps/playground/playwright-report
+            apps/playground/test-results
+          retention-days: 7

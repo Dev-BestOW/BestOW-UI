@@ -67,7 +67,7 @@ export const componentA11y: ComponentA11yGroup[] = [
       {
         name: 'RadioGroup',
         keyboard:
-          'Tab 으로 그룹에 들어가면 선택된 항목(없으면 첫 항목)에 포커스, 화살표로 이동하며 바로 선택(비활성 건너뜀, 끝에서 처음으로). 브라우저 기본 radio 라 키 입력 방식과 상관없이 같게 동작.',
+          'Tab 으로 그룹에 들어가면 선택된 항목(없으면 첫 항목)에 포커스, 화살표로 이동하며 바로 선택(비활성 건너뜀). 브라우저 기본 radio 라 키 입력 방식과 상관없이 같게 동작하고, 세부는 브라우저를 따른다 — 끝에서 처음으로 도는 것은 Chrome·Firefox, Safari 는 멈춤. Safari 는 마우스로 누르면 포커스를 주지 않는다.',
         screenReader:
           'radiogroup (label 이 그룹 이름) 안의 네이티브 radio — "n개 중 m번째" 와 선택 상태를 읽는다. 보조 설명은 각 radio 의 설명으로, helperText·error·required 는 그룹에 연결.',
       },
@@ -226,7 +226,8 @@ export const componentA11y: ComponentA11yGroup[] = [
       },
       {
         name: 'SkipLink',
-        keyboard: '페이지에서 첫 Tab 에 왼쪽 위에 나타나고, Enter 로 본문으로 포커스가 간다.',
+        keyboard:
+          '페이지에서 첫 Tab 에 왼쪽 위에 나타나고, Enter 로 본문으로 포커스가 간다. macOS Safari 는 기본 설정에서 Tab 이 링크를 건너뛰어 Option+Tab(또는 설정 "Tab 키로 각 항목 강조")으로 닿는다 — 브라우저 동작.',
         screenReader: 'link "본문 바로가기". 숨김은 위치로만 해서(display:none 아님) Tab·스크린리더 모두 닿는다.',
         yours: '페이지 맨 앞에 두고 본문 요소에 id="main"(기본 href) 을 준다.',
       },

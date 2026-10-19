@@ -43,6 +43,7 @@ apps/
   actions/setup/               pnpm + Node(.nvmrc=22) + pnpm install 공통 composite action
   workflows/ci.yml             PR·main: 아이콘 생성물 확인 → lint → format:check → build → size → typecheck → test
                                → test:stories(브라우저 렌더링 + axe, 라이트·다크) → build-storybook → build-playground → test:e2e
+                               + browsers job(matrix webkit·firefox): test:stories·test:e2e 를 그 브라우저로 (시각 회귀는 Chromium 만)
   workflows/visual.yml         PR·main: Playwright Docker 이미지에서 모든 스토리 라이트·다크 스크린샷 비교.
                                새 스토리(기준 이미지 없음)는 자동 생성 → main push 면 봇이 커밋(--update-snapshots=missing).
                                기존 화면이 바뀌면 실패 → 수동 실행 + update 체크 → 기준 이미지 갱신 후 그 브랜치에 봇이 커밋.
@@ -126,6 +127,8 @@ pnpm typecheck                       # react/storybook 의 typecheck 는 의존 
 pnpm test                            # vitest (icons, react) — jsdom 단위 테스트
 pnpm test:stories                    # 모든 스토리를 브라우저(로컬은 시스템 Chrome)에서 라이트·다크로 렌더링 + axe. build 먼저
                                      # (vitest project storybook-light / storybook-dark — `--project storybook-dark` 로 하나만)
+                                     # 다른 브라우저: STORYBOOK_BROWSERS=webkit (쉼표로 여럿, 기본 chromium). E2E 는 E2E_BROWSERS=webkit
+                                     # WebKit·Firefox 는 `pnpm --filter @bestow-ui/storybook exec playwright install webkit firefox` 로 받는다
 pnpm test:visual                     # 스크린샷 비교 (build-storybook 먼저). 기준 이미지는 Linux 것만 — 아래 함정 참고
 pnpm lint                            # ESLint (typescript-eslint, react-hooks, jsx-a11y, storybook)
 pnpm format / pnpm format:check      # Prettier (작은따옴표, 세미콜론, trailing comma, 120자). *.md 는 제외
@@ -211,6 +214,9 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
   그래서 SegmentedControl 은 button 으로 직접 구현했고, RadioGroup 은 1.2.0 에서 **네이티브 `<input type="radio">`** 로 바꿨다(E2E 20회 중 19회 실패 → 0).
   네이티브 radio 는 `aria-checked` 가 없다 — 테스트는 `.checked`(jsdom)·`toBeChecked()`(Playwright)로. name 이 없을 때는 만든 name + 존재하지 않는
   `form` id 로 폼 제출에서 뗀다. 선택 점은 `appearance: none` + inset box-shadow, 고대비 모드에서는 `appearance: auto` 로 되돌린다.
+- **Safari(WebKit) 기본 동작** — Tab 이 링크를 건너뛴다(Option+Tab 이 링크까지), 버튼·라디오·체크박스를 클릭해도 포커스를 주지 않는다,
+  네이티브 라디오는 끝에서 처음으로 돌지 않는다. E2E 는 이 차이에 기대지 않게 쓴다(`test.info().project.name === 'webkit'` 분기는 최소로).
+- 이 Mac(macOS 27)에서는 Playwright Firefox 가 "Could not find profile folder" 로 실행되지 않는다(샌드박스와 무관) — Firefox 는 CI(Linux)에서 확인한다.
 - Radix Popover Content 는 기본 `role="dialog"` — 목록 팝업(Combobox)으로 쓸 때는 `role="presentation"` 으로 덮어쓴다(props 가 뒤에 적용됨).
 - MDX 문서 페이지는 스토리 axe 테스트 대상이 아니다 — 문서에 컴포넌트를 그리면 axe 를 직접 돌려 확인한다.
   Storybook 문서의 기본 표 스타일이 Table 컴포넌트를 덮으므로 `<Unstyled>` 로 감싼다. MDX 는 GFM 표를 지원하지 않는다.

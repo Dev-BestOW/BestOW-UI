@@ -155,7 +155,8 @@ test('SkipLink: 첫 Tab 에 "본문 바로가기" 가 화면에 나타나고, En
   await page.goto('/interactive');
   const skip = page.getByRole('link', { name: '본문 바로가기' });
   await expect(skip).not.toBeInViewport();
-  await page.keyboard.press('Tab');
+  // macOS Safari 는 기본 설정에서 Tab 이 링크를 건너뛴다(입력 요소만) — Option+Tab 이 링크까지 간다
+  await page.keyboard.press(test.info().project.name === 'webkit' ? 'Alt+Tab' : 'Tab');
   await expect(skip).toBeFocused();
   await expect(skip).toBeInViewport();
   await page.keyboard.press('Enter');
@@ -189,16 +190,19 @@ test('RadioGroup: 화살표로 옮기면 바로 선택되고, 지연 없이 연�
   const group = page.getByRole('radiogroup', { name: '결제 주기' });
   const monthly = group.getByRole('radio', { name: '월간' });
   const yearly = group.getByRole('radio', { name: '연간' });
+  // macOS Safari 는 라디오를 클릭해도 포커스를 주지 않는다(플랫폼 동작) — 키보드 사용자처럼 포커스부터 준다
   await monthly.click();
+  await monthly.focus();
   await expect(monthly).toBeChecked();
   await page.keyboard.press('ArrowRight');
   await expect(yearly).toBeFocused();
   await expect(yearly).toBeChecked();
-  await page.keyboard.press('ArrowRight'); // 끝에서 처음으로
+  // 끝에서 처음으로 도는지는 브라우저마다 다르다(Chrome·Firefox 는 돌고 Safari 는 멈춘다 — 네이티브 동작) → ←/→ 로만 확인
+  await page.keyboard.press('ArrowLeft');
   await expect(monthly).toBeChecked();
   // 연달아 세 번: 월간 → 연간 → 월간 → 연간. 마지막 이동에서 선택이 빠지면 월간이 남는다
   await page.keyboard.press('ArrowRight');
-  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('ArrowLeft');
   await page.keyboard.press('ArrowRight');
   await expect(yearly).toBeFocused();
   await expect(yearly).toBeChecked();
