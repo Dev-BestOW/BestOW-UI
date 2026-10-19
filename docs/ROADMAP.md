@@ -1,7 +1,7 @@
 # BestOW UI 로드맵
 
 > 이 문서는 다음 작업 세션(사람 또는 Claude)이 **무엇을, 어떤 순서로, 어디까지 하면 되는지** 바로 알 수 있게 쓴다.
-> 작업 규칙·구조·함정은 [`CLAUDE.md`](../CLAUDE.md), 완료된 단계(P1~P6, P8, P10)의 설계 메모는 [`ROADMAP-HISTORY.md`](ROADMAP-HISTORY.md),
+> 작업 규칙·구조·함정은 [`CLAUDE.md`](../CLAUDE.md), 완료된 단계(P1~P10)의 설계 메모는 [`ROADMAP-HISTORY.md`](ROADMAP-HISTORY.md),
 > 누구를 위해 무엇을 차별화하는지는 [`POSITIONING.md`](POSITIONING.md).
 >
 > **갱신 규칙:** 작업을 시작/완료하면 체크박스를 바꾸고 맨 아래 "진행 기록"에 한 줄 추가한다.
@@ -14,11 +14,12 @@
   · tokens 1.0.0 · icons 0.1.2. **버전 PR #21 열림 → react 1.3.0** (Stepper minor, styles.css 33 → 9 kB patch) — 머지 여부를 사용자에게 확인.
 - 로컬 = origin/main (`4e06b44`) + **커밋 안 한 변경: FileUpload**(changeset `file-upload`, minor) — PR #21 머지 전에 push 하면 1.3.0 에 합쳐진다.
 - 컴포넌트 46개(한국 서비스 키트 8개 포함, 폴더 45 — Input 폴더에 Input·TextField) + 테마·다국어(LocaleProvider).
-  **P1~P8, P10 완료**(P7-B 컴포넌트별 CSS 는 우선순위 낮춤). P9: 기존 컴포넌트 보강 완료 + 새 컴포넌트 NumberInput·Stepper.
-- 번들: react 전체 JS **67.3/70 kB**(여유 2.7 kB — **다음 컴포넌트 전에 한도 검토**: "전체" 는 모든 컴포넌트를 import 한 크기라 사용자 번들과는 다르다. 올릴지·컴포넌트별 항목을 더할지 사용자와 결정), styles.css **9.4/12 kB**, Button 하나 1.51/2 kB.
+  **P1~P10 완료**(컴포넌트별 CSS 는 P16 보류). 다음은 프로덕션 준비 P12~P15.
+- 번들: react 전체 JS **67.3/70 kB**(여유 2.7 kB — P12-4 에서 한도 결정), styles.css **9.4/12 kB**, Button 하나 1.51/2 kB.
 - semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
 - 보고할 때 시각 회귀는 "허용치 안 통과" 와 "픽셀 동일" 을 구분한다(RadioGroup 사례).
-- **다음 작업 후보:** P9 새 컴포넌트(Tag 입력), Combobox 다중 선택·비동기 검색, 입력 테두리 대비(다음 major 후보), P11(Figma).
+- **다음 작업:** 아래 "다음 단계 — 프로덕션 준비" 의 추천 순서대로. 첫 작업은 **P12-1 WebKit·Firefox CI**.
+  새 컴포넌트는 P12-4(번들 한도 결정) 전에는 넣지 않는다.
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다
@@ -73,62 +74,84 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | P6 | 차별화: 테마 빌더, 한국 서비스 키트 8종(약관·인증번호·전화·사업자번호·금액·주소·달력·날짜), KWCAG 2.2 대응 근거 문서, LocaleProvider·한글 줄바꿈, README 메시지. CSS 배포 방식 결정 |
 | P8 | **1.0.0 출시**(2026-10-16): API 감사 → 0.12.0 에서 deprecated → 1.0 에서 제거, `vars` 87개 고정 테스트, 마이그레이션 가이드, 컴포넌트별 접근성 문서, 출시 전 설치 점검으로 버그 5건 수정(서버 컴포넌트 client/shared 분리 등) |
 | P10 | playground E2E(Playwright, CI), 열린 상태 스토리를 시각 회귀에 포함(play 완료 대기) |
+| P7 | 서버 컴포넌트 엔트리(함수·표시용 컴포넌트 7개), styles.css 디버그 주석 제거(33 → 9 kB), size-limit PR 코멘트 (컴포넌트별 CSS 는 보류) |
+| P9 | DropdownMenu 체크·라디오·하위 메뉴, Tabs 세로, Combobox 선택 지우기, SkipLink, SegmentedControl, NumberInput, Stepper, FileUpload |
 
 ---
 
-## 다음 단계 (순서는 사용자와 확정)
+## 다음 단계 — 프로덕션 준비 (2026-10-19 재정리)
 
-**추천 순서:** PR #21(1.3.0) 배포 → Tag 입력·Combobox 다중 선택(규모 큼, 수요 확인 후). 전체 JS 한도(70 kB) 여유 확인 먼저.
+**목표:** "공개 서비스에 프로덕션으로 권장" 할 수 있는 수준. 지금은 *사내 도구·작은 새 서비스(데스크톱 위주)에는 사용 가능, 모바일 비중이 큰 공개 서비스·접근성 인증이 필요한 서비스·여러 팀 표준으로는 아직 이름* (2026-10-19 평가).
+**원칙:** 기능 추가보다 **검증을 먼저**(P12·P13) 하고, 새 기능은 **파일럿에서 나온 수요로** 고른다(P14). 기존 사용법을 깨는 변경은 2.0 후보로 모은다.
 
-### P7. 번들·성능
+**추천 순서(위에서부터):**
+1. P12-1 WebKit·Firefox CI → 2. P12-2 모바일·터치 E2E → 3. P12-4 번들 한도 결정 → 4. P12-3 React 18 CI → 5. P13-2·3 고대비·확대 자동 점검
+→ 6. P13-1 스크린리더 수동 점검(사람) → 7. P14-1 파일럿 화면 → 8. P14-2 폼 라이브러리 연동 → 이후 P14 의 기능은 파일럿 결과로 순서 결정. P12-5·P15 는 틈틈이.
 
-- [x] **CSS 배포 방식 결정** (2026-10-15, 사용자 결정: **A 유지** — `styles.css` 하나. 측정: 테마·공통 약 15%, 컴포넌트당 2~5%,
-  컴포넌트 10개 앱이면 필요한 CSS 는 절반 정도.) 컴포넌트별 선택 import(B, Mantine 방식 `styles/base.css` + `styles/<컴포넌트>.css`)는
-  기존 사용법을 깨지 않는 추가라 **1.0 이후 필요할 때 minor 로**. JS 가 CSS 를 자동 import(C)는 breaking·환경 문제로 하지 않음.
-- [ ] (나중에) **컴포넌트별 CSS 선택 import (B)** — 공통(base) + 컴포넌트별 CSS, 컴포넌트 간 CSS 의존(Combobox → Select·Input,
-  Drawer → IconButton 등)을 문서화. 빌드는 vanilla-extract 출력에서 컴포넌트별로 나누는 후처리 필요.
-  **2026-10-19 재평가: 우선순위 낮춤** — 당시 측정(33 kB)의 3/4 가 vanilla-extract 디버그 주석이었고, 실제 CSS 는 전체 9 kB. 수요가 생기면 다시 검토.
-- [x] **서버 컴포넌트 엔트리 분리** — 2026-10-16 함수·값은 `dist/shared.js`(지시어 없음)로 분리. 2026-10-19 hook 없는 표시용 컴포넌트
-  7개(Typography·Stack·Card·Badge·Divider·Progress·Skeleton)도 shared 로 → 서버 컴포넌트로 렌더링. `src/shared.test.ts`(import 그래프 검사·이름 중복)
-  + playground 첫 페이지가 서버 함수를 Card `as` 로 넘겨 빌드로 감시. changeset `server-components`(minor).
-- [x] **styles.css 디버그 주석 제거** (2026-10-19) — esbuild 가 CSS 파일마다 남기는 `vanilla-extract-css-ns:…base64…` 주석·소스맵 이름을 경로만 남김
-  (줄 유지 → 소스맵 줄 번호 그대로, 남으면 빌드 실패). brotli 33.1 → 9.2 kB, 한도 36 → 12 kB. 2026-10-15 의 28 → 36 kB 상향도 이 주석 탓이었다.
-- [x] **size-limit 결과를 PR 코멘트로** (2026-10-19) — 서드파티 action 대신 `size.yml` + `scripts/size-report.mjs`(base 를 따로 checkout·빌드해 비교, `gh api` 로 코멘트 하나 갱신,
-  한도 95% 이상 ⚠️). 보고 전용(실패는 ci.yml). 포크 PR 은 Summary 만. 실제 PR 에서 첫 동작 확인 필요.
+### 프로덕션 권장 선언 기준 (모두 충족하면 README·Introduction 에 "프로덕션 권장" 으로 바꾼다)
 
-### P9. 기존 컴포넌트 보강 · 새 컴포넌트
+- [ ] Chromium·WebKit·Firefox 에서 스토리 테스트·E2E 통과 (P12-1)
+- [ ] 모바일(터치·좁은 화면) 주요 시나리오 E2E (P12-2)
+- [ ] React 18·19 둘 다 CI (P12-3)
+- [ ] 주요 컴포넌트 스크린리더 수동 점검 기록 — VoiceOver(macOS·iOS) + NVDA, 가능하면 센스리더 (P13-1)
+- [ ] 실제 화면 파일럿 1개 이상에서 발견한 문제 해결 (P14-1)
+- [ ] 지원 범위·배포 주기·보안 문의 경로 문서화 (P12-5)
 
-- [x] DropdownMenu `CheckboxItem`/`RadioItem`/하위 메뉴 (2026-10-19) — Radix 위에 스타일. 체크·라디오 표시는 아이콘과 같은 16px 자리,
-  RadioGroup 은 Radix 가 상태를 갖지 않아 항상 제어(감싸지 않음). changeset `dropdown-menu-checkbox-radio-sub`(minor).
-- [x] **Tabs 세로 방향** (2026-10-19) — `orientation` 을 Radix 로 넘기고 레이아웃은 `data-orientation` 셀렉터(root flex, line 은 오른쪽 테두리 위 표시줄, RTL 대응).
-  changeset `tabs-vertical`(minor).
-- [x] Combobox **선택 지우기** (2026-10-16) — 글자를 모두 지우고 닫으면 지움 + `clearable` 버튼. changeset `combobox-clear`(minor).
-- [ ] Combobox 다중 선택·비동기 검색·긴 목록 가상화.
-- [x] **SkipLink**(본문 바로가기) (2026-10-16) — KWCAG 6.4.1 을 "사용자 몫" → "일부" 로. changeset `skip-link`(minor).
-- [x] **SegmentedControl** (2026-10-16) — radiogroup 의미를 직접 구현(roving tabindex, 화살표 = 즉시 선택), changeset `segmented-control`(minor).
-- [x] **NumberInput** (2026-10-19) — spinbutton, −/+ 버튼(Tab 순서 밖·포커스 유지), ↑/↓·PageUp/Down·Home/End, 쉼표 서식(useFormattedInput),
-  입력 중 범위 밖 허용 → blur 때 맞춤, 소수(step 자릿수·부동소수 반올림), 문구 `increment`/`decrement`(선택 키). changeset `number-input`(minor).
-- [x] **Stepper** (2026-10-19) — 표시용 순서 목록(ol), aria-current="step", 완료 단계 "(완료)"(숨김 글자), 가로·세로, 문구 `steps`/`stepCompleted`(선택 키).
-  useMessages 를 써서 클라이언트 컴포넌트. changeset `stepper`(minor).
-- [x] **FileUpload** (2026-10-19) — "파일 선택" 버튼 + 끌어다 놓기, accept·maxSize·maxFiles 검사(이유 표시·status 알림), 삭제 후 포커스 이동,
-  name 이면 DataTransfer 로 input.files 동기화(폼 제출 — 실제 브라우저 play 로 확인). 문구 9개 선택 키. changeset `file-upload`(minor).
-- [ ] 새 후보: Tag 입력. (수요가 생기면 — DatePicker 는 P6 에서 완료)
+### P12. 신뢰성 기반 — 검증 범위 넓히기 (최우선)
 
-### P11. (선택) 디자인 도구 연동
+- [ ] **P12-1. WebKit·Firefox CI** — 스토리 테스트(vitest browser 의 instances 에 webkit·firefox 추가)와 playground E2E(Playwright projects)를
+  세 브라우저로. 시각 회귀는 기준 이미지 비용 때문에 Chromium 유지. 처음 돌리면 실패가 나올 것 — 브라우저 차이(포커스·selection·Radix·DataTransfer 등)를 고친다.
+  CI 시간이 늘면 WebKit·Firefox 는 main push·PR 의 별도 job 으로 나눈다. (Claude 가 할 수 있음)
+- [ ] **P12-2. 모바일·터치 E2E** — Playwright 기기 에뮬레이션(iPhone WebKit·Pixel Chromium, 좁은 화면 + touch)으로
+  Select·DropdownMenu·Drawer·Modal·DatePicker·Combobox·FileUpload·Slider 를 탭·스크롤로 조작. 가상 키보드가 가리는 문제 등은 실제 기기로 따로(사람).
+- [ ] **P12-3. React 18 CI** — peerDependency 는 `^18 || ^19` 인데 CI 는 19 만. 단위 테스트를 React 18 로도 돌리는 matrix job
+  (pnpm overrides 로 react·react-dom·@types 를 18 로). SSR 경고(useLayoutEffect)·useId 형식 차이 확인.
+- [ ] **P12-4. 번들 한도 결정** — "react: 전체 JS" 67.3/70 kB(여유 2.7 kB). 이 항목은 모든 컴포넌트를 import 한 크기라 사용자 번들과 다르다.
+  선택지: ① 한도 상향(예: 80 kB) ② "전체" 는 느슨하게 두고 대표 조합(폼 세트·오버레이 세트·한국 키트) 항목 추가. **새 컴포넌트 전에 사용자와 결정.**
+- [ ] **P12-5. 지원 정책 문서** — 지원 브라우저·React·Next.js 버전 표, 배포 주기(지금은 하루 여러 번 → 주 1회 묶음 권장), 보안 문의(SECURITY.md),
+  deprecated 기간. README·Introduction 에 연결.
+- 운영: CI 러너는 `ubuntu-24.04` 고정 — Ubuntu 26 으로 올리는 건 Playwright 지원 확인 후(24.04 지원 종료 공지 전에).
 
-- [ ] Figma 변수 ↔ `@bestow-ui/tokens` 동기화, Figma Code Connect 로 컴포넌트 매핑. (이 환경에 Figma MCP 가 연결돼 있음)
+### P13. 접근성 실사용 검증
+
+- [ ] **P13-1. 스크린리더 수동 점검 (사람이 실행)** — Claude 가 컴포넌트별 점검 체크리스트(조작 순서·기대 낭독)를 만들고, 사람이 VoiceOver(macOS·iOS)·NVDA
+  (가능하면 센스리더)로 실행해 결과를 `kwcag.ts`·`componentA11y.ts` 에 "수동 확인" 으로 기록. 우선 대상: Select·Combobox·DatePicker·Modal·Drawer·
+  DropdownMenu·Tabs·RadioGroup·NumberInput·FileUpload·Toast·서식 입력(전화·금액). axe 는 자동으로 잡을 수 있는 문제만 본다는 점을 문서에 밝힌다.
+- [ ] **P13-2. 고대비(forced-colors) 자동 점검** — Playwright `forcedColors: 'active'` 로 주요 스토리를 찍어 경계·선택 표시·포커스 링이 보이는지 확인
+  (RadioGroup·트랙은 대응해 둠, Checkbox·Switch·SegmentedControl·Stepper·Badge 확인 필요).
+- [ ] **P13-3. 확대·리플로 점검** — 320px 너비·200% 글자 확대에서 가로 스크롤·잘림 없는지(WCAG 1.4.10·1.4.4). E2E 또는 스토리 테스트로.
+- [ ] **P13-4. 입력 테두리 대비 (2.0 후보, 결정 필요)** — border.default(gray300)가 흰 배경과 1.3:1. 모든 입력 화면이 바뀌므로 2.0 에 모으거나,
+  `fg.subtle` 수준으로 올리는 옵션 토큰을 minor 로 먼저 제공. 사용자와 결정.
+
+### P14. 파일럿과 빈칸 채우기 (기능)
+
+- [ ] **P14-1. 파일럿 화면** — 실제 제품 화면 하나(예: 관리자 목록 + 상세 + 등록 폼)를 이 시스템만으로 만든다. 가능하면 사용자의 실제 제품,
+  아니면 playground 에 "실전 예제" 페이지로. 빠진 컴포넌트·불편한 API·성능 문제를 이슈로 모아 아래 순서를 정한다.
+- [ ] **P14-2. 폼 라이브러리 연동** — react-hook-form 으로 TextField(register)·Select·DatePicker·NumberInput·FileUpload·AgreementGroup(Controller)
+  예시 + 테스트(ref·name·onBlur·에러 표시·포커스 이동). 에러 요약(제출 시 첫 오류로 포커스) 패턴 문서.
+- [ ] **P14-3. 데이터 테이블 보강** — Table 에 정렬 머리글(aria-sort)·행 선택(Checkbox)·빈 상태·로딩(Skeleton)·Pagination 연결 예시. 가상화는 수요 시.
+- [ ] **P14-4. DateRangePicker** — Calendar 기반 기간 선택(시작·끝, 키보드, `today` 고정).
+- [ ] **P14-5. Combobox 다중 선택·비동기 검색** — 선택 칩(Backspace 로 지우기), 검색 중 상태 알림, 긴 목록 가상화.
+- [ ] **P14-6. Tag 입력** — 쉼표·Enter 로 태그 추가(P14-5 와 칩 공유).
+
+### P15. 문서·개발자 경험
+
+- [ ] 사용 가이드: 언제 무엇을 쓰나(Select vs Combobox vs SegmentedControl vs RadioGroup, Modal vs Drawer, Tabs vs SegmentedControl).
+- [ ] 패턴 페이지: 폼 검증·에러 요약, 단계별 흐름(Stepper + 버튼 + 제목 포커스), 파일 업로드 + 진행률.
+- [ ] 지원 범위 표·업그레이드 가이드를 Storybook Introduction 에 연결 (P12-5 와 함께).
+
+### P16. 보류 (수요가 생기면)
+
+- [ ] 컴포넌트별 CSS 선택 import (구 P7-B) — 실제 CSS 가 전체 9 kB 라 우선순위 낮음.
+- [ ] Figma 변수 ↔ tokens 동기화, Code Connect (구 P11, Figma MCP 연결돼 있음).
+- [ ] 아이콘 추가: Lucide 에서 가져오면 `svg/` 에 넣고 `generate`. 자체 아이콘은 같은 규격(24×24, stroke 2, round).
 
 ---
 
-## 백로그 / 알려진 이슈
+## 알려진 동작 (고칠 계획 없음 — 문서에 적어 둠)
 
-- CI 러너는 `ubuntu-24.04` 고정. Ubuntu 26 으로 올리는 건 Playwright 지원 확인 후 (24.04 러너 지원 종료 공지가 나오기 전에).
-- 아이콘을 더 늘릴 때: Lucide 에서 가져오면 `svg/` 에 넣고 `generate`. 자체 아이콘은 같은 규격(24×24, stroke 2, round)으로 그린다.
-- ~~Slider·Progress 트랙 대비~~ → 2026-10-19 트랙에 `fg.subtle` 안쪽 테두리(라이트 5.18·다크 8.57:1), 새 토큰 없이 해결.
-- 입력 테두리(border.default gray300)도 흰 배경과 1.3:1 이다. 레이블·placeholder 로 입력임을 알 수 있어 지금은 두지만, 비텍스트 대비를 더 엄격히 보려면
-  다음 major 후보로 검토(모든 입력 화면이 바뀜).
 - Select·DropdownMenu 의 목록 열기는 pointerdown(Radix 기본). KWCAG 문서 6.5.2 에 적어 둠.
-- ~~RadioGroup 의 Radix 화살표 선택 누락~~ → 2026-10-19 네이티브 radio 로 재구현해 해결(아래 진행 기록).
+- 해결된 것: Slider·Progress 트랙 대비, RadioGroup 화살표 선택 누락(2026-10-19, 진행 기록 참고). 입력 테두리 대비는 P13-4 로 옮김.
 
 ---
 
@@ -207,3 +230,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-19 | react 1.2.0 배포 확인. styles.css 디버그 주석 제거: brotli 33.1 → 9.2 kB(실제 CSS), 소스맵 위치 검증(4곳), 남으면 빌드 실패(변이 확인), 한도 12 kB. P7-B(컴포넌트별 CSS) 우선순위 낮춤 |
 | 2026-10-19 | 문서 정리: 인수인계를 현재 상태(1.2.0 배포, PR #21 = 1.3.0)로 다시 씀, 추천 순서 갱신 |
 | 2026-10-19 | P9 FileUpload: 테스트 9개(변이 4종 — 제어 모드 변이는 결과가 같은 변이), 스토리 7개(폼 제출 play 는 실제 브라우저에서 input.files 동기화 변이 확인), 비활성 대비 수정(영역 투명도 제거), playground 통장 사본 + E2E |
+| 2026-10-19 | 로드맵 재정리: 프로덕션 수준 평가를 바탕으로 P12(신뢰성: 크로스 브라우저·모바일·React 18·번들 한도·지원 정책) → P13(접근성 실사용 검증) → P14(파일럿·빈칸) → P15(문서), 보류 P16. 프로덕션 권장 선언 기준 추가. 완료한 P7·P9 상세는 ROADMAP-HISTORY 로 이동 |
