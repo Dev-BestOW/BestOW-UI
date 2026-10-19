@@ -171,6 +171,8 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
 
 ## 배포
 
+지원 범위(브라우저·React·Next.js)·버전 정책·배포 주기·이전 major 지원은 `SUPPORT.md`, 보안 신고는 `SECURITY.md` — CI 범위나 정책이 바뀌면 함께 고친다.
+
 1. 변경과 함께 `.changeset/<이름>.md` 커밋 (형식: frontmatter 에 `"@bestow-ui/react": minor` 등).
 2. main 에 머지되면 release.yml 이 "chore: version packages" PR 을 만든다.
 3. 그 PR 을 머지하면 changesets 가 npm 에 배포 + git 태그 + GitHub Release.

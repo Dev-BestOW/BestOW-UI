@@ -115,6 +115,8 @@ import { LocaleProvider, en } from '@bestow-ui/react';
 
 - [Storybook](https://dev-bestow.github.io/BestOW-UI/) — docs, design tokens, all components
 - [GitHub](https://github.com/Dev-BestOW/BestOW-UI) — source, [issues](https://github.com/Dev-BestOW/BestOW-UI/issues), [contributing guide](https://github.com/Dev-BestOW/BestOW-UI/blob/main/CONTRIBUTING.md)
+- Support: the latest 2 major versions of Chrome, Edge, Firefox and Safari (incl. mobile), React 18 and 19, Next.js App Router — all checked in CI.
+  [Support & versioning policy (Korean)](https://github.com/Dev-BestOW/BestOW-UI/blob/main/SUPPORT.md) · [Security](https://github.com/Dev-BestOW/BestOW-UI/blob/main/SECURITY.md)
 - [Changelog](https://github.com/Dev-BestOW/BestOW-UI/blob/main/packages/react/CHANGELOG.md) · [Upgrading from 0.x (MIGRATION-1.0, Korean)](https://github.com/Dev-BestOW/BestOW-UI/blob/main/docs/MIGRATION-1.0.md)
 
 ## License
@@ -132,6 +134,8 @@ import { LocaleProvider, en } from '@bestow-ui/react';
 - **대표색 하나로 테마** — 브랜드 색을 넣어도 대비 기준을 자동으로 지켜요. [테마 빌더](https://dev-bestow.github.io/BestOW-UI/?path=/story/foundations-theme-builder--builder)
 - **가벼움** — 런타임 CSS 0, 서버 컴포넌트 지원, 쓰는 컴포넌트만 번들에.
 - **다국어** — 기본 문구는 한국어, `LocaleProvider` 로 한 번에 바꿔요.
+- **지원 범위** — Chrome·Edge·Firefox·Safari 최근 2개 메이저 버전(모바일 포함), React 18·19, Next.js App Router 를 CI 로 확인해요.
+  [지원·버전 정책](https://github.com/Dev-BestOW/BestOW-UI/blob/main/SUPPORT.md) · [보안 문제 신고](https://github.com/Dev-BestOW/BestOW-UI/blob/main/SECURITY.md)
 
 ```bash
 npm install @bestow-ui/react

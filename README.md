@@ -107,12 +107,18 @@ pnpm release            # 빌드 후 npm 배포
 
 | 워크플로 | 트리거 | 내용 |
 |---|---|---|
-| `ci.yml` | PR, main push | 아이콘 생성물 확인 → lint → 포맷 → 빌드 → 번들 크기 → 타입 체크 → 테스트 → 스토리 렌더링·axe → Storybook·예제 앱 빌드 → 예제 앱 E2E |
+| `ci.yml` | PR, main push | 아이콘 생성물 확인 → lint → 포맷 → 빌드 → 번들 크기 → 타입 체크 → 테스트(SSR 포함) → 스토리 렌더링·axe → Storybook·예제 앱 빌드 → 예제 앱 E2E(데스크톱·모바일·고대비·리플로). 같은 스토리 테스트·E2E 를 WebKit·Firefox 로, 단위 테스트를 React 18 로도 실행 |
+| `size.yml` | PR | 번들 크기를 base 와 비교해 PR 코멘트로 |
 | `visual.yml` | PR, main push, 수동 | 모든 스토리(열린 상태 포함)의 라이트·다크 스크린샷 비교. 새 스토리는 main push 때 기준 이미지 자동 커밋, 바뀐 화면은 수동 실행 + update 로 갱신 |
 | `release.yml` | main push | changeset 이 있으면 "version packages" PR 생성(GitHub App 토큰), 그 PR 이 머지되면 npm 배포 |
 | `storybook.yml` | main push (패키지·앱 변경 시), 수동 | Storybook 과 예제 앱(정적 export)을 GitHub Pages 에 배포 |
 
 배포 흐름: 작업 브랜치에서 `pnpm changeset` → PR 머지 → 자동 생성된 버전 PR 머지 → npm 배포.
+
+## 지원 범위 · 보안
+
+Chrome·Edge·Firefox·Safari 최근 2개 메이저 버전(모바일 포함), React 18·19, Next.js App Router 를 CI 로 확인해요.
+버전 정책(semver·deprecated)과 배포 주기는 [SUPPORT.md](SUPPORT.md), 보안 문제 신고는 [SECURITY.md](SECURITY.md) 를 보세요.
 
 ## 라이선스
 
