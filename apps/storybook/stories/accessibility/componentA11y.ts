@@ -72,6 +72,14 @@ export const componentA11y: ComponentA11yGroup[] = [
           'radiogroup (label 이 그룹 이름) 안의 네이티브 radio — "n개 중 m번째" 와 선택 상태를 읽는다. 보조 설명은 각 radio 의 설명으로, helperText·error·required 는 그룹에 연결.',
       },
       {
+        name: 'FileUpload',
+        keyboard:
+          '"파일 선택" 버튼(Enter·Space)으로 운영체제 파일 창을 연다 — 끌어다 놓기는 덤. 목록의 "○○ 삭제" 버튼으로 지우면 포커스가 다음 삭제 버튼, 없으면 "파일 선택" 으로 간다.',
+        screenReader:
+          'group(레이블이 이름) + 도움말·거부 이유를 설명으로 연결. 선택한 파일은 목록 "선택한 파일", 추가·삭제·거부는 상태 알림(role=status)으로 읽는다("파일 2개 선택됨").',
+        yours: '받는 형식·크기·개수를 helperText 로 미리 알린다. 서버 전송·진행률은 직접(Progress 와 함께).',
+      },
+      {
         name: 'NumberInput',
         keyboard:
           '↑/↓ 한 단계(step), PageUp/PageDown 큰 단계(largeStep), min·max 가 있으면 Home/End 로 끝값. −/+ 버튼은 ↑/↓ 가 대신해 Tab 순서에서 빠져 있고, 눌러도 입력창 포커스를 뺏지 않는다.',

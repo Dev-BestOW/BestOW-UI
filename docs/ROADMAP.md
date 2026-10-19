@@ -10,20 +10,15 @@
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-19 기준)
 
 **마지막 상태**
-- npm: **react 1.1.0**(Combobox 선택 지우기·SkipLink·SegmentedControl) · tokens 1.0.0, icons 0.1.2.
-- origin/main = `419095c`(봇: 기준 이미지 갱신 37장 — 트랙 30장 + RadioGroup 안티앨리어싱 차이 7장, 확대 비교로 의도한 변화 확인).
-  코드 마지막 커밋 `dee1891`(서버 컴포넌트) CI·Release·배포 성공. **배포 준비 완료: 버전 PR #20 = react 1.2.0**
-  (DropdownMenu·Tabs·서버 컴포넌트 minor, RadioGroup·트랙 patch) — 배포된 playground 확인 후 사용자가 머지.
-  RadioGroup 은 허용치(0.1%) 안에서 통과했지만 픽셀 동일은 아니었다 — "통과" 와 "동일" 을 구분해 보고할 것.
-- NumberInput 은 `fcec29c` 로 push 됨(PR #20 에 합쳐짐). **커밋 안 한 변경: Stepper**(changeset `stepper`, minor) — PR #20 머지 전에 push 하면 1.2.0 에 합쳐진다.
-- 컴포넌트 45개(한국 서비스 키트 8개 포함, 폴더 44 — Input 폴더에 Input·TextField) + 테마·다국어(LocaleProvider).
-  **P1~P6, P8(1.0), P10 완료.** P9 의 기존 컴포넌트 보강 완료(Combobox 선택 지우기·SkipLink·SegmentedControl·DropdownMenu 체크/라디오/하위 메뉴·Tabs 세로).
-- 번들: react 전체 JS **65.8/70 kB**, styles.css **9.2/12 kB**(디버그 주석 제거 후), Button 하나 1.51/2 kB. (전체 JS 여유 4.2 kB — 큰 컴포넌트를 더하면 한도 검토)
+- npm: **react 1.2.0**(2026-10-19 — DropdownMenu 체크·라디오·하위 메뉴, Tabs 세로, 서버 컴포넌트 7개, NumberInput, RadioGroup 네이티브, 트랙 테두리)
+  · tokens 1.0.0 · icons 0.1.2. **버전 PR #21 열림 → react 1.3.0** (Stepper minor, styles.css 33 → 9 kB patch) — 머지 여부를 사용자에게 확인.
+- 로컬 = origin/main (`4e06b44`) + **커밋 안 한 변경: FileUpload**(changeset `file-upload`, minor) — PR #21 머지 전에 push 하면 1.3.0 에 합쳐진다.
+- 컴포넌트 46개(한국 서비스 키트 8개 포함, 폴더 45 — Input 폴더에 Input·TextField) + 테마·다국어(LocaleProvider).
+  **P1~P8, P10 완료**(P7-B 컴포넌트별 CSS 는 우선순위 낮춤). P9: 기존 컴포넌트 보강 완료 + 새 컴포넌트 NumberInput·Stepper.
+- 번들: react 전체 JS **67.3/70 kB**(여유 2.7 kB — **다음 컴포넌트 전에 한도 검토**: "전체" 는 모든 컴포넌트를 import 한 크기라 사용자 번들과는 다르다. 올릴지·컴포넌트별 항목을 더할지 사용자와 결정), styles.css **9.4/12 kB**, Button 하나 1.51/2 kB.
 - semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
-- **커밋 안 한 변경: styles.css 디버그 주석 제거**(tsup `shortenCssSourceNames`, changeset `css-debug-comments`, patch) — brotli 33.1 → 9.2 kB.
-- **다음 작업 후보:** 정해진 필수 작업은 없음 — 사용자에게 고르게 한다.
-  P9 새 컴포넌트(NumberInput·FileUpload·Stepper·Tag 입력 — 전체 JS 여유 4.2 kB 주의),
-  Combobox 다중 선택·비동기 검색, P7 남은 것(컴포넌트별 CSS), P11(Figma).
+- 보고할 때 시각 회귀는 "허용치 안 통과" 와 "픽셀 동일" 을 구분한다(RadioGroup 사례).
+- **다음 작업 후보:** P9 새 컴포넌트(Tag 입력), Combobox 다중 선택·비동기 검색, 입력 테두리 대비(다음 major 후보), P11(Figma).
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다
@@ -47,13 +42,13 @@
 |---|---|---|
 | `@bestow-ui/tokens` | 1.0.0 | palette(gray·blue·red·green·amber), space, radius, font, shadow/darkShadow, duration, zIndex, light/dark 의미 색상(primary·neutral·danger·success·warning) |
 | `@bestow-ui/icons` | 0.1.2 | 아이콘 57종 (Lucide 기반), SVG → 컴포넌트 생성 스크립트 |
-| `@bestow-ui/react` | 1.1.0 (1.2.0 PR #20 대기, NumberInput 은 그다음) | 아래 45개 + 테마(ThemeProvider·createTheme·createIntentColors·vars·usePortalProps) + 다국어(LocaleProvider·en) + 서식·날짜 함수 |
+| `@bestow-ui/react` | 1.1.0 (1.2.0 PR #20 대기, NumberInput 은 그다음) | 아래 46개 + 테마(ThemeProvider·createTheme·createIntentColors·vars·usePortalProps) + 다국어(LocaleProvider·en) + 서식·날짜 함수 |
 
 | 분류 | 컴포넌트 |
 |---|---|
 | 레이아웃·표시 | Stack, Divider, Card, Typography, Avatar, Badge, Table |
 | 동작 | Button(loading), IconButton, Link |
-| 폼 | Input, TextField, Textarea, Select, Combobox(clearable), NumberInput, SegmentedControl, Checkbox, RadioGroup, Switch, Slider |
+| 폼 | Input, TextField, Textarea, Select, Combobox(clearable), NumberInput, FileUpload, SegmentedControl, Checkbox, RadioGroup, Switch, Slider |
 | 피드백 | Alert, Progress, Toast, Spinner, Skeleton |
 | 오버레이 | Modal, Drawer, Popover, Tooltip, DropdownMenu(체크·라디오·하위 메뉴) |
 | 탐색 | Tabs, Accordion, Pagination, Breadcrumb, SkipLink, Stepper |
@@ -83,8 +78,7 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 
 ## 다음 단계 (순서는 사용자와 확정)
 
-**추천 순서:** 1.2.0 배포 후 사용 피드백을 보고 결정(새 컴포넌트는 수요에 따라).
-P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기존 사용법을 깨지 않는 추가라 1.0 이후에 해도 된다.
+**추천 순서:** PR #21(1.3.0) 배포 → Tag 입력·Combobox 다중 선택(규모 큼, 수요 확인 후). 전체 JS 한도(70 kB) 여유 확인 먼저.
 
 ### P7. 번들·성능
 
@@ -116,7 +110,9 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
   입력 중 범위 밖 허용 → blur 때 맞춤, 소수(step 자릿수·부동소수 반올림), 문구 `increment`/`decrement`(선택 키). changeset `number-input`(minor).
 - [x] **Stepper** (2026-10-19) — 표시용 순서 목록(ol), aria-current="step", 완료 단계 "(완료)"(숨김 글자), 가로·세로, 문구 `steps`/`stepCompleted`(선택 키).
   useMessages 를 써서 클라이언트 컴포넌트. changeset `stepper`(minor).
-- [ ] 새 후보: FileUpload, Tag 입력. (수요가 생기면 — DatePicker 는 P6 에서 완료)
+- [x] **FileUpload** (2026-10-19) — "파일 선택" 버튼 + 끌어다 놓기, accept·maxSize·maxFiles 검사(이유 표시·status 알림), 삭제 후 포커스 이동,
+  name 이면 DataTransfer 로 input.files 동기화(폼 제출 — 실제 브라우저 play 로 확인). 문구 9개 선택 키. changeset `file-upload`(minor).
+- [ ] 새 후보: Tag 입력. (수요가 생기면 — DatePicker 는 P6 에서 완료)
 
 ### P11. (선택) 디자인 도구 연동
 
@@ -209,3 +205,5 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 | 2026-10-19 | P9 NumberInput: 테스트 18개(변이 4종 — 처음엔 반올림 변이가 살아남아 0.7+0.1 테스트로 강화), 스토리 9개(키보드·커서 play), playground 좌석 수 + E2E, 접근성 문서·README |
 | 2026-10-19 | P9 Stepper: 테스트 6개(변이 3종), 스토리 5개, playground 회원가입 단계 + E2E(aria-current 이동), 접근성 문서·README |
 | 2026-10-19 | react 1.2.0 배포 확인. styles.css 디버그 주석 제거: brotli 33.1 → 9.2 kB(실제 CSS), 소스맵 위치 검증(4곳), 남으면 빌드 실패(변이 확인), 한도 12 kB. P7-B(컴포넌트별 CSS) 우선순위 낮춤 |
+| 2026-10-19 | 문서 정리: 인수인계를 현재 상태(1.2.0 배포, PR #21 = 1.3.0)로 다시 씀, 추천 순서 갱신 |
+| 2026-10-19 | P9 FileUpload: 테스트 9개(변이 4종 — 제어 모드 변이는 결과가 같은 변이), 스토리 7개(폼 제출 play 는 실제 브라우저에서 input.files 동기화 변이 확인), 비활성 대비 수정(영역 투명도 제거), playground 통장 사본 + E2E |

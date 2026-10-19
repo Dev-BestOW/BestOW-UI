@@ -11,6 +11,7 @@ import {
   Card,
   Combobox,
   DatePicker,
+  FileUpload,
   Modal,
   PhoneNumberInput,
   ModalClose,
@@ -203,6 +204,15 @@ export default function InteractivePage() {
         {/* 기본 공급자: 카카오 우편번호 (검색을 누를 때 스크립트를 불러온다) */}
         <AddressInput label="사업장 주소" />
         <AmountInput label="정산 금액" max={100000000} fullWidth />
+        <FileUpload
+          label="통장 사본"
+          name="bankbook"
+          multiple
+          maxFiles={2}
+          accept=".pdf,image/*"
+          maxSize={5 * 1024 * 1024}
+          helperText="PDF·이미지, 파일당 5MB 이하, 최대 2개"
+        />
         <DatePicker label="정산 희망일" fullWidth />
       </Stack>
 

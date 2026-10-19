@@ -39,6 +39,19 @@ export interface BestowMessages {
   /** Stepper — 목록 이름 "진행 단계", 완료한 단계에 붙는 "완료" (1.0 이후 추가, 선택 키) */
   steps?: string;
   stepCompleted?: string;
+  /**
+   * FileUpload (1.0 이후 추가, 선택 키) — "파일 선택", "또는 여기로 끌어다 놓으세요", "선택한 파일", "○○ 삭제",
+   * "파일 2개 선택됨", "○○ 삭제됨", 크기·형식·개수 초과 안내
+   */
+  fileSelect?: string;
+  fileDropHint?: string;
+  fileList?: string;
+  fileRemove?: (name: string) => string;
+  filesSelected?: (count: number) => string;
+  fileRemoved?: (name: string) => string;
+  fileTooLarge?: (name: string, maxSize: string) => string;
+  fileTypeNotAllowed?: (name: string) => string;
+  fileTooMany?: (maxFiles: number) => string;
   /** Slider 범위 손잡이 — "최소", "최대" */
   rangeStart: string;
   rangeEnd: string;

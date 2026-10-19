@@ -211,7 +211,8 @@ export const kwcag: KwcagGroup[] = [
         name: '단일 포인터 입력 지원',
         isNew: true,
         coverage: '지원',
-        provided: 'Slider 는 끌기 말고 트랙 누르기·키보드로도 바꿀 수 있다. 끌기·여러 손가락만으로 되는 동작이 없다.',
+        provided:
+          'Slider 는 끌기 말고 트랙 누르기·키보드로도 바꿀 수 있다. FileUpload 의 끌어다 놓기는 "파일 선택" 버튼으로 대신할 수 있다. 끌기·여러 손가락만으로 되는 동작이 없다.',
         yours: '직접 만든 끌기 동작의 대체 수단.',
         verified: '실제 브라우저 점검',
       },

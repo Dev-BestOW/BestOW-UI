@@ -235,3 +235,21 @@ test('Stepper: "다음 단계" 를 누르면 현재 단계(aria-current)가 옮�
   await expect(steps.nth(0)).not.toHaveAttribute('aria-current', 'step');
   await expect(steps.nth(0)).toContainText('(완료)');
 });
+
+test('FileUpload: 고른 파일이 목록에 나오고, 삭제하면 포커스가 다음 삭제 버튼 → "파일 선택" 으로 간다', async ({
+  page,
+}) => {
+  await page.goto('/interactive');
+  const group = page.getByRole('group', { name: '통장 사본' });
+  const pdf = (name: string) => ({ name, mimeType: 'application/pdf', buffer: Buffer.from('%PDF-1.4') });
+  await group.locator('input[type="file"]').setInputFiles([pdf('a.pdf'), pdf('b.pdf'), pdf('c.pdf')]);
+  const list = page.getByRole('list', { name: '선택한 파일' });
+  await expect(list.getByRole('listitem')).toHaveCount(2);
+  await expect(page.getByText('파일은 2개까지 올릴 수 있어요.', { exact: true })).toBeVisible();
+  await page.getByRole('button', { name: 'a.pdf 삭제' }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('button', { name: 'b.pdf 삭제' })).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(list).toBeHidden();
+  await expect(group.getByRole('button', { name: '파일 선택' })).toBeFocused();
+});
