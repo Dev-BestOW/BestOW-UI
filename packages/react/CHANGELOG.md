@@ -1,5 +1,35 @@
 # @bestow-ui/react
 
+## 1.2.0
+
+### Minor Changes
+
+- 87537ab: DropdownMenu 에 체크·라디오 항목과 하위 메뉴를 추가했어요.
+  
+  - `DropdownMenuCheckboxItem` — 켜고 끄는 항목(`menuitemcheckbox`, `checked`/`onCheckedChange`, `'indeterminate'` 지원)
+  - `DropdownMenuRadioGroup` + `DropdownMenuRadioItem` — 하나만 고르는 항목(`menuitemradio`, `value`/`onValueChange`)
+  - `DropdownMenuSub` + `DropdownMenuSubTrigger`(`icon`) + `DropdownMenuSubContent` — 하위 메뉴(→ 로 열고 ← 로 닫기, portal 테마 적용)
+- fcec29c: NumberInput 을 추가했어요. 수량·인원처럼 숫자를 입력할 때 써요.
+  
+  - −/+ 버튼, ↑/↓(`step`)·PageUp/PageDown(`largeStep`)·Home/End(`min`/`max`)로 값을 바꿔요
+  - 천 단위 쉼표(`thousandSeparator`), 소수(`precision`, 기본은 `step` 의 자릿수), 단위(`unit`)
+  - 입력 중에는 범위 밖 값도 받고, 포커스가 빠질 때 범위·자릿수에 맞춰요
+  - 스크린리더에는 spinbutton 으로 값·최소·최대를 알려요. 버튼 문구는 `LocaleProvider` 의 `increment`·`decrement` 로 바꿀 수 있어요
+- dee1891: hook 이 없는 표시용 컴포넌트 7개(Typography·Stack·Card·Badge·Divider·Progress·Skeleton)를 서버 컴포넌트로 렌더링해요.
+  Next.js App Router 의 서버 컴포넌트에서 쓰면 클라이언트 JS 없이 그려지고, `as` 에 서버 컴포넌트도 넘길 수 있어요.
+  import 방법은 그대로이고 클라이언트 컴포넌트에서도 똑같이 쓸 수 있어요.
+- 8b38bef: Tabs 에 `orientation="vertical"` 을 추가했어요. 탭 목록이 왼쪽·내용이 오른쪽에 놓이고, ↑/↓ 로 이동해요(line·soft 모두 지원).
+
+### Patch Changes
+
+- 440209b: RadioGroup 을 네이티브 `<input type="radio">` 로 바꿨어요. 화살표 키를 바로 떼는 입력(자동화 도구·일부 보조기기)에서
+  포커스만 옮겨지고 선택이 빠지던 문제를 고쳤어요. props·ref·모양은 그대로이고, `@radix-ui/react-radio-group` 의존성이 빠졌어요.
+  
+  참고: 각 항목이 `button role="radio"` 에서 `input type="radio"` 로 바뀌어 `aria-checked` 속성이 없어요(네이티브 `checked` 로 상태를 알려요).
+  테스트에서 `getAttribute('aria-checked')` 를 읽었다면 `toBeChecked()`(jest-dom·Playwright)나 `.checked` 로 바꿔 주세요.
+- 2ba8793: Slider·Progress 트랙에 `fg.subtle` 색의 1px 안쪽 테두리를 넣었어요. 트랙 바탕은 배경과 대비가 1.1~1.6:1 이라 끝이 잘 보이지 않았는데,
+  이제 라이트 5.2:1·다크 8.6:1 로 "전체 중 어디까지인지" 가 보여요(WCAG 1.4.11 비텍스트 대비). 고대비 모드에서는 시스템 외곽선으로 그려요.
+
 ## 1.1.0
 
 ### Minor Changes
