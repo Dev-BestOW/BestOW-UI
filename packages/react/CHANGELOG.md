@@ -1,5 +1,53 @@
 # @bestow-ui/react
 
+## 1.3.0
+
+### Minor Changes
+
+- a3ab8d1: `DescriptionList` 를 추가했어요. 상세 화면의 이름–값 목록(고객·연락처·금액 등)을 `<dl>` 로 그려 스크린리더가 쌍으로 읽어요.
+  가로(이름 열 폭 `termWidth`)·세로 배치와 구분선(`divided`)을 지원하고, 서버 컴포넌트로도 렌더링돼요.
+- c09280d: 폼 오류 처리를 위한 컴포넌트를 추가했어요.
+  
+  - `ErrorSummary` — 제출에 실패했을 때 고칠 곳을 모아 보여 주고 포커스를 받아요. 링크로 각 칸에 바로 가요(묶음은 선택된·첫 항목).
+    `focusKey` 에 제출 횟수를 넘기면 다시 제출해도 오류가 남아 있을 때 다시 포커스해요. react-hook-form 과 함께 쓰는 방법을 문서에 담았어요.
+  - `focusField(id)` — 칸 id 로 포커스를 옮기는 함수(서버 컴포넌트 파일에서도 import 가능).
+  - `VisuallyHidden` — 화면에는 안 보이고 스크린리더만 읽는 글자.
+  - `AgreementGroup` 에 `id` prop 을 추가했어요(ErrorSummary 링크가 가리킬 수 있게).
+- c3793a1: FileUpload 를 추가했어요. 서류·사진 첨부처럼 파일을 고를 때 써요.
+  
+  - "파일 선택" 버튼 또는 끌어다 놓기로 고르고, 선택한 파일을 이름·크기·삭제 버튼 목록으로 보여 줘요
+  - `accept`·`maxSize`·`maxFiles`·`multiple` — 조건에 맞지 않는 파일은 이유를 보여 주고 스크린리더에 알려요(`onReject`)
+  - `name` 을 주면 일반 폼 제출에도 파일이 그대로 실려요. 서버 전송은 `onValueChange` 로 받은 File 로 직접 해요
+  - 문구는 `LocaleProvider` 의 `fileSelect`·`fileRemove` 등으로 바꿀 수 있어요
+- 5d62d21: 글자 크기가 브라우저 기본 글꼴 크기 설정을 따르도록 바꿨어요. 글자 크기 CSS 변수(`--bestow-font-size-*`)를 px 대신 rem 으로 내고
+  (16px 기준이라 기본 설정에서는 화면이 같아요), 글자가 든 컨트롤(Button·Tabs·Badge·SegmentedControl·Pagination)은 글자가 커지면 함께 커져요.
+  `@bestow-ui/tokens` 의 값은 그대로예요. 또 320px 처럼 좁은 화면에서 VerificationCodeInput 의 칸이 화면보다 넓어지던 문제를 고쳤어요.
+- 3e1f581: Stepper 를 추가했어요. 가입·결제·신청처럼 여러 단계로 나뉜 흐름에서 지금 어디쯤인지 보여 줘요.
+  
+  - `steps`(이름·설명), `current`(0부터, 앞 단계는 완료로 표시), `orientation`(가로·세로)
+  - 순서 목록이라 스크린리더가 "4개 중 2번째" 를 읽고, 현재 단계는 `aria-current="step"`, 완료한 단계는 "(완료)" 를 함께 읽어요
+  - 문구는 `LocaleProvider` 의 `steps`·`stepCompleted` 로 바꿀 수 있어요
+- 137eb20: 목록 화면을 위한 Table 보강이에요.
+  
+  - `TableEmpty` — 결과가 없을 때 표 전체 폭으로 안내·버튼을 보여 주는 행(`colSpan`)
+  - `TableSkeleton` — 불러오는 동안의 자리 표시 행(보조기술에서는 숨김, 표에 `aria-busy` 를 함께 줘요)
+  - `useTableSelection` — 행 선택 상태 hook. "이 페이지 모두 선택"(혼합 상태 포함)과 행 체크박스에 펼쳐 쓰는 prop 을 돌려주고, 페이지를 넘겨도 선택이 유지돼요
+
+### Patch Changes
+
+- 4e06b44: `styles.css` 크기를 줄였어요(minify + brotli 33 kB → 9 kB). 빌드 도구가 컴포넌트마다 남기던 디버그용 주석(원본 CSS 를 base64 로 담은 이름)을
+  파일 경로만 남기게 바꿨어요. 스타일은 그대로이고, CSS 를 압축하지 않고 그대로 쓰는 환경에서 특히 가벼워져요.
+- ae06afb: Modal·Drawer 안에서 연 Select·Combobox·DropdownMenu·Popover(DatePicker 달력 포함) 목록이 배경막 아래에 가려 고를 수 없던 문제를 고쳤어요.
+  `zIndex.dropdown`(`--bestow-z-index-dropdown`)을 1000 → 1320 으로 올려 대화상자보다 위, 토스트보다 아래에 그려요.
+  또 메뉴 항목에서 연 Modal·Drawer 를 닫으면 포커스가 메뉴 버튼으로 돌아가요(전에는 사라진 메뉴 항목을 찾다 body 로 갔어요).
+- ec9ba2a: Windows 고대비(강제 색상) 모드에서 상태가 보이지 않던 문제를 고쳤어요. Switch, 선택된 탭, SegmentedControl, 메뉴·목록의 강조 항목,
+  현재 페이지(Pagination), 선택한 날(Calendar), Progress 막대, Slider 범위, Stepper 를 시스템 강조색으로 그려요. 평소 화면은 그대로예요.
+- 7746ede: npm README 를 한국어로 바꾸고(영어는 한 줄 소개만), 패키지 설명·검색 키워드를 정리했어요(`korean`·`kwcag`·`a11y` 등). 코드 변경은 없어요.
+- Updated dependencies [ae06afb]
+- Updated dependencies [7746ede]
+  - @bestow-ui/tokens@1.3.0
+  - @bestow-ui/icons@0.1.3
+
 ## 1.2.0
 
 ### Minor Changes
