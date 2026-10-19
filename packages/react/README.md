@@ -99,11 +99,11 @@ import { LocaleProvider, en } from '@bestow-ui/react';
 
 | Category | Components |
 |---|---|
-| Layout | `Stack`, `Divider`, `Card` |
+| Layout | `Stack`, `Divider`, `Card`, `VisuallyHidden` |
 | Typography | `Typography` |
 | Actions | `Button`, `IconButton`, `Link` |
 | Forms | `Input`, `TextField`, `Textarea`, `Select`, `Combobox`, `NumberInput`, `FileUpload`, `Checkbox`, `RadioGroup`, `Switch`, `Slider` |
-| Feedback | `Alert`, `Progress`, `ToastProvider` + `useToast`, `Spinner`, `Skeleton`, `Badge` |
+| Feedback | `Alert`, `ErrorSummary`, `Progress`, `ToastProvider` + `useToast`, `Spinner`, `Skeleton`, `Badge` |
 | Overlays | `Modal`, `Drawer`, `Popover`, `Tooltip`, `DropdownMenu` |
 | Navigation | `Tabs`, `SegmentedControl`, `Accordion`, `Pagination`, `Breadcrumb`, `SkipLink`, `Stepper` |
 | Display | `Avatar`, `Table` |

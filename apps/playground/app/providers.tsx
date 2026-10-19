@@ -54,6 +54,9 @@ export function Providers({ children }: { children: ReactNode }) {
             <Link as={NextLink} href="/orders" underline="hover">
               주문 관리
             </Link>
+            <Link as={NextLink} href="/signup" underline="hover">
+              회원가입
+            </Link>
           </Stack>
           <Stack direction="row" gap={2}>
             <Button variant="outline" color="neutral" size="sm" onClick={() => setBranded((b) => !b)}>

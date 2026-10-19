@@ -27,6 +27,7 @@ export * from './components/Checkbox';
 export * from './components/Combobox';
 export * from './components/DatePicker';
 export * from './components/Drawer';
+export * from './components/ErrorSummary';
 export * from './components/FileUpload';
 export * from './components/DropdownMenu';
 export * from './components/IconButton';

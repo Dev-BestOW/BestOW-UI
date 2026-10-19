@@ -31,6 +31,8 @@ export interface AgreementGroupProps {
   hideText?: string;
   /** form 제출 시 사용할 이름. 동의한 value 마다 hidden input 이 생긴다 */
   name?: string;
+  /** fieldset 의 id — ErrorSummary 링크 등에서 이 묶음을 가리킬 때 */
+  id?: string;
   className?: string;
 }
 
@@ -55,6 +57,7 @@ export const AgreementGroup = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, Ag
       showText: showTextProp,
       hideText: hideTextProp,
       name,
+      id,
       className,
     } = props;
     const m = useMessages();
@@ -87,6 +90,7 @@ export const AgreementGroup = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, Ag
     return (
       <fieldset
         ref={ref}
+        id={id}
         className={cx(styles.fieldset, className)}
         disabled={disabled}
         aria-describedby={helperId}

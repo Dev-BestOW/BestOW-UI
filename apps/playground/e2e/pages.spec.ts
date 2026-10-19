@@ -5,6 +5,7 @@ const pages = [
   { path: '/interactive', heading: '상호작용 페이지' },
   { path: '/navigation', heading: '탐색·오버레이 페이지' },
   { path: '/orders', heading: '주문 관리' },
+  { path: '/signup', heading: '회원가입 (react-hook-form)' },
 ];
 
 for (const { path, heading } of pages) {

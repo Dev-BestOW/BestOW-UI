@@ -82,6 +82,8 @@ apps/
   `warnOnce`(개발 모드에서 한 번만 경고 — deprecated 안내), `useIsClient`(hydration 뒤에만 true — 서버·브라우저가 다른 값(오늘 날짜 등)은
   hydration 뒤에 쓴다, Calendar 참고), `useIsomorphicLayoutEffect`(서버에서는 useEffect — React 18 SSR 경고 방지).
 - `src/styles/visuallyHidden.css.ts` — 스크린리더 전용 텍스트. `src/test/setup.ts` — jsdom 폴리필(ResizeObserver, pointer capture 등 — node 환경 테스트를 위해 DOM 이 있을 때만).
+- `src/utils/focusField.ts` — 칸 id 로 포커스(묶음이면 선택된·첫 항목, 숨긴 input 이면 같은 role=group 의 버튼). ErrorSummary 링크가 쓴다. shared 로 공개.
+- `src/test/react-hook-form.test.tsx` — react-hook-form(register·Controller·ErrorSummary) 통합 테스트. 값을 고르는 컴포넌트의 value/onValueChange·id 계약이 바뀌면 여기가 깨진다.
 - `src/ssr.test.tsx` — `// @vitest-environment node` 에서 모든 컴포넌트를 renderToString, 경고·오류 0. React 18 SSR 의 useLayoutEffect 경고 같은 것을 잡는다(React 19 는 이 경고가 없음 → CI react18 job). **새 컴포넌트는 여기에도 넣는다.**
 
 ## 컴포넌트 작성 규칙

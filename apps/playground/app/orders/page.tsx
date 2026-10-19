@@ -3,9 +3,8 @@
 // 파일럿(ROADMAP P14-1): 실제 서비스에서 흔한 "주문 관리" 관리자 화면을 디자인 시스템만으로 만든다.
 // 목록(검색·필터·정렬·선택·일괄 작업·페이지) → 상세(Drawer) → 등록(Modal 폼, 검증·오류 요약).
 // 만들면서 막힌 점·직접 짜야 했던 부분은 docs/PILOT-FINDINGS.md 에 모은다.
-import { useMemo, useRef, useState, type FormEvent } from 'react';
+import { useMemo, useState, type FormEvent } from 'react';
 import {
-  Alert,
   AmountInput,
   Badge,
   Button,
@@ -19,6 +18,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  ErrorSummary,
   IconButton,
   Modal,
   NumberInput,
@@ -35,6 +35,7 @@ import {
   TextField,
   Textarea,
   Typography,
+  VisuallyHidden,
   formatKoreanAmount,
   formatPhoneNumber,
   useToast,
@@ -201,8 +202,9 @@ export default function OrdersPage() {
             <TableHead align="right" sortDirection={sortDirection('amount')} onSort={() => sortBy('amount')}>
               금액
             </TableHead>
-            {/* 스크린리더 전용 글자를 넣을 공개 유틸(VisuallyHidden)이 없어 aria-label 로 대신 — PILOT-FINDINGS 참고 */}
-            <TableHead style={{ width: 56 }} aria-label="작업" />
+            <TableHead style={{ width: 56 }}>
+              <VisuallyHidden>작업</VisuallyHidden>
+            </TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -371,7 +373,7 @@ function OrderForm({
 }) {
   const [draft, setDraft] = useState<Draft>(EMPTY);
   const [errors, setErrors] = useState<Partial<Record<keyof Draft, string>>>({});
-  const summaryRef = useRef<HTMLDivElement>(null);
+  const [submitCount, setSubmitCount] = useState(0);
   const set = <K extends keyof Draft>(key: K, value: Draft[K]) => setDraft((prev) => ({ ...prev, [key]: value }));
   const errorEntries = Object.entries(errors) as [keyof Draft, string][];
 
@@ -379,11 +381,8 @@ function OrderForm({
     event.preventDefault();
     const next = validate(draft);
     setErrors(next);
-    if (Object.keys(next).length > 0) {
-      // 오류 요약으로 포커스를 옮겨 무엇을 고쳐야 하는지 먼저 알린다 (GOV.UK error summary 패턴)
-      requestAnimationFrame(() => summaryRef.current?.focus());
-      return;
-    }
+    setSubmitCount((count) => count + 1); // 다시 제출해도 오류가 남아 있으면 ErrorSummary 가 다시 포커스를 받는다
+    if (Object.keys(next).length > 0) return;
     onCreate({
       id: nextId,
       customer: draft.customer.trim(),
@@ -423,27 +422,10 @@ function OrderForm({
     >
       <form id="order-form" noValidate onSubmit={submit}>
         <Stack gap={4}>
-          {errorEntries.length > 0 && (
-            <div ref={summaryRef} tabIndex={-1} style={{ outline: 'none' }}>
-              <Alert color="danger" title={`입력한 내용에 고칠 곳이 ${errorEntries.length}개 있어요`}>
-                <ul style={{ margin: 0, paddingLeft: 18 }}>
-                  {errorEntries.map(([key, message]) => (
-                    <li key={key}>
-                      <a
-                        href={`#${FIELD_ID[key]}`}
-                        onClick={(e) => {
-                          e.preventDefault();
-                          document.getElementById(FIELD_ID[key])?.focus();
-                        }}
-                      >
-                        {message}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </Alert>
-            </div>
-          )}
+          <ErrorSummary
+            errors={errorEntries.map(([key, message]) => ({ id: FIELD_ID[key], message }))}
+            focusKey={submitCount}
+          />
           <TextField
             id={FIELD_ID.customer}
             label="고객 이름"

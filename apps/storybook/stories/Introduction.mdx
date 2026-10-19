@@ -214,6 +214,13 @@ export const panel = style({ padding: vars.space[4], background: vars.color.bg.s
 - 컴포넌트마다 키보드로 어떻게 조작하고 스크린리더가 무엇을 듣는지는 [컴포넌트별 키보드·스크린리더](?path=/docs/accessibility-컴포넌트별-키보드·스크린리더--docs)에 있어요.
 - 한국형 웹 콘텐츠 접근성 지침(KWCAG 2.2) 항목별로 정리한 [대응 근거](?path=/docs/accessibility-kwcag-2-2-대응--docs)를 참고하세요.
 
+## 폼 라이브러리와 함께
+
+[react-hook-form](https://react-hook-form.com) 과 함께 쓰는 방법은 [ErrorSummary](?path=/docs/components-errorsummary--docs) 문서에 있어요.
+입력창(TextField·Textarea·Checkbox)은 `register` 를 그대로 펼치고, 값을 고르는 컴포넌트(Select·RadioGroup·AgreementGroup·FileUpload·서식 입력)는
+`Controller` 로 `value`·`onValueChange` 를 연결해요. 제출에 실패하면 `shouldFocusError: false` 로 두고 ErrorSummary 가 포커스를 받게 해요.
+예제 앱의 [회원가입](https://dev-bestow.github.io/BestOW-UI/playground/signup) 화면이 이 방식이에요.
+
 ## 지원 범위
 
 - 브라우저: Chrome·Edge·Firefox·Safari 최근 2개 메이저 버전(iOS Safari·Android Chrome 포함) — 모든 스토리와 예제 앱을 세 엔진으로 CI 에서 확인해요.

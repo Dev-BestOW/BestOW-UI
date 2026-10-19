@@ -25,6 +25,7 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuTrigger,
+  ErrorSummary,
   FileUpload,
   IconButton,
   Input,
@@ -63,6 +64,7 @@ import {
   Tooltip,
   Typography,
   VerificationCodeInput,
+  VisuallyHidden,
   en,
 } from './index';
 
@@ -79,6 +81,8 @@ function Everything() {
       <ToastProvider>
         <SkipLink />
         <Stack gap={2}>
+          <ErrorSummary errors={[{ id: 'name', message: '이름을 입력해 주세요.' }]} />
+          <VisuallyHidden>숨긴 글자</VisuallyHidden>
           <Typography variant="h1">제목</Typography>
           <Button startIcon={<PlusIcon />}>버튼</Button>
           <Button loading>저장</Button>

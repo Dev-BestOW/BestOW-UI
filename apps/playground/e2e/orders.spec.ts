@@ -15,6 +15,10 @@ test('검색 결과가 없으면 안내와 초기화 버튼, 초기화하면 다
   await expect(table(page).getByRole('row')).toHaveCount(11); // 머리 행 + 10건
 });
 
+test('아이콘만 있는 "작업" 열도 머리글 이름이 있다 (VisuallyHidden)', async ({ page }) => {
+  await expect(table(page).getByRole('columnheader', { name: '작업' })).toBeAttached();
+});
+
 test('상태 필터와 금액 정렬(aria-sort)', async ({ page }) => {
   await page.getByRole('combobox', { name: '상태' }).click();
   await page.getByRole('option', { name: '배송 중' }).click();

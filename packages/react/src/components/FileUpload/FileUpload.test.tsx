@@ -36,7 +36,7 @@ describe('FileUpload', () => {
     expect(screen.getByText('2.0 KB')).toBeTruthy();
     expect(screen.getByText('3.0 MB')).toBeTruthy();
     expect(screen.getByRole('button', { name: '계약서.pdf 삭제' })).toBeTruthy();
-    expect(onValueChange.mock.calls.at(-1)![0].map((f: File) => f.name)).toEqual(['계약서.pdf', '신분증.pdf']);
+    expect(onValueChange.mock.lastCall![0].map((f: File) => f.name)).toEqual(['계약서.pdf', '신분증.pdf']);
     expect(status().textContent).toBe('파일 2개 선택됨');
   });
 

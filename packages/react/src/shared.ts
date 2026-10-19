@@ -38,3 +38,5 @@ export * from './components/Progress';
 export * from './components/Skeleton';
 export * from './components/Stack';
 export * from './components/Typography';
+export * from './components/VisuallyHidden';
+export { focusField } from './utils/focusField';

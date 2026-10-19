@@ -254,6 +254,15 @@ export const componentA11y: ComponentA11yGroup[] = [
     group: '상태 표시',
     items: [
       {
+        name: 'ErrorSummary',
+        keyboard:
+          '나타나면(또는 focusKey 가 바뀌면) 요약으로 포커스. 링크(Enter)로 해당 칸에 간다 — 묶음은 선택된·첫 항목, FileUpload 는 "파일 선택" 버튼(focusField).',
+        screenReader:
+          '포커스를 받은 묶음의 이름이 제목("입력한 내용에 고칠 곳이 N개 있어요")이라 제목과 목록을 읽는다. role="alert" 는 쓰지 않는다(포커스와 함께 쓰면 두 번 읽힘).',
+        yours:
+          '칸마다 error·helperText 도 함께 준다. react-hook-form 은 shouldFocusError: false + focusKey={submitCount}.',
+      },
+      {
         name: 'Alert',
         keyboard: '닫기 버튼(onClose 를 줄 때).',
         screenReader:
@@ -293,6 +302,13 @@ export const componentA11y: ComponentA11yGroup[] = [
         screenReader:
           '의미 없는 div 가 기본 — as 로 section·ul·h2 등 의미 요소를 고른다. Typography 의 variant(모양)와 as(제목 단계)는 따로. Divider 는 기본 separator, 꾸밈용이면 decorative 로 숨긴다.',
         yours: '제목 단계(h1~h6)는 모양이 아니라 문서 구조로 정한다.',
+      },
+      {
+        name: 'VisuallyHidden',
+        keyboard: '포커스를 받지 않는다.',
+        screenReader:
+          '화면에는 안 보이지만 읽힌다(위치로 숨김, display:none 아님). 아이콘만 있는 열 머리글·보충 설명에.',
+        yours: '버튼·링크의 이름은 aria-label 이 더 간단하다. 보이는 글자와 다른 이름을 붙이지 않는다(KWCAG 6.5.3).',
       },
     ],
   },
