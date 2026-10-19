@@ -34,18 +34,17 @@ export const option = recipe({
 
 const radioSize = createVar();
 
+// 네이티브 radio 의 모양을 지우고 다시 그린다. 선택 점은 배경색 + 안쪽 테두리(inset box-shadow)로 만든다
+// (input 에는 자식 요소를 둘 수 없다).
 export const radio = recipe({
   base: {
-    position: 'relative',
-    display: 'inline-flex',
-    alignItems: 'center',
-    justifyContent: 'center',
+    appearance: 'none',
     flexShrink: 0,
     // 첫 줄 글자와 세로 가운데를 맞춘다 (line-height 1.5 기준)
+    margin: 0,
     marginTop: `calc((1.5em - ${radioSize}) / 2)`,
     width: radioSize,
     height: radioSize,
-    padding: 0,
     border: `1.5px solid ${vars.color.border.strong}`,
     borderRadius: vars.radius.full,
     backgroundColor: vars.color.bg.default,
@@ -53,10 +52,19 @@ export const radio = recipe({
     transition: `border-color ${vars.duration.fast}`,
     selectors: {
       '&:hover:not(:disabled)': { borderColor: vars.color.primary.solid },
-      '&[data-state="checked"]': { borderColor: vars.color.primary.solid },
+      '&:checked': {
+        borderColor: vars.color.primary.solid,
+        backgroundColor: vars.color.primary.solid,
+        // 점 지름 = 전체의 50%: 안쪽 링 두께 = (전체 - 테두리 2 × 1.5px - 전체/2) / 2
+        boxShadow: `inset 0 0 0 calc(${radioSize} / 4 - 0.75px) ${vars.color.bg.default}`,
+      },
       '&:focus-visible': { outline: `2px solid ${vars.color.border.focus}`, outlineOffset: '2px' },
       '&:disabled': { cursor: 'not-allowed', opacity: 0.5 },
-      '[aria-invalid="true"] &:not([data-state="checked"])': { borderColor: vars.color.danger.solid },
+      '[aria-invalid="true"] &:not(:checked)': { borderColor: vars.color.danger.solid },
+    },
+    '@media': {
+      // 고대비(강제 색상) 모드에서는 배경·그림자가 지워져 선택 점이 사라진다 → 브라우저 기본 모양으로 되돌린다
+      '(forced-colors: active)': { appearance: 'auto' },
     },
   },
   variants: {
@@ -66,13 +74,6 @@ export const radio = recipe({
     },
   },
   defaultVariants: { size: 'md' },
-});
-
-export const indicator = style({
-  width: '50%',
-  height: '50%',
-  borderRadius: vars.radius.full,
-  backgroundColor: vars.color.primary.solid,
 });
 
 export const text = style({

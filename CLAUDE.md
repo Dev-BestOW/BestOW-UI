@@ -83,7 +83,7 @@ apps/
 - variant 는 `@vanilla-extract/recipes` 의 `recipe()` 로. prop 이름은 기존과 통일: `variant`, `color`, `size`(sm/md/lg), `fullWidth`.
 - `forwardRef` 로 ref 전달, `className` 과 나머지 HTML 속성 전달. HTML `color` 속성과 겹치면 `Omit` 한다.
 - 폼 컴포넌트는 TextField/Select 패턴을 따른다: `label`, `helperText`, `error`, `required`, `useId` 로 label/aria-describedby 연결.
-  - 값을 고르는 Radix 컴포넌트(Select, RadioGroup 등)는 `'value' in props` 이면 `value ?? ''` 로 넘겨 **항상 제어 모드**로 둔다
+  - 값을 고르는 Radix 컴포넌트(Select, Tabs 등)는 `'value' in props` 이면 `value ?? ''` 로 넘겨 **항상 제어 모드**로 둔다
     (`useState<string>()` 처럼 초기값이 없을 때 "uncontrolled → controlled" 경고 방지).
   - 접근 가능한 이름(label)에는 짧은 레이블만 넣고, 보조 설명은 별도 요소 + `aria-describedby` 로 연결한다.
 - 오버레이(Popover, Menu 등)는 **Radix primitive** 위에 스타일만 입힌다. Portal 콘텐츠에는 `usePortalProps()` 의 className·style 을 붙이고,
@@ -203,7 +203,9 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
 - 테스트가 너무 쉽게 통과하면 의심한다 — 구현을 망가뜨려도 통과한다면 테스트가 그 상황을 만들지 못한 것(DatePicker 덮어쓰기 사례).
 - Radix RadioGroup 은 "포커스가 옮겨질 때 화살표 키가 아직 눌려 있는지(document keydown/keyup)" 로 선택을 정한다 →
   키를 바로 떼는 입력(user-event·Playwright press·일부 보조기기)에서는 포커스만 옮겨지고 선택이 빠질 수 있다(jsdom 은 항상 빠짐).
-  SegmentedControl 은 그래서 직접 구현했다. RadioGroup 컴포넌트는 아직 Radix 그대로 — 화살표 선택을 테스트하려면 실제 브라우저에서.
+  그래서 SegmentedControl 은 button 으로 직접 구현했고, RadioGroup 은 1.2.0 에서 **네이티브 `<input type="radio">`** 로 바꿨다(E2E 20회 중 19회 실패 → 0).
+  네이티브 radio 는 `aria-checked` 가 없다 — 테스트는 `.checked`(jsdom)·`toBeChecked()`(Playwright)로. name 이 없을 때는 만든 name + 존재하지 않는
+  `form` id 로 폼 제출에서 뗀다. 선택 점은 `appearance: none` + inset box-shadow, 고대비 모드에서는 `appearance: auto` 로 되돌린다.
 - Radix Popover Content 는 기본 `role="dialog"` — 목록 팝업(Combobox)으로 쓸 때는 `role="presentation"` 으로 덮어쓴다(props 가 뒤에 적용됨).
 - MDX 문서 페이지는 스토리 axe 테스트 대상이 아니다 — 문서에 컴포넌트를 그리면 axe 를 직접 돌려 확인한다.
   Storybook 문서의 기본 표 스타일이 Table 컴포넌트를 덮으므로 `<Unstyled>` 로 감싼다. MDX 는 GFM 표를 지원하지 않는다.

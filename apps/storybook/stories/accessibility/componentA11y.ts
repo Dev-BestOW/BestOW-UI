@@ -66,8 +66,10 @@ export const componentA11y: ComponentA11yGroup[] = [
       },
       {
         name: 'RadioGroup',
-        keyboard: 'Tab 으로 그룹에 들어가면 선택된 항목에 포커스, 화살표로 이동하며 선택.',
-        screenReader: 'radiogroup (label 이 그룹 이름), 각 radio 의 선택 상태. helperText·error 는 그룹에 연결.',
+        keyboard:
+          'Tab 으로 그룹에 들어가면 선택된 항목(없으면 첫 항목)에 포커스, 화살표로 이동하며 바로 선택(비활성 건너뜀, 끝에서 처음으로). 브라우저 기본 radio 라 키 입력 방식과 상관없이 같게 동작.',
+        screenReader:
+          'radiogroup (label 이 그룹 이름) 안의 네이티브 radio — "n개 중 m번째" 와 선택 상태를 읽는다. 보조 설명은 각 radio 의 설명으로, helperText·error·required 는 그룹에 연결.',
       },
       {
         name: 'SegmentedControl',

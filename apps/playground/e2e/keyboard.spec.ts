@@ -182,3 +182,24 @@ test('SegmentedControl: Tab 으로 선택된 칸에 들어가고, 화살표로 �
   await expect(group.getByRole('radio', { name: '최신순' })).toBeFocused();
   await expect(page.getByText('정렬: latest')).toBeVisible();
 });
+
+// Radix RadioGroup 을 쓸 때는 키를 바로 떼는 입력에서 포커스만 옮겨지고 선택이 빠졌다(20회 중 19회) — 네이티브 radio 로 바꿨다
+test('RadioGroup: 화살표로 옮기면 바로 선택되고, 지연 없이 연달아 눌러도 매번 선택된다', async ({ page }) => {
+  await page.goto('/interactive');
+  const group = page.getByRole('radiogroup', { name: '결제 주기' });
+  const monthly = group.getByRole('radio', { name: '월간' });
+  const yearly = group.getByRole('radio', { name: '연간' });
+  await monthly.click();
+  await expect(monthly).toBeChecked();
+  await page.keyboard.press('ArrowRight');
+  await expect(yearly).toBeFocused();
+  await expect(yearly).toBeChecked();
+  await page.keyboard.press('ArrowRight'); // 끝에서 처음으로
+  await expect(monthly).toBeChecked();
+  // 연달아 세 번: 월간 → 연간 → 월간 → 연간. 마지막 이동에서 선택이 빠지면 월간이 남는다
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('ArrowRight');
+  await expect(yearly).toBeFocused();
+  await expect(yearly).toBeChecked();
+});
