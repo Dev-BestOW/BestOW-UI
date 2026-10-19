@@ -1,8 +1,25 @@
 import { useMemo, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { Badge } from '../Badge';
+import { Button } from '../Button';
+import { Card, CardBody } from '../Card';
 import { Checkbox } from '../Checkbox';
-import { Table, TableBody, TableCell, TableFooter, TableHead, TableHeader, TableRow } from './Table';
+import { TextField } from '../Input';
+import { Stack } from '../Stack';
+import { Typography } from '../Typography';
+import { VisuallyHidden } from '../VisuallyHidden';
+import { useTableSelection } from './useTableSelection';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableEmpty,
+  TableFooter,
+  TableHead,
+  TableHeader,
+  TableRow,
+  TableSkeleton,
+} from './Table';
 
 interface Invoice {
   id: string;
@@ -201,3 +218,84 @@ export const ScrollAndStickyHeader: Story = {
     </Table>
   ),
 };
+
+function ListPattern() {
+  const [query, setQuery] = useState('');
+  const [loading, setLoading] = useState(false);
+  const selection = useTableSelection<string>();
+  const rows = invoices.filter((row) => !query || row.customer.includes(query) || row.id.includes(query.toUpperCase()));
+  const pageIds = rows.map((row) => row.id);
+  return (
+    <Stack gap={3} style={{ maxWidth: 560 }}>
+      <Stack direction="row" gap={2} align="end" wrap>
+        <TextField label="검색" value={query} onChange={(e) => setQuery(e.target.value)} />
+        <Button variant="outline" color="neutral" onClick={() => setLoading((v) => !v)}>
+          {loading ? '불러오기 끝' : '불러오는 중 보기'}
+        </Button>
+      </Stack>
+      {selection.selected.length > 0 && (
+        <Card as="section" aria-label="선택한 결제">
+          <CardBody>
+            <Stack direction="row" gap={3} align="center" wrap>
+              <Typography role="status">{selection.selected.length}건 선택됨</Typography>
+              <Button size="sm" variant="ghost" color="neutral" onClick={selection.clear}>
+                선택 해제
+              </Button>
+            </Stack>
+          </CardBody>
+        </Card>
+      )}
+      <Table aria-label="결제 내역" aria-busy={loading || undefined}>
+        <TableHeader>
+          <TableRow>
+            <TableHead style={{ width: 48 }}>
+              <Checkbox aria-label="이 페이지 모두 선택" {...selection.selectAllProps(pageIds)} />
+            </TableHead>
+            <TableHead>번호</TableHead>
+            <TableHead>고객</TableHead>
+            <TableHead align="right">금액</TableHead>
+            <TableHead style={{ width: 48 }}>
+              <VisuallyHidden>상태</VisuallyHidden>
+            </TableHead>
+          </TableRow>
+        </TableHeader>
+        <TableBody>
+          {loading ? (
+            <TableSkeleton rows={3} columns={5} />
+          ) : rows.length === 0 ? (
+            <TableEmpty colSpan={5}>
+              조건에 맞는 결제가 없어요.
+              <Button size="sm" variant="outline" color="neutral" onClick={() => setQuery('')}>
+                검색 초기화
+              </Button>
+            </TableEmpty>
+          ) : (
+            rows.map((row) => (
+              <TableRow key={row.id} selected={selection.isSelected(row.id)}>
+                <TableCell>
+                  <Checkbox aria-label={`${row.id} 선택`} {...selection.rowProps(row.id)} />
+                </TableCell>
+                <TableCell>{row.id}</TableCell>
+                <TableCell>{row.customer}</TableCell>
+                <TableCell align="right">{won(row.amount)}</TableCell>
+                <TableCell>
+                  <Badge color={statusColor[row.status]}>{row.status}</Badge>
+                </TableCell>
+              </TableRow>
+            ))
+          )}
+        </TableBody>
+      </Table>
+      <Typography variant="body-sm" color="muted" role="status">
+        {loading ? '불러오는 중…' : `${rows.length}건`}
+      </Typography>
+    </Stack>
+  );
+}
+
+/**
+ * 목록 화면 패턴 — `useTableSelection`(이 페이지 모두 선택·혼합 상태·페이지 넘어 유지), 선택하면 나타나는 일괄 작업 바,
+ * `TableEmpty`(결과 없음), `TableSkeleton` + `aria-busy`(불러오는 중), 결과 개수는 role="status" 로 알린다.
+ * 실제 화면 예: 예제 앱의 [주문 관리](https://dev-bestow.github.io/BestOW-UI/playground/orders).
+ */
+export const ListPatternStory: Story = { name: '목록 화면 패턴', render: () => <ListPattern /> };

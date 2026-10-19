@@ -11,6 +11,7 @@ import {
 } from 'react';
 import { ArrowDownIcon, ArrowUpIcon } from '@bestow-ui/icons';
 import { cx } from '../../utils/cx';
+import { Skeleton } from '../Skeleton';
 import * as styles from './Table.css';
 
 export type TableSize = 'sm' | 'md';
@@ -199,3 +200,53 @@ export const TableCell = /* @__PURE__ */ forwardRef<HTMLTableCellElement, TableC
     />
   );
 });
+
+export interface TableEmptyProps extends Omit<TdHTMLAttributes<HTMLTableCellElement>, 'colSpan' | 'align'> {
+  /** 표의 열 수 — 안내가 표 전체 폭을 차지하게 한다 */
+  colSpan: number;
+  children?: ReactNode;
+}
+
+/**
+ * 보여 줄 행이 없을 때(검색 결과 없음 등) TableBody 안에 두는 안내 행. 표 전체 폭 가운데에 글자·버튼을 놓는다.
+ * 검색·필터로 결과가 바뀌면 개수를 role="status" 로 따로 알리는 것을 권장한다(파일럿 /orders 참고).
+ */
+export const TableEmpty = /* @__PURE__ */ forwardRef<HTMLTableCellElement, TableEmptyProps>(function TableEmpty(
+  { colSpan, className, children, ...rest },
+  ref,
+) {
+  return (
+    <TableRow>
+      <TableCell ref={ref} colSpan={colSpan} className={cx(styles.emptyCell, className)} {...rest}>
+        <div className={styles.emptyContent}>{children}</div>
+      </TableCell>
+    </TableRow>
+  );
+});
+
+export interface TableSkeletonProps {
+  /** 자리 표시 행 수 (기본 5) */
+  rows?: number;
+  /** 열 수 */
+  columns: number;
+}
+
+/**
+ * 불러오는 동안 TableBody 안에 두는 자리 표시 행. 보조기술에서는 숨긴다 — 표(Table)에 `aria-busy` 를 주고,
+ * 다 불러오면 결과 개수를 role="status" 로 알린다.
+ */
+export function TableSkeleton({ rows = 5, columns }: TableSkeletonProps) {
+  return (
+    <>
+      {Array.from({ length: rows }, (_, row) => (
+        <TableRow key={row} aria-hidden>
+          {Array.from({ length: columns }, (_, column) => (
+            <TableCell key={column}>
+              <Skeleton width={column === 0 ? '60%' : '80%'} />
+            </TableCell>
+          ))}
+        </TableRow>
+      ))}
+    </>
+  );
+}

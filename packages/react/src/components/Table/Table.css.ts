@@ -126,3 +126,16 @@ export const sortIcon = style({
     '&[data-active="false"]': { opacity: 0.35 },
   },
 });
+
+export const emptyCell = style({
+  paddingBlock: vars.space[8],
+  textAlign: 'center',
+  color: vars.color.fg.muted,
+});
+
+export const emptyContent = style({
+  display: 'flex',
+  flexDirection: 'column',
+  alignItems: 'center',
+  gap: vars.space[3],
+});

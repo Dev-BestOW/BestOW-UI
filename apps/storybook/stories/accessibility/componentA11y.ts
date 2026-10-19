@@ -245,8 +245,10 @@ export const componentA11y: ComponentA11yGroup[] = [
       {
         name: 'Table',
         keyboard: '넘치면 스크롤 영역에 포커스가 가서 화살표로 스크롤. 정렬 가능한 머리글은 버튼.',
-        screenReader: 'caption 이 표·스크롤 영역 이름. 정렬 상태는 aria-sort. 행 머리글은 TableHead(scope).',
-        yours: 'caption(또는 aria-label)을 준다. 레이아웃용으로 표를 쓰지 않는다.',
+        screenReader:
+          'caption 이 표·스크롤 영역 이름. 정렬 상태는 aria-sort. 행 머리글은 TableHead(scope). TableEmpty 는 표 전체 폭의 안내 셀, TableSkeleton 행은 숨김(표에 aria-busy).',
+        yours:
+          'caption(또는 aria-label)을 준다. 레이아웃용으로 표를 쓰지 않는다. 검색·필터로 결과가 바뀌면 개수를 role="status" 로 알린다. 행 선택 체크박스 이름은 "○○ 선택" (useTableSelection).',
       },
     ],
   },

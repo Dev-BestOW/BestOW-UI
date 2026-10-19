@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, type FormEvent } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, within } from 'storybook/test';
 import { Button } from '../Button';
+import { ErrorSummary } from '../ErrorSummary';
 import { TextField } from '../Input';
 import { Stack } from '../Stack';
 import { Modal, ModalClose } from './Modal';
@@ -99,5 +100,82 @@ export const Open: Story = {
   play: async ({ canvasElement }) => {
     await userEvent.click(within(canvasElement).getByRole('button', { name: '프로젝트 삭제' }));
     await expect(within(document.body).getByRole('dialog', { name: '프로젝트 삭제' })).toBeInTheDocument();
+  },
+};
+
+function SubmitFormModal() {
+  const [open, setOpen] = useState(false);
+  const [email, setEmail] = useState('');
+  const [error, setError] = useState<string>();
+  const [submitCount, setSubmitCount] = useState(0);
+  const [sent, setSent] = useState<string>();
+  const submit = (event: FormEvent) => {
+    event.preventDefault();
+    setSubmitCount((c) => c + 1);
+    if (!email.includes('@')) return setError('이메일 형식이 아니에요.');
+    setError(undefined);
+    setSent(email);
+    setOpen(false);
+  };
+  return (
+    <Stack gap={3}>
+      <Modal
+        title="팀원 초대"
+        open={open}
+        onOpenChange={setOpen}
+        trigger={<Button>팀원 초대</Button>}
+        footer={
+          <>
+            <ModalClose asChild>
+              <Button variant="ghost" color="neutral">
+                취소
+              </Button>
+            </ModalClose>
+            {/* footer 는 form 밖이라 form 속성으로 폼을 제출한다 — Enter 제출·필수 검사도 그대로 */}
+            <Button type="submit" form="invite-form">
+              초대 보내기
+            </Button>
+          </>
+        }
+      >
+        <form id="invite-form" noValidate onSubmit={submit}>
+          <Stack gap={4}>
+            <ErrorSummary errors={error ? [{ id: 'invite-email', message: error }] : []} focusKey={submitCount} />
+            <TextField
+              id="invite-email"
+              label="이메일"
+              type="email"
+              required
+              fullWidth
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              error={!!error}
+              helperText={error}
+            />
+          </Stack>
+        </form>
+      </Modal>
+      {sent && <span role="status">{sent} 님을 초대했어요.</span>}
+    </Stack>
+  );
+}
+
+/**
+ * 대화상자 아래쪽(footer) 버튼으로 폼 제출 — footer 는 form 밖에 그려지므로 버튼에 `type="submit" form="폼 id"` 를 준다.
+ * 검증에 실패하면 ErrorSummary 로 포커스를 옮긴다. (예제 앱 주문 관리의 등록 폼과 같은 방식)
+ */
+export const SubmitForm: Story = {
+  name: '폼 제출 (footer 버튼)',
+  render: () => <SubmitFormModal />,
+  parameters: { a11y: { config: { rules: [{ id: 'aria-hidden-focus', enabled: false }] } } },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: '팀원 초대' }));
+    const dialog = within(document.body).getByRole('dialog', { name: '팀원 초대' });
+    await userEvent.click(within(dialog).getByRole('button', { name: '초대 보내기' }));
+    await expect(await within(dialog).findByText('입력한 내용에 고칠 곳이 1개 있어요')).toBeInTheDocument();
+    await userEvent.type(within(dialog).getByRole('textbox', { name: '이메일' }), 'me@bestow.dev');
+    await userEvent.click(within(dialog).getByRole('button', { name: '초대 보내기' }));
+    await expect(await canvas.findByRole('status')).toHaveTextContent('me@bestow.dev 님을 초대했어요.');
   },
 };

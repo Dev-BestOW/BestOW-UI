@@ -30,6 +30,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableEmpty,
   TableHead,
   TableHeader,
   TableRow,
@@ -39,6 +40,7 @@ import {
   VisuallyHidden,
   formatKoreanAmount,
   formatPhoneNumber,
+  useTableSelection,
   useToast,
 } from '@bestow-ui/react';
 import { EllipsisIcon, PlusIcon, SearchIcon } from '@bestow-ui/icons';
@@ -91,7 +93,8 @@ export default function OrdersPage() {
     direction: 'descending',
   });
   const [page, setPage] = useState(1);
-  const [selected, setSelected] = useState<string[]>([]);
+  const selection = useTableSelection<string>();
+  const selected = selection.selected;
   const [detail, setDetail] = useState<Order | null>(null);
   const [creating, setCreating] = useState(false);
 
@@ -110,8 +113,6 @@ export default function OrdersPage() {
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const pageRows = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const pageIds = pageRows.map((o) => o.id);
-  const allOnPage = pageIds.length > 0 && pageIds.every((id) => selected.includes(id));
-  const someOnPage = pageIds.some((id) => selected.includes(id));
 
   const sortBy = (key: SortKey) =>
     setSort((prev) => ({
@@ -122,7 +123,7 @@ export default function OrdersPage() {
 
   const cancelOrders = (ids: string[]) => {
     setOrders((prev) => prev.map((o) => (ids.includes(o.id) ? { ...o, status: 'cancelled' } : o)));
-    setSelected([]);
+    selection.clear();
     toast({ title: `주문 ${ids.length}건을 취소했어요`, color: 'danger' });
   };
 
@@ -170,7 +171,7 @@ export default function OrdersPage() {
               <Button size="sm" variant="outline" color="danger" onClick={() => cancelOrders(selected)}>
                 선택한 주문 취소
               </Button>
-              <Button size="sm" variant="ghost" color="neutral" onClick={() => setSelected([])}>
+              <Button size="sm" variant="ghost" color="neutral" onClick={selection.clear}>
                 선택 해제
               </Button>
             </Stack>
@@ -182,16 +183,7 @@ export default function OrdersPage() {
         <TableHeader>
           <TableRow>
             <TableHead style={{ width: 44 }}>
-              <Checkbox
-                aria-label="이 페이지 모두 선택"
-                checked={allOnPage}
-                indeterminate={!allOnPage && someOnPage}
-                onChange={() =>
-                  setSelected((prev) =>
-                    allOnPage ? prev.filter((id) => !pageIds.includes(id)) : [...new Set([...prev, ...pageIds])],
-                  )
-                }
-              />
+              <Checkbox aria-label="이 페이지 모두 선택" {...selection.selectAllProps(pageIds)} />
             </TableHead>
             <TableHead>주문번호</TableHead>
             <TableHead>고객</TableHead>
@@ -210,37 +202,26 @@ export default function OrdersPage() {
         </TableHeader>
         <TableBody>
           {pageRows.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={8} align="center">
-                <Stack gap={2} align="center" style={{ padding: '24px 0' }}>
-                  <Typography>조건에 맞는 주문이 없어요.</Typography>
-                  <Button
-                    size="sm"
-                    variant="outline"
-                    color="neutral"
-                    onClick={() => {
-                      setQuery('');
-                      setStatus('all');
-                    }}
-                  >
-                    검색·필터 초기화
-                  </Button>
-                </Stack>
-              </TableCell>
-            </TableRow>
+            <TableEmpty colSpan={8}>
+              조건에 맞는 주문이 없어요.
+              <Button
+                size="sm"
+                variant="outline"
+                color="neutral"
+                onClick={() => {
+                  setQuery('');
+                  setStatus('all');
+                }}
+              >
+                검색·필터 초기화
+              </Button>
+            </TableEmpty>
           ) : (
             pageRows.map((o) => {
-              const isSelected = selected.includes(o.id);
               return (
-                <TableRow key={o.id} selected={isSelected}>
+                <TableRow key={o.id} selected={selection.isSelected(o.id)}>
                   <TableCell>
-                    <Checkbox
-                      aria-label={`${o.id} 선택`}
-                      checked={isSelected}
-                      onChange={(e) =>
-                        setSelected((prev) => (e.target.checked ? [...prev, o.id] : prev.filter((id) => id !== o.id)))
-                      }
-                    />
+                    <Checkbox aria-label={`${o.id} 선택`} {...selection.rowProps(o.id)} />
                   </TableCell>
                   <TableCell>{o.id}</TableCell>
                   <TableCell>{o.customer}</TableCell>

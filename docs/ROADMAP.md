@@ -18,8 +18,8 @@
 - 번들: react 전체 JS **67.3/80 kB**, 대표 조합(앱 기본 3.4·폼 30.1·오버레이 34.7·한국 키트 30.3 kB, +10% 한도), styles.css **9.4/12 kB**, Button 하나 1.51/2 kB.
 - semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
 - 보고할 때 시각 회귀는 "허용치 안 통과" 와 "픽셀 동일" 을 구분한다(RadioGroup 사례).
-- **다음 작업:** (사람) Visual regression update(zIndex 토큰 스토리 2장), `docs/SCREEN-READER-CHECKLIST.md` 로 VO macOS·NVDA 점검 — 남은 선언 기준은 이것 하나.
-  (Claude) push 후 Firefox 스토리(창 포커스 설정) 확인 → P14-3 테이블 보강(PILOT-FINDINGS #4·#6 포함). PR #21(1.3.0) 배포 권장.
+- **다음 작업:** (사람) `docs/SCREEN-READER-CHECKLIST.md` 로 VO macOS·NVDA 점검 — 남은 선언 기준은 이것 하나.
+  (Claude) P15 문서(사용 가이드·패턴 페이지) → P14-4 DateRangePicker. **main CI·시각 회귀 모두 녹색(`2aed8e0`) — PR #21(1.3.0) 배포 권장.**
   **push 하면 Tokens 스토리 시각 회귀가 실패한다(zIndex 표 값·순서 변경, 의도)** → Visual regression 수동 실행 update. 남은 선언 기준은 스크린리더 수동 점검과 파일럿 두 개.
 
 **세션 시작 체크리스트**
@@ -148,7 +148,8 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
   react-hook-form 통합 테스트 3개(변이 2종) + playground `/signup`(실제 브라우저 E2E), 파일럿 폼을 ErrorSummary 로 교체. 방침: group 컴포넌트는 ref 가 포커스 불가 →
   `shouldFocusError: false` + 오류 요약으로 포커스(GOV.UK). 원래 메모: react-hook-form 으로 TextField(register)·Select·DatePicker·NumberInput·FileUpload·AgreementGroup(Controller)
   예시 + 테스트(ref·name·onBlur·에러 표시·포커스 이동). 에러 요약(제출 시 첫 오류로 포커스) 패턴 문서.
-- [ ] **P14-3. 데이터 테이블 보강** — Table 에 정렬 머리글(aria-sort)·행 선택(Checkbox)·빈 상태·로딩(Skeleton)·Pagination 연결 예시. 가상화는 수요 시.
+- [x] **P14-3. 데이터 테이블 보강** (2026-10-19) — `TableEmpty`·`TableSkeleton`(aria-busy)·`useTableSelection`(이 페이지 모두 선택·혼합·페이지 넘어 유지),
+  Table 스토리 "목록 화면 패턴"·Modal 스토리 "폼 제출(footer 버튼)", 파일럿 교체. PILOT-FINDINGS 빈칸 6개 모두 해결. 정렬은 기존 TableHead onSort. 원래 메모: Table 에 정렬 머리글(aria-sort)·행 선택(Checkbox)·빈 상태·로딩(Skeleton)·Pagination 연결 예시. 가상화는 수요 시.
 - [ ] **P14-4. DateRangePicker** — Calendar 기반 기간 선택(시작·끝, 키보드, `today` 고정).
 - [ ] **P14-5. Combobox 다중 선택·비동기 검색** — 선택 칩(Backspace 로 지우기), 검색 중 상태 알림, 긴 목록 가상화.
 - [ ] **P14-6. Tag 입력** — 쉼표·Enter 로 태그 추가(P14-5 와 칩 공유).
@@ -262,3 +263,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-19 | P14-1 파일럿 `/orders`: Modal 안 Select 가림(z-index)·메뉴→Drawer 포커스 복귀 버그 수정, 빈칸 6개 PILOT-FINDINGS.md. 프로덕션 권장 선언 기준 5/6 (남은 것: 스크린리더 수동 점검) |
 | 2026-10-19 | P14-2: ErrorSummary·VisuallyHidden·focusField 추가, AgreementGroup id, react-hook-form 통합 테스트·/signup 예제·E2E, 파일럿 폼 교체. FileUpload 테스트의 .at()(ES2022)을 lastCall 로 |
 | 2026-10-19 | DescriptionList 추가(서버 컴포넌트, 파일럿 상세 교체). CI Firefox 스토리 포커스 실패(Combobox·NumberInput)를 공통 원인(iframe 창 포커스)으로 보고 vitest.setup 에서 window.focus(). 시각 회귀 annotation 으로 바뀐 스토리 확인(zIndex 2장만) |
+| 2026-10-19 | CI 전부 녹색: Firefox 스토리 포커스(창 포커스 설정) 해결 확인, 시각 회귀 update(zIndex). P14-3: TableEmpty·TableSkeleton·useTableSelection(변이 확인), 목록 패턴·Modal 폼 제출 스토리, 파일럿 교체 |
