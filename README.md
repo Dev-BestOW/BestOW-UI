@@ -107,8 +107,8 @@ pnpm release            # 빌드 후 npm 배포
 
 | 워크플로 | 트리거 | 내용 |
 |---|---|---|
-| `ci.yml` | PR, main push | 아이콘 생성물 확인 → lint → 포맷 → 빌드 → 번들 크기 → 타입 체크 → 테스트 → 스토리 렌더링·axe → Storybook·예제 앱 빌드 |
-| `visual.yml` | PR, main push, 수동 | 모든 스토리의 라이트·다크 스크린샷 비교 (수동 실행 + update 로 기준 이미지 갱신) |
+| `ci.yml` | PR, main push | 아이콘 생성물 확인 → lint → 포맷 → 빌드 → 번들 크기 → 타입 체크 → 테스트 → 스토리 렌더링·axe → Storybook·예제 앱 빌드 → 예제 앱 E2E |
+| `visual.yml` | PR, main push, 수동 | 모든 스토리(열린 상태 포함)의 라이트·다크 스크린샷 비교. 새 스토리는 main push 때 기준 이미지 자동 커밋, 바뀐 화면은 수동 실행 + update 로 갱신 |
 | `release.yml` | main push | changeset 이 있으면 "version packages" PR 생성(GitHub App 토큰), 그 PR 이 머지되면 npm 배포 |
 | `storybook.yml` | main push (패키지·앱 변경 시), 수동 | Storybook 과 예제 앱(정적 export)을 GitHub Pages 에 배포 |
 

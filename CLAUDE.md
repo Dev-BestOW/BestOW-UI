@@ -70,7 +70,9 @@ apps/
 - `src/styles/animations.css.ts` — 공용 keyframes, `reducedMotion` 미디어쿼리.
 - `src/i18n/` — `LocaleProvider`·`useMessages()`(기본 문구 바꾸기), `en`(영어 묶음). `BestowMessages` 타입이 문구 키 목록.
 - `src/utils/` — `cx`, `mergeRefs`, `useFormattedInput`(하이픈·쉼표 서식 입력: 원본/표시 분리, 커서 유지, 서식 문자 뒤 Backspace),
-  `useReturnFocus`(trigger 없는 Dialog 의 포커스 복귀), `date`('YYYY-MM-DD' 문자열 기반 날짜 계산), `koreanFormat`(전화·사업자번호·금액 서식).
+  `useReturnFocus`(trigger 없는 Dialog 의 포커스 복귀), `date`('YYYY-MM-DD' 문자열 기반 날짜 계산), `koreanFormat`(전화·사업자번호·금액 서식),
+  `warnOnce`(개발 모드에서 한 번만 경고 — deprecated 안내), `useIsClient`(hydration 뒤에만 true — 서버·브라우저가 다른 값(오늘 날짜 등)은
+  hydration 뒤에 쓴다, Calendar 참고), `useIsomorphicLayoutEffect`(서버에서는 useEffect — React 18 SSR 경고 방지).
 - `src/styles/visuallyHidden.css.ts` — 스크린리더 전용 텍스트. `src/test/setup.ts` — jsdom 폴리필(ResizeObserver, pointer capture 등).
 
 ## 컴포넌트 작성 규칙

@@ -1,25 +1,24 @@
 # BestOW UI 로드맵
 
 > 이 문서는 다음 작업 세션(사람 또는 Claude)이 **무엇을, 어떤 순서로, 어디까지 하면 되는지** 바로 알 수 있게 쓴다.
-> 작업 규칙·구조·함정은 [`CLAUDE.md`](../CLAUDE.md), 완료된 단계(P1~P5)의 설계 메모는 [`ROADMAP-HISTORY.md`](ROADMAP-HISTORY.md),
+> 작업 규칙·구조·함정은 [`CLAUDE.md`](../CLAUDE.md), 완료된 단계(P1~P6, P8, P10)의 설계 메모는 [`ROADMAP-HISTORY.md`](ROADMAP-HISTORY.md),
 > 누구를 위해 무엇을 차별화하는지는 [`POSITIONING.md`](POSITIONING.md).
 >
 > **갱신 규칙:** 작업을 시작/완료하면 체크박스를 바꾸고 맨 아래 "진행 기록"에 한 줄 추가한다.
 > 단계가 끝나면 상세 메모는 ROADMAP-HISTORY.md 로 옮기고 여기에는 한 줄 요약만 남긴다.
 
-## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-16 작업 종료 시점)
+## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-19 기준)
 
 **마지막 상태**
-- npm: **react 1.0.0 · tokens 1.0.0**(2026-10-16 정식 출시), icons 0.1.2. 열린 버전 PR 없음.
-  배포본을 npm 에서 새로 설치해 확인함(ESM·CJS·SSR, TS 5.4 CJS 타입, 서버 컴포넌트용 client/shared 분리, 색 대비 보정).
-- 컴포넌트 42개(한국 서비스 키트 8개 포함) + 테마·다국어(LocaleProvider). **P1~P6, P8(1.0) 완료.**
-- main 의 CI·Visual regression·Release·Storybook 배포 모두 성공(`a433bdd`, 로컬 = origin/main).
-- 번들: react 전체 JS **63.7/70 kB**(2026-10-16 65 → 70 kB 상향), styles.css 30.2/36 kB, Button 하나 1.51/2 kB.
-- **1.0.0 출시 완료(2026-10-16)** — 옛 이름 4개 제거 + changeset major(react·tokens → 1.0.0, icons 는 0.x 유지).
-  출시 전 점검(패킹한 tarball 을 새 프로젝트에 설치·React 18/19·TS 5.4/5.9·ESM/CJS·Next 서버 컴포넌트·브라우저)에서 5건을 찾아 고침
-  — changeset `cjs-types-and-ssr-fixes`(진행 기록 참고).
-  이제부터 semver: 기존 이름·타입·CSS 변수 변경 = major (CLAUDE.md "배포" 참고).
-- **그다음 작업:** P9 보강·새 컴포넌트 (P10 완료 2026-10-16 · P7 남은 항목은 1.0 이후 minor 로).
+- npm: **react 1.0.0 · tokens 1.0.0**(2026-10-16 정식 출시), icons 0.1.2.
+  **버전 PR #19 열림 → react 1.1.0** (Combobox 선택 지우기·SkipLink·SegmentedControl) — 머지 여부를 사용자에게 확인.
+- 로컬 = origin/main (`9a16c98`). main 의 CI·Visual regression·Release·Storybook 배포 모두 성공.
+- 컴포넌트 43개(한국 서비스 키트 8개 포함, 폴더 42 — Input 폴더에 Input·TextField) + 테마·다국어(LocaleProvider).
+  **P1~P6, P8(1.0), P10 완료.** P9 진행 중(Combobox 선택 지우기·SkipLink·SegmentedControl 완료).
+- 번들: react 전체 JS **64.4/70 kB**, styles.css **31.3/36 kB**, Button 하나 1.51/2 kB.
+- semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
+- **다음 작업 후보:** P9 나머지 — DropdownMenu `CheckboxItem`/`RadioItem`·하위 메뉴, Tabs 세로, 새 후보(NumberInput 등, 수요가 생기면).
+  그 밖에 백로그(Slider·Progress 트랙 대비, 기존 RadioGroup 의 Radix 화살표 선택 특성), P7(size-limit PR 코멘트 등), P11(Figma).
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다
@@ -29,34 +28,37 @@
 4. `pnpm install && pnpm build` 후 아래 단계 중 사용자가 고른 작업부터 진행.
 
 **작업 습관 (지난 세션에서 굳어진 것)**
-- 컴포넌트: CLAUDE.md 규칙 + 스토리(열린 상태가 있으면 `play` 로 연 스토리) + 테스트 + `src/index.ts` export + changeset + playground 사용 예 + 브라우저 점검.
+- 컴포넌트: CLAUDE.md 규칙 + 스토리(열린 상태가 있으면 `play` 로 연 스토리) + 테스트 + `src/client.ts` export(순수 함수는 `shared.ts`)
+  + changeset + playground 사용 예 + E2E(키보드 등 실제 브라우저에서만 확인되는 동작) + 접근성 문서(`componentA11y.ts`·필요하면 `kwcag.ts`).
 - 핵심 테스트는 구현을 일부러 망가뜨려 실패하는지 확인한다 (**복원은 scratchpad 백업 파일 복사로만 — `git checkout` 금지**).
 - 새 Radix 패키지는 올라온 지 24시간 넘은 버전만(pnpm minimumReleaseAge). package.json 을 바꾸기 전에 origin 과 같은지 확인.
 - 색을 고를 때는 대비를 계산한다: 글자 4.5:1, 막대·테두리 등 그래픽 3:1. solid 색은 다크에서 트랙 대비가 낮아 막대에는 `text` 색을 쓴다(Progress·Slider).
-- 브라우저 점검은 scratchpad 의 `playwright-core` + 시스템 Chrome. 사용자 dev 서버(3000)는 건드리지 않고 `next start -p 3107` 등 다른 포트를 쓴다.
+- 반복되는 브라우저 확인은 `apps/playground/e2e`(포트 3107)에, 일회성 확인만 scratchpad 의 `playwright-core` + 시스템 Chrome 으로.
+  사용자 dev 서버(3000)는 건드리지 않는다. 새 E2E 는 `--repeat-each 5` 로 불안정하지 않은지 본다.
 
-## 현재 상태 (2026-10-16)
+## 현재 상태 (2026-10-19)
 
 | 패키지 | 배포 버전 | 내용 |
 |---|---|---|
-| `@bestow-ui/tokens` | 0.9.0 | palette(gray·blue·red·green·amber), space, radius, font, shadow/darkShadow, duration, zIndex, light/dark 의미 색상(primary·neutral·danger·success·warning) |
-| `@bestow-ui/icons` | 0.1.1 | 아이콘 57종 (Lucide 기반), SVG → 컴포넌트 생성 스크립트 |
-| `@bestow-ui/react` | 0.11.0 (0.12.0 버전 PR 대기) | 아래 40개 + 테마(ThemeProvider·createTheme·createIntentColors·vars·usePortalProps) + 다국어(LocaleProvider·en) |
+| `@bestow-ui/tokens` | 1.0.0 | palette(gray·blue·red·green·amber), space, radius, font, shadow/darkShadow, duration, zIndex, light/dark 의미 색상(primary·neutral·danger·success·warning) |
+| `@bestow-ui/icons` | 0.1.2 | 아이콘 57종 (Lucide 기반), SVG → 컴포넌트 생성 스크립트 |
+| `@bestow-ui/react` | 1.0.0 (1.1.0 버전 PR #19 대기) | 아래 43개 + 테마(ThemeProvider·createTheme·createIntentColors·vars·usePortalProps) + 다국어(LocaleProvider·en) + 서식·날짜 함수 |
 
 | 분류 | 컴포넌트 |
 |---|---|
 | 레이아웃·표시 | Stack, Divider, Card, Typography, Avatar, Badge, Table |
 | 동작 | Button(loading), IconButton, Link |
-| 폼 | Input, TextField, Textarea, Select, Combobox, Checkbox, RadioGroup, Switch, Slider |
+| 폼 | Input, TextField, Textarea, Select, Combobox(clearable), SegmentedControl, Checkbox, RadioGroup, Switch, Slider |
 | 피드백 | Alert, Progress, Toast, Spinner, Skeleton |
 | 오버레이 | Modal, Drawer, Popover, Tooltip, DropdownMenu |
-| 탐색 | Tabs, Accordion, Pagination, Breadcrumb |
+| 탐색 | Tabs, Accordion, Pagination, Breadcrumb, SkipLink |
 | 한국 서비스 키트 | AgreementGroup, VerificationCodeInput, PhoneNumberInput, BusinessNumberInput, AmountInput, AddressInput, Calendar, DatePicker |
 
-운영: CI(생성물·lint·format·build·size·typecheck·test·스토리 렌더링+axe 라이트·다크·Storybook·playground 빌드), 시각 회귀(visual.yml, 새 스토리 자동),
-changesets + npm Trusted Publishing(OIDC, 버전 PR 은 GitHub App 토큰), CI 러너 ubuntu-24.04 고정.
-문서: Storybook(Introduction, Foundations — Design Tokens·Theming·Theme Builder·Icons, Accessibility — KWCAG 2.2 대응, Korean Kit),
-README(GitHub)·npm README(영/한), CONTRIBUTING.md, docs/POSITIONING.md.
+빌드: ESM 은 `dist/client.js`("use client" — 컴포넌트·hook) + `dist/shared.js`(지시어 없음 — 서버 컴포넌트에서도 부르는 함수·값), CJS 는 한 파일.
+운영: CI(생성물·lint·format·build·size·typecheck·test·스토리 렌더링+axe 라이트·다크·Storybook·playground 빌드·**playground E2E**),
+시각 회귀(visual.yml — 새 스토리 자동, 열린 상태 스토리 포함), changesets + npm Trusted Publishing(OIDC, 버전 PR 은 GitHub App 토큰), CI 러너 ubuntu-24.04 고정.
+문서: Storybook(Introduction, Foundations — Design Tokens·Theming·Theme Builder·Icons, Accessibility — KWCAG 2.2 대응·컴포넌트별 키보드·스크린리더, Korean Kit),
+README(GitHub)·npm README(영/한), CONTRIBUTING.md, docs/POSITIONING.md, docs/MIGRATION-1.0.md.
 Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://dev-bestow.github.io/BestOW-UI/playground/
 
 ### 완료한 단계 (상세는 ROADMAP-HISTORY.md)
@@ -69,12 +71,14 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | P4 | Storybook Introduction·Design Tokens, CONTRIBUTING.md |
 | P5 | npm README/LICENSE, 러너 고정, 다크 shadow, warning 색, Alert·IconButton·Progress·Drawer·Link·Breadcrumb·Table·Slider·Combobox, recipe tree-shaking 수정, 시각 회귀 자동화 |
 | P6 | 차별화: 테마 빌더, 한국 서비스 키트 8종(약관·인증번호·전화·사업자번호·금액·주소·달력·날짜), KWCAG 2.2 대응 근거 문서, LocaleProvider·한글 줄바꿈, README 메시지. CSS 배포 방식 결정 |
+| P8 | **1.0.0 출시**(2026-10-16): API 감사 → 0.12.0 에서 deprecated → 1.0 에서 제거, `vars` 87개 고정 테스트, 마이그레이션 가이드, 컴포넌트별 접근성 문서, 출시 전 설치 점검으로 버그 5건 수정(서버 컴포넌트 client/shared 분리 등) |
+| P10 | playground E2E(Playwright, CI), 열린 상태 스토리를 시각 회귀에 포함(play 완료 대기) |
 
 ---
 
 ## 다음 단계 (순서는 사용자와 확정)
 
-**추천 순서:** (P8·P10 완료) P9 보강·새 컴포넌트.
+**추천 순서:** P9 나머지(DropdownMenu CheckboxItem/RadioItem → Tabs 세로 → 새 컴포넌트는 수요에 따라).
 P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기존 사용법을 깨지 않는 추가라 1.0 이후에 해도 된다.
 
 ### P7. 번들·성능
@@ -88,28 +92,6 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
   남은 것: Typography·Stack 처럼 hook 없는 **컴포넌트**도 지금은 클라이언트 경계 — 필요하면 1.0 이후 minor 로.
 - [ ] size-limit 결과를 PR 코멘트로 (size-limit-action).
 
-### P8. 1.0.0 준비 — 공개 API 안정화 ✅ (2026-10-16 출시)
-
-**왜:** 컴포넌트 수가 충분해졌고(40개), 0.x 동안 쌓인 이름·타입 불일치를 지금 정리하지 않으면 1.0 이후엔 전부 breaking change 가 된다.
-
-- [x] **API 일관성 감사** (2026-10-16) — `dist/index.d.ts` 에서 모든 `*Props` 를 뽑아 비교. 결과와 "그대로 두는 것"의 이유는
-  [`MIGRATION-1.0.md`](MIGRATION-1.0.md). 바꾼 것: Toast `variant`→`color`, DropdownMenuItem `'default'`→`'neutral'`,
-  Spinner `'current'`→`'inherit'`, Checkbox `onCheckedChange` 추가.
-- [x] **바꿀 것은 0.x 마지막 minor 에서 새 이름 추가 + 옛 이름 deprecated**(JSDoc + 개발 모드 경고 `utils/warnOnce`) → 1.0 에서 제거.
-  deprecated 목록(0.12.0 배포, 1.0 에서 제거함): Toast `variant`, DropdownMenuItem `color="default"`, Spinner `color="current"`, `usePortalClassName`.
-  changeset `api-consistency-deprecations`(minor). **1.0 에서 제거할 때 이 목록과 MIGRATION-1.0.md 표를 기준으로 한다.**
-- [x] **공개 export·타입 점검** — 내부용이 새어 나가지 않았는지, 필요한 `*Props` 타입이 모두 export 되는지. `vars` 토큰 키(=CSS 변수 이름) 확정.
-  - [x] d.ts 에 선언됐지만 export 안 된 타입 중 공개 prop 에 쓰이는 것 export: `AlertColor`, `ToastColor`, `ToastContextValue`, `TableSize`, `TableAlign`
-    (남은 `ItemType`·`Widen`·`KakaoPostcodeData` 는 내부용).
-  - [x] `vars` 토큰 키 확정 (2026-10-16) — 87개 그대로 확정. 색은 모두 vars 경유(하드코딩은 컴포넌트 치수 px 뿐).
-    bg 는 subtle 이 muted 보다 옅고, fg 는 muted 가 subtle 보다 진하다 — 어긋나 보이지만 Chakra 와 같은 관례라 유지.
-    `src/theme/contract.test.ts` 가 이름 목록을 고정 — 실패하면 breaking(추가는 목록에 더하고 minor).
-- [x] **문서** — [x] 0.x → 1.0 마이그레이션 가이드(`docs/MIGRATION-1.0.md`), [x] 컴포넌트별 접근성 메모(키보드·스크린리더)를 Storybook docs 에.
-- [x] **번들 한도 재설정** (2026-10-16, 사용자 결정) — react 전체 JS 65 → **70 kB** (현재 63.8 kB). 1.0 이후 새 컴포넌트를 추가할 때 다시 본다.
-- [x] **1.0.0 배포 준비** (2026-10-16) — 옛 이름 제거(`@ts-expect-error` 테스트로 제거 고정), changeset `v1-react`·`v1-tokens`(major).
-  icons 는 0.1.x 로 아직 세트가 작아 0.x 유지. 버전 규칙(CLAUDE.md·CONTRIBUTING)을 1.0 이후 semver 로 갱신.
-  - [x] 버전 PR #18 머지 → npm react·tokens 1.0.0, icons 0.1.2 배포 확인 (2026-10-16)
-
 ### P9. 기존 컴포넌트 보강 · 새 컴포넌트
 
 - [ ] DropdownMenu `CheckboxItem`/`RadioItem`/하위 메뉴, Tabs 세로 방향.
@@ -118,14 +100,6 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 - [x] **SkipLink**(본문 바로가기) (2026-10-16) — KWCAG 6.4.1 을 "사용자 몫" → "일부" 로. changeset `skip-link`(minor).
 - [x] **SegmentedControl** (2026-10-16) — radiogroup 의미를 직접 구현(roving tabindex, 화살표 = 즉시 선택), changeset `segmented-control`(minor).
 - [ ] 새 후보: NumberInput, FileUpload, Stepper, Tag 입력. (수요가 생기면 — DatePicker 는 P6 에서 완료)
-
-### P10. 테스트·운영
-
-- [x] **playground E2E 정식화** (2026-10-16) — `apps/playground/e2e`(Playwright, CI "E2E (playground)" 단계, 실패 시 리포트 업로드).
-  17개: 페이지별 콘솔·hydration 오류 0 + axe(WCAG 2.2 AA, 라이트·다크+브랜드), portal 테마(DropdownMenu·Popover·Drawer·Select·Modal),
-  키보드(DropdownMenu·Modal 포커스 가둠/복귀·Combobox·Select·Tabs·서식 입력), 서버 컴포넌트 함수. 5회 반복 안정성·변이(portal·hydration) 확인.
-- [x] 시각 회귀에 열린 상태 스토리 추가 (2026-10-16) — Select·DropdownMenu·Popover·Modal "열린 상태" 새로, Drawer(defaultOpen→play)·
-  DatePicker·AddressInput 열린 스토리를 시각 회귀에 포함. visual 스펙이 play 완료를 기다린다. 새 기준 이미지는 main push 때 봇이 커밋.
 
 ### P11. (선택) 디자인 도구 연동
 
@@ -139,6 +113,8 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 - 아이콘을 더 늘릴 때: Lucide 에서 가져오면 `svg/` 에 넣고 `generate`. 자체 아이콘은 같은 규격(24×24, stroke 2, round)으로 그린다.
 - 라이트 모드 Slider·Progress 트랙(bg.muted)은 흰 배경과 대비가 낮다(값을 알리는 막대·손잡이는 3:1 이상). 필요하면 트랙 색 토큰 검토.
 - Select·DropdownMenu 의 목록 열기는 pointerdown(Radix 기본). KWCAG 문서 6.5.2 에 적어 둠.
+- RadioGroup 은 Radix 그대로라 키를 아주 빨리 떼는 입력에서 화살표로 포커스만 옮겨지고 선택이 빠질 수 있다(사람 입력에서는 문제없음).
+  SegmentedControl 처럼 직접 구현할지 검토 (CLAUDE.md 함정 참고).
 
 ---
 
@@ -204,3 +180,4 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 | 2026-10-16 | P9: Combobox 선택 지우기(글자 모두 지우고 닫기 + clearable 버튼, 테스트 4개·변이 3종 확인, 새 문구 키 clearSelection 은 선택 키). 자동 문서 prop 누락 수정 — Phone·Business·Amount·TextField 주요 prop 직접 선언(DatePicker 는 이미 직접 선언), Accordion 은 argTypes |
 | 2026-10-16 | P9: SkipLink 추가(테스트 6개·변이 3종, playground 맨 앞 배치 + E2E), KWCAG 6.4.1 사용자 몫 → 일부, 컴포넌트별 접근성 문서 추가 |
 | 2026-10-16 | P9: SegmentedControl(radiogroup 의미, 테스트 9개·변이 2종, E2E 연속 화살표 5회 반복). 처음엔 Radix RadioGroup 위로 만들었으나 Radix 가 "포커스 이동 때 화살표가 아직 눌려 있는지" 로 선택해 빠른 키 입력에서 약 20% 선택 누락 → 직접 구현. playground 정렬 예제 |
+| 2026-10-19 | 문서 점검: ROADMAP 인수인계·현재 상태(1.0.0·PR #19·43개·번들) 갱신, P8·P10 상세를 ROADMAP-HISTORY 로 이동, README·Introduction·POSITIONING·npm README 보완 |

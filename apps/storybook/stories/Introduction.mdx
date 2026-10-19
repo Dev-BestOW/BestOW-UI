@@ -207,6 +207,9 @@ export const panel = style({ padding: vars.space[4], background: vars.color.bg.s
 - 모든 스토리는 CI 에서 실제 브라우저로 렌더링하고, 라이트·다크 두 테마에서 axe 로 검사해요 (글자 대비 4.5:1 등).
 - 폼 컴포넌트는 `label` 을 꼭 넘겨 주세요. 보이는 레이블이 없으면 `aria-label` 을 줘요.
 - 애니메이션은 사용자의 "동작 줄이기(prefers-reduced-motion)" 설정을 따라요.
+- 예제 앱(Next.js)도 CI 에서 브라우저로 열어 콘솔·hydration 오류, 다크·브랜드 테마의 axe 검사, 키보드 조작을 확인해요.
+- 페이지 맨 앞에 [SkipLink](?path=/docs/components-skiplink--docs)(본문 바로가기)를 두고 본문에 `id="main"` 을 주세요.
+- 컴포넌트마다 키보드로 어떻게 조작하고 스크린리더가 무엇을 듣는지는 [컴포넌트별 키보드·스크린리더](?path=/docs/accessibility-컴포넌트별-키보드·스크린리더--docs)에 있어요.
 - 한국형 웹 콘텐츠 접근성 지침(KWCAG 2.2) 항목별로 정리한 [대응 근거](?path=/docs/accessibility-kwcag-2-2-대응--docs)를 참고하세요.
 
 ## 기여하기

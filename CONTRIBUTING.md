@@ -71,11 +71,13 @@ pnpm storybook    # http://localhost:6006
 - [ ] 최상위 `forwardRef(...)`·`createContext(...)` 앞에 `/* @__PURE__ */` 를 붙였다
 - [ ] 스토리: `tags: ['autodocs']`, Playground + 변형별 스토리. 라이트·다크 모두 확인했다
 - [ ] 테스트: 역할·라벨 기반으로 쓰고, 접근성 속성과 키보드 상호작용을 확인했다
-- [ ] 화면에 보이는 기본 문구는 `useMessages()` 로 바꿀 수 있게 했다 (`prop ?? m.키 ?? '한국어 기본값'`, 새 키는 `BestowMessages`·`en` 에도)
-- [ ] 목록·대화상자처럼 열어야 보이는 상태가 있으면 `play` 로 열어 둔 스토리를 만들었다 (axe 가 그 상태도 검사)
+- [ ] 화면에 보이는 기본 문구는 `useMessages()` 로 바꿀 수 있게 했다 (`prop ?? m.키 ?? '한국어 기본값'`, 새 키는 `BestowMessages`·`en` 에도.
+  1.0 이후 추가하는 키는 선택(`?`) 키로 — 사용자가 만든 다른 언어 묶음이 타입 오류로 깨지지 않게)
+- [ ] 목록·대화상자처럼 열어야 보이는 상태가 있으면 `play` 로 열어 둔 스토리를 만들었다 (axe·시각 회귀가 그 상태도 검사. `defaultOpen` 은 문서 페이지를 가리므로 쓰지 않는다)
 - [ ] 키보드·포커스·이름 등 접근성 동작이 바뀌면 [KWCAG 2.2 대응 문서](apps/storybook/stories/accessibility/kwcag.ts)와
   [컴포넌트별 키보드·스크린리더 문서](apps/storybook/stories/accessibility/componentA11y.ts) 해당 항목을 고쳤다(새 컴포넌트는 추가)
-- [ ] `apps/playground` 에 사용 예를 추가하고 브라우저에서 확인했다 (콘솔·hydration 경고 없음)
+- [ ] `apps/playground` 에 사용 예를 추가했다 — E2E(`pnpm test:e2e`)가 콘솔·hydration 오류와 axe 를 자동으로 본다.
+  jsdom 에서 재현되지 않는 동작(실제 키보드 이벤트 순서·커서 위치 등)은 `apps/playground/e2e` 에 테스트를 추가했다
 - [ ] changeset(`"@bestow-ui/react": minor`)을 추가했다
 
 ### 스타일 규칙
