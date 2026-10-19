@@ -146,4 +146,32 @@ describe('Tabs', () => {
     );
     expect(screen.getByRole('tab').className).not.toBe(lineClass);
   });
+
+  it('orientation 기본은 horizontal — tablist 에 aria-orientation="horizontal"', () => {
+    render(<Example />);
+    expect(screen.getByRole('tablist').getAttribute('aria-orientation')).toBe('horizontal');
+  });
+
+  it('orientation="vertical" 이면 aria-orientation="vertical", ↑/↓ 로 이동하며 선택되고 ←/→ 는 무시한다', async () => {
+    const user = userEvent.setup();
+    render(<Example orientation="vertical" disableSecond />);
+    const tablist = screen.getByRole('tablist');
+    expect(tablist.getAttribute('aria-orientation')).toBe('vertical');
+    // 세로 레이아웃 스타일은 data-orientation 셀렉터로 건다 (root·list·tab·panel 모두)
+    [tablist.parentElement, tablist, ...screen.getAllByRole('tab'), screen.getByRole('tabpanel')].forEach((el) =>
+      expect(el?.getAttribute('data-orientation')).toBe('vertical'),
+    );
+
+    await user.click(screen.getByRole('tab', { name: '계정' }));
+    await user.keyboard('{ArrowRight}');
+    expect(selectedTab()?.textContent).toBe('계정');
+
+    await user.keyboard('{ArrowDown}'); // 비활성 '비밀번호' 는 건너뜀
+    expect(document.activeElement?.textContent).toBe('결제');
+    expect(selectedTab()?.textContent).toBe('결제');
+    expect(screen.getByRole('tabpanel').textContent).toBe('결제 내용');
+
+    await user.keyboard('{ArrowUp}');
+    expect(selectedTab()?.textContent).toBe('계정');
+  });
 });

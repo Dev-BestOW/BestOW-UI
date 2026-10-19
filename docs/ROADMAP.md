@@ -11,13 +11,15 @@
 
 **마지막 상태**
 - npm: **react 1.1.0**(Combobox 선택 지우기·SkipLink·SegmentedControl) · tokens 1.0.0, icons 0.1.2.
-- 로컬 = origin/main (`0ab5e98`) + **커밋 안 한 변경: DropdownMenu 체크·라디오 항목·하위 메뉴**(changeset `dropdown-menu-checkbox-radio-sub`, minor → 1.2.0 예정).
-  사용자가 커밋·push 하면 visual.yml 이 새 스토리 4개(라이트·다크) 기준 이미지를 main 에서 자동 커밋한다.
+- 로컬 = origin/main (`87537ab` — DropdownMenu 체크·라디오·하위 메뉴) + **커밋 안 한 변경: Tabs 세로 방향**(changeset `tabs-vertical`).
+  changeset 2개(minor) → 다음 버전 PR 은 react 1.2.0. push 하면 visual.yml 이 새 스토리(Tabs Vertical·VerticalSoft) 기준 이미지를 자동 커밋한다.
 - 컴포넌트 43개(한국 서비스 키트 8개 포함, 폴더 42 — Input 폴더에 Input·TextField) + 테마·다국어(LocaleProvider).
-  **P1~P6, P8(1.0), P10 완료.** P9 진행 중(Combobox 선택 지우기·SkipLink·SegmentedControl·DropdownMenu 체크/라디오/하위 메뉴 완료).
-- 번들: react 전체 JS **65.6/70 kB**, styles.css **31.4/36 kB**, Button 하나 1.51/2 kB. (전체 JS 여유 4 kB — 큰 컴포넌트를 더하면 한도 검토)
+  **P1~P6, P8(1.0), P10 완료.** P9 의 기존 컴포넌트 보강 완료(Combobox 선택 지우기·SkipLink·SegmentedControl·DropdownMenu 체크/라디오/하위 메뉴·Tabs 세로).
+- 번들: react 전체 JS **65.5/70 kB**, styles.css **31.6/36 kB**, Button 하나 1.51/2 kB. (전체 JS 여유 4 kB — 큰 컴포넌트를 더하면 한도 검토)
 - semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
-- **다음 작업 후보:** P9 나머지 — **Tabs 세로 방향**, 새 후보(NumberInput 등, 수요가 생기면).
+- **다음 작업 후보:** 정해진 필수 작업은 없음 — 사용자에게 고르게 한다. P7 size-limit PR 코멘트(작고 CI 만 건드림),
+  백로그(Slider·Progress 트랙 대비, RadioGroup 직접 구현 검토), P9 새 컴포넌트(NumberInput·FileUpload·Stepper·Tag 입력 — 전체 JS 여유 4.5 kB 주의),
+  Combobox 다중 선택·비동기 검색, P11(Figma).
   그 밖에 백로그(Slider·Progress 트랙 대비, 기존 RadioGroup 의 Radix 화살표 선택 특성), P7(size-limit PR 코멘트 등), P11(Figma).
 
 **세션 시작 체크리스트**
@@ -78,7 +80,7 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 
 ## 다음 단계 (순서는 사용자와 확정)
 
-**추천 순서:** P9 나머지(Tabs 세로 → 새 컴포넌트는 수요에 따라).
+**추천 순서:** P7 size-limit PR 코멘트 → 백로그 RadioGroup 직접 구현 검토 → 새 컴포넌트는 수요에 따라.
 P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기존 사용법을 깨지 않는 추가라 1.0 이후에 해도 된다.
 
 ### P7. 번들·성능
@@ -96,7 +98,8 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 
 - [x] DropdownMenu `CheckboxItem`/`RadioItem`/하위 메뉴 (2026-10-19) — Radix 위에 스타일. 체크·라디오 표시는 아이콘과 같은 16px 자리,
   RadioGroup 은 Radix 가 상태를 갖지 않아 항상 제어(감싸지 않음). changeset `dropdown-menu-checkbox-radio-sub`(minor).
-- [ ] Tabs 세로 방향.
+- [x] **Tabs 세로 방향** (2026-10-19) — `orientation` 을 Radix 로 넘기고 레이아웃은 `data-orientation` 셀렉터(root flex, line 은 오른쪽 테두리 위 표시줄, RTL 대응).
+  changeset `tabs-vertical`(minor).
 - [x] Combobox **선택 지우기** (2026-10-16) — 글자를 모두 지우고 닫으면 지움 + `clearable` 버튼. changeset `combobox-clear`(minor).
 - [ ] Combobox 다중 선택·비동기 검색·긴 목록 가상화.
 - [x] **SkipLink**(본문 바로가기) (2026-10-16) — KWCAG 6.4.1 을 "사용자 몫" → "일부" 로. changeset `skip-link`(minor).
@@ -184,3 +187,4 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 | 2026-10-16 | P9: SegmentedControl(radiogroup 의미, 테스트 9개·변이 2종, E2E 연속 화살표 5회 반복). 처음엔 Radix RadioGroup 위로 만들었으나 Radix 가 "포커스 이동 때 화살표가 아직 눌려 있는지" 로 선택해 빠른 키 입력에서 약 20% 선택 누락 → 직접 구현. playground 정렬 예제 |
 | 2026-10-19 | 문서 점검: ROADMAP 인수인계·현재 상태(1.0.0·PR #19·43개·번들) 갱신, P8·P10 상세를 ROADMAP-HISTORY 로 이동, README·Introduction·POSITIONING·npm README 보완 |
 | 2026-10-19 | 1.1.0 배포 확인. P9 DropdownMenu `CheckboxItem`·`RadioGroup`/`RadioItem`·`Sub`/`SubTrigger`/`SubContent` 추가 — 테스트 7개(변이 확인: 하위 메뉴 portal 테마), 스토리 4개(열린 상태 2개 play), playground "보기 옵션" 메뉴·"이동" 하위 메뉴 + E2E 3개(5회 반복 안정), 접근성 문서. 다음은 Tabs 세로 |
+| 2026-10-19 | P9 Tabs `orientation="vertical"` — 테스트 2개(변이 확인), 스토리 Vertical·VerticalSoft, playground 세로 탭 + E2E(↑/↓·레이아웃 위치, 5회 반복 안정), 접근성 문서. P9 기존 컴포넌트 보강 마무리 |

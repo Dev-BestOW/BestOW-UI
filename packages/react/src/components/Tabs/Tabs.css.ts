@@ -2,17 +2,33 @@ import { style } from '@vanilla-extract/css';
 import { recipe, type RecipeVariants } from '@vanilla-extract/recipes';
 import { vars } from '../../theme/contract.css';
 
+// 방향은 Radix 가 root·list·trigger·content 에 붙이는 data-orientation 으로 고른다
+const vertical = '&[data-orientation="vertical"]';
+
+/** 세로일 때 탭 목록(왼쪽)과 내용(오른쪽)을 나란히 둔다 */
+export const root = style({
+  selectors: {
+    [vertical]: { display: 'flex', alignItems: 'flex-start' },
+  },
+});
+
 export const list = recipe({
   base: {
     display: 'flex',
     alignItems: 'center',
     fontFamily: vars.font.family.sans,
+    selectors: {
+      [vertical]: { flexDirection: 'column', alignItems: 'stretch', flexShrink: 0 },
+    },
   },
   variants: {
     variant: {
       line: {
         gap: vars.space[1],
         borderBottom: `1px solid ${vars.color.border.default}`,
+        selectors: {
+          [vertical]: { borderBottom: 'none', borderInlineEnd: `1px solid ${vars.color.border.default}` },
+        },
       },
       soft: {
         display: 'inline-flex',
@@ -49,6 +65,7 @@ export const trigger = recipe({
         outlineOffset: '-2px',
       },
       '&[data-disabled]': { opacity: 0.5, cursor: 'not-allowed' },
+      [vertical]: { justifyContent: 'flex-start' },
     },
   },
   variants: {
@@ -61,6 +78,16 @@ export const trigger = recipe({
           '&[data-state="active"]': {
             color: vars.color.primary.text,
             boxShadow: `inset 0 -2px 0 ${vars.color.primary.solid}`,
+          },
+          // 세로: 목록의 오른쪽 테두리 위에 선택 표시줄을 겹친다
+          [vertical]: {
+            marginBottom: 0,
+            marginInlineEnd: '-1px',
+            borderRadius: `${vars.radius.sm} 0 0 ${vars.radius.sm}`,
+          },
+          [`${vertical}[data-state="active"]`]: { boxShadow: `inset -2px 0 0 ${vars.color.primary.solid}` },
+          [`[dir="rtl"] ${vertical}[data-state="active"]`]: {
+            boxShadow: `inset 2px 0 0 ${vars.color.primary.solid}`,
           },
         },
       },
@@ -98,6 +125,7 @@ export const content = style({
       outlineOffset: '2px',
       borderRadius: vars.radius.sm,
     },
+    [vertical]: { flex: 1, minWidth: 0, paddingTop: 0, paddingInlineStart: vars.space[6] },
   },
 });
 

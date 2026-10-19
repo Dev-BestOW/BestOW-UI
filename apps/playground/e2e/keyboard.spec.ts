@@ -132,6 +132,23 @@ test('Tabs: 화살표로 탭을 옮기면 패널이 바뀐다', async ({ page })
   await expect(tablist.getByRole('tab', { name: '비밀번호' })).toHaveAttribute('aria-selected', 'true');
 });
 
+test('Tabs 세로: ↑/↓ 로 옮기면 패널이 바뀌고 ←/→ 는 무시한다', async ({ page }) => {
+  await page.goto('/navigation');
+  const tablist = page.getByRole('tablist', { name: '설정 메뉴' });
+  await expect(tablist).toHaveAttribute('aria-orientation', 'vertical');
+  await tablist.getByRole('tab', { name: '프로필' }).click();
+  await page.keyboard.press('ArrowRight');
+  await expect(tablist.getByRole('tab', { name: '프로필' })).toHaveAttribute('aria-selected', 'true');
+  await page.keyboard.press('ArrowDown');
+  await expect(tablist.getByRole('tab', { name: '알림' })).toBeFocused();
+  await expect(page.getByRole('tabpanel', { name: '알림' })).toHaveText('알림 설정');
+  // 목록이 내용의 왼쪽에 있다 (세로 레이아웃)
+  const listBox = (await tablist.boundingBox())!;
+  const panelBox = (await page.getByRole('tabpanel', { name: '알림' }).boundingBox())!;
+  expect(panelBox.x).toBeGreaterThan(listBox.x + listBox.width - 1);
+  expect(Math.abs(panelBox.y - listBox.y)).toBeLessThan(listBox.height);
+});
+
 test('SkipLink: 첫 Tab 에 "본문 바로가기" 가 화면에 나타나고, Enter 로 머리글을 건너뛰어 본문으로 간다', async ({
   page,
 }) => {

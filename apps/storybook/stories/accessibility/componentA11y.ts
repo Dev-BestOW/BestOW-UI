@@ -187,8 +187,11 @@ export const componentA11y: ComponentA11yGroup[] = [
     items: [
       {
         name: 'Tabs',
-        keyboard: 'Tab 으로 탭 목록에 들어가면 선택된 탭, ←/→ 이동하며 전환, Home/End.',
-        screenReader: 'tablist / tab(선택 상태) / tabpanel 연결.',
+        keyboard:
+          'Tab 으로 탭 목록에 들어가면 선택된 탭, ←/→ 이동하며 전환(세로 orientation 이면 ↑/↓), Home/End. 비활성 탭은 건너뜀.',
+        screenReader: 'tablist(aria-orientation 가로·세로) / tab(선택 상태) / tabpanel 연결.',
+        yours:
+          '탭이 많거나 이름이 길어 가로로 넘치면 orientation="vertical" — 좁은 화면에서는 가로로 바꾸거나 Select 를 검토한다.',
       },
       {
         name: 'Accordion',

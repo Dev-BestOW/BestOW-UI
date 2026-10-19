@@ -6,7 +6,7 @@ import * as styles from './Tabs.css';
 type TabsStyle = { variant: 'line' | 'soft'; size: 'sm' | 'md' };
 const TabsStyleContext = /* @__PURE__ */ createContext<TabsStyle>({ variant: 'line', size: 'md' });
 
-export interface TabsProps extends Omit<ComponentPropsWithoutRef<typeof RadixTabs.Root>, 'orientation'> {
+export interface TabsProps extends ComponentPropsWithoutRef<typeof RadixTabs.Root> {
   /** 시각적 스타일. line 은 밑줄, soft 는 배경이 있는 세그먼트 */
   variant?: 'line' | 'soft';
   /** 크기 */
@@ -22,17 +22,22 @@ export interface TabsProps extends Omit<ComponentPropsWithoutRef<typeof RadixTab
    * manual: 방향키로 포커스만 옮기고 Enter/Space 로 선택한다 (탭 전환 비용이 클 때).
    */
   activationMode?: 'automatic' | 'manual';
+  /**
+   * horizontal(기본): 탭 목록이 위, ←/→ 로 이동.
+   * vertical: 탭 목록이 왼쪽(내용은 오른쪽), ↑/↓ 로 이동. 탭이 많거나 이름이 길 때(설정 화면 등).
+   */
+  orientation?: 'horizontal' | 'vertical';
 }
 
 export const Tabs = /* @__PURE__ */ forwardRef<HTMLDivElement, TabsProps>(function Tabs(
-  { variant = 'line', size = 'md', ...props },
+  { variant = 'line', size = 'md', className, ...props },
   ref,
 ) {
   // value 를 넘기면 undefined 여도 제어 모드로 둔다 (uncontrolled → controlled 경고 방지)
   const controlled = 'value' in props ? { value: props.value ?? '' } : {};
   return (
     <TabsStyleContext.Provider value={{ variant, size }}>
-      <RadixTabs.Root ref={ref} {...props} {...controlled} />
+      <RadixTabs.Root ref={ref} className={cx(styles.root, className)} {...props} {...controlled} />
     </TabsStyleContext.Provider>
   );
 });

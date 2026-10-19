@@ -87,6 +87,16 @@ export default function NavigationPage() {
           <TabsContent value="week">이번 주 통계</TabsContent>
           <TabsContent value="month">이번 달 통계</TabsContent>
         </Tabs>
+        <Tabs defaultValue="profile" orientation="vertical" variant="soft" size="sm">
+          <TabsList aria-label="설정 메뉴">
+            <TabsTrigger value="profile">프로필</TabsTrigger>
+            <TabsTrigger value="notifications">알림</TabsTrigger>
+            <TabsTrigger value="security">보안·로그인</TabsTrigger>
+          </TabsList>
+          <TabsContent value="profile">프로필 설정</TabsContent>
+          <TabsContent value="notifications">알림 설정</TabsContent>
+          <TabsContent value="security">보안·로그인 설정</TabsContent>
+        </Tabs>
         {/* 아래 내용(패널)이 바뀌는 게 아니라 값을 고르는 것이면 Tabs 대신 SegmentedControl */}
         <SegmentedControl
           aria-label="정렬"
