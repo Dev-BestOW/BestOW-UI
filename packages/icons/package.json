@@ -1,15 +1,16 @@
 {
   "name": "@bestow-ui/icons",
   "version": "0.1.2",
-  "description": "SVG icons as tree-shakable React components for BestOW UI (based on Lucide)",
+  "description": "BestOW UI 아이콘 — SVG 를 tree-shaking 되는 React 컴포넌트로 (Lucide 기반, 서버 컴포넌트 지원)",
   "keywords": [
-    "bestow-ui",
-    "design-system",
-    "react",
     "icons",
+    "react",
     "svg",
     "react-icons",
-    "lucide"
+    "lucide",
+    "design-system",
+    "korean",
+    "bestow-ui"
   ],
   "license": "ISC",
   "author": "Dev-BestOW",

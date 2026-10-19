@@ -1,14 +1,17 @@
 {
   "name": "@bestow-ui/tokens",
   "version": "1.0.0",
-  "description": "Design tokens for BestOW UI — colors, spacing, radius, typography, shadow, motion",
+  "description": "BestOW UI 디자인 토큰 — 색상·간격·모서리·글자·그림자·시간·쌓임 순서 (의존성 없음, 프레임워크 무관)",
   "keywords": [
-    "bestow-ui",
-    "design-system",
     "design-tokens",
     "tokens",
+    "design-system",
     "colors",
-    "theme"
+    "theme",
+    "dark-mode",
+    "korean",
+    "bestow-ui",
+    "디자인시스템"
   ],
   "license": "MIT",
   "author": "Dev-BestOW",
