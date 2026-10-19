@@ -99,3 +99,13 @@ test('등록 폼: 빈 채로 제출하면 오류 요약에 포커스, 링크로 
   await expect(page.getByText(/주문 ORD-\d+을 등록했어요/).first()).toBeVisible();
   await expect(table(page).getByRole('cell', { name: '테스트' })).toBeVisible();
 });
+
+test('주문일 기간: 빠른 선택 "1주일" 이면 그 기간 주문만, 눌린 상태로 보인다', async ({ page }) => {
+  const filters = page.getByRole('region', { name: '검색·필터' });
+  await filters.getByRole('button', { name: '1주일' }).click();
+  await expect(filters.getByRole('textbox', { name: '시작일' })).toHaveValue('2026-10-21');
+  await expect(filters.getByRole('button', { name: '1주일' })).toHaveAttribute('aria-pressed', 'true');
+  const dates = await table(page).getByRole('row').locator('td:nth-child(6)').allTextContents();
+  expect(dates.length).toBeGreaterThan(0);
+  expect(dates.every((d) => d >= '2026-10-21' && d <= '2026-10-28')).toBe(true);
+});

@@ -94,6 +94,11 @@ export const choosing: ChoiceGroup[] = [
         avoid: '정확한 값이 중요 (→ NumberInput, 또는 함께 둔다).',
       },
       {
+        name: 'DateRangePicker',
+        path: docs('korean-kit-daterangepicker'),
+        when: '조회·예약 기간(시작일~종료일). 오늘·1주일·1개월 같은 빠른 선택.',
+      },
+      {
         name: 'DatePicker',
         path: docs('korean-kit-datepicker'),
         when: '날짜 하나. 숫자 입력(YYYY-MM-DD)과 달력 둘 다.',

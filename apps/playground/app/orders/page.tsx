@@ -13,6 +13,7 @@ import {
   Checkbox,
   DescriptionList,
   DatePicker,
+  DateRangePicker,
   Divider,
   Drawer,
   DropdownMenu,
@@ -39,6 +40,7 @@ import {
   Typography,
   VisuallyHidden,
   formatKoreanAmount,
+  dateRangePresets,
   formatPhoneNumber,
   useTableSelection,
   useToast,
@@ -88,6 +90,7 @@ export default function OrdersPage() {
   const [orders, setOrders] = useState(INITIAL);
   const [query, setQuery] = useState('');
   const [status, setStatus] = useState<string>('all');
+  const [period, setPeriod] = useState({ start: '', end: '' });
   const [sort, setSort] = useState<{ key: SortKey; direction: 'ascending' | 'descending' }>({
     key: 'orderedAt',
     direction: 'descending',
@@ -103,13 +106,15 @@ export default function OrdersPage() {
     const list = orders.filter(
       (o) =>
         (status === 'all' || o.status === status) &&
+        (!period.start || o.orderedAt >= period.start) &&
+        (!period.end || o.orderedAt <= period.end) &&
         (!q || o.id.includes(q.toUpperCase()) || o.customer.includes(q) || o.product.includes(q)),
     );
     const sign = sort.direction === 'ascending' ? 1 : -1;
     return [...list].sort((a, b) =>
       sort.key === 'amount' ? (a.amount - b.amount) * sign : a.orderedAt.localeCompare(b.orderedAt) * sign,
     );
-  }, [orders, query, status, sort]);
+  }, [orders, query, status, period, sort]);
   const totalPages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const pageRows = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
   const pageIds = pageRows.map((o) => o.id);
@@ -161,6 +166,17 @@ export default function OrdersPage() {
           }}
           options={[{ value: 'all', label: '전체' }, ...STATUSES.map((s) => ({ value: s, label: STATUS[s].label }))]}
         />
+        {/* 예제 데이터(2026-10-01~28)에 맞춰 "오늘" 을 고정 — 빠른 선택이 늘 같은 결과를 내게 */}
+        <DateRangePicker
+          label="주문일"
+          today="2026-10-28"
+          presets={dateRangePresets}
+          value={period}
+          onValueChange={(next) => {
+            setPeriod(next);
+            setPage(1);
+          }}
+        />
       </Stack>
 
       {selected.length > 0 && (
@@ -211,6 +227,7 @@ export default function OrdersPage() {
                 onClick={() => {
                   setQuery('');
                   setStatus('all');
+                  setPeriod({ start: '', end: '' });
                 }}
               >
                 검색·필터 초기화

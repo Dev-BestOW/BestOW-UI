@@ -121,6 +121,13 @@ export const componentA11y: ComponentA11yGroup[] = [
           '입력 + "달력 열기" 버튼. 잘못된 날짜·범위 밖·덜 입력은 helperText 로 이유를 알리고 aria-invalid. 달력은 아래 Calendar 와 같다.',
       },
       {
+        name: 'DateRangePicker',
+        keyboard: '시작일·종료일 칸은 DatePicker 와 같다. 빠른 선택은 버튼(Enter·Space)으로 두 칸을 한 번에 채운다.',
+        screenReader:
+          'fieldset(legend 가 이름) 안에 "시작일"·"종료일" 칸. 시작일이 종료일보다 늦으면 그 칸이 aria-invalid + 이유. 빠른 선택은 group "빠른 선택", 현재 기간과 같은 버튼은 aria-pressed=true. "~" 는 숨김.',
+        yours: '조회 결과가 바뀌면 개수를 role="status" 로 알린다.',
+      },
+      {
         name: 'Calendar',
         keyboard:
           '날짜 하나만 Tab 정지점. 화살표 하루/한 주, Home/End 주의 처음·끝, PageUp/PageDown 한 달, Shift+PageUp/PageDown 한 해, Enter·Space 선택.',

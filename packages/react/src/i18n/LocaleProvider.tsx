@@ -54,6 +54,10 @@ export interface BestowMessages {
   fileTooMany?: (maxFiles: number) => string;
   /** ErrorSummary 제목 — "입력한 내용에 고칠 곳이 3개 있어요" (1.0 이후 추가, 선택 키) */
   errorSummaryTitle?: (count: number) => string;
+  /** DateRangePicker — "시작일", "종료일", 빠른 선택 묶음 이름 "빠른 선택" (1.0 이후 추가, 선택 키) */
+  dateRangeStart?: string;
+  dateRangeEnd?: string;
+  dateRangePresets?: string;
   /** Slider 범위 손잡이 — "최소", "최대" */
   rangeStart: string;
   rangeEnd: string;

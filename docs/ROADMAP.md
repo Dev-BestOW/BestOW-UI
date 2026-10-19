@@ -19,7 +19,7 @@
 - semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
 - 보고할 때 시각 회귀는 "허용치 안 통과" 와 "픽셀 동일" 을 구분한다(RadioGroup 사례).
 - **다음 작업:** (사람) `docs/SCREEN-READER-CHECKLIST.md` 로 VO macOS·NVDA 점검 — 남은 선언 기준은 이것 하나.
-  (Claude) P14-4 DateRangePicker → (수요 확인 후) P14-5 Combobox 다중 선택·P14-6 Tag 입력. **main CI·시각 회귀 모두 녹색(`2aed8e0`) — PR #21(1.3.0) 배포 권장.**
+  (Claude) 수요 확인 후 P14-5 Combobox 다중 선택·P14-6 Tag 입력. 그 전에 할 수 있는 것: 시각 회귀·접근성 문서 점검, 번들 조합 재측정. **main CI·시각 회귀 모두 녹색(`2aed8e0`) — PR #21(1.3.0) 배포 권장.**
   **push 하면 Tokens 스토리 시각 회귀가 실패한다(zIndex 표 값·순서 변경, 의도)** → Visual regression 수동 실행 update. 남은 선언 기준은 스크린리더 수동 점검과 파일럿 두 개.
 
 **세션 시작 체크리스트**
@@ -150,7 +150,8 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
   예시 + 테스트(ref·name·onBlur·에러 표시·포커스 이동). 에러 요약(제출 시 첫 오류로 포커스) 패턴 문서.
 - [x] **P14-3. 데이터 테이블 보강** (2026-10-19) — `TableEmpty`·`TableSkeleton`(aria-busy)·`useTableSelection`(이 페이지 모두 선택·혼합·페이지 넘어 유지),
   Table 스토리 "목록 화면 패턴"·Modal 스토리 "폼 제출(footer 버튼)", 파일럿 교체. PILOT-FINDINGS 빈칸 6개 모두 해결. 정렬은 기존 TableHead onSort. 원래 메모: Table 에 정렬 머리글(aria-sort)·행 선택(Checkbox)·빈 상태·로딩(Skeleton)·Pagination 연결 예시. 가상화는 수요 시.
-- [ ] **P14-4. DateRangePicker** — Calendar 기반 기간 선택(시작·끝, 키보드, `today` 고정).
+- [x] **P14-4. DateRangePicker** (2026-10-19) — DatePicker 두 개 + 서로 min/max 제한 + 빠른 선택(`dateRangePresets`·`presetRange`, aria-pressed),
+  fieldset/legend, 좁은 화면은 쌓기. 파일럿 주문일 필터 + E2E. 한 달력에서 끌어 고르는 방식은 수요 확인 후. 원래 메모: Calendar 기반 기간 선택(시작·끝, 키보드, `today` 고정).
 - [ ] **P14-5. Combobox 다중 선택·비동기 검색** — 선택 칩(Backspace 로 지우기), 검색 중 상태 알림, 긴 목록 가상화.
 - [ ] **P14-6. Tag 입력** — 쉼표·Enter 로 태그 추가(P14-5 와 칩 공유).
 
@@ -266,3 +267,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-19 | CI 전부 녹색: Firefox 스토리 포커스(창 포커스 설정) 해결 확인, 시각 회귀 update(zIndex). P14-3: TableEmpty·TableSkeleton·useTableSelection(변이 확인), 목록 패턴·Modal 폼 제출 스토리, 파일럿 교체 |
 | 2026-10-19 | P15 문서: Storybook Guides 섹션 — 언제 무엇을 쓰나(6묶음), 화면 패턴(폼 검증·RHF·Modal 폼, 목록, 단계별 흐름, 업로드). 링크 전수 검사·axe(라이트·다크) 0. ErrorSummary 의 불필요한 eslint-disable 제거 |
 | 2026-10-19 | 문서 언어 결정(사용자): 한국 시장 타깃 → npm README 3개 한국어로(영어 한 줄 소개), package.json 설명 한국어·키워드 정리(korean·kwcag·a11y 등). `en` 문구 묶음은 기능이라 유지. changeset `korean-readme`(3패키지 patch) |
+| 2026-10-19 | P14-4 DateRangePicker: 테스트 7개(변이 2종), 스토리 4개(빠른 선택 play), 파일럿 주문일 필터 + E2E, 좁은 화면 "~" 홀로 남음 → 쌓기로 수정. 문구 3개·presets 는 shared |

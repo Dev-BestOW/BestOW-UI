@@ -19,6 +19,8 @@ import {
   Checkbox,
   Combobox,
   DatePicker,
+  DateRangePicker,
+  dateRangePresets,
   DescriptionList,
   Divider,
   Drawer,
@@ -168,6 +170,7 @@ function Everything() {
           <VerificationCodeInput />
           <Calendar today="2026-10-19" />
           <DatePicker label="날짜" today="2026-10-19" />
+          <DateRangePicker label="기간" today="2026-10-19" presets={dateRangePresets} />
         </Stack>
       </ToastProvider>
     </ThemeProvider>
