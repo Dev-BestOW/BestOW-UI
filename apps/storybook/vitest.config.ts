@@ -20,6 +20,7 @@ const themes = ['light', 'dark'] as const;
 
 export default defineConfig({
   test: {
+    setupFiles: [path.join(dirname, '.storybook/vitest.setup.ts')],
     browser: {
       enabled: true,
       headless: true,

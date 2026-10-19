@@ -11,6 +11,7 @@ import {
   Card,
   CardBody,
   Checkbox,
+  DescriptionList,
   DatePicker,
   Divider,
   Drawer,
@@ -296,22 +297,20 @@ export default function OrdersPage() {
               {STATUS[detail.status].label}
             </Badge>
             <Divider />
-            <dl style={{ display: 'grid', gridTemplateColumns: 'auto 1fr', gap: '8px 16px', margin: 0 }}>
-              <dt>고객</dt>
-              <dd style={{ margin: 0 }}>{detail.customer}</dd>
-              <dt>연락처</dt>
-              <dd style={{ margin: 0 }}>{formatPhoneNumber(detail.phone)}</dd>
-              <dt>상품</dt>
-              <dd style={{ margin: 0 }}>
-                {detail.product} × {detail.quantity}
-              </dd>
-              <dt>금액</dt>
-              <dd style={{ margin: 0 }}>
-                {detail.amount.toLocaleString('ko-KR')}원 ({formatKoreanAmount(detail.amount)})
-              </dd>
-              <dt>주문일</dt>
-              <dd style={{ margin: 0 }}>{detail.orderedAt}</dd>
-            </dl>
+            <DescriptionList
+              aria-label="주문 정보"
+              termWidth="5rem"
+              items={[
+                { term: '고객', description: detail.customer },
+                { term: '연락처', description: formatPhoneNumber(detail.phone) },
+                { term: '상품', description: `${detail.product} × ${detail.quantity}` },
+                {
+                  term: '금액',
+                  description: `${detail.amount.toLocaleString('ko-KR')}원 (${formatKoreanAmount(detail.amount)})`,
+                },
+                { term: '주문일', description: detail.orderedAt },
+              ]}
+            />
           </Stack>
         )}
       </Drawer>

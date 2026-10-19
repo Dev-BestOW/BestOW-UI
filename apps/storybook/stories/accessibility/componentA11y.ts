@@ -304,6 +304,13 @@ export const componentA11y: ComponentA11yGroup[] = [
         yours: '제목 단계(h1~h6)는 모양이 아니라 문서 구조로 정한다.',
       },
       {
+        name: 'DescriptionList',
+        keyboard: '포커스를 받지 않는다.',
+        screenReader:
+          'dl 안의 dt·dd 쌍 — 이름과 값을 짝지어 읽는다(목록·항목 수를 알리는 스크린리더도 있다). aria-label 로 목록 이름을 줄 수 있다.',
+        yours: '같은 종류의 여러 줄을 비교해야 하면 Table.',
+      },
+      {
         name: 'VisuallyHidden',
         keyboard: '포커스를 받지 않는다.',
         screenReader:

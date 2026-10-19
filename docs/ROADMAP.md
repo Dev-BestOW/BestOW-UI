@@ -18,7 +18,8 @@
 - 번들: react 전체 JS **67.3/80 kB**, 대표 조합(앱 기본 3.4·폼 30.1·오버레이 34.7·한국 키트 30.3 kB, +10% 한도), styles.css **9.4/12 kB**, Button 하나 1.51/2 kB.
 - semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
 - 보고할 때 시각 회귀는 "허용치 안 통과" 와 "픽셀 동일" 을 구분한다(RadioGroup 사례).
-- **다음 작업:** (사람) `docs/SCREEN-READER-CHECKLIST.md` 로 VO macOS·NVDA 점검 — 남은 선언 기준은 이것 하나. (Claude) DescriptionList(PILOT-FINDINGS #3) → P14-3 테이블 보강. PR #21(1.3.0)이 커졌으니 배포 시점 확인.
+- **다음 작업:** (사람) Visual regression update(zIndex 토큰 스토리 2장), `docs/SCREEN-READER-CHECKLIST.md` 로 VO macOS·NVDA 점검 — 남은 선언 기준은 이것 하나.
+  (Claude) push 후 Firefox 스토리(창 포커스 설정) 확인 → P14-3 테이블 보강(PILOT-FINDINGS #4·#6 포함). PR #21(1.3.0) 배포 권장.
   **push 하면 Tokens 스토리 시각 회귀가 실패한다(zIndex 표 값·순서 변경, 의도)** → Visual regression 수동 실행 update. 남은 선언 기준은 스크린리더 수동 점검과 파일럿 두 개.
 
 **세션 시작 체크리스트**
@@ -260,3 +261,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-19 | CI 5차(`5d62d21`): 시각 회귀(Linux) 성공 — rem 전환 화면 변화 없음 확인. Firefox 만 /navigation 320px 리플로 1px → 반올림 오차로 1px 허용 |
 | 2026-10-19 | P14-1 파일럿 `/orders`: Modal 안 Select 가림(z-index)·메뉴→Drawer 포커스 복귀 버그 수정, 빈칸 6개 PILOT-FINDINGS.md. 프로덕션 권장 선언 기준 5/6 (남은 것: 스크린리더 수동 점검) |
 | 2026-10-19 | P14-2: ErrorSummary·VisuallyHidden·focusField 추가, AgreementGroup id, react-hook-form 통합 테스트·/signup 예제·E2E, 파일럿 폼 교체. FileUpload 테스트의 .at()(ES2022)을 lastCall 로 |
+| 2026-10-19 | DescriptionList 추가(서버 컴포넌트, 파일럿 상세 교체). CI Firefox 스토리 포커스 실패(Combobox·NumberInput)를 공통 원인(iframe 창 포커스)으로 보고 vitest.setup 에서 window.focus(). 시각 회귀 annotation 으로 바뀐 스토리 확인(zIndex 2장만) |

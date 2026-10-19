@@ -68,7 +68,8 @@ test('행 메뉴 → 상세 보기는 Drawer 로 열리고, 닫으면 메뉴 버
   await page.getByRole('menuitem', { name: '상세 보기' }).click();
   const drawer = page.getByRole('dialog', { name: `주문 ${id}` });
   await expect(drawer).toBeVisible();
-  await expect(drawer.getByText('연락처')).toBeVisible();
+  await expect(drawer.getByRole('term').filter({ hasText: '연락처' })).toBeVisible();
+  await expect(drawer.getByRole('definition').filter({ hasText: /^010-/ })).toBeVisible();
   await page.keyboard.press('Escape');
   await expect(drawer).toBeHidden();
   await expect(menuButton).toBeFocused();

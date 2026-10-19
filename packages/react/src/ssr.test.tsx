@@ -19,6 +19,7 @@ import {
   Checkbox,
   Combobox,
   DatePicker,
+  DescriptionList,
   Divider,
   Drawer,
   DropdownMenu,
@@ -83,6 +84,7 @@ function Everything() {
         <Stack gap={2}>
           <ErrorSummary errors={[{ id: 'name', message: '이름을 입력해 주세요.' }]} />
           <VisuallyHidden>숨긴 글자</VisuallyHidden>
+          <DescriptionList items={[{ term: '고객', description: '최별' }]} />
           <Typography variant="h1">제목</Typography>
           <Button startIcon={<PlusIcon />}>버튼</Button>
           <Button loading>저장</Button>
