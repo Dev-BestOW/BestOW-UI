@@ -13,3 +13,4 @@ apps/storybook/visual/__screenshots__/*
 !apps/storybook/visual/__screenshots__/linux/
 playwright-report
 test-results
+.size-base

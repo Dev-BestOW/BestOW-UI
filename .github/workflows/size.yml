@@ -1,0 +1,68 @@
+name: Bundle size
+
+# PR 의 번들 크기를 base 브랜치와 비교해 PR 코멘트 하나로 알린다 (push 할 때마다 같은 코멘트를 갱신).
+# 한도 검사(실패 처리)는 ci.yml 의 "Bundle size" 단계가 맡는다 — 이 워크플로는 보고만 하고 실패하지 않는다.
+# 포크에서 온 PR 은 토큰이 읽기 전용이라 코멘트 대신 실행 요약(Summary)에만 표를 남긴다.
+on:
+  pull_request:
+
+concurrency:
+  group: size-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  report:
+    name: Size report
+    # 버전 PR(changesets)은 코드가 바뀌지 않는다. pull_request 의 branches 필터는 base 기준이라 head 는 if 로 거른다
+    if: ${{ !startsWith(github.head_ref, 'changeset-release/') }}
+    runs-on: ubuntu-24.04
+    permissions:
+      contents: read
+      pull-requests: write
+    steps:
+      - uses: actions/checkout@v7
+      - uses: ./.github/actions/setup
+
+      - name: Measure PR
+        run: |
+          pnpm build
+          pnpm exec size-limit --json > "$RUNNER_TEMP/pr-size.json" || true
+
+      # base 는 따로 받아 따로 설치·빌드한다 (base 의 의존성·한도 설정 그대로). 실패해도 PR 크기만으로 보고한다.
+      - uses: actions/checkout@v7
+        with:
+          ref: ${{ github.event.pull_request.base.sha }}
+          path: .size-base
+
+      - name: Measure base
+        continue-on-error: true
+        working-directory: .size-base
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build
+          pnpm exec size-limit --json > "$RUNNER_TEMP/base-size.json" || true
+
+      - name: Build report
+        run: |
+          node scripts/size-report.mjs "$RUNNER_TEMP/base-size.json" "$RUNNER_TEMP/pr-size.json" > "$RUNNER_TEMP/size-report.md"
+          cat "$RUNNER_TEMP/size-report.md" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Comment on PR
+        if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+          PR: ${{ github.event.pull_request.number }}
+        run: |
+          # scripts/size-report.mjs 의 MARKER 와 같아야 한다
+          marker='<!-- bestow-size-report -->'
+          existing=$(gh api "repos/$REPO/issues/$PR/comments" --paginate \
+            --jq ".[] | select(.user.login == \"github-actions[bot]\" and (.body | startswith(\"$marker\"))) | .id" | head -n 1)
+          if [ -n "$existing" ]; then
+            gh api --method PATCH "repos/$REPO/issues/comments/$existing" -F "body=@$RUNNER_TEMP/size-report.md" --silent
+          else
+            gh api "repos/$REPO/issues/$PR/comments" -F "body=@$RUNNER_TEMP/size-report.md" --silent
+          fi

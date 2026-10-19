@@ -37,7 +37,7 @@ pnpm storybook    # http://localhost:6006
 | `pnpm test` | 단위 테스트 (Vitest + jsdom) |
 | `pnpm test:stories` | 모든 스토리를 실제 브라우저에서 라이트·다크로 렌더링 + axe 접근성 검사. `pnpm build` 먼저 |
 | `pnpm lint` / `pnpm format` | ESLint / Prettier |
-| `pnpm size` | 번들 크기 검사 (`.size-limit.json`). `pnpm build` 먼저 |
+| `pnpm size` | 번들 크기 검사 (`.size-limit.json`). `pnpm build` 먼저. PR 에는 base 와 비교한 표가 코멘트로 달려요 |
 | `pnpm changeset` | 변경 내역 기록 |
 
 ## 작업 흐름

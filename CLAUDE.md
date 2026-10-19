@@ -47,6 +47,8 @@ apps/
                                새 스토리(기준 이미지 없음)는 자동 생성 → main push 면 봇이 커밋(--update-snapshots=missing).
                                기존 화면이 바뀌면 실패 → 수동 실행 + update 체크 → 기준 이미지 갱신 후 그 브랜치에 봇이 커밋.
                                update 실행은 별도 concurrency 그룹이라 도중에 push 가 와도 취소되지 않고, 커밋 시 브랜치가 앞서 있으면 rebase 후 push
+  workflows/size.yml           PR: 번들 크기를 base 와 비교해 PR 코멘트 하나로 보고(push 마다 갱신, scripts/size-report.mjs).
+                               보고만 하고 실패하지 않음(한도 검사는 ci.yml). 포크 PR 은 Summary 에만. 버전 PR 은 건너뜀
   workflows/release.yml        main: changesets/action — 버전 PR 생성 또는 npm 배포 (OIDC)
   workflows/storybook.yml      main: Storybook + playground(정적 export, /playground/) 를 GitHub Pages 로 배포
                                → https://dev-bestow.github.io/BestOW-UI/ , …/BestOW-UI/playground/

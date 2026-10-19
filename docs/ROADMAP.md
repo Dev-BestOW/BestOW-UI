@@ -11,13 +11,14 @@
 
 **마지막 상태**
 - npm: **react 1.1.0**(Combobox 선택 지우기·SkipLink·SegmentedControl) · tokens 1.0.0, icons 0.1.2.
-- 로컬 = origin/main (`87537ab` — DropdownMenu 체크·라디오·하위 메뉴) + **커밋 안 한 변경: Tabs 세로 방향**(changeset `tabs-vertical`).
-  changeset 2개(minor) → 다음 버전 PR 은 react 1.2.0. push 하면 visual.yml 이 새 스토리(Tabs Vertical·VerticalSoft) 기준 이미지를 자동 커밋한다.
+- 로컬 = origin/main (`8b38bef` — Tabs 세로) + **커밋 안 한 변경: size-limit PR 코멘트**(`.github/workflows/size.yml`, `scripts/size-report.mjs`).
+  아직 배포 안 된 changeset 2개(DropdownMenu·Tabs, minor) → 다음 버전 PR 은 react 1.2.0.
+  **size.yml 은 PR 에서만 돈다 — 다음 PR 에서 코멘트가 달리는지(권한·gh api) 확인한다.** 실패하면 Actions 의 "Comment on PR" 단계 상태를 본다.
 - 컴포넌트 43개(한국 서비스 키트 8개 포함, 폴더 42 — Input 폴더에 Input·TextField) + 테마·다국어(LocaleProvider).
   **P1~P6, P8(1.0), P10 완료.** P9 의 기존 컴포넌트 보강 완료(Combobox 선택 지우기·SkipLink·SegmentedControl·DropdownMenu 체크/라디오/하위 메뉴·Tabs 세로).
 - 번들: react 전체 JS **65.5/70 kB**, styles.css **31.6/36 kB**, Button 하나 1.51/2 kB. (전체 JS 여유 4 kB — 큰 컴포넌트를 더하면 한도 검토)
 - semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
-- **다음 작업 후보:** 정해진 필수 작업은 없음 — 사용자에게 고르게 한다. P7 size-limit PR 코멘트(작고 CI 만 건드림),
+- **다음 작업 후보:** 정해진 필수 작업은 없음 — 사용자에게 고르게 한다.
   백로그(Slider·Progress 트랙 대비, RadioGroup 직접 구현 검토), P9 새 컴포넌트(NumberInput·FileUpload·Stepper·Tag 입력 — 전체 JS 여유 4.5 kB 주의),
   Combobox 다중 선택·비동기 검색, P11(Figma).
   그 밖에 백로그(Slider·Progress 트랙 대비, 기존 RadioGroup 의 Radix 화살표 선택 특성), P7(size-limit PR 코멘트 등), P11(Figma).
@@ -57,7 +58,7 @@
 | 한국 서비스 키트 | AgreementGroup, VerificationCodeInput, PhoneNumberInput, BusinessNumberInput, AmountInput, AddressInput, Calendar, DatePicker |
 
 빌드: ESM 은 `dist/client.js`("use client" — 컴포넌트·hook) + `dist/shared.js`(지시어 없음 — 서버 컴포넌트에서도 부르는 함수·값), CJS 는 한 파일.
-운영: CI(생성물·lint·format·build·size·typecheck·test·스토리 렌더링+axe 라이트·다크·Storybook·playground 빌드·**playground E2E**),
+운영: CI(생성물·lint·format·build·size·typecheck·test·스토리 렌더링+axe 라이트·다크·Storybook·playground 빌드·**playground E2E**), PR 번들 크기 코멘트(size.yml),
 시각 회귀(visual.yml — 새 스토리 자동, 열린 상태 스토리 포함), changesets + npm Trusted Publishing(OIDC, 버전 PR 은 GitHub App 토큰), CI 러너 ubuntu-24.04 고정.
 문서: Storybook(Introduction, Foundations — Design Tokens·Theming·Theme Builder·Icons, Accessibility — KWCAG 2.2 대응·컴포넌트별 키보드·스크린리더, Korean Kit),
 README(GitHub)·npm README(영/한), CONTRIBUTING.md, docs/POSITIONING.md, docs/MIGRATION-1.0.md.
@@ -80,7 +81,7 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 
 ## 다음 단계 (순서는 사용자와 확정)
 
-**추천 순서:** P7 size-limit PR 코멘트 → 백로그 RadioGroup 직접 구현 검토 → 새 컴포넌트는 수요에 따라.
+**추천 순서:** 백로그 RadioGroup 직접 구현 검토 → 새 컴포넌트는 수요에 따라.
 P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기존 사용법을 깨지 않는 추가라 1.0 이후에 해도 된다.
 
 ### P7. 번들·성능
@@ -92,7 +93,8 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
   Drawer → IconButton 등)을 문서화. 빌드는 vanilla-extract 출력에서 컴포넌트별로 나누는 후처리 필요.
 - [~] **서버 컴포넌트 엔트리 분리** — 2026-10-16 함수·값은 `dist/shared.js`(지시어 없음)로 분리해 서버에서 호출 가능(1.0 점검 중 버그로 발견).
   남은 것: Typography·Stack 처럼 hook 없는 **컴포넌트**도 지금은 클라이언트 경계 — 필요하면 1.0 이후 minor 로.
-- [ ] size-limit 결과를 PR 코멘트로 (size-limit-action).
+- [x] **size-limit 결과를 PR 코멘트로** (2026-10-19) — 서드파티 action 대신 `size.yml` + `scripts/size-report.mjs`(base 를 따로 checkout·빌드해 비교, `gh api` 로 코멘트 하나 갱신,
+  한도 95% 이상 ⚠️). 보고 전용(실패는 ci.yml). 포크 PR 은 Summary 만. 실제 PR 에서 첫 동작 확인 필요.
 
 ### P9. 기존 컴포넌트 보강 · 새 컴포넌트
 
@@ -188,3 +190,4 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 | 2026-10-19 | 문서 점검: ROADMAP 인수인계·현재 상태(1.0.0·PR #19·43개·번들) 갱신, P8·P10 상세를 ROADMAP-HISTORY 로 이동, README·Introduction·POSITIONING·npm README 보완 |
 | 2026-10-19 | 1.1.0 배포 확인. P9 DropdownMenu `CheckboxItem`·`RadioGroup`/`RadioItem`·`Sub`/`SubTrigger`/`SubContent` 추가 — 테스트 7개(변이 확인: 하위 메뉴 portal 테마), 스토리 4개(열린 상태 2개 play), playground "보기 옵션" 메뉴·"이동" 하위 메뉴 + E2E 3개(5회 반복 안정), 접근성 문서. 다음은 Tabs 세로 |
 | 2026-10-19 | P9 Tabs `orientation="vertical"` — 테스트 2개(변이 확인), 스토리 Vertical·VerticalSoft, playground 세로 탭 + E2E(↑/↓·레이아웃 위치, 5회 반복 안정), 접근성 문서. P9 기존 컴포넌트 보강 마무리 |
+| 2026-10-19 | P7 size-limit PR 코멘트: `size.yml`(PR·base 각각 빌드·측정 → 코멘트 하나 갱신, 포크는 Summary) + `scripts/size-report.mjs`. 로컬에서 87537ab 를 base 로 실제 비교·경계 사례(초과·근접·추가/삭제) 확인, actionlint 통과. 실제 PR 동작은 미확인 |
