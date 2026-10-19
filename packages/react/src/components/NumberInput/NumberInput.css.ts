@@ -24,9 +24,10 @@ export const stepper = recipe({
   },
   variants: {
     size: {
-      sm: { width: '24px', height: '24px' },
-      md: { width: '32px', height: '32px' },
-      lg: { width: '36px', height: '36px' },
+      // Button 의 minHeight 보다 작게 쓰므로 minHeight 도 함께 맞춘다
+      sm: { width: '24px', height: '24px', minHeight: '24px' },
+      md: { width: '32px', height: '32px', minHeight: '32px' },
+      lg: { width: '36px', height: '36px', minHeight: '36px' },
     },
   },
   defaultVariants: { size: 'md' },

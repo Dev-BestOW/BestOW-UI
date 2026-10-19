@@ -49,9 +49,9 @@ export const badge = recipe({
       warning: accentFrom('warning'),
     },
     size: {
-      sm: { height: '20px', paddingInline: vars.space[2], fontSize: vars.font.size.xs },
-      md: { height: '24px', paddingInline: vars.space[2], fontSize: vars.font.size.xs },
-      lg: { height: '28px', paddingInline: vars.space[3], fontSize: vars.font.size.sm },
+      sm: { minHeight: '20px', paddingInline: vars.space[2], fontSize: vars.font.size.xs },
+      md: { minHeight: '24px', paddingInline: vars.space[2], fontSize: vars.font.size.xs },
+      lg: { minHeight: '28px', paddingInline: vars.space[3], fontSize: vars.font.size.sm },
     },
   },
   defaultVariants: {

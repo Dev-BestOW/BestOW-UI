@@ -344,6 +344,13 @@ export const kwcag: KwcagGroup[] = [
 /** 이 세션들에서 자동 검사·테스트가 실제로 찾아 고친 문제 — "검사로 지켜진다" 는 근거 */
 export const caughtIssues: Array<{ item: string; found: string; fixed: string }> = [
   {
+    item: 'WCAG 1.4.10 리플로 · 1.4.4 글자 크기 (KWCAG 항목 외)',
+    found:
+      '320px 폭에서 인증번호 칸(6칸)이 화면보다 넓어 가로 스크롤이 생겼다. 글자 크기가 px 라 브라우저 기본 글꼴 크기를 키워도 커지지 않았다',
+    fixed:
+      '인증번호 칸이 좁을 때만 줄어들게, 글자 크기 CSS 변수를 rem 으로(기본 설정에서 화면 동일) + 리플로·글자 간격·글꼴 2배 E2E',
+  },
+  {
     item: '5.4.4 콘텐츠 간의 구분 (고대비 모드)',
     found:
       'Windows 고대비에서 Switch 가 통째로 사라지고, 선택된 탭·SegmentedControl 칸·메뉴/목록 강조 항목·현재 페이지·Progress 막대가 보이지 않았다. 켜진 Switch 에 마우스를 올리면 시스템 색 대신 원래 색이 나왔다',

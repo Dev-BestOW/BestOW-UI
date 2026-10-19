@@ -85,9 +85,9 @@ export const button = recipe({
       danger: accentFrom('danger'),
     },
     size: {
-      sm: { height: '32px', paddingInline: vars.space[3], fontSize: vars.font.size.sm },
-      md: { height: '40px', paddingInline: vars.space[4], fontSize: vars.font.size.sm },
-      lg: { height: '48px', paddingInline: vars.space[5], fontSize: vars.font.size.md },
+      sm: { minHeight: '32px', paddingInline: vars.space[3], fontSize: vars.font.size.sm },
+      md: { minHeight: '40px', paddingInline: vars.space[4], fontSize: vars.font.size.sm },
+      lg: { minHeight: '48px', paddingInline: vars.space[5], fontSize: vars.font.size.md },
     },
     fullWidth: {
       true: { width: '100%' },

@@ -14,10 +14,21 @@ import {
 } from '@bestow-ui/tokens';
 import { createGlobalTheme, createGlobalThemeContract, createTheme } from '@vanilla-extract/css';
 
+/**
+ * 글자 크기는 rem 으로 낸다 — 사용자가 브라우저 기본 글꼴 크기를 키우면 따라 커진다(저시력 사용자). 16px 기준이라
+ * 기본 설정에서는 px 와 같다. `@bestow-ui/tokens` 의 값(px)은 그대로 두고 CSS 변수(--bestow-font-size-*)만 rem.
+ * 글자가 커져도 잘리지 않게 글자가 든 컨트롤은 height 대신 minHeight 를 쓴다(Button·Tabs·Badge 등 — 한 줄 Input 은
+ * 200% 에서도 안에 들어가 고정 높이 유지, Input.css.ts 참고).
+ */
+const pxToRem = (value: string) => (value.endsWith('px') ? `${parseFloat(value) / 16}rem` : value);
+const fontSizeRem = Object.fromEntries(Object.entries(fontSize).map(([key, value]) => [key, pxToRem(value)])) as {
+  [K in keyof typeof fontSize]: string;
+};
+
 const baseTokens = {
   space,
   radius,
-  font: { family: fontFamily, size: fontSize, weight: fontWeight, lineHeight },
+  font: { family: fontFamily, size: fontSizeRem, weight: fontWeight, lineHeight },
   duration,
   zIndex,
 };

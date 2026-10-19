@@ -2,6 +2,8 @@ import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 import { vars } from '../../theme/contract.css';
 
+// 한 줄 입력창은 높이를 고정한다 — 글자 200%(14 → 28px)에서도 안쪽(38px)에 들어가고, input 이 height: 100% 로 루트를 채워
+// 클릭 영역이 넓다(minHeight 로 바꾸면 100% 가 계산되지 않아 input 이 17px 로 줄었다).
 export const root = recipe({
   base: {
     display: 'inline-flex',

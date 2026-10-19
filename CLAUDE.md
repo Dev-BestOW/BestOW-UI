@@ -86,6 +86,10 @@ apps/
 ## 컴포넌트 작성 규칙
 
 - 스타일 값은 **반드시 `vars`(테마 토큰)로 참조**한다. 하드코딩한 색·간격 금지 (그래야 다크모드·테마 교체가 된다).
+- 글자 크기 CSS 변수(`--bestow-font-size-*`)는 **rem** 이다(tokens 의 px 를 theme/contract.css.ts 가 변환) — 사용자 기본 글꼴 크기를 따른다.
+  글자가 든 컨트롤은 `height` 대신 `minHeight`(Button·Tabs·Badge·SegmentedControl·Pagination). 예외: 한 줄 Input 은 고정 높이(200% 에도 들어가고
+  input 의 height:100% 가 루트를 채움), Avatar 이니셜은 원이 px 고정이라 tokens 의 px. Button 을 더 작게 쓰는 곳은 `minHeight` 도 함께 맞춘다(NumberInput).
+  `apps/playground/e2e/zoom.spec.ts` 가 320px 리플로·글자 간격(1.4.12)·기본 글꼴 2배를 확인한다.
 - **상태(선택·켜짐·강조·진행률)를 배경색이나 그림자로만 보이면** 고대비 모드에서 사라진다 — `styles/forcedColors.css.ts` 의
   `forcedColors` 미디어쿼리에서 `systemHighlight`(Highlight 배경) 등 시스템 색으로 다시 그린다. 같은 상태의 `:hover` 규칙도 함께 덮는다(더 구체적이라 이긴다).
   `apps/playground/e2e/forced-colors.spec.ts` 가 시스템 강조색인지 확인한다("투명 아님" 검사는 버튼의 ButtonFace 때문에 너무 약하다).

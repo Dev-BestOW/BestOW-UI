@@ -58,9 +58,9 @@ export const item = recipe({
   variants: {
     // 트랙 안쪽 여백(4px ×2)을 더하면 전체 높이가 Button·Input 의 sm 32 / md 40 / lg 48 과 같다
     size: {
-      sm: { height: '24px', paddingInline: vars.space[3], fontSize: vars.font.size.sm },
-      md: { height: '32px', paddingInline: vars.space[4], fontSize: vars.font.size.sm },
-      lg: { height: '40px', paddingInline: vars.space[5], fontSize: vars.font.size.md },
+      sm: { minHeight: '24px', paddingInline: vars.space[3], fontSize: vars.font.size.sm },
+      md: { minHeight: '32px', paddingInline: vars.space[4], fontSize: vars.font.size.sm },
+      lg: { minHeight: '40px', paddingInline: vars.space[5], fontSize: vars.font.size.md },
     },
     fullWidth: {
       true: { flex: '1 1 0', minWidth: 0 },

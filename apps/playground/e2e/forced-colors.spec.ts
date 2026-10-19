@@ -12,15 +12,20 @@ test.skip(({ browserName }) => browserName !== 'chromium', 'forced-colors 에뮬
  * "투명이 아니다" 만 보면 안 된다 — 버튼은 고대비에서 브라우저가 ButtonFace 로 칠해, 상태 표시가 없어도 통과해 버린다.
  */
 async function expectSystemHighlight(locator: Locator) {
-  const [fill, highlight] = await locator.evaluate((el) => {
+  const highlight = await locator.page().evaluate(() => {
     const probe = document.createElement('div');
     probe.style.cssText = 'forced-color-adjust:none;background:Highlight;position:absolute;width:1px;height:1px';
     document.body.append(probe);
-    const highlight = getComputedStyle(probe).backgroundColor;
+    const color = getComputedStyle(probe).backgroundColor;
     probe.remove();
-    return [getComputedStyle(el).backgroundColor, highlight];
+    return color;
   });
-  expect(fill, '고대비에서 상태가 시스템 강조색으로 보여야 한다').toBe(highlight);
+  // 배경색 전환 애니메이션(Switch 등) 중에는 중간 색이 읽힌다 — 목표 색이 될 때까지 다시 읽는다
+  await expect
+    .poll(() => locator.evaluate((el) => getComputedStyle(el).backgroundColor), {
+      message: '고대비에서 상태가 시스템 강조색으로 보여야 한다',
+    })
+    .toBe(highlight);
 }
 
 test('고대비: Switch 켜짐·선택된 탭·SegmentedControl·현재 페이지가 보인다', async ({ page }) => {

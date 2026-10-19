@@ -106,14 +106,14 @@ export const trigger = recipe({
       },
     },
     size: {
-      sm: { height: '32px', paddingInline: vars.space[3], fontSize: vars.font.size.sm },
-      md: { height: '40px', paddingInline: vars.space[4], fontSize: vars.font.size.md },
+      sm: { minHeight: '32px', paddingInline: vars.space[3], fontSize: vars.font.size.sm },
+      md: { minHeight: '40px', paddingInline: vars.space[4], fontSize: vars.font.size.md },
     },
   },
   compoundVariants: [
     // soft 는 리스트 안쪽 여백(4px)만큼 낮춰 전체 높이를 line 과 맞춘다
-    { variants: { variant: 'soft', size: 'sm' }, style: { height: '24px' } },
-    { variants: { variant: 'soft', size: 'md' }, style: { height: '32px' } },
+    { variants: { variant: 'soft', size: 'sm' }, style: { minHeight: '24px' } },
+    { variants: { variant: 'soft', size: 'md' }, style: { minHeight: '32px' } },
   ],
   defaultVariants: { variant: 'line', size: 'md' },
 });

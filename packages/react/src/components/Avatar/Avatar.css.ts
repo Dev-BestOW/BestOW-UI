@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { recipe, type RecipeVariants } from '@vanilla-extract/recipes';
+import { fontSize } from '@bestow-ui/tokens';
 import { vars } from '../../theme/contract.css';
 
 export const root = recipe({
@@ -19,10 +20,12 @@ export const root = recipe({
     lineHeight: 1,
   },
   variants: {
+    // 원 크기가 px 로 고정인 그림 요소라 이니셜도 px(tokens 원래 값)로 — rem(--bestow-font-size-*)이면 사용자가 기본 글꼴을
+    // 키울 때 이니셜만 커져 원 밖으로 잘린다. 화면 전체 확대에는 원과 함께 커진다
     size: {
-      sm: { width: '28px', height: '28px', fontSize: vars.font.size.xs },
-      md: { width: '36px', height: '36px', fontSize: vars.font.size.sm },
-      lg: { width: '48px', height: '48px', fontSize: vars.font.size.lg },
+      sm: { width: '28px', height: '28px', fontSize: fontSize.xs },
+      md: { width: '36px', height: '36px', fontSize: fontSize.sm },
+      lg: { width: '48px', height: '48px', fontSize: fontSize.lg },
     },
     shape: {
       circle: { borderRadius: vars.radius.full },

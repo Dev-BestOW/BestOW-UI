@@ -13,6 +13,9 @@ export const slots = style({
   position: 'relative',
   display: 'inline-flex',
   gap: vars.space[2],
+  // 좁은 화면(320px)에서 공간이 모자랄 때만 칸이 줄어든다 (WCAG 1.4.10 리플로).
+  // maxWidth: 100% 를 주면 폭이 내용으로 정해지는 부모 안에서 넓은 화면에서도 칸이 줄어들었다
+  minWidth: 0,
 });
 
 export const input = style({
@@ -41,8 +44,12 @@ export const slot = style({
   display: 'inline-flex',
   alignItems: 'center',
   justifyContent: 'center',
+  // 기본 44px, 좁으면 32px 까지 줄어든다. flex-basis 로 주면 폭이 내용으로 정해지는 부모 안에서 넓은 화면에서도 줄어들어
+  // width + flexShrink 로 준다
   width: '44px',
-  height: '52px',
+  flexShrink: 1,
+  minWidth: '32px',
+  minHeight: '52px',
   border: `1px solid ${vars.color.border.default}`,
   borderRadius: vars.radius.md,
   backgroundColor: vars.color.bg.default,

@@ -47,8 +47,8 @@ export const item = recipe({
   },
   variants: {
     size: {
-      sm: { minWidth: '32px', height: '32px', fontSize: vars.font.size.sm },
-      md: { minWidth: '36px', height: '36px', fontSize: vars.font.size.sm },
+      sm: { minWidth: '32px', minHeight: '32px', fontSize: vars.font.size.sm },
+      md: { minWidth: '36px', minHeight: '36px', fontSize: vars.font.size.sm },
     },
   },
   defaultVariants: { size: 'md' },

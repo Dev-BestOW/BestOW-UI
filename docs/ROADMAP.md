@@ -18,7 +18,7 @@
 - 번들: react 전체 JS **67.3/80 kB**, 대표 조합(앱 기본 3.4·폼 30.1·오버레이 34.7·한국 키트 30.3 kB, +10% 한도), styles.css **9.4/12 kB**, Button 하나 1.51/2 kB.
 - semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
 - 보고할 때 시각 회귀는 "허용치 안 통과" 와 "픽셀 동일" 을 구분한다(RadioGroup 사례).
-- **다음 작업:** push 후 CI 확인 — Firefox(SkipLink 스토리·콘솔 안내 경고 예외) 가 녹색이면 P12-1 완료. 그다음 P13-3 확대·리플로 → P12-5 지원 정책 → P13-1 스크린리더 체크리스트.
+- **다음 작업:** push 후 CI 확인(고대비 E2E poll 수정·rem 전환 — 시각 회귀는 macOS 비교로 변화 없음 확인). 그다음 P12-5 지원 정책 문서 → P13-1 스크린리더 체크리스트(사람이 실행) → P14-1 파일럿.
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다
@@ -98,7 +98,8 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 
 ### P12. 신뢰성 기반 — 검증 범위 넓히기 (최우선)
 
-- [~] **P12-1. WebKit·Firefox CI** — 3차(`00af1f1`): React 18·WebKit 성공, Firefox 는 스토리 SkipLink(포커스 타이밍)·E2E Combobox(Firefox 성능 안내 경고) 2건 → 수정.
+- [x] **P12-1. WebKit·Firefox CI** — 4차(`ec9ba2a`)에서 Firefox·WebKit·React 18 모두 녹색. (고대비 E2E 는 Switch 색 전환 중간값을 읽어 실패 → expect.poll 로 수정)
+  이전 기록: 3차(`00af1f1`): React 18·WebKit 성공, Firefox 는 스토리 SkipLink(포커스 타이밍)·E2E Combobox(Firefox 성능 안내 경고) 2건 → 수정.
   2차 이전 기록: 2026-10-19 설정 완료(`STORYBOOK_BROWSERS`·`E2E_BROWSERS`, ci.yml `browsers` job). CI 첫 결과(`8585e69`):
   **WebKit 성공 · Firefox 스토리 470 통과 / E2E 실패(원인 미확인 — 로그는 인증 필요)** → github reporter 추가(annotation 으로 원인이 보임), 다음 push 결과로 수정.
   Firefox 는 로컬 실행 불가(macOS 27). 원래 메모: — 스토리 테스트(vitest browser 의 instances 에 webkit·firefox 추가)와 playground E2E(Playwright projects)를
@@ -127,7 +128,9 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
   Progress 막대 안 보임, Slider 범위·Stepper 선 안 보임 → `styles/forcedColors.css.ts`(시스템 색) 적용. E2E `forced-colors.spec.ts`(시스템 강조색 일치 확인 —
   처음 "투명 아님" 검사는 버튼 ButtonFace 로 변이가 살아남아 강화, 강화 후 켜진 Switch hover 가 원래 색으로 덮이는 결함까지 발견·수정). 원래 메모: Playwright `forcedColors: 'active'` 로 주요 스토리를 찍어 경계·선택 표시·포커스 링이 보이는지 확인
   (RadioGroup·트랙은 대응해 둠, Checkbox·Switch·SegmentedControl·Stepper·Badge 확인 필요).
-- [ ] **P13-3. 확대·리플로 점검** — 320px 너비·200% 글자 확대에서 가로 스크롤·잘림 없는지(WCAG 1.4.10·1.4.4). E2E 또는 스토리 테스트로.
+- [x] **P13-3. 확대·리플로 점검** (2026-10-19) — `zoom.spec.ts`: 320px 리플로(3페이지 + Modal·Drawer), 글자 간격(1.4.12), 기본 글꼴 2배.
+  발견·수정: 인증번호 칸 320px 넘침(라이브러리), 글자 크기 px → rem(사용자 결정: minor, tokens 값은 그대로) + 글자 든 컨트롤 minHeight,
+  Avatar 이니셜 잘림 → px. macOS 에서 이전 커밋과 전체 472장 픽셀 비교로 화면 변화 없음 확인. 원래 메모: 320px 너비·200% 글자 확대에서 가로 스크롤·잘림 없는지(WCAG 1.4.10·1.4.4). E2E 또는 스토리 테스트로.
 - [ ] **P13-4. 입력 테두리 대비 (2.0 후보, 결정 필요)** — border.default(gray300)가 흰 배경과 1.3:1. 모든 입력 화면이 바뀌므로 2.0 에 모으거나,
   `fg.subtle` 수준으로 올리는 옵션 토큰을 minor 로 먼저 제공. 사용자와 결정.
 
@@ -244,3 +247,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-19 | P12-4 번들 한도: 전체 80 kB + 대표 조합 4개(앱 기본·폼·오버레이·한국 키트, +10%) |
 | 2026-10-19 | CI 2차: Firefox 스토리 1건(NumberInput 키보드 play, 가끔 실패로 추정) → 클릭 포커스 + 포커스 확인으로 보강, 스토리가 실패해도 E2E 가 돌게. P12-3 React 18 job + SSR 스모크 테스트 |
 | 2026-10-19 | CI 3차: React 18 job 성공. Firefox 2건(SkipLink 스토리 포커스 타이밍, Firefox 의 scroll-linked 성능 안내 경고) 수정. P13-2 고대비: 9개 컴포넌트 시스템 색 대응 + E2E(변이 확인, hover 결함 발견) |
+| 2026-10-19 | CI 4차: Firefox 녹색 → P12-1 완료, 고대비 E2E 색 전환 중간값 → poll. P13-3 확대·리플로: 인증번호 칸 320px 넘침 수정, 글자 크기 rem(minor, 사용자 결정)·minHeight, Avatar 이니셜 px, zoom.spec(10개, 변이 확인). 전체 472장 macOS 픽셀 비교 동일 |
