@@ -36,6 +36,8 @@ export const en: BestowMessages = {
   skipToContent: 'Skip to main content',
   decrement: 'Decrease',
   increment: 'Increase',
+  steps: 'Progress',
+  stepCompleted: 'completed',
   rangeStart: 'minimum',
   rangeEnd: 'maximum',
   agreeAll: 'Agree to all',

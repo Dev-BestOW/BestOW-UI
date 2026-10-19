@@ -223,3 +223,15 @@ test('NumberInput: ↑/↓ 로 바꾸고, + 버튼은 포커스를 뺏지 않으
   await expect(page.getByText('선택한 좌석: 20 (최대 20석)')).toBeVisible();
   await expect(page.getByRole('button', { name: '늘리기' })).toBeDisabled();
 });
+
+test('Stepper: "다음 단계" 를 누르면 현재 단계(aria-current)가 옮겨지고 앞 단계는 "완료" 로 읽힌다', async ({
+  page,
+}) => {
+  await page.goto('/navigation');
+  const steps = page.getByRole('list', { name: '회원가입 단계' }).getByRole('listitem');
+  await expect(steps.nth(0)).toHaveAttribute('aria-current', 'step');
+  await page.getByRole('button', { name: '다음 단계' }).click();
+  await expect(steps.nth(1)).toHaveAttribute('aria-current', 'step');
+  await expect(steps.nth(0)).not.toHaveAttribute('aria-current', 'step');
+  await expect(steps.nth(0)).toContainText('(완료)');
+});

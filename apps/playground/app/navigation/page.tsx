@@ -23,6 +23,7 @@ import {
   DropdownMenuTrigger,
   Pagination,
   SegmentedControl,
+  Stepper,
   Popover,
   PopoverClose,
   Stack,
@@ -48,6 +49,7 @@ export default function NavigationPage() {
   const [showHidden, setShowHidden] = useState(false);
   const [showSize, setShowSize] = useState(true);
   const [density, setDensity] = useState('comfortable');
+  const [signupStep, setSignupStep] = useState(0);
 
   return (
     <Stack gap={8}>
@@ -213,6 +215,31 @@ export default function NavigationPage() {
           보기: 숨긴 파일 {showHidden ? '표시' : '숨김'} · 크기 열 {showSize ? '표시' : '숨김'} · 간격{' '}
           {density === 'compact' ? '좁게' : '넓게'}
         </Typography>
+      </Stack>
+
+      <Stack gap={3}>
+        <Typography variant="h3" as="h2">
+          Stepper
+        </Typography>
+        <Stepper
+          aria-label="회원가입 단계"
+          current={signupStep}
+          steps={[{ label: '약관 동의' }, { label: '정보 입력' }, { label: '본인 인증' }, { label: '가입 완료' }]}
+          style={{ maxWidth: 560 }}
+        />
+        <Stack direction="row" gap={2}>
+          <Button
+            variant="outline"
+            color="neutral"
+            disabled={signupStep === 0}
+            onClick={() => setSignupStep((step) => step - 1)}
+          >
+            이전 단계
+          </Button>
+          <Button disabled={signupStep === 4} onClick={() => setSignupStep((step) => step + 1)}>
+            다음 단계
+          </Button>
+        </Stack>
       </Stack>
 
       <Stack gap={3}>

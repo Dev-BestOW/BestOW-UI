@@ -41,6 +41,7 @@ export * from './components/SegmentedControl';
 export * from './components/Select';
 export * from './components/SkipLink';
 export * from './components/Slider';
+export * from './components/Stepper';
 export * from './components/Spinner';
 export * from './components/Switch';
 export * from './components/Table';

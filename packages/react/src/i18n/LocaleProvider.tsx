@@ -36,6 +36,9 @@ export interface BestowMessages {
   /** NumberInput −/+ 버튼 — "줄이기", "늘리기" (1.0 이후 추가, 선택 키) */
   decrement?: string;
   increment?: string;
+  /** Stepper — 목록 이름 "진행 단계", 완료한 단계에 붙는 "완료" (1.0 이후 추가, 선택 키) */
+  steps?: string;
+  stepCompleted?: string;
   /** Slider 범위 손잡이 — "최소", "최대" */
   rangeStart: string;
   rangeEnd: string;

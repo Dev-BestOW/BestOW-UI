@@ -197,6 +197,13 @@ export const componentA11y: ComponentA11yGroup[] = [
     group: '탐색·구조',
     items: [
       {
+        name: 'Stepper',
+        keyboard: '포커스를 받지 않는다 (표시용). 단계 이동은 "이전"·"다음" 버튼으로.',
+        screenReader:
+          '순서 목록(ol, 이름 "진행 단계") — "4개 중 2번째" 를 읽는다. 현재 단계는 aria-current="step", 완료한 단계는 "(완료)" 를 함께 읽고, 원 안의 숫자·체크는 숨김.',
+        yours: '단계가 바뀌면 새 단계의 제목(h1 등)으로 포커스를 옮겨 바뀐 것을 알린다.',
+      },
+      {
         name: 'Tabs',
         keyboard:
           'Tab 으로 탭 목록에 들어가면 선택된 탭, ←/→ 이동하며 전환(세로 orientation 이면 ↑/↓), Home/End. 비활성 탭은 건너뜀.',
