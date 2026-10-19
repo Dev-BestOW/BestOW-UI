@@ -40,8 +40,8 @@ export const ErrorSummary = /* @__PURE__ */ forwardRef<HTMLDivElement, ErrorSumm
   const hasErrors = errors.length > 0;
 
   useEffect(() => {
+    // 나타날 때와 focusKey 가 바뀔 때만 옮긴다
     if (hasErrors) rootRef.current?.focus();
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- 나타날 때와 focusKey 가 바뀔 때만 옮긴다
   }, [focusKey, hasErrors]);
 
   if (!hasErrors) return null;

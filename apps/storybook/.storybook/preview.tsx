@@ -49,6 +49,8 @@ const preview: Preview = {
           ['Design Tokens', 'Theming', 'Theme Builder', 'Icons'],
           'Accessibility',
           ['KWCAG 2.2 대응', '컴포넌트별 키보드·스크린리더'],
+          'Guides',
+          ['언제 무엇을 쓰나', '화면 패턴'],
           'Layout',
           'Components',
           'Korean Kit',

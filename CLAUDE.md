@@ -29,10 +29,11 @@ packages/
                                기본 세트는 Lucide(ISC) — LICENSE 유지 필수.
   react/    @bestow-ui/react   테마 + 컴포넌트. tokens, icons, Radix primitives, vanilla-extract 에 의존.
 apps/
-  storybook/ (private)         Storybook 10. packages/*/src 의 스토리 + apps/storybook/stories(Introduction.mdx, Design Tokens,
+  storybook/ (private)         Storybook 10. packages/*/src 의 스토리 + apps/storybook/stories(Introduction.mdx, guides/ — 언제 무엇을 쓰나(데이터 choosing.ts)·화면 패턴(Patterns.mdx), Design Tokens,
                                Theme Builder, Icons, accessibility/ — KWCAG 2.2 대응 문서(데이터 kwcag.ts + Kwcag.mdx),
                                컴포넌트별 키보드·스크린리더 문서(데이터 componentA11y.ts + ComponentA11y.mdx)).
-                               사이드바: Introduction → Foundations → Accessibility → Layout → Components → Korean Kit.
+                               사이드바: Introduction → Foundations → Accessibility → Guides → Layout → Components → Korean Kit.
+                               새 컴포넌트·API 가 생기면 guides 의 선택 기준·패턴 코드도 맞춘다(MDX 의 링크는 index.json 으로 검사, axe 는 직접).
                                vite alias 로 dist 가 아닌 각 패키지 src 를 바로 본다.
   playground/ (private)        Next.js 16 App Router 예제 앱. alias 없이 패키지 dist 를 그대로 써서 실제 설치와 같은 조건으로
                                SSR·서버 컴포넌트·portal 테마를 확인한다 (packages 를 먼저 build 해야 함). 헤더에 다크/브랜드 토글.

@@ -1,0 +1,138 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Guides/화면 패턴" />
+
+# 화면 패턴
+
+여러 컴포넌트를 함께 쓰는 흔한 화면의 짜임새예요. 각 패턴은 예제 앱과 스토리에서 실제로 동작하고, E2E 테스트로 확인해요.
+
+- 예제 앱: [주문 관리](https://dev-bestow.github.io/BestOW-UI/playground/orders)(목록·상세·등록 폼),
+  [회원가입](https://dev-bestow.github.io/BestOW-UI/playground/signup)(react-hook-form)
+- 무엇을 고를지는 [언제 무엇을 쓰나](?path=/docs/guides-언제-무엇을-쓰나--docs)를 보세요.
+
+## 폼 검증과 오류 요약
+
+1. 칸마다 `error` 와 `helperText`(고칠 내용)를 준다 — 칸이 `aria-invalid` 가 되고 문구가 설명으로 읽혀요.
+2. 제출에 실패하면 폼 맨 위의 [ErrorSummary](?path=/docs/components-errorsummary--docs)로 **포커스를 옮긴다**.
+   스크린리더가 "고칠 곳이 N개" 와 목록을 읽고, 링크로 각 칸에 바로 가요(묶음 컴포넌트는 선택된·첫 항목).
+3. 다시 제출해도 오류가 남아 있으면 다시 포커스하도록 `focusKey` 에 제출 횟수를 넘긴다.
+4. 브라우저 기본 검사 말풍선 대신 이 방식을 쓰려면 `<form noValidate>`.
+
+```tsx
+const [errors, setErrors] = useState<ErrorSummaryItem[]>([]);
+const [submitCount, setSubmitCount] = useState(0);
+
+<form
+  noValidate
+  onSubmit={(e) => {
+    e.preventDefault();
+    setErrors(validate());
+    setSubmitCount((c) => c + 1);
+  }}
+>
+  <ErrorSummary errors={errors} focusKey={submitCount} />
+  <TextField id="name" label="이름" required error={!!message('name')} helperText={message('name')} />
+  <Button type="submit">저장</Button>
+</form>;
+```
+
+**react-hook-form** — 입력창은 `register` 를 펼치고, 값을 고르는 컴포넌트는 `Controller` 로 `value`·`onValueChange` 를 연결해요.
+RadioGroup·AgreementGroup 같은 묶음은 ref 로 포커스할 수 없으므로 `shouldFocusError: false` 로 두고 ErrorSummary 가 포커스를 받아요.
+
+```tsx
+const { register, control, handleSubmit, formState: { errors, submitCount } } = useForm({ shouldFocusError: false });
+const summary = Object.entries(errors).map(([name, e]) => ({ id: `signup-${name}`, message: e?.message ?? '' }));
+
+<ErrorSummary errors={summary} focusKey={submitCount} />
+<TextField id="signup-email" label="이메일" {...register('email', { required: '이메일을 입력해 주세요.' })}
+  error={!!errors.email} helperText={errors.email?.message} />
+<Controller name="plan" control={control} rules={{ required: '플랜을 골라 주세요.' }}
+  render={({ field, fieldState }) => (
+    <Select id="signup-plan" label="플랜" options={plans} value={field.value} onValueChange={field.onChange}
+      error={!!fieldState.error} helperText={fieldState.error?.message} />
+  )} />
+```
+
+**대화상자 안의 폼** — Modal 의 `footer` 는 form 밖에 그려지므로 제출 버튼에 `type="submit" form="폼 id"` 를 줘요.
+([Modal — 폼 제출](?path=/story/components-modal--submit-form))
+
+## 목록 화면
+
+검색·필터 → 표 → 행 선택과 일괄 작업 → 페이지 이동 → 행 메뉴로 상세(Drawer)·작업.
+([Table — 목록 화면 패턴](?path=/story/components-table--list-pattern-story), 예제 앱 주문 관리)
+
+- 행 선택은 `useTableSelection` — "이 페이지 모두 선택"(일부면 혼합 상태)과 행 체크박스 prop 을 돌려주고, 페이지를 넘겨도 유지돼요.
+  행 체크박스 이름은 "ORD-001 선택" 처럼 행을 구분할 수 있게.
+- 선택하면 일괄 작업 바(Card + 버튼)를 보여 주고 "N건 선택됨" 을 `role="status"` 로 알려요.
+- 결과가 없으면 `TableEmpty`(안내 + 초기화 버튼), 불러오는 동안은 `TableSkeleton` + 표에 `aria-busy`.
+- 검색·필터로 결과 수가 바뀌면 "37건 중 1–10" 같은 문구를 `role="status"` 로 알려요(포커스는 그대로).
+- 아이콘만 있는 열 머리글은 [VisuallyHidden](?path=/docs/components-visuallyhidden--docs)으로 이름("작업")을 준다.
+- 행 메뉴(DropdownMenu)에서 연 Drawer·Modal 은 닫히면 메뉴 버튼으로 포커스가 돌아가요(자동).
+- 상세의 이름–값은 [DescriptionList](?path=/docs/components-descriptionlist--docs).
+
+```tsx
+const selection = useTableSelection<string>();
+<Checkbox aria-label="이 페이지 모두 선택" {...selection.selectAllProps(pageIds)} />;
+{
+  rows.length === 0 ? (
+    <TableEmpty colSpan={8}>
+      조건에 맞는 주문이 없어요.<Button onClick={reset}>초기화</Button>
+    </TableEmpty>
+  ) : (
+    rows.map((row) => (
+      <TableRow key={row.id} selected={selection.isSelected(row.id)}>
+        <TableCell>
+          <Checkbox aria-label={`${row.id} 선택`} {...selection.rowProps(row.id)} />
+        </TableCell>
+        …
+      </TableRow>
+    ))
+  );
+}
+```
+
+## 단계별 흐름 (가입·결제)
+
+- 위에 [Stepper](?path=/docs/components-stepper--docs)로 현재 단계를 보여 주고, 이동은 "이전"·"다음" 버튼으로 해요(Stepper 는 표시용).
+- 단계가 바뀌면 **새 단계의 제목으로 포커스**를 옮겨 바뀐 것을 알려요 — 제목에 `tabIndex={-1}`.
+- 다음으로 가기 전에 그 단계의 칸을 검증하고, 실패하면 ErrorSummary.
+
+```tsx
+const titleRef = useRef<HTMLHeadingElement>(null);
+useEffect(() => { titleRef.current?.focus(); }, [step]);
+
+<Stepper aria-label="회원가입 단계" steps={steps} current={step} />
+<Typography ref={titleRef} variant="h2" tabIndex={-1}>{steps[step].label}</Typography>
+…
+<Button variant="outline" color="neutral" disabled={step === 0} onClick={() => setStep(step - 1)}>이전</Button>
+<Button onClick={next}>다음</Button>
+```
+
+## 파일 업로드와 진행률
+
+[FileUpload](?path=/docs/components-fileupload--docs)는 파일을 고르기만 해요. 서버로 보내는 동안 [Progress](?path=/docs/components-progress--docs)로
+진행률을 보여 주고, 끝나면 Toast 나 `role="status"` 로 결과를 알려요. 형식·크기 검사는 편의용이라 **서버에서 다시 검사**해요.
+
+```tsx
+const [progress, setProgress] = useState<number | null>(null);
+
+<FileUpload
+  label="증빙 서류"
+  accept=".pdf,image/*"
+  maxSize={10 * 1024 * 1024}
+  value={files}
+  onValueChange={setFiles}
+/>;
+{
+  progress !== null && <Progress label="업로드" value={progress} showValue />;
+}
+<Button loading={progress !== null && progress < 100} onClick={() => upload(files, setProgress)}>
+  업로드
+</Button>;
+```
+
+## 화면 안내·결과 알림
+
+- 동작 결과(저장·삭제)는 Toast — 사라지므로 되돌리기처럼 중요한 동작을 Toast 에만 두지 않아요.
+- 페이지에 남아야 하는 안내는 Alert(처음부터 있으면 역할 없음, 동작 뒤 새로 나타나면 `role="status"`/`"alert"`).
+- 버튼을 누르고 기다리는 동안은 `Button loading` — 버튼 이름은 그대로 읽히고 중복 제출을 막아요.
