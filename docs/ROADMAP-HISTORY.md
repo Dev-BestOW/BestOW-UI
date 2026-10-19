@@ -270,3 +270,41 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
   키보드(DropdownMenu·Modal 포커스 가둠/복귀·Combobox·Select·Tabs·서식 입력), 서버 컴포넌트 함수. 5회 반복 안정성·변이(portal·hydration) 확인.
 - [x] 시각 회귀에 열린 상태 스토리 추가 (2026-10-16) — Select·DropdownMenu·Popover·Modal "열린 상태" 새로, Drawer(defaultOpen→play)·
   DatePicker·AddressInput 열린 스토리를 시각 회귀에 포함. visual 스펙이 play 완료를 기다린다. 새 기준 이미지는 main push 때 봇이 커밋.
+
+---
+
+## P7. 번들·성능 (2026-10-19 완료 — 컴포넌트별 CSS(B)는 보류, ROADMAP P16)
+
+- [x] **CSS 배포 방식 결정** (2026-10-15, 사용자 결정: **A 유지** — `styles.css` 하나. 측정: 테마·공통 약 15%, 컴포넌트당 2~5%,
+  컴포넌트 10개 앱이면 필요한 CSS 는 절반 정도.) 컴포넌트별 선택 import(B, Mantine 방식 `styles/base.css` + `styles/<컴포넌트>.css`)는
+  기존 사용법을 깨지 않는 추가라 **1.0 이후 필요할 때 minor 로**. JS 가 CSS 를 자동 import(C)는 breaking·환경 문제로 하지 않음.
+- [ ] (나중에) **컴포넌트별 CSS 선택 import (B)** — 공통(base) + 컴포넌트별 CSS, 컴포넌트 간 CSS 의존(Combobox → Select·Input,
+  Drawer → IconButton 등)을 문서화. 빌드는 vanilla-extract 출력에서 컴포넌트별로 나누는 후처리 필요.
+  **2026-10-19 재평가: 우선순위 낮춤** — 당시 측정(33 kB)의 3/4 가 vanilla-extract 디버그 주석이었고, 실제 CSS 는 전체 9 kB. 수요가 생기면 다시 검토.
+- [x] **서버 컴포넌트 엔트리 분리** — 2026-10-16 함수·값은 `dist/shared.js`(지시어 없음)로 분리. 2026-10-19 hook 없는 표시용 컴포넌트
+  7개(Typography·Stack·Card·Badge·Divider·Progress·Skeleton)도 shared 로 → 서버 컴포넌트로 렌더링. `src/shared.test.ts`(import 그래프 검사·이름 중복)
+  + playground 첫 페이지가 서버 함수를 Card `as` 로 넘겨 빌드로 감시. changeset `server-components`(minor).
+- [x] **styles.css 디버그 주석 제거** (2026-10-19) — esbuild 가 CSS 파일마다 남기는 `vanilla-extract-css-ns:…base64…` 주석·소스맵 이름을 경로만 남김
+  (줄 유지 → 소스맵 줄 번호 그대로, 남으면 빌드 실패). brotli 33.1 → 9.2 kB, 한도 36 → 12 kB. 2026-10-15 의 28 → 36 kB 상향도 이 주석 탓이었다.
+- [x] **size-limit 결과를 PR 코멘트로** (2026-10-19) — 서드파티 action 대신 `size.yml` + `scripts/size-report.mjs`(base 를 따로 checkout·빌드해 비교, `gh api` 로 코멘트 하나 갱신,
+  한도 95% 이상 ⚠️). 보고 전용(실패는 ci.yml). 포크 PR 은 Summary 만. 실제 PR 에서 첫 동작 확인 필요.
+
+---
+
+## P9. 기존 컴포넌트 보강 · 새 컴포넌트 (2026-10-19 완료 — 남은 Combobox 다중 선택·Tag 입력은 ROADMAP P14)
+
+- [x] DropdownMenu `CheckboxItem`/`RadioItem`/하위 메뉴 (2026-10-19) — Radix 위에 스타일. 체크·라디오 표시는 아이콘과 같은 16px 자리,
+  RadioGroup 은 Radix 가 상태를 갖지 않아 항상 제어(감싸지 않음). changeset `dropdown-menu-checkbox-radio-sub`(minor).
+- [x] **Tabs 세로 방향** (2026-10-19) — `orientation` 을 Radix 로 넘기고 레이아웃은 `data-orientation` 셀렉터(root flex, line 은 오른쪽 테두리 위 표시줄, RTL 대응).
+  changeset `tabs-vertical`(minor).
+- [x] Combobox **선택 지우기** (2026-10-16) — 글자를 모두 지우고 닫으면 지움 + `clearable` 버튼. changeset `combobox-clear`(minor).
+- [ ] Combobox 다중 선택·비동기 검색·긴 목록 가상화.
+- [x] **SkipLink**(본문 바로가기) (2026-10-16) — KWCAG 6.4.1 을 "사용자 몫" → "일부" 로. changeset `skip-link`(minor).
+- [x] **SegmentedControl** (2026-10-16) — radiogroup 의미를 직접 구현(roving tabindex, 화살표 = 즉시 선택), changeset `segmented-control`(minor).
+- [x] **NumberInput** (2026-10-19) — spinbutton, −/+ 버튼(Tab 순서 밖·포커스 유지), ↑/↓·PageUp/Down·Home/End, 쉼표 서식(useFormattedInput),
+  입력 중 범위 밖 허용 → blur 때 맞춤, 소수(step 자릿수·부동소수 반올림), 문구 `increment`/`decrement`(선택 키). changeset `number-input`(minor).
+- [x] **Stepper** (2026-10-19) — 표시용 순서 목록(ol), aria-current="step", 완료 단계 "(완료)"(숨김 글자), 가로·세로, 문구 `steps`/`stepCompleted`(선택 키).
+  useMessages 를 써서 클라이언트 컴포넌트. changeset `stepper`(minor).
+- [x] **FileUpload** (2026-10-19) — "파일 선택" 버튼 + 끌어다 놓기, accept·maxSize·maxFiles 검사(이유 표시·status 알림), 삭제 후 포커스 이동,
+  name 이면 DataTransfer 로 input.files 동기화(폼 제출 — 실제 브라우저 play 로 확인). 문구 9개 선택 키. changeset `file-upload`(minor).
+- [ ] 새 후보: Tag 입력. (수요가 생기면 — DatePicker 는 P6 에서 완료)
