@@ -1,66 +1,110 @@
 # BestOW UI 로드맵
 
 > 이 문서는 다음 작업 세션(사람 또는 Claude)이 **무엇을, 어떤 순서로, 어디까지 하면 되는지** 바로 알 수 있게 쓴다.
-> 작업 규칙·구조·함정은 [`CLAUDE.md`](../CLAUDE.md), 완료된 단계(P1~P10)의 설계 메모는 [`ROADMAP-HISTORY.md`](ROADMAP-HISTORY.md),
+> 작업 규칙·구조·함정은 [`CLAUDE.md`](../CLAUDE.md), 완료된 단계(P1~P15)의 설계 메모는 [`ROADMAP-HISTORY.md`](ROADMAP-HISTORY.md),
 > 누구를 위해 무엇을 차별화하는지는 [`POSITIONING.md`](POSITIONING.md).
 >
 > **갱신 규칙:** 작업을 시작/완료하면 체크박스를 바꾸고 맨 아래 "진행 기록"에 한 줄 추가한다.
 > 단계가 끝나면 상세 메모는 ROADMAP-HISTORY.md 로 옮기고 여기에는 한 줄 요약만 남긴다.
 
-## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-19 기준)
+## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-19 마무리 기준)
 
 **마지막 상태**
-- npm: **react 1.2.0**(2026-10-19 — DropdownMenu 체크·라디오·하위 메뉴, Tabs 세로, 서버 컴포넌트 7개, NumberInput, RadioGroup 네이티브, 트랙 테두리)
-  · tokens 1.0.0 · icons 0.1.2. **버전 PR #21 열림 → react 1.3.0** (Stepper minor, styles.css 33 → 9 kB patch) — 머지 여부를 사용자에게 확인.
-- 로컬 = origin/main (`4e06b44`) + **커밋 안 한 변경: FileUpload**(changeset `file-upload`, minor) — PR #21 머지 전에 push 하면 1.3.0 에 합쳐진다.
-- 컴포넌트 46개(한국 서비스 키트 8개 포함, 폴더 45 — Input 폴더에 Input·TextField) + 테마·다국어(LocaleProvider).
-  **P1~P10 완료**(컴포넌트별 CSS 는 P16 보류). 다음은 프로덕션 준비 P12~P15.
-- 번들: react 전체 JS **67.3/80 kB**, 대표 조합(앱 기본 3.4·폼 30.1·오버레이 34.7·한국 키트 30.3 kB, +10% 한도), styles.css **9.4/12 kB**, Button 하나 1.51/2 kB.
+- npm: **react 1.3.0** · tokens 1.3.0 · icons 0.1.3. **버전 PR #22 열림 → react 1.4.0**(DateRangePicker, changeset `date-range-picker`) — 머지 여부를 사용자에게 확인.
+- origin/main = `c402156`(✨ DateRangePicker), 로컬과 같음, 작업 트리 깨끗(이 정리 문서 변경만 커밋 대기).
+- 컴포넌트 약 50개(폴더 49) + 테마·다국어·서식 함수, 아이콘 57종. **P1~P15 완료**(남은 것은 아래 "다음 플랜").
+- 프로덕션 권장 선언 기준 **5/6 충족** — 남은 것은 스크린리더 수동 점검(사람) 하나.
+- 번들(2026-10-19 측정, minify + brotli): react 전체 JS **68.9/80 kB** · Button 하나 1.51/2 · 앱 기본 3.37/3.7 · 폼 세트 30.1/33 ·
+  오버레이 세트 34.8/38 · 한국 키트 30.2/33.5 · styles.css 9.9/12 · 아이콘 하나 0.37/0.5 · tokens 1.27/1.5 kB.
+  **조합 한도는 여유가 약 10% 뿐** — 큰 기능(P14-5 등)을 넣기 전에 어느 조합에 들어가는지 보고 필요하면 한도를 사용자와 정한다.
+- CI(main): CI·browsers(WebKit·Firefox)·React 18·시각 회귀 모두 녹색.
 - semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
 - 보고할 때 시각 회귀는 "허용치 안 통과" 와 "픽셀 동일" 을 구분한다(RadioGroup 사례).
-- **다음 작업:** (사람) `docs/SCREEN-READER-CHECKLIST.md` 로 VO macOS·NVDA 점검 — 남은 선언 기준은 이것 하나.
-  (Claude) 수요 확인 후 P14-5 Combobox 다중 선택·P14-6 Tag 입력. 그 전에 할 수 있는 것: 시각 회귀·접근성 문서 점검, 번들 조합 재측정. **main CI·시각 회귀 모두 녹색(`2aed8e0`) — PR #21(1.3.0) 배포 권장.**
-  **push 하면 Tokens 스토리 시각 회귀가 실패한다(zIndex 표 값·순서 변경, 의도)** → Visual regression 수동 실행 update. 남은 선언 기준은 스크린리더 수동 점검과 파일럿 두 개.
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다
    (저장소에 `pull.rebase=true`, `rebase.autoStash=true` 설정됨. Claude 는 커밋·push 하지 않음 — 이 세션 셸은 GitHub 인증이 없어 push 불가).
 2. 열린 버전 PR 확인: `curl -s https://api.github.com/repos/Dev-BestOW/BestOW-UI/pulls?state=open` — 있으면 머지 여부를 사용자에게 알린다.
 3. 배포 버전 확인: `curl -s https://registry.npmjs.org/@bestow-ui%2freact | python3 -c "import json,sys;print(json.load(sys.stdin)['dist-tags'])"`
-4. `pnpm install && pnpm build` 후 아래 단계 중 사용자가 고른 작업부터 진행.
+4. `pnpm install && pnpm build` 후 아래 "다음 플랜" 중 사용자가 고른 작업부터 진행.
 
 **작업 습관 (지난 세션에서 굳어진 것)**
 - 컴포넌트: CLAUDE.md 규칙 + 스토리(열린 상태가 있으면 `play` 로 연 스토리) + 테스트 + `src/client.ts` export(순수 함수는 `shared.ts`)
-  + changeset + playground 사용 예 + E2E(키보드 등 실제 브라우저에서만 확인되는 동작) + 접근성 문서(`componentA11y.ts`·필요하면 `kwcag.ts`).
+  + changeset + playground 사용 예 + E2E(키보드 등 실제 브라우저에서만 확인되는 동작) + 접근성 문서(`componentA11y.ts`·필요하면 `kwcag.ts`)
+  + README 컴포넌트 표(루트·`packages/react/README.md`) + 필요하면 `Guides`(언제 무엇을 쓰나·화면 패턴).
 - 핵심 테스트는 구현을 일부러 망가뜨려 실패하는지 확인한다 (**복원은 scratchpad 백업 파일 복사로만 — `git checkout` 금지**).
 - 새 Radix 패키지는 올라온 지 24시간 넘은 버전만(pnpm minimumReleaseAge). package.json 을 바꾸기 전에 origin 과 같은지 확인.
-- 색을 고를 때는 대비를 계산한다: 글자 4.5:1, 막대·테두리 등 그래픽 3:1. solid 색은 다크에서 트랙 대비가 낮아 막대에는 `text` 색을 쓴다(Progress·Slider).
+- 색을 고를 때는 대비를 계산한다: 글자 4.5:1, 막대·테두리 등 그래픽 3:1. 고대비 모드는 `styles/forcedColors.css.ts` 로 시스템 색 지정.
 - 반복되는 브라우저 확인은 `apps/playground/e2e`(포트 3107)에, 일회성 확인만 scratchpad 의 `playwright-core` + 시스템 Chrome 으로.
-  사용자 dev 서버(3000)는 건드리지 않는다. 새 E2E 는 `--repeat-each 5` 로 불안정하지 않은지 본다.
+  사용자 dev 서버(3000)는 건드리지 않는다. 새 E2E 는 `--repeat-each 5` 로 불안정하지 않은지 본다. Firefox 는 로컬 실행 불가(macOS 27) → CI 로 확인.
+- 문서는 한국어(npm README 는 영어 한 줄 소개만). `en` 문구 묶음은 기능이라 유지.
+
+## 다음 플랜 (2026-10-19 정리 — 위에서부터 추천 순서)
+
+### 사람이 할 일
+
+- [ ] **PR #22(1.4.0 — DateRangePicker) 머지** → npm 배포 확인.
+- [ ] **스크린리더 수동 점검** — [`SCREEN-READER-CHECKLIST.md`](SCREEN-READER-CHECKLIST.md) 로 최소 VoiceOver(macOS) + NVDA, 가능하면 iOS VoiceOver·센스리더.
+  배포된 playground 에서 13개 항목, 결과 칸·기록 표를 채운다. **이게 끝나면 프로덕션 권장 선언 기준 6/6.**
+- [ ] GitHub 저장소 설정에서 **Private vulnerability reporting 켜기** (SECURITY.md 가 이 경로를 안내함).
+- [ ] **P13-4 결정** — 입력 테두리 대비(border.default = gray300, 흰 배경과 1.3:1). ① 2.0 에서 기본값 변경 ② `fg.subtle` 수준 옵션 토큰을 minor 로 먼저.
+- [ ] SUPPORT.md 의 기본안 확정 — 이전 major 보안 수정 6개월, 배포 주 1회 묶음.
+- (선택) 실제 기기 확인: 가상 키보드가 Modal·Drawer 입력을 가리는지(iOS Safari·Android Chrome).
+
+### Claude 가 할 일
+
+1. **스크린리더 점검 결과 반영** — 발견한 문제 수정(테스트·변이 확인), `kwcag.ts`·`componentA11y.ts` 에 "수동 확인" 기록,
+   기준 6/6 이면 README(루트·npm)·Storybook Introduction 의 표현을 "프로덕션 권장" 으로 바꾸고 changeset(patch).
+2. **P13-4** — 사용자가 고른 방식으로(옵션 토큰이면 `contract.test.ts` 변수 목록에도 추가, 시각 회귀 update 필요).
+3. **P14-5 Combobox 다중 선택·비동기 검색** (수요 확인 후) — 선택 칩(Backspace 로 지우기), 검색 중 상태 알림(`role=status`), 긴 목록 가상화는 따로.
+   폼 세트 조합(30.1/33 kB)에 영향 → 별도 컴포넌트(`MultiCombobox` 등)로 나눌지 먼저 판단.
+4. **P14-6 Tag 입력** — 쉼표·Enter 로 추가, P14-5 와 칩 공유.
+5. **의존성 정비** — Radix·Storybook·Playwright·vitest 최신화(24시간 지난 버전). Playwright 는 `visual.yml` 의
+   `mcr.microsoft.com/playwright:vX.Y.Z` 태그와 같이 올리고 시각 회귀 확인. CI 러너 Ubuntu 26 전환은 Playwright 지원 확인 후 모든 workflow 함께.
+6. **2.0 후보 모으기** — `docs/MIGRATION-2.0.md` 초안(P13-4 를 ①로 정하면 여기에). 지금 deprecated 인 이름이 생기면 이 표에 추가.
+
+### 보류 (수요가 생기면, 구 P16)
+
+- [ ] 컴포넌트별 CSS 선택 import (구 P7-B) — 실제 CSS 가 전체 9.9 kB 라 우선순위 낮음.
+- [ ] Figma 변수 ↔ tokens 동기화, Code Connect (구 P11, Figma MCP 연결돼 있음).
+- [ ] DateRangePicker 를 한 달력에서 끌어 고르는 방식.
+- [ ] 아이콘 추가: Lucide 에서 가져오면 `svg/` 에 넣고 `generate`. 자체 아이콘은 같은 규격(24×24, stroke 2, round).
+
+### 프로덕션 권장 선언 기준
+
+- [x] Chromium·WebKit·Firefox 에서 스토리 테스트·E2E 통과 (P12-1)
+- [x] 모바일(터치·좁은 화면) 주요 시나리오 E2E (P12-2)
+- [x] React 18·19 둘 다 CI (P12-3)
+- [ ] 주요 컴포넌트 스크린리더 수동 점검 기록 — VoiceOver(macOS·iOS) + NVDA, 가능하면 센스리더 (P13-1)
+- [x] 실제 화면 파일럿에서 발견한 문제 해결 (P14-1 — 버그 2개 수정, 빈칸 6개 모두 해결: [`PILOT-FINDINGS.md`](PILOT-FINDINGS.md))
+- [x] 지원 범위·배포 주기·보안 문의 경로 문서화 (P12-5)
+
+---
 
 ## 현재 상태 (2026-10-19)
 
 | 패키지 | 배포 버전 | 내용 |
 |---|---|---|
-| `@bestow-ui/tokens` | 1.0.0 | palette(gray·blue·red·green·amber), space, radius, font, shadow/darkShadow, duration, zIndex, light/dark 의미 색상(primary·neutral·danger·success·warning) |
-| `@bestow-ui/icons` | 0.1.2 | 아이콘 57종 (Lucide 기반), SVG → 컴포넌트 생성 스크립트 |
-| `@bestow-ui/react` | 1.1.0 (1.2.0 PR #20 대기, NumberInput 은 그다음) | 아래 46개 + 테마(ThemeProvider·createTheme·createIntentColors·vars·usePortalProps) + 다국어(LocaleProvider·en) + 서식·날짜 함수 |
+| `@bestow-ui/tokens` | 1.3.0 | palette(gray·blue·red·green·amber), space, radius, font, shadow/darkShadow, duration, zIndex(overlay < modal < dropdown < toast < tooltip), light/dark 의미 색상 |
+| `@bestow-ui/icons` | 0.1.3 | 아이콘 57종 (Lucide 기반), SVG → 컴포넌트 생성 스크립트 |
+| `@bestow-ui/react` | 1.3.0 (1.4.0 PR #22 대기) | 아래 컴포넌트 + 테마(ThemeProvider·createTheme·createIntentColors·vars·usePortalProps) + 다국어(LocaleProvider·en) + 서식·날짜 함수·focusField |
 
 | 분류 | 컴포넌트 |
 |---|---|
-| 레이아웃·표시 | Stack, Divider, Card, Typography, Avatar, Badge, Table |
+| 레이아웃·표시 | Stack, Divider, Card, Typography, VisuallyHidden, Avatar, Badge, DescriptionList, Table(+ TableEmpty·TableSkeleton·useTableSelection) |
 | 동작 | Button(loading), IconButton, Link |
-| 폼 | Input, TextField, Textarea, Select, Combobox(clearable), NumberInput, FileUpload, SegmentedControl, Checkbox, RadioGroup, Switch, Slider |
-| 피드백 | Alert, Progress, Toast, Spinner, Skeleton |
+| 폼 | Input, TextField, Textarea, Select, Combobox(clearable), NumberInput, FileUpload, SegmentedControl, Checkbox, RadioGroup(네이티브), Switch, Slider |
+| 피드백 | Alert, ErrorSummary, Progress, Toast, Spinner, Skeleton |
 | 오버레이 | Modal, Drawer, Popover, Tooltip, DropdownMenu(체크·라디오·하위 메뉴) |
-| 탐색 | Tabs, Accordion, Pagination, Breadcrumb, SkipLink, Stepper |
-| 한국 서비스 키트 | AgreementGroup, VerificationCodeInput, PhoneNumberInput, BusinessNumberInput, AmountInput, AddressInput, Calendar, DatePicker |
+| 탐색 | Tabs(가로·세로), Accordion, Pagination, Breadcrumb, SkipLink, Stepper |
+| 한국 서비스 키트 | AgreementGroup, VerificationCodeInput, PhoneNumberInput, BusinessNumberInput, AmountInput, AddressInput, Calendar, DatePicker, DateRangePicker(+ dateRangePresets) |
 
-빌드: ESM 은 `dist/client.js`("use client" — 컴포넌트·hook) + `dist/shared.js`(지시어 없음 — 서버 컴포넌트에서도 부르는 함수·값), CJS 는 한 파일.
-운영: CI(생성물·lint·format·build·size·typecheck·test·스토리 렌더링+axe 라이트·다크·Storybook·playground 빌드·**playground E2E**), PR 번들 크기 코멘트(size.yml),
-시각 회귀(visual.yml — 새 스토리 자동, 열린 상태 스토리 포함), changesets + npm Trusted Publishing(OIDC, 버전 PR 은 GitHub App 토큰), CI 러너 ubuntu-24.04 고정.
-문서: Storybook(Introduction, Foundations — Design Tokens·Theming·Theme Builder·Icons, Accessibility — KWCAG 2.2 대응·컴포넌트별 키보드·스크린리더, Korean Kit),
-README(GitHub)·npm README(한국어 + 영어 한 줄 — 2026-10-19 한국 시장 타깃으로 영어 본문 제거), CONTRIBUTING.md, docs/POSITIONING.md, docs/MIGRATION-1.0.md.
+빌드: ESM 은 `dist/client.js`("use client" — 컴포넌트·hook) + `dist/shared.js`(서버 컴포넌트에서도 쓰는 함수·값·표시용 컴포넌트 9개), CJS 는 한 파일.
+운영: CI(생성물·lint·format·build·size·typecheck·test·스토리 렌더링+axe 라이트·다크·Storybook·playground 빌드·E2E), browsers job(WebKit·Firefox 스토리·E2E),
+react18 job, PR 번들 크기 코멘트(size.yml), 시각 회귀(visual.yml, Chromium), changesets + npm Trusted Publishing(OIDC), CI 러너 ubuntu-24.04 고정.
+E2E: 키보드·모바일(Pixel 7·iPhone 15)·고대비·확대/리플로·파일럿(/orders)·react-hook-form(/signup)·portal 테마·axe.
+문서: Storybook(Introduction, Foundations, Accessibility — KWCAG 2.2·컴포넌트별 키보드·스크린리더, Guides — 언제 무엇을 쓰나·화면 패턴, Korean Kit),
+README·npm README(한국어), CONTRIBUTING.md, SUPPORT.md, SECURITY.md, docs/POSITIONING.md·MIGRATION-1.0.md·SCREEN-READER-CHECKLIST.md·PILOT-FINDINGS.md.
 Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://dev-bestow.github.io/BestOW-UI/playground/
 
 ### 완료한 단계 (상세는 ROADMAP-HISTORY.md)
@@ -72,107 +116,22 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | P3 | ESLint/Prettier, 스토리 axe(라이트·다크), size-limit, 시각 회귀, 버전 PR CI(GitHub App) |
 | P4 | Storybook Introduction·Design Tokens, CONTRIBUTING.md |
 | P5 | npm README/LICENSE, 러너 고정, 다크 shadow, warning 색, Alert·IconButton·Progress·Drawer·Link·Breadcrumb·Table·Slider·Combobox, recipe tree-shaking 수정, 시각 회귀 자동화 |
-| P6 | 차별화: 테마 빌더, 한국 서비스 키트 8종(약관·인증번호·전화·사업자번호·금액·주소·달력·날짜), KWCAG 2.2 대응 근거 문서, LocaleProvider·한글 줄바꿈, README 메시지. CSS 배포 방식 결정 |
-| P8 | **1.0.0 출시**(2026-10-16): API 감사 → 0.12.0 에서 deprecated → 1.0 에서 제거, `vars` 87개 고정 테스트, 마이그레이션 가이드, 컴포넌트별 접근성 문서, 출시 전 설치 점검으로 버그 5건 수정(서버 컴포넌트 client/shared 분리 등) |
-| P10 | playground E2E(Playwright, CI), 열린 상태 스토리를 시각 회귀에 포함(play 완료 대기) |
-| P7 | 서버 컴포넌트 엔트리(함수·표시용 컴포넌트 7개), styles.css 디버그 주석 제거(33 → 9 kB), size-limit PR 코멘트 (컴포넌트별 CSS 는 보류) |
+| P6 | 차별화: 테마 빌더, 한국 서비스 키트 8종, KWCAG 2.2 대응 근거 문서, LocaleProvider·한글 줄바꿈, README 메시지 |
+| P8 | **1.0.0 출시**(2026-10-16): API 감사 → deprecated → 제거, `vars` 고정 테스트, 마이그레이션 가이드, 컴포넌트별 접근성 문서 |
+| P10 | playground E2E(Playwright, CI), 열린 상태 스토리를 시각 회귀에 포함 |
+| P7 | 서버 컴포넌트 엔트리, styles.css 디버그 이름 제거(33 → 9 kB), size-limit PR 코멘트 |
 | P9 | DropdownMenu 체크·라디오·하위 메뉴, Tabs 세로, Combobox 선택 지우기, SkipLink, SegmentedControl, NumberInput, Stepper, FileUpload |
-
----
-
-## 다음 단계 — 프로덕션 준비 (2026-10-19 재정리)
-
-**목표:** "공개 서비스에 프로덕션으로 권장" 할 수 있는 수준. 지금은 *사내 도구·작은 새 서비스(데스크톱 위주)에는 사용 가능, 모바일 비중이 큰 공개 서비스·접근성 인증이 필요한 서비스·여러 팀 표준으로는 아직 이름* (2026-10-19 평가).
-**원칙:** 기능 추가보다 **검증을 먼저**(P12·P13) 하고, 새 기능은 **파일럿에서 나온 수요로** 고른다(P14). 기존 사용법을 깨는 변경은 2.0 후보로 모은다.
-
-**추천 순서(위에서부터):**
-1. P12-1 WebKit·Firefox CI → 2. P12-2 모바일·터치 E2E → 3. P12-4 번들 한도 결정 → 4. P12-3 React 18 CI → 5. P13-2·3 고대비·확대 자동 점검
-→ 6. P13-1 스크린리더 수동 점검(사람) → 7. P14-1 파일럿 화면 → 8. P14-2 폼 라이브러리 연동 → 이후 P14 의 기능은 파일럿 결과로 순서 결정. P12-5·P15 는 틈틈이.
-
-### 프로덕션 권장 선언 기준 (모두 충족하면 README·Introduction 에 "프로덕션 권장" 으로 바꾼다)
-
-- [x] Chromium·WebKit·Firefox 에서 스토리 테스트·E2E 통과 (P12-1)
-- [x] 모바일(터치·좁은 화면) 주요 시나리오 E2E (P12-2)
-- [x] React 18·19 둘 다 CI (P12-3)
-- [ ] 주요 컴포넌트 스크린리더 수동 점검 기록 — VoiceOver(macOS·iOS) + NVDA, 가능하면 센스리더 (P13-1)
-- [x] 실제 화면 파일럿 1개 이상에서 발견한 문제 해결 (P14-1) — 버그 2개 수정, 빈칸은 P14-2 이후 순서로
-- [x] 지원 범위·배포 주기·보안 문의 경로 문서화 (P12-5) — 저장소 설정의 Private vulnerability reporting 켜기는 사용자가 확인
-
-### P12. 신뢰성 기반 — 검증 범위 넓히기 (최우선)
-
-- [x] **P12-1. WebKit·Firefox CI** — 4차(`ec9ba2a`)에서 Firefox·WebKit·React 18 모두 녹색. (고대비 E2E 는 Switch 색 전환 중간값을 읽어 실패 → expect.poll 로 수정)
-  이전 기록: 3차(`00af1f1`): React 18·WebKit 성공, Firefox 는 스토리 SkipLink(포커스 타이밍)·E2E Combobox(Firefox 성능 안내 경고) 2건 → 수정.
-  2차 이전 기록: 2026-10-19 설정 완료(`STORYBOOK_BROWSERS`·`E2E_BROWSERS`, ci.yml `browsers` job). CI 첫 결과(`8585e69`):
-  **WebKit 성공 · Firefox 스토리 470 통과 / E2E 실패(원인 미확인 — 로그는 인증 필요)** → github reporter 추가(annotation 으로 원인이 보임), 다음 push 결과로 수정.
-  Firefox 는 로컬 실행 불가(macOS 27). 원래 메모: — 스토리 테스트(vitest browser 의 instances 에 webkit·firefox 추가)와 playground E2E(Playwright projects)를
-  세 브라우저로. 시각 회귀는 기준 이미지 비용 때문에 Chromium 유지. 처음 돌리면 실패가 나올 것 — 브라우저 차이(포커스·selection·Radix·DataTransfer 등)를 고친다.
-  CI 시간이 늘면 WebKit·Firefox 는 main push·PR 의 별도 job 으로 나눈다. (Claude 가 할 수 있음)
-- [x] **P12-2. 모바일·터치 E2E** (2026-10-19) — `mobile.spec.ts` + `<브라우저>-mobile` 프로젝트(Pixel 7·iPhone 15): 리플로 3페이지, 탭으로 Select·Combobox·
-  DatePicker·Modal·DropdownMenu·Drawer. 발견: playground 머리글·버튼 줄이 좁은 화면에서 넘쳐 화면 폭을 넓히고 버튼을 덮음 → wrap(라이브러리 버그 아님),
-  리플로 검사가 넓어진 innerWidth 와 비교해 놓치던 것 수정(변이 확인). 실제 기기(가상 키보드 등)는 사람이 확인. 원래 메모: Playwright 기기 에뮬레이션(iPhone WebKit·Pixel Chromium, 좁은 화면 + touch)으로
-  Select·DropdownMenu·Drawer·Modal·DatePicker·Combobox·FileUpload·Slider 를 탭·스크롤로 조작. 가상 키보드가 가리는 문제 등은 실제 기기로 따로(사람).
-- [x] **P12-3. React 18 CI** (2026-10-19) — ci.yml `react18` job(pnpm overrides → typecheck·test, 버전 확인). worktree 에서 같은 단계로 타입 오류 0·테스트 374 통과.
-  `ssr.test.tsx` 추가(모든 컴포넌트 renderToString 경고 0 — React 18 에서 useLayoutEffect 변이로 확인). 원래 메모: peerDependency 는 `^18 || ^19` 인데 CI 는 19 만. 단위 테스트를 React 18 로도 돌리는 matrix job
-  (pnpm overrides 로 react·react-dom·@types 를 18 로). SSR 경고(useLayoutEffect)·useId 형식 차이 확인.
-- [x] **P12-4. 번들 한도 결정** (2026-10-19, 사용자 결정: 상향 + 대표 조합) — 전체 70 → 80 kB(큰 회귀만), 대표 조합 4개를 현재 +10% 한도로 추가:
-  앱 기본 3.36/3.7 · 폼 세트 30.1/33(Select 가 큼) · 오버레이 세트 34.7/38 · 한국 키트 30.3/33.5 kB. 원래 메모: "react: 전체 JS" 67.3/70 kB(여유 2.7 kB). 이 항목은 모든 컴포넌트를 import 한 크기라 사용자 번들과 다르다.
-  선택지: ① 한도 상향(예: 80 kB) ② "전체" 는 느슨하게 두고 대표 조합(폼 세트·오버레이 세트·한국 키트) 항목 추가. **새 컴포넌트 전에 사용자와 결정.**
-- [x] **P12-5. 지원 정책 문서** (2026-10-19) — `SUPPORT.md`(지원 범위 표·semver·deprecated·주 1회 배포·이전 major 6개월 보안 수정 — 기본안),
-  `SECURITY.md`(GitHub 비공개 취약점 신고·처리 과정·라이브러리 보안 범위·CSP). README·npm README(영/한)·Introduction 에 연결. 원래 메모: 지원 브라우저·React·Next.js 버전 표, 배포 주기(지금은 하루 여러 번 → 주 1회 묶음 권장), 보안 문의(SECURITY.md),
-  deprecated 기간. README·Introduction 에 연결.
-- 운영: CI 러너는 `ubuntu-24.04` 고정 — Ubuntu 26 으로 올리는 건 Playwright 지원 확인 후(24.04 지원 종료 공지 전에).
-
-### P13. 접근성 실사용 검증
-
-- [~] **P13-1. 스크린리더 수동 점검 (사람이 실행)** — 2026-10-19 체크리스트 작성: `docs/SCREEN-READER-CHECKLIST.md`(조합 4개 중 최소 VO macOS·NVDA,
-  배포된 playground 에서 13개 항목 단계별 기대 동작·결과 칸·기록 표). **남은 것: 사람이 실행해 결과 기록.** 원래 메모: Claude 가 컴포넌트별 점검 체크리스트(조작 순서·기대 낭독)를 만들고, 사람이 VoiceOver(macOS·iOS)·NVDA
-  (가능하면 센스리더)로 실행해 결과를 `kwcag.ts`·`componentA11y.ts` 에 "수동 확인" 으로 기록. 우선 대상: Select·Combobox·DatePicker·Modal·Drawer·
-  DropdownMenu·Tabs·RadioGroup·NumberInput·FileUpload·Toast·서식 입력(전화·금액). axe 는 자동으로 잡을 수 있는 문제만 본다는 점을 문서에 밝힌다.
-- [x] **P13-2. 고대비(forced-colors) 자동 점검** (2026-10-19) — 스크린샷으로 확인: Switch 사라짐, 선택된 탭·SegmentedControl·메뉴/목록 강조·현재 페이지·
-  Progress 막대 안 보임, Slider 범위·Stepper 선 안 보임 → `styles/forcedColors.css.ts`(시스템 색) 적용. E2E `forced-colors.spec.ts`(시스템 강조색 일치 확인 —
-  처음 "투명 아님" 검사는 버튼 ButtonFace 로 변이가 살아남아 강화, 강화 후 켜진 Switch hover 가 원래 색으로 덮이는 결함까지 발견·수정). 원래 메모: Playwright `forcedColors: 'active'` 로 주요 스토리를 찍어 경계·선택 표시·포커스 링이 보이는지 확인
-  (RadioGroup·트랙은 대응해 둠, Checkbox·Switch·SegmentedControl·Stepper·Badge 확인 필요).
-- [x] **P13-3. 확대·리플로 점검** (2026-10-19) — `zoom.spec.ts`: 320px 리플로(3페이지 + Modal·Drawer), 글자 간격(1.4.12), 기본 글꼴 2배.
-  발견·수정: 인증번호 칸 320px 넘침(라이브러리), 글자 크기 px → rem(사용자 결정: minor, tokens 값은 그대로) + 글자 든 컨트롤 minHeight,
-  Avatar 이니셜 잘림 → px. macOS 에서 이전 커밋과 전체 472장 픽셀 비교로 화면 변화 없음 확인. 원래 메모: 320px 너비·200% 글자 확대에서 가로 스크롤·잘림 없는지(WCAG 1.4.10·1.4.4). E2E 또는 스토리 테스트로.
-- [ ] **P13-4. 입력 테두리 대비 (2.0 후보, 결정 필요)** — border.default(gray300)가 흰 배경과 1.3:1. 모든 입력 화면이 바뀌므로 2.0 에 모으거나,
-  `fg.subtle` 수준으로 올리는 옵션 토큰을 minor 로 먼저 제공. 사용자와 결정.
-
-### P14. 파일럿과 빈칸 채우기 (기능)
-
-- [x] **P14-1. 파일럿 화면** (2026-10-19) — playground `/orders`(주문 관리: 검색·필터·정렬·선택·일괄 취소·페이지·상세 Drawer·등록 폼) + `orders.spec.ts`(6개).
-  **버그 2개 발견·수정**: Modal 안 Select 목록이 배경막에 가림(z-index dropdown 1000 → 1320), 메뉴에서 연 Drawer 닫을 때 포커스 사라짐(useReturnFocus).
-  빈칸 6개는 `docs/PILOT-FINDINGS.md` — 다음 순서: 오류 요약(P14-2 와 함께) → VisuallyHidden → DescriptionList. 원래 메모: 실제 제품 화면 하나(예: 관리자 목록 + 상세 + 등록 폼)를 이 시스템만으로 만든다. 가능하면 사용자의 실제 제품,
-  아니면 playground 에 "실전 예제" 페이지로. 빠진 컴포넌트·불편한 API·성능 문제를 이슈로 모아 아래 순서를 정한다.
-- [x] **P14-2. 폼 라이브러리 연동** (2026-10-19) — `ErrorSummary`(포커스·focusKey·링크로 칸 이동) + `focusField` + `VisuallyHidden` 추가, AgreementGroup `id`.
-  react-hook-form 통합 테스트 3개(변이 2종) + playground `/signup`(실제 브라우저 E2E), 파일럿 폼을 ErrorSummary 로 교체. 방침: group 컴포넌트는 ref 가 포커스 불가 →
-  `shouldFocusError: false` + 오류 요약으로 포커스(GOV.UK). 원래 메모: react-hook-form 으로 TextField(register)·Select·DatePicker·NumberInput·FileUpload·AgreementGroup(Controller)
-  예시 + 테스트(ref·name·onBlur·에러 표시·포커스 이동). 에러 요약(제출 시 첫 오류로 포커스) 패턴 문서.
-- [x] **P14-3. 데이터 테이블 보강** (2026-10-19) — `TableEmpty`·`TableSkeleton`(aria-busy)·`useTableSelection`(이 페이지 모두 선택·혼합·페이지 넘어 유지),
-  Table 스토리 "목록 화면 패턴"·Modal 스토리 "폼 제출(footer 버튼)", 파일럿 교체. PILOT-FINDINGS 빈칸 6개 모두 해결. 정렬은 기존 TableHead onSort. 원래 메모: Table 에 정렬 머리글(aria-sort)·행 선택(Checkbox)·빈 상태·로딩(Skeleton)·Pagination 연결 예시. 가상화는 수요 시.
-- [x] **P14-4. DateRangePicker** (2026-10-19) — DatePicker 두 개 + 서로 min/max 제한 + 빠른 선택(`dateRangePresets`·`presetRange`, aria-pressed),
-  fieldset/legend, 좁은 화면은 쌓기. 파일럿 주문일 필터 + E2E. 한 달력에서 끌어 고르는 방식은 수요 확인 후. 원래 메모: Calendar 기반 기간 선택(시작·끝, 키보드, `today` 고정).
-- [ ] **P14-5. Combobox 다중 선택·비동기 검색** — 선택 칩(Backspace 로 지우기), 검색 중 상태 알림, 긴 목록 가상화.
-- [ ] **P14-6. Tag 입력** — 쉼표·Enter 로 태그 추가(P14-5 와 칩 공유).
-
-### P15. 문서·개발자 경험
-
-- [x] (2026-10-19 `Guides/언제 무엇을 쓰나` — 6묶음 32개 항목) 사용 가이드: 언제 무엇을 쓰나(Select vs Combobox vs SegmentedControl vs RadioGroup, Modal vs Drawer, Tabs vs SegmentedControl).
-- [x] (2026-10-19 `Guides/화면 패턴`) 패턴 페이지: 폼 검증·에러 요약, 단계별 흐름(Stepper + 버튼 + 제목 포커스), 파일 업로드 + 진행률.
-- [x] 지원 범위 표·업그레이드 가이드를 Storybook Introduction 에 연결 (P12-5 와 함께).
-
-### P16. 보류 (수요가 생기면)
-
-- [ ] 컴포넌트별 CSS 선택 import (구 P7-B) — 실제 CSS 가 전체 9 kB 라 우선순위 낮음.
-- [ ] Figma 변수 ↔ tokens 동기화, Code Connect (구 P11, Figma MCP 연결돼 있음).
-- [ ] 아이콘 추가: Lucide 에서 가져오면 `svg/` 에 넣고 `generate`. 자체 아이콘은 같은 규격(24×24, stroke 2, round).
+| P12 | WebKit·Firefox CI, 모바일·터치 E2E, React 18 CI + SSR 경고 테스트, 번들 한도 80 kB + 대표 조합 4개, SUPPORT.md·SECURITY.md |
+| P13 | 고대비(forced-colors) 대응·E2E, 320px 리플로·글자 간격·글꼴 2배 E2E, 글자 크기 rem, 스크린리더 체크리스트(실행은 사람) |
+| P14 | 파일럿 `/orders`(버그 2개 수정), ErrorSummary·focusField·VisuallyHidden·DescriptionList, react-hook-form `/signup`, TableEmpty·TableSkeleton·useTableSelection, DateRangePicker |
+| P15 | Storybook Guides(언제 무엇을 쓰나·화면 패턴), 문서 한국어 전환 |
 
 ---
 
 ## 알려진 동작 (고칠 계획 없음 — 문서에 적어 둠)
 
 - Select·DropdownMenu 의 목록 열기는 pointerdown(Radix 기본). KWCAG 문서 6.5.2 에 적어 둠.
-- 해결된 것: Slider·Progress 트랙 대비, RadioGroup 화살표 선택 누락(2026-10-19, 진행 기록 참고). 입력 테두리 대비는 P13-4 로 옮김.
+- 해결된 것: Slider·Progress 트랙 대비, RadioGroup 화살표 선택 누락(2026-10-19, 진행 기록 참고). 입력 테두리 대비는 "다음 플랜" P13-4.
 
 ---
 
@@ -268,3 +227,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-19 | P15 문서: Storybook Guides 섹션 — 언제 무엇을 쓰나(6묶음), 화면 패턴(폼 검증·RHF·Modal 폼, 목록, 단계별 흐름, 업로드). 링크 전수 검사·axe(라이트·다크) 0. ErrorSummary 의 불필요한 eslint-disable 제거 |
 | 2026-10-19 | 문서 언어 결정(사용자): 한국 시장 타깃 → npm README 3개 한국어로(영어 한 줄 소개), package.json 설명 한국어·키워드 정리(korean·kwcag·a11y 등). `en` 문구 묶음은 기능이라 유지. changeset `korean-readme`(3패키지 patch) |
 | 2026-10-19 | P14-4 DateRangePicker: 테스트 7개(변이 2종), 스토리 4개(빠른 선택 play), 파일럿 주문일 필터 + E2E, 좁은 화면 "~" 홀로 남음 → 쌓기로 수정. 문구 3개·presets 는 shared |
+| 2026-10-19 | 세션 마무리: ROADMAP 정리(인수인계 1.3.0·PR #22, 다음 플랜을 사람/Claude 로 나눔), P12~P15 상세를 ROADMAP-HISTORY 로. 번들 재측정(전체 68.9/80 kB) |

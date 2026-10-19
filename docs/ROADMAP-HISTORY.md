@@ -1,4 +1,4 @@
-# BestOW UI 로드맵 — 완료 기록 (P1 ~ P6)
+# BestOW UI 로드맵 — 완료 기록 (P1 ~ P15)
 
 > 완료된 단계의 설계 메모·결정 이유·함정 기록 보관용. 현재 계획은 [`ROADMAP.md`](ROADMAP.md).
 > 여기 적힌 "커밋 전" 등의 표기는 당시 상태다 (모두 커밋·배포됨).
@@ -308,3 +308,70 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 - [x] **FileUpload** (2026-10-19) — "파일 선택" 버튼 + 끌어다 놓기, accept·maxSize·maxFiles 검사(이유 표시·status 알림), 삭제 후 포커스 이동,
   name 이면 DataTransfer 로 input.files 동기화(폼 제출 — 실제 브라우저 play 로 확인). 문구 9개 선택 키. changeset `file-upload`(minor).
 - [ ] 새 후보: Tag 입력. (수요가 생기면 — DatePicker 는 P6 에서 완료)
+
+---
+
+## P12 ~ P15. 프로덕션 준비 (2026-10-19 — P13-1 스크린리더 점검·P13-4·P14-5·P14-6 은 ROADMAP 에 남음)
+
+#### P12. 신뢰성 기반 — 검증 범위 넓히기 (최우선)
+
+- [x] **P12-1. WebKit·Firefox CI** — 4차(`ec9ba2a`)에서 Firefox·WebKit·React 18 모두 녹색. (고대비 E2E 는 Switch 색 전환 중간값을 읽어 실패 → expect.poll 로 수정)
+  이전 기록: 3차(`00af1f1`): React 18·WebKit 성공, Firefox 는 스토리 SkipLink(포커스 타이밍)·E2E Combobox(Firefox 성능 안내 경고) 2건 → 수정.
+  2차 이전 기록: 2026-10-19 설정 완료(`STORYBOOK_BROWSERS`·`E2E_BROWSERS`, ci.yml `browsers` job). CI 첫 결과(`8585e69`):
+  **WebKit 성공 · Firefox 스토리 470 통과 / E2E 실패(원인 미확인 — 로그는 인증 필요)** → github reporter 추가(annotation 으로 원인이 보임), 다음 push 결과로 수정.
+  Firefox 는 로컬 실행 불가(macOS 27). 원래 메모: — 스토리 테스트(vitest browser 의 instances 에 webkit·firefox 추가)와 playground E2E(Playwright projects)를
+  세 브라우저로. 시각 회귀는 기준 이미지 비용 때문에 Chromium 유지. 처음 돌리면 실패가 나올 것 — 브라우저 차이(포커스·selection·Radix·DataTransfer 등)를 고친다.
+  CI 시간이 늘면 WebKit·Firefox 는 main push·PR 의 별도 job 으로 나눈다. (Claude 가 할 수 있음)
+- [x] **P12-2. 모바일·터치 E2E** (2026-10-19) — `mobile.spec.ts` + `<브라우저>-mobile` 프로젝트(Pixel 7·iPhone 15): 리플로 3페이지, 탭으로 Select·Combobox·
+  DatePicker·Modal·DropdownMenu·Drawer. 발견: playground 머리글·버튼 줄이 좁은 화면에서 넘쳐 화면 폭을 넓히고 버튼을 덮음 → wrap(라이브러리 버그 아님),
+  리플로 검사가 넓어진 innerWidth 와 비교해 놓치던 것 수정(변이 확인). 실제 기기(가상 키보드 등)는 사람이 확인. 원래 메모: Playwright 기기 에뮬레이션(iPhone WebKit·Pixel Chromium, 좁은 화면 + touch)으로
+  Select·DropdownMenu·Drawer·Modal·DatePicker·Combobox·FileUpload·Slider 를 탭·스크롤로 조작. 가상 키보드가 가리는 문제 등은 실제 기기로 따로(사람).
+- [x] **P12-3. React 18 CI** (2026-10-19) — ci.yml `react18` job(pnpm overrides → typecheck·test, 버전 확인). worktree 에서 같은 단계로 타입 오류 0·테스트 374 통과.
+  `ssr.test.tsx` 추가(모든 컴포넌트 renderToString 경고 0 — React 18 에서 useLayoutEffect 변이로 확인). 원래 메모: peerDependency 는 `^18 || ^19` 인데 CI 는 19 만. 단위 테스트를 React 18 로도 돌리는 matrix job
+  (pnpm overrides 로 react·react-dom·@types 를 18 로). SSR 경고(useLayoutEffect)·useId 형식 차이 확인.
+- [x] **P12-4. 번들 한도 결정** (2026-10-19, 사용자 결정: 상향 + 대표 조합) — 전체 70 → 80 kB(큰 회귀만), 대표 조합 4개를 현재 +10% 한도로 추가:
+  앱 기본 3.36/3.7 · 폼 세트 30.1/33(Select 가 큼) · 오버레이 세트 34.7/38 · 한국 키트 30.3/33.5 kB. 원래 메모: "react: 전체 JS" 67.3/70 kB(여유 2.7 kB). 이 항목은 모든 컴포넌트를 import 한 크기라 사용자 번들과 다르다.
+  선택지: ① 한도 상향(예: 80 kB) ② "전체" 는 느슨하게 두고 대표 조합(폼 세트·오버레이 세트·한국 키트) 항목 추가. **새 컴포넌트 전에 사용자와 결정.**
+- [x] **P12-5. 지원 정책 문서** (2026-10-19) — `SUPPORT.md`(지원 범위 표·semver·deprecated·주 1회 배포·이전 major 6개월 보안 수정 — 기본안),
+  `SECURITY.md`(GitHub 비공개 취약점 신고·처리 과정·라이브러리 보안 범위·CSP). README·npm README(영/한)·Introduction 에 연결. 원래 메모: 지원 브라우저·React·Next.js 버전 표, 배포 주기(지금은 하루 여러 번 → 주 1회 묶음 권장), 보안 문의(SECURITY.md),
+  deprecated 기간. README·Introduction 에 연결.
+- 운영: CI 러너는 `ubuntu-24.04` 고정 — Ubuntu 26 으로 올리는 건 Playwright 지원 확인 후(24.04 지원 종료 공지 전에).
+
+#### P13. 접근성 실사용 검증
+
+- [~] **P13-1. 스크린리더 수동 점검 (사람이 실행)** — 2026-10-19 체크리스트 작성: `docs/SCREEN-READER-CHECKLIST.md`(조합 4개 중 최소 VO macOS·NVDA,
+  배포된 playground 에서 13개 항목 단계별 기대 동작·결과 칸·기록 표). **남은 것: 사람이 실행해 결과 기록.** 원래 메모: Claude 가 컴포넌트별 점검 체크리스트(조작 순서·기대 낭독)를 만들고, 사람이 VoiceOver(macOS·iOS)·NVDA
+  (가능하면 센스리더)로 실행해 결과를 `kwcag.ts`·`componentA11y.ts` 에 "수동 확인" 으로 기록. 우선 대상: Select·Combobox·DatePicker·Modal·Drawer·
+  DropdownMenu·Tabs·RadioGroup·NumberInput·FileUpload·Toast·서식 입력(전화·금액). axe 는 자동으로 잡을 수 있는 문제만 본다는 점을 문서에 밝힌다.
+- [x] **P13-2. 고대비(forced-colors) 자동 점검** (2026-10-19) — 스크린샷으로 확인: Switch 사라짐, 선택된 탭·SegmentedControl·메뉴/목록 강조·현재 페이지·
+  Progress 막대 안 보임, Slider 범위·Stepper 선 안 보임 → `styles/forcedColors.css.ts`(시스템 색) 적용. E2E `forced-colors.spec.ts`(시스템 강조색 일치 확인 —
+  처음 "투명 아님" 검사는 버튼 ButtonFace 로 변이가 살아남아 강화, 강화 후 켜진 Switch hover 가 원래 색으로 덮이는 결함까지 발견·수정). 원래 메모: Playwright `forcedColors: 'active'` 로 주요 스토리를 찍어 경계·선택 표시·포커스 링이 보이는지 확인
+  (RadioGroup·트랙은 대응해 둠, Checkbox·Switch·SegmentedControl·Stepper·Badge 확인 필요).
+- [x] **P13-3. 확대·리플로 점검** (2026-10-19) — `zoom.spec.ts`: 320px 리플로(3페이지 + Modal·Drawer), 글자 간격(1.4.12), 기본 글꼴 2배.
+  발견·수정: 인증번호 칸 320px 넘침(라이브러리), 글자 크기 px → rem(사용자 결정: minor, tokens 값은 그대로) + 글자 든 컨트롤 minHeight,
+  Avatar 이니셜 잘림 → px. macOS 에서 이전 커밋과 전체 472장 픽셀 비교로 화면 변화 없음 확인. 원래 메모: 320px 너비·200% 글자 확대에서 가로 스크롤·잘림 없는지(WCAG 1.4.10·1.4.4). E2E 또는 스토리 테스트로.
+- [ ] **P13-4. 입력 테두리 대비 (2.0 후보, 결정 필요)** — border.default(gray300)가 흰 배경과 1.3:1. 모든 입력 화면이 바뀌므로 2.0 에 모으거나,
+  `fg.subtle` 수준으로 올리는 옵션 토큰을 minor 로 먼저 제공. 사용자와 결정.
+
+#### P14. 파일럿과 빈칸 채우기 (기능)
+
+- [x] **P14-1. 파일럿 화면** (2026-10-19) — playground `/orders`(주문 관리: 검색·필터·정렬·선택·일괄 취소·페이지·상세 Drawer·등록 폼) + `orders.spec.ts`(6개).
+  **버그 2개 발견·수정**: Modal 안 Select 목록이 배경막에 가림(z-index dropdown 1000 → 1320), 메뉴에서 연 Drawer 닫을 때 포커스 사라짐(useReturnFocus).
+  빈칸 6개는 `docs/PILOT-FINDINGS.md` — 다음 순서: 오류 요약(P14-2 와 함께) → VisuallyHidden → DescriptionList. 원래 메모: 실제 제품 화면 하나(예: 관리자 목록 + 상세 + 등록 폼)를 이 시스템만으로 만든다. 가능하면 사용자의 실제 제품,
+  아니면 playground 에 "실전 예제" 페이지로. 빠진 컴포넌트·불편한 API·성능 문제를 이슈로 모아 아래 순서를 정한다.
+- [x] **P14-2. 폼 라이브러리 연동** (2026-10-19) — `ErrorSummary`(포커스·focusKey·링크로 칸 이동) + `focusField` + `VisuallyHidden` 추가, AgreementGroup `id`.
+  react-hook-form 통합 테스트 3개(변이 2종) + playground `/signup`(실제 브라우저 E2E), 파일럿 폼을 ErrorSummary 로 교체. 방침: group 컴포넌트는 ref 가 포커스 불가 →
+  `shouldFocusError: false` + 오류 요약으로 포커스(GOV.UK). 원래 메모: react-hook-form 으로 TextField(register)·Select·DatePicker·NumberInput·FileUpload·AgreementGroup(Controller)
+  예시 + 테스트(ref·name·onBlur·에러 표시·포커스 이동). 에러 요약(제출 시 첫 오류로 포커스) 패턴 문서.
+- [x] **P14-3. 데이터 테이블 보강** (2026-10-19) — `TableEmpty`·`TableSkeleton`(aria-busy)·`useTableSelection`(이 페이지 모두 선택·혼합·페이지 넘어 유지),
+  Table 스토리 "목록 화면 패턴"·Modal 스토리 "폼 제출(footer 버튼)", 파일럿 교체. PILOT-FINDINGS 빈칸 6개 모두 해결. 정렬은 기존 TableHead onSort. 원래 메모: Table 에 정렬 머리글(aria-sort)·행 선택(Checkbox)·빈 상태·로딩(Skeleton)·Pagination 연결 예시. 가상화는 수요 시.
+- [x] **P14-4. DateRangePicker** (2026-10-19) — DatePicker 두 개 + 서로 min/max 제한 + 빠른 선택(`dateRangePresets`·`presetRange`, aria-pressed),
+  fieldset/legend, 좁은 화면은 쌓기. 파일럿 주문일 필터 + E2E. 한 달력에서 끌어 고르는 방식은 수요 확인 후. 원래 메모: Calendar 기반 기간 선택(시작·끝, 키보드, `today` 고정).
+- [ ] **P14-5. Combobox 다중 선택·비동기 검색** — 선택 칩(Backspace 로 지우기), 검색 중 상태 알림, 긴 목록 가상화.
+- [ ] **P14-6. Tag 입력** — 쉼표·Enter 로 태그 추가(P14-5 와 칩 공유).
+
+#### P15. 문서·개발자 경험
+
+- [x] (2026-10-19 `Guides/언제 무엇을 쓰나` — 6묶음 32개 항목) 사용 가이드: 언제 무엇을 쓰나(Select vs Combobox vs SegmentedControl vs RadioGroup, Modal vs Drawer, Tabs vs SegmentedControl).
+- [x] (2026-10-19 `Guides/화면 패턴`) 패턴 페이지: 폼 검증·에러 요약, 단계별 흐름(Stepper + 버튼 + 제목 포커스), 파일 업로드 + 진행률.
+- [x] 지원 범위 표·업그레이드 가이드를 Storybook Introduction 에 연결 (P12-5 와 함께).
