@@ -72,6 +72,15 @@ export const componentA11y: ComponentA11yGroup[] = [
           'radiogroup (label 이 그룹 이름) 안의 네이티브 radio — "n개 중 m번째" 와 선택 상태를 읽는다. 보조 설명은 각 radio 의 설명으로, helperText·error·required 는 그룹에 연결.',
       },
       {
+        name: 'NumberInput',
+        keyboard:
+          '↑/↓ 한 단계(step), PageUp/PageDown 큰 단계(largeStep), min·max 가 있으면 Home/End 로 끝값. −/+ 버튼은 ↑/↓ 가 대신해 Tab 순서에서 빠져 있고, 눌러도 입력창 포커스를 뺏지 않는다.',
+        screenReader:
+          'spinbutton — 현재 값(aria-valuenow)·최소·최대, 단위를 붙인 읽기 값(aria-valuetext "3개"). 버튼은 "줄이기"/"늘리기"(aria-controls 로 입력창 연결), 범위 끝에서 비활성.',
+        yours:
+          '입력 중에는 범위 밖 값도 받고 포커스가 빠질 때 맞춘다 — 범위를 helperText 로도 알린다(예: "최대 8명"). 금액은 AmountInput.',
+      },
+      {
         name: 'SegmentedControl',
         keyboard: 'Tab 으로 들어가면 선택된 칸, ←/→ 로 옮기면 바로 선택(끝에서 처음으로 돈다, 비활성 칸은 건너뜀).',
         screenReader: 'radiogroup(label 또는 aria-label 이 이름) / radio 의 선택 상태. 아이콘은 숨김.',

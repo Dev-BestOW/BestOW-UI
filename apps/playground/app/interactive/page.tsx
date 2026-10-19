@@ -14,6 +14,7 @@ import {
   Modal,
   PhoneNumberInput,
   ModalClose,
+  NumberInput,
   Progress,
   RadioGroup,
   Select,
@@ -48,6 +49,7 @@ export default function InteractivePage() {
   const [agreed, setAgreed] = useState<string[]>([]);
   const [code, setCode] = useState('');
   const [billing, setBilling] = useState<string>();
+  const [seats, setSeats] = useState<number | null>(1);
   const [memo, setMemo] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [loadingPost, setLoadingPost] = useState(false);
@@ -113,6 +115,15 @@ export default function InteractivePage() {
             { value: 'monthly', label: '월간' },
             { value: 'yearly', label: '연간' },
           ]}
+        />
+        <NumberInput
+          label="좌석 수"
+          unit="석"
+          min={1}
+          max={20}
+          value={seats}
+          onValueChange={setSeats}
+          helperText={`선택한 좌석: ${seats ?? '없음'} (최대 20석)`}
         />
         <Textarea
           label="메모"

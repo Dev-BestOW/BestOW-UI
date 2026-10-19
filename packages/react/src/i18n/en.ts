@@ -34,6 +34,8 @@ export const en: BestowMessages = {
   openList: 'Show options',
   clearSelection: 'Clear selection',
   skipToContent: 'Skip to main content',
+  decrement: 'Decrease',
+  increment: 'Increase',
   rangeStart: 'minimum',
   rangeEnd: 'maximum',
   agreeAll: 'Agree to all',

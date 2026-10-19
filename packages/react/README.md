@@ -102,7 +102,7 @@ import { LocaleProvider, en } from '@bestow-ui/react';
 | Layout | `Stack`, `Divider`, `Card` |
 | Typography | `Typography` |
 | Actions | `Button`, `IconButton`, `Link` |
-| Forms | `Input`, `TextField`, `Textarea`, `Select`, `Combobox`, `Checkbox`, `RadioGroup`, `Switch`, `Slider` |
+| Forms | `Input`, `TextField`, `Textarea`, `Select`, `Combobox`, `NumberInput`, `Checkbox`, `RadioGroup`, `Switch`, `Slider` |
 | Feedback | `Alert`, `Progress`, `ToastProvider` + `useToast`, `Spinner`, `Skeleton`, `Badge` |
 | Overlays | `Modal`, `Drawer`, `Popover`, `Tooltip`, `DropdownMenu` |
 | Navigation | `Tabs`, `SegmentedControl`, `Accordion`, `Pagination`, `Breadcrumb`, `SkipLink` |

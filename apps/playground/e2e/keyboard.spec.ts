@@ -203,3 +203,23 @@ test('RadioGroup: 화살표로 옮기면 바로 선택되고, 지연 없이 연�
   await expect(yearly).toBeFocused();
   await expect(yearly).toBeChecked();
 });
+
+test('NumberInput: ↑/↓ 로 바꾸고, + 버튼은 포커스를 뺏지 않으며, 범위 밖 입력은 나갈 때 맞춘다', async ({ page }) => {
+  await page.goto('/interactive');
+  const seats = page.getByRole('spinbutton', { name: '좌석 수' });
+  await seats.click();
+  await page.keyboard.press('ArrowUp');
+  await expect(seats).toHaveValue('2');
+  await expect(seats).toHaveAttribute('aria-valuetext', '2석');
+  await page.getByRole('button', { name: '늘리기' }).click();
+  await expect(seats).toHaveValue('3');
+  await expect(seats).toBeFocused();
+  await expect(page.getByText('선택한 좌석: 3 (최대 20석)')).toBeVisible();
+  // 범위 밖(최대 20) 값을 입력하고 나가면 최대로 맞춘다
+  await seats.fill('35');
+  await expect(seats).toHaveValue('35');
+  await page.keyboard.press('Tab');
+  await expect(seats).toHaveValue('20');
+  await expect(page.getByText('선택한 좌석: 20 (최대 20석)')).toBeVisible();
+  await expect(page.getByRole('button', { name: '늘리기' })).toBeDisabled();
+});

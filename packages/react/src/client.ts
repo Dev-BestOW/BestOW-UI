@@ -32,6 +32,7 @@ export * from './components/IconButton';
 export * from './components/Input';
 export * from './components/Link';
 export * from './components/Modal';
+export * from './components/NumberInput';
 export * from './components/Pagination';
 export * from './components/PhoneNumberInput';
 export * from './components/Popover';

@@ -33,6 +33,9 @@ export interface BestowMessages {
   clearSelection?: string;
   /** SkipLink — "본문 바로가기" (1.0 이후 추가, 선택 키) */
   skipToContent?: string;
+  /** NumberInput −/+ 버튼 — "줄이기", "늘리기" (1.0 이후 추가, 선택 키) */
+  decrement?: string;
+  increment?: string;
   /** Slider 범위 손잡이 — "최소", "최대" */
   rangeStart: string;
   rangeEnd: string;
