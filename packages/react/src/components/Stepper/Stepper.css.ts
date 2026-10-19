@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
+import { forcedColors, systemHighlight } from '../../styles/forcedColors.css';
 import { vars } from '../../theme/contract.css';
 
 const CIRCLE = '28px';
@@ -37,6 +38,15 @@ export const step = recipe({
         backgroundColor: vars.color.border.strong,
       },
       '&[data-status="complete"]::after': { backgroundColor: vars.color.primary.text },
+    },
+    // 고대비: 연결선(배경색)이 지워진다 → 시스템 글자색, 완료 구간은 강조색
+    '@media': {
+      [forcedColors]: {
+        selectors: {
+          '&:not(:last-child)::after': { forcedColorAdjust: 'none', backgroundColor: 'CanvasText' },
+          '&[data-status="complete"]::after': { backgroundColor: 'Highlight' },
+        },
+      },
     },
   },
   variants: {
@@ -91,7 +101,12 @@ export const indicator = recipe({
   },
   variants: {
     status: {
-      complete: { backgroundColor: vars.color.primary.solid, color: vars.color.primary.contrast },
+      complete: {
+        backgroundColor: vars.color.primary.solid,
+        color: vars.color.primary.contrast,
+        // 고대비: 채운 원이 지워져 체크만 남는다 → 강조색으로 채운다
+        '@media': { [forcedColors]: systemHighlight },
+      },
       current: {
         border: `2px solid ${vars.color.primary.solid}`,
         backgroundColor: vars.color.bg.default,

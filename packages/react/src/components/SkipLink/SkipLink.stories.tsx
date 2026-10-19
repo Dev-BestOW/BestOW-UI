@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, userEvent, within } from 'storybook/test';
+import { expect, within } from 'storybook/test';
 import { Link } from '../Link';
 import { Stack } from '../Stack';
 import { Typography } from '../Typography';
@@ -45,8 +45,11 @@ export const Playground: Story = {};
 /** play 로 첫 Tab 을 누른 상태 — 나타난 모양을 시각 회귀·axe 로 확인한다 */
 export const Focused: Story = {
   name: '포커스를 받은 상태',
+  // 모양(시각 회귀·axe)을 보려는 스토리라 링크에 직접 포커스를 준다 — userEvent.tab() 은 CI Firefox 에서 Storybook 준비 중에
+  // body 에 머문 적이 있다. 실제 첫 Tab 동작은 playground E2E(keyboard.spec.ts)가 세 브라우저에서 확인한다.
   play: async ({ canvasElement }) => {
-    await userEvent.tab();
-    await expect(within(canvasElement).getByRole('link', { name: '본문 바로가기' })).toHaveFocus();
+    const link = within(canvasElement).getByRole('link', { name: '본문 바로가기' });
+    link.focus();
+    await expect(link).toHaveFocus();
   },
 };

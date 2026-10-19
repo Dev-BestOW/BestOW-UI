@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+import { forcedColors, systemHighlight } from '../../styles/forcedColors.css';
 import { vars } from '../../theme/contract.css';
 
 export const root = style({
@@ -88,4 +89,5 @@ export const day = style({
     '&[aria-disabled="true"]': { opacity: 0.4, cursor: 'not-allowed', textDecoration: 'line-through' },
     '&:focus-visible': { outline: `2px solid ${vars.color.border.focus}`, outlineOffset: '2px' },
   },
+  '@media': { [forcedColors]: { selectors: { '&[data-selected], &[data-selected]:hover': systemHighlight } } },
 });

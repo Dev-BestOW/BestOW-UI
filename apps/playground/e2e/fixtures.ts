@@ -6,6 +6,8 @@ const axeSource = readFileSync(createRequire(import.meta.url).resolve('axe-core/
 
 // 일부러 실패시키는 리소스 (Avatar 의 이미지 실패 → 이니셜 대체 예시)
 const EXPECTED_FAILURES = [/no-such-image\.png/];
+// 브라우저의 성능 안내라 기능 문제가 아닌 경고 — Firefox 는 스크롤에 맞춰 위치를 바꾸는 팝업(Radix·floating-ui)에 이 안내를 남긴다
+const BROWSER_ADVISORIES = [/scroll-linked positioning effect/];
 
 /**
  * 모든 테스트에서 콘솔 경고·오류와 페이지 오류(hydration 불일치 포함)를 모아, 테스트가 끝날 때 하나도 없어야 통과한다.
@@ -20,6 +22,7 @@ export const test = base.extend<{ problems: string[] }>({
         const url = message.location().url;
         if (message.text().startsWith('Failed to load resource') && EXPECTED_FAILURES.some((re) => re.test(url)))
           return;
+        if (BROWSER_ADVISORIES.some((re) => re.test(message.text()))) return;
         problems.push(`${message.type()}: ${message.text()}`);
       });
       page.on('pageerror', (error) => problems.push(`pageerror: ${error.message}`));

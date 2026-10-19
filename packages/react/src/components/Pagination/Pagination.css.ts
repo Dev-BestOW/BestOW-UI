@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { recipe, type RecipeVariants } from '@vanilla-extract/recipes';
+import { forcedColors, systemHighlight } from '../../styles/forcedColors.css';
 import { vars } from '../../theme/contract.css';
 
 export const list = style({
@@ -39,6 +40,9 @@ export const item = recipe({
         cursor: 'default',
       },
       '&[aria-current="page"]:hover': { backgroundColor: vars.color.primary.solidHover },
+    },
+    '@media': {
+      [forcedColors]: { selectors: { '&[aria-current="page"], &[aria-current="page"]:hover': systemHighlight } },
     },
   },
   variants: {

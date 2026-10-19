@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { recipe, type RecipeVariants } from '@vanilla-extract/recipes';
 import { indeterminate, reducedMotion } from '../../styles/animations.css';
+import { forcedColors } from '../../styles/forcedColors.css';
 import { vars } from '../../theme/contract.css';
 
 export const root = style({
@@ -77,6 +78,8 @@ export const indicator = recipe({
           '&[data-state="indeterminate"]': { width: '100%', animation: 'none', opacity: 0.5 },
         },
       },
+      // 고대비: 막대 배경이 지워져 진행률이 사라진다 → 시스템 강조색
+      [forcedColors]: { forcedColorAdjust: 'none', backgroundColor: 'Highlight' },
     },
   },
   variants: {

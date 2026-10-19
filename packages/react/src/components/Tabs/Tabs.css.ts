@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { recipe, type RecipeVariants } from '@vanilla-extract/recipes';
+import { forcedColors, systemHighlight } from '../../styles/forcedColors.css';
 import { vars } from '../../theme/contract.css';
 
 // 방향은 Radix 가 root·list·trigger·content 에 붙이는 data-orientation 으로 고른다
@@ -67,6 +68,8 @@ export const trigger = recipe({
       '&[data-disabled]': { opacity: 0.5, cursor: 'not-allowed' },
       [vertical]: { justifyContent: 'flex-start' },
     },
+    // 고대비: 선택 표시(밑줄 그림자·흰 배경)가 지워진다 → 선택된 탭을 시스템 강조색으로
+    '@media': { [forcedColors]: { selectors: { '&[data-state="active"]': systemHighlight } } },
   },
   variants: {
     variant: {

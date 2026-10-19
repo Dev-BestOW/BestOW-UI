@@ -101,9 +101,11 @@ export const kwcag: KwcagGroup[] = [
         id: '5.4.4',
         name: '콘텐츠 간의 구분',
         coverage: '지원',
-        provided: '테두리·간격 토큰, 다크 모드 그림자에 가장자리 ring, Divider.',
-        yours: '레이아웃에서 영역 간 간격·구분선.',
-        verified: '스토리 시각 회귀',
+        provided:
+          '테두리·간격 토큰, 다크 모드 그림자에 가장자리 ring, Divider. Windows 고대비 모드에서 배경색·그림자로 보이던 상태(Switch·선택된 탭·SegmentedControl·메뉴 강조·현재 페이지·선택한 날·Progress·Slider·Stepper)를 시스템 강조색으로 다시 그린다.',
+        yours:
+          '레이아웃에서 영역 간 간격·구분선. 직접 만든 요소는 상태를 배경색만으로 보이지 않게(테두리·글자·아이콘도 함께).',
+        verified: '스토리 시각 회귀 · 고대비 E2E(forced-colors 에뮬레이션, 시스템 강조색 확인)',
       },
     ],
   },
@@ -341,6 +343,13 @@ export const kwcag: KwcagGroup[] = [
 
 /** 이 세션들에서 자동 검사·테스트가 실제로 찾아 고친 문제 — "검사로 지켜진다" 는 근거 */
 export const caughtIssues: Array<{ item: string; found: string; fixed: string }> = [
+  {
+    item: '5.4.4 콘텐츠 간의 구분 (고대비 모드)',
+    found:
+      'Windows 고대비에서 Switch 가 통째로 사라지고, 선택된 탭·SegmentedControl 칸·메뉴/목록 강조 항목·현재 페이지·Progress 막대가 보이지 않았다. 켜진 Switch 에 마우스를 올리면 시스템 색 대신 원래 색이 나왔다',
+    fixed:
+      'forced-colors 미디어쿼리에서 시스템 색(Highlight 등)으로 다시 그림(hover 규칙 포함) + 시스템 강조색을 확인하는 E2E',
+  },
   {
     item: '5.4.3 명도 대비',
     found: '라이트 fg.subtle 글자 대비 3.32:1, 다크 solid 버튼 hover 글자 대비 3.3~4.38:1',

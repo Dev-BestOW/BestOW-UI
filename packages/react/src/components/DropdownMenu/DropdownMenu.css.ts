@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { popIn, reducedMotion } from '../../styles/animations.css';
+import { forcedColors, systemHighlight } from '../../styles/forcedColors.css';
 import { vars } from '../../theme/contract.css';
 
 export const content = style({
@@ -36,6 +37,10 @@ export const item = style({
   selectors: {
     '&[data-highlighted]': { backgroundColor: vars.color.neutral.subtle },
     '&[data-disabled]': { opacity: 0.5, cursor: 'not-allowed' },
+  },
+  // 고대비: 강조 배경이 지워져 키보드로 어느 항목에 있는지 안 보인다
+  '@media': {
+    [forcedColors]: { selectors: { '&[data-highlighted], &[data-state="open"]': systemHighlight } },
   },
 });
 

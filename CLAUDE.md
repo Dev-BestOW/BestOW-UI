@@ -86,6 +86,9 @@ apps/
 ## 컴포넌트 작성 규칙
 
 - 스타일 값은 **반드시 `vars`(테마 토큰)로 참조**한다. 하드코딩한 색·간격 금지 (그래야 다크모드·테마 교체가 된다).
+- **상태(선택·켜짐·강조·진행률)를 배경색이나 그림자로만 보이면** 고대비 모드에서 사라진다 — `styles/forcedColors.css.ts` 의
+  `forcedColors` 미디어쿼리에서 `systemHighlight`(Highlight 배경) 등 시스템 색으로 다시 그린다. 같은 상태의 `:hover` 규칙도 함께 덮는다(더 구체적이라 이긴다).
+  `apps/playground/e2e/forced-colors.spec.ts` 가 시스템 강조색인지 확인한다("투명 아님" 검사는 버튼의 ButtonFace 때문에 너무 약하다).
 - variant 는 `@vanilla-extract/recipes` 의 `recipe()` 로. prop 이름은 기존과 통일: `variant`, `color`, `size`(sm/md/lg), `fullWidth`.
 - `forwardRef` 로 ref 전달, `className` 과 나머지 HTML 속성 전달. HTML `color` 속성과 겹치면 `Omit` 한다.
 - 폼 컴포넌트는 TextField/Select 패턴을 따른다: `label`, `helperText`, `error`, `required`, `useId` 로 label/aria-describedby 연결.

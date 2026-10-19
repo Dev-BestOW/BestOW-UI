@@ -1,6 +1,7 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 import { reducedMotion } from '../../styles/animations.css';
+import { forcedColors, systemHighlight } from '../../styles/forcedColors.css';
 import { vars } from '../../theme/contract.css';
 
 export const root = recipe({
@@ -40,6 +41,19 @@ export const track = recipe({
       '&:focus-visible': { outline: `2px solid ${vars.color.border.focus}`, outlineOffset: '2px' },
       '&:disabled': { cursor: 'not-allowed' },
     },
+    // 고대비: 트랙 배경이 지워져 스위치가 사라진다 → 테두리, 켜지면 시스템 강조색
+    '@media': {
+      [forcedColors]: {
+        border: '1px solid CanvasText',
+        // hover 규칙(켜짐 + hover = 원래 색)이 더 구체적이라 함께 덮는다
+        selectors: {
+          '&[data-state="checked"], &[data-state="checked"]:hover:not(:disabled)': {
+            ...systemHighlight,
+            borderColor: 'Highlight',
+          },
+        },
+      },
+    },
   },
   variants: {
     size: {
@@ -60,7 +74,15 @@ export const thumb = recipe({
     selectors: {
       '&[data-state="checked"]': { backgroundColor: vars.color.primary.contrast },
     },
-    '@media': { [reducedMotion]: { transition: 'none' } },
+    '@media': {
+      [reducedMotion]: { transition: 'none' },
+      [forcedColors]: {
+        forcedColorAdjust: 'none',
+        backgroundColor: 'CanvasText',
+        boxShadow: 'none',
+        selectors: { '&[data-state="checked"]': { backgroundColor: 'HighlightText' } },
+      },
+    },
   },
   variants: {
     size: {

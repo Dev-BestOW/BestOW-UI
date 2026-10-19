@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
+import { forcedColors } from '../../styles/forcedColors.css';
 import { vars } from '../../theme/contract.css';
 
 export const field = style({
@@ -85,6 +86,7 @@ export const range = style({
   position: 'absolute',
   height: '100%',
   backgroundColor: vars.color.primary.text,
+  '@media': { [forcedColors]: { forcedColorAdjust: 'none', backgroundColor: 'Highlight' } },
 });
 
 export const thumb = recipe({
