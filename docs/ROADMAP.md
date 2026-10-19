@@ -18,7 +18,8 @@
 - 번들: react 전체 JS **67.3/80 kB**, 대표 조합(앱 기본 3.4·폼 30.1·오버레이 34.7·한국 키트 30.3 kB, +10% 한도), styles.css **9.4/12 kB**, Button 하나 1.51/2 kB.
 - semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
 - 보고할 때 시각 회귀는 "허용치 안 통과" 와 "픽셀 동일" 을 구분한다(RadioGroup 사례).
-- **다음 작업:** (사람) `docs/SCREEN-READER-CHECKLIST.md` 로 VO macOS·NVDA 점검. (Claude) P14-1 파일럿 화면 → P14-2 폼 라이브러리 연동. 남은 선언 기준은 스크린리더 수동 점검과 파일럿 두 개.
+- **다음 작업:** (사람) `docs/SCREEN-READER-CHECKLIST.md` 로 VO macOS·NVDA 점검 — 남은 선언 기준은 이것 하나. (Claude) P14-2 폼 라이브러리 연동 + 오류 요약(ErrorSummary) → VisuallyHidden → DescriptionList (PILOT-FINDINGS 순서).
+  **push 하면 Tokens 스토리 시각 회귀가 실패한다(zIndex 표 값·순서 변경, 의도)** → Visual regression 수동 실행 update. 남은 선언 기준은 스크린리더 수동 점검과 파일럿 두 개.
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다
@@ -93,7 +94,7 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 - [x] 모바일(터치·좁은 화면) 주요 시나리오 E2E (P12-2)
 - [x] React 18·19 둘 다 CI (P12-3)
 - [ ] 주요 컴포넌트 스크린리더 수동 점검 기록 — VoiceOver(macOS·iOS) + NVDA, 가능하면 센스리더 (P13-1)
-- [ ] 실제 화면 파일럿 1개 이상에서 발견한 문제 해결 (P14-1)
+- [x] 실제 화면 파일럿 1개 이상에서 발견한 문제 해결 (P14-1) — 버그 2개 수정, 빈칸은 P14-2 이후 순서로
 - [x] 지원 범위·배포 주기·보안 문의 경로 문서화 (P12-5) — 저장소 설정의 Private vulnerability reporting 켜기는 사용자가 확인
 
 ### P12. 신뢰성 기반 — 검증 범위 넓히기 (최우선)
@@ -138,7 +139,9 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 
 ### P14. 파일럿과 빈칸 채우기 (기능)
 
-- [ ] **P14-1. 파일럿 화면** — 실제 제품 화면 하나(예: 관리자 목록 + 상세 + 등록 폼)를 이 시스템만으로 만든다. 가능하면 사용자의 실제 제품,
+- [x] **P14-1. 파일럿 화면** (2026-10-19) — playground `/orders`(주문 관리: 검색·필터·정렬·선택·일괄 취소·페이지·상세 Drawer·등록 폼) + `orders.spec.ts`(6개).
+  **버그 2개 발견·수정**: Modal 안 Select 목록이 배경막에 가림(z-index dropdown 1000 → 1320), 메뉴에서 연 Drawer 닫을 때 포커스 사라짐(useReturnFocus).
+  빈칸 6개는 `docs/PILOT-FINDINGS.md` — 다음 순서: 오류 요약(P14-2 와 함께) → VisuallyHidden → DescriptionList. 원래 메모: 실제 제품 화면 하나(예: 관리자 목록 + 상세 + 등록 폼)를 이 시스템만으로 만든다. 가능하면 사용자의 실제 제품,
   아니면 playground 에 "실전 예제" 페이지로. 빠진 컴포넌트·불편한 API·성능 문제를 이슈로 모아 아래 순서를 정한다.
 - [ ] **P14-2. 폼 라이브러리 연동** — react-hook-form 으로 TextField(register)·Select·DatePicker·NumberInput·FileUpload·AgreementGroup(Controller)
   예시 + 테스트(ref·name·onBlur·에러 표시·포커스 이동). 에러 요약(제출 시 첫 오류로 포커스) 패턴 문서.
@@ -252,3 +255,5 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-19 | CI 4차: Firefox 녹색 → P12-1 완료, 고대비 E2E 색 전환 중간값 → poll. P13-3 확대·리플로: 인증번호 칸 320px 넘침 수정, 글자 크기 rem(minor, 사용자 결정)·minHeight, Avatar 이니셜 px, zoom.spec(10개, 변이 확인). 전체 472장 macOS 픽셀 비교 동일 |
 | 2026-10-19 | P12-5 SUPPORT.md·SECURITY.md 작성, README·npm README·Introduction 연결. 프로덕션 권장 선언 기준 6개 중 4개 충족(남은 것: 스크린리더 수동 점검, 파일럿) |
 | 2026-10-19 | P13-1 스크린리더 점검 체크리스트 작성(13개 항목, 조합 4개, 결과 기록 방법) — 실행은 사람 |
+| 2026-10-19 | CI 5차(`5d62d21`): 시각 회귀(Linux) 성공 — rem 전환 화면 변화 없음 확인. Firefox 만 /navigation 320px 리플로 1px → 반올림 오차로 1px 허용 |
+| 2026-10-19 | P14-1 파일럿 `/orders`: Modal 안 Select 가림(z-index)·메뉴→Drawer 포커스 복귀 버그 수정, 빈칸 6개 PILOT-FINDINGS.md. 프로덕션 권장 선언 기준 5/6 (남은 것: 스크린리더 수동 점검) |

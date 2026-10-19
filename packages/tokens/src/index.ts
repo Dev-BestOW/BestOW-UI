@@ -144,10 +144,15 @@ export const duration = {
   slow: '320ms',
 } as const;
 
+/**
+ * 쌓임 순서. dropdown(Select·Combobox·DropdownMenu·Popover 목록)은 modal 보다 위 — 대화상자 안에서 연 목록이 배경막에 가리지 않게.
+ * 대화상자가 열려 있으면 바깥 페이지의 목록은 열 수 없으므로(포커스가 갇힘) 이 순서로 충돌하지 않는다.
+ * (1.x 초기에는 dropdown 1000 이라 Modal 안의 Select 목록이 배경막 아래에 그려졌다 — 파일럿 화면에서 발견)
+ */
 export const zIndex = {
-  dropdown: '1000',
   overlay: '1300',
   modal: '1310',
+  dropdown: '1320',
   toast: '1400',
   tooltip: '1500',
 } as const;

@@ -1,8 +1,11 @@
+import { useState } from 'react';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { themeClass } from '../../theme/contract.css';
 import { createTheme } from '../../theme/createTheme';
 import { ThemeProvider } from '../../theme/ThemeProvider';
+import { Button } from '../Button';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '../DropdownMenu';
 import { Drawer, DrawerClose } from './Drawer';
 
 describe('Drawer', () => {
@@ -75,5 +78,35 @@ describe('Drawer', () => {
     expect(screen.getByTestId('provider').contains(dialog)).toBe(false);
     expect(dialog.classList.contains(themeClass.dark)).toBe(true);
     expect(dialog.style.getPropertyValue('--bestow-color-primary-solid')).toBe('#7c3aed');
+  });
+
+  it('메뉴 항목에서 연(trigger 없는) Drawer 를 닫으면 메뉴 버튼으로 포커스가 돌아간다', async () => {
+    function MenuThenDrawer() {
+      const [open, setOpen] = useState(false);
+      return (
+        <>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button>행 작업</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuItem onSelect={() => setOpen(true)}>상세 보기</DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+          <Drawer title="상세" open={open} onOpenChange={setOpen}>
+            내용
+          </Drawer>
+        </>
+      );
+    }
+    const user = userEvent.setup();
+    render(<MenuThenDrawer />);
+    screen.getByRole('button', { name: '행 작업' }).focus();
+    await user.keyboard('{Enter}');
+    await user.keyboard('{Enter}'); // 첫 항목 "상세 보기"
+    expect(screen.getByRole('dialog', { name: '상세' })).toBeTruthy();
+    await user.keyboard('{Escape}');
+    expect(screen.queryByRole('dialog')).toBeNull();
+    expect(document.activeElement).toBe(screen.getByRole('button', { name: '행 작업' }));
   });
 });

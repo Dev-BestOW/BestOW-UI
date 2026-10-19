@@ -10,7 +10,12 @@ export function useReturnFocus(hasTrigger: boolean, onCloseAutoFocus?: (event: E
   return {
     onOpenAutoFocus: () => {
       // FocusScope 가 안쪽으로 포커스를 옮기기 직전이라 아직 연 요소에 포커스가 있다
-      returnTo.current = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      const active = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+      // 메뉴 항목(DropdownMenuItem onSelect)에서 열었으면 그 항목은 메뉴와 함께 사라진다 → 메뉴를 연 버튼으로 돌아간다.
+      // Radix 메뉴 콘텐츠는 aria-labelledby 로 트리거를 가리킨다 (파일럿 화면의 "행 메뉴 → 상세 Drawer" 에서 발견)
+      const menu = active?.closest<HTMLElement>('[role="menu"]');
+      const menuTrigger = menu?.getAttribute('aria-labelledby');
+      returnTo.current = (menuTrigger && document.getElementById(menuTrigger)) || active;
     },
     onCloseAutoFocus: (event: Event) => {
       onCloseAutoFocus?.(event);

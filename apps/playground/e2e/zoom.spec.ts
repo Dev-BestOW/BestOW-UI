@@ -3,7 +3,7 @@ import { expect, test } from './fixtures';
 
 // 확대·리플로(WCAG 1.4.10)와 글자 간격(1.4.12) — 데스크톱 프로젝트에서 창 폭만 줄여 확인한다.
 // 320px = 1280px 화면을 400% 확대한 것과 같다. 표(Table)처럼 2차원 배치가 꼭 필요한 내용은 1.4.10 예외라 표 안의 가로 스크롤은 허용한다.
-const PAGES = ['/', '/interactive', '/navigation'];
+const PAGES = ['/', '/interactive', '/navigation', '/orders'];
 
 async function horizontalOverflow(page: Page) {
   return page.evaluate(() => document.documentElement.scrollWidth - document.documentElement.clientWidth);
@@ -13,7 +13,8 @@ for (const path of PAGES) {
   test(`${path} — 320px 폭에서 페이지 가로 스크롤이 없다 (리플로)`, async ({ page }) => {
     await page.setViewportSize({ width: 320, height: 640 });
     await page.goto(path);
-    expect(await horizontalOverflow(page)).toBeLessThanOrEqual(0);
+    // 1px 는 브라우저의 소수점 픽셀 반올림 차이(CI Firefox 에서 /navigation 이 1px)라 허용한다 — 실제 넘침(인증번호 칸 32px)은 잡힌다
+    expect(await horizontalOverflow(page)).toBeLessThanOrEqual(1);
   });
 }
 

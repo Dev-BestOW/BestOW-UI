@@ -1,3 +1,4 @@
+import { zIndex } from '@bestow-ui/tokens';
 import { vars } from './contract.css';
 
 function collect(node: unknown): string[] {
@@ -109,5 +110,13 @@ describe('vars (공개 CSS 변수 이름)', () => {
       '--bestow-z-index-tooltip',
     ].sort();
     expect(actual).toEqual(expected);
+  });
+
+  it('쌓임 순서: 배경막 < 대화상자 < 목록(dropdown) < 토스트 < 툴팁 — 대화상자 안에서 연 목록이 가리지 않게', () => {
+    const z = (key: keyof typeof zIndex) => Number(zIndex[key]);
+    expect(z('overlay')).toBeLessThan(z('modal'));
+    expect(z('modal')).toBeLessThan(z('dropdown'));
+    expect(z('dropdown')).toBeLessThan(z('toast'));
+    expect(z('toast')).toBeLessThan(z('tooltip'));
   });
 });

@@ -4,6 +4,7 @@ const pages = [
   { path: '/', heading: '서버 컴포넌트 페이지' },
   { path: '/interactive', heading: '상호작용 페이지' },
   { path: '/navigation', heading: '탐색·오버레이 페이지' },
+  { path: '/orders', heading: '주문 관리' },
 ];
 
 for (const { path, heading } of pages) {

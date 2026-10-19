@@ -37,6 +37,7 @@ apps/
   playground/ (private)        Next.js 16 App Router 예제 앱. alias 없이 패키지 dist 를 그대로 써서 실제 설치와 같은 조건으로
                                SSR·서버 컴포넌트·portal 테마를 확인한다 (packages 를 먼저 build 해야 함). 헤더에 다크/브랜드 토글.
                                `PLAYGROUND_BASE_PATH` 가 있을 때만 정적 export(+basePath) — Pages 배포용. 평소엔 일반 서버 모드.
+                               /orders 는 파일럿 화면(주문 관리 — 여러 컴포넌트를 함께 쓰는 실전 예, docs/PILOT-FINDINGS.md).
                                e2e/ — Playwright E2E(`pnpm test:e2e`, 포트 3107): 콘솔·hydration 오류 0(fixtures 의 자동 검사),
                                mobile.spec.ts 는 `<브라우저>-mobile` 프로젝트(Pixel 7·iPhone 15, 터치·좁은 화면)에서만 — 탭 조작·리플로(가로 스크롤 없음),
                                axe(라이트·다크+브랜드), portal 테마, 키보드 시나리오, 서버 컴포넌트에서 부른 함수.

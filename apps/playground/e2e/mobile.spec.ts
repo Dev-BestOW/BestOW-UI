@@ -4,7 +4,7 @@ import { expect, test } from './fixtures';
 // 마우스가 아니라 탭(touch)으로 열고 고르며, 좁은 화면에서 가로 스크롤이 생기지 않는지 본다.
 // 가상 키보드가 입력창을 가리는 문제 등 실제 기기에서만 보이는 것은 사람이 따로 확인한다.
 
-for (const path of ['/', '/interactive', '/navigation']) {
+for (const path of ['/', '/interactive', '/navigation', '/orders']) {
   test(`${path} — 좁은 화면에서 가로 스크롤이 없다 (리플로)`, async ({ page }) => {
     await page.goto(path);
     // 기기 화면 폭과 비교한다 — 넘치면 모바일 브라우저가 화면 폭(innerWidth)을 넓혀 버려 innerWidth 와 비교하면 잡히지 않는다

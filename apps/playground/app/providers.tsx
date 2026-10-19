@@ -51,6 +51,9 @@ export function Providers({ children }: { children: ReactNode }) {
             <Link as={NextLink} href="/navigation" underline="hover">
               탐색·오버레이
             </Link>
+            <Link as={NextLink} href="/orders" underline="hover">
+              주문 관리
+            </Link>
           </Stack>
           <Stack direction="row" gap={2}>
             <Button variant="outline" color="neutral" size="sm" onClick={() => setBranded((b) => !b)}>
