@@ -10,10 +10,16 @@ import {
   Drawer,
   DrawerClose,
   DropdownMenu,
+  DropdownMenuCheckboxItem,
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
   DropdownMenuSeparator,
+  DropdownMenuSub,
+  DropdownMenuSubContent,
+  DropdownMenuSubTrigger,
   DropdownMenuTrigger,
   Pagination,
   SegmentedControl,
@@ -29,7 +35,7 @@ import {
   useToast,
 } from '@bestow-ui/react';
 import NextLink from 'next/link';
-import { CopyIcon, EllipsisIcon, FilterIcon, PencilIcon, TrashIcon } from '@bestow-ui/icons';
+import { CopyIcon, EllipsisIcon, FilterIcon, FolderIcon, PencilIcon, TrashIcon } from '@bestow-ui/icons';
 
 const posts = Array.from({ length: 48 }, (_, i) => `게시글 ${i + 1}`);
 const PAGE_SIZE = 5;
@@ -39,6 +45,9 @@ export default function NavigationPage() {
   const [page, setPage] = useState(1);
   const [tab, setTab] = useState<string>();
   const [sort, setSort] = useState('latest');
+  const [showHidden, setShowHidden] = useState(false);
+  const [showSize, setShowSize] = useState(true);
+  const [density, setDensity] = useState('comfortable');
 
   return (
     <Stack gap={8}>
@@ -118,6 +127,15 @@ export default function NavigationPage() {
                 복제
               </DropdownMenuItem>
               <DropdownMenuItem disabled>공유 (권한 없음)</DropdownMenuItem>
+              <DropdownMenuSub>
+                <DropdownMenuSubTrigger icon={<FolderIcon size={16} />}>이동</DropdownMenuSubTrigger>
+                <DropdownMenuSubContent>
+                  <DropdownMenuItem onSelect={() => toast({ title: '받은 문서함으로 옮겼어요' })}>
+                    받은 문서함
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onSelect={() => toast({ title: '보관함으로 옮겼어요' })}>보관함</DropdownMenuItem>
+                </DropdownMenuSubContent>
+              </DropdownMenuSub>
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 icon={<TrashIcon size={16} />}
@@ -126,6 +144,37 @@ export default function NavigationPage() {
               >
                 삭제
               </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
+
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" color="neutral">
+                보기 옵션
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent>
+              <DropdownMenuLabel>표시</DropdownMenuLabel>
+              <DropdownMenuCheckboxItem
+                checked={showHidden}
+                onCheckedChange={setShowHidden}
+                onSelect={(e) => e.preventDefault()}
+              >
+                숨긴 파일 표시
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuCheckboxItem
+                checked={showSize}
+                onCheckedChange={setShowSize}
+                onSelect={(e) => e.preventDefault()}
+              >
+                크기 열 표시
+              </DropdownMenuCheckboxItem>
+              <DropdownMenuSeparator />
+              <DropdownMenuLabel>간격</DropdownMenuLabel>
+              <DropdownMenuRadioGroup value={density} onValueChange={setDensity}>
+                <DropdownMenuRadioItem value="comfortable">넓게</DropdownMenuRadioItem>
+                <DropdownMenuRadioItem value="compact">좁게</DropdownMenuRadioItem>
+              </DropdownMenuRadioGroup>
             </DropdownMenuContent>
           </DropdownMenu>
 
@@ -150,6 +199,10 @@ export default function NavigationPage() {
             <Button variant="ghost">요금</Button>
           </Popover>
         </Stack>
+        <Typography variant="caption" color="muted">
+          보기: 숨긴 파일 {showHidden ? '표시' : '숨김'} · 크기 열 {showSize ? '표시' : '숨김'} · 간격{' '}
+          {density === 'compact' ? '좁게' : '넓게'}
+        </Typography>
       </Stack>
 
       <Stack gap={3}>

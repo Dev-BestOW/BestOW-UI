@@ -77,3 +77,39 @@ export const separator = style({
   marginInline: `calc(${vars.space[1]} * -1)`,
   backgroundColor: vars.color.border.default,
 });
+
+/** 체크·라디오 표시 자리. 아이콘(16px)과 같은 폭이라 아이콘 항목과 글자 줄이 맞는다 */
+export const indicator = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+  width: '16px',
+  height: '16px',
+  color: vars.color.primary.text,
+});
+
+export const indicatorInner = style({
+  display: 'inline-flex',
+});
+
+export const radioDot = style({
+  width: '8px',
+  height: '8px',
+  borderRadius: vars.radius.full,
+  backgroundColor: 'currentColor',
+});
+
+export const subTrigger = style({
+  selectors: {
+    // 하위 메뉴가 열려 포커스가 그쪽으로 옮겨가도 어느 항목에서 열렸는지 보이게
+    '&[data-state="open"]': { backgroundColor: vars.color.neutral.subtle },
+  },
+});
+
+export const subChevron = style({
+  display: 'inline-flex',
+  marginInlineStart: 'auto',
+  paddingInlineStart: vars.space[4],
+  color: vars.color.fg.subtle,
+});

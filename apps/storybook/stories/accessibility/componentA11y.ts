@@ -161,9 +161,11 @@ export const componentA11y: ComponentA11yGroup[] = [
       {
         name: 'DropdownMenu',
         keyboard:
-          'Enter·Space·↓ 로 열면 첫 항목, 화살표 이동(비활성 건너뜀), 글자 입력으로 찾기, Enter 실행, Esc 닫고 트리거로 복귀.',
-        screenReader: 'menu / menuitem / group. 단축키 표시는 이름에 섞이지 않게 숨김.',
-        yours: '메뉴는 "동작" 목록 — 페이지 이동 목록은 링크 목록(nav)으로.',
+          'Enter·Space·↓ 로 열면 첫 항목, 화살표 이동(비활성 건너뜀), 글자 입력으로 찾기, Enter 실행, Esc 닫고 트리거로 복귀. 체크·라디오 항목은 Enter·Space 로 바꿈. 하위 메뉴는 →·Enter·Space 로 열어 첫 항목, ← 로 닫고 여는 항목으로 복귀.',
+        screenReader:
+          'menu / menuitem / group. 체크 항목은 menuitemcheckbox, 라디오 항목은 menuitemradio + aria-checked(일부 선택은 mixed). 하위 메뉴를 여는 항목은 aria-haspopup="menu" + aria-expanded. 단축키·체크·화살표 표시는 이름에 섞이지 않게 숨김.',
+        yours:
+          '메뉴는 "동작" 목록 — 페이지 이동 목록은 링크 목록(nav)으로. 체크 항목을 여러 개 이어서 바꾸게 하려면 onSelect 에서 preventDefault 로 열어 둔다. 하위 메뉴는 한 단계까지만.',
       },
       {
         name: 'Tooltip',

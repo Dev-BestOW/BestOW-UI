@@ -11,9 +11,61 @@ test('DropdownMenu: Enter 로 열고 화살표로 이동(비활성 항목 건너
   await page.keyboard.press('ArrowDown');
   await expect(page.getByRole('menuitem', { name: '복제' })).toBeFocused();
   await page.keyboard.press('ArrowDown');
+  await expect(page.getByRole('menuitem', { name: '이동' })).toBeFocused();
+  await page.keyboard.press('ArrowDown');
   await expect(page.getByRole('menuitem', { name: '삭제' })).toBeFocused();
   await page.keyboard.press('Escape');
   await expect(page.getByRole('menu')).toBeHidden();
+  await expect(trigger).toBeFocused();
+});
+
+test('DropdownMenu 하위 메뉴: → 로 열어 첫 항목, ← 로 닫고 돌아오고, Enter 로 고르면 메뉴가 모두 닫힌다', async ({
+  page,
+}) => {
+  await page.goto('/navigation');
+  const trigger = page.getByRole('button', { name: '문서 메뉴' });
+  await trigger.focus();
+  await page.keyboard.press('Enter');
+  const sub = page.getByRole('menuitem', { name: '이동' });
+  await sub.focus();
+  await expect(sub).toHaveAttribute('aria-haspopup', 'menu');
+  await page.keyboard.press('ArrowRight');
+  await expect(sub).toHaveAttribute('aria-expanded', 'true');
+  await expect(page.getByRole('menuitem', { name: '받은 문서함' })).toBeFocused();
+  await page.keyboard.press('ArrowLeft');
+  await expect(page.getByRole('menuitem', { name: '받은 문서함' })).toBeHidden();
+  await expect(sub).toBeFocused();
+
+  await page.keyboard.press('ArrowRight');
+  await page.keyboard.press('ArrowDown');
+  await expect(page.getByRole('menuitem', { name: '보관함' })).toBeFocused();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('menu')).toHaveCount(0);
+  await expect(page.getByText('보관함으로 옮겼어요').first()).toBeVisible();
+  await expect(trigger).toBeFocused();
+});
+
+test('DropdownMenu 체크·라디오: Space 로 체크를 바꿔도 열려 있고, 라디오를 고르면 닫히며 값이 바뀐다', async ({
+  page,
+}) => {
+  await page.goto('/navigation');
+  const trigger = page.getByRole('button', { name: '보기 옵션' });
+  await trigger.focus();
+  await page.keyboard.press('Enter');
+  const hidden = page.getByRole('menuitemcheckbox', { name: '숨긴 파일 표시' });
+  await expect(hidden).toBeFocused();
+  await expect(hidden).toHaveAttribute('aria-checked', 'false');
+  await page.keyboard.press('Space');
+  await expect(hidden).toHaveAttribute('aria-checked', 'true');
+  await expect(page.getByRole('menu')).toBeVisible();
+
+  await page.keyboard.press('End');
+  const compact = page.getByRole('menuitemradio', { name: '좁게' });
+  await expect(compact).toBeFocused();
+  await expect(compact).toHaveAttribute('aria-checked', 'false');
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('menu')).toBeHidden();
+  await expect(page.getByText('보기: 숨긴 파일 표시 · 크기 열 표시 · 간격 좁게')).toBeVisible();
   await expect(trigger).toBeFocused();
 });
 

@@ -14,6 +14,14 @@ test.describe('다크 + 브랜드에서 portal 콘텐츠도 테마를 따른다'
     expect(isDark(await backgroundOf(page.getByRole('menu')))).toBe(true);
   });
 
+  test('DropdownMenu 하위 메뉴', async ({ page }) => {
+    await page.getByRole('button', { name: '문서 메뉴' }).click();
+    await page.getByRole('menuitem', { name: '이동' }).hover();
+    const subMenu = page.getByRole('menu').filter({ has: page.getByRole('menuitem', { name: '보관함' }) });
+    await expect(subMenu).toBeVisible();
+    expect(isDark(await backgroundOf(subMenu))).toBe(true);
+  });
+
   test('Popover — 안의 primary 버튼이 브랜드(보라)색', async ({ page }) => {
     await page.getByRole('button', { name: '공유', exact: true }).click();
     const dialog = page.getByRole('dialog', { name: '공유 설정' });
