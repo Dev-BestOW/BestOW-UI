@@ -258,7 +258,7 @@ export default function InteractivePage() {
         </Button>
       </Stack>
 
-      <Stack direction="row" gap={2} align="center">
+      <Stack direction="row" gap={2} align="center" wrap>
         <Modal
           title="프로젝트 삭제"
           description="삭제한 프로젝트는 복구할 수 없어요."

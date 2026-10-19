@@ -38,6 +38,7 @@ apps/
                                SSR·서버 컴포넌트·portal 테마를 확인한다 (packages 를 먼저 build 해야 함). 헤더에 다크/브랜드 토글.
                                `PLAYGROUND_BASE_PATH` 가 있을 때만 정적 export(+basePath) — Pages 배포용. 평소엔 일반 서버 모드.
                                e2e/ — Playwright E2E(`pnpm test:e2e`, 포트 3107): 콘솔·hydration 오류 0(fixtures 의 자동 검사),
+                               mobile.spec.ts 는 `<브라우저>-mobile` 프로젝트(Pixel 7·iPhone 15, 터치·좁은 화면)에서만 — 탭 조작·리플로(가로 스크롤 없음),
                                axe(라이트·다크+브랜드), portal 테마, 키보드 시나리오, 서버 컴포넌트에서 부른 함수.
 .github/
   actions/setup/               pnpm + Node(.nvmrc=22) + pnpm install 공통 composite action
@@ -216,6 +217,9 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
   `form` id 로 폼 제출에서 뗀다. 선택 점은 `appearance: none` + inset box-shadow, 고대비 모드에서는 `appearance: auto` 로 되돌린다.
 - **Safari(WebKit) 기본 동작** — Tab 이 링크를 건너뛴다(Option+Tab 이 링크까지), 버튼·라디오·체크박스를 클릭해도 포커스를 주지 않는다,
   네이티브 라디오는 끝에서 처음으로 돌지 않는다. E2E 는 이 차이에 기대지 않게 쓴다(`test.info().project.name === 'webkit'` 분기는 최소로).
+- 모바일 에뮬레이션에서 페이지가 넘치면 브라우저가 화면 폭(innerWidth)을 넓혀 버린다 — 리플로 검사는 `page.viewportSize().width`(기기 폭)와 비교한다.
+  playground 의 가로 줄(Stack direction="row")에는 `wrap` 을 준다(좁은 화면에서 머리글·버튼 줄이 넘쳐 다른 요소를 덮었다).
+- E2E 실패 원인은 CI 에서 `github` reporter 의 annotation 으로 남는다 — `curl https://api.github.com/repos/Dev-BestOW/BestOW-UI/check-runs/<job id>/annotations` 로 읽는다.
 - 이 Mac(macOS 27)에서는 Playwright Firefox 가 "Could not find profile folder" 로 실행되지 않는다(샌드박스와 무관) — Firefox 는 CI(Linux)에서 확인한다.
 - Radix Popover Content 는 기본 `role="dialog"` — 목록 팝업(Combobox)으로 쓸 때는 `role="presentation"` 으로 덮어쓴다(props 가 뒤에 적용됨).
 - MDX 문서 페이지는 스토리 axe 테스트 대상이 아니다 — 문서에 컴포넌트를 그리면 axe 를 직접 돌려 확인한다.

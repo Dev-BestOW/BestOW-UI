@@ -34,9 +34,10 @@ export function Providers({ children }: { children: ReactNode }) {
           align="center"
           justify="between"
           gap={4}
+          wrap
           style={{ padding: '16px 24px', borderBottom: '1px solid var(--bestow-color-border-default)' }}
         >
-          <Stack direction="row" align="center" gap={4}>
+          <Stack direction="row" align="center" gap={4} wrap>
             <Typography variant="h4" as="span">
               BestOW UI Playground
             </Typography>

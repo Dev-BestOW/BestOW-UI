@@ -65,7 +65,7 @@ export default function ServerPage() {
         <Typography variant="h3" as="h2">
           아이콘 (서버 렌더링)
         </Typography>
-        <Stack direction="row" gap={4} align="center">
+        <Stack direction="row" gap={4} align="center" wrap>
           <SearchIcon />
           <BellIcon />
           <UserIcon />
@@ -78,7 +78,7 @@ export default function ServerPage() {
         <Typography variant="h3" as="h2">
           서버에서 넘긴 아이콘을 받는 클라이언트 컴포넌트
         </Typography>
-        <Stack direction="row" gap={2}>
+        <Stack direction="row" gap={2} wrap>
           <Button startIcon={<SearchIcon size={16} />}>검색</Button>
           <Button variant="soft" endIcon={<BellIcon size={16} />}>
             알림
@@ -95,7 +95,7 @@ export default function ServerPage() {
           {formatKoreanDate(parseISODate('2026-10-16')!)}
         </Typography>
         <ThemeProvider overrides={greenTheme} style={{ background: 'transparent' }}>
-          <Stack direction="row" gap={2} align="center">
+          <Stack direction="row" gap={2} align="center" wrap>
             <Button>서버에서 만든 브랜드 테마</Button>
             <span style={{ color: vars.color.primary.text }}>vars 로 칠한 글자</span>
           </Stack>
@@ -122,7 +122,7 @@ export default function ServerPage() {
           Badge
         </Typography>
         {(['primary', 'neutral', 'danger', 'success', 'warning'] as const).map((color) => (
-          <Stack key={color} direction="row" gap={2} align="center">
+          <Stack key={color} direction="row" gap={2} align="center" wrap>
             {(['solid', 'soft', 'outline'] as const).map((variant) => (
               <Badge key={variant} color={color} variant={variant}>
                 {color} {variant}
@@ -130,7 +130,7 @@ export default function ServerPage() {
             ))}
           </Stack>
         ))}
-        <Stack direction="row" gap={2} align="center">
+        <Stack direction="row" gap={2} align="center" wrap>
           <Badge size="sm">sm</Badge>
           <Badge size="md">md</Badge>
           <Badge size="lg">lg</Badge>
@@ -236,7 +236,7 @@ export default function ServerPage() {
         <Typography variant="h3" as="h2">
           Divider
         </Typography>
-        <Stack direction="row" gap={3} align="center">
+        <Stack direction="row" gap={3} align="center" wrap>
           <Typography variant="body-sm">프로필</Typography>
           <Divider orientation="vertical" />
           <Typography variant="body-sm">설정</Typography>
@@ -251,7 +251,7 @@ export default function ServerPage() {
         <Typography variant="h3" as="h2">
           Avatar
         </Typography>
-        <Stack direction="row" gap={3} align="center">
+        <Stack direction="row" gap={3} align="center" wrap>
           <Avatar src={photo} name="Jane Doe" size="lg" />
           <Avatar src="/no-such-image.png" name="Jane Doe" size="lg" />
           <Avatar name="홍길동" size="lg" />
