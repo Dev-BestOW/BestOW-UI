@@ -1,6 +1,6 @@
 {
   "name": "@bestow-ui/react",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "React components and theming for BestOW UI — vanilla-extract + Radix, light/dark and brand themes, accessible by default",
   "keywords": [
     "bestow-ui",
