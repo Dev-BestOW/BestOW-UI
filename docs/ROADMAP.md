@@ -18,10 +18,9 @@
 - NumberInput 은 `fcec29c` 로 push 됨(PR #20 에 합쳐짐). **커밋 안 한 변경: Stepper**(changeset `stepper`, minor) — PR #20 머지 전에 push 하면 1.2.0 에 합쳐진다.
 - 컴포넌트 45개(한국 서비스 키트 8개 포함, 폴더 44 — Input 폴더에 Input·TextField) + 테마·다국어(LocaleProvider).
   **P1~P6, P8(1.0), P10 완료.** P9 의 기존 컴포넌트 보강 완료(Combobox 선택 지우기·SkipLink·SegmentedControl·DropdownMenu 체크/라디오/하위 메뉴·Tabs 세로).
-- 번들: react 전체 JS **65.8/70 kB**, styles.css **33.1/36 kB**, Button 하나 1.51/2 kB. (전체 JS 여유 4.2 kB — 큰 컴포넌트를 더하면 한도 검토)
+- 번들: react 전체 JS **65.8/70 kB**, styles.css **9.2/12 kB**(디버그 주석 제거 후), Button 하나 1.51/2 kB. (전체 JS 여유 4.2 kB — 큰 컴포넌트를 더하면 한도 검토)
 - semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
-- **다음 작업(우선): styles.css 의 vanilla-extract 디버그 주석 제거** — `/* vanilla-extract-css-ns:…base64… */` 가 컴포넌트마다 붙어
-  brotli 33.1 kB 중 24 kB 를 차지한다(실제 CSS 8.8 kB). esbuild 의 비압축 CSS 파일 경계 주석. tsup onSuccess 에서 지우거나 CSS 만 압축 — 소스맵 줄 번호 확인.
+- **커밋 안 한 변경: styles.css 디버그 주석 제거**(tsup `shortenCssSourceNames`, changeset `css-debug-comments`, patch) — brotli 33.1 → 9.2 kB.
 - **다음 작업 후보:** 정해진 필수 작업은 없음 — 사용자에게 고르게 한다.
   P9 새 컴포넌트(NumberInput·FileUpload·Stepper·Tag 입력 — 전체 JS 여유 4.2 kB 주의),
   Combobox 다중 선택·비동기 검색, P7 남은 것(컴포넌트별 CSS), P11(Figma).
@@ -94,9 +93,12 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
   기존 사용법을 깨지 않는 추가라 **1.0 이후 필요할 때 minor 로**. JS 가 CSS 를 자동 import(C)는 breaking·환경 문제로 하지 않음.
 - [ ] (나중에) **컴포넌트별 CSS 선택 import (B)** — 공통(base) + 컴포넌트별 CSS, 컴포넌트 간 CSS 의존(Combobox → Select·Input,
   Drawer → IconButton 등)을 문서화. 빌드는 vanilla-extract 출력에서 컴포넌트별로 나누는 후처리 필요.
+  **2026-10-19 재평가: 우선순위 낮춤** — 당시 측정(33 kB)의 3/4 가 vanilla-extract 디버그 주석이었고, 실제 CSS 는 전체 9 kB. 수요가 생기면 다시 검토.
 - [x] **서버 컴포넌트 엔트리 분리** — 2026-10-16 함수·값은 `dist/shared.js`(지시어 없음)로 분리. 2026-10-19 hook 없는 표시용 컴포넌트
   7개(Typography·Stack·Card·Badge·Divider·Progress·Skeleton)도 shared 로 → 서버 컴포넌트로 렌더링. `src/shared.test.ts`(import 그래프 검사·이름 중복)
   + playground 첫 페이지가 서버 함수를 Card `as` 로 넘겨 빌드로 감시. changeset `server-components`(minor).
+- [x] **styles.css 디버그 주석 제거** (2026-10-19) — esbuild 가 CSS 파일마다 남기는 `vanilla-extract-css-ns:…base64…` 주석·소스맵 이름을 경로만 남김
+  (줄 유지 → 소스맵 줄 번호 그대로, 남으면 빌드 실패). brotli 33.1 → 9.2 kB, 한도 36 → 12 kB. 2026-10-15 의 28 → 36 kB 상향도 이 주석 탓이었다.
 - [x] **size-limit 결과를 PR 코멘트로** (2026-10-19) — 서드파티 action 대신 `size.yml` + `scripts/size-report.mjs`(base 를 따로 checkout·빌드해 비교, `gh api` 로 코멘트 하나 갱신,
   한도 95% 이상 ⚠️). 보고 전용(실패는 ci.yml). 포크 PR 은 Summary 만. 실제 PR 에서 첫 동작 확인 필요.
 
@@ -206,3 +208,4 @@ P7 의 남은 항목(컴포넌트별 CSS, 서버 컴포넌트 엔트리)은 기�
 | 2026-10-19 | 기준 이미지 갱신(봇 `419095c`, 37장) 확인: 예상 30장 외 RadioGroup·Drawer(opened) 7장은 선택 점 가장자리 안티앨리어싱 차이(156px, 0.03%), AgreementGroup 1장은 잡음. 1.2.0 배포 준비 완료 |
 | 2026-10-19 | P9 NumberInput: 테스트 18개(변이 4종 — 처음엔 반올림 변이가 살아남아 0.7+0.1 테스트로 강화), 스토리 9개(키보드·커서 play), playground 좌석 수 + E2E, 접근성 문서·README |
 | 2026-10-19 | P9 Stepper: 테스트 6개(변이 3종), 스토리 5개, playground 회원가입 단계 + E2E(aria-current 이동), 접근성 문서·README |
+| 2026-10-19 | react 1.2.0 배포 확인. styles.css 디버그 주석 제거: brotli 33.1 → 9.2 kB(실제 CSS), 소스맵 위치 검증(4곳), 남으면 빌드 실패(변이 확인), 한도 12 kB. P7-B(컴포넌트별 CSS) 우선순위 낮춤 |

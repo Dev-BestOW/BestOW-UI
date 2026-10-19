@@ -12,7 +12,7 @@ Built on [vanilla-extract](https://vanilla-extract.style) and [Radix UI](https:/
   Item-by-item notes for KWCAG 2.2 (the Korean web accessibility standard), plus a log of real issues the checks caught.
 - **One brand color → accessible theme** — brand colors keep 4.5:1 text contrast (including hover) and a 3:1 focus ring, light and dark.
   Try the [Theme Builder](https://dev-bestow.github.io/BestOW-UI/?path=/story/foundations-theme-builder--builder).
-- **Zero-runtime CSS & RSC-friendly** — works with the Next.js App Router; tree-shakable (a single `Button` is about 1.5 kB, minified + brotli).
+- **Zero-runtime CSS & RSC-friendly** — works with the Next.js App Router; tree-shakable (a single `Button` is about 1.5 kB, and the CSS for every component is about 9 kB — minified + brotli).
 - **Korean by default, any language** — default UI strings are Korean; switch them all with `LocaleProvider` (English included).
 
 📖 **Docs & live examples:** [Storybook](https://dev-bestow.github.io/BestOW-UI/) · [Next.js example app](https://dev-bestow.github.io/BestOW-UI/playground/)

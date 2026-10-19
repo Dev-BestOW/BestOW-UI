@@ -63,6 +63,30 @@ const esm: Options = {
   },
 };
 
+/**
+ * vanilla-extract 는 CSS 파일마다 `vanilla-extract-css-ns:<경로>.vanilla.css?source=<원본 CSS base64>` 라는 이름을 붙이고,
+ * esbuild 는 압축하지 않은 CSS 에 파일마다 그 이름을 주석으로 남긴다 — styles.css(brotli 33 kB)의 24 kB 가 이 주석이었다.
+ * 주석과 소스맵 sources 를 경로(`src/components/Badge/Badge.css.ts`)만 남기게 줄인다. 주석은 줄을 지우지 않고 내용만 바꿔
+ * 소스맵의 줄 번호가 그대로 맞는다. 형식이 바뀌어 하나라도 남으면 빌드를 실패시킨다 (size-limit "styles.css" 도 감시).
+ */
+async function shortenCssSourceNames() {
+  const { readFile, writeFile } = await import('node:fs/promises');
+  const shorten = (name: string) => name.replace(/^vanilla-extract-css-ns:(.+?)\.vanilla\.css\?source=.*$/, '$1');
+  const css = (await readFile('dist/index.css', 'utf8')).replace(
+    /^\/\* (vanilla-extract-css-ns:\S+) \*\/$/gm,
+    (_, name: string) => `/* ${shorten(name)} */`,
+  );
+  const map = JSON.parse(await readFile('dist/index.css.map', 'utf8')) as { sources: string[] };
+  map.sources = map.sources.map(shorten);
+  if (css.includes('vanilla-extract-css-ns:') || map.sources.some((source) => source.includes('?source='))) {
+    throw new Error(
+      'dist/index.css 에 vanilla-extract 디버그 이름이 남았습니다 (tsup.config.ts shortenCssSourceNames)',
+    );
+  }
+  await writeFile('dist/index.css', css);
+  await writeFile('dist/index.css.map', JSON.stringify(map));
+}
+
 /** CJS 는 지금처럼 한 파일 (require 로 서버 컴포넌트를 쓰는 경우는 드물다). dist/index.css 도 여기서 나온다. */
 const cjs: Options = {
   ...common,
@@ -70,6 +94,7 @@ const cjs: Options = {
   format: ['cjs'],
   dts: { entry: { index: 'src/index.ts' } },
   banner: { js: '"use client";' },
+  onSuccess: shortenCssSourceNames,
 };
 
 // 두 설정이 동시에 돌기 때문에 clean 은 build 스크립트에서 한 번만 한다

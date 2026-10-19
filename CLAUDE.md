@@ -181,6 +181,9 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
 - `vars` 의 CSS 변수 이름(`--bestow-*`)은 사용자가 CSS 로 덮어쓰는 공개 API 다. 토큰 키 이름을 바꾸면 breaking change.
   `src/theme/contract.test.ts` 가 이름 목록을 고정한다 — 토큰을 **추가**하면 그 목록에도 더한다.
 - npm 배포를 실행하는 명령(`changeset publish`, `pnpm publish` 실제 실행)은 Claude 가 실행하지 않는다.
+- esbuild 는 압축하지 않은 CSS 에 파일마다 vanilla-extract 이름(`vanilla-extract-css-ns:…?source=<원본 base64>`)을 주석으로 남긴다 —
+  styles.css 의 3/4 이 이것이었다. `tsup.config.ts` 의 `shortenCssSourceNames` 가 경로만 남기고(남으면 빌드 실패), size-limit 한도는 12 kB.
+  CSS 크기를 잴 때는 이 처리 뒤의 dist/index.css 로 잰다.
 - **vanilla-extract 는 `.css.ts` 를 평가할 때 Storybook 의 alias 를 거치지 않고 `packages/tokens/dist` 를 읽는다.**
   토큰 값을 바꾸면 `pnpm build` 를 해야 Storybook·스토리 테스트에 반영된다 (JS import 는 src alias).
 - 스토리 테스트 첫 실행(캐시 없음, CI)에서 Vite 가 늦게 발견한 의존성을 최적화하며 페이지를 다시 불러오면 테스트 파일이 통째로 실패한다

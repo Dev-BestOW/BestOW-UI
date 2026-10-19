@@ -17,7 +17,7 @@
     "name": "react: styles.css",
     "path": "packages/react/dist/index.css",
     "rolldown": false,
-    "limit": "36 kB"
+    "limit": "12 kB"
   },
   {
     "name": "icons: 아이콘 하나",

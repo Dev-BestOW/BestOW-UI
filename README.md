@@ -9,7 +9,7 @@
 - ♿ **검사로 증명하는 접근성** — 모든 스토리를 실제 브라우저에서 라이트·다크 두 테마로 axe 검사(CI). KWCAG 2.2 33개 항목별 대응 근거와
   검사가 실제로 찾아 고친 문제 기록. → [KWCAG 2.2 대응](https://dev-bestow.github.io/BestOW-UI/?path=/docs/accessibility-kwcag-2-2-%EB%8C%80%EC%9D%91--docs)
 - 🎨 **대표색 하나로 끝나는 테마** — 브랜드 색을 넣어도 글자 대비 4.5:1(hover 포함)·포커스 링 3:1 을 자동으로 지켜요. → [테마 빌더](https://dev-bestow.github.io/BestOW-UI/?path=/story/foundations-theme-builder--builder)
-- ⚡ **가볍고 서버 컴포넌트 친화적** — 런타임 CSS 0(vanilla-extract), Next.js App Router 지원, 쓰는 컴포넌트만 번들에(Button 하나 1.5 kB).
+- ⚡ **가볍고 서버 컴포넌트 친화적** — 런타임 CSS 0(vanilla-extract), Next.js App Router 지원, 쓰는 컴포넌트만 번들에(Button 하나 1.5 kB), 모든 컴포넌트 CSS 를 합쳐도 약 9 kB.
 - 🌐 **한국어 기본, 다국어 가능** — 기본 문구는 한국어, `LocaleProvider` 로 영어 등으로 한 번에 바꿔요. 한글은 단어 단위로 줄바꿈.
 
 사용 방법은 [Storybook 시작하기](https://dev-bestow.github.io/BestOW-UI/), 기여 방법은 [CONTRIBUTING.md](CONTRIBUTING.md), 왜 이렇게 만드는지는 [docs/POSITIONING.md](docs/POSITIONING.md),
