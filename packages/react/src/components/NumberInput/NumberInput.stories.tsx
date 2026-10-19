@@ -101,7 +101,9 @@ export const Keyboard: Story = {
   args: { label: '목표 방문자', defaultValue: 999, min: 0, max: undefined, unit: '명' },
   play: async ({ canvasElement }) => {
     const input = within(canvasElement).getByRole('spinbutton', { name: '목표 방문자' }) as HTMLInputElement;
-    input.focus();
+    // 클릭으로 포커스를 주고 확인한 뒤 키를 누른다 — CI Firefox 에서 focus() 직후 ↑ 가 반영되지 않은 적이 있다(원인 확인 중)
+    await userEvent.click(input);
+    await expect(input).toHaveFocus();
     await userEvent.keyboard('{ArrowUp}');
     await expect(input.value).toBe('1,000');
     await expect(input).toHaveAttribute('aria-valuenow', '1000');

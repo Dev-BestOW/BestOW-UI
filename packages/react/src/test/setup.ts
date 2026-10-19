@@ -6,6 +6,9 @@ class ResizeObserverMock {
 }
 globalThis.ResizeObserver ??= ResizeObserverMock as unknown as typeof ResizeObserver;
 
-Element.prototype.hasPointerCapture ??= () => false;
-Element.prototype.releasePointerCapture ??= () => {};
-Element.prototype.scrollIntoView ??= () => {};
+// `// @vitest-environment node` 테스트(ssr.test.tsx)에는 DOM 이 없다
+if (typeof Element !== 'undefined') {
+  Element.prototype.hasPointerCapture ??= () => false;
+  Element.prototype.releasePointerCapture ??= () => {};
+  Element.prototype.scrollIntoView ??= () => {};
+}

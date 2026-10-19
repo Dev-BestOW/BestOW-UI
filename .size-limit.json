@@ -1,10 +1,10 @@
 [
   {
-    "name": "react: 전체 (JS)",
+    "name": "react: 전체 (JS) — 모든 컴포넌트, 큰 회귀만 감시",
     "path": "packages/react/dist/index.js",
     "import": "*",
     "ignore": ["react", "react-dom"],
-    "limit": "70 kB"
+    "limit": "80 kB"
   },
   {
     "name": "react: Button 하나 (JS) — tree-shaking 회귀 감시",
@@ -12,6 +12,34 @@
     "import": "{ Button }",
     "ignore": ["react", "react-dom"],
     "limit": "2 kB"
+  },
+  {
+    "name": "react: 앱 기본 (ThemeProvider·Button·Typography·Stack)",
+    "path": "packages/react/dist/index.js",
+    "import": "{ ThemeProvider, Button, Typography, Stack }",
+    "ignore": ["react", "react-dom"],
+    "limit": "3.7 kB"
+  },
+  {
+    "name": "react: 폼 세트 (TextField·Select·Checkbox·RadioGroup·Switch·Textarea·Button)",
+    "path": "packages/react/dist/index.js",
+    "import": "{ TextField, Select, Checkbox, RadioGroup, Switch, Textarea, Button }",
+    "ignore": ["react", "react-dom"],
+    "limit": "33 kB"
+  },
+  {
+    "name": "react: 오버레이 세트 (Modal·Drawer·Popover·Tooltip·DropdownMenu·Toast)",
+    "path": "packages/react/dist/index.js",
+    "import": "{ Modal, Drawer, Popover, Tooltip, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, ToastProvider, useToast }",
+    "ignore": ["react", "react-dom"],
+    "limit": "38 kB"
+  },
+  {
+    "name": "react: 한국 키트 (전화·사업자번호·금액·주소·약관·인증번호·DatePicker)",
+    "path": "packages/react/dist/index.js",
+    "import": "{ PhoneNumberInput, BusinessNumberInput, AmountInput, AddressInput, AgreementGroup, VerificationCodeInput, DatePicker }",
+    "ignore": ["react", "react-dom"],
+    "limit": "33.5 kB"
   },
   {
     "name": "react: styles.css",

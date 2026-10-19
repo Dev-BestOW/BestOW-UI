@@ -15,11 +15,10 @@
 - 로컬 = origin/main (`4e06b44`) + **커밋 안 한 변경: FileUpload**(changeset `file-upload`, minor) — PR #21 머지 전에 push 하면 1.3.0 에 합쳐진다.
 - 컴포넌트 46개(한국 서비스 키트 8개 포함, 폴더 45 — Input 폴더에 Input·TextField) + 테마·다국어(LocaleProvider).
   **P1~P10 완료**(컴포넌트별 CSS 는 P16 보류). 다음은 프로덕션 준비 P12~P15.
-- 번들: react 전체 JS **67.3/70 kB**(여유 2.7 kB — P12-4 에서 한도 결정), styles.css **9.4/12 kB**, Button 하나 1.51/2 kB.
+- 번들: react 전체 JS **67.3/80 kB**, 대표 조합(앱 기본 3.4·폼 30.1·오버레이 34.7·한국 키트 30.3 kB, +10% 한도), styles.css **9.4/12 kB**, Button 하나 1.51/2 kB.
 - semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
 - 보고할 때 시각 회귀는 "허용치 안 통과" 와 "픽셀 동일" 을 구분한다(RadioGroup 사례).
-- **다음 작업:** P12-1 마무리 — push 후 CI `Cross-browser (firefox)` 의 annotation 으로 E2E 실패 원인 확인·수정. 그다음 P12-4 번들 한도 결정(사용자) → P12-3 React 18 CI.
-  새 컴포넌트는 P12-4(번들 한도 결정) 전에는 넣지 않는다.
+- **다음 작업:** push 후 CI 확인 — `Cross-browser (firefox)`(NumberInput 키보드 스토리 보강 + E2E annotation)·`React 18` job. 그다음 P13-2 고대비 → P13-3 확대·리플로 → P12-5 지원 정책.
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다
@@ -108,9 +107,11 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
   DatePicker·Modal·DropdownMenu·Drawer. 발견: playground 머리글·버튼 줄이 좁은 화면에서 넘쳐 화면 폭을 넓히고 버튼을 덮음 → wrap(라이브러리 버그 아님),
   리플로 검사가 넓어진 innerWidth 와 비교해 놓치던 것 수정(변이 확인). 실제 기기(가상 키보드 등)는 사람이 확인. 원래 메모: Playwright 기기 에뮬레이션(iPhone WebKit·Pixel Chromium, 좁은 화면 + touch)으로
   Select·DropdownMenu·Drawer·Modal·DatePicker·Combobox·FileUpload·Slider 를 탭·스크롤로 조작. 가상 키보드가 가리는 문제 등은 실제 기기로 따로(사람).
-- [ ] **P12-3. React 18 CI** — peerDependency 는 `^18 || ^19` 인데 CI 는 19 만. 단위 테스트를 React 18 로도 돌리는 matrix job
+- [x] **P12-3. React 18 CI** (2026-10-19) — ci.yml `react18` job(pnpm overrides → typecheck·test, 버전 확인). worktree 에서 같은 단계로 타입 오류 0·테스트 374 통과.
+  `ssr.test.tsx` 추가(모든 컴포넌트 renderToString 경고 0 — React 18 에서 useLayoutEffect 변이로 확인). 원래 메모: peerDependency 는 `^18 || ^19` 인데 CI 는 19 만. 단위 테스트를 React 18 로도 돌리는 matrix job
   (pnpm overrides 로 react·react-dom·@types 를 18 로). SSR 경고(useLayoutEffect)·useId 형식 차이 확인.
-- [ ] **P12-4. 번들 한도 결정** — "react: 전체 JS" 67.3/70 kB(여유 2.7 kB). 이 항목은 모든 컴포넌트를 import 한 크기라 사용자 번들과 다르다.
+- [x] **P12-4. 번들 한도 결정** (2026-10-19, 사용자 결정: 상향 + 대표 조합) — 전체 70 → 80 kB(큰 회귀만), 대표 조합 4개를 현재 +10% 한도로 추가:
+  앱 기본 3.36/3.7 · 폼 세트 30.1/33(Select 가 큼) · 오버레이 세트 34.7/38 · 한국 키트 30.3/33.5 kB. 원래 메모: "react: 전체 JS" 67.3/70 kB(여유 2.7 kB). 이 항목은 모든 컴포넌트를 import 한 크기라 사용자 번들과 다르다.
   선택지: ① 한도 상향(예: 80 kB) ② "전체" 는 느슨하게 두고 대표 조합(폼 세트·오버레이 세트·한국 키트) 항목 추가. **새 컴포넌트 전에 사용자와 결정.**
 - [ ] **P12-5. 지원 정책 문서** — 지원 브라우저·React·Next.js 버전 표, 배포 주기(지금은 하루 여러 번 → 주 1회 묶음 권장), 보안 문의(SECURITY.md),
   deprecated 기간. README·Introduction 에 연결.
@@ -237,3 +238,5 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-19 | 로드맵 재정리: 프로덕션 수준 평가를 바탕으로 P12(신뢰성: 크로스 브라우저·모바일·React 18·번들 한도·지원 정책) → P13(접근성 실사용 검증) → P14(파일럿·빈칸) → P15(문서), 보류 P16. 프로덕션 권장 선언 기준 추가. 완료한 P7·P9 상세는 ROADMAP-HISTORY 로 이동 |
 | 2026-10-19 | P12-1 크로스 브라우저: 스토리 테스트·E2E 브라우저 선택(env) + ci.yml browsers job(webkit·firefox). 로컬 WebKit 스토리 470 통과, E2E 실패 2건은 Safari 기본 동작(Tab 이 링크 건너뜀·클릭 시 포커스 없음·라디오 끝에서 안 돎) → 테스트 수정·문서화, 3회 반복 84/84. Firefox 는 로컬 실행 불가 → CI 확인 |
 | 2026-10-19 | CI 첫 크로스 브라우저 결과: WebKit 성공, Firefox 스토리 통과·E2E 실패(로그 미확인) → github reporter 추가. P12-2 모바일 E2E(Pixel·iPhone 9개, 3회 반복 안정): playground 좁은 화면 넘침 수정, 리플로 검사 기준을 기기 폭으로 |
+| 2026-10-19 | P12-4 번들 한도: 전체 80 kB + 대표 조합 4개(앱 기본·폼·오버레이·한국 키트, +10%) |
+| 2026-10-19 | CI 2차: Firefox 스토리 1건(NumberInput 키보드 play, 가끔 실패로 추정) → 클릭 포커스 + 포커스 확인으로 보강, 스토리가 실패해도 E2E 가 돌게. P12-3 React 18 job + SSR 스모크 테스트 |
