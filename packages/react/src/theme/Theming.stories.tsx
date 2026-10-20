@@ -223,7 +223,12 @@ export const CssVariables: Story = {
             <tr key={cssVar}>
               <td style={{ padding: '4px 8px', fontFamily: vars.font.family.mono }}>
                 {path}
-                {OPTIONAL_TOKENS.has(path) && ' (선택 — 기본값 없음)'}
+                {/* 경로 옆에 붙이면 첫 열이 넓어져 다른 행이 줄바꿈된다 — 아래 줄에 작게 */}
+                {OPTIONAL_TOKENS.has(path) && (
+                  <div style={{ fontFamily: vars.font.family.sans, fontSize: 11, color: vars.color.fg.muted }}>
+                    선택 · 기본값 없음
+                  </div>
+                )}
               </td>
               <td style={{ padding: '4px 8px', fontFamily: vars.font.family.mono }}>{cssVar}</td>
               <td style={{ padding: '4px 8px' }}>

@@ -57,7 +57,8 @@
 1. **스크린리더 점검 결과 반영** — 발견한 문제 수정(테스트·변이 확인), `kwcag.ts`·`componentA11y.ts` 에 "수동 확인" 기록,
    기준 6/6 이면 README(루트·npm)·Storybook Introduction 의 표현을 "프로덕션 권장" 으로 바꾸고 changeset(patch).
 2. ~~**P13-4**~~ ✅ 2026-10-20 — 선택 토큰 `color.border.input`·`inputHover`(기본값 없음 → 화면 그대로) + `strongInputBorders`. changeset `strong-input-borders`(minor).
-   **push 후 시각 회귀 update 필요**: `foundations-theming--css-variables` 2장(변수 두 줄 추가). 새 스토리 "진한 입력 테두리" 는 자동 생성.
+   **시각 회귀 update 필요**(`fe6ab93` 에서 예상대로 실패): `foundations-theming--css-variables` 2장(변수 두 줄 추가). 이 job 이 실패해
+   새 스토리 "진한 입력 테두리" 기준 이미지도 커밋되지 않았다 → 수동 update 한 번이면 4장 모두 갱신.
 3. **P14-5 Combobox 다중 선택·비동기 검색** (수요 확인 후) — 선택 칩(Backspace 로 지우기), 검색 중 상태 알림(`role=status`), 긴 목록 가상화는 따로.
    폼 세트 조합(30.1/33 kB)에 영향 → 별도 컴포넌트(`MultiCombobox` 등)로 나눌지 먼저 판단.
 4. **P14-6 Tag 입력** — 쉼표·Enter 로 추가, P14-5 와 칩 공유.
@@ -234,3 +235,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-20 | WebKit CI 실패 수정: ① Modal "폼 제출" 스토리 — 닫힘 애니메이션 동안 바깥이 aria-hidden 이라 status 를 못 찾음(느린 CI) → 대화상자가 사라질 때까지 대기(닫힘 1.5초로 늘려 옛 코드 실패·새 코드 통과 확인) ② E2E 첫 조작이 hydration 전에 사라지는 불안정(DropdownMenu·Combobox·FileUpload) → playground 가 `html[data-hydrated]` 를 남기고 fixtures 의 `page.goto` 가 기다림(CPU 30배 스로틀에서 대기 없으면 3번 중 2번 실패, 대기하면 0) |
 | 2026-10-20 | CI `f1cfa77` 전부 녹색(WebKit flaky 0) 확인. 의존성 1차: Playwright 1.64.1(+ visual.yml 이미지 태그)·Next 16.4.2·React 19.3.1(lockfile)·vitest 5.0.5·tsup 9.0.0. tsup 9 출력은 JS·CSS 동일, d.ts 는 `export type { }` 표기만 바뀜(공개 이름 3패키지 같음), size 동일. vitest 5 에서 변이 실패 확인, React 18 overrides 로컬 재현 통과. 개발 Node `>=22.18`(tsup 9). CI `e49af92` 전부 녹색 — 시각 회귀 500장 통과(Playwright 1.64.1 이미지), flaky 0 |
 | 2026-10-20 | P13-4(사용자 결정 ②): 선택 토큰 `color.border.input`·`inputHover` — CSS 변수를 정의하지 않고 `fallbackVar` 로 border.default·strong 을 따름(기본 화면·기존 오버라이드 유지), `strongInputBorders`(라이트 gray600/700, 다크 gray500/300 — 다크 gray600 은 bg.subtle 2.98:1 이라 제외). Input(→ Select·Combobox·DatePicker·서식 입력)·Textarea·인증번호 칸. 단위 테스트 4개(대비·hover·변수 펼침), 스토리 play(라이트·다크 계산된 테두리색) — 변이 3종 확인. 발견: 체크 컨트롤 border.strong 2.07:1. `docs/MIGRATION-2.0.md` 초안 |
+| 2026-10-20 | CI `fe6ab93`: 시각 회귀만 CSS 변수 2장 실패(예상). 높이 +574px 는 "(선택 — 기본값 없음)" 이 첫 열을 넓혀 7행이 더 줄바꿈된 탓 → 경로 아래 작은 줄로(열 폭 원래대로 212/243/297px 측정). 나머지 job 녹색 |
