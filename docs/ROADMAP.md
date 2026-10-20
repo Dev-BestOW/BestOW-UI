@@ -47,7 +47,8 @@
 - [ ] **스크린리더 수동 점검** — [`SCREEN-READER-CHECKLIST.md`](SCREEN-READER-CHECKLIST.md) 로 최소 VoiceOver(macOS) + NVDA, 가능하면 iOS VoiceOver·센스리더.
   배포된 playground 에서 13개 항목, 결과 칸·기록 표를 채운다. **이게 끝나면 프로덕션 권장 선언 기준 6/6.**
 - [ ] GitHub 저장소 설정에서 **Private vulnerability reporting 켜기** (SECURITY.md 가 이 경로를 안내함).
-- [ ] **P13-4 결정** — 입력 테두리 대비(border.default = gray300, 흰 배경과 1.3:1). ① 2.0 에서 기본값 변경 ② `fg.subtle` 수준 옵션 토큰을 minor 로 먼저.
+- [x] **P13-4 결정** — ② 옵션 토큰으로 (2026-10-20 결정·구현, 2.0 에서 기본값으로).
+- [ ] **Checkbox·RadioGroup·Switch 꺼진 상태 테두리 결정** — `border.strong`(gray500) 이 흰 배경과 2.07:1 (P13-4 하며 발견). `docs/MIGRATION-2.0.md` "검토 중".
 - [ ] SUPPORT.md 의 기본안 확정 — 이전 major 보안 수정 6개월, 배포 주 1회 묶음.
 - (선택) 실제 기기 확인: 가상 키보드가 Modal·Drawer 입력을 가리는지(iOS Safari·Android Chrome).
 
@@ -55,14 +56,15 @@
 
 1. **스크린리더 점검 결과 반영** — 발견한 문제 수정(테스트·변이 확인), `kwcag.ts`·`componentA11y.ts` 에 "수동 확인" 기록,
    기준 6/6 이면 README(루트·npm)·Storybook Introduction 의 표현을 "프로덕션 권장" 으로 바꾸고 changeset(patch).
-2. **P13-4** — 사용자가 고른 방식으로(옵션 토큰이면 `contract.test.ts` 변수 목록에도 추가, 시각 회귀 update 필요).
+2. ~~**P13-4**~~ ✅ 2026-10-20 — 선택 토큰 `color.border.input`·`inputHover`(기본값 없음 → 화면 그대로) + `strongInputBorders`. changeset `strong-input-borders`(minor).
+   **push 후 시각 회귀 update 필요**: `foundations-theming--css-variables` 2장(변수 두 줄 추가). 새 스토리 "진한 입력 테두리" 는 자동 생성.
 3. **P14-5 Combobox 다중 선택·비동기 검색** (수요 확인 후) — 선택 칩(Backspace 로 지우기), 검색 중 상태 알림(`role=status`), 긴 목록 가상화는 따로.
    폼 세트 조합(30.1/33 kB)에 영향 → 별도 컴포넌트(`MultiCombobox` 등)로 나눌지 먼저 판단.
 4. **P14-6 Tag 입력** — 쉼표·Enter 로 추가, P14-5 와 칩 공유.
 5. **의존성 정비** — 2026-10-20 1차 완료(Playwright 1.64.1·Next 16.4.2·React 19.3.1·vitest 5·tsup 9, Radix·Storybook 은 이미 최신).
    남은 것: **막힘** TypeScript 7(typescript-eslint 가 `<6.1`)·ESLint 10(jsx-a11y 가 9 까지), **보류** jsdom 30(Node ≥22.22.2 필요 — 이 Mac 22.19),
    @types/node 는 Node 22 에 맞춰 22 유지. CI 러너 Ubuntu 26 전환은 Playwright `-resolute` 이미지가 있으니(1.64.1) 모든 workflow 함께 검토.
-6. **2.0 후보 모으기** — `docs/MIGRATION-2.0.md` 초안(P13-4 를 ①로 정하면 여기에). 지금 deprecated 인 이름이 생기면 이 표에 추가.
+6. **2.0 후보 모으기** — `docs/MIGRATION-2.0.md` 초안 작성(2026-10-20: 입력 칸 테두리 기본값, 검토 중 — 체크 컨트롤 테두리). deprecated 이름이 생기면 표에 추가.
 
 ### 보류 (수요가 생기면, 구 P16)
 
@@ -231,3 +233,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-19 | 세션 마무리: ROADMAP 정리(인수인계 1.3.0·PR #22, 다음 플랜을 사람/Claude 로 나눔), P12~P15 상세를 ROADMAP-HISTORY 로. 번들 재측정(전체 68.9/80 kB) |
 | 2026-10-20 | WebKit CI 실패 수정: ① Modal "폼 제출" 스토리 — 닫힘 애니메이션 동안 바깥이 aria-hidden 이라 status 를 못 찾음(느린 CI) → 대화상자가 사라질 때까지 대기(닫힘 1.5초로 늘려 옛 코드 실패·새 코드 통과 확인) ② E2E 첫 조작이 hydration 전에 사라지는 불안정(DropdownMenu·Combobox·FileUpload) → playground 가 `html[data-hydrated]` 를 남기고 fixtures 의 `page.goto` 가 기다림(CPU 30배 스로틀에서 대기 없으면 3번 중 2번 실패, 대기하면 0) |
 | 2026-10-20 | CI `f1cfa77` 전부 녹색(WebKit flaky 0) 확인. 의존성 1차: Playwright 1.64.1(+ visual.yml 이미지 태그)·Next 16.4.2·React 19.3.1(lockfile)·vitest 5.0.5·tsup 9.0.0. tsup 9 출력은 JS·CSS 동일, d.ts 는 `export type { }` 표기만 바뀜(공개 이름 3패키지 같음), size 동일. vitest 5 에서 변이 실패 확인, React 18 overrides 로컬 재현 통과. 개발 Node `>=22.18`(tsup 9). CI `e49af92` 전부 녹색 — 시각 회귀 500장 통과(Playwright 1.64.1 이미지), flaky 0 |
+| 2026-10-20 | P13-4(사용자 결정 ②): 선택 토큰 `color.border.input`·`inputHover` — CSS 변수를 정의하지 않고 `fallbackVar` 로 border.default·strong 을 따름(기본 화면·기존 오버라이드 유지), `strongInputBorders`(라이트 gray600/700, 다크 gray500/300 — 다크 gray600 은 bg.subtle 2.98:1 이라 제외). Input(→ Select·Combobox·DatePicker·서식 입력)·Textarea·인증번호 칸. 단위 테스트 4개(대비·hover·변수 펼침), 스토리 play(라이트·다크 계산된 테두리색) — 변이 3종 확인. 발견: 체크 컨트롤 border.strong 2.07:1. `docs/MIGRATION-2.0.md` 초안 |

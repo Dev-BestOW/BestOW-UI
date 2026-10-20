@@ -13,6 +13,7 @@ export {
   type ThemeInput,
   type ThemeOverrides,
 } from './theme/createTheme';
+export { strongInputBorders } from './theme/presets';
 export { en } from './i18n/en';
 export {
   formatBusinessNumber,

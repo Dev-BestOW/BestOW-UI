@@ -81,6 +81,12 @@ const brand = createTheme(
 <ThemeProvider theme={mode} overrides={brand}>…</ThemeProvider>;
 ```
 
+입력 칸 테두리를 배경과 3:1 이상으로 진하게 하려면 `strongInputBorders` 를 더해요(2.0 에서 기본값이 될 예정).
+
+```tsx
+createTheme(createIntentColors('primary', '#7c3aed'), strongInputBorders);
+```
+
 모든 토큰은 이름이 고정된 CSS 변수라 CSS 로도 덮어쓸 수 있어요.
 
 ```css
@@ -118,7 +124,7 @@ react-hook-form 과 함께 쓸 수 있어요. 입력창은 `register` 를 그대
 | 표시 | `Avatar`, `Table`(+ `TableEmpty`, `TableSkeleton`, `useTableSelection`), `DescriptionList` |
 | 한국 서비스 키트 | `AgreementGroup`(약관 동의), `VerificationCodeInput`(인증번호), `PhoneNumberInput`, `BusinessNumberInput`, `AmountInput`, `AddressInput`, `DatePicker`, `DateRangePicker`(+ `dateRangePresets`), `Calendar` (+ `formatPhoneNumber`, `formatBusinessNumber`, `isValidBusinessNumber`, `formatKoreanAmount`, `formatKoreanDate`, `parseISODate`, `toISODate`) |
 | 문구 | `LocaleProvider`, `en`(영어 문구 묶음) |
-| 테마 | `ThemeProvider`, `createTheme`, `createIntentColors`, `vars`, `useTheme`, `usePortalProps` |
+| 테마 | `ThemeProvider`, `createTheme`, `createIntentColors`, `strongInputBorders`, `vars`, `useTheme`, `usePortalProps` |
 | 도움 함수 | `focusField` |
 
 어떤 컴포넌트를 골라야 할지는 [언제 무엇을 쓰나](https://dev-bestow.github.io/BestOW-UI/?path=/docs/guides-%EC%96%B8%EC%A0%9C-%EB%AC%B4%EC%97%87%EC%9D%84-%EC%93%B0%EB%82%98--docs) 가이드를 보세요.

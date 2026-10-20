@@ -102,7 +102,7 @@ export const kwcag: KwcagGroup[] = [
         name: '콘텐츠 간의 구분',
         coverage: '지원',
         provided:
-          '테두리·간격 토큰, 다크 모드 그림자에 가장자리 ring, Divider. Windows 고대비 모드에서 배경색·그림자로 보이던 상태(Switch·선택된 탭·SegmentedControl·메뉴 강조·현재 페이지·선택한 날·Progress·Slider·Stepper)를 시스템 강조색으로 다시 그린다.',
+          '테두리·간격 토큰, 다크 모드 그림자에 가장자리 ring, Divider. 입력 칸 테두리를 배경과 3:1 이상으로 올리는 strongInputBorders(선택 — 기본 테두리는 1.3:1, 2.0 에서 기본값 예정). Windows 고대비 모드에서 배경색·그림자로 보이던 상태(Switch·선택된 탭·SegmentedControl·메뉴 강조·현재 페이지·선택한 날·Progress·Slider·Stepper)를 시스템 강조색으로 다시 그린다.',
         yours:
           '레이아웃에서 영역 간 간격·구분선. 직접 만든 요소는 상태를 배경색만으로 보이지 않게(테두리·글자·아이콘도 함께).',
         verified: '스토리 시각 회귀 · 고대비 E2E(forced-colors 에뮬레이션, 시스템 강조색 확인)',
@@ -343,6 +343,12 @@ export const kwcag: KwcagGroup[] = [
 
 /** 이 세션들에서 자동 검사·테스트가 실제로 찾아 고친 문제 — "검사로 지켜진다" 는 근거 */
 export const caughtIssues: Array<{ item: string; found: string; fixed: string }> = [
+  {
+    item: 'WCAG 1.4.11 비텍스트 대비 (KWCAG 항목 외)',
+    found: '입력 칸 기본 테두리(border.default)가 흰 배경과 1.3:1 — 칸의 경계가 잘 보이지 않음',
+    fixed:
+      '선택 토큰 color.border.input·inputHover + strongInputBorders(라이트 5.18:1, 다크 7.43:1 이상, 대비 단위 테스트). 기본값 변경은 2.0 (기존 화면 유지)',
+  },
   {
     item: 'WCAG 1.4.10 리플로 · 1.4.4 글자 크기 (KWCAG 항목 외)',
     found:

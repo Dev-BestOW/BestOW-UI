@@ -1,14 +1,19 @@
 import { useMemo } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { darkColors, lightColors, palette } from '@bestow-ui/tokens';
+import { expect, within } from 'storybook/test';
 import { Button } from '../components/Button';
 import { Checkbox } from '../components/Checkbox';
 import { TextField } from '../components/Input';
 import { Select } from '../components/Select';
 import { Stack } from '../components/Stack';
+import { Textarea } from '../components/Textarea';
 import { Typography } from '../components/Typography';
+import { VerificationCodeInput } from '../components/VerificationCodeInput';
 import { createIntentColors } from './color';
 import { vars } from './contract.css';
 import { createTheme } from './createTheme';
+import { strongInputBorders } from './presets';
 import { ThemeProvider } from './ThemeProvider';
 
 interface ThemingArgs {
@@ -117,6 +122,9 @@ export const YellowBrand: Story = {
 
 type Tree = { [key: string]: string | Tree };
 
+// 기본값이 없는 선택 토큰 — 지정하지 않으면 쓰는 곳에서 기존 토큰을 따른다 (contract.css.ts 의 optionalTokens)
+const OPTIONAL_TOKENS = new Set(['color.border.input', 'color.border.inputHover']);
+
 function collect(tree: Tree, path: string[] = [], out: Array<[string, string]> = []) {
   for (const [key, value] of Object.entries(tree)) {
     if (typeof value === 'string') out.push([[...path, key].join('.'), value.replace(/^var\((.*)\)$/, '$1')]);
@@ -124,6 +132,73 @@ function collect(tree: Tree, path: string[] = [], out: Array<[string, string]> =
   }
   return out;
 }
+
+function InputSamples({ label }: { label: string }) {
+  return (
+    <Stack gap={4} style={{ maxWidth: 360 }}>
+      <TextField label={`${label} · 이름`} fullWidth />
+      <Select
+        label={`${label} · 플랜`}
+        placeholder="선택하세요"
+        fullWidth
+        options={[
+          { value: 'free', label: 'Free' },
+          { value: 'team', label: 'Team' },
+        ]}
+      />
+      <Textarea aria-label={`${label} · 메모`} placeholder="메모" />
+      <VerificationCodeInput label={`${label} · 인증번호`} length={4} />
+    </Stack>
+  );
+}
+
+const rgb = (hex: string) => {
+  const n = parseInt(hex.slice(1), 16);
+  return `rgb(${n >> 16}, ${(n >> 8) & 255}, ${n & 255})`;
+};
+
+/**
+ * 기본 입력 테두리(border.default)는 흰 배경과 1.3:1 이라 칸의 경계가 잘 보이지 않아요(WCAG 1.4.11 비텍스트 대비 3:1 미만).
+ * `strongInputBorders` 를 테마에 더하면 입력 칸(Input·Select·Combobox·DatePicker·서식 입력·Textarea·인증번호 칸)의 테두리만 3:1 이상으로 진해져요.
+ * 2.0 에서 기본값이 될 예정이에요. 값만 바꾸려면 `color.border.input`·`color.border.inputHover` 토큰을 직접 지정해요(CSS: `--bestow-color-border-input`).
+ *
+ * ```tsx
+ * <ThemeProvider overrides={createTheme(strongInputBorders)}>…</ThemeProvider>
+ * createTheme(createIntentColors('primary', '#7c3aed'), strongInputBorders) // 브랜드 테마와 함께
+ * ```
+ */
+export const StrongInputBorders: Story = {
+  name: '진한 입력 테두리 (strongInputBorders)',
+  render: () => {
+    const theme = createTheme(strongInputBorders);
+    return (
+      <Stack direction="row" gap={8} wrap>
+        <InputSamples label="기본" />
+        <ThemeProvider overrides={theme}>
+          <InputSamples label="진하게" />
+        </ThemeProvider>
+      </Stack>
+    );
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const dark = canvasElement.querySelector('[data-theme]')?.getAttribute('data-theme') === 'dark';
+    const expected = {
+      기본: (dark ? darkColors : lightColors).border.default,
+      진하게: dark ? palette.gray[500] : palette.gray[600],
+    };
+    for (const [label, color] of Object.entries(expected)) {
+      const field = canvas.getByRole('textbox', { name: `${label} · 이름` }).parentElement!;
+      const select = canvas.getByRole('combobox', { name: `${label} · 플랜` });
+      const textarea = canvas.getByRole('textbox', { name: `${label} · 메모` });
+      const code = canvas.getByRole('textbox', { name: new RegExp(`^${label} · 인증번호`) });
+      const slot = code.parentElement!.querySelector('[aria-hidden]')!;
+      for (const element of [field, select, textarea, slot]) {
+        await expect(getComputedStyle(element).borderTopColor).toBe(rgb(color));
+      }
+    }
+  },
+};
 
 export const CssVariables: Story = {
   name: 'CSS 변수',
@@ -146,7 +221,10 @@ export const CssVariables: Story = {
         <tbody>
           {rows.map(([path, cssVar]) => (
             <tr key={cssVar}>
-              <td style={{ padding: '4px 8px', fontFamily: vars.font.family.mono }}>{path}</td>
+              <td style={{ padding: '4px 8px', fontFamily: vars.font.family.mono }}>
+                {path}
+                {OPTIONAL_TOKENS.has(path) && ' (선택 — 기본값 없음)'}
+              </td>
               <td style={{ padding: '4px 8px', fontFamily: vars.font.family.mono }}>{cssVar}</td>
               <td style={{ padding: '4px 8px' }}>
                 <span style={{ display: 'inline-flex', alignItems: 'center', gap: 8 }}>

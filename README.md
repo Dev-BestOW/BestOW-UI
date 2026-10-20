@@ -66,6 +66,8 @@ const brand = createTheme(
 - CSS 변수 이름이 고정돼 있어서 CSS 로만 바꿀 수도 있어요: `:root { --bestow-color-primary-solid: #7c3aed; }`
   전체 목록은 Storybook **Foundations › Theming › CSS 변수**.
 - 직접 만든 portal 요소에는 `usePortalProps()` 의 `className`/`style` 을 붙여야 테마가 적용돼요.
+- 입력 칸 테두리를 배경과 3:1 이상으로 진하게 하려면 `createTheme(brand, strongInputBorders)` 처럼 `strongInputBorders` 를 더해요
+  (기본 테두리는 흰 배경과 1.3:1 — 2.0 에서 기본값이 될 예정). 값만 바꾸려면 `color.border.input`·`inputHover` 토큰.
 
 ### 아이콘
 

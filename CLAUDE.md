@@ -65,6 +65,9 @@ apps/
 
 - `src/theme/contract.css.ts` — `vars`(createGlobalThemeContract, **변수 이름 고정 `--bestow-<경로 kebab>`, 공개 API**)와
   `themeClass.light/dark`. `:root` 에 라이트 기본값. `ThemeTokens` 타입.
+  **선택 토큰**(`optionalTokens` — 지금은 `color.border.input`·`inputHover`)은 CSS 변수를 정의하지 않고 쓰는 곳에서 `fallbackVar` 로 기존 토큰을 따른다
+  (`styles/inputBorder.css.ts`). 기본 화면을 바꾸지 않고 새 토큰을 minor 로 낼 때 이 방식 — 기존 토큰을 덮어쓴 설정도 계속 따른다.
+- `src/theme/presets.ts` — `strongInputBorders`(입력 칸 테두리 3:1 이상, 2.0 기본값 예정). 2.0 에 모으는 변경은 `docs/MIGRATION-2.0.md`.
 - `src/theme/createTheme.ts` — `createTheme(...inputs)`(common/light/dark 깊은 병합 → `BestowTheme`), `themeToStyle`(assignInlineVars).
 - `src/theme/color.ts` — `createIntentColors(intent, hex)`: OKLCH 로 라이트·다크 intent 색 세트 생성, WCAG 대비 4.5 보장. `contrastRatio`.
 - `src/theme/ThemeProvider.tsx` — `<ThemeProvider theme overrides>`: `data-theme` + 테마 클래스 + 오버라이드 인라인 CSS 변수.
@@ -117,6 +120,8 @@ apps/
 - **최상위 `forwardRef(...)`/`createContext(...)` 에는 `/* @__PURE__ */` 를 붙인다** — 없으면 tree-shaking 이 깨져
   Button 하나만 써도 전체 Radix 가 번들에 들어간다(size-limit 의 "Button 하나" 항목이 감시, 한도 2 kB).
   `.css.ts` 의 recipe() 호출은 `packages/react/tsup.config.ts` 의 `withPureRecipes` 가 빌드 때 자동으로 표시한다.
+  최상위 값에서 `palette.gray[600]` 처럼 **import 한 객체의 속성을 읽으면** PURE 를 붙여도 번들러가 지우지 못해 tokens 전체가 딸려 온다
+  ("앱 기본" +460 B, `strongInputBorders`) — 값으로 적고 테스트로 palette 와 같은지 확인한다(`presets.test.ts`).
 - 새 컴포넌트는 `packages/react/src/client.ts` 에 export 를 추가한다 (순수 함수·hook 없는 표시용 컴포넌트는 `shared.ts` — 위 "react 패키지 내부" 참고).
 - **기본 문구는 `useMessages()` 로**: `prop ?? m.키 ?? '한국어 기본값'`. 새 문구면 `BestowMessages` 에 키를 추가하고 `en` 에도 넣는다.
   1.0 이후 추가하는 키는 **선택(`?`)** 으로 둔다 — 사용자가 직접 만든 `BestowMessages` 객체(다른 언어)가 타입 오류로 깨지지 않게(그러면 breaking).

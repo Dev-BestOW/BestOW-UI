@@ -1,4 +1,5 @@
 import { style } from '@vanilla-extract/css';
+import { inputBorderColor } from '../../styles/inputBorder.css';
 import { vars } from '../../theme/contract.css';
 
 export const row = style({
@@ -50,7 +51,7 @@ export const slot = style({
   flexShrink: 1,
   minWidth: '32px',
   minHeight: '52px',
-  border: `1px solid ${vars.color.border.default}`,
+  border: `1px solid ${inputBorderColor}`,
   borderRadius: vars.radius.md,
   backgroundColor: vars.color.bg.default,
   color: vars.color.fg.default,
