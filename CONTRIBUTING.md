@@ -5,7 +5,7 @@ BestOW UI 에 컴포넌트·아이콘을 추가하거나 버그를 고칠 때 �
 
 ## 개발 환경
 
-- Node.js 22 (`.nvmrc`)
+- Node.js 22.18 이상 (`.nvmrc` — tsup 9 가 요구)
 - pnpm 11 — corepack 으로 실행해요 (`corepack enable` 한 번). pnpm 10 은 쓰지 않아요.
 
 ```bash
