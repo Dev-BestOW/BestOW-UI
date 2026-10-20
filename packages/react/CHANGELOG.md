@@ -1,5 +1,23 @@
 # @bestow-ui/react
 
+## 1.4.0
+
+### Minor Changes
+
+- c402156: `DateRangePicker` 를 추가했어요. 조회·예약 기간처럼 시작일~종료일을 고를 때 써요.
+  
+  - 시작일·종료일 DatePicker 두 개를 묶어 숫자 입력과 달력을 그대로 쓰고, 시작일이 종료일보다 늦을 수 없게 서로 제한해요
+  - `presets` 로 빠른 선택(오늘·1주일·1개월·3개월 — `dateRangePresets`)을 붙이면, 현재 기간과 같은 버튼이 눌린 상태로 보여요
+  - 값은 `{ start, end }`(`YYYY-MM-DD`). `presetRange(preset, today)` 함수도 함께 공개해요
+- fe6ab93: 입력 칸 테두리를 진하게 하는 `strongInputBorders` 와 선택 토큰 `color.border.input`·`color.border.inputHover` 를 추가했어요.
+  
+  - 기본 테두리(`border.default`)는 흰 배경과 1.3:1 이라 칸의 경계가 잘 보이지 않아요(WCAG 1.4.11 비텍스트 대비 3:1 미만).
+    `createTheme(strongInputBorders)` 를 테마에 더하면 Input·Select·Combobox·DatePicker·서식 입력·Textarea·인증번호 칸의 테두리가
+    배경과 3:1 이상으로 진해져요(라이트 gray600, 다크 gray500 — hover 는 한 단계 더).
+  - 새 토큰은 기본값이 없어서(CSS 변수를 정의하지 않음) **지금 화면은 바뀌지 않아요**. 지정하지 않으면 기존처럼 `border.default`·`border.strong` 을 따라요
+    — `border.default` 를 덮어써 둔 설정도 그대로 적용돼요.
+  - 2.0 에서 진한 테두리가 기본값이 될 예정이에요(`docs/MIGRATION-2.0.md`).
+
 ## 1.3.0
 
 ### Minor Changes
