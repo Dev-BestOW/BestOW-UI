@@ -15,13 +15,17 @@ import {
 } from '@bestow-ui/react';
 import { MoonIcon, SunIcon } from '@bestow-ui/icons';
 import NextLink from 'next/link';
-import { useState, type ReactNode } from 'react';
+import { useEffect, useState, type ReactNode } from 'react';
 
 const purple = createTheme(createIntentColors('primary', '#7c3aed'), { common: { radius: { md: '12px' } } });
 
 export function Providers({ children }: { children: ReactNode }) {
   const [mode, setMode] = useState<ThemeName>('light');
   const [branded, setBranded] = useState(false);
+  // hydration 이 끝났다는 표시 — E2E(fixtures.ts)가 page.goto 뒤에 기다린다. 그 전의 클릭·입력은 이벤트 핸들러가 없어 사라진다
+  useEffect(() => {
+    document.documentElement.dataset.hydrated = '';
+  }, []);
 
   return (
     <ThemeProvider theme={mode} overrides={branded ? purple : undefined} style={{ minHeight: '100vh' }}>

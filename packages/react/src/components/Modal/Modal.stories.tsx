@@ -1,6 +1,6 @@
 import { useState, type FormEvent } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, userEvent, within } from 'storybook/test';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { Button } from '../Button';
 import { ErrorSummary } from '../ErrorSummary';
 import { TextField } from '../Input';
@@ -171,11 +171,14 @@ export const SubmitForm: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole('button', { name: '팀원 초대' }));
-    const dialog = within(document.body).getByRole('dialog', { name: '팀원 초대' });
-    await userEvent.click(within(dialog).getByRole('button', { name: '초대 보내기' }));
-    await expect(await within(dialog).findByText('입력한 내용에 고칠 곳이 1개 있어요')).toBeInTheDocument();
-    await userEvent.type(within(dialog).getByRole('textbox', { name: '이메일' }), 'me@bestow.dev');
-    await userEvent.click(within(dialog).getByRole('button', { name: '초대 보내기' }));
-    await expect(await canvas.findByRole('status')).toHaveTextContent('me@bestow.dev 님을 초대했어요.');
+    const dialogElement = within(document.body).getByRole('dialog', { name: '팀원 초대' });
+    const dialog = within(dialogElement);
+    await userEvent.click(dialog.getByRole('button', { name: '초대 보내기' }));
+    await expect(await dialog.findByText('입력한 내용에 고칠 곳이 1개 있어요')).toBeInTheDocument();
+    await userEvent.type(dialog.getByRole('textbox', { name: '이메일' }), 'me@bestow.dev');
+    await userEvent.click(dialog.getByRole('button', { name: '초대 보내기' }));
+    // 닫히는 애니메이션이 끝나 대화상자가 사라질 때까지 바깥은 aria-hidden 이라 role 로 찾을 수 없다 (느린 CI WebKit 에서 1초를 넘김)
+    await waitFor(() => expect(dialogElement).not.toBeInTheDocument(), { timeout: 5000 });
+    await expect(canvas.getByRole('status')).toHaveTextContent('me@bestow.dev 님을 초대했어요.');
   },
 };

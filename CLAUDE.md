@@ -238,6 +238,9 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
   네이티브 라디오는 끝에서 처음으로 돌지 않는다. E2E 는 이 차이에 기대지 않게 쓴다(`test.info().project.name === 'webkit'` 분기는 최소로).
 - 모바일 에뮬레이션에서 페이지가 넘치면 브라우저가 화면 폭(innerWidth)을 넓혀 버린다 — 리플로 검사는 `page.viewportSize().width`(기기 폭)와 비교한다.
   playground 의 가로 줄(Stack direction="row")에는 `wrap` 을 준다(좁은 화면에서 머리글·버튼 줄이 넘쳐 다른 요소를 덮었다).
+- `page.goto` 는 load 에서 끝나지만 hydration 은 그 뒤에 끝날 수 있어, 그 사이의 첫 조작이 사라진다(CI WebKit 불안정). `e2e/fixtures.ts` 의 `page` 가
+  `goto` 뒤에 `html[data-hydrated]`(playground Providers 가 남김)를 기다린다 — E2E 는 `@playwright/test` 가 아니라 `./fixtures` 의 `test` 를 쓴다.
+  스토리 `play` 에서 Modal 이 닫힌 뒤 바깥 요소를 role 로 찾으려면 대화상자가 사라질 때까지 먼저 기다린다(닫힘 애니메이션 동안 바깥이 aria-hidden).
 - E2E 실패 원인은 CI 에서 `github` reporter 의 annotation 으로 남는다 — `curl https://api.github.com/repos/Dev-BestOW/BestOW-UI/check-runs/<job id>/annotations` 로 읽는다.
 - React 18 로 테스트할 때 react 패키지만 18 로 바꾸면 Radix·icons 가 19 를 물어 두 벌이 섞인다("Objects are not valid as a React child"). pnpm overrides 로 전체를 맞춘다(ci.yml react18).
 - 이 Mac(macOS 27)에서는 Playwright Firefox 가 "Could not find profile folder" 로 실행되지 않는다(샌드박스와 무관) — Firefox 는 CI(Linux)에서 확인한다.

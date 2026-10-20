@@ -14,6 +14,20 @@ const BROWSER_ADVISORIES = [/scroll-linked positioning effect/];
  * React 19 운영 빌드는 hydration 불일치를 콘솔 오류나 reportError(pageerror)로 알린다.
  */
 export const test = base.extend<{ problems: string[] }>({
+  /**
+   * page.goto 는 load 이벤트에서 끝나지만 hydration 은 그 뒤일 수 있다 — 그 사이의 클릭·입력은 React 핸들러가 없어 사라진다
+   * (CI WebKit 에서 첫 조작이 무시되는 불안정 실패). playground Providers 가 hydration 뒤에 남기는 html[data-hydrated] 를 기다린다.
+   */
+  // 콜백 이름이 use 면 react-hooks 규칙이 hook 으로 오인한다 (problems 처럼 배열 안의 익명 함수는 괜찮음)
+  page: async ({ page }, provide) => {
+    const goto = page.goto.bind(page);
+    page.goto = async (...args) => {
+      const response = await goto(...args);
+      await page.locator('html[data-hydrated]').waitFor({ state: 'attached' });
+      return response;
+    };
+    await provide(page);
+  },
   problems: [
     async ({ page }, use) => {
       const problems: string[] = [];
