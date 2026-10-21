@@ -21,6 +21,8 @@
   (Button 하나 약 1.5 kB, NativeSelect 로 만든 입력 폼 7종 약 4 kB, 모든 컴포넌트 CSS 를 합쳐도 약 10 kB — minify + brotli).
 - **기본 문구는 한국어** — 닫기·결과 없음·달력 등 기본 문구가 한국어이고, `LocaleProvider` 로 한 번에 바꿀 수 있어요(영어 묶음 포함).
 
+⚡ **[StackBlitz 에서 바로 써 보기](https://stackblitz.com/github/Dev-BestOW/BestOW-UI/tree/main/examples/vite-starter?file=src%2FApp.tsx)** (설치 없이 브라우저에서)
+
 📖 **문서와 실제 예제:** [Storybook](https://dev-bestow.github.io/BestOW-UI/) · [Next.js 예제 앱](https://dev-bestow.github.io/BestOW-UI/playground/)
 
 ## 설치
@@ -141,6 +143,7 @@ Chrome·Edge·Firefox·Safari 최근 2개 메이저 버전(모바일 포함), Re
 ## 링크
 
 - [Storybook](https://dev-bestow.github.io/BestOW-UI/) — 문서, 디자인 토큰, 모든 컴포넌트
+- [llms.txt](https://dev-bestow.github.io/BestOW-UI/llms.txt) · [llms-full.txt](https://dev-bestow.github.io/BestOW-UI/llms-full.txt) — Cursor·Claude 같은 AI 코딩 도구에 넣는 문서(모든 컴포넌트의 props 정의 포함)
 - [GitHub](https://github.com/Dev-BestOW/BestOW-UI) — 소스, [이슈](https://github.com/Dev-BestOW/BestOW-UI/issues), [기여 방법](https://github.com/Dev-BestOW/BestOW-UI/blob/main/CONTRIBUTING.md)
 - [변경 내역](https://github.com/Dev-BestOW/BestOW-UI/blob/main/packages/react/CHANGELOG.md) · [0.x 에서 올리기 (MIGRATION-1.0)](https://github.com/Dev-BestOW/BestOW-UI/blob/main/docs/MIGRATION-1.0.md)
 

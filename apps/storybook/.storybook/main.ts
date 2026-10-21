@@ -12,6 +12,8 @@ const config: StorybookConfig = {
     '../stories/**/*.mdx',
     '../stories/**/*.stories.@(ts|tsx)',
   ],
+  // public/llms.txt(직접 작성)·llms-full.txt(빌드 때 scripts/generate-llms.mjs 가 생성) — AI 코딩 도구용 문서
+  staticDirs: ['../public'],
   addons: ['@storybook/addon-docs', '@storybook/addon-a11y', '@storybook/addon-vitest'],
   framework: '@storybook/react-vite',
   viteFinal: (config) =>

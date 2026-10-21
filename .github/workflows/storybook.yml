@@ -8,6 +8,7 @@ on:
       - 'apps/storybook/**'
       - 'apps/playground/**'
       - 'pnpm-lock.yaml'
+      - 'scripts/generate-llms.mjs' # llms-full.txt 생성
       - '.github/workflows/storybook.yml'
   workflow_dispatch:
 

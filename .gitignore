@@ -1,6 +1,8 @@
 node_modules
 dist
 storybook-static
+# 빌드 때 생성 (scripts/generate-llms.mjs)
+apps/storybook/public/llms-full.txt
 *.log
 .DS_Store
 coverage

@@ -40,6 +40,8 @@ apps/
                                사이드바: Introduction → Foundations → Accessibility → Guides → Layout → Components → Korean Kit.
                                새 컴포넌트·API 가 생기면 guides 의 선택 기준·패턴 코드도 맞춘다(MDX 의 링크는 index.json 으로 검사, axe 는 직접).
                                vite alias 로 dist 가 아닌 각 패키지 src 를 바로 본다.
+                               public/llms.txt(직접 작성)·llms-full.txt(build 때 scripts/generate-llms.mjs 가 README·props 정의·choosing·componentA11y 로 생성,
+                               커밋 안 함)를 Pages 루트에 함께 배포 — AI 코딩 도구용. 컴포넌트 props 의 JSDoc 이 곧 그 문서다.
   playground/ (private)        Next.js 16 App Router 예제 앱. alias 없이 패키지 dist 를 그대로 써서 실제 설치와 같은 조건으로
                                SSR·서버 컴포넌트·portal 테마를 확인한다 (packages 를 먼저 build 해야 함). 헤더에 다크/브랜드 토글.
                                `PLAYGROUND_BASE_PATH` 가 있을 때만 정적 export(+basePath) — Pages 배포용. 평소엔 일반 서버 모드.
@@ -47,6 +49,9 @@ apps/
                                e2e/ — Playwright E2E(`pnpm test:e2e`, 포트 3107): 콘솔·hydration 오류 0(fixtures 의 자동 검사),
                                mobile.spec.ts 는 `<브라우저>-mobile` 프로젝트(Pixel 7·iPhone 15, 터치·좁은 화면)에서만 — 탭 조작·리플로(가로 스크롤 없음),
                                axe(라이트·다크+브랜드), portal 테마, 키보드 시나리오, 서버 컴포넌트에서 부른 함수.
+examples/
+  vite-starter/                StackBlitz 로 바로 여는 예제(Vite + React). 워크스페이스 밖 — npm 에 배포된 @bestow-ui/react 를 설치한다
+                               (아직 배포 안 된 API 를 쓰면 안 됨). README 의 "StackBlitz 에서 바로 써 보기" 링크가 여기를 연다.
 .github/
   actions/setup/               pnpm + Node(.nvmrc=22) + pnpm install 공통 composite action
   workflows/ci.yml             PR·main: 아이콘 생성물 확인 → lint → format:check → build → size → typecheck → test

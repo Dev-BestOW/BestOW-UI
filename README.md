@@ -12,8 +12,10 @@
 
 ![BestOW UI 회원가입 화면 — 왼쪽은 라이트 기본 테마, 오른쪽은 다크 모드에 브랜드색(#7c3aed)을 입힌 같은 화면](docs/images/hero.png)
 
+⚡ **[StackBlitz 에서 바로 써 보기](https://stackblitz.com/github/Dev-BestOW/BestOW-UI/tree/main/examples/vite-starter?file=src%2FApp.tsx)** (설치 없이 브라우저에서) ·
 📖 **[Storybook 문서](https://dev-bestow.github.io/BestOW-UI/)** · **[Next.js 예제 앱](https://dev-bestow.github.io/BestOW-UI/playground/)** (위 화면은 예제 앱의 [회원가입](https://dev-bestow.github.io/BestOW-UI/playground/signup/)) ·
-[테마 빌더](https://dev-bestow.github.io/BestOW-UI/?path=/story/foundations-theme-builder--builder) · [KWCAG 2.2 대응](https://dev-bestow.github.io/BestOW-UI/?path=/docs/accessibility-kwcag-2-2-%EB%8C%80%EC%9D%91--docs)
+[테마 빌더](https://dev-bestow.github.io/BestOW-UI/?path=/story/foundations-theme-builder--builder) · [KWCAG 2.2 대응](https://dev-bestow.github.io/BestOW-UI/?path=/docs/accessibility-kwcag-2-2-%EB%8C%80%EC%9D%91--docs) ·
+AI 코딩 도구용 [llms.txt](https://dev-bestow.github.io/BestOW-UI/llms.txt)
 
 ## 특징
 

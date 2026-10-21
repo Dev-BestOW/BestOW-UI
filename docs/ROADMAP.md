@@ -115,7 +115,11 @@
    기준 6/6 이면 README(루트·npm)·Storybook Introduction·POSITIONING 의 표현을 "프로덕션 권장" 으로 바꾸고 changeset(patch).
    함께: **BusinessNumberInput** 10자리를 채워 오류가 생기는 순간 알림(지금은 다시 들어가야 설명으로 들림) — Combobox 처럼 항상 있는 영역 + 늦춰서.
    같은 패턴(입력 중 자동 검증 오류)이 있는 곳도 점검(PhoneNumberInput·VerificationCodeInput 만료 알림은 이미 있음).
-5. **런칭 준비물** — StackBlitz(또는 CodeSandbox) 예제와 README 의 "바로 써 보기" 링크, `llms.txt`·컴포넌트 사용법 요약(AI 코딩 도구가 찾고 쓰기 쉽게),
+5. ✅ **런칭 준비물** (2026-10-21 — 게시는 사용자) — `examples/vite-starter`(StackBlitz, npm 의 react ^1.5.0 로 설치·빌드·화면 확인. 아직 배포 안 된 API 는 쓰지 않는다),
+   README(루트·npm)의 "StackBlitz 에서 바로 써 보기" 링크(push 뒤 동작), `apps/storybook/public/llms.txt` + 빌드 때 생성하는 `llms-full.txt`
+   (`scripts/generate-llms.mjs` — README·모든 컴포넌트 props 정의·choosing·componentA11y, 약 80 KB, Pages 루트), 초안 3편은 비공개 Artifact 페이지
+   (GeekNews Show GN·기술 글 2편, 숫자는 데이터·실제 계산으로 확인. [NVDA 점검 완료 후] 자리 있음). 원래 계획:
+   StackBlitz(또는 CodeSandbox) 예제와 README 의 "바로 써 보기" 링크, `llms.txt`·컴포넌트 사용법 요약(AI 코딩 도구가 찾고 쓰기 쉽게),
    GeekNews Show 소개 글 초안, 기술 글 초안 2편("KWCAG 2.2 33개 항목을 CI 로 검증하기", "대표색 하나로 대비 4.5:1 을 보장하는 테마 만들기" —
    라이브러리 홍보 없이도 읽히게). 게시는 사용자.
 6. **Combobox 다중 선택·비동기 검색** (구 P14-5, 런칭 반응으로 수요 확인 후) — 선택 칩(Backspace 로 지우기), 검색 중 상태 알림(`role=status`), 긴 목록 가상화는 따로.
@@ -215,3 +219,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-21 | 번들 줄이기 1차: Switch 네이티브 구현(`@radix-ui/react-switch` 제거, 테스트 12·변이 6), NativeSelect 추가(테스트 8·변이 5, rhf register·SSR·E2E·스토리 play) — NativeSelect 판 폼 세트 3.87 kB(Select 판 29.64 kB) |
 | 2026-10-21 | BestOW 코드 번들 점검: 소스별·export 별 측정 — 낭비·tree-shaking 누수 없음, 큰 덩어리는 Radix. 남은 후보 Avatar 네이티브(효과 작음). playground NativeSelect 선택지를 권역으로(Combobox "부산" 과 이름이 겹쳐 E2E 2개 실패했던 것) |
 | 2026-10-21 | `@bestow-ui/korean-utils` 0.1.0 준비: 전화·사업자번호·금액·한국어 날짜·주소 참고항목 순수 함수(의존성 0, 전체 838 B·함수 하나 179 B br), react 는 같은 이름으로 다시 export(호환 테스트), 테스트 39(공개 이름 목록 고정), README(예시 값 dist 로 확인)·size-limit·SUPPORT·SECURITY·CLAUDE.md. react changeset patch. 첫 배포는 사용자(순서 주의) |
+| 2026-10-21 | 런칭 준비물: StackBlitz 예제(examples/vite-starter — npm 1.5.0 으로 빌드·화면·콘솔 확인), llms.txt·llms-full.txt(빌드 때 생성, storybook.yml 경로에 스크립트 추가), README 링크, 초안 3편(비공개 Artifact). CLAUDE.md 에 examples·llms 설명 |
