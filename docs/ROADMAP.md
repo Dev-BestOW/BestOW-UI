@@ -7,15 +7,21 @@
 > **갱신 규칙:** 작업을 시작/완료하면 체크박스를 바꾸고 맨 아래 "진행 기록"에 한 줄 추가한다.
 > 단계가 끝나면 상세 메모는 ROADMAP-HISTORY.md 로 옮기고 여기에는 한 줄 요약만 남긴다.
 
-## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-21 마무리 기준)
+## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-21 저녁 기준)
 
 **마지막 상태**
-- npm: **react 1.5.0**(2026-10-21) · tokens 1.3.0 · icons 0.1.3. 열린 버전 PR 없음, 배포 대기 changeset 없음.
-- origin/main = `e4cfa48`(버전 PR #23 머지). CI·browsers(WebKit·Firefox)·React 18·시각 회귀 모두 녹색, WebKit flaky 0.
-- 컴포넌트 약 50개(폴더 49) + 테마·다국어·서식 함수, 아이콘 57종. **P1~P16 완료**.
-- 프로덕션 권장 선언 기준 **5/6** — 남은 것은 스크린리더 점검 중 **NVDA**(VoiceOver macOS 는 2026-10-21 완료).
-- 번들(2026-10-21 측정, minify + brotli): react 전체 JS **69.1/80 kB** · Button 하나 1.51/2 · 앱 기본 3.37/3.7 · 폼 세트 30.1/33 ·
-  오버레이 세트 34.8/38 · 한국 키트 30.2/33.5 · styles.css 9.9/12 · tokens 1.27/1.5 kB.
+- npm: **react 1.6.0**(2026-10-21 — NativeSelect, Switch 네이티브, 서식 함수를 korean-utils 로) · **korean-utils 0.1.0**(첫 배포, 로컬 배포 후
+  Trusted Publisher 설정 완료) · tokens 1.3.0 · icons 0.1.3. 열린 버전 PR 없음, 배포 대기 changeset 없음.
+- origin/main = `e0e6cdf`(버전 PR #24 머지). CI·browsers(WebKit·Firefox)·React 18·시각 회귀·Release·Pages 모두 녹색.
+- GitHub 저장소 설정 완료(2026-10-21): 한국어 About·Website, Topics 18개, **Discussions 켜짐**(기본 카테고리 6개). 이슈·PR 템플릿 있음.
+- Pages: Storybook + playground + `llms.txt`·`llms-full.txt`. StackBlitz 예제 `examples/vite-starter`(npm 의 react ^1.5.0 — 이제 1.6 으로 NativeSelect 를 보여 줄 수 있음).
+- 컴포넌트 약 51개(폴더 50) + 테마·다국어·서식 함수, 아이콘 57종. **P1~P16 완료**, 이번 플랜 1(노출)·2(번들)·3(korean-utils)·5(런칭 준비물) 완료.
+- 프로덕션 권장 선언 기준 **5/6** — 남은 것은 스크린리더 점검 중 **NVDA**(VoiceOver macOS 는 2026-10-21 완료). **런칭(GeekNews·블로그 글)은 NVDA 뒤.**
+  글 초안 3편: 비공개 Artifact https://claude.ai/artifact/EdgazWzz98aH3maLsXFwRT , 블로그(~/Documents/Project/astro-blog)에
+  `oklch-contrast-theme.md`(draft: false — push 하면 공개)·`kwcag-automated-testing.md`(draft: true, [NVDA 점검 완료 후] 자리 채울 것).
+- 번들(2026-10-21 측정, minify + brotli): react 전체 JS **69.05/80 kB** · Button 하나 1.51/2 · 앱 기본 3.37/3.7 · 폼 세트(Select) 29.64/33 ·
+  **폼 세트(NativeSelect) 3.87/4.3** · 오버레이 세트 34.76/38 · 한국 키트 30.26/33.5 · styles.css 10.08/12 · tokens 1.27/1.5 ·
+  korean-utils 전체 838 B/1 kB·함수 하나 179/300 B. 큰 덩어리는 모두 Radix(점검 결과는 아래 "Claude 가 할 일" 2번).
   **조합 한도는 여유가 약 10% 뿐** — 큰 기능(Combobox 다중 선택 등)을 넣기 전에 어느 조합에 들어가는지 보고 필요하면 한도를 사용자와 정한다.
 - semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
   기본 화면을 바꾸는 개선은 **선택 토큰 + 2.0 기본값**(`MIGRATION-2.0.md`) — 입력 칸·체크 컨트롤 테두리가 이 방식.
