@@ -1,6 +1,6 @@
 # 지원 정책
 
-BestOW UI(`@bestow-ui/react` · `@bestow-ui/tokens` · `@bestow-ui/icons`)를 어디까지 지원하고, 어떻게 바뀌는지 정리한 문서예요.
+BestOW UI(`@bestow-ui/react` · `@bestow-ui/tokens` · `@bestow-ui/icons` · `@bestow-ui/korean-utils`)를 어디까지 지원하고, 어떻게 바뀌는지 정리한 문서예요.
 
 ## 지원 범위
 
@@ -28,7 +28,7 @@ BestOW UI(`@bestow-ui/react` · `@bestow-ui/tokens` · `@bestow-ui/icons`)를 �
   **다음 major 에서 제거**해요. 바뀌는 내용은 마이그레이션 가이드(`docs/MIGRATION-<major>.md`)에 표로 정리해요.
 - 컴포넌트가 그리는 HTML 구조·클래스 이름은 공개 API 가 아니에요. 테스트에서는 역할·이름(`getByRole`)·상태(`toBeChecked` 등)로 찾는 것을 권해요.
   구조가 바뀌어 영향이 있을 수 있으면 릴리스 노트에 적어요.
-- `@bestow-ui/icons` 는 아직 0.x 라 minor 에서도 바뀔 수 있어요.
+- `@bestow-ui/icons`·`@bestow-ui/korean-utils` 는 아직 0.x 라 minor 에서도 바뀔 수 있어요.
 
 ## 배포 주기
 

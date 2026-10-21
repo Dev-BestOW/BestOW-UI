@@ -1,7 +1,7 @@
 import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { AddressInput } from './AddressInput';
-import { composeExtraAddress, type AddressProvider } from './addressProviders';
+import type { AddressProvider } from './addressProviders';
 
 /** 네트워크 없이 검색 화면 대신 버튼 하나를 그리는 가짜 공급자 */
 const fakeProvider: AddressProvider = (container, onSelect) => {
@@ -80,16 +80,5 @@ describe('AddressInput', () => {
     expect(hidden('zonecode')).toBe('06236');
     expect(hidden('address')).toBe('서울 강남구 테헤란로 152');
     expect(hidden('detail')).toBe('5층');
-  });
-});
-
-describe('composeExtraAddress (카카오 가이드 방식)', () => {
-  it.each([
-    [{ userSelectedType: 'R', bname: '역삼동', buildingName: '래미안', apartment: 'Y' }, ' (역삼동, 래미안)'],
-    [{ userSelectedType: 'R', bname: '역삼동', buildingName: '강남빌딩', apartment: 'N' }, ' (역삼동)'],
-    [{ userSelectedType: 'R', bname: '외도리', buildingName: '', apartment: 'N' }, ''], // 법정리는 제외
-    [{ userSelectedType: 'J', bname: '역삼동', buildingName: '래미안', apartment: 'Y' }, ''], // 지번은 참고 항목 없음
-  ] as const)('%o → "%s"', (data, expected) => {
-    expect(composeExtraAddress(data)).toBe(expected);
   });
 });

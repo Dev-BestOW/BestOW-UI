@@ -1,4 +1,4 @@
-// 한국 서비스에서 자주 쓰는 서식·검증 함수. 컴포넌트와 함께 공개 API 로 export 한다.
+// 전화번호·사업자등록번호·금액 서식과 검증. 숫자가 아닌 글자는 무시하므로 하이픈이 섞인 입력도 받는다.
 
 const onlyDigits = (input: string) => input.replace(/\D/g, '');
 

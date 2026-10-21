@@ -1,4 +1,4 @@
-import { addMonths, formatKoreanDate, getCalendarWeeks, parseISODate, toISODate } from './date';
+import { addMonths, getCalendarWeeks, parseISODate, toISODate } from './date';
 
 describe('date utils', () => {
   it('YYYY-MM-DD 를 읽고 없는 날짜는 null', () => {
@@ -19,10 +19,5 @@ describe('date utils', () => {
     const weeks = getCalendarWeeks(2026, 9); // 2026년 10월 1일은 목요일
     expect(weeks[0]![0]!.getDay()).toBe(0);
     expect(toISODate(weeks[0]![4]!)).toBe('2026-10-01');
-  });
-
-  it('한국어 날짜', () => {
-    expect(formatKoreanDate(new Date(2026, 9, 15))).toBe('2026년 10월 15일 목요일');
-    expect(formatKoreanDate(new Date(2026, 9, 15), false)).toBe('2026년 10월 15일');
   });
 });

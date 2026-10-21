@@ -24,6 +24,7 @@ pnpm storybook    # http://localhost:6006
 |---|---|
 | `packages/tokens` | `@bestow-ui/tokens` — 원시 디자인 토큰. 의존성 없음 |
 | `packages/icons` | `@bestow-ui/icons` — `svg/*.svg` 에서 생성한 아이콘 컴포넌트 |
+| `packages/korean-utils` | `@bestow-ui/korean-utils` — 한국 서비스 서식·검증 순수 함수. 의존성 없음, React 없이도 써요 |
 | `packages/react` | `@bestow-ui/react` — 테마(`src/theme`)와 컴포넌트(`src/components`) |
 | `apps/storybook` | 문서·개발 환경. 패키지의 `src` 를 바로 읽어요 |
 | `apps/playground` | Next.js 예제 앱. 패키지의 `dist` 를 써서 실제 설치와 같은 조건으로 확인해요 |
@@ -190,7 +191,7 @@ TextField·Select 와 같은 패턴을 따라요.
 
 ## changeset 작성법
 
-npm 에 배포되는 패키지(`@bestow-ui/tokens`, `icons`, `react`)를 바꾸면 changeset 을 추가해요. 문서·CI·예제 앱만 바꿨다면 필요 없어요.
+npm 에 배포되는 패키지(`@bestow-ui/tokens`, `icons`, `korean-utils`, `react`)를 바꾸면 changeset 을 추가해요. 문서·CI·예제 앱만 바꿨다면 필요 없어요.
 
 ```bash
 pnpm changeset   # 대화형으로 패키지와 버전 종류를 고르고 설명을 적어요
@@ -213,7 +214,7 @@ Rating 컴포넌트 추가 — 별점 입력. `value`/`onValueChange`, `max`, `s
 | 버그 수정·스타일 수정·내부 변경 | `patch` |
 
 - 이름을 바꾸고 싶으면 바로 지우지 말고, 새 이름을 추가하고 옛 이름은 `@deprecated` + 개발 모드 경고(`warnOnce`)로 남기는 `minor` 를 먼저 내요.
-  옛 이름은 다음 major 에서 지워요. `@bestow-ui/icons` 는 아직 0.x 라 기능 추가 = `minor` 예요.
+  옛 이름은 다음 major 에서 지워요. `@bestow-ui/icons`·`@bestow-ui/korean-utils` 는 아직 0.x 라 기능 추가 = `minor` 예요.
 
 - 설명은 CHANGELOG 와 GitHub Release 에 그대로 실려요. 사용자 입장에서 무엇이 바뀌었는지 써 주세요.
 - `@bestow-ui/react` 와 `@bestow-ui/tokens` 는 linked 설정이라, 같은 릴리스에서 함께 바뀌면 같은 버전 번호를 써요.

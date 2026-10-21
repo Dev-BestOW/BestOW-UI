@@ -1,6 +1,6 @@
 import { forwardRef, useRef, useState, type ReactNode } from 'react';
+import { formatBusinessNumber, isValidBusinessNumber } from '@bestow-ui/korean-utils';
 import { mergeRefs } from '../../utils/mergeRefs';
-import { formatBusinessNumber, isValidBusinessNumber } from '../../utils/koreanFormat';
 import { useFormattedInput } from '../../utils/useFormattedInput';
 import { TextField, type TextFieldProps } from '../Input';
 import { useMessages } from '../../i18n/LocaleProvider';

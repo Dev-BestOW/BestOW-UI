@@ -1,3 +1,5 @@
+import { composeExtraAddress } from '@bestow-ui/korean-utils';
+
 /** 주소 검색 결과 */
 export interface AddressSearchResult {
   /** 우편번호 (5자리 국가기초구역번호) */
@@ -16,6 +18,9 @@ export type AddressProvider = (
   container: HTMLElement,
   onSelect: (result: AddressSearchResult) => void,
 ) => void | (() => void) | Promise<void | (() => void)>;
+
+// 참고 항목 함수는 @bestow-ui/korean-utils 로 옮겼다(1.6) — 예전 import 경로도 되게 다시 export
+export { composeExtraAddress };
 
 // 카카오 우편번호 서비스 (https://postcode.map.kakao.com/guide)
 const KAKAO_POSTCODE_SRC = 'https://t1.kakaocdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js';
@@ -64,18 +69,6 @@ function loadKakaoPostcode(): Promise<PostcodeConstructor> {
     document.head.appendChild(script);
   });
   return loading;
-}
-
-/** 카카오 가이드의 방식으로 도로명 주소의 참고 항목(법정동, 공동주택 건물명)을 만든다 */
-export function composeExtraAddress(
-  data: Pick<KakaoPostcodeData, 'userSelectedType' | 'bname' | 'buildingName' | 'apartment'>,
-) {
-  if (data.userSelectedType !== 'R') return '';
-  const parts: string[] = [];
-  // 법정동명은 "동·로·가" 로 끝날 때만 (법정리는 제외)
-  if (data.bname && /[동로가]$/.test(data.bname)) parts.push(data.bname);
-  if (data.buildingName && data.apartment === 'Y') parts.push(data.buildingName);
-  return parts.length ? ` (${parts.join(', ')})` : '';
 }
 
 /**

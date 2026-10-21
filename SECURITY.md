@@ -5,7 +5,7 @@
 | 패키지 | 보안 수정 |
 |---|---|
 | `@bestow-ui/react`, `@bestow-ui/tokens` | 최신 major. 이전 major 는 새 major 출시 후 6개월 |
-| `@bestow-ui/icons` | 최신 0.x |
+| `@bestow-ui/icons`, `@bestow-ui/korean-utils` | 최신 0.x |
 
 자세한 정책은 [SUPPORT.md](SUPPORT.md) 를 보세요.
 

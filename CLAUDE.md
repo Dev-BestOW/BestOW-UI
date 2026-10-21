@@ -29,7 +29,10 @@ packages/
                                lightColors/darkColors). 의존성 없음. tsup 빌드.
   icons/    @bestow-ui/icons   SVG → React 아이콘. svg/*.svg 가 원본, src/generated/icons.ts 는 생성물(커밋함).
                                기본 세트는 Lucide(ISC) — LICENSE 유지 필수.
-  react/    @bestow-ui/react   테마 + 컴포넌트. tokens, icons, Radix primitives, vanilla-extract 에 의존.
+  korean-utils/ @bestow-ui/korean-utils  한국 서비스 서식·검증 순수 함수(전화·사업자번호·금액·한국어 날짜·주소 참고항목). 의존성 없음,
+                               프레임워크 무관(React 없이도 씀 — 본체로 들어오는 통로). react 가 같은 이름을 shared.ts 에서 다시 export
+                               (shared.test.ts 가 같은 함수인지 확인). 공개 이름 목록은 src/index.test.ts 가 고정. 0.x, 공휴일은 넣지 않는다.
+  react/    @bestow-ui/react   테마 + 컴포넌트. tokens, icons, korean-utils, Radix primitives, vanilla-extract 에 의존.
 apps/
   storybook/ (private)         Storybook 10. packages/*/src 의 스토리 + apps/storybook/stories(Introduction.mdx, guides/ — 언제 무엇을 쓰나(데이터 choosing.ts)·화면 패턴(Patterns.mdx), Design Tokens,
                                Theme Builder, Icons, accessibility/ — KWCAG 2.2 대응 문서(데이터 kwcag.ts + Kwcag.mdx),
@@ -190,7 +193,7 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
 3. 그 PR 을 머지하면 changesets 가 npm 에 배포 + git 태그 + GitHub Release.
 
 버전 규칙(react·tokens 1.0 이후, semver): 기존 이름·타입·CSS 변수를 바꾸거나 지움 = **major**, 새 컴포넌트/기능/prop = minor,
-버그·내부 변경 = patch. 이름을 바꿀 때는 위 "작업 규칙" 의 deprecated 절차를 먼저 minor 로 배포한다. icons 는 아직 0.x(기능 = minor).
+버그·내부 변경 = patch. 이름을 바꿀 때는 위 "작업 규칙" 의 deprecated 절차를 먼저 minor 로 배포한다. icons·korean-utils 는 아직 0.x(기능 = minor).
 
 ## 꼭 알아야 할 함정 (실제로 겪은 문제)
 
@@ -202,6 +205,8 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
   `E403 OIDC permission denied for this action`). 설정은 수정 불가, 삭제 후 재생성.
 - **새 패키지를 추가하면** npm 에 패키지가 없어 Trusted Publisher 를 설정할 수 없다. 첫 버전은 사용자가 로컬에서
   `npm login` 후 직접 배포하고, 그 다음 Trusted Publisher(Direct publishing 체크)를 만든다. (icons 0.1.0 이 이렇게 배포됨)
+  **그 패키지를 의존하는 react 버전 PR 보다 먼저** 배포해야 한다 — 늦으면 release.yml 의 `changeset publish` 가 새 패키지를 OIDC 로 올리려다
+  실패하고, react 가 npm 에 없는 버전을 의존하게 된다. 새 패키지는 changeset 없이 package.json 의 첫 버전(0.1.0)으로 직접 배포한다(korean-utils).
 - `@bestow` 스코프는 다른 회사(Bestow Inc) 소유라 쓸 수 없다. 스코프는 `@bestow-ui`.
 - GitHub Actions 로그는 인증이 필요해 Claude 가 직접 못 읽는다(공개 API 로 run/step 상태와 annotation 만 보임).
   배포 실패 시 추측으로 고치지 말고 사용자에게 **"Create release PR or publish" 단계 로그**를 붙여 달라고 요청한다.

@@ -1,6 +1,7 @@
 import { readFileSync, existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import * as koreanUtils from '@bestow-ui/korean-utils';
 import * as client from './client';
 import * as shared from './shared';
 
@@ -57,5 +58,18 @@ describe('shared 진입점 (서버 컴포넌트용)', () => {
 
   it('같은 이름을 shared 와 client 양쪽에서 export 하지 않는다 (Next.js 에서 이름이 모호해져 사라진다)', () => {
     expect(Object.keys(shared).filter((name) => name in client)).toEqual([]);
+  });
+
+  it('@bestow-ui/korean-utils 로 옮긴 함수를 예전 이름 그대로 export 한다 (1.5 이전 사용자 호환)', () => {
+    for (const name of [
+      'formatPhoneNumber',
+      'formatBusinessNumber',
+      'isValidBusinessNumber',
+      'formatKoreanAmount',
+      'formatKoreanDate',
+      'composeExtraAddress',
+    ] as const) {
+      expect(shared[name]).toBe(koreanUtils[name]);
+    }
   });
 });

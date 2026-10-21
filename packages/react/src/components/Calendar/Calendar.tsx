@@ -1,5 +1,6 @@
 import { forwardRef, useEffect, useId, useRef, useState, type KeyboardEvent } from 'react';
 import { ChevronLeftIcon, ChevronRightIcon } from '@bestow-ui/icons';
+import { KOREAN_WEEKDAYS } from '@bestow-ui/korean-utils';
 import { cx } from '../../utils/cx';
 import {
   addDays,
@@ -8,7 +9,6 @@ import {
   getCalendarWeeks,
   isSameDay,
   isSameMonth,
-  KOREAN_WEEKDAYS,
   parseISODate,
   toISODate,
 } from '../../utils/date';

@@ -171,7 +171,7 @@ import { SearchIcon, TrashIcon } from '@bestow-ui/icons';
 
 | 분류 | 컴포넌트 |
 |---|---|
-| 한국 서비스 키트 | `AgreementGroup`(약관 동의), `VerificationCodeInput`(인증번호), `PhoneNumberInput`, `BusinessNumberInput`, `AmountInput`, `AddressInput`, `DatePicker`, `DateRangePicker`, `Calendar` + 서식 함수(`formatPhoneNumber`, `isValidBusinessNumber`, `formatKoreanAmount` 등) |
+| 한국 서비스 키트 | `AgreementGroup`(약관 동의), `VerificationCodeInput`(인증번호), `PhoneNumberInput`, `BusinessNumberInput`, `AmountInput`, `AddressInput`, `DatePicker`, `DateRangePicker`, `Calendar` + 서식 함수(`formatPhoneNumber`, `isValidBusinessNumber`, `formatKoreanAmount` 등 — React 없이 쓰려면 [`@bestow-ui/korean-utils`](packages/korean-utils)) |
 | 폼 | `Input`, `TextField`, `Textarea`, `Select`, `NativeSelect`, `Combobox`, `NumberInput`, `FileUpload`, `Checkbox`, `RadioGroup`, `Switch`, `Slider` |
 | 동작 | `Button`, `IconButton`, `Link` |
 | 피드백 | `Alert`, `ErrorSummary`, `Progress`, `ToastProvider` + `useToast`, `Spinner`, `Skeleton`, `Badge` |
@@ -190,6 +190,7 @@ import { SearchIcon, TrashIcon } from '@bestow-ui/icons';
 | [`@bestow-ui/react`](packages/react) | 테마(ThemeProvider)와 React 컴포넌트 |
 | [`@bestow-ui/tokens`](packages/tokens) | 색상·간격·타이포그래피 등 디자인 토큰 (원시 값) |
 | [`@bestow-ui/icons`](packages/icons) | SVG 아이콘 React 컴포넌트 (기본 세트는 [Lucide](https://lucide.dev), ISC) |
+| [`@bestow-ui/korean-utils`](packages/korean-utils) | 전화번호·사업자등록번호·금액(“12만 5,000원”)·한국어 날짜 서식·검증 함수. **의존성 없음, React 없이도 써요** |
 
 ## 지원 범위 · 보안
 

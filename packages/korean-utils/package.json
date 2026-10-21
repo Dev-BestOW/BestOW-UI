@@ -1,0 +1,66 @@
+{
+  "name": "@bestow-ui/korean-utils",
+  "version": "0.1.0",
+  "description": "한국 서비스용 서식·검증 함수 — 전화번호·사업자등록번호(검증 공식)·금액 한글 읽기(12만 5,000원)·한국어 날짜·주소 참고항목. 의존성 없음, 프레임워크 무관",
+  "keywords": [
+    "korean",
+    "korea",
+    "phone-number",
+    "business-registration-number",
+    "currency",
+    "format",
+    "validation",
+    "hangul",
+    "kakao-postcode",
+    "bestow-ui",
+    "전화번호",
+    "사업자등록번호",
+    "한글금액"
+  ],
+  "license": "MIT",
+  "author": "Dev-BestOW",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Dev-BestOW/BestOW-UI.git",
+    "directory": "packages/korean-utils"
+  },
+  "homepage": "https://github.com/Dev-BestOW/BestOW-UI/tree/main/packages/korean-utils#readme",
+  "bugs": {
+    "url": "https://github.com/Dev-BestOW/BestOW-UI/issues"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "type": "module",
+  "sideEffects": false,
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.cts",
+        "default": "./dist/index.cjs"
+      }
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "dev": "tsup --watch",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "tsup": "^9.0.0",
+    "typescript": "~5.9.3",
+    "vitest": "^5.0.5"
+  }
+}

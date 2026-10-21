@@ -1,7 +1,7 @@
 import { forwardRef, useRef, type ReactNode } from 'react';
+import { formatKoreanAmount } from '@bestow-ui/korean-utils';
 import { cx } from '../../utils/cx';
 import { mergeRefs } from '../../utils/mergeRefs';
-import { formatKoreanAmount } from '../../utils/koreanFormat';
 import { useFormattedInput } from '../../utils/useFormattedInput';
 import { TextField, type TextFieldProps } from '../Input';
 import * as styles from './AmountInput.css';

@@ -15,13 +15,15 @@ export {
 } from './theme/createTheme';
 export { strongInputBorders } from './theme/presets';
 export { en } from './i18n/en';
+// 한국 서비스 서식·검증 함수는 @bestow-ui/korean-utils 로 옮겼다(1.6). 예전처럼 여기서도 같은 이름으로 쓸 수 있게 다시 export 한다.
 export {
   formatBusinessNumber,
   formatKoreanAmount,
+  formatKoreanDate,
   formatPhoneNumber,
   isValidBusinessNumber,
-} from './utils/koreanFormat';
-export { formatKoreanDate, parseISODate, toISODate } from './utils/date';
+} from '@bestow-ui/korean-utils';
+export { parseISODate, toISODate } from './utils/date';
 export {
   composeExtraAddress,
   kakaoPostcodeProvider,

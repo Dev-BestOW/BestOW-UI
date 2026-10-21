@@ -1,4 +1,10 @@
-import { formatBusinessNumber, formatKoreanAmount, formatPhoneNumber, isValidBusinessNumber } from './koreanFormat';
+import {
+  formatBusinessNumber,
+  formatKoreanAmount,
+  formatPhoneNumber,
+  isValidBusinessNumber,
+  phoneNumberMaxDigits,
+} from './koreanFormat';
 
 describe('formatPhoneNumber', () => {
   it.each([
@@ -18,6 +24,20 @@ describe('formatPhoneNumber', () => {
     ['010-1234-5678', '010-1234-5678'],
   ])('%s → %s', (input, expected) => {
     expect(formatPhoneNumber(input)).toBe(expected);
+  });
+});
+
+describe('phoneNumberMaxDigits', () => {
+  it.each([
+    ['02', 10],
+    ['1588', 8],
+    ['1644', 8],
+    ['1800', 8],
+    ['010', 11],
+    ['031', 11],
+    ['070', 11],
+  ])('%s → %d', (digits, max) => {
+    expect(phoneNumberMaxDigits(digits)).toBe(max);
   });
 });
 

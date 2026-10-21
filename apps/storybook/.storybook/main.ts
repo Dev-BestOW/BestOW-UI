@@ -25,6 +25,7 @@ const config: StorybookConfig = {
       resolve: {
         alias: {
           '@bestow-ui/icons': fromRoot('packages/icons/src/index.ts'),
+          '@bestow-ui/korean-utils': fromRoot('packages/korean-utils/src/index.ts'),
           '@bestow-ui/react': fromRoot('packages/react/src/index.ts'),
           '@bestow-ui/tokens': fromRoot('packages/tokens/src/index.ts'),
         },
