@@ -81,7 +81,7 @@ const brand = createTheme(
 <ThemeProvider theme={mode} overrides={brand}>…</ThemeProvider>;
 ```
 
-입력 칸 테두리를 배경과 3:1 이상으로 진하게 하려면 `strongInputBorders` 를 더해요(2.0 에서 기본값이 될 예정).
+입력 칸·체크 컨트롤(Checkbox·Radio·Switch) 테두리를 배경과 3:1 이상으로 진하게 하려면 `strongInputBorders` 를 더해요(2.0 에서 기본값이 될 예정).
 
 ```tsx
 createTheme(createIntentColors('primary', '#7c3aed'), strongInputBorders);

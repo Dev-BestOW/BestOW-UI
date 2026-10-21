@@ -5,8 +5,11 @@ import { expect, within } from 'storybook/test';
 import { Button } from '../components/Button';
 import { Checkbox } from '../components/Checkbox';
 import { TextField } from '../components/Input';
+import { RadioGroup } from '../components/RadioGroup';
 import { Select } from '../components/Select';
 import { Stack } from '../components/Stack';
+import { Stepper } from '../components/Stepper';
+import { Switch } from '../components/Switch';
 import { Textarea } from '../components/Textarea';
 import { Typography } from '../components/Typography';
 import { VerificationCodeInput } from '../components/VerificationCodeInput';
@@ -123,7 +126,7 @@ export const YellowBrand: Story = {
 type Tree = { [key: string]: string | Tree };
 
 // 기본값이 없는 선택 토큰 — 지정하지 않으면 쓰는 곳에서 기존 토큰을 따른다 (contract.css.ts 의 optionalTokens)
-const OPTIONAL_TOKENS = new Set(['color.border.input', 'color.border.inputHover']);
+const OPTIONAL_TOKENS = new Set(['color.border.input', 'color.border.inputHover', 'color.border.control']);
 
 function collect(tree: Tree, path: string[] = [], out: Array<[string, string]> = []) {
   for (const [key, value] of Object.entries(tree)) {
@@ -148,6 +151,16 @@ function InputSamples({ label }: { label: string }) {
       />
       <Textarea aria-label={`${label} · 메모`} placeholder="메모" />
       <VerificationCodeInput label={`${label} · 인증번호`} length={4} />
+      <Checkbox label={`${label} · 동의`} />
+      <RadioGroup
+        label={`${label} · 배송`}
+        options={[
+          { value: 'normal', label: `${label} 일반` },
+          { value: 'fast', label: `${label} 빠른` },
+        ]}
+      />
+      <Switch label={`${label} · 알림`} />
+      <Stepper aria-label={`${label} · 단계`} steps={[{ label: '정보' }, { label: '확인' }]} current={0} />
     </Stack>
   );
 }
@@ -159,8 +172,9 @@ const rgb = (hex: string) => {
 
 /**
  * 기본 입력 테두리(border.default)는 흰 배경과 1.3:1 이라 칸의 경계가 잘 보이지 않아요(WCAG 1.4.11 비텍스트 대비 3:1 미만).
- * `strongInputBorders` 를 테마에 더하면 입력 칸(Input·Select·Combobox·DatePicker·서식 입력·Textarea·인증번호 칸)의 테두리만 3:1 이상으로 진해져요.
- * 2.0 에서 기본값이 될 예정이에요. 값만 바꾸려면 `color.border.input`·`color.border.inputHover` 토큰을 직접 지정해요(CSS: `--bestow-color-border-input`).
+ * Checkbox·Radio 테두리와 꺼진 Switch·Stepper 예정 단계(border.strong)도 라이트에서 2.07:1 이에요.
+ * `strongInputBorders` 를 테마에 더하면 입력 칸(Input·Select·Combobox·DatePicker·서식 입력·Textarea·인증번호 칸)과 체크 컨트롤의 테두리가 3:1 이상으로 진해져요.
+ * 2.0 에서 기본값이 될 예정이에요. 값만 바꾸려면 `color.border.input`·`inputHover`·`control` 토큰을 직접 지정해요(CSS: `--bestow-color-border-input` 등).
  *
  * ```tsx
  * <ThemeProvider overrides={createTheme(strongInputBorders)}>…</ThemeProvider>
@@ -183,11 +197,14 @@ export const StrongInputBorders: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const dark = canvasElement.querySelector('[data-theme]')?.getAttribute('data-theme') === 'dark';
+    const colors = dark ? darkColors : lightColors;
     const expected = {
-      기본: (dark ? darkColors : lightColors).border.default,
-      진하게: dark ? palette.gray[500] : palette.gray[600],
+      기본: { input: colors.border.default, control: colors.border.strong },
+      진하게: dark
+        ? { input: palette.gray[500], control: palette.gray[500] }
+        : { input: palette.gray[600], control: palette.gray[600] },
     };
-    for (const [label, color] of Object.entries(expected)) {
+    for (const [label, { input: color, control }] of Object.entries(expected)) {
       const field = canvas.getByRole('textbox', { name: `${label} · 이름` }).parentElement!;
       const select = canvas.getByRole('combobox', { name: `${label} · 플랜` });
       const textarea = canvas.getByRole('textbox', { name: `${label} · 메모` });
@@ -196,6 +213,15 @@ export const StrongInputBorders: Story = {
       for (const element of [field, select, textarea, slot]) {
         await expect(getComputedStyle(element).borderTopColor).toBe(rgb(color));
       }
+      // 체크 컨트롤: Checkbox·Radio 테두리, 꺼진 Switch 트랙(배경), Stepper 예정 단계의 원 테두리
+      const checkbox = canvas.getByRole('checkbox', { name: `${label} · 동의` });
+      const radio = canvas.getByRole('radio', { name: `${label} 일반` });
+      const track = canvas.getByRole('switch', { name: `${label} · 알림` });
+      const upcoming = canvas.getByRole('list', { name: `${label} · 단계` }).querySelectorAll('[aria-hidden]')[1]!;
+      for (const element of [checkbox, radio, upcoming]) {
+        await expect(getComputedStyle(element).borderTopColor).toBe(rgb(control));
+      }
+      await expect(getComputedStyle(track).backgroundColor).toBe(rgb(control));
     }
   },
 };

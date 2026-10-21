@@ -65,9 +65,9 @@ apps/
 
 - `src/theme/contract.css.ts` — `vars`(createGlobalThemeContract, **변수 이름 고정 `--bestow-<경로 kebab>`, 공개 API**)와
   `themeClass.light/dark`. `:root` 에 라이트 기본값. `ThemeTokens` 타입.
-  **선택 토큰**(`optionalTokens` — 지금은 `color.border.input`·`inputHover`)은 CSS 변수를 정의하지 않고 쓰는 곳에서 `fallbackVar` 로 기존 토큰을 따른다
+  **선택 토큰**(`optionalTokens` — 지금은 `color.border.input`·`inputHover`·`control`)은 CSS 변수를 정의하지 않고 쓰는 곳에서 `fallbackVar` 로 기존 토큰을 따른다
   (`styles/inputBorder.css.ts`). 기본 화면을 바꾸지 않고 새 토큰을 minor 로 낼 때 이 방식 — 기존 토큰을 덮어쓴 설정도 계속 따른다.
-- `src/theme/presets.ts` — `strongInputBorders`(입력 칸 테두리 3:1 이상, 2.0 기본값 예정). 2.0 에 모으는 변경은 `docs/MIGRATION-2.0.md`.
+- `src/theme/presets.ts` — `strongInputBorders`(입력 칸·체크 컨트롤 테두리 3:1 이상, 2.0 기본값 예정). 2.0 에 모으는 변경은 `docs/MIGRATION-2.0.md`.
 - `src/theme/createTheme.ts` — `createTheme(...inputs)`(common/light/dark 깊은 병합 → `BestowTheme`), `themeToStyle`(assignInlineVars).
 - `src/theme/color.ts` — `createIntentColors(intent, hex)`: OKLCH 로 라이트·다크 intent 색 세트 생성, WCAG 대비 4.5 보장. `contrastRatio`.
 - `src/theme/ThemeProvider.tsx` — `<ThemeProvider theme overrides>`: `data-theme` + 테마 클래스 + 오버라이드 인라인 CSS 변수.

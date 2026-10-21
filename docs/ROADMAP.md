@@ -10,7 +10,7 @@
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-19 마무리 기준)
 
 **마지막 상태**
-- npm: **react 1.3.0** · tokens 1.3.0 · icons 0.1.3. **버전 PR #22 열림 → react 1.4.0**(DateRangePicker, changeset `date-range-picker`) — 머지 여부를 사용자에게 확인.
+- npm: **react 1.4.0**(2026-10-21 — DateRangePicker·strongInputBorders) · tokens 1.3.0 · icons 0.1.3. 열린 버전 PR 없음.
 - origin/main = `c402156`(✨ DateRangePicker), 로컬과 같음, 작업 트리 깨끗(이 정리 문서 변경만 커밋 대기).
 - 컴포넌트 약 50개(폴더 49) + 테마·다국어·서식 함수, 아이콘 57종. **P1~P15 완료**(남은 것은 아래 "다음 플랜").
 - 프로덕션 권장 선언 기준 **5/6 충족** — 남은 것은 스크린리더 수동 점검(사람) 하나.
@@ -43,13 +43,13 @@
 
 ### 사람이 할 일
 
-- [ ] **PR #22(1.4.0 — DateRangePicker) 머지** → npm 배포 확인.
+- [x] **PR #22 머지** → react **1.4.0** 배포 확인(2026-10-21 — DateRangePicker·strongInputBorders).
 - [ ] **스크린리더 수동 점검** — [`SCREEN-READER-CHECKLIST.md`](SCREEN-READER-CHECKLIST.md) 로 최소 VoiceOver(macOS) + NVDA, 가능하면 iOS VoiceOver·센스리더.
   배포된 playground 에서 13개 항목, 결과 칸·기록 표를 채운다. **이게 끝나면 프로덕션 권장 선언 기준 6/6.**
-- [ ] GitHub 저장소 설정에서 **Private vulnerability reporting 켜기** (SECURITY.md 가 이 경로를 안내함).
+- [x] GitHub **Private vulnerability reporting 켜기** (2026-10-21 확인 — API `enabled: true`, Security 탭에 "Report a vulnerability").
 - [x] **P13-4 결정** — ② 옵션 토큰으로 (2026-10-20 결정·구현, 2.0 에서 기본값으로).
-- [ ] **Checkbox·RadioGroup·Switch 꺼진 상태 테두리 결정** — `border.strong`(gray500) 이 흰 배경과 2.07:1 (P13-4 하며 발견). `docs/MIGRATION-2.0.md` "검토 중".
-- [ ] SUPPORT.md 의 기본안 확정 — 이전 major 보안 수정 6개월, 배포 주 1회 묶음.
+- [x] **Checkbox·RadioGroup·Switch 테두리 결정** (2026-10-21) — 입력 칸처럼 선택 토큰 `color.border.control` + `strongInputBorders` 에 포함, 2.0 기본값.
+- [x] SUPPORT.md 정책 확정 (2026-10-21) — 배포는 **준비되면**(주 1회 → 실제 방식에 맞춤), 이전 major 보안·심각한 버그 수정 **6개월**.
 - (선택) 실제 기기 확인: 가상 키보드가 Modal·Drawer 입력을 가리는지(iOS Safari·Android Chrome).
 
 ### Claude 가 할 일
@@ -57,8 +57,7 @@
 1. **스크린리더 점검 결과 반영** — 발견한 문제 수정(테스트·변이 확인), `kwcag.ts`·`componentA11y.ts` 에 "수동 확인" 기록,
    기준 6/6 이면 README(루트·npm)·Storybook Introduction 의 표현을 "프로덕션 권장" 으로 바꾸고 changeset(patch).
 2. ~~**P13-4**~~ ✅ 2026-10-20 — 선택 토큰 `color.border.input`·`inputHover`(기본값 없음 → 화면 그대로) + `strongInputBorders`. changeset `strong-input-borders`(minor).
-   **시각 회귀 update 필요**(`fe6ab93` 에서 예상대로 실패): `foundations-theming--css-variables` 2장(변수 두 줄 추가). 이 job 이 실패해
-   새 스토리 "진한 입력 테두리" 기준 이미지도 커밋되지 않았다 → 수동 update 한 번이면 4장 모두 갱신.
+   시각 회귀 기준 이미지 갱신 완료(봇 `b998dea`·`2ea3e39`), **react 1.4.0 으로 배포**.
 3. **P14-5 Combobox 다중 선택·비동기 검색** (수요 확인 후) — 선택 칩(Backspace 로 지우기), 검색 중 상태 알림(`role=status`), 긴 목록 가상화는 따로.
    폼 세트 조합(30.1/33 kB)에 영향 → 별도 컴포넌트(`MultiCombobox` 등)로 나눌지 먼저 판단.
 4. **P14-6 Tag 입력** — 쉼표·Enter 로 추가, P14-5 와 칩 공유.
@@ -91,7 +90,7 @@
 |---|---|---|
 | `@bestow-ui/tokens` | 1.3.0 | palette(gray·blue·red·green·amber), space, radius, font, shadow/darkShadow, duration, zIndex(overlay < modal < dropdown < toast < tooltip), light/dark 의미 색상 |
 | `@bestow-ui/icons` | 0.1.3 | 아이콘 57종 (Lucide 기반), SVG → 컴포넌트 생성 스크립트 |
-| `@bestow-ui/react` | 1.3.0 (1.4.0 PR #22 대기) | 아래 컴포넌트 + 테마(ThemeProvider·createTheme·createIntentColors·vars·usePortalProps) + 다국어(LocaleProvider·en) + 서식·날짜 함수·focusField |
+| `@bestow-ui/react` | 1.4.0 | 아래 컴포넌트 + 테마(ThemeProvider·createTheme·createIntentColors·strongInputBorders·vars·usePortalProps) + 다국어(LocaleProvider·en) + 서식·날짜 함수·focusField |
 
 | 분류 | 컴포넌트 |
 |---|---|
@@ -236,3 +235,6 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-20 | CI `f1cfa77` 전부 녹색(WebKit flaky 0) 확인. 의존성 1차: Playwright 1.64.1(+ visual.yml 이미지 태그)·Next 16.4.2·React 19.3.1(lockfile)·vitest 5.0.5·tsup 9.0.0. tsup 9 출력은 JS·CSS 동일, d.ts 는 `export type { }` 표기만 바뀜(공개 이름 3패키지 같음), size 동일. vitest 5 에서 변이 실패 확인, React 18 overrides 로컬 재현 통과. 개발 Node `>=22.18`(tsup 9). CI `e49af92` 전부 녹색 — 시각 회귀 500장 통과(Playwright 1.64.1 이미지), flaky 0 |
 | 2026-10-20 | P13-4(사용자 결정 ②): 선택 토큰 `color.border.input`·`inputHover` — CSS 변수를 정의하지 않고 `fallbackVar` 로 border.default·strong 을 따름(기본 화면·기존 오버라이드 유지), `strongInputBorders`(라이트 gray600/700, 다크 gray500/300 — 다크 gray600 은 bg.subtle 2.98:1 이라 제외). Input(→ Select·Combobox·DatePicker·서식 입력)·Textarea·인증번호 칸. 단위 테스트 4개(대비·hover·변수 펼침), 스토리 play(라이트·다크 계산된 테두리색) — 변이 3종 확인. 발견: 체크 컨트롤 border.strong 2.07:1. `docs/MIGRATION-2.0.md` 초안 |
 | 2026-10-20 | CI `fe6ab93`: 시각 회귀만 CSS 변수 2장 실패(예상). 높이 +574px 는 "(선택 — 기본값 없음)" 이 첫 열을 넓혀 7행이 더 줄바꿈된 탓 → 경로 아래 작은 줄로(열 폭 원래대로 212/243/297px 측정). 나머지 job 녹색 |
+| 2026-10-21 | 기준 이미지 갱신 확인(`2ea3e39`, CSS 변수 2장만). PR #22 머지 → **react 1.4.0 배포 확인**: npm latest·태그·GitHub Release·provenance, 설치본 ESM·CJS 에 DateRangePicker·strongInputBorders·border.input, d.ts·d.cts 포함, CSS 에 선택 변수 미정의(fallback 3곳) |
+| 2026-10-21 | Private vulnerability reporting 켜짐 확인(API). SUPPORT.md 확정(사용자 결정): 배포 "준비되면"(주 1회 문구 수정), 이전 major 6개월 유지 |
+| 2026-10-21 | 체크 컨트롤 테두리(사용자 결정 — 선택 토큰): `color.border.control`(기본값 없음 → border.strong) — Checkbox·Radio 테두리, 꺼진 Switch 트랙, Stepper 예정 단계(원·연결선). `strongInputBorders` 에 라이트 gray600·다크 gray500 추가. 스토리 play 에 4종 확인, 변이 5종(컨트롤 4 + 프리셋 값) 확인. changeset `strong-control-borders`(minor), MIGRATION-2.0 1번에 합침 |

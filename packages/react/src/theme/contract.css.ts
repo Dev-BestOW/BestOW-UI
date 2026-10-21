@@ -46,8 +46,9 @@ type Widen<T> = { [K in keyof T]: T[K] extends string ? string : Widen<T[K]> };
  * 그래서 넣지 않으면 화면이 그대로이고, 기존 토큰(border.default 등)을 덮어쓴 사용자 설정도 계속 따른다(하위 영역의 CSS 덮어쓰기 포함).
  * - `color.border.input`·`inputHover` (1.x 추가): 입력 칸(Input·Select·Combobox·Textarea·인증번호 칸 등) 테두리. 기본은 border.default·border.strong.
  *   흰 배경과 1.3:1 인 기본 테두리를 3:1 이상으로 올리려면 `strongInputBorders` 를 쓴다(2.0 에서 기본값이 될 예정).
+ * - `color.border.control` (1.x 추가): Checkbox·Radio 테두리, 꺼진 Switch 트랙, Stepper 의 예정 단계. 기본은 border.strong(라이트 2.07:1).
  */
-const optionalTokens = { color: { border: { input: '', inputHover: '' } } };
+const optionalTokens = { color: { border: { input: '', inputHover: '', control: '' } } };
 
 export type ThemeTokens = Widen<typeof lightTokens> & Widen<typeof optionalTokens>;
 

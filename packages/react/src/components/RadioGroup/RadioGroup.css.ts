@@ -1,5 +1,6 @@
 import { createVar, style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
+import { controlBorderColor } from '../../styles/inputBorder.css';
 import { vars } from '../../theme/contract.css';
 
 export const items = recipe({
@@ -45,7 +46,7 @@ export const radio = recipe({
     marginTop: `calc((1.5em - ${radioSize}) / 2)`,
     width: radioSize,
     height: radioSize,
-    border: `1.5px solid ${vars.color.border.strong}`,
+    border: `1.5px solid ${controlBorderColor}`,
     borderRadius: vars.radius.full,
     backgroundColor: vars.color.bg.default,
     cursor: 'pointer',

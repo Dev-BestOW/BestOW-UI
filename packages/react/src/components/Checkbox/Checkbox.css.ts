@@ -1,5 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
+import { controlBorderColor } from '../../styles/inputBorder.css';
 import { vars } from '../../theme/contract.css';
 
 export const root = recipe({
@@ -47,7 +48,7 @@ export const input = style({
   margin: 0,
   width: '100%',
   height: '100%',
-  border: `1.5px solid ${vars.color.border.strong}`,
+  border: `1.5px solid ${controlBorderColor}`,
   borderRadius: vars.radius.sm,
   backgroundColor: vars.color.bg.default,
   cursor: 'inherit',
