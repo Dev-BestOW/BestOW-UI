@@ -3,7 +3,7 @@
 [![StackBlitz 에서 열기](https://developer.stackblitz.com/img/open_in_stackblitz.svg)](https://stackblitz.com/github/Dev-BestOW/BestOW-UI/tree/main/examples/vite-starter?file=src%2FApp.tsx)
 
 설치 없이 브라우저에서 바로 고쳐 볼 수 있는 [`@bestow-ui/react`](https://www.npmjs.com/package/@bestow-ui/react) 예제예요.
-전화번호·인증번호·금액·약관 동의 입력, 다크 모드, 대표색 하나로 바꾸는 브랜드 테마가 들어 있어요.
+통신사(가벼운 NativeSelect)·전화번호·인증번호·금액·약관 동의 입력, 다크 모드, 대표색 하나로 바꾸는 브랜드 테마가 들어 있어요.
 
 ```bash
 npm install

@@ -14,7 +14,7 @@
   Trusted Publisher 설정 완료) · tokens 1.3.0 · icons 0.1.3. 열린 버전 PR 없음, 배포 대기 changeset 없음.
 - origin/main = `e0e6cdf`(버전 PR #24 머지). CI·browsers(WebKit·Firefox)·React 18·시각 회귀·Release·Pages 모두 녹색.
 - GitHub 저장소 설정 완료(2026-10-21): 한국어 About·Website, Topics 18개, **Discussions 켜짐**(기본 카테고리 6개). 이슈·PR 템플릿 있음.
-- Pages: Storybook + playground + `llms.txt`·`llms-full.txt`. StackBlitz 예제 `examples/vite-starter`(npm 의 react ^1.5.0 — 이제 1.6 으로 NativeSelect 를 보여 줄 수 있음).
+- Pages: Storybook + playground + `llms.txt`·`llms-full.txt`. StackBlitz 예제 `examples/vite-starter`(npm 의 react ^1.6.0 — 통신사 NativeSelect 포함, 2026-10-21 설치·빌드·화면 확인).
 - 컴포넌트 약 51개(폴더 50) + 테마·다국어·서식 함수, 아이콘 57종. **P1~P16 완료**, 이번 플랜 1(노출)·2(번들)·3(korean-utils)·5(런칭 준비물) 완료.
 - 프로덕션 권장 선언 기준 **5/6** — 남은 것은 스크린리더 점검 중 **NVDA**(VoiceOver macOS 는 2026-10-21 완료). **런칭(GeekNews·블로그 글)은 NVDA 뒤.**
   글 초안 3편: 비공개 Artifact https://claude.ai/artifact/EdgazWzz98aH3maLsXFwRT , 블로그(~/Documents/Project/astro-blog)에
@@ -227,3 +227,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-21 | `@bestow-ui/korean-utils` 0.1.0 준비: 전화·사업자번호·금액·한국어 날짜·주소 참고항목 순수 함수(의존성 0, 전체 838 B·함수 하나 179 B br), react 는 같은 이름으로 다시 export(호환 테스트), 테스트 39(공개 이름 목록 고정), README(예시 값 dist 로 확인)·size-limit·SUPPORT·SECURITY·CLAUDE.md. react changeset patch. 첫 배포는 사용자(순서 주의) |
 | 2026-10-21 | 런칭 준비물: StackBlitz 예제(examples/vite-starter — npm 1.5.0 으로 빌드·화면·콘솔 확인), llms.txt·llms-full.txt(빌드 때 생성, storybook.yml 경로에 스크립트 추가), README 링크, 초안 3편(비공개 Artifact). CLAUDE.md 에 examples·llms 설명 |
 | 2026-10-21 | react 1.6.0·korean-utils 0.1.0 배포 확인(react 가 ^0.1.0 의존), GitHub About·Website·Topics 18개·Discussions 설정 확인, 블로그에 기술 글 2편(테마 공개 대기, KWCAG draft), 인수인계 갱신 |
+| 2026-10-21 | StackBlitz 예제를 react ^1.6.0 으로, 통신사 선택(NativeSelect) 추가 — npm 설치·빌드·브라우저 확인 |

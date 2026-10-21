@@ -9,6 +9,7 @@ import {
   formatKoreanAmount,
   formatPhoneNumber,
   hasAllRequiredAgreements,
+  NativeSelect,
   PhoneNumberInput,
   SegmentedControl,
   Stack,
@@ -20,6 +21,13 @@ import {
   type ThemeName,
 } from '@bestow-ui/react';
 import { useMemo, useState } from 'react';
+
+const carriers = [
+  { value: 'skt', label: 'SKT' },
+  { value: 'kt', label: 'KT' },
+  { value: 'lgu', label: 'LG U+' },
+  { value: 'mvno', label: '알뜰폰' },
+];
 
 const agreements = [
   { value: 'terms', label: '서비스 이용약관 동의', required: true },
@@ -70,12 +78,14 @@ export function App() {
 }
 
 function SignupForm() {
+  const [carrier, setCarrier] = useState('');
   const [phone, setPhone] = useState(''); // 하이픈 없는 숫자만 ('01012345678')
   const [code, setCode] = useState('');
   const [amount, setAmount] = useState<number | null>(null);
   const [agreed, setAgreed] = useState<string[]>([]);
   const { toast } = useToast();
-  const canSubmit = phone.length >= 10 && code.length === 6 && hasAllRequiredAgreements(agreements, agreed);
+  const canSubmit =
+    carrier !== '' && phone.length >= 10 && code.length === 6 && hasAllRequiredAgreements(agreements, agreed);
 
   return (
     <form
@@ -84,12 +94,22 @@ function SignupForm() {
         // 서식 함수 — 저장한 숫자를 '010-1234-5678', '12만 5,000원' 처럼 보여 준다
         toast({
           title: '가입했어요',
-          description: `${formatPhoneNumber(phone)} · 충전 ${formatKoreanAmount(amount ?? 0)}`,
+          description: `${carriers.find((c) => c.value === carrier)?.label} ${formatPhoneNumber(phone)} · 충전 ${formatKoreanAmount(amount ?? 0)}`,
           color: 'success',
         });
       }}
     >
       <Stack gap={5}>
+        {/* NativeSelect — 브라우저 기본 select 라 가볍고(Radix Select 대비 폼 번들 약 1/8), 모바일에서는 운영체제 선택 창이 열린다 */}
+        <NativeSelect
+          label="통신사"
+          placeholder="선택하세요"
+          options={carriers}
+          value={carrier}
+          onValueChange={setCarrier}
+          required
+          fullWidth
+        />
         <PhoneNumberInput value={phone} onValueChange={setPhone} required fullWidth />
         <VerificationCodeInput
           value={code}
