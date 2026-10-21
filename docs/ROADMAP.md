@@ -67,7 +67,10 @@
 
 - [x] **GitHub 저장소 설정** (2026-10-21 완료 — Claude 가 API 로 확인) — About 설명(지금 영어·옛 문구 "React design system — vanilla-extract + Radix")을 한국어로,
   Topics 추가(react, design-system, korean, accessibility, kwcag, vanilla-extract, radix-ui, nextjs 등), Discussions 켜기.
-- [ ] **NVDA 스크린리더 점검** (Windows) — 체크리스트 13개 항목. **NumberInput "2석" 이 두 번 들리는지 꼭 확인**(VoiceOver 때문에 추가한 알림).
+- [ ] **NVDA 스크린리더 점검** (Windows, **2026-10-22 예정**) — 준비: Windows PC 에 NVDA(nvaccess.org, 무료) 설치, Chrome 또는 Firefox,
+  배포된 예제 앱(https://dev-bestow.github.io/BestOW-UI/playground/interactive — 1.6 반영됨)을 쓴다(맥의 로컬 서버는 같은 네트워크면 `next start -H 0.0.0.0 -p 3001`).
+  Claude 가 항목마다 누를 키·기대 문장을 안내 → 들은 문장을 받아 문제는 바로 수정. 13번 표에 1.6 의 Switch(재구현)·NativeSelect(신규)가 추가됨 —
+  두 줄은 VoiceOver 로도 다시 확인(맥에서 가능). 체크리스트 13개 항목. **NumberInput "2석" 이 두 번 들리는지 꼭 확인**(VoiceOver 때문에 추가한 알림).
   끝나면 프로덕션 권장 선언 기준 6/6 → 런칭 가능.
 - [x] **`@bestow-ui/korean-utils` 0.1.0 첫 배포** (2026-10-21 완료, Trusted Publisher 설정함 — 다음 버전부터 changeset) — 코드는 2026-10-21 완료(changeset 없이 package.json 0.1.0). **순서가 중요:**
   ① 이 변경을 main 에 머지(release.yml 은 react patch changeset 때문에 버전 PR 만 만든다) →
