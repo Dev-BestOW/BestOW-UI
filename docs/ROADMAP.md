@@ -73,7 +73,9 @@
 
 ### Claude 가 할 일
 
-1. **노출 정비** (각 30분 안팎, 무엇에도 기대지 않음 — 가장 먼저)
+1. ✅ **노출 정비** (2026-10-21 완료 — 남은 것: 사용자의 GitHub 설정, push 뒤 README 이미지·배지 확인)
+   - 히어로 이미지 `docs/images/hero.png` 는 playground `/signup` 운영 빌드(3001)를 Playwright 로 라이트 기본·다크+브랜드(#7c3aed)로 찍어
+     나란히 합친 것(2x, 약 210 kB). 화면이 크게 바뀌면 같은 방법으로 다시 찍는다(값 입력: 이메일·전화·플랜 "프로"·연간·필수 약관 2개).
    - GitHub About·Topics 문구 제안(설정은 사용자).
    - 루트 README 재구성: 맨 위 **히어로 이미지**(playground `/signup` 같은 한국 서비스 키트 화면의 라이트·다크 비교 — Playwright 로 찍어 저장소에 둠),
      **배지**(npm·CI·license — 번들 크기 배지는 패키지 전체 크기를 보여 줘 "Button 하나 1.5 kB" 장점을 가리므로 달지 않고 본문에 숫자로),
@@ -194,3 +196,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 |---|---|
 | 2026-10-21 | react 1.5.0 배포 확인(npm·Release·설치본에 border.control·알림 지연 코드). 로드맵 정리: 10/20~21 작업을 HISTORY P16 으로, 진행 기록 99줄을 HISTORY 로 보관, 다음 플랜을 NVDA 점검 → 개선 후보 → 수요 기반 기능 → 의존성 2차 → 2.0 준비 순으로 |
 | 2026-10-21 | 다음 플랜 재정리: 알리기·도입 장벽 우선 — 노출 정비(README·Topics·비교표) → 번들 줄이기(Switch 네이티브·NativeSelect) → `@bestow-ui/korean-utils` → NVDA → 런칭 준비물·게시. 런칭은 프로덕션 권장 6/6 뒤. shadcn 레지스트리는 포지셔닝과 충돌해 보류, 실제 서비스 사례는 아직 없음 |
+| 2026-10-21 | 노출 정비: 루트 README 재구성(배지 npm·CI·license, 히어로 이미지, 비교표 — 공식 문서 확인, npm 설치 먼저, Next.js 5분 시작 — 예제 코드 playground 에서 타입 검사, 컴포넌트 표), 개발·배포·CI/CD 절을 CONTRIBUTING 으로, npm README 에 CI 배지·히어로 이미지(raw URL), 이슈 템플릿(버그·기능 제안·config)·PR 템플릿 |

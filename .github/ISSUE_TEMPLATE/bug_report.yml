@@ -1,0 +1,59 @@
+name: 버그 신고
+description: 컴포넌트가 문서와 다르게 동작하거나 오류가 나요.
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        알려 주셔서 고마워요. 다시 만들어 볼 수 있으면 가장 빨리 고칠 수 있어요.
+        보안 문제는 이 양식 대신 [비공개 신고](https://github.com/Dev-BestOW/BestOW-UI/security/advisories/new)를 써 주세요.
+  - type: input
+    id: component
+    attributes:
+      label: 컴포넌트·함수
+      placeholder: 예) DatePicker, formatKoreanAmount
+    validations:
+      required: true
+  - type: textarea
+    id: what
+    attributes:
+      label: 무엇이 잘못됐나요?
+      description: 기대한 동작과 실제 동작을 적어 주세요. 스크린샷·화면 녹화도 좋아요.
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: 다시 만드는 방법
+      description: 짧은 코드나 StackBlitz·CodeSandbox 링크, 또는 Storybook 에서 따라 할 순서를 적어 주세요.
+      placeholder: |
+        1. ...
+        2. ...
+    validations:
+      required: true
+  - type: dropdown
+    id: area
+    attributes:
+      label: 어떤 부분과 관련 있나요? (여럿 선택 가능)
+      multiple: true
+      options:
+        - 화면·스타일
+        - 키보드·포커스
+        - 스크린리더
+        - 다크 모드·브랜드 테마
+        - 서버 컴포넌트·SSR·hydration
+        - 타입(TypeScript)
+        - 번들·빌드
+        - 기타
+  - type: textarea
+    id: env
+    attributes:
+      label: 환경
+      description: 버전을 적어 주세요. 스크린리더 문제라면 스크린리더 이름과 버전도요.
+      value: |
+        - @bestow-ui/react:
+        - React:
+        - 프레임워크 (Next.js 버전 등):
+        - 브라우저·OS:
+    validations:
+      required: true

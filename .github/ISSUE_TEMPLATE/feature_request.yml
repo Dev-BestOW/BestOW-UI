@@ -1,0 +1,26 @@
+name: 기능 제안
+description: 새 컴포넌트·prop·한국 서비스 부품을 제안해요.
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        아이디어 단계라면 [Discussions](https://github.com/Dev-BestOW/BestOW-UI/discussions)에서 먼저 이야기해도 좋아요.
+        **실제로 쓰려는 화면**을 알려 주시면 우선순위를 정하는 데 큰 도움이 돼요.
+  - type: textarea
+    id: problem
+    attributes:
+      label: 어떤 화면에서 무엇이 필요한가요?
+      description: 만들고 있는 서비스·화면과 지금 겪는 불편을 적어 주세요.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: 제안하는 방법
+      description: 원하는 API(prop 이름 등)나 동작, 참고할 만한 다른 서비스·라이브러리가 있으면 적어 주세요.
+  - type: textarea
+    id: workaround
+    attributes:
+      label: 지금은 어떻게 하고 있나요?
+      description: 직접 만들어 쓰고 있다면 그 방법도 도움이 돼요.

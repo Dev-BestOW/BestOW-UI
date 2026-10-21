@@ -2,11 +2,14 @@
 
 [![npm](https://img.shields.io/npm/v/@bestow-ui/react)](https://www.npmjs.com/package/@bestow-ui/react)
 [![license](https://img.shields.io/npm/l/@bestow-ui/react)](https://github.com/Dev-BestOW/BestOW-UI/blob/main/LICENSE)
+[![CI](https://github.com/Dev-BestOW/BestOW-UI/actions/workflows/ci.yml/badge.svg)](https://github.com/Dev-BestOW/BestOW-UI/actions/workflows/ci.yml)
 
 **한국 서비스를 만들 때 바로 쓰는, 접근성이 검증된 React 디자인 시스템이에요.**
 [vanilla-extract](https://vanilla-extract.style) 와 [Radix UI](https://www.radix-ui.com) 위에 만들었어요.
 
 > A React design system for Korean services, with accessibility verified in CI. Docs are in Korean.
+
+![회원가입 화면 — 왼쪽은 라이트 기본 테마, 오른쪽은 다크 모드에 브랜드색(#7c3aed)을 입힌 같은 화면](https://raw.githubusercontent.com/Dev-BestOW/BestOW-UI/main/docs/images/hero.png)
 
 - **한국 서비스 키트** — 약관 동의(전체 동의), 인증번호(문자 자동 채우기·남은 시간), 전화번호·사업자등록번호(검증)·
   금액("12만 5,000원" 읽기)·주소(카카오 우편번호)·날짜(일요일 시작·공휴일)·기간(빠른 선택) 입력.

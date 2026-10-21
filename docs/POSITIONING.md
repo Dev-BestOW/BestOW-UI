@@ -78,6 +78,8 @@
 ## 다른 선택지와 비교
 
 > 경쟁 제품 정보는 아래 출처에서 확인한 것만 적었다. 세부 기능 비교는 README·랜딩에 올리기 전에 각 문서에서 다시 확인한다.
+> 2026-10-21: 루트 README 의 "다른 선택지와 비교" 표(shadcn/ui·Radix Themes·MUI)는 각 공식 문서로 다시 확인한 것만 실었다 —
+> shadcn 은 코드 복사 + Tailwind 필요(설치 문서), Radix Themes 는 CSS 파일 import(시작하기), MUI 는 기본 Emotion·`koKR` 로캘(스타일 엔진·로캘 문서).
 
 | | BestOW UI | 글로벌 DS (MUI·Chakra·Mantine 등) | shadcn/ui | 한국 회사 DS |
 |---|---|---|---|---|

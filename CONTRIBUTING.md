@@ -38,6 +38,7 @@ pnpm storybook    # http://localhost:6006
 | `pnpm test:stories` | 모든 스토리를 실제 브라우저에서 라이트·다크로 렌더링 + axe 접근성 검사. `pnpm build` 먼저 |
 | `pnpm lint` / `pnpm format` | ESLint / Prettier |
 | `pnpm size` | 번들 크기 검사 (`.size-limit.json`). `pnpm build` 먼저. PR 에는 base 와 비교한 표가 코멘트로 달려요 |
+| `pnpm build-playground && pnpm test:e2e` | 예제 앱 E2E (Playwright — 데스크톱·모바일·고대비·리플로) |
 | `pnpm changeset` | 변경 내역 기록 |
 
 ## 작업 흐름
@@ -52,6 +53,18 @@ pnpm storybook    # http://localhost:6006
    ```
 
 4. PR 이 `main` 에 머지되면 봇이 "chore: version packages" PR 을 만들어요. 그 PR 을 머지하면 npm 배포와 GitHub Release 가 자동으로 진행돼요.
+
+## CI/CD (GitHub Actions)
+
+| 워크플로 | 트리거 | 내용 |
+|---|---|---|
+| `ci.yml` | PR, main push | 아이콘 생성물 확인 → lint → 포맷 → 빌드 → 번들 크기 → 타입 체크 → 테스트(SSR 포함) → 스토리 렌더링·axe → Storybook·예제 앱 빌드 → 예제 앱 E2E(데스크톱·모바일·고대비·리플로). 같은 스토리 테스트·E2E 를 WebKit·Firefox 로, 단위 테스트를 React 18 로도 실행 |
+| `size.yml` | PR | 번들 크기를 base 와 비교해 PR 코멘트로 |
+| `visual.yml` | PR, main push, 수동 | 모든 스토리(열린 상태 포함)의 라이트·다크 스크린샷 비교. 새 스토리는 main push 때 기준 이미지 자동 커밋, 바뀐 화면은 수동 실행 + update 로 갱신 |
+| `release.yml` | main push | changeset 이 있으면 "version packages" PR 생성(GitHub App 토큰), 그 PR 이 머지되면 npm 배포(Trusted Publishing) |
+| `storybook.yml` | main push (패키지·앱 변경 시), 수동 | Storybook 과 예제 앱(정적 export)을 GitHub Pages 에 배포 |
+
+배포 흐름: 작업 브랜치에서 `pnpm changeset` → PR 머지 → 자동 생성된 버전 PR 머지 → npm 배포. 로컬에서 직접 배포하지 않아요.
 
 ## 컴포넌트 추가 체크리스트
 
