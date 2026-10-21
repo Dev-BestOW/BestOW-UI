@@ -1,5 +1,21 @@
 # @bestow-ui/react
 
+## 1.6.0
+
+### Minor Changes
+
+- ec7705c: NativeSelect 추가 — 브라우저 기본 `<select>` 에 Select 와 같은 모양을 입힌 가벼운 선택 상자. Radix 를 쓰지 않아 폼 번들이 크게 줄고,
+  모바일에서는 운영체제 선택 창이 열려요. `options`(또는 `<option>`·`<optgroup>` children), `placeholder`, `label`·`helperText`·`error`·`required`,
+  `size`(sm/md/lg)·`fullWidth`, `onValueChange` 를 지원하고, 네이티브 select 라 react-hook-form 의 `register(...)` 를 그대로 펼쳐 쓸 수 있어요.
+
+### Patch Changes
+
+- e759716: 한국 서비스 서식·검증 함수(`formatPhoneNumber`·`formatBusinessNumber`·`isValidBusinessNumber`·`formatKoreanAmount`·`formatKoreanDate`·`composeExtraAddress`)를
+  의존성 없는 새 패키지 [`@bestow-ui/korean-utils`](https://www.npmjs.com/package/@bestow-ui/korean-utils) 로 옮겼어요. React 없이도(Vue·Svelte·서버) 쓸 수 있어요.
+  `@bestow-ui/react` 는 같은 함수를 같은 이름으로 다시 내보내므로 기존 코드는 바꿀 필요가 없어요.
+- ec7705c: Switch 를 Radix 없이 네이티브 `<button role="switch">` 로 다시 구현 — `@radix-ui/react-switch` 의존성을 없애 번들을 줄였어요.
+  API·키보드(Space·Enter)·스크린리더 동작은 같고, form 안에서는 전처럼 숨긴 checkbox 로 값 제출·`required` 검증·form reset 을 처리해요.
+
 ## 1.5.0
 
 ### Minor Changes
