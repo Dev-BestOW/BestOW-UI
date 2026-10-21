@@ -86,9 +86,18 @@
    - 이슈·PR 템플릿(`.github/ISSUE_TEMPLATE`, 버그·기능 요청·질문은 Discussions 로).
 2. **번들 줄이기** (2026-10-21 esbuild 분석: 폼 세트 minify 110 kB 중 BestOW 코드 15 kB, Radix Select + popper·floating-ui·collection·remove-scroll 약 55 kB.
    전체 266 kB 중 BestOW 코드 96 kB) — 효과 순서:
-   - Switch 를 네이티브 button 으로(Radix Switch 3.5 kB 제거, 위험 낮음 — SegmentedControl·RadioGroup 처럼).
-   - **`NativeSelect` 추가**(네이티브 `<select>`, 모바일에도 유리) — 기존 Select 는 유지. 폼 세트 대표 조합을 어떻게 볼지(NativeSelect 판 조합 추가 등) 함께 정한다.
-   - BestOW 코드 96 kB 점검 — recipe·문구·서식 함수 중복 등.
+   - ✅ Switch 를 네이티브 button 으로(2026-10-21, patch) — `<button role="switch">` + form 안에서만 숨긴 checkbox(제출·required·reset·바깥 change 전달,
+     Radix 와 같은 방식). 폼 세트 30.08 → 29.64 kB, 전체 69.12 → 68.62 kB — Radix 공용 부품(primitive 등)을 Select 가 계속 써서 작게 줄었다.
+   - ✅ **`NativeSelect` 추가**(2026-10-21, minor) — 기존 Select 유지. size-limit 에 "폼 세트 — NativeSelect 판" 추가: **3.87 kB**(한도 4.3)
+     vs Select 판 29.64 kB → 폼 세트 번들의 대부분이 Radix Select(+ popper·floating-ui). README·Guides 에 "가볍게는 NativeSelect" 로 안내.
+   - ✅ BestOW 코드 96 kB 점검(2026-10-21) — **낭비 없음.** dist 를 소스 파일별로 나눠 minify: 합계 약 102 kB = 컴포넌트 66% · `.css.ts` 클래스 매핑 18%
+     (이미 짧은 해시 이름) · 함수·테마 16%. 한 곳에 몰린 것 없이 컴포넌트 기능만큼(FileUpload·Combobox·AddressInput 각 ~4.5 kB) 퍼져 있다.
+     export 별 단독 번들도 엉뚱한 의존성이 딸려 오는 곳 없음(tree-shaking 정상). 측정 메모: react 를 external 로 두면 tsup 이 소스 파일마다 남긴
+     `import … from "react"` 60여 개가 남아 minify 크기가 부풀지만(Spinner 8.2 kB 중 5.2 kB), brotli·실제 번들(react 포함)에서는 사라진다 —
+     react 포함 실측 Spinner +1.48 · Button +1.74 · NativeSelect 판 폼 세트 +4.26 · Select 판 +31.7 kB(br). **큰 덩어리는 모두 Radix**
+     (Select·Popover/floating-ui 를 쓰는 DatePicker 27.6·Tooltip 18.9·Dialog 를 쓰는 AddressInput 17 kB 등).
+   - 남은 후보(효과 작음, 필요하면): Avatar 를 네이티브로(Radix Avatar+Slot 로 단독 4.8 kB → 약 2 kB 예상, 이미지 로드 실패 시 이니셜 대체만 구현).
+     Tabs·Accordion·Tooltip 은 Radix 의 키보드·포커스 동작을 다시 만들어야 해 위험 대비 이득이 작다 — 하지 않는다.
    - 줄인 뒤 size-limit 한도 재설정(사용자와 결정) → Combobox 다중 선택을 넣을 여유 확보. 결과 숫자는 README·런칭 글에 쓴다.
 3. **`@bestow-ui/korean-utils` 패키지** — 의존성 없는 headless 함수 패키지. 어떤 UI 라이브러리를 쓰든 쓸 수 있게 해 본체로 들어오는 통로로 쓴다.
    - 내용: `utils/koreanFormat.ts`(전화번호·사업자등록번호 서식·검증, 금액 한글 읽기 — 이미 import 없는 순수 함수). **공휴일 데이터는 넣지 않는다**(해마다 갱신 부담, 아래 보류).
@@ -197,3 +206,5 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-21 | react 1.5.0 배포 확인(npm·Release·설치본에 border.control·알림 지연 코드). 로드맵 정리: 10/20~21 작업을 HISTORY P16 으로, 진행 기록 99줄을 HISTORY 로 보관, 다음 플랜을 NVDA 점검 → 개선 후보 → 수요 기반 기능 → 의존성 2차 → 2.0 준비 순으로 |
 | 2026-10-21 | 다음 플랜 재정리: 알리기·도입 장벽 우선 — 노출 정비(README·Topics·비교표) → 번들 줄이기(Switch 네이티브·NativeSelect) → `@bestow-ui/korean-utils` → NVDA → 런칭 준비물·게시. 런칭은 프로덕션 권장 6/6 뒤. shadcn 레지스트리는 포지셔닝과 충돌해 보류, 실제 서비스 사례는 아직 없음 |
 | 2026-10-21 | 노출 정비: 루트 README 재구성(배지 npm·CI·license, 히어로 이미지, 비교표 — 공식 문서 확인, npm 설치 먼저, Next.js 5분 시작 — 예제 코드 playground 에서 타입 검사, 컴포넌트 표), 개발·배포·CI/CD 절을 CONTRIBUTING 으로, npm README 에 CI 배지·히어로 이미지(raw URL), 이슈 템플릿(버그·기능 제안·config)·PR 템플릿 |
+| 2026-10-21 | 번들 줄이기 1차: Switch 네이티브 구현(`@radix-ui/react-switch` 제거, 테스트 12·변이 6), NativeSelect 추가(테스트 8·변이 5, rhf register·SSR·E2E·스토리 play) — NativeSelect 판 폼 세트 3.87 kB(Select 판 29.64 kB) |
+| 2026-10-21 | BestOW 코드 번들 점검: 소스별·export 별 측정 — 낭비·tree-shaking 누수 없음, 큰 덩어리는 Radix. 남은 후보 Avatar 네이티브(효과 작음). playground NativeSelect 선택지를 권역으로(Combobox "부산" 과 이름이 겹쳐 E2E 2개 실패했던 것) |

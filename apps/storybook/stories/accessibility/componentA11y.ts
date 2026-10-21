@@ -61,7 +61,8 @@ export const componentA11y: ComponentA11yGroup[] = [
       {
         name: 'Switch',
         keyboard: 'Space·Enter 로 켜고 끔.',
-        screenReader: 'switch, 켬/끔 상태.',
+        screenReader:
+          'switch, 켬/끔 상태. 네이티브 button(role=switch) — form 안에서는 숨긴 checkbox(aria-hidden)가 값 제출·required 검증을 맡는다.',
         yours: '즉시 적용되는 설정에만. 제출해야 반영되는 값은 Checkbox.',
       },
       {
@@ -98,6 +99,14 @@ export const componentA11y: ComponentA11yGroup[] = [
         name: 'Select',
         keyboard: 'Enter·Space·↓ 로 열기, 화살표 이동, 글자 입력으로 항목 찾기, Enter 선택, Esc 닫기.',
         screenReader: 'combobox 버튼 + listbox. 선택된 값이 버튼 글자로 읽힌다.',
+      },
+      {
+        name: 'NativeSelect',
+        keyboard:
+          '브라우저 기본 select — 키 동작은 운영체제를 따른다(Windows 는 닫힌 채 ↑/↓ 로 바로 바뀜, macOS 는 Space·↓ 로 목록을 연다). 모바일은 운영체제 선택 창. 클릭(pointerup)으로 열려 6.5.2 걱정이 없다.',
+        screenReader:
+          'combobox(네이티브 select) — 레이블·선택된 값·"n개 중 m번째" 를 보조기기가 직접 읽는다. placeholder 는 값이 빈 고를 수 없는 첫 항목.',
+        yours: '목록 모양·항목 아이콘을 꾸밀 수 없다(운영체제 창). 꾸며야 하면 Select.',
       },
       {
         name: 'Combobox',

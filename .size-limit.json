@@ -28,6 +28,13 @@
     "limit": "33 kB"
   },
   {
+    "name": "react: 폼 세트 — NativeSelect 판 (TextField·NativeSelect·Checkbox·RadioGroup·Switch·Textarea·Button)",
+    "path": "packages/react/dist/index.js",
+    "import": "{ TextField, NativeSelect, Checkbox, RadioGroup, Switch, Textarea, Button }",
+    "ignore": ["react", "react-dom"],
+    "limit": "4.3 kB"
+  },
+  {
     "name": "react: 오버레이 세트 (Modal·Drawer·Popover·Tooltip·DropdownMenu·Toast)",
     "path": "packages/react/dist/index.js",
     "import": "{ Modal, Drawer, Popover, Tooltip, DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger, ToastProvider, useToast }",

@@ -9,6 +9,7 @@ import { TextField } from '../components/Input';
 import { NumberInput } from '../components/NumberInput';
 import { PhoneNumberInput } from '../components/PhoneNumberInput';
 import { RadioGroup } from '../components/RadioGroup';
+import { NativeSelect } from '../components/NativeSelect';
 import { Select } from '../components/Select';
 
 // react-hook-form 과 함께 쓰는 방법(문서의 예와 같음)이 실제로 동작하는지 — register(네이티브 입력)·Controller(값을 고르는 컴포넌트)·
@@ -245,5 +246,47 @@ describe('react-hook-form 과 함께 쓰기', () => {
     });
     expect(values.documents.map((f) => f.name)).toEqual(['재직증명서.pdf']);
     expect(screen.queryByText(/고칠 곳이/)).toBeNull();
+  });
+
+  it('NativeSelect 는 register 를 그대로 펼쳐 쓴다(Controller 없이)', async () => {
+    const user = userEvent.setup();
+    const onSubmit = vi.fn();
+    function RegionForm() {
+      const {
+        register,
+        handleSubmit,
+        formState: { errors },
+      } = useForm<{ region: string }>({ defaultValues: { region: '' } });
+      return (
+        <form noValidate onSubmit={handleSubmit(onSubmit)}>
+          <NativeSelect
+            label="지역"
+            placeholder="선택하세요"
+            options={[
+              { value: 'seoul', label: '서울' },
+              { value: 'busan', label: '부산' },
+            ]}
+            error={!!errors.region}
+            helperText={errors.region?.message}
+            {...register('region', { required: '지역을 골라 주세요.' })}
+          />
+          <button type="submit">저장</button>
+        </form>
+      );
+    }
+    render(<RegionForm />);
+    const select = screen.getByRole('combobox', { name: '지역' });
+    await act(async () => {
+      await user.click(screen.getByRole('button', { name: '저장' }));
+    });
+    expect(onSubmit).not.toHaveBeenCalled();
+    expect(select.getAttribute('aria-invalid')).toBe('true');
+    expect(screen.getByText('지역을 골라 주세요.')).toBeTruthy();
+
+    await user.selectOptions(select, '부산');
+    await act(async () => {
+      await user.click(screen.getByRole('button', { name: '저장' }));
+    });
+    expect(onSubmit.mock.calls[0]![0]).toEqual({ region: 'busan' });
   });
 });

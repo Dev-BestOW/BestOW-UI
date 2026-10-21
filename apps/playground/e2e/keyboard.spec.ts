@@ -110,6 +110,22 @@ test('Select: 키보드로 열고 글자 입력으로 찾아 고른다', async (
   await expect(select).toBeFocused();
 });
 
+test('NativeSelect: 고르면 값이 반영되고, placeholder 동안은 흐린 글자, 다크 테마에서는 운영체제 목록도 어둡게', async ({
+  page,
+}) => {
+  await page.goto('/interactive');
+  const select = page.getByRole('combobox', { name: '배송 지역' });
+  const color = () => select.evaluate((el) => getComputedStyle(el).color);
+  const placeholderColor = await color();
+  await select.selectOption('영남권');
+  await expect(page.getByText('선택한 지역: yeongnam', { exact: false })).toBeVisible();
+  // :has(option[value=""]:checked) — 실제 브라우저에서만 계산되는 선택자
+  expect(await color()).not.toBe(placeholderColor);
+
+  await page.getByRole('button', { name: '다크 모드로 전환' }).click();
+  await expect.poll(() => select.evaluate((el) => getComputedStyle(el).colorScheme)).toBe('dark');
+});
+
 test('서식 입력: 숫자만 입력하면 하이픈·쉼표가 붙는다 (DatePicker·전화번호·금액)', async ({ page }) => {
   await page.goto('/interactive');
   const date = page.getByRole('textbox', { name: '정산 희망일' });

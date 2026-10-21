@@ -12,7 +12,7 @@ const docs = (id: string) => `./?path=/docs/${id}--docs`;
 export const choosing: ChoiceGroup[] = [
   {
     group: '하나 고르기',
-    rule: '선택지가 적고 한눈에 보여야 하면 RadioGroup·SegmentedControl, 많으면 Select, 아주 많아 찾아야 하면 Combobox.',
+    rule: '선택지가 적고 한눈에 보여야 하면 RadioGroup·SegmentedControl, 많으면 Select(가볍게는 NativeSelect), 아주 많아 찾아야 하면 Combobox.',
     items: [
       {
         name: 'RadioGroup',
@@ -31,6 +31,12 @@ export const choosing: ChoiceGroup[] = [
         path: docs('components-select'),
         when: '6개 이상이거나 자리가 좁을 때. 목록이 길지 않아 훑어보면 찾을 수 있을 때.',
         avoid: '20개 넘게 길어 찾기 어려움 (→ Combobox).',
+      },
+      {
+        name: 'NativeSelect',
+        path: docs('components-nativeselect'),
+        when: 'Select 와 같은 경우인데 번들을 줄이고 싶거나, 모바일 사용자가 많아 운영체제 선택 창이 나을 때. react-hook-form register 를 그대로.',
+        avoid: '목록 항목에 아이콘·설명을 넣거나 모양을 꾸며야 함 (→ Select).',
       },
       {
         name: 'Combobox',

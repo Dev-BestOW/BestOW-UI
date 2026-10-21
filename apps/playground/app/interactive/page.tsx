@@ -18,6 +18,7 @@ import {
   NumberInput,
   Progress,
   RadioGroup,
+  NativeSelect,
   Select,
   Skeleton,
   Slider,
@@ -56,6 +57,7 @@ export default function InteractivePage() {
   const [agreed, setAgreed] = useState<string[]>([]);
   const [code, setCode] = useState('');
   const [billing, setBilling] = useState<string>();
+  const [region, setRegion] = useState('');
   const [seats, setSeats] = useState<number | null>(1);
   const [memo, setMemo] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -111,6 +113,19 @@ export default function InteractivePage() {
             { value: 'free', label: 'Free' },
             { value: 'pro', label: 'Pro' },
             { value: 'team', label: 'Team' },
+          ]}
+        />
+        <NativeSelect
+          label="배송 지역"
+          placeholder="선택하세요"
+          fullWidth
+          value={region}
+          onValueChange={setRegion}
+          helperText={`선택한 지역: ${region || '없음'} (브라우저 기본 선택 창)`}
+          options={[
+            { value: 'capital', label: '수도권' },
+            { value: 'yeongnam', label: '영남권' },
+            { value: 'honam', label: '호남권' },
           ]}
         />
         <RadioGroup

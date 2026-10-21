@@ -7,6 +7,7 @@ import { vars } from '../../theme/contract.css';
 
 export const root = recipe({
   base: {
+    position: 'relative',
     display: 'inline-flex',
     alignItems: 'center',
     gap: vars.space[2],
@@ -97,6 +98,26 @@ export const thumb = recipe({
         height: '16px',
         selectors: { '&[data-state="checked"]': { transform: 'translateX(16px)' } },
       },
+    },
+  },
+  defaultVariants: { size: 'md' },
+});
+
+// form 안에서 값 제출·required 검증을 맡는 숨긴 checkbox. 트랙 위에 겹쳐 두어 브라우저의 검증 말풍선이 스위치를 가리키게 한다
+export const bubbleInput = recipe({
+  base: {
+    position: 'absolute',
+    top: '50%',
+    left: 0,
+    margin: 0,
+    opacity: 0,
+    pointerEvents: 'none',
+    transform: 'translateY(-50%)',
+  },
+  variants: {
+    size: {
+      sm: { width: '28px', height: '16px' },
+      md: { width: '36px', height: '20px' },
     },
   },
   defaultVariants: { size: 'md' },
