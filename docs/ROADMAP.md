@@ -51,33 +51,68 @@
 - 배운 것: live region 은 **처음부터 있어야** 하고, **입력·포커스 이동과 같은 순간**에 바꾸면 VoiceOver 가 버린다(늦춰서 넣기).
   Safari 는 텍스트 입력 spinbutton 의 aria-valuetext 를 읽지 않는다(NumberInput 은 따로 알림). 맥 키보드 F8 은 fn + F8.
 
-## 다음 플랜 (2026-10-21 정리 — 위에서부터 추천 순서)
+## 다음 플랜 (2026-10-21 재정리 — 알리기·도입 장벽 낮추기 우선, 위에서부터 추천 순서)
+
+> 방향: 품질은 충분하다. 부족한 것은 **알리기**와 **도입 장벽**이다(스타 1, npm 월 다운로드 react 665 는 1주 24개 버전 배포·CI 설치로 부풀려진 값 —
+> 실사용자는 거의 없다고 보고 시작). 공개 런칭(GeekNews 등)은 **NVDA 점검으로 "프로덕션 권장 6/6" 을 채운 뒤 한 번에** 한다.
+> 첫 런칭은 한 번뿐이라 그 문구와 번들 숫자를 쓸 수 있을 때 한다.
 
 ### 사람이 할 일
 
+- [ ] **GitHub 저장소 설정** (1번 작업 때 Claude 가 문구 제공) — About 설명(지금 영어·옛 문구 "React design system — vanilla-extract + Radix")을 한국어로,
+  Topics 추가(react, design-system, korean, accessibility, kwcag, vanilla-extract, radix-ui, nextjs 등), Discussions 켜기.
 - [ ] **NVDA 스크린리더 점검** (Windows) — 체크리스트 13개 항목. **NumberInput "2석" 이 두 번 들리는지 꼭 확인**(VoiceOver 때문에 추가한 알림).
-  끝나면 프로덕션 권장 선언 기준 6/6.
+  끝나면 프로덕션 권장 선언 기준 6/6 → 런칭 가능.
+- [ ] **`@bestow-ui/korean-utils` 첫 배포** (3번 작업 뒤) — 새 패키지라 Trusted Publisher 를 미리 설정할 수 없다. 로컬에서 `npm login` 후 직접 배포,
+  그다음 npm Trusted Publisher(`Dev-BestOW` / `BestOW-UI` / `release.yml`, **Direct publishing 체크**) 생성 (icons 0.1.0 과 같은 절차, CLAUDE.md 함정 참고).
+- [ ] **런칭 게시** (5번 준비물이 끝나면) — GeekNews Show(1순위) → velog·요즘IT 등에 기술 글 → 접근성 커뮤니티·공공/SI/에이전시 쪽 → FEConf·JSConf Korea 발표 지원.
 - [ ] (가능하면) iOS VoiceOver·센스리더 점검 — 같은 체크리스트, 3·4번째 열.
 - [ ] (선택) 실제 기기 확인: 가상 키보드가 Modal·Drawer 입력을 가리는지(iOS Safari·Android Chrome).
-- [ ] 수요 확인: Combobox 다중 선택·비동기 검색, Tag 입력, 한국 공휴일 도움 함수 — 실제로 필요한 서비스가 있으면 알려 주기.
+- [ ] 이 라이브러리로 만든 **실제 서비스**(개인 프로젝트라도)가 생기면 알려 주기 — README "사용 사례" 에 넣는다(2026-10-21 기준 없음. playground 는 데모라 사례로 약함).
+- [ ] 수요 확인: Combobox 다중 선택·비동기 검색, Tag 입력 — 런칭 반응(이슈·Discussions)으로 판단.
 
 ### Claude 가 할 일
 
-1. **NVDA 점검 반영** — 발견한 문제 수정(테스트·변이 확인), `kwcag.ts`·`componentA11y.ts`·체크리스트 기록.
+1. **노출 정비** (각 30분 안팎, 무엇에도 기대지 않음 — 가장 먼저)
+   - GitHub About·Topics 문구 제안(설정은 사용자).
+   - 루트 README 재구성: 맨 위 **히어로 이미지**(playground `/signup` 같은 한국 서비스 키트 화면의 라이트·다크 비교 — Playwright 로 찍어 저장소에 둠),
+     **배지**(npm·CI·license — 번들 크기 배지는 패키지 전체 크기를 보여 줘 "Button 하나 1.5 kB" 장점을 가리므로 달지 않고 본문에 숫자로),
+     설치 예시는 **npm 먼저**, "Next.js 에서 5분 만에 시작하기", 컴포넌트 목록(썸네일 그리드 또는 표).
+     메인테이너용 "개발·배포·CI/CD" 절은 CONTRIBUTING.md 로 옮긴다.
+   - **비교표**(shadcn/ui·Radix Themes·MUI 등 대비: 한국형 입력, KWCAG 대응 근거, 런타임 CSS, RSC 지원, 한국어 기본 문구) — `POSITIONING.md` 의 비교 절을 바탕으로,
+     **다른 라이브러리 기능은 각 공식 문서로 다시 확인한 것만** 적는다(틀리면 신뢰를 잃음).
+   - 이슈·PR 템플릿(`.github/ISSUE_TEMPLATE`, 버그·기능 요청·질문은 Discussions 로).
+2. **번들 줄이기** (2026-10-21 esbuild 분석: 폼 세트 minify 110 kB 중 BestOW 코드 15 kB, Radix Select + popper·floating-ui·collection·remove-scroll 약 55 kB.
+   전체 266 kB 중 BestOW 코드 96 kB) — 효과 순서:
+   - Switch 를 네이티브 button 으로(Radix Switch 3.5 kB 제거, 위험 낮음 — SegmentedControl·RadioGroup 처럼).
+   - **`NativeSelect` 추가**(네이티브 `<select>`, 모바일에도 유리) — 기존 Select 는 유지. 폼 세트 대표 조합을 어떻게 볼지(NativeSelect 판 조합 추가 등) 함께 정한다.
+   - BestOW 코드 96 kB 점검 — recipe·문구·서식 함수 중복 등.
+   - 줄인 뒤 size-limit 한도 재설정(사용자와 결정) → Combobox 다중 선택을 넣을 여유 확보. 결과 숫자는 README·런칭 글에 쓴다.
+3. **`@bestow-ui/korean-utils` 패키지** — 의존성 없는 headless 함수 패키지. 어떤 UI 라이브러리를 쓰든 쓸 수 있게 해 본체로 들어오는 통로로 쓴다.
+   - 내용: `utils/koreanFormat.ts`(전화번호·사업자등록번호 서식·검증, 금액 한글 읽기 — 이미 import 없는 순수 함수). **공휴일 데이터는 넣지 않는다**(해마다 갱신 부담, 아래 보류).
+     `useFormattedInput`(입력 중 커서 유지) 같은 headless hook 을 넣을지(React peer 가 생김) 또는 별도 진입점으로 둘지 검토 — 금액 한글 변환은 `es-hangul` 등
+     이미 있는 패키지가 있어 함수만으로는 차별점이 약하다.
+   - react 패키지는 korean-utils 에 의존하고 **같은 이름을 다시 export** 한다(기존 사용자 breaking 없음 → react minor). shared.ts·`shared.test.ts`·size-limit 항목 확인.
+   - README(한국어 + 영어 한 줄), changeset(korean-utils 0.1.0), CI·size·ci.yml 범위에 추가. 첫 배포는 사용자(위 "사람이 할 일").
+4. **NVDA 점검 반영** — 발견한 문제 수정(테스트·변이 확인), `kwcag.ts`·`componentA11y.ts`·체크리스트 기록.
    기준 6/6 이면 README(루트·npm)·Storybook Introduction·POSITIONING 의 표현을 "프로덕션 권장" 으로 바꾸고 changeset(patch).
-2. **접근성 개선 후보** (VoiceOver 점검 중 메모, 요건은 이미 충족)
-   - BusinessNumberInput: 10자리를 채워 오류가 생기는 순간 알림(지금은 다시 들어가야 설명으로 들림) — Combobox 처럼 항상 있는 영역 + 늦춰서.
-   - 같은 패턴(입력 중 자동 검증 오류)이 있는 곳 점검: PhoneNumberInput·VerificationCodeInput 만료 알림은 이미 있음.
-3. **Combobox 다중 선택·비동기 검색** (구 P14-5, 수요 확인 후) — 선택 칩(Backspace 로 지우기), 검색 중 상태 알림(`role=status`), 긴 목록 가상화는 따로.
-   폼 세트 조합(30.1/33 kB)에 영향 → 별도 컴포넌트(`MultiCombobox` 등)로 나눌지 먼저 판단.
-4. **Tag 입력** (구 P14-6) — 쉼표·Enter 로 추가, 3번과 칩 공유.
-5. **의존성 정비 2차** — 막힌 것이 풀리면: TypeScript 7(typescript-eslint 가 `<6.1`), ESLint 10(jsx-a11y 가 9 까지).
+   함께: **BusinessNumberInput** 10자리를 채워 오류가 생기는 순간 알림(지금은 다시 들어가야 설명으로 들림) — Combobox 처럼 항상 있는 영역 + 늦춰서.
+   같은 패턴(입력 중 자동 검증 오류)이 있는 곳도 점검(PhoneNumberInput·VerificationCodeInput 만료 알림은 이미 있음).
+5. **런칭 준비물** — StackBlitz(또는 CodeSandbox) 예제와 README 의 "바로 써 보기" 링크, `llms.txt`·컴포넌트 사용법 요약(AI 코딩 도구가 찾고 쓰기 쉽게),
+   GeekNews Show 소개 글 초안, 기술 글 초안 2편("KWCAG 2.2 33개 항목을 CI 로 검증하기", "대표색 하나로 대비 4.5:1 을 보장하는 테마 만들기" —
+   라이브러리 홍보 없이도 읽히게). 게시는 사용자.
+6. **Combobox 다중 선택·비동기 검색** (구 P14-5, 런칭 반응으로 수요 확인 후) — 선택 칩(Backspace 로 지우기), 검색 중 상태 알림(`role=status`), 긴 목록 가상화는 따로.
+   폼 세트 조합에 영향 → 별도 컴포넌트(`MultiCombobox` 등)로 나눌지 먼저 판단. **Tag 입력**(구 P14-6)은 쉼표·Enter 로 추가, 칩 공유.
+7. **의존성 정비 2차** — 막힌 것이 풀리면: TypeScript 7(typescript-eslint 가 `<6.1`), ESLint 10(jsx-a11y 가 9 까지).
    jsdom 30 은 Node ≥22.22.2 필요(로컬 Node 를 올리면). CI 러너 Ubuntu 26 전환은 Playwright `-resolute` 이미지(1.64.1 부터 있음)로 모든 workflow 함께 검토.
-6. **2.0 준비** — 후보가 쌓이면 `MIGRATION-2.0.md` 에 추가(지금: 입력 칸·체크 컨트롤 테두리 기본값 1개, deprecated 이름 없음). 출시 시점은 사용자와 결정.
+8. **2.0 준비** — 후보가 쌓이면 `MIGRATION-2.0.md` 에 추가(지금: 입력 칸·체크 컨트롤 테두리 기본값 1개, deprecated 이름 없음). 출시 시점은 사용자와 결정.
 
 ### 보류 (수요가 생기면)
 
-- [ ] 한국 공휴일 도움 함수(`koreanHolidays(year)` 등) — 음력·대체·임시공휴일 때문에 해마다 갱신 필요. 지금은 `isHoliday` 로 받는다.
+- [ ] **shadcn/ui 레지스트리로 제공** (2026-10-21 외부 추천, 보류) — `POSITIONING.md` "하지 않을 것"(Tailwind 전용 복사형)과 충돌하고,
+  컴포넌트가 vanilla-extract `.css.ts`·`vars` 에 기대어 복사해 가는 쪽이 빌드 플러그인을 따로 설정해야 한다(도입 장벽이 오히려 커짐).
+  하려면 포지셔닝 변경을 사용자가 먼저 결정. korean-utils 반응을 본 뒤 headless 부분부터 검토.
+- [ ] 한국 공휴일 도움 함수(`koreanHolidays(year)` 등) — 음력·대체·임시공휴일 때문에 해마다 갱신 필요. 지금은 `isHoliday` 로 받는다. korean-utils 에도 넣지 않음.
 - [ ] 컴포넌트별 CSS 선택 import (구 P7-B) — 실제 CSS 가 전체 9.9 kB 라 우선순위 낮음.
 - [ ] Figma 변수 ↔ tokens 동기화, Code Connect (구 P11, Figma MCP 연결돼 있음).
 - [ ] DateRangePicker 를 한 달력에서 끌어 고르는 방식.
@@ -158,3 +193,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 날짜 | 내용 |
 |---|---|
 | 2026-10-21 | react 1.5.0 배포 확인(npm·Release·설치본에 border.control·알림 지연 코드). 로드맵 정리: 10/20~21 작업을 HISTORY P16 으로, 진행 기록 99줄을 HISTORY 로 보관, 다음 플랜을 NVDA 점검 → 개선 후보 → 수요 기반 기능 → 의존성 2차 → 2.0 준비 순으로 |
+| 2026-10-21 | 다음 플랜 재정리: 알리기·도입 장벽 우선 — 노출 정비(README·Topics·비교표) → 번들 줄이기(Switch 네이티브·NativeSelect) → `@bestow-ui/korean-utils` → NVDA → 런칭 준비물·게시. 런칭은 프로덕션 권장 6/6 뒤. shadcn 레지스트리는 포지셔닝과 충돌해 보류, 실제 서비스 사례는 아직 없음 |
