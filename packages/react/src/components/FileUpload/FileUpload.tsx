@@ -122,7 +122,7 @@ export const FileUpload = /* @__PURE__ */ forwardRef<HTMLDivElement, FileUploadP
   const selectButtonRef = useRef<HTMLButtonElement>(null);
   const removeButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const focusAfterRemove = useRef<number | null>(null);
-  const announceTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  const announceTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   useEffect(() => () => clearTimeout(announceTimer.current), []);
 
   const selectLabel = m.fileSelect ?? '파일 선택';

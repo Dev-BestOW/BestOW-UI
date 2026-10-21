@@ -7,19 +7,30 @@
 > **갱신 규칙:** 작업을 시작/완료하면 체크박스를 바꾸고 맨 아래 "진행 기록"에 한 줄 추가한다.
 > 단계가 끝나면 상세 메모는 ROADMAP-HISTORY.md 로 옮기고 여기에는 한 줄 요약만 남긴다.
 
-## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-19 마무리 기준)
+## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-21 마무리 기준)
 
 **마지막 상태**
 - npm: **react 1.4.0**(2026-10-21 — DateRangePicker·strongInputBorders) · tokens 1.3.0 · icons 0.1.3. 열린 버전 PR 없음.
-- origin/main = `c402156`(✨ DateRangePicker), 로컬과 같음, 작업 트리 깨끗(이 정리 문서 변경만 커밋 대기).
+- origin/main = `eb7535d`(♿️ VoiceOver 점검 수정). 다음 배포 대기 changeset 4개: `strong-control-borders`(minor) +
+  `combobox-no-results-announce`·`number-input-announce-value`·`file-upload-announcements`(patch) → 버전 PR 머지 시 **react 1.5.0**.
+- **다음에 할 일 1순위: Windows NVDA 점검**(사용자가 Windows PC 준비되면). 방법은 아래 "스크린리더 점검 진행 방식".
 - 컴포넌트 약 50개(폴더 49) + 테마·다국어·서식 함수, 아이콘 57종. **P1~P15 완료**(남은 것은 아래 "다음 플랜").
-- 프로덕션 권장 선언 기준 **5/6 충족** — 남은 것은 스크린리더 수동 점검(사람) 하나.
+- 프로덕션 권장 선언 기준 **5/6 충족** — 남은 것은 스크린리더 수동 점검 중 **NVDA**(VoiceOver macOS 는 2026-10-21 완료).
 - 번들(2026-10-19 측정, minify + brotli): react 전체 JS **68.9/80 kB** · Button 하나 1.51/2 · 앱 기본 3.37/3.7 · 폼 세트 30.1/33 ·
   오버레이 세트 34.8/38 · 한국 키트 30.2/33.5 · styles.css 9.9/12 · 아이콘 하나 0.37/0.5 · tokens 1.27/1.5 kB.
   **조합 한도는 여유가 약 10% 뿐** — 큰 기능(P14-5 등)을 넣기 전에 어느 조합에 들어가는지 보고 필요하면 한도를 사용자와 정한다.
 - CI(main, `e49af92`): CI·browsers(WebKit·Firefox)·React 18·시각 회귀 모두 녹색, WebKit flaky 0 (2026-10-20 hydration 대기 수정 후).
 - semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
 - 보고할 때 시각 회귀는 "허용치 안 통과" 와 "픽셀 동일" 을 구분한다(RadioGroup 사례).
+
+**스크린리더 점검 진행 방식 (2026-10-21 VoiceOver 에서 잘 된 방식)**
+- 로컬 playground 를 운영 빌드로 띄운다: `pnpm build && pnpm build-playground` → `pnpm --filter @bestow-ui/playground exec next start -p 3001`
+  (백그라운드, 3000·3107 과 겹치지 않게). 고칠 때마다 다시 빌드·재시작하고 사용자에게 새로고침을 부탁한다 — push 없이 바로 재확인.
+  Windows PC 에서 점검하면 맥의 서버에 같은 네트워크로 접속하거나(`next start -H 0.0.0.0`), 배포된 Pages(push 후)를 쓴다.
+- 체크리스트 항목 하나씩: 누를 키·기대 문구를 안내 → 사용자가 ✅/⚠️/❌ 와 들린 문장을 알려 줌 → 문제는 바로 원인 확인(실제 브라우저로 DOM 재현 먼저)·수정·테스트(변이)·재확인.
+- 결과 기록: `docs/SCREEN-READER-CHECKLIST.md` 의 해당 열(NVDA 는 2번째 열), 끝나면 "점검 기록" 표에 한 줄.
+- 배운 것: live region 은 **처음부터 있어야** 하고, **입력·포커스 이동과 같은 순간**에 바꾸면 VoiceOver 가 버린다(늦춰서 넣기).
+  Safari 는 텍스트 입력 spinbutton 의 aria-valuetext 를 읽지 않는다. NVDA 에서는 반대로 **두 번 읽히는지**(NumberInput) 확인할 것.
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다
@@ -39,7 +50,7 @@
   사용자 dev 서버(3000)는 건드리지 않는다. 새 E2E 는 `--repeat-each 5` 로 불안정하지 않은지 본다. Firefox 는 로컬 실행 불가(macOS 27) → CI 로 확인.
 - 문서는 한국어(npm README 는 영어 한 줄 소개만). `en` 문구 묶음은 기능이라 유지.
 
-## 다음 플랜 (2026-10-19 정리 — 위에서부터 추천 순서)
+## 다음 플랜 (2026-10-21 갱신 — 위에서부터 추천 순서)
 
 ### 사람이 할 일
 
@@ -55,8 +66,9 @@
 
 ### Claude 가 할 일
 
-1. **스크린리더 점검 결과 반영** — 발견한 문제 수정(테스트·변이 확인), `kwcag.ts`·`componentA11y.ts` 에 "수동 확인" 기록,
+1. **스크린리더 점검 결과 반영** — VoiceOver(macOS) 반영 완료(2026-10-21, 4건 수정). **NVDA 점검 후** 같은 방식으로 반영,
    기준 6/6 이면 README(루트·npm)·Storybook Introduction 의 표현을 "프로덕션 권장" 으로 바꾸고 changeset(patch).
+   개선 후보(점검 중 메모): 사업자번호 오류를 10자리를 채우는 순간 알림, 한국 공휴일 도움 함수(해마다 갱신 필요 — 수요 확인).
 2. ~~**P13-4**~~ ✅ 2026-10-20 — 선택 토큰 `color.border.input`·`inputHover`(기본값 없음 → 화면 그대로) + `strongInputBorders`. changeset `strong-input-borders`(minor).
    시각 회귀 기준 이미지 갱신 완료(봇 `b998dea`·`2ea3e39`), **react 1.4.0 으로 배포**.
 3. **P14-5 Combobox 다중 선택·비동기 검색** (수요 확인 후) — 선택 칩(Backspace 로 지우기), 검색 중 상태 알림(`role=status`), 긴 목록 가상화는 따로.
@@ -65,7 +77,7 @@
 5. **의존성 정비** — 2026-10-20 1차 완료(Playwright 1.64.1·Next 16.4.2·React 19.3.1·vitest 5·tsup 9, Radix·Storybook 은 이미 최신).
    남은 것: **막힘** TypeScript 7(typescript-eslint 가 `<6.1`)·ESLint 10(jsx-a11y 가 9 까지), **보류** jsdom 30(Node ≥22.22.2 필요 — 이 Mac 22.19),
    @types/node 는 Node 22 에 맞춰 22 유지. CI 러너 Ubuntu 26 전환은 Playwright `-resolute` 이미지가 있으니(1.64.1) 모든 workflow 함께 검토.
-6. **2.0 후보 모으기** — `docs/MIGRATION-2.0.md` 초안 작성(2026-10-20: 입력 칸 테두리 기본값, 검토 중 — 체크 컨트롤 테두리). deprecated 이름이 생기면 표에 추가.
+6. **2.0 후보 모으기** — `docs/MIGRATION-2.0.md` 초안 작성(입력 칸·체크 컨트롤 테두리 기본값, 검토 중 없음). deprecated 이름이 생기면 표에 추가.
 
 ### 보류 (수요가 생기면, 구 P16)
 
@@ -240,3 +252,5 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-21 | Private vulnerability reporting 켜짐 확인(API). SUPPORT.md 확정(사용자 결정): 배포 "준비되면"(주 1회 문구 수정), 이전 major 6개월 유지 |
 | 2026-10-21 | 체크 컨트롤 테두리(사용자 결정 — 선택 토큰): `color.border.control`(기본값 없음 → border.strong) — Checkbox·Radio 테두리, 꺼진 Switch 트랙, Stepper 예정 단계(원·연결선). `strongInputBorders` 에 라이트 gray600·다크 gray500 추가. 스토리 play 에 4종 확인, 변이 5종(컨트롤 4 + 프리셋 값) 확인. changeset `strong-control-borders`(minor), MIGRATION-2.0 1번에 합침 |
 | 2026-10-21 | 스크린리더 수동 점검 VoiceOver+Safari(사용자와 함께, 로컬 playground 3001): 13개 모두 ✅. 고친 것 — Combobox 결과 없음 알림(항상 있는 status + 입력 멈춘 뒤 0.8초), NumberInput 키·버튼 값 알림(assertive "2석"), FileUpload 삭제 알림(포커스 이동 0.5초 뒤)·삭제 버튼 설명에 크기, playground DatePicker 에 고정 공휴일(isHoliday). 각각 단위 테스트·변이 확인 후 VoiceOver 재확인. changeset 3개(patch). 남은 것: NVDA·iOS·센스리더. 개선 후보: 사업자번호 오류를 입력 순간 알림, 공휴일 도움 함수 |
+| 2026-10-21 | 세션 마무리: NVDA 점검은 다음으로(사용자). 인수인계에 커밋 대기 내용·스크린리더 점검 진행 방식·배운 것 정리 |
+| 2026-10-21 | CI `eb7535d`: React 18 job 만 실패 — FileUpload `useRef<Timeout>(undefined)` 가 @types/react 18 에 없는 오버로드 → `useRef<Timeout \| undefined>`. overrides 로 로컬 재현·해결(typecheck 0, 테스트 410). 버전 PR #23(1.5.0)은 이 수정 push 후 머지 |

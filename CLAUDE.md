@@ -247,6 +247,8 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
   `goto` 뒤에 `html[data-hydrated]`(playground Providers 가 남김)를 기다린다 — E2E 는 `@playwright/test` 가 아니라 `./fixtures` 의 `test` 를 쓴다.
   스토리 `play` 에서 Modal 이 닫힌 뒤 바깥 요소를 role 로 찾으려면 대화상자가 사라질 때까지 먼저 기다린다(닫힘 애니메이션 동안 바깥이 aria-hidden).
 - E2E 실패 원인은 CI 에서 `github` reporter 의 annotation 으로 남는다 — `curl https://api.github.com/repos/Dev-BestOW/BestOW-UI/check-runs/<job id>/annotations` 로 읽는다.
+- `useRef<T>(undefined)` 는 React 19 타입에서만 된다 — @types/react 18 에는 그 오버로드가 없어 CI react18 job 이 실패했다(FileUpload 타이머).
+  `useRef<T | undefined>(undefined)` 로 쓴다. 로컬 확인은 ci.yml react18 job 처럼 overrides 를 붙여 install → typecheck(끝나면 원래대로).
 - React 18 로 테스트할 때 react 패키지만 18 로 바꾸면 Radix·icons 가 19 를 물어 두 벌이 섞인다("Objects are not valid as a React child"). pnpm overrides 로 전체를 맞춘다(ci.yml react18).
 - 이 Mac(macOS 27)에서는 Playwright Firefox 가 "Could not find profile folder" 로 실행되지 않는다(샌드박스와 무관) — Firefox 는 CI(Linux)에서 확인한다.
 - Radix Popover Content 는 기본 `role="dialog"` — 목록 팝업(Combobox)으로 쓸 때는 `role="presentation"` 으로 덮어쓴다(props 가 뒤에 적용됨).
