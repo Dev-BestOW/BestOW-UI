@@ -1,4 +1,4 @@
-import { fireEvent, render, screen, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { LocaleProvider } from '../../i18n/LocaleProvider';
 import { en } from '../../i18n/en';
@@ -81,6 +81,15 @@ describe('FileUpload', () => {
     expect(status().textContent).toContain('memo.txt: 올릴 수 없는 형식이에요.');
   });
 
+  it('삭제 버튼은 파일 크기를 설명으로 읽는다 (Tab 으로는 삭제 버튼에만 가므로)', async () => {
+    const user = userEvent.setup();
+    const { container } = render(<FileUpload label="서류" multiple />);
+    await user.upload(nativeInput(container), [file('a.pdf', 2048)]);
+    const remove = screen.getByRole('button', { name: 'a.pdf 삭제' });
+    const description = document.getElementById(remove.getAttribute('aria-describedby') ?? '');
+    expect(description?.textContent).toBe('2.0 KB');
+  });
+
   it('삭제하면 다음 삭제 버튼으로, 마지막 파일이면 "파일 선택" 버튼으로 포커스가 간다', async () => {
     const user = userEvent.setup();
     const { container } = render(<FileUpload label="서류" multiple />);
@@ -88,7 +97,9 @@ describe('FileUpload', () => {
     await user.click(screen.getByRole('button', { name: 'a.pdf 삭제' }));
     expect(listedNames()).toEqual(['b.pdf']);
     expect(document.activeElement).toBe(screen.getByRole('button', { name: 'b.pdf 삭제' }));
-    expect(status().textContent).toBe('a.pdf 삭제됨');
+    // 알림은 포커스를 옮긴 뒤 잠시 있다가 — 같은 순간이면 VoiceOver 가 새 포커스를 읽으며 버린다
+    expect(status().textContent).toBe('');
+    await waitFor(() => expect(status().textContent).toBe('a.pdf 삭제됨'));
     await user.click(screen.getByRole('button', { name: 'b.pdf 삭제' }));
     expect(screen.queryByRole('list', { name: '선택한 파일' })).toBeNull();
     expect(document.activeElement).toBe(screen.getByRole('button', { name: '파일 선택' }));

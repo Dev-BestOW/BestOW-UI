@@ -1,6 +1,7 @@
-import { forwardRef, useEffect, useId, useRef, type KeyboardEvent, type ReactNode } from 'react';
+import { forwardRef, useEffect, useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { MinusIcon, PlusIcon } from '@bestow-ui/icons';
 import { useMessages } from '../../i18n/LocaleProvider';
+import { visuallyHidden } from '../../styles/visuallyHidden.css';
 import { cx } from '../../utils/cx';
 import { mergeRefs } from '../../utils/mergeRefs';
 import { useFormattedInput } from '../../utils/useFormattedInput';
@@ -154,9 +155,15 @@ export const NumberInput = /* @__PURE__ */ forwardRef<HTMLInputElement, NumberIn
     }, [value]);
 
     const current = parse(field.raw);
-    const setValue = (next: number) => {
+    const valueText = (n: number) => `${format(toRaw(n))}${unit ?? ''}`;
+    // 키·버튼으로 바꾼 값을 따로 알린다 — Safari+VoiceOver 는 spinbutton 인 입력창의 값이 바뀌면 aria-valuetext("2석") 대신
+    // 글자 편집("선택 항목 대치됨, 2")으로 읽었다(스크린리더 수동 점검 2026-10-21, React Aria 의 useSpinButton 도 같은 방식).
+    // 직접 입력할 때는 입력한 글자를 읽으므로 알리지 않는다.
+    const [announcement, setAnnouncement] = useState('');
+    const setValue = (next: number, announce = true) => {
       setRaw(toRaw(next));
       emit(next);
+      if (announce) setAnnouncement(valueText(next));
     };
     const stepBy = (delta: number) => {
       if (disabled || readOnly) return;
@@ -216,14 +223,18 @@ export const NumberInput = /* @__PURE__ */ forwardRef<HTMLInputElement, NumberIn
           aria-valuenow={current ?? undefined}
           aria-valuemin={min}
           aria-valuemax={max}
-          aria-valuetext={current === null ? undefined : `${field.display}${unit ?? ''}`}
+          aria-valuetext={current === null ? undefined : valueText(current)}
           value={field.display}
-          onChange={field.onChange}
+          onChange={(event) => {
+            setAnnouncement(''); // 다음 키 조작이 같은 값이어도 다시 읽히게
+            field.onChange(event);
+          }}
           onKeyDown={handleKeyDown}
           onBlur={(event) => {
             // 입력이 끝나면 범위·자릿수에 맞춘다 (min 10 에 "1" 처럼 입력 중에만 허용하던 값)
-            if (current !== null && clamp(current) !== current) setValue(clamp(current));
+            if (current !== null && clamp(current) !== current) setValue(clamp(current), false);
             else if (current === null && field.raw !== '') setRaw('');
+            setAnnouncement('');
             onBlur?.(event);
           }}
           size={size}
@@ -242,6 +253,9 @@ export const NumberInput = /* @__PURE__ */ forwardRef<HTMLInputElement, NumberIn
           {...rest}
         />
         {name && <input type="hidden" name={name} value={current === null ? '' : String(current)} />}
+        <span aria-live="assertive" aria-atomic="true" className={visuallyHidden}>
+          {announcement}
+        </span>
       </>
     );
   },

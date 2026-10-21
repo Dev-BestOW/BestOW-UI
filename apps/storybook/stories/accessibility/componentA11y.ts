@@ -76,7 +76,7 @@ export const componentA11y: ComponentA11yGroup[] = [
         keyboard:
           '"파일 선택" 버튼(Enter·Space)으로 운영체제 파일 창을 연다 — 끌어다 놓기는 덤. 목록의 "○○ 삭제" 버튼으로 지우면 포커스가 다음 삭제 버튼, 없으면 "파일 선택" 으로 간다.',
         screenReader:
-          'group(레이블이 이름) + 도움말·거부 이유를 설명으로 연결. 선택한 파일은 목록 "선택한 파일", 추가·삭제·거부는 상태 알림(role=status)으로 읽는다("파일 2개 선택됨").',
+          'group(레이블이 이름) + 도움말·거부 이유를 설명으로 연결. 선택한 파일은 목록 "선택한 파일", 추가·삭제·거부는 상태 알림(role=status)으로 읽는다("파일 2개 선택됨"). 삭제 알림은 포커스를 다음 버튼으로 옮긴 뒤 0.5초 있다가 넣고, 삭제 버튼은 파일 크기를 설명으로 읽는다(VoiceOver+Safari 수동 확인 2026-10-21).',
         yours: '받는 형식·크기·개수를 helperText 로 미리 알린다. 서버 전송·진행률은 직접(Progress 와 함께).',
       },
       {
@@ -84,7 +84,7 @@ export const componentA11y: ComponentA11yGroup[] = [
         keyboard:
           '↑/↓ 한 단계(step), PageUp/PageDown 큰 단계(largeStep), min·max 가 있으면 Home/End 로 끝값. −/+ 버튼은 ↑/↓ 가 대신해 Tab 순서에서 빠져 있고, 눌러도 입력창 포커스를 뺏지 않는다.',
         screenReader:
-          'spinbutton — 현재 값(aria-valuenow)·최소·최대, 단위를 붙인 읽기 값(aria-valuetext "3개"). 버튼은 "줄이기"/"늘리기"(aria-controls 로 입력창 연결), 범위 끝에서 비활성.',
+          'spinbutton — 현재 값(aria-valuenow)·최소·최대, 단위를 붙인 읽기 값(aria-valuetext "3개"). 키·버튼으로 바꾼 값은 숨은 알림 영역(assertive)으로도 알린다(VoiceOver+Safari 가 글자 편집으로만 읽어서 — 수동 확인 2026-10-21). 버튼은 "줄이기"/"늘리기"(aria-controls 로 입력창 연결), 범위 끝에서 비활성.',
         yours:
           '입력 중에는 범위 밖 값도 받고 포커스가 빠질 때 맞춘다 — 범위를 helperText 로도 알린다(예: "최대 8명"). 금액은 AmountInput.',
       },
@@ -104,7 +104,7 @@ export const componentA11y: ComponentA11yGroup[] = [
         keyboard:
           '입력하면 목록이 걸러진다. ↓/↑ 열기·이동(비활성 항목 건너뜀), Enter 선택(목록이 열려 있으면 폼 제출 대신), Esc 닫기, Tab 은 닫고 다음으로. 글자를 모두 지우고 닫으면(Enter·Esc·Tab) 선택이 지워진다.',
         screenReader:
-          'combobox(aria-autocomplete="list") + listbox. 포커스는 입력에 둔 채 aria-activedescendant 로 현재 항목을 알린다. "결과가 없어요" 는 status 로 읽힌다. clearable 의 "선택 지우기" 버튼은 마우스용이라 Tab 순서에서 빠진다(키보드는 글자를 지워서 지운다).',
+          'combobox(aria-autocomplete="list") + listbox. 포커스는 입력에 둔 채 aria-activedescendant 로 현재 항목을 알린다. "결과가 없어요" 는 처음부터 있는 숨은 status 영역에, 입력이 0.8초 멈춘 뒤 넣어 읽힌다(새로 생긴 live region·입력과 같은 순간의 변경은 VoiceOver 가 읽지 않음 — VoiceOver+Safari 수동 확인 2026-10-21). clearable 의 "선택 지우기" 버튼은 마우스용이라 Tab 순서에서 빠진다(키보드는 글자를 지워서 지운다).',
       },
       {
         name: 'Slider',

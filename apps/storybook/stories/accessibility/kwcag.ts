@@ -344,6 +344,13 @@ export const kwcag: KwcagGroup[] = [
 /** 이 세션들에서 자동 검사·테스트가 실제로 찾아 고친 문제 — "검사로 지켜진다" 는 근거 */
 export const caughtIssues: Array<{ item: string; found: string; fixed: string }> = [
   {
+    item: '스크린리더 수동 점검 — VoiceOver + Safari (2026-10-21)',
+    found:
+      'Combobox 결과 없음 안내가 읽히지 않음(글자를 담은 채 새로 생긴 live region, 입력과 같은 순간의 변경), NumberInput 이 "선택 항목 대치됨, 2" 로만 읽힘(단위 없음), FileUpload 삭제 알림이 다음 버튼 포커스에 묻히고 Tab 으로는 파일 크기를 들을 수 없음',
+    fixed:
+      '항상 있는 알림 영역 + 입력이 멈춘 뒤(0.8초)·포커스를 옮긴 뒤(0.5초) 알림, 키·버튼으로 바꾼 값을 assertive 로 알림, 삭제 버튼 설명에 크기 — 단위 테스트(변이 확인) 후 VoiceOver 로 재확인',
+  },
+  {
     item: 'WCAG 1.4.11 비텍스트 대비 (KWCAG 항목 외)',
     found:
       '입력 칸 기본 테두리(border.default)가 흰 배경과 1.3:1, Checkbox·Radio·꺼진 Switch·Stepper 예정 단계(border.strong)가 라이트 2.07:1 — 경계가 잘 보이지 않음',

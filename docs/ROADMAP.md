@@ -45,6 +45,7 @@
 
 - [x] **PR #22 머지** → react **1.4.0** 배포 확인(2026-10-21 — DateRangePicker·strongInputBorders).
 - [ ] **스크린리더 수동 점검** — [`SCREEN-READER-CHECKLIST.md`](SCREEN-READER-CHECKLIST.md) 로 최소 VoiceOver(macOS) + NVDA, 가능하면 iOS VoiceOver·센스리더.
+  **VoiceOver(macOS) 완료 2026-10-21 — 13개 모두 ✅(4건 수정 후).** 남은 것: **NVDA**(Windows — NumberInput "2석" 이 두 번 들리는지 꼭 확인), 가능하면 iOS VoiceOver·센스리더.
   배포된 playground 에서 13개 항목, 결과 칸·기록 표를 채운다. **이게 끝나면 프로덕션 권장 선언 기준 6/6.**
 - [x] GitHub **Private vulnerability reporting 켜기** (2026-10-21 확인 — API `enabled: true`, Security 탭에 "Report a vulnerability").
 - [x] **P13-4 결정** — ② 옵션 토큰으로 (2026-10-20 결정·구현, 2.0 에서 기본값으로).
@@ -238,3 +239,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-21 | 기준 이미지 갱신 확인(`2ea3e39`, CSS 변수 2장만). PR #22 머지 → **react 1.4.0 배포 확인**: npm latest·태그·GitHub Release·provenance, 설치본 ESM·CJS 에 DateRangePicker·strongInputBorders·border.input, d.ts·d.cts 포함, CSS 에 선택 변수 미정의(fallback 3곳) |
 | 2026-10-21 | Private vulnerability reporting 켜짐 확인(API). SUPPORT.md 확정(사용자 결정): 배포 "준비되면"(주 1회 문구 수정), 이전 major 6개월 유지 |
 | 2026-10-21 | 체크 컨트롤 테두리(사용자 결정 — 선택 토큰): `color.border.control`(기본값 없음 → border.strong) — Checkbox·Radio 테두리, 꺼진 Switch 트랙, Stepper 예정 단계(원·연결선). `strongInputBorders` 에 라이트 gray600·다크 gray500 추가. 스토리 play 에 4종 확인, 변이 5종(컨트롤 4 + 프리셋 값) 확인. changeset `strong-control-borders`(minor), MIGRATION-2.0 1번에 합침 |
+| 2026-10-21 | 스크린리더 수동 점검 VoiceOver+Safari(사용자와 함께, 로컬 playground 3001): 13개 모두 ✅. 고친 것 — Combobox 결과 없음 알림(항상 있는 status + 입력 멈춘 뒤 0.8초), NumberInput 키·버튼 값 알림(assertive "2석"), FileUpload 삭제 알림(포커스 이동 0.5초 뒤)·삭제 버튼 설명에 크기, playground DatePicker 에 고정 공휴일(isHoliday). 각각 단위 테스트·변이 확인 후 VoiceOver 재확인. changeset 3개(patch). 남은 것: NVDA·iOS·센스리더. 개선 후보: 사업자번호 오류를 입력 순간 알림, 공휴일 도움 함수 |

@@ -11,6 +11,7 @@ import {
   type ReactNode,
 } from 'react';
 import { CheckIcon, ChevronDownIcon, XIcon } from '@bestow-ui/icons';
+import { visuallyHidden } from '../../styles/visuallyHidden.css';
 import { usePortalProps } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
 import { mergeRefs } from '../../utils/mergeRefs';
@@ -18,6 +19,9 @@ import * as fieldStyles from '../Input/Input.css';
 import * as selectStyles from '../Select/Select.css';
 import * as styles from './Combobox.css';
 import { useMessages } from '../../i18n/LocaleProvider';
+
+/** 결과 없음 알림을 입력이 멈춘 뒤 이만큼 늦게 넣는다 (ms) */
+const NO_RESULTS_ANNOUNCE_DELAY = 800;
 
 export interface ComboboxOption {
   value: string;
@@ -223,6 +227,18 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
   }, [open, activeIndex]);
 
   const hasOptions = filtered.length > 0;
+  const noResults = open && !disabled && !hasOptions;
+
+  // "결과가 없어요" 알림은 입력이 잠시 멈춘 뒤 넣는다. 글자를 칠 때 바로 바꾸면 VoiceOver 가 입력한 글자를 읽느라
+  // 이 알림을 버렸다(스크린리더 수동 점검 2026-10-21, GOV.UK accessible-autocomplete 도 같은 이유로 늦춘다).
+  // 어떤 입력에 대한 알림인지 기억해, 입력이 바뀌면 다시 기다린다.
+  const [announcedFor, setAnnouncedFor] = useState<string | null | undefined>(undefined);
+  useEffect(() => {
+    if (!noResults) return;
+    const timer = setTimeout(() => setAnnouncedFor(query), NO_RESULTS_ANNOUNCE_DELAY);
+    return () => clearTimeout(timer);
+  }, [noResults, query]);
+  const announceNoResults = noResults && announcedFor === query;
 
   return (
     <div className={cx(fieldStyles.field, fullWidth && fieldStyles.fieldFullWidth)}>
@@ -360,13 +376,16 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
                 })}
               </div>
             ) : (
-              <div className={styles.empty} role="status">
-                {emptyMessage}
-              </div>
+              // 스크린리더 알림은 아래의 항상 있는 status 영역이 맡는다 (여기는 화면 표시만)
+              <div className={styles.empty}>{emptyMessage}</div>
             )}
           </Popover.Content>
         </Popover.Portal>
       </Popover.Root>
+      {/* 결과 없음 알림 — 처음부터 있는 빈 영역에 글자만 넣는다(글자를 담은 채 새로 생긴 live region 은 읽히지 않는다) */}
+      <span role="status" className={visuallyHidden}>
+        {announceNoResults ? emptyMessage : ''}
+      </span>
       {name && <input type="hidden" name={name} value={selectedValue ?? ''} />}
       {helperText && (
         <p id={helperId} className={fieldStyles.helperText({ error })}>

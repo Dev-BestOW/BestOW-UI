@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Alert } from '../components/Alert';
 import { Breadcrumb } from '../components/Breadcrumb';
@@ -32,7 +32,8 @@ describe('LocaleProvider', () => {
     expect(screen.getByRole('navigation', { name: 'Pagination' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Previous page' })).toBeTruthy();
     expect(screen.getByRole('button', { name: 'Page 3' })).toBeTruthy();
-    expect(screen.getByRole('status').textContent).toBe('Loading');
+    // Combobox 에도 결과 없음 알림용 status 가 항상 있어 Spinner 것을 글자로 고른다
+    expect(screen.getAllByRole('status').map((el) => el.textContent)).toContain('Loading');
     expect(screen.getByRole('button', { name: 'Close' })).toBeTruthy(); // Alert
     // 달력: 제목·요일·날짜 이름 (날짜 이름은 보이는 숫자로 시작)
     expect(screen.getByRole('grid', { name: 'October 2026' })).toBeTruthy();
@@ -41,6 +42,8 @@ describe('LocaleProvider', () => {
     // Combobox 결과 없음
     await user.type(screen.getByRole('combobox', { name: 'City' }), 'zz');
     expect(screen.getByText('No results')).toBeTruthy();
+    // 스크린리더 알림도 같은 문구 (입력이 멈춘 뒤)
+    await waitFor(() => expect(screen.getAllByRole('status').map((el) => el.textContent)).toContain('No results'));
   });
 
   it('열린 Modal 의 닫기 버튼도 바뀐다 (Modal 이 열리면 바깥은 숨겨지므로 따로 확인)', () => {

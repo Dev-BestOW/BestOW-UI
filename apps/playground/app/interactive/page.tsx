@@ -33,6 +33,12 @@ import {
 } from '@bestow-ui/react';
 import { InfoIcon, TrashIcon } from '@bestow-ui/icons';
 
+// 공휴일은 라이브러리에 내장하지 않는다(음력·대체공휴일이 해마다 바뀜) — 서비스가 가진 목록으로 isHoliday 를 넘긴다.
+// 예제라 날짜가 고정된 것만 둔다. 실제로는 공공데이터포털 특일 정보 API 등에서 받은 목록을 쓴다.
+const FIXED_HOLIDAYS = new Set(['01-01', '03-01', '05-05', '06-06', '08-15', '10-03', '10-09', '12-25']);
+const isHoliday = (date: Date) =>
+  FIXED_HOLIDAYS.has(`${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`);
+
 const agreements = [
   {
     value: 'terms',
@@ -213,7 +219,7 @@ export default function InteractivePage() {
           maxSize={5 * 1024 * 1024}
           helperText="PDF·이미지, 파일당 5MB 이하, 최대 2개"
         />
-        <DatePicker label="정산 희망일" fullWidth />
+        <DatePicker label="정산 희망일" isHoliday={isHoliday} fullWidth />
       </Stack>
 
       <Stack gap={3} style={{ maxWidth: 400 }}>

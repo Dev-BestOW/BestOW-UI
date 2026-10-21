@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { render, screen, within } from '@testing-library/react';
+import { render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Combobox, type ComboboxOption } from './Combobox';
 
@@ -58,9 +58,18 @@ describe('Combobox', () => {
         .map((o) => o.textContent),
     ).toEqual(['파인애플']);
 
+    // 결과 없음 알림 영역은 처음부터 있어야 한다 — 글자를 담은 채 새로 생기면 VoiceOver 가 읽지 않는다
+    const status = screen.getByRole('status');
+    expect(status.textContent).toBe('');
     await user.type(input(), '없음');
     expect(screen.queryByRole('listbox')).toBeNull();
-    expect(screen.getByRole('status').textContent).toBe('결과가 없어요');
+    expect(screen.getByText('결과가 없어요', { selector: 'div' })).toBeTruthy(); // 화면 안내는 바로
+    // 알림은 입력이 멈춘 뒤에 — 입력한 글자를 읽는 동안 바뀌면 VoiceOver 가 버린다
+    expect(status.textContent).toBe('');
+    await waitFor(() => expect(status.textContent).toBe('결과가 없어요'));
+    expect(screen.getByRole('status')).toBe(status);
+    await user.keyboard('{Escape}');
+    expect(status.textContent).toBe('');
     expect(input().hasAttribute('aria-controls')).toBe(false);
   });
 

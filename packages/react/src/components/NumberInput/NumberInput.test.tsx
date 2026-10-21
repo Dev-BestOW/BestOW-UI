@@ -56,6 +56,28 @@ describe('NumberInput', () => {
     expect(onValueChange.mock.calls.map(([v]) => v)).toEqual([7, 5, 3, 23, 100, 0]);
   });
 
+  it('키·버튼으로 바꾼 값을 단위와 함께 알림 영역으로 알린다 (직접 입력·포커스 이탈 때는 알리지 않음)', async () => {
+    const user = userEvent.setup();
+    const { container } = render(<NumberInput label="수량" defaultValue={1} min={1} max={10} unit="석" />);
+    // 알림 영역은 처음부터 비어 있는 채로 있어야 한다 (새로 생긴 live region 은 읽히지 않는다)
+    const live = container.querySelector('[aria-live="assertive"]')!;
+    expect(live.textContent).toBe('');
+    await user.click(input());
+    await user.keyboard('{ArrowUp}');
+    expect(live.textContent).toBe('2석');
+    await user.keyboard('{ArrowUp}');
+    expect(live.textContent).toBe('3석');
+    await user.click(increment());
+    expect(live.textContent).toBe('4석');
+    await user.keyboard('{Backspace}5');
+    expect(input().value).toBe('5');
+    expect(live.textContent).toBe('');
+    await user.keyboard('{ArrowDown}');
+    expect(live.textContent).toBe('4석');
+    await user.tab();
+    expect(live.textContent).toBe('');
+  });
+
   it('−/+ 버튼은 Tab 순서에서 빠져 있고, 범위 끝에서 비활성이 된다', async () => {
     const user = userEvent.setup();
     render(<NumberInput label="수량" defaultValue={1} min={1} max={2} />);

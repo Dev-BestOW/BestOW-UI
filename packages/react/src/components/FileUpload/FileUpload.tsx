@@ -47,6 +47,12 @@ export interface FileUploadProps {
   className?: string;
 }
 
+/**
+ * 삭제 알림을 포커스를 옮긴 뒤 이만큼 늦게 넣는다 (ms). 같은 순간에 넣으면 VoiceOver 가 새 포커스(다음 삭제 버튼)를 읽으며
+ * 알림을 버렸다(스크린리더 수동 점검 2026-10-21).
+ */
+const REMOVED_ANNOUNCE_DELAY = 500;
+
 /** 1000 이 아니라 1024 단위 — 운영체제 파일 크기 표시와 맞춘다 */
 function formatSize(bytes: number) {
   if (bytes < 1024) return `${bytes} B`;
@@ -116,6 +122,8 @@ export const FileUpload = /* @__PURE__ */ forwardRef<HTMLDivElement, FileUploadP
   const selectButtonRef = useRef<HTMLButtonElement>(null);
   const removeButtonRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const focusAfterRemove = useRef<number | null>(null);
+  const announceTimer = useRef<ReturnType<typeof setTimeout>>(undefined);
+  useEffect(() => () => clearTimeout(announceTimer.current), []);
 
   const selectLabel = m.fileSelect ?? '파일 선택';
   const reasonText = (rejection: FileRejection) => {
@@ -129,10 +137,17 @@ export const FileUpload = /* @__PURE__ */ forwardRef<HTMLDivElement, FileUploadP
     return m.fileTooMany?.(maxFiles ?? 0) ?? `파일은 ${maxFiles}개까지 올릴 수 있어요.`;
   };
 
-  const commit = (next: File[], message: string) => {
+  const announce = (message: string, delay = 0) => {
+    clearTimeout(announceTimer.current);
+    if (delay === 0) return setAnnouncement(message);
+    setAnnouncement('');
+    announceTimer.current = setTimeout(() => setAnnouncement(message), delay);
+  };
+
+  const commit = (next: File[], message: string, delay = 0) => {
     if (!isControlled) setInnerFiles(next);
     onValueChange?.(next);
-    setAnnouncement(message);
+    announce(message, delay);
   };
 
   const addFiles = (incoming: File[]) => {
@@ -154,7 +169,7 @@ export const FileUpload = /* @__PURE__ */ forwardRef<HTMLDivElement, FileUploadP
     const summary = m.filesSelected?.(next.length) ?? `파일 ${next.length}개 선택됨`;
     const errors = [...new Set(rejected.map(reasonText))].join(' ');
     if (accepted.length > 0) commit(next, [summary, errors].filter(Boolean).join(' '));
-    else setAnnouncement(errors);
+    else announce(errors);
   };
 
   const removeAt = (index: number) => {
@@ -163,7 +178,7 @@ export const FileUpload = /* @__PURE__ */ forwardRef<HTMLDivElement, FileUploadP
     // 지운 자리의 다음 삭제 버튼(없으면 앞, 그것도 없으면 "파일 선택")으로 포커스를 옮긴다
     focusAfterRemove.current = Math.min(index, next.length - 1);
     setRejections([]);
-    commit(next, m.fileRemoved?.(removed.name) ?? `${removed.name} 삭제됨`);
+    commit(next, m.fileRemoved?.(removed.name) ?? `${removed.name} 삭제됨`, REMOVED_ANNOUNCE_DELAY);
   };
 
   useEffect(() => {
@@ -266,13 +281,17 @@ export const FileUpload = /* @__PURE__ */ forwardRef<HTMLDivElement, FileUploadP
                 <FileIcon size={16} />
               </span>
               <span className={styles.fileName}>{file.name}</span>
-              <span className={styles.fileSize}>{formatSize(file.size)}</span>
+              {/* 크기는 삭제 버튼의 설명으로도 잇는다 — Tab 은 삭제 버튼에만 가서 크기를 들을 수 없었다 */}
+              <span id={`${baseId}-size-${index}`} className={styles.fileSize}>
+                {formatSize(file.size)}
+              </span>
               <IconButton
                 ref={(node) => {
                   removeButtonRefs.current[index] = node;
                 }}
                 size="sm"
                 aria-label={m.fileRemove?.(file.name) ?? `${file.name} 삭제`}
+                aria-describedby={`${baseId}-size-${index}`}
                 disabled={disabled}
                 onClick={() => removeAt(index)}
               >
