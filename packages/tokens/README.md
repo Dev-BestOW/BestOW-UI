@@ -35,6 +35,7 @@ darkColors.fg.default; // '#f8f9fa'
 | `radius` | `none`, `sm`, `md`, `lg`, `xl`, `full` |
 | `fontFamily`, `fontSize`, `fontWeight`, `lineHeight` | 글자 |
 | `shadow`, `darkShadow` | 라이트·다크 그림자 (키가 같아요) |
+| `breakpoint` | 반응형 구간 시작 폭 `sm` 640 · `md` 768 · `lg` 1024 · `xl` 1280 (px, min-width) |
 | `duration`, `zIndex` | 움직임 시간과 쌓임 순서 (배경막 < 대화상자 < 목록 < 토스트 < 툴팁) |
 
 ### React 와 함께

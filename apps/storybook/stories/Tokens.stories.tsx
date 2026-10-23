@@ -1,6 +1,7 @@
 import type { CSSProperties, ReactNode } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import {
+  breakpoint,
   darkColors,
   darkShadow,
   duration,
@@ -16,7 +17,7 @@ import {
   zIndex,
   type SemanticColors,
 } from '@bestow-ui/tokens';
-import { Stack, ThemeProvider, Typography, vars, type ThemeName } from '@bestow-ui/react';
+import { media, Stack, ThemeProvider, Typography, vars, type ThemeName } from '@bestow-ui/react';
 
 // 모든 값은 @bestow-ui/tokens 에서 읽는다. 토큰을 추가·변경하면 이 페이지도 자동으로 바뀐다.
 // 미리보기 도형은 vars(CSS 변수)로 그려서 브랜드 테마(overrides)를 적용했을 때의 모습과 같다.
@@ -44,14 +45,21 @@ function Section({ title, description, children }: { title: string; description?
 }
 
 /** 토큰 이름 · CSS 변수 · 값 을 한 줄로 보여 주는 표 */
-function TokenTable({ rows }: { rows: Array<{ name: string; variable: string; value: string; preview?: ReactNode }> }) {
+function TokenTable({
+  rows,
+  variableLabel = 'CSS 변수',
+}: {
+  rows: Array<{ name: string; variable: string; value: string; preview?: ReactNode }>;
+  /** 두 번째 열 머리글 (breakpoint 는 CSS 변수가 아니라 미디어쿼리) */
+  variableLabel?: string;
+}) {
   const hasPreview = rows.some((row) => row.preview);
   const cell: CSSProperties = { padding: '8px 12px', borderBottom: swatchBorder, verticalAlign: 'middle' };
   return (
     <table style={{ borderCollapse: 'collapse', width: '100%', fontSize: vars.font.size.sm }}>
       <thead>
         <tr>
-          {['이름', 'CSS 변수', '값', ...(hasPreview ? ['미리보기'] : [])].map((h) => (
+          {['이름', variableLabel, '값', ...(hasPreview ? ['미리보기'] : [])].map((h) => (
             <th key={h} style={{ ...cell, textAlign: 'left', fontWeight: vars.font.weight.semibold }}>
               {h}
             </th>
@@ -391,6 +399,25 @@ function OtherTokens() {
         />
       </Section>
       <Section
+        title="반응형 구간 (breakpoint)"
+        description={
+          <>
+            화면이 이 폭 이상이면 그 구간이에요(모바일 우선). CSS 변수로는 미디어쿼리를 쓸 수 없어서 대신{' '}
+            <code>media</code> (em 단위 — 브라우저 기본 글꼴 크기를 따라요)를 vanilla-extract 의 <code>@media</code> 에
+            넣어요. Stack·Grid 의 구간별 값(<code>{'{ base, md }'}</code>)도 이 구간을 써요.
+          </>
+        }
+      >
+        <TokenTable
+          variableLabel="미디어쿼리 (media)"
+          rows={Object.entries(breakpoint).map(([key, value]) => ({
+            name: `breakpoint.${key}`,
+            variable: media[key as keyof typeof media],
+            value,
+          }))}
+        />
+      </Section>
+      <Section
         title="쌓임 순서 (zIndex)"
         description="portal 로 띄우는 요소의 z-index 예요. 위로 갈수록 아래에 깔려요."
       >
@@ -448,6 +475,6 @@ export const Shadow: Story = {
 };
 
 export const DurationAndZIndex: Story = {
-  name: 'Duration · zIndex',
+  name: 'Duration · Breakpoint · zIndex',
   render: () => <OtherTokens />,
 };

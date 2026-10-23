@@ -163,6 +163,29 @@ export const choosing: ChoiceGroup[] = [
     ],
   },
   {
+    group: '배치 · 페이지 틀',
+    rule: '한 줄(가로·세로)로 늘어놓으면 Stack, 같은 폭 칸을 여러 열로 깔면 Grid, 페이지 본문의 최대 폭·좌우 여백은 Container.',
+    items: [
+      {
+        name: 'Stack',
+        path: docs('layout-stack'),
+        when: '버튼 줄·폼 칸처럼 한 방향으로 늘어놓음. 좁은 화면은 세로, 넓으면 가로 — direction={{ base: "column", md: "row" }}.',
+        avoid: '칸 폭이 같아야 하는 카드 목록 (→ Grid).',
+      },
+      {
+        name: 'Grid',
+        path: docs('layout-grid'),
+        when: '카드·상품처럼 같은 폭 칸을 여러 열로. 열 수를 구간별로(columns) 또는 칸 최소 폭만(minItemWidth).',
+        avoid: '행·열 머리글이 있는 데이터 (→ Table).',
+      },
+      {
+        name: 'Container',
+        path: docs('layout-container'),
+        when: '페이지 본문을 가운데에 두고 최대 폭(sm~xl)과 좌우 여백(좁은 화면 16px · md 이상 24px)을 맞춤.',
+      },
+    ],
+  },
+  {
     group: '화면 나누기 · 이동',
     rule: '같은 페이지에서 내용을 바꾸면 Tabs, 세로로 접으면 Accordion, 진행 위치는 Stepper, 다른 페이지로 가면 Link.',
     items: [

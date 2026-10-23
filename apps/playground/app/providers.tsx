@@ -2,6 +2,7 @@
 
 import {
   Button,
+  Container,
   createIntentColors,
   createTheme,
   IconButton,
@@ -71,9 +72,9 @@ export function Providers({ children }: { children: ReactNode }) {
             <ThemeToggle onChange={setMode} />
           </Stack>
         </Stack>
-        <main id="main" style={{ padding: 24, maxWidth: 960, margin: '0 auto' }}>
+        <Container as="main" id="main" style={{ paddingBlock: 24 }}>
           {children}
-        </main>
+        </Container>
       </ToastProvider>
     </ThemeProvider>
   );

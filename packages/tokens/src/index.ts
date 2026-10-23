@@ -157,6 +157,18 @@ export const zIndex = {
   tooltip: '1500',
 } as const;
 
+/**
+ * 반응형 구간의 시작 폭(min-width). 화면이 이 폭 이상이면 그 구간이다(모바일 우선 — 기본 값은 가장 좁은 화면).
+ * CSS 변수로는 미디어쿼리를 쓸 수 없어 테마(vars)에 넣지 않는다. @bestow-ui/react 의 `media` 는 같은 값을 em 으로 바꾼
+ * 미디어쿼리 문자열이다(브라우저 기본 글꼴 크기를 키우면 구간도 따라 바뀐다).
+ */
+export const breakpoint = {
+  sm: '640px',
+  md: '768px',
+  lg: '1024px',
+  xl: '1280px',
+} as const;
+
 /** 의미 기반(semantic) 색상. 라이트/다크 테마가 같은 키를 가져야 한다. */
 /** solid 배경 위 글자색은 각 그룹의 contrast 를 사용한다. */
 export interface SemanticColors {

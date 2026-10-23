@@ -1,5 +1,8 @@
 import { recipe } from '@vanilla-extract/recipes';
 import { vars } from '../../theme/contract.css';
+import { responsiveProperty } from '../../styles/responsiveProperty';
+
+export { responsiveGap } from '../../styles/responsive.css';
 
 type SpaceKey = keyof typeof vars.space;
 
@@ -40,7 +43,9 @@ export const stack = recipe({
       true: { flexWrap: 'wrap' },
     },
   },
-  defaultVariants: {
-    direction: 'column',
-  },
 });
+
+// 반응형 값({ base, md, … })을 받았을 때 — 위 recipe 대신 이 클래스 + 인라인 CSS 변수(Stack.tsx). 기본 방향 column 은 Stack.tsx 가 정한다
+export const responsiveDirection = responsiveProperty('stack-direction', 'flexDirection');
+export const responsiveAlign = responsiveProperty('stack-align', 'alignItems');
+export const responsiveJustify = responsiveProperty('stack-justify', 'justifyContent');

@@ -315,10 +315,10 @@ export const componentA11y: ComponentA11yGroup[] = [
     group: '레이아웃·글자',
     items: [
       {
-        name: 'Stack · Card · Divider · Typography',
+        name: 'Stack · Grid · Container · Card · Divider · Typography',
         keyboard: '포커스를 받지 않는다.',
         screenReader:
-          '의미 없는 div 가 기본 — as 로 section·ul·h2 등 의미 요소를 고른다. Typography 의 variant(모양)와 as(제목 단계)는 따로. Divider 는 기본 separator, 꾸밈용이면 decorative 로 숨긴다.',
+          '의미 없는 div 가 기본 — as 로 section·ul·main·h2 등 의미 요소를 고른다(목록 Grid 는 as="ul" + li, 페이지 본문 Container 는 as="main"). 반응형 Stack·Grid 는 보이는 배치만 바꾸고 읽는 순서(DOM)는 그대로다 — row-reverse 처럼 순서를 뒤집으면 보이는 순서와 읽는 순서가 달라지니 피한다. Typography 의 variant(모양)와 as(제목 단계)는 따로. Divider 는 기본 separator, 꾸밈용이면 decorative 로 숨긴다.',
         yours: '제목 단계(h1~h6)는 모양이 아니라 문서 구조로 정한다.',
       },
       {

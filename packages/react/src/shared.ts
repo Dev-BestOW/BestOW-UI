@@ -24,6 +24,7 @@ export {
   isValidBusinessNumber,
 } from '@bestow-ui/korean-utils';
 export { parseISODate, toISODate } from './utils/date';
+export { media, type Breakpoint, type Responsive } from './utils/responsive';
 export {
   composeExtraAddress,
   kakaoPostcodeProvider,
@@ -36,6 +37,7 @@ export { hasAllRequiredAgreements, type AgreementItem } from './components/Agree
 // playground 첫 페이지가 `as` 에 서버 함수를 넘겨 빌드로 확인한다(클라이언트 컴포넌트면 "Functions cannot be passed" 로 실패).
 export * from './components/Badge';
 export * from './components/Card';
+export * from './components/Container';
 export * from './components/DescriptionList';
 export {
   dateRangePresets,
@@ -44,6 +46,7 @@ export {
   type DateRangePreset,
 } from './components/DateRangePicker/presets';
 export * from './components/Divider';
+export * from './components/Grid';
 export * from './components/Progress';
 export * from './components/Skeleton';
 export * from './components/Stack';

@@ -58,7 +58,7 @@ function SaveButton() {
 ```
 
 Next.js App Router 에서는 Provider 를 `'use client'` 파일로 분리해 `app/layout.tsx` 에서 감싸면 돼요. 컴포넌트는 서버 컴포넌트에서도 바로 쓸 수 있어요.
-상태가 없는 표시용 컴포넌트(`Typography`, `Stack`, `Card`, `Badge`, `Divider`, `Progress`, `Skeleton`, `DescriptionList`, `VisuallyHidden`)는
+상태가 없는 표시용 컴포넌트(`Typography`, `Stack`, `Grid`, `Container`, `Card`, `Badge`, `Divider`, `Progress`, `Skeleton`, `DescriptionList`, `VisuallyHidden`)는
 서버 컴포넌트로 렌더링되고(클라이언트 JS 없음), `createTheme`·`createIntentColors`·`vars`·`formatKoreanAmount` 같은 함수·값도 서버에서 그대로 불러요.
 자세한 설정은 [Storybook 시작하기](https://dev-bestow.github.io/BestOW-UI/)에 있어요.
 
@@ -122,7 +122,7 @@ react-hook-form 과 함께 쓸 수 있어요. 입력창은 `register` 를 그대
 
 | 분류 | 컴포넌트 |
 |---|---|
-| 레이아웃 | `Stack`, `Divider`, `Card`, `VisuallyHidden` |
+| 레이아웃 | `Stack`(구간별 값 `{ base, md }`), `Grid`, `Container`, `Divider`, `Card`, `VisuallyHidden` — 구간 `media`(sm 640 · md 768 · lg 1024 · xl 1280px) |
 | 글자 | `Typography` |
 | 동작 | `Button`, `IconButton`, `Link` |
 | 폼 | `Input`, `TextField`, `Textarea`, `Select`, `NativeSelect`, `Combobox`, `NumberInput`, `FileUpload`, `Checkbox`, `RadioGroup`, `Switch`, `Slider` |

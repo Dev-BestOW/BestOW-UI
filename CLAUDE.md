@@ -85,7 +85,7 @@ examples/
   `theme` 생략 시 바깥 모드 상속, `overrides` 는 바깥과 병합(안쪽 우선). `useTheme()`,
   `usePortalProps()`(portal 요소용 className+style — 오버라이드까지 적용).
 - `src/index.ts` = `shared.ts`(서버 컴포넌트에서도 쓰는 순수 함수·값 + hook 없는 표시용 컴포넌트: createTheme, vars, 서식·날짜 함수, en,
-  Typography·Stack·Card·Badge·Divider·Progress·Skeleton·DescriptionList·VisuallyHidden, focusField) + `client.ts`(`'use client'` — 나머지 컴포넌트·hook).
+  Typography·Stack·Grid·Container·Card·Badge·Divider·Progress·Skeleton·DescriptionList·VisuallyHidden, focusField, media) + `client.ts`(`'use client'` — 나머지 컴포넌트·hook).
   ESM 빌드는 둘을 `dist/shared.js`·`dist/client.js` 로 나눠 함수가 클라이언트 참조가 되지 않게 한다(tsup.config.ts 주석 참고, CJS 는 한 파일).
   **새 순수 함수와 hook(useId 제외)·Context·Radix·이벤트 핸들러·useMessages 가 없는 표시용 컴포넌트는 shared.ts, 나머지 컴포넌트는 client.ts** 에서
   export 한다. 같은 이름을 양쪽에서 export 하면 안 된다(Next.js 에서 이름이 모호해져 사라짐). `src/shared.test.ts` 가 shared 의 import 그래프에
@@ -99,6 +99,10 @@ examples/
   `warnOnce`(개발 모드에서 한 번만 경고 — deprecated 안내), `useIsClient`(hydration 뒤에만 true — 서버·브라우저가 다른 값(오늘 날짜 등)은
   hydration 뒤에 쓴다, Calendar 참고), `useIsomorphicLayoutEffect`(서버에서는 useEffect — React 18 SSR 경고 방지),
   `useDelayedAnnouncement`(입력 중 생긴 메시지를 0.8초 뒤 알림 글자로 — 처음부터 있는 `role="status"` 에 넣는다. 입력과 같은 순간에 바꾸면 VoiceOver 가 버림).
+- `src/utils/responsive.ts` — `media`(tokens breakpoint 를 em 으로 — 값을 직접 적고 테스트로 같은지 확인), `Responsive<T>`(`{ base, sm, md, lg, xl }`),
+  `responsiveVars`(구간별 값 → 인라인 CSS 변수 `--bestow-<이름>-<구간>`, 앞 구간을 이어받음). `styles/responsiveProperty.ts`(.css.ts 에서만 부름)가
+  그 변수를 미디어쿼리로 읽는 클래스를 만든다 — 변수는 `initial` 로 초기화(중첩 요소가 바깥 값을 이어받지 않게, Stack 스토리 ResponsiveNested).
+  구간마다 클래스를 만들지 않는 이유는 CSS·JS 크기. Stack 은 한 값이면 기존 recipe 클래스, 구간별 값일 때만 이 방식(Grid 는 항상).
 - `src/styles/visuallyHidden.css.ts` — 스크린리더 전용 텍스트. `src/test/setup.ts` — jsdom 폴리필(ResizeObserver, pointer capture 등 — node 환경 테스트를 위해 DOM 이 있을 때만).
 - `src/utils/focusField.ts` — 칸 id 로 포커스(묶음이면 선택된·첫 항목, 숨긴 input 이면 같은 role=group 의 버튼). ErrorSummary 링크가 쓴다. shared 로 공개.
 - `apps/storybook/.storybook/vitest.setup.ts` — 스토리 테스트마다 iframe 창에 포커스(`window.focus()`) — CI Firefox 에서 포커스에 기대는 play 가 가끔 실패했다.

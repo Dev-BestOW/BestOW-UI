@@ -90,7 +90,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 }
 ```
 
-**3. 컴포넌트를 써요.** 상태가 없는 표시용 컴포넌트(`Card`, `Typography`, `Stack` 등)는 서버 컴포넌트에서 그대로 렌더링돼요.
+**3. 컴포넌트를 써요.** 상태가 없는 표시용 컴포넌트(`Card`, `Typography`, `Stack`, `Grid` 등)는 서버 컴포넌트에서 그대로 렌더링돼요.
 
 ```tsx
 // app/signup/page.tsx — 서버 컴포넌트
@@ -182,7 +182,7 @@ import { SearchIcon, TrashIcon } from '@bestow-ui/icons';
 | 피드백 | `Alert`, `ErrorSummary`, `Progress`, `ToastProvider` + `useToast`, `Spinner`, `Skeleton`, `Badge` |
 | 오버레이 | `Modal`, `Drawer`, `Popover`, `Tooltip`, `DropdownMenu` |
 | 탐색 | `Tabs`, `SegmentedControl`, `Accordion`, `Pagination`, `Breadcrumb`, `SkipLink`, `Stepper` |
-| 레이아웃·표시 | `Stack`, `Divider`, `Card`, `Typography`, `VisuallyHidden`, `Avatar`, `Table`(+ 선택·빈 상태·로딩), `DescriptionList` |
+| 레이아웃·표시 | `Stack`(구간별 값), `Grid`, `Container`, `Divider`, `Card`, `Typography`, `VisuallyHidden`, `Avatar`, `Table`(+ 선택·빈 상태·로딩), `DescriptionList` |
 | 테마·문구 | `ThemeProvider`, `createTheme`, `createIntentColors`, `strongInputBorders`, `vars`, `LocaleProvider`, `en` |
 
 모든 컴포넌트는 [Storybook](https://dev-bestow.github.io/BestOW-UI/)에서 직접 조작해 볼 수 있고, 키보드·스크린리더 동작도 컴포넌트마다 정리돼 있어요.

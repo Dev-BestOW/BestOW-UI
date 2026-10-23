@@ -51,7 +51,18 @@ describe('shared 진입점 (서버 컴포넌트용)', () => {
 
   it('표시용 컴포넌트는 shared 에서 export 한다', () => {
     expect(graph.has(resolve(srcDir, 'components/Card/Card.tsx'))).toBe(true);
-    for (const name of ['Badge', 'Card', 'CardBody', 'Divider', 'Progress', 'Skeleton', 'Stack', 'Typography']) {
+    for (const name of [
+      'Badge',
+      'Card',
+      'CardBody',
+      'Container',
+      'Divider',
+      'Grid',
+      'Progress',
+      'Skeleton',
+      'Stack',
+      'Typography',
+    ]) {
       expect(shared).toHaveProperty(name);
     }
   });

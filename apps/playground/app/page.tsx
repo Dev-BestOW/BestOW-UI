@@ -15,6 +15,7 @@ import {
   formatKoreanAmount,
   formatKoreanDate,
   formatPhoneNumber,
+  Grid,
   Link,
   parseISODate,
   Progress,
@@ -210,7 +211,8 @@ export default function ServerPage() {
         <Typography variant="h3" as="h2">
           Card
         </Typography>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 16 }}>
+        {/* 좁은 화면 1열 → md(768px) 이상 3열. 서버 컴포넌트에서도 구간별 값이 그대로 렌더링된다(인라인 CSS 변수) */}
+        <Grid columns={{ base: 1, md: 3 }} gap={4}>
           {(['outline', 'elevated', 'soft'] as const).map((variant) => (
             <Card key={variant} variant={variant} as="article">
               <CardHeader>
@@ -229,7 +231,7 @@ export default function ServerPage() {
               </CardFooter>
             </Card>
           ))}
-        </div>
+        </Grid>
       </Stack>
 
       <Stack gap={2}>

@@ -18,6 +18,7 @@ import {
   CardBody,
   Checkbox,
   Combobox,
+  Container,
   createIntentColors,
   createTheme,
   DatePicker,
@@ -32,6 +33,7 @@ import {
   DropdownMenuTrigger,
   ErrorSummary,
   FileUpload,
+  Grid,
   IconButton,
   Input,
   Link,
@@ -86,7 +88,12 @@ function Everything() {
     <ThemeProvider>
       <ToastProvider>
         <SkipLink />
-        <Stack gap={2}>
+        <Stack gap={{ base: 2, md: 4 }} direction={{ md: 'row' }}>
+          <Container size="sm">
+            <Grid columns={{ base: 1, lg: 2 }} gap={2}>
+              <span>칸</span>
+            </Grid>
+          </Container>
           <ErrorSummary errors={[{ id: 'name', message: '이름을 입력해 주세요.' }]} />
           <VisuallyHidden>숨긴 글자</VisuallyHidden>
           <DescriptionList items={[{ term: '고객', description: '최별' }]} />
@@ -193,6 +200,7 @@ describe('서버 렌더링 (renderToString)', () => {
     expect(html).toContain('본문 바로가기');
     expect(html).toContain('role="spinbutton"');
     expect(html).toContain('2026');
+    expect(html).toContain('--bestow-grid-columns-lg:repeat(2, minmax(0, 1fr))');
   });
 
   it('theme="system" + 브랜드 테마도 경고 없이 CSS 미디어쿼리로 그려진다', () => {
