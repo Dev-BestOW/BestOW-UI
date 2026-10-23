@@ -19,7 +19,7 @@
 - 컴포넌트 약 51개(폴더 50) + 테마·다국어·서식 함수, 아이콘 57종. **P1~P16 완료**, 이번 플랜 1(노출)·2(번들)·3(korean-utils)·5(런칭 준비물) 완료.
 - 프로덕션 권장 선언 기준 **6/6 달성**(2026-10-23 NVDA + Chrome 13개 항목 모두 ✅, 수정 없이 통과) — README·Introduction·SUPPORT·POSITIONING 에 문구 반영.
   **이제 런칭 가능.** 글 초안 3편: 비공개 Artifact https://claude.ai/artifact/EdgazWzz98aH3maLsXFwRT , 블로그(~/Documents/Project/astro-blog)에
-  `oklch-contrast-theme.md`(draft: false — push 하면 공개)·`kwcag-automated-testing.md`(draft: true) — 두 곳의 **[NVDA 점검 완료 후] 자리를 채울 차례**
+  `oklch-contrast-theme.md`(공개됨)·`kwcag-automated-testing.md`(2026-10-23 NVDA 단락 추가, draft: false — push 하면 공개). Artifact 초안(GeekNews·기술 글)도 2026-10-23 NVDA 결과로 채움 — **남은 것은 게시뿐**(react patch 배포 뒤 권장)
   (결과: 13개 항목 모두 통과, VoiceOver 용으로 넣은 NumberInput 알림이 NVDA 에서 겹치지 않음, 개선 후보였던 입력 순간 오류 알림 추가).
 - 번들(2026-10-21 측정, minify + brotli): react 전체 JS **69.05/80 kB** · Button 하나 1.51/2 · 앱 기본 3.37/3.7 · 폼 세트(Select) 29.64/33 ·
   **폼 세트(NativeSelect) 3.87/4.3** · 오버레이 세트 34.76/38 · 한국 키트 30.26/33.5 · styles.css 10.08/12 · tokens 1.27/1.5 ·
@@ -79,9 +79,9 @@
   ② 로컬에서 `git pull && pnpm install && pnpm build` → `cd packages/korean-utils && npm login && pnpm publish --access public`
   (pnpm 11 이 workspace 를 처리, 2FA 면 OTP) → ③ npmjs.com 에서 Trusted Publisher(`Dev-BestOW` / `BestOW-UI` / `release.yml`,
   **Direct publishing 체크**) 생성 → ④ 그 다음에 react 버전 PR 머지. ②보다 ④가 먼저면 react 가 npm 에 없는 패키지를 의존한다.
-- [ ] **VoiceOver(macOS) 짧은 재확인** — 체크리스트 13번의 Switch(1.6 재구현)·NativeSelect(VO 열 비어 있음), 그리고 이번에 추가한
+- [x] **VoiceOver(macOS) 짧은 재확인** (2026-10-23 완료, 모두 ✅) — 체크리스트 13번의 Switch(1.6 재구현)·NativeSelect(VO 열 비어 있음), 그리고 이번에 추가한
   사업자등록번호 10자리·DatePicker 8자리 오류 알림(입력 0.8초 뒤 "올바른 …가 아니에요" 가 들리는지). 로컬 `next start -p 3001` 로 push 없이 가능.
-- [ ] **런칭 게시** (준비 끝 — 초안의 [NVDA 점검 완료 후] 자리 채운 뒤) — GeekNews Show(1순위) → velog·요즘IT 등에 기술 글 → 접근성 커뮤니티·공공/SI/에이전시 쪽 → FEConf·JSConf Korea 발표 지원.
+- [ ] **런칭 게시** — 블로그 KWCAG 글은 2026-10-23 NVDA 단락을 채우고 `draft: false`(push 하면 공개). Artifact 초안도 NVDA 결과 반영(2026-10-23). 남은 것: react patch 배포 → GeekNews 등 게시 — GeekNews Show(1순위) → velog·요즘IT 등에 기술 글 → 접근성 커뮤니티·공공/SI/에이전시 쪽 → FEConf·JSConf Korea 발표 지원.
 - [ ] (가능하면) iOS VoiceOver·센스리더 점검 — 같은 체크리스트, 3·4번째 열.
 - [ ] (선택) 실제 기기 확인: 가상 키보드가 Modal·Drawer 입력을 가리는지(iOS Safari·Android Chrome).
 - [ ] 이 라이브러리로 만든 **실제 서비스**(개인 프로젝트라도)가 생기면 알려 주기 — README "사용 사례" 에 넣는다(2026-10-21 기준 없음. playground 는 데모라 사례로 약함).
@@ -237,3 +237,5 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-21 | react 1.6.0·korean-utils 0.1.0 배포 확인(react 가 ^0.1.0 의존), GitHub About·Website·Topics 18개·Discussions 설정 확인, 블로그에 기술 글 2편(테마 공개 대기, KWCAG draft), 인수인계 갱신 |
 | 2026-10-21 | StackBlitz 예제를 react ^1.6.0 으로, 통신사 선택(NativeSelect) 추가 — npm 설치·빌드·브라우저 확인 |
 | 2026-10-23 | **NVDA + Chrome 점검 완료**(13개 항목 모두 ✅, NumberInput "2석" 중복 없음) → 프로덕션 권장 6/6. BusinessNumberInput·DatePicker 자동 검증 오류를 입력이 멈춘 뒤 status 로 알림(`utils/useDelayedAnnouncement`, Combobox 와 지연 값 공유, 테스트 3·변이 3), 접근성 문서·README·Introduction·SUPPORT·POSITIONING·llms.txt 에 점검 결과·프로덕션 권장 문구, changeset patch. 검증 전체 통과(단위 402·스토리 516·E2E 68) |
+| 2026-10-23 | VoiceOver 재확인(Switch 1.6·NativeSelect·입력 순간 오류 알림) ✅. 블로그 `kwcag-automated-testing.md` 에 NVDA 단락을 넣고 공개 준비(draft: false, pubDate 10-23, astro check·build 통과) |
+| 2026-10-23 | 런칭 초안 Artifact 갱신: GeekNews 본문에 VoiceOver·NVDA 점검 결과, 기술 글 ① 원문을 블로그 파일과 같게, 확인 상자 정리 |
