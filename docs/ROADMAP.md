@@ -21,8 +21,9 @@
   `oklch-contrast-theme`(10-21)·`kwcag-automated-testing`(10-23, NVDA 결과 포함). 블로그 표 스타일도 2026-10-23 손봄.
   GeekNews Show 본문은 비공개 Artifact https://claude.ai/artifact/EdgazWzz98aH3maLsXFwRT ("복사" 버튼, NVDA 결과 반영됨).
   런칭 뒤에는 이슈·Discussions 반응으로 다음 기능(Combobox 다중 선택·Tag 입력)을 정한다.
+- **9번 OS 다크 모드(`theme="system"`) 완료** — changeset minor 가 배포 대기(아직 push 전). 다음은 10번 반응형·11번 토큰.
 - **2026-10-23 객관 점검** 결과를 "다음 플랜 › 객관 점검에서 나온 보완"(9~16번)에 넣음 — 런칭 게시 다음으로 9(OS 다크 모드)·10(반응형)·11(info 색 등 토큰)을 minor 하나로.
-- 번들(2026-10-23 측정, minify + brotli): react 전체 JS **68.98/80 kB** · Button 하나 1.51/2 · 앱 기본 3.37/3.7 · 폼 세트(Select) 29.64/33 ·
+- 번들(2026-10-23 측정, minify + brotli): react 전체 JS **68.98/80 kB** · Button 하나 1.51/2 · 앱 기본 3.75/4.1(10-23 system 모드 뒤) · 폼 세트(Select) 29.64/33 ·
   **폼 세트(NativeSelect) 3.87/4.3** · 오버레이 세트 34.76/38 · 한국 키트 30.36/33.5 · styles.css 10.08/12 · tokens 1.27/1.5 ·
   korean-utils 전체 838 B/1 kB·함수 하나 179/300 B. 큰 덩어리는 모두 Radix(점검 결과는 아래 "Claude 가 할 일" 2번).
   **조합 한도는 여유가 약 10% 뿐** — 큰 기능(Combobox 다중 선택 등)을 넣기 전에 어느 조합에 들어가는지 보고 필요하면 한도를 사용자와 정한다.
@@ -149,13 +150,17 @@
 > 점검 결론: 테스트·접근성·한국 키트는 충분히 강하다(오히려 검증에 과투자). 약점은 **실사용 증거 0**(스타 1·이슈 0·사례 0)과
 > **실서비스 도입 때 바로 부딪힐 기초 기능 공백**. 런칭 게시가 1순위이고, 반응을 기다리는 동안 9 → 10 → 11 을 minor 하나로 묶는다.
 
-9. **OS 다크 모드 따르기** — `ThemeName` 이 `light | dark` 뿐이고 패키지에 `prefers-color-scheme` 대응이 없다.
+9. ✅ **OS 다크 모드 따르기** (2026-10-23 완료, react minor changeset `theme-system-mode` — 배포 대기) — `ThemeProvider theme="system"` + 타입 `ThemeMode`(공개 `ThemeName` 은 그대로).
+   서버·hydration 첫 렌더는 `systemThemeClass`(CSS 미디어쿼리) + 오버라이드 `<style>`(라이트·다크 둘 다)로 그려 깜빡임 없음, 그 뒤 `useSystemTheme`(useSyncExternalStore)로 실제 값.
+   테마 클래스마다 `color-scheme`. playground 는 system 으로 시작(토글은 보이는 모드의 반대로 고정). 단위 9·SSR 1·E2E 3(JS 끈 페이지 포함), 변이 5.
+   Introduction 에 쿠키 저장 예시(서버에서 읽어 첫 HTML 부터). 번들 "앱 기본" 3.37 → 3.75 kB(+390 B — 구독·서버용 오버라이드 CSS) → 사용자와 결정해 한도 3.7 → **4.1 kB**.
+   남은 것: push 뒤 시각 회귀 확인(다크 스토리의 스크롤바·네이티브 컨트롤이 `color-scheme` 으로 바뀌었을 수 있음 → 바뀌면 visual.yml 수동 update). 원래 계획: `ThemeName` 이 `light | dark` 뿐이고 패키지에 `prefers-color-scheme` 대응이 없다.
    - `ThemeProvider theme="system"`(OS 설정을 따르고 바뀌면 반영 — SSR 첫 값·hydration 주의, `useIsClient` 참고).
    - 루트 `color-scheme` 지정(지금은 NativeSelect 만 — 다크에서 스크롤바·네이티브 컨트롤이 밝게 남음).
    - 사용자 선택 저장 + SSR 첫 화면 깜빡임(FOUC) 방지 가이드(Next.js `<head>` 인라인 스크립트로 `data-theme` 먼저 지정), playground 토글에 적용 + E2E.
 10. **반응형 기반** — tokens 에 breakpoint 없음, 컴포넌트 미디어쿼리는 Drawer `30rem` 한 곳뿐.
     - tokens 에 `breakpoint`(minor) + vanilla-extract 를 안 쓰는 사용자도 쓸 수 있는 형태(CSS 변수로는 미디어쿼리 불가 → 값 export·문서).
-    - `Stack` 의 `direction`·`gap` 반응형 값(`{ base, md }` 등), 필요하면 `Grid`·`Container`. 번들 "앱 기본" 한도(3.7 kB) 확인.
+    - `Stack` 의 `direction`·`gap` 반응형 값(`{ base, md }` 등), 필요하면 `Grid`·`Container`. 번들 "앱 기본" 한도(4.1 kB, 지금 3.75) 확인.
 11. **토큰 보강** — 의미 색 **`info`** 추가(Alert·Badge·Toast 안내용 — `createIntentColors` 로 대비 4.5 확인, `contract.test.ts` 목록 추가),
     border width·opacity 토큰, 차트·카테고리용 색 검토(palette 5색뿐).
 12. **공용 폼 필드** — `Field`(label·helperText·error·required·`aria-describedby` 연결을 직접 만든·서드파티 입력에도) +
@@ -269,3 +274,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-23 | 런칭 초안 Artifact 갱신: GeekNews 본문에 VoiceOver·NVDA 점검 결과, 기술 글 ① 원문을 블로그 파일과 같게, 확인 상자 정리 |
 | 2026-10-23 | react 1.6.1 배포 확인(npm 패키지에 알림 코드·README 문구, Release, Pages llms.txt), main CI 전부 녹색. 블로그 KWCAG 글 공개(Cloudflare 첫 빌드 실패 → 재시도 성공), 블로그 표 스타일 수정. 인수인계를 "런칭 게시만 남음" 으로 정리 |
 | 2026-10-23 | 디자인 시스템 객관 점검(코드·토큰·문서 확인): OS 다크 모드·반응형·info 색·공용 Field/CheckboxGroup·한국 키트 확장·컴포넌트 공백·Figma·운영을 "Claude 가 할 일" 9~16번으로 추가, Figma 를 보류에서 올림 |
+| 2026-10-23 | 9번 OS 다크 모드: `theme="system"`·`ThemeMode`·`useSystemTheme`·`systemThemeClass`(서버 렌더링 미디어쿼리 + 오버라이드 `<style>`)·`color-scheme`, playground system 시작, 단위 9·SSR 1·E2E `theme.spec.ts` 3(변이 5 — 서버 스냅숏·구독·이스케이프·서버 인라인·미디어쿼리 제거), Introduction 쿠키 저장 가이드·README·llms.txt·CLAUDE.md, changeset minor. 앱 기본 3.75 kB → 한도 4.1 kB(사용자 결정) |

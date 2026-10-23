@@ -1,5 +1,5 @@
 import { globalStyle, style } from '@vanilla-extract/css';
-import { vars } from './contract.css';
+import { systemThemeClass, themeClass, vars } from './contract.css';
 
 const base = style({
   color: vars.color.fg.default,
@@ -21,3 +21,8 @@ export const portal = base;
 globalStyle(`${base}, ${base} *, ${base} *::before, ${base} *::after`, {
   boxSizing: 'border-box',
 });
+
+// 브라우저가 그리는 부분(스크롤바·네이티브 컨트롤·자동 완성 배경)도 모드를 따르게 한다. portal 도 같은 클래스를 받는다.
+globalStyle(themeClass.light, { colorScheme: 'light' });
+globalStyle(themeClass.dark, { colorScheme: 'dark' });
+globalStyle(systemThemeClass, { colorScheme: 'light dark' });

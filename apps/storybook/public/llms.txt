@@ -4,7 +4,7 @@
 > (글자 대비 4.5:1 보장), 약관 동의·인증번호·전화번호·사업자등록번호·금액·주소·날짜 입력 같은 한국 서비스 부품을 기본으로 제공한다.
 > 모든 스토리를 라이트·다크에서 axe 로 검사하고, 주요 컴포넌트는 스크린리더(VoiceOver·NVDA)로 수동 점검했으며, KWCAG 2.2 항목별 대응 근거를 문서로 둔다. 문서는 한국어.
 
-- 설치: `npm install @bestow-ui/react` → 앱 진입점에서 `import '@bestow-ui/react/styles.css'`, 최상위를 `<ThemeProvider theme="light">` 로 감싼다.
+- 설치: `npm install @bestow-ui/react` → 앱 진입점에서 `import '@bestow-ui/react/styles.css'`, 최상위를 `<ThemeProvider theme="light">` 로 감싼다(OS 설정을 따르려면 `theme="system"` — 서버 렌더링도 CSS 미디어쿼리로 그려 깜빡임 없음).
 - React 18·19, Next.js App Router(서버 컴포넌트) 지원. 스타일은 vanilla-extract 로 빌드된 CSS 파일 하나(런타임 CSS 0). 오버레이는 Radix UI 기반.
 - 한국 서비스 서식·검증 함수만 필요하면(React 없이도) `@bestow-ui/korean-utils`.
 

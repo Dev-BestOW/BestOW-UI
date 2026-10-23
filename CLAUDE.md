@@ -79,6 +79,9 @@ examples/
 - `src/theme/createTheme.ts` — `createTheme(...inputs)`(common/light/dark 깊은 병합 → `BestowTheme`), `themeToStyle`(assignInlineVars).
 - `src/theme/color.ts` — `createIntentColors(intent, hex)`: OKLCH 로 라이트·다크 intent 색 세트 생성, WCAG 대비 4.5 보장. `contrastRatio`.
 - `src/theme/ThemeProvider.tsx` — `<ThemeProvider theme overrides>`: `data-theme` + 테마 클래스 + 오버라이드 인라인 CSS 변수.
+  `theme="system"`(`ThemeMode` — 공개 `ThemeName` 은 light/dark 그대로)은 `useSystemTheme`(useSyncExternalStore + matchMedia)로 OS 설정을 따른다.
+  서버·hydration 첫 렌더는 OS 를 몰라 `systemThemeClass`(CSS 미디어쿼리) + `data-theme="system"` + 오버라이드를 라이트·다크 둘 다 적은 `<style>` 로 그린다 → 깜빡임 없음
+  (E2E `theme.spec.ts` 가 JS 끈 페이지로 확인). 테마 클래스마다 `color-scheme` 을 준다(ThemeProvider.css.ts).
   `theme` 생략 시 바깥 모드 상속, `overrides` 는 바깥과 병합(안쪽 우선). `useTheme()`,
   `usePortalProps()`(portal 요소용 className+style — 오버라이드까지 적용).
 - `src/index.ts` = `shared.ts`(서버 컴포넌트에서도 쓰는 순수 함수·값 + hook 없는 표시용 컴포넌트: createTheme, vars, 서식·날짜 함수, en,

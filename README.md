@@ -150,10 +150,12 @@ const brand = createTheme(
   { common: { radius: { md: '6px' } } },
 );
 
-<ThemeProvider theme={mode /* 'light' | 'dark' */} overrides={brand}>…</ThemeProvider>;
+<ThemeProvider theme={mode /* 'light' | 'dark' | 'system' */} overrides={brand}>…</ThemeProvider>;
 ```
 
 - `theme`(light/dark)과 `overrides`(브랜드)는 따로 동작해서, 모드를 바꿔도 브랜드는 유지돼요. Modal·Select·Toast 처럼 portal 로 띄우는 요소도 따라가요.
+- `theme="system"` 은 OS 의 라이트·다크 설정을 따라요. 서버 렌더링에서도 CSS 미디어쿼리로 그려 첫 화면이 깜빡이지 않아요
+  (사용자가 고른 모드를 쿠키로 저장하는 방법은 Storybook 시작하기 › 다크 모드).
 - CSS 변수 이름이 고정돼 있어서 CSS 로만 바꿀 수도 있어요: `:root { --bestow-color-primary-solid: #7c3aed; }`
   전체 목록은 Storybook **Foundations › Theming › CSS 변수**.
 - 입력 칸·체크 컨트롤 테두리를 배경과 3:1 이상으로 진하게 하려면 `createTheme(brand, strongInputBorders)` 처럼 `strongInputBorders` 를 더해요(2.0 에서 기본값이 될 예정).

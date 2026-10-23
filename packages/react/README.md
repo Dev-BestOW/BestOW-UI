@@ -67,12 +67,14 @@ Next.js App Router 에서는 Provider 를 `'use client'` 파일로 분리해 `ap
 ## 다크 모드
 
 ```tsx
-const [mode, setMode] = useState<ThemeName>('light');
+const [mode, setMode] = useState<ThemeMode>('system'); // 'light' | 'dark' | 'system'
 
 <ThemeProvider theme={mode}>…</ThemeProvider>;
 ```
 
 Modal·Tooltip·Select·Toast 처럼 portal 로 띄우는 요소도 테마를 자동으로 따라가요.
+`'system'` 은 OS 설정을 따르고, 서버 렌더링에서도 CSS 미디어쿼리로 그려 첫 화면이 깜빡이지 않아요.
+사용자가 고른 모드를 쿠키로 저장해 서버에서 읽는 방법은 [Storybook 시작하기 › 다크 모드](https://dev-bestow.github.io/BestOW-UI/)에 있어요.
 
 ## 브랜드 테마
 

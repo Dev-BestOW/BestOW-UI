@@ -102,7 +102,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 ## 다크 모드
 
-`theme` 에 `'light'` 또는 `'dark'` 를 넘겨요. 상태로 들고 있다가 바꾸면 모든 컴포넌트(모달·툴팁 같은 portal 포함)가 함께 바뀌어요.
+`theme` 에 `'light'`·`'dark'`·`'system'` 을 넘겨요. 상태로 들고 있다가 바꾸면 모든 컴포넌트(모달·툴팁 같은 portal 포함)가 함께 바뀌어요.
 
 ```tsx
 const [mode, setMode] = useState<ThemeName>('light');
@@ -117,6 +117,56 @@ const [mode, setMode] = useState<ThemeName>('light');
 - 중첩한 `ThemeProvider` 에서 `theme` 를 생략하면 바깥 모드를 이어받아요. 특정 영역만 다크로 보여 줄 때는 안쪽에 `theme="dark"` 를 줘요.
 - 하위 컴포넌트에서 현재 모드가 필요하면 `useTheme()` 를 써요.
 - 이 Storybook 도 상단 툴바의 🖌 **Theme** 메뉴로 라이트·다크를 바꿔 볼 수 있어요.
+
+### OS 설정 따르기 (`theme="system"`)
+
+`theme="system"` 이면 OS 의 라이트·다크 설정을 따르고, 쓰는 도중에 OS 설정을 바꾸면 바로 반영해요.
+서버 렌더링(Next.js 등)에서는 서버가 OS 설정을 모르기 때문에 CSS 미디어쿼리(`prefers-color-scheme`)로 그려요.
+그래서 JS 가 실행되기 전 첫 화면부터 맞는 모드로 보이고 깜빡이지 않아요(브랜드 테마 `overrides` 도 같아요).
+
+- `useTheme()` 은 실제로 적용 중인 `'light' | 'dark'` 를 돌려줘요. 단, 서버 렌더링과 hydration 첫 렌더에서는 OS 설정을 몰라
+  `'light'` 이고, 그 직후 실제 값으로 다시 렌더링돼요. 모드에 따라 **다른 글자나 아이콘**을 그릴 때만 신경 쓰면 돼요(색은 CSS 가 처리).
+- 첫 렌더 동안 `data-theme` 속성은 `"system"` 이에요. CSS 를 직접 쓸 때는 `[data-theme="dark"]` 대신 `vars`(CSS 변수)를 쓰면 이 순간에도 맞는 색이 나와요.
+- `ThemeProvider` 영역 안의 스크롤바·네이티브 컨트롤은 모드를 따라가요(`color-scheme`). 페이지 전체 스크롤바까지 맞추려면
+  `<html>` 에도 `color-scheme` 을 줘요(아래 예시).
+
+### 사용자가 고른 모드 저장하기
+
+사용자가 고른 모드는 **쿠키**에 저장하고 서버에서 읽으면, 첫 HTML 부터 그 모드로 그려져 깜빡이지 않아요.
+고른 적이 없으면 `'system'` 으로 둬요. `localStorage` 는 서버가 읽을 수 없어서 첫 화면이 기본 모드로 그려졌다가 바뀌어요.
+
+```tsx
+// app/layout.tsx (서버 컴포넌트)
+import { cookies } from 'next/headers';
+
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const saved = (await cookies()).get('theme')?.value;
+  const mode = saved === 'light' || saved === 'dark' ? saved : 'system';
+  return (
+    <html lang="ko" style={{ colorScheme: mode === 'system' ? 'light dark' : mode }}>
+      <body>
+        <Providers initialMode={mode}>{children}</Providers>
+      </body>
+    </html>
+  );
+}
+
+// app/providers.tsx ('use client')
+export function Providers({ initialMode, children }: { initialMode: ThemeMode; children: React.ReactNode }) {
+  const [mode, setMode] = useState<ThemeMode>(initialMode);
+  const choose = (next: ThemeMode) => {
+    setMode(next);
+    document.cookie = `theme=${next}; path=/; max-age=31536000`;
+    document.documentElement.style.colorScheme = next === 'system' ? 'light dark' : next;
+  };
+  return (
+    <ThemeProvider theme={mode}>
+      {/* choose('dark') 등을 부르는 버튼 */}
+      {children}
+    </ThemeProvider>
+  );
+}
+```
 
 ## 브랜드 테마 (커스터마이징)
 

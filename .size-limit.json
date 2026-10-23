@@ -18,7 +18,7 @@
     "path": "packages/react/dist/index.js",
     "import": "{ ThemeProvider, Button, Typography, Stack }",
     "ignore": ["react", "react-dom"],
-    "limit": "3.7 kB"
+    "limit": "4.1 kB"
   },
   {
     "name": "react: 폼 세트 (TextField·Select·Checkbox·RadioGroup·Switch·Textarea·Button)",

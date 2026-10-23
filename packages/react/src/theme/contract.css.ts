@@ -12,7 +12,7 @@ import {
   space,
   zIndex,
 } from '@bestow-ui/tokens';
-import { createGlobalTheme, createGlobalThemeContract, createTheme } from '@vanilla-extract/css';
+import { assignVars, createGlobalTheme, createGlobalThemeContract, createTheme, style } from '@vanilla-extract/css';
 
 /**
  * 글자 크기는 rem 으로 낸다 — 사용자가 브라우저 기본 글꼴 크기를 키우면 따라 커진다(저시력 사용자). 16px 기준이라
@@ -82,3 +82,15 @@ export const themeClass = {
 };
 
 export type ThemeName = keyof typeof themeClass;
+
+/** ThemeProvider 의 `theme`. `'system'` 은 OS 의 라이트·다크 설정을 따른다(바꾸면 바로 반영). */
+export type ThemeMode = ThemeName | 'system';
+
+/**
+ * `theme="system"` 이 아직 OS 설정을 모를 때(서버 렌더링·hydration 첫 렌더) 쓰는 클래스 — CSS 미디어쿼리로 라이트·다크를 고른다.
+ * 그래서 JS 가 실행되기 전 첫 화면부터 OS 설정을 따른다(깜빡임 없음). themeClass 에 넣지 않는다 — ThemeName 이 바뀌면 breaking.
+ */
+export const systemThemeClass = style({
+  vars: assignVars(requiredVars, lightTokens),
+  '@media': { '(prefers-color-scheme: dark)': { vars: assignVars(requiredVars, darkTokens) } },
+});

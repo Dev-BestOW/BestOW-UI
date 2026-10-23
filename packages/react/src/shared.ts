@@ -4,7 +4,7 @@
  * 여기에 넣는 모듈은 React hook(서버에서도 되는 useId 제외)·createContext·Radix·이벤트 핸들러·useMessages 를 쓰면 안 된다
  * (서버에서 실행됨). 컴포넌트에 이런 것을 더하게 되면 client.ts 로 옮긴다 — 같은 이름을 양쪽에서 export 하면 안 된다.
  */
-export { vars, themeClass, type ThemeName, type ThemeTokens } from './theme/contract.css';
+export { vars, themeClass, type ThemeMode, type ThemeName, type ThemeTokens } from './theme/contract.css';
 export { createIntentColors, contrastRatio, type IntentName } from './theme/color';
 export {
   createTheme,

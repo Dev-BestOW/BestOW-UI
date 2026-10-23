@@ -18,6 +18,8 @@ import {
   CardBody,
   Checkbox,
   Combobox,
+  createIntentColors,
+  createTheme,
   DatePicker,
   DateRangePicker,
   dateRangePresets,
@@ -191,6 +193,22 @@ describe('서버 렌더링 (renderToString)', () => {
     expect(html).toContain('본문 바로가기');
     expect(html).toContain('role="spinbutton"');
     expect(html).toContain('2026');
+  });
+
+  it('theme="system" + 브랜드 테마도 경고 없이 CSS 미디어쿼리로 그려진다', () => {
+    const error = vi.spyOn(console, 'error').mockImplementation(() => {});
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {});
+    const html = renderToString(
+      <ThemeProvider theme="system" overrides={createTheme(createIntentColors('primary', '#7c3aed'))}>
+        <Everything />
+      </ThemeProvider>,
+    );
+    const messages = [...error.mock.calls, ...warn.mock.calls].map((call) => call.map(String).join(' '));
+    error.mockRestore();
+    warn.mockRestore();
+    expect(messages).toEqual([]);
+    expect(html).toContain('data-theme="system"');
+    expect(html).toContain('@media (prefers-color-scheme: dark)');
   });
 
   it('LocaleProvider 문구도 서버에서 적용된다', () => {

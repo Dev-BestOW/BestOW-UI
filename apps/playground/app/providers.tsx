@@ -11,7 +11,8 @@ import {
   ThemeProvider,
   ToastProvider,
   Typography,
-  type ThemeName,
+  useTheme,
+  type ThemeMode,
 } from '@bestow-ui/react';
 import { MoonIcon, SunIcon } from '@bestow-ui/icons';
 import NextLink from 'next/link';
@@ -20,7 +21,8 @@ import { useEffect, useState, type ReactNode } from 'react';
 const purple = createTheme(createIntentColors('primary', '#7c3aed'), { common: { radius: { md: '12px' } } });
 
 export function Providers({ children }: { children: ReactNode }) {
-  const [mode, setMode] = useState<ThemeName>('light');
+  // 처음에는 OS 설정을 따른다(서버 렌더링도 CSS 미디어쿼리로 그려 깜빡이지 않음). 토글을 누르면 그 모드로 고정
+  const [mode, setMode] = useState<ThemeMode>('system');
   const [branded, setBranded] = useState(false);
   // hydration 이 끝났다는 표시 — E2E(fixtures.ts)가 page.goto 뒤에 기다린다. 그 전의 클릭·입력은 이벤트 핸들러가 없어 사라진다
   useEffect(() => {
@@ -66,13 +68,7 @@ export function Providers({ children }: { children: ReactNode }) {
             <Button variant="outline" color="neutral" size="sm" onClick={() => setBranded((b) => !b)}>
               브랜드: {branded ? '보라' : '기본'}
             </Button>
-            <IconButton
-              size="sm"
-              aria-label={mode === 'light' ? '다크 모드로 전환' : '라이트 모드로 전환'}
-              onClick={() => setMode((m) => (m === 'light' ? 'dark' : 'light'))}
-            >
-              {mode === 'light' ? <MoonIcon /> : <SunIcon />}
-            </IconButton>
+            <ThemeToggle onChange={setMode} />
           </Stack>
         </Stack>
         <main id="main" style={{ padding: 24, maxWidth: 960, margin: '0 auto' }}>
@@ -80,5 +76,19 @@ export function Providers({ children }: { children: ReactNode }) {
         </main>
       </ToastProvider>
     </ThemeProvider>
+  );
+}
+
+/** 지금 보이는 모드(system 이면 OS 설정)의 반대로 바꾼다. useTheme 은 ThemeProvider 안에서 불러야 해서 따로 둔다 */
+function ThemeToggle({ onChange }: { onChange: (mode: ThemeMode) => void }) {
+  const theme = useTheme();
+  return (
+    <IconButton
+      size="sm"
+      aria-label={theme === 'light' ? '다크 모드로 전환' : '라이트 모드로 전환'}
+      onClick={() => onChange(theme === 'light' ? 'dark' : 'light')}
+    >
+      {theme === 'light' ? <MoonIcon /> : <SunIcon />}
+    </IconButton>
   );
 }
