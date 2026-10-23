@@ -54,6 +54,7 @@ playground 와 다른 조건: npm 에서 설치한 패키지를 씀, Next.js 16.
 | 4 | **Tailwind 와 함께 쓰기** (shipped 는 결국 Tailwind 를 뺐지만, 도입 검토 때 막힌 부분) | `styles.css` 가 `@layer` 밖이라, Tailwind 4 유틸리티(`@layer utilities`)를 컴포넌트에 붙이면 컴포넌트가 정한 속성은 항상 진다 (`<Button className="px-8">` 무시) | 스타일을 `@layer bestow` 로 감싸 사용하는 쪽이 순서를 정하게 하거나, 최소한 "Tailwind 와 함께 쓰기" 문서에 우선순위 규칙을 적는다 |
 | 5 | **Table 밖의 빈 상태 상자** (레포 0개, 커밋 0개, "이메일을 고르면 결과가 나와요") | 점선 테두리 + 안내 문구 + 버튼을 `EmptyState`(Stack + CSS Module)로 직접. 파일럿 1 은 Table 안(`TableEmpty`)이라 컴포넌트까지는 불필요로 판단 | 두 번째 등장. 제목·설명·동작 버튼 슬롯을 가진 `EmptyState` 컴포넌트 검토, 아니면 패턴 문서에 예시 |
 | 6 | **테두리 + 구분선 목록** (레포 목록·커밋 목록·이메일 체크 목록) | `<ul>` + CSS Module `DividedList` 로 직접 (Table 은 열이 없는 목록에 무겁고 Card 는 항목마다 상자가 생김) | 판단 보류 — `List`(divided, 항목 padding 토큰) 정도의 작은 컴포넌트 또는 패턴 문서 |
+| 7 | **진행 중인 비동기 단계 표시** (AI가 도구를 부르며 분석하는 단계가 실시간으로 늘어나는 목록: "작업 영역 살펴보기 → 변경 파일 확인 → 초안 쓰기") | `Stepper orientation="vertical"` 에 단계를 계속 추가하고 `current` 를 진행 중 단계로 둔다. Stepper 에는 진행 중(로딩) 표시가 없어 1분 가까이 멈춘 것처럼 보이므로, 목록 아래에 `Spinner` + "○○ 중이에요" 문구를 따로 둠. 진행 상황은 `VisuallyHidden role="status"` 로 따로 알림 | Stepper 단계에 `status`(`complete`·`current`·`loading`·`error`) 또는 `loading` prop. 스트리밍 UI(AI 응답·업로드 처리)에서 흔한 패턴이라 Stepper 스토리에 "비동기 진행" 예시 |
 
 ## 잘 된 것
 
