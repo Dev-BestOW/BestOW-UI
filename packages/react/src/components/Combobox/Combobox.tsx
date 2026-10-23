@@ -15,13 +15,11 @@ import { visuallyHidden } from '../../styles/visuallyHidden.css';
 import { usePortalProps } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
 import { mergeRefs } from '../../utils/mergeRefs';
+import { ANNOUNCE_DELAY } from '../../utils/useDelayedAnnouncement';
 import * as fieldStyles from '../Input/Input.css';
 import * as selectStyles from '../Select/Select.css';
 import * as styles from './Combobox.css';
 import { useMessages } from '../../i18n/LocaleProvider';
-
-/** 결과 없음 알림을 입력이 멈춘 뒤 이만큼 늦게 넣는다 (ms) */
-const NO_RESULTS_ANNOUNCE_DELAY = 800;
 
 export interface ComboboxOption {
   value: string;
@@ -235,7 +233,7 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
   const [announcedFor, setAnnouncedFor] = useState<string | null | undefined>(undefined);
   useEffect(() => {
     if (!noResults) return;
-    const timer = setTimeout(() => setAnnouncedFor(query), NO_RESULTS_ANNOUNCE_DELAY);
+    const timer = setTimeout(() => setAnnouncedFor(query), ANNOUNCE_DELAY);
     return () => clearTimeout(timer);
   }, [noResults, query]);
   const announceNoResults = noResults && announcedFor === query;

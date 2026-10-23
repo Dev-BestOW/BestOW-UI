@@ -8,7 +8,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 대표색 하나로 내 브랜드 테마를 만들고, 약관 동의부터 인증번호·주소·날짜 입력까지 한국 서비스에 늘 필요한 부품을 기본으로 써요.
 
 - **한국 서비스 키트** — 약관 동의, 인증번호, 전화번호·사업자등록번호·금액·주소·날짜 입력 → [Korean Kit](?path=/docs/korean-kit-agreementgroup--docs)
-- **검사로 증명하는 접근성** — 모든 스토리를 라이트·다크에서 axe 로 자동 검사, KWCAG 2.2 항목별 대응 근거 → [KWCAG 2.2 대응](?path=/docs/accessibility-kwcag-2-2-대응--docs)
+- **검사로 증명하는 접근성** — 모든 스토리를 라이트·다크에서 axe 로 자동 검사, 스크린리더(VoiceOver·NVDA) 수동 점검, KWCAG 2.2 항목별 대응 근거 → [KWCAG 2.2 대응](?path=/docs/accessibility-kwcag-2-2-대응--docs)
 - **대표색 하나로 끝나는 테마** — 브랜드 색을 넣어도 글자 대비·포커스 링 기준을 자동으로 지켜요 → [테마 빌더](?path=/story/foundations-theme-builder--builder)
 - **가볍고 서버 컴포넌트 친화적** — 스타일은 빌드 때 정적 CSS 로 뽑혀 런타임 비용이 없고, Next.js App Router 에서 그대로 써요.
 - **한국어 기본, 다국어 가능** — 기본 문구는 한국어, `LocaleProvider` 로 한 번에 바꿔요.
@@ -212,6 +212,7 @@ export const panel = style({ padding: vars.space[4], background: vars.color.bg.s
 - 예제 앱(Next.js)도 CI 에서 브라우저로 열어 콘솔·hydration 오류, 다크·브랜드 테마의 axe 검사, 키보드 조작을 확인해요.
 - 페이지 맨 앞에 [SkipLink](?path=/docs/components-skiplink--docs)(본문 바로가기)를 두고 본문에 `id="main"` 을 주세요.
 - 컴포넌트마다 키보드로 어떻게 조작하고 스크린리더가 무엇을 듣는지는 [컴포넌트별 키보드·스크린리더](?path=/docs/accessibility-컴포넌트별-키보드·스크린리더--docs)에 있어요.
+- 주요 컴포넌트 13종은 VoiceOver + Safari(macOS)·NVDA + Chrome(Windows) 으로 직접 들어 보고 [점검 기록](https://github.com/Dev-BestOW/BestOW-UI/blob/main/docs/SCREEN-READER-CHECKLIST.md)을 남겼어요.
 - 한국형 웹 콘텐츠 접근성 지침(KWCAG 2.2) 항목별로 정리한 [대응 근거](?path=/docs/accessibility-kwcag-2-2-대응--docs)를 참고하세요.
 
 ## 가이드
@@ -230,6 +231,7 @@ export const panel = style({ padding: vars.space[4], background: vars.color.bg.s
 
 - 브라우저: Chrome·Edge·Firefox·Safari 최근 2개 메이저 버전(iOS Safari·Android Chrome 포함) — 모든 스토리와 예제 앱을 세 엔진으로 CI 에서 확인해요.
 - React 18·19, Next.js App Router(서버 컴포넌트 포함).
+- **실서비스(프로덕션)에 써도 돼요** — 세 브라우저 엔진·모바일 E2E, React 18·19 CI, 스크린리더 수동 점검(VoiceOver·NVDA), 실제 화면 파일럿, 지원·보안 정책까지 갖췄어요.
 - 버전 정책(semver·deprecated 절차)·배포 주기·이전 major 지원 기간은 [SUPPORT.md](https://github.com/Dev-BestOW/BestOW-UI/blob/main/SUPPORT.md),
   보안 문제는 공개 이슈 대신 [SECURITY.md](https://github.com/Dev-BestOW/BestOW-UI/blob/main/SECURITY.md) 의 방법으로 알려 주세요.
 

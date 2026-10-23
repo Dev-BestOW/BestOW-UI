@@ -23,6 +23,7 @@ AI 코딩 도구용 [llms.txt](https://dev-bestow.github.io/BestOW-UI/llms.txt)
   주소(카카오 우편번호), 날짜(일요일 시작·공휴일 표시)·기간(빠른 선택). → [Storybook › Korean Kit](https://dev-bestow.github.io/BestOW-UI/?path=/docs/korean-kit-agreementgroup--docs)
 - ♿ **검사로 증명하는 접근성** — 모든 스토리를 실제 브라우저(Chromium·WebKit·Firefox)에서 라이트·다크 두 테마로 axe 검사해요(CI).
   고대비 모드·320px 리플로·기본 글꼴 2배도 확인하고, KWCAG 2.2 33개 항목별 대응 근거와 검사가 실제로 찾아 고친 문제를 기록했어요.
+  주요 컴포넌트는 스크린리더(VoiceOver·NVDA)로 직접 들어 보고 [점검 기록](docs/SCREEN-READER-CHECKLIST.md)을 남겼어요.
 - 🎨 **대표색 하나로 끝나는 테마** — 브랜드 색을 넣어도 글자 대비 4.5:1(hover 포함)·포커스 링 3:1 을 라이트·다크 모두 자동으로 지켜요.
 - ⚡ **가볍고 서버 컴포넌트 친화적** — 런타임 CSS 0(vanilla-extract), Next.js App Router 지원, 쓰는 컴포넌트만 번들에 들어가요
   (Button 하나 약 1.5 kB, NativeSelect 로 만든 입력 폼 7종 약 4 kB, 모든 컴포넌트 CSS 를 합쳐도 약 10 kB — minify + brotli).
@@ -197,6 +198,8 @@ import { SearchIcon, TrashIcon } from '@bestow-ui/icons';
 ## 지원 범위 · 보안
 
 Chrome·Edge·Firefox·Safari 최근 2개 메이저 버전(모바일 포함), React 18·19, Next.js App Router 를 CI 로 확인해요.
+**실서비스(프로덕션)에 써도 돼요** — 세 브라우저 엔진·모바일 E2E, React 18·19 CI, 스크린리더 수동 점검(VoiceOver·NVDA),
+실제 화면 파일럿, 지원·보안 정책까지 갖췄어요.
 버전 정책(semver·deprecated)과 배포 주기는 [SUPPORT.md](SUPPORT.md), 보안 문제 신고는 [SECURITY.md](SECURITY.md) 를 보세요.
 
 ## 참여하기

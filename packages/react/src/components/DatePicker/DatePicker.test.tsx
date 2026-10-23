@@ -35,6 +35,19 @@ describe('DatePicker', () => {
     expect(onValueChange).not.toHaveBeenCalledWith('2027-01-01');
   });
 
+  it('8자리를 채운 순간의 오류는 입력이 멈춘 뒤 status 로 알린다', async () => {
+    const user = userEvent.setup();
+    render(<DatePicker today={TODAY} max="2026-12-31" />);
+    const status = screen.getByRole('status');
+    await user.type(input(), '20260230');
+    expect(status.textContent).toBe('');
+    await waitFor(() => expect(status.textContent).toBe('올바른 날짜가 아니에요.'));
+    await user.clear(input());
+    expect(status.textContent).toBe('');
+    await user.type(input(), '20270101');
+    await waitFor(() => expect(status.textContent).toBe('고를 수 없는 날짜예요.'));
+  });
+
   it('달력 버튼으로 열면 선택된 날짜로 포커스가 가고, 고르면 입력창에 넣고 닫혀 버튼으로 포커스가 돌아온다', async () => {
     const user = userEvent.setup();
     const onValueChange = vi.fn();

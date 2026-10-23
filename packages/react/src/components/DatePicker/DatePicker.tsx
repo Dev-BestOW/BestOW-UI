@@ -3,6 +3,8 @@ import { CalendarIcon } from '@bestow-ui/icons';
 import { compareDays, parseISODate } from '../../utils/date';
 import { mergeRefs } from '../../utils/mergeRefs';
 import { useFormattedInput } from '../../utils/useFormattedInput';
+import { useDelayedAnnouncement } from '../../utils/useDelayedAnnouncement';
+import { visuallyHidden } from '../../styles/visuallyHidden.css';
 import { Calendar } from '../Calendar';
 import { IconButton } from '../IconButton';
 import { TextField } from '../Input';
@@ -154,6 +156,8 @@ export const DatePicker = /* @__PURE__ */ forwardRef<HTMLInputElement, DatePicke
         ? incompleteText
         : null;
     const showAuto = autoError !== null && error === undefined;
+    // 8자리를 채운 순간 생긴 오류는 입력이 멈춘 뒤 알린다(설명으로는 다시 들어가야 들린다). 벗어날 때의 자릿수 안내는 알리지 않는다.
+    const announcement = useDelayedAnnouncement(showAuto && complete ? (autoError ?? '') : '');
     const selectedIso = date && !isUnavailable(date) ? textIso : '';
 
     return (
@@ -207,6 +211,9 @@ export const DatePicker = /* @__PURE__ */ forwardRef<HTMLInputElement, DatePicke
             </Popover>
           }
         />
+        <span role="status" className={visuallyHidden}>
+          {announcement}
+        </span>
         {name && <input type="hidden" name={name} value={selectedIso} />}
       </>
     );

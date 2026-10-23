@@ -15,6 +15,7 @@
   금액("12만 5,000원" 읽기)·주소(카카오 우편번호)·날짜(일요일 시작·공휴일)·기간(빠른 선택) 입력.
 - **검사로 증명하는 접근성** — 모든 스토리를 실제 브라우저(Chromium·WebKit·Firefox)에서 라이트·다크 두 테마로 axe 검사해요.
   고대비 모드·320px 리플로·기본 글꼴 2배도 CI 로 확인하고, [KWCAG 2.2 항목별 대응 근거](https://dev-bestow.github.io/BestOW-UI/?path=/docs/accessibility-kwcag-2-2-%EB%8C%80%EC%9D%91--docs)를 문서로 정리했어요.
+  주요 컴포넌트는 스크린리더(VoiceOver·NVDA)로 직접 들어 보고 [점검 기록](https://github.com/Dev-BestOW/BestOW-UI/blob/main/docs/SCREEN-READER-CHECKLIST.md)을 남겼어요.
 - **대표색 하나로 테마** — 브랜드 색을 넣어도 글자 대비 4.5:1(hover 포함)과 포커스 링 3:1 을 라이트·다크 모두 지켜요.
   [테마 빌더](https://dev-bestow.github.io/BestOW-UI/?path=/story/foundations-theme-builder--builder)에서 바로 해 볼 수 있어요.
 - **가볍고 서버 컴포넌트 친화적** — 런타임 CSS 0, Next.js App Router 지원, 쓰는 컴포넌트만 번들에 들어가요
@@ -137,6 +138,8 @@ react-hook-form 과 함께 쓸 수 있어요. 입력창은 `register` 를 그대
 ## 지원 범위
 
 Chrome·Edge·Firefox·Safari 최근 2개 메이저 버전(모바일 포함), React 18·19, Next.js App Router 를 CI 로 확인해요.
+**실서비스(프로덕션)에 써도 돼요** — 세 브라우저 엔진·모바일 E2E, React 18·19 CI, 스크린리더 수동 점검(VoiceOver·NVDA),
+실제 화면 파일럿, 지원·보안 정책까지 갖췄어요.
 버전 정책(semver·deprecated 절차)과 배포 주기는 [SUPPORT.md](https://github.com/Dev-BestOW/BestOW-UI/blob/main/SUPPORT.md),
 보안 문제는 공개 이슈 대신 [SECURITY.md](https://github.com/Dev-BestOW/BestOW-UI/blob/main/SECURITY.md) 의 방법으로 알려 주세요.
 

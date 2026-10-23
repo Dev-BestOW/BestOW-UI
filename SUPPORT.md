@@ -13,7 +13,8 @@ BestOW UI(`@bestow-ui/react` · `@bestow-ui/tokens` · `@bestow-ui/icons` · `@b
 | 접근성 | WCAG 2.2 AA 자동 검사 범위, KWCAG 2.2 대응 근거 문서 | 라이트·다크 테마 axe 검사, 고대비(강제 색상)·320px 리플로·글자 간격·기본 글꼴 2배 E2E |
 
 - 위 범위 밖의 버전(예: 오래된 Safari, React 17)은 동작할 수 있지만 테스트하지 않아요. 문제가 있으면 이슈로 알려 주세요.
-- 접근성은 **자동 검사로 확인할 수 있는 범위**까지 보장해요. 스크린리더 수동 점검 결과는 Storybook 의 Accessibility 문서에 따로 기록해요.
+- 접근성은 **자동 검사로 확인할 수 있는 범위**까지 보장해요. 주요 컴포넌트는 스크린리더(VoiceOver + Safari·NVDA + Chrome)로 수동 점검하고
+  결과를 [`docs/SCREEN-READER-CHECKLIST.md`](docs/SCREEN-READER-CHECKLIST.md)에 기록해요(새 버전마다 다시 하지는 않아요).
   서비스 전체의 접근성 인증은 서비스에서 심사를 받아야 해요(컴포넌트만으로는 인증되지 않아요).
 
 ## 버전 정책 (semver)

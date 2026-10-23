@@ -127,7 +127,7 @@ export const componentA11y: ComponentA11yGroup[] = [
         keyboard:
           '숫자만 입력하면 YYYY-MM-DD 로 서식. "달력 열기" 버튼으로 열면 선택된(없으면 오늘) 날짜에 포커스, Esc 로 닫고 버튼으로 복귀.',
         screenReader:
-          '입력 + "달력 열기" 버튼. 잘못된 날짜·범위 밖·덜 입력은 helperText 로 이유를 알리고 aria-invalid. 달력은 아래 Calendar 와 같다.',
+          '입력 + "달력 열기" 버튼. 잘못된 날짜·범위 밖·덜 입력은 helperText 로 이유를 알리고 aria-invalid. 8자리를 채운 순간 생긴 오류는 숨은 status 영역에 입력이 0.8초 멈춘 뒤 넣어 바로 읽힌다(벗어날 때의 자릿수 안내는 설명으로만). 달력은 아래 Calendar 와 같다.',
       },
       {
         name: 'DateRangePicker',
@@ -153,7 +153,7 @@ export const componentA11y: ComponentA11yGroup[] = [
         keyboard:
           '하이픈·쉼표는 자동. 서식 문자 뒤에서 Backspace/Delete 를 누르면 그 너머 숫자를 지운다(커서 위치 유지).',
         screenReader:
-          '모바일에서 숫자 키패드(전화번호는 inputMode="tel", 나머지는 "numeric"). AmountInput 은 "12만 3,400원" 같은 한글 금액을 helperText 로 함께 읽는다. 사업자번호는 검증 실패를 aria-invalid + 문구로.',
+          '모바일에서 숫자 키패드(전화번호는 inputMode="tel", 나머지는 "numeric"). AmountInput 은 "12만 3,400원" 같은 한글 금액을 helperText 로 함께 읽는다. 사업자번호는 검증 실패를 aria-invalid + 문구로 — 10자리를 채운 순간의 오류는 숨은 status 영역에 입력이 0.8초 멈춘 뒤 넣어 다시 들어가지 않아도 읽힌다(VoiceOver 점검 2026-10-21 의 개선 후보).',
       },
       {
         name: 'VerificationCodeInput',

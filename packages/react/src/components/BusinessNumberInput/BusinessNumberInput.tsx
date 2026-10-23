@@ -2,6 +2,8 @@ import { forwardRef, useRef, useState, type ReactNode } from 'react';
 import { formatBusinessNumber, isValidBusinessNumber } from '@bestow-ui/korean-utils';
 import { mergeRefs } from '../../utils/mergeRefs';
 import { useFormattedInput } from '../../utils/useFormattedInput';
+import { useDelayedAnnouncement } from '../../utils/useDelayedAnnouncement';
+import { visuallyHidden } from '../../styles/visuallyHidden.css';
 import { TextField, type TextFieldProps } from '../Input';
 import { useMessages } from '../../i18n/LocaleProvider';
 
@@ -86,27 +88,34 @@ export const BusinessNumberInput = /* @__PURE__ */ forwardRef<HTMLInputElement, 
     const complete = field.raw.length === 10;
     const autoInvalid = validate && field.raw.length > 0 && (complete ? !isValidBusinessNumber(field.raw) : touched);
     const showAuto = autoInvalid && error === undefined;
+    // 10자리를 채운 순간 생긴 오류는 입력이 멈춘 뒤 알린다(설명으로는 다시 들어가야 들린다 — 스크린리더 수동 점검 2026-10-21).
+    const announcement = useDelayedAnnouncement(showAuto && complete ? invalidText : '');
 
     return (
-      <TextField
-        ref={mergeRefs(ref, inputRef)}
-        label={label}
-        placeholder={placeholder}
-        inputMode="numeric"
-        value={field.display}
-        onChange={field.onChange}
-        onKeyDown={(event) => {
-          field.onKeyDown(event);
-          onKeyDown?.(event);
-        }}
-        onBlur={(event) => {
-          setTouched(true);
-          onBlur?.(event);
-        }}
-        error={error ?? autoInvalid}
-        helperText={showAuto ? (complete ? invalidText : incompleteText) : helperText}
-        {...rest}
-      />
+      <>
+        <TextField
+          ref={mergeRefs(ref, inputRef)}
+          label={label}
+          placeholder={placeholder}
+          inputMode="numeric"
+          value={field.display}
+          onChange={field.onChange}
+          onKeyDown={(event) => {
+            field.onKeyDown(event);
+            onKeyDown?.(event);
+          }}
+          onBlur={(event) => {
+            setTouched(true);
+            onBlur?.(event);
+          }}
+          error={error ?? autoInvalid}
+          helperText={showAuto ? (complete ? invalidText : incompleteText) : helperText}
+          {...rest}
+        />
+        <span role="status" className={visuallyHidden}>
+          {announcement}
+        </span>
+      </>
     );
   },
 );
