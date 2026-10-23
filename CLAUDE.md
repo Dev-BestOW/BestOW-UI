@@ -94,7 +94,8 @@ examples/
 - `src/utils/` — `cx`, `mergeRefs`, `useFormattedInput`(하이픈·쉼표 서식 입력: 원본/표시 분리, 커서 유지, 서식 문자 뒤 Backspace),
   `useReturnFocus`(trigger 없는 Dialog 의 포커스 복귀), `date`('YYYY-MM-DD' 문자열 기반 날짜 계산), `koreanFormat`(전화·사업자번호·금액 서식),
   `warnOnce`(개발 모드에서 한 번만 경고 — deprecated 안내), `useIsClient`(hydration 뒤에만 true — 서버·브라우저가 다른 값(오늘 날짜 등)은
-  hydration 뒤에 쓴다, Calendar 참고), `useIsomorphicLayoutEffect`(서버에서는 useEffect — React 18 SSR 경고 방지).
+  hydration 뒤에 쓴다, Calendar 참고), `useIsomorphicLayoutEffect`(서버에서는 useEffect — React 18 SSR 경고 방지),
+  `useDelayedAnnouncement`(입력 중 생긴 메시지를 0.8초 뒤 알림 글자로 — 처음부터 있는 `role="status"` 에 넣는다. 입력과 같은 순간에 바꾸면 VoiceOver 가 버림).
 - `src/styles/visuallyHidden.css.ts` — 스크린리더 전용 텍스트. `src/test/setup.ts` — jsdom 폴리필(ResizeObserver, pointer capture 등 — node 환경 테스트를 위해 DOM 이 있을 때만).
 - `src/utils/focusField.ts` — 칸 id 로 포커스(묶음이면 선택된·첫 항목, 숨긴 input 이면 같은 role=group 의 버튼). ErrorSummary 링크가 쓴다. shared 로 공개.
 - `apps/storybook/.storybook/vitest.setup.ts` — 스토리 테스트마다 iframe 창에 포커스(`window.focus()`) — CI Firefox 에서 포커스에 기대는 play 가 가끔 실패했다.
