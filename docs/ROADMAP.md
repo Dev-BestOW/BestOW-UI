@@ -21,6 +21,7 @@
   `oklch-contrast-theme`(10-21)·`kwcag-automated-testing`(10-23, NVDA 결과 포함). 블로그 표 스타일도 2026-10-23 손봄.
   GeekNews Show 본문은 비공개 Artifact https://claude.ai/artifact/EdgazWzz98aH3maLsXFwRT ("복사" 버튼, NVDA 결과 반영됨).
   런칭 뒤에는 이슈·Discussions 반응으로 다음 기능(Combobox 다중 선택·Tag 입력)을 정한다.
+- **2026-10-23 객관 점검** 결과를 "다음 플랜 › 객관 점검에서 나온 보완"(9~16번)에 넣음 — 런칭 게시 다음으로 9(OS 다크 모드)·10(반응형)·11(info 색 등 토큰)을 minor 하나로.
 - 번들(2026-10-23 측정, minify + brotli): react 전체 JS **68.98/80 kB** · Button 하나 1.51/2 · 앱 기본 3.37/3.7 · 폼 세트(Select) 29.64/33 ·
   **폼 세트(NativeSelect) 3.87/4.3** · 오버레이 세트 34.76/38 · 한국 키트 30.36/33.5 · styles.css 10.08/12 · tokens 1.27/1.5 ·
   korean-utils 전체 838 B/1 kB·함수 하나 179/300 B. 큰 덩어리는 모두 Radix(점검 결과는 아래 "Claude 가 할 일" 2번).
@@ -143,6 +144,32 @@
    jsdom 30 은 Node ≥22.22.2 필요(로컬 Node 를 올리면). CI 러너 Ubuntu 26 전환은 Playwright `-resolute` 이미지(1.64.1 부터 있음)로 모든 workflow 함께 검토.
 8. **2.0 준비** — 후보가 쌓이면 `MIGRATION-2.0.md` 에 추가(지금: 입력 칸·체크 컨트롤 테두리 기본값 1개, deprecated 이름 없음). 출시 시점은 사용자와 결정.
 
+### 객관 점검에서 나온 보완 (2026-10-23 — 위에서부터 추천 순서)
+
+> 점검 결론: 테스트·접근성·한국 키트는 충분히 강하다(오히려 검증에 과투자). 약점은 **실사용 증거 0**(스타 1·이슈 0·사례 0)과
+> **실서비스 도입 때 바로 부딪힐 기초 기능 공백**. 런칭 게시가 1순위이고, 반응을 기다리는 동안 9 → 10 → 11 을 minor 하나로 묶는다.
+
+9. **OS 다크 모드 따르기** — `ThemeName` 이 `light | dark` 뿐이고 패키지에 `prefers-color-scheme` 대응이 없다.
+   - `ThemeProvider theme="system"`(OS 설정을 따르고 바뀌면 반영 — SSR 첫 값·hydration 주의, `useIsClient` 참고).
+   - 루트 `color-scheme` 지정(지금은 NativeSelect 만 — 다크에서 스크롤바·네이티브 컨트롤이 밝게 남음).
+   - 사용자 선택 저장 + SSR 첫 화면 깜빡임(FOUC) 방지 가이드(Next.js `<head>` 인라인 스크립트로 `data-theme` 먼저 지정), playground 토글에 적용 + E2E.
+10. **반응형 기반** — tokens 에 breakpoint 없음, 컴포넌트 미디어쿼리는 Drawer `30rem` 한 곳뿐.
+    - tokens 에 `breakpoint`(minor) + vanilla-extract 를 안 쓰는 사용자도 쓸 수 있는 형태(CSS 변수로는 미디어쿼리 불가 → 값 export·문서).
+    - `Stack` 의 `direction`·`gap` 반응형 값(`{ base, md }` 등), 필요하면 `Grid`·`Container`. 번들 "앱 기본" 한도(3.7 kB) 확인.
+11. **토큰 보강** — 의미 색 **`info`** 추가(Alert·Badge·Toast 안내용 — `createIntentColors` 로 대비 4.5 확인, `contract.test.ts` 목록 추가),
+    border width·opacity 토큰, 차트·카테고리용 색 검토(palette 5색뿐).
+12. **공용 폼 필드** — `Field`(label·helperText·error·required·`aria-describedby` 연결을 직접 만든·서드파티 입력에도) +
+    `CheckboxGroup`(묶음 label·그룹 오류. AgreementGroup 은 약관 전용). react-hook-form 통합 테스트에 추가.
+13. **한국 키트 확장** — korean-utils 에 마스킹 함수(이름 `홍*동`, 전화 `010-****-1234`) 먼저(작고 수요 확실),
+    그다음 주민·외국인등록번호 입력(뒷자리 마스킹), 카드번호, 계좌번호 + 은행 선택.
+14. **컴포넌트 공백** — Tag/Chip(표시·필터용, 6번 Tag 입력과 칩 부품 공유), 범용 `EmptyState`(지금은 TableEmpty 만),
+    TimePicker(예약·배송 시간), 앱 뼈대 패턴(헤더·사이드바·모바일 하단 탭바 — Guides 화면 패턴 예시로 먼저).
+    데이터 표는 직접 키우지 말고 **TanStack Table 과 함께 쓰는 패턴 가이드**(정렬·필터·페이지·선택).
+15. **Figma 라이브러리** (아래 보류에서 올림) — 팀 도입은 디자이너가 함께 결정하는 경우가 많아 코드만 있는 DS 는 불리하다.
+    먼저 tokens → Figma 변수 동기화(Figma MCP 연결됨), 그다음 주요 컴포넌트·Code Connect.
+16. **운영** — 런칭 뒤 배포는 SUPPORT.md 의 주기대로 묶는다(1주 24개 버전은 "불안정" 인상). 외부 기여자용 짧은 입구(CONTRIBUTING 첫 화면에
+    "처음 기여하기" — CLAUDE.md·ROADMAP 은 너무 길다). 큰 기능 전 번들 조합 한도(여유 약 10%) 확인은 6번과 같음.
+
 ### 보류 (수요가 생기면)
 
 - [ ] **shadcn/ui 레지스트리로 제공** (2026-10-21 외부 추천, 보류) — `POSITIONING.md` "하지 않을 것"(Tailwind 전용 복사형)과 충돌하고,
@@ -150,7 +177,7 @@
   하려면 포지셔닝 변경을 사용자가 먼저 결정. korean-utils 반응을 본 뒤 headless 부분부터 검토.
 - [ ] 한국 공휴일 도움 함수(`koreanHolidays(year)` 등) — 음력·대체·임시공휴일 때문에 해마다 갱신 필요. 지금은 `isHoliday` 로 받는다. korean-utils 에도 넣지 않음.
 - [ ] 컴포넌트별 CSS 선택 import (구 P7-B) — 실제 CSS 가 전체 9.9 kB 라 우선순위 낮음.
-- [ ] Figma 변수 ↔ tokens 동기화, Code Connect (구 P11, Figma MCP 연결돼 있음).
+- [ ] ~~Figma 변수 ↔ tokens 동기화, Code Connect (구 P11)~~ → 2026-10-23 "Claude 가 할 일" 15번으로 올림.
 - [ ] DateRangePicker 를 한 달력에서 끌어 고르는 방식.
 - [ ] 아이콘 추가: Lucide 에서 가져오면 `svg/` 에 넣고 `generate`. 자체 아이콘은 같은 규격(24×24, stroke 2, round).
 
@@ -241,3 +268,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-23 | VoiceOver 재확인(Switch 1.6·NativeSelect·입력 순간 오류 알림) ✅. 블로그 `kwcag-automated-testing.md` 에 NVDA 단락을 넣고 공개 준비(draft: false, pubDate 10-23, astro check·build 통과) |
 | 2026-10-23 | 런칭 초안 Artifact 갱신: GeekNews 본문에 VoiceOver·NVDA 점검 결과, 기술 글 ① 원문을 블로그 파일과 같게, 확인 상자 정리 |
 | 2026-10-23 | react 1.6.1 배포 확인(npm 패키지에 알림 코드·README 문구, Release, Pages llms.txt), main CI 전부 녹색. 블로그 KWCAG 글 공개(Cloudflare 첫 빌드 실패 → 재시도 성공), 블로그 표 스타일 수정. 인수인계를 "런칭 게시만 남음" 으로 정리 |
+| 2026-10-23 | 디자인 시스템 객관 점검(코드·토큰·문서 확인): OS 다크 모드·반응형·info 색·공용 Field/CheckboxGroup·한국 키트 확장·컴포넌트 공백·Figma·운영을 "Claude 가 할 일" 9~16번으로 추가, Figma 를 보류에서 올림 |
