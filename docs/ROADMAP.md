@@ -10,23 +10,25 @@
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-23 기준)
 
 **마지막 상태**
-- npm: **react 1.6.1**(2026-10-23 — 사업자번호·날짜 입력 순간 오류 알림, README 프로덕션 권장·스크린리더 점검 문구) · **korean-utils 0.1.0** ·
-  tokens 1.3.0 · icons 0.1.3. 열린 버전 PR 없음, 배포 대기 changeset 없음.
-- origin/main = `38c756c`(버전 PR #25 머지). CI·browsers(WebKit·Firefox)·React 18·시각 회귀·Release·Pages 모두 녹색(2026-10-23 확인).
+- npm: **react 1.6.1** · **korean-utils 0.1.0** · tokens 1.3.0 · icons 0.1.3 (배포된 것).
+  **버전 PR #26 열림 — react 1.7.0 · tokens 1.7.0 · korean-utils 0.2.0**(9~13번 changeset 5개. tokens 가 1.3 → 1.7 로 건너뛰는 것은
+  `.changeset/config.json` 의 linked 설정 — 정상). 머지는 main CI·PR 시각 회귀 녹색 확인 뒤. 머지하면 npm 배포 확인(react 가 korean-utils ^0.2.0 을 의존하는지).
+- origin/main = `c6105c1`(봇 — 13번 새 스토리 기준 이미지). 13번 = `18f75b9`. 9·10·11번 기준 이미지 갱신은 봇 커밋 `3406959`, 12번 새 스토리는 `ca3bd61`.
+  **로컬은 봇 커밋만큼 뒤처짐** → 다음 세션 시작 때 `git pull`.
 - GitHub 저장소 설정 완료(2026-10-21): 한국어 About·Website, Topics 18개, **Discussions 켜짐**(기본 카테고리 6개). 이슈·PR 템플릿 있음.
 - Pages: Storybook + playground + `llms.txt`·`llms-full.txt`. StackBlitz 예제 `examples/vite-starter`(npm 의 react ^1.6.0 — 통신사 NativeSelect 포함, 2026-10-21 설치·빌드·화면 확인).
-- 컴포넌트 약 51개(폴더 50) + 테마·다국어·서식 함수, 아이콘 57종. **P1~P16 완료**, 이번 플랜 1(노출)·2(번들)·3(korean-utils)·5(런칭 준비물) 완료.
+- 컴포넌트 약 56개(폴더 55 — 10-23 Grid·Container·FormField·CheckboxGroup·ResidentNumberInput 추가) + 테마·다국어·서식·마스킹 함수, 아이콘 57종. **P1~P16 완료**, 이번 플랜 1(노출)·2(번들)·3(korean-utils)·5(런칭 준비물) 완료.
 - 프로덕션 권장 선언 기준 **6/6 달성**(2026-10-23 NVDA + Chrome 13개 항목 모두 ✅, VoiceOver 재확인 ✅) — README·npm·Introduction·SUPPORT·POSITIONING 에 반영, 1.6.1 로 배포.
 - **런칭: 게시만 남음.** 블로그(https://jiwon-seok.com, 저장소 ~/Documents/Project/astro-blog) 기술 글 2편 **공개됨** —
   `oklch-contrast-theme`(10-21)·`kwcag-automated-testing`(10-23, NVDA 결과 포함). 블로그 표 스타일도 2026-10-23 손봄.
   GeekNews Show 본문은 비공개 Artifact https://claude.ai/artifact/EdgazWzz98aH3maLsXFwRT ("복사" 버튼, NVDA 결과 반영됨).
   런칭 뒤에는 이슈·Discussions 반응으로 다음 기능(Combobox 다중 선택·Tag 입력)을 정한다.
 - **9번 OS 다크 모드(`theme="system"`) 완료**, **10번 반응형 기반 완료**(2026-10-23, changeset `responsive-layout` react·tokens minor — 배포 대기). 11번 info 색·12번 FormField·CheckboxGroup 완료(changeset `info-color`·`form-field-checkbox-group`). 13번 한국 키트 1차(주민번호·마스킹) 완료(changeset `resident-number-masking`). 다음은 14번 컴포넌트 공백.
-  **"앱 기본" 번들 여유가 50 B 뿐**(4.05/4.1 kB — Stack 구간별 값 +300 B) → 다음에 ThemeProvider·Button·Typography·Stack 을 키우면 한도를 사용자와 다시 정한다.
-- **2026-10-23 객관 점검** 결과를 "다음 플랜 › 객관 점검에서 나온 보완"(9~16번)에 넣음 — 런칭 게시 다음으로 9(OS 다크 모드)·10(반응형)·11(info 색 등 토큰)을 minor 하나로.
-- 번들(2026-10-23 측정, minify + brotli): react 전체 JS **68.98/80 kB** · Button 하나 1.51/2 · 앱 기본 **4.05/4.1**(10-23 system 모드·반응형 Stack 뒤) · styles.css 10.66/12 · 폼 세트(Select) 29.64/33 ·
-  **폼 세트(NativeSelect) 3.87/4.3** · 오버레이 세트 34.76/38 · 한국 키트 30.36/33.5 · styles.css 10.08/12 · tokens 1.27/1.5 ·
-  korean-utils 전체 838 B/1 kB·함수 하나 179/300 B. 큰 덩어리는 모두 Radix(점검 결과는 아래 "Claude 가 할 일" 2번).
+  **"앱 기본" 번들 여유가 10 B 뿐**(4.09/4.1 kB — system 모드 +390·Stack 구간별 값 +300·info 변수 +40 B) → 다음에 ThemeProvider·Button·Typography·Stack·vars 를 키우면 한도를 사용자와 다시 정한다.
+- **2026-10-23 객관 점검**(다음 플랜 9~16번) 중 9~13 완료. 남은 것: 14 컴포넌트 공백(Tag/Chip·EmptyState·TimePicker·앱 뼈대·TanStack 가이드)·15 Figma·16 운영. 런칭 게시는 여전히 사람이 할 일 1순위.
+- 번들(2026-10-23 13번 뒤 측정, minify + brotli): react 전체 JS **71.68/80 kB** · Button 하나 1.51/2 · 앱 기본 **4.09/4.1** · 폼 세트(Select) 29.66/33 ·
+  **폼 세트(NativeSelect) 3.86/4.3** · 오버레이 세트 34.82/38 · 한국 키트 30.4/33.5 · styles.css 10.86/12 · tokens 1.32/1.5 ·
+  korean-utils 전체 1.32/1.5 kB(10-23 한도 1 → 1.5, 사용자 결정)·전화번호 서식 하나 179/300 B·maskName 하나 92/200 B. 큰 덩어리는 모두 Radix(점검 결과는 아래 "Claude 가 할 일" 2번).
   **조합 한도는 여유가 약 10% 뿐** — 큰 기능(Combobox 다중 선택 등)을 넣기 전에 어느 조합에 들어가는지 보고 필요하면 한도를 사용자와 정한다.
 - semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
   기본 화면을 바꾸는 개선은 **선택 토큰 + 2.0 기본값**(`MIGRATION-2.0.md`) — 입력 칸·체크 컨트롤 테두리가 이 방식.
@@ -221,24 +223,25 @@
 
 | 패키지 | 배포 버전 | 내용 |
 |---|---|---|
-| `@bestow-ui/tokens` | 1.3.0 | palette(gray·blue·red·green·amber), space, radius, font, shadow/darkShadow, duration, zIndex(overlay < modal < dropdown < toast < tooltip), light/dark 의미 색상 |
+| `@bestow-ui/tokens` | 1.3.0 (1.7.0 대기) | palette(gray·blue·red·green·amber), space, radius, font, shadow/darkShadow, duration, zIndex(overlay < modal < dropdown < toast < tooltip), light/dark 의미 색상(1.7: + info, `DefaultSemanticColors`), 1.7: breakpoint |
 | `@bestow-ui/icons` | 0.1.3 | 아이콘 57종 (Lucide 기반), SVG → 컴포넌트 생성 스크립트 |
-| `@bestow-ui/react` | 1.6.1 | 아래 컴포넌트 + 테마(ThemeProvider·createTheme·createIntentColors·strongInputBorders·vars·usePortalProps, 선택 토큰 border.input·inputHover·control) + 다국어(LocaleProvider·en) + 서식·날짜 함수·focusField |
+| `@bestow-ui/korean-utils` | 0.1.0 (0.2.0 대기) | 전화·사업자번호·금액·한국어 날짜·주소 참고항목, 0.2: 주민번호(서식·읽기·구조 검사)·마스킹 5종 |
+| `@bestow-ui/react` | 1.6.1 (1.7.0 대기) | 아래 컴포넌트 + 테마(ThemeProvider — 1.7: `theme="system"`·createTheme·createIntentColors·strongInputBorders·vars·usePortalProps, 선택 토큰 border.input·inputHover·control) + 다국어(LocaleProvider·en) + 서식·날짜·마스킹 함수·focusField + 1.7: `media`·`Responsive` |
 
 | 분류 | 컴포넌트 |
 |---|---|
-| 레이아웃·표시 | Stack, Divider, Card, Typography, VisuallyHidden, Avatar, Badge, DescriptionList, Table(+ TableEmpty·TableSkeleton·useTableSelection) |
+| 레이아웃·표시 | Stack(1.7: 구간별 값), Grid(1.7), Container(1.7), Divider, Card, Typography, VisuallyHidden, Avatar, Badge, DescriptionList, Table(+ TableEmpty·TableSkeleton·useTableSelection) |
 | 동작 | Button(loading), IconButton, Link |
-| 폼 | Input, TextField, Textarea, Select, Combobox(clearable), NumberInput, FileUpload, SegmentedControl, Checkbox, RadioGroup(네이티브), Switch, Slider |
-| 피드백 | Alert, ErrorSummary, Progress, Toast, Spinner, Skeleton |
+| 폼 | Input, TextField, FormField(1.7), Textarea, Select, Combobox(clearable), NumberInput, FileUpload, SegmentedControl, Checkbox, CheckboxGroup(1.7), RadioGroup(네이티브), Switch, Slider |
+| 피드백 | Alert(1.7: color info), ErrorSummary, Progress, Toast, Spinner, Skeleton |
 | 오버레이 | Modal, Drawer, Popover, Tooltip, DropdownMenu(체크·라디오·하위 메뉴) |
 | 탐색 | Tabs(가로·세로), Accordion, Pagination, Breadcrumb, SkipLink, Stepper |
-| 한국 서비스 키트 | AgreementGroup, VerificationCodeInput, PhoneNumberInput, BusinessNumberInput, AmountInput, AddressInput, Calendar, DatePicker, DateRangePicker(+ dateRangePresets) |
+| 한국 서비스 키트 | AgreementGroup, VerificationCodeInput, PhoneNumberInput, BusinessNumberInput, ResidentNumberInput(1.7), AmountInput, AddressInput, Calendar, DatePicker, DateRangePicker(+ dateRangePresets) |
 
-빌드: ESM 은 `dist/client.js`("use client" — 컴포넌트·hook) + `dist/shared.js`(서버 컴포넌트에서도 쓰는 함수·값·표시용 컴포넌트 9개), CJS 는 한 파일. tsup 9.
+빌드: ESM 은 `dist/client.js`("use client" — 컴포넌트·hook) + `dist/shared.js`(서버 컴포넌트에서도 쓰는 함수·값·표시용 컴포넌트 12개 — 1.7 에 Grid·Container·FormField), CJS 는 한 파일. tsup 9.
 운영: CI(생성물·lint·format·build·size·typecheck·test·스토리 렌더링+axe 라이트·다크·Storybook·playground 빌드·E2E), browsers job(WebKit·Firefox 스토리·E2E),
 react18 job, PR 번들 크기 코멘트(size.yml), 시각 회귀(visual.yml, Chromium, Playwright 1.64.1 이미지), changesets + npm Trusted Publishing(OIDC), CI 러너 ubuntu-24.04 고정.
-테스트: vitest 5(단위 445 — react 402·korean-utils 39·icons 4, 스토리 516, 라이트·다크 axe), E2E 68(키보드·모바일 Pixel 7·iPhone 15·고대비·확대/리플로·파일럿 /orders·react-hook-form /signup·portal 테마·axe, hydration 대기).
+테스트: vitest 5(단위 514 — react 444·korean-utils 66·icons 4, 스토리 560, 라이트·다크 axe), E2E 77(테마 system·반응형 구간 포함, 키보드·모바일 Pixel 7·iPhone 15·고대비·확대/리플로·파일럿 /orders·react-hook-form /signup·portal 테마·axe, hydration 대기).
 문서: Storybook(Introduction, Foundations, Accessibility — KWCAG 2.2·컴포넌트별 키보드·스크린리더, Guides — 언제 무엇을 쓰나·화면 패턴, Korean Kit),
 README·npm README(한국어), CONTRIBUTING.md, SUPPORT.md, SECURITY.md, docs/POSITIONING.md·MIGRATION-1.0.md·MIGRATION-2.0.md(초안)·SCREEN-READER-CHECKLIST.md·PILOT-FINDINGS.md.
 Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://dev-bestow.github.io/BestOW-UI/playground/
