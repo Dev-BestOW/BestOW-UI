@@ -198,7 +198,9 @@ export default function ServerPage() {
         <Typography variant="h3" as="h2">
           Alert
         </Typography>
-        <Alert title="점검 안내">9월 30일 새벽 2시부터 4시까지 서비스 점검이 있어요.</Alert>
+        <Alert color="info" title="점검 안내">
+          9월 30일 새벽 2시부터 4시까지 서비스 점검이 있어요.
+        </Alert>
         <Alert color="warning" variant="outline" title="저장 공간이 부족해요">
           남은 공간이 10% 미만이에요.
         </Alert>

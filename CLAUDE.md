@@ -232,6 +232,8 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
   CSS 크기를 잴 때는 이 처리 뒤의 dist/index.css 로 잰다.
 - **vanilla-extract 는 `.css.ts` 를 평가할 때 Storybook 의 alias 를 거치지 않고 `packages/tokens/dist` 를 읽는다.**
   토큰 값을 바꾸면 `pnpm build` 를 해야 Storybook·스토리 테스트에 반영된다 (JS import 는 src alias).
+  **그래도 단위 테스트에 옛 토큰이 보이면 `rm -rf node_modules/.vitest-cache`** — vitest 5 의 모듈 캐시(루트)가 `.css.ts` 변환 결과를
+  그 파일 내용으로만 구분해, tokens dist 가 바뀐 것을 모른다(2026-10-23 info 추가 때 contract.test 가 실패). CI 는 캐시가 없어 괜찮다.
 - 스토리 테스트 첫 실행(캐시 없음, CI)에서 Vite 가 늦게 발견한 의존성을 최적화하며 페이지를 다시 불러오면 테스트 파일이 통째로 실패한다
   ("Failed to fetch dynamically imported module"). `.storybook/main.ts` 의 `optimizeDeps.include` 에 추가한다.
   react 패키지의 의존성은 루트에서 못 찾으므로 `'@bestow-ui/react > 패키지'` 형식으로 쓴다.

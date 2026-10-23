@@ -4,7 +4,7 @@ import { cx } from '../../utils/cx';
 import * as styles from './Alert.css';
 import { useMessages } from '../../i18n/LocaleProvider';
 
-export type AlertColor = 'primary' | 'neutral' | 'danger' | 'success' | 'warning';
+export type AlertColor = 'primary' | 'neutral' | 'danger' | 'success' | 'warning' | 'info';
 
 const defaultIcons: Record<AlertColor, typeof InfoIcon> = {
   primary: InfoIcon,
@@ -12,12 +12,13 @@ const defaultIcons: Record<AlertColor, typeof InfoIcon> = {
   success: CircleCheckIcon,
   warning: TriangleAlertIcon,
   danger: CircleAlertIcon,
+  info: InfoIcon,
 };
 
 export interface AlertProps extends Omit<HTMLAttributes<HTMLDivElement>, 'color' | 'title'> {
   /** 시각적 스타일 */
   variant?: 'soft' | 'outline' | 'solid';
-  /** 의미 색상. primary 는 일반 안내(info) 로 쓴다 */
+  /** 의미 색상. 일반 안내(공지·도움말)는 info — 브랜드 색(primary)을 바꿔도 파랑으로 남는다 */
   color?: AlertColor;
   /** 굵게 표시되는 제목 */
   title?: ReactNode;

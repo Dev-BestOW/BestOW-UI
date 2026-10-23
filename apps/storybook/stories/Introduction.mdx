@@ -199,6 +199,8 @@ ThemeProvider 없이 CSS 만으로도 바꿀 수 있어요. 변수 이름(`--bes
 }
 ```
 
+- 일반 안내(공지·도움말)는 `color="info"` 를 써요(Alert·Badge·Toast). `info` 는 브랜드 색(primary)과 따로라 대표색을 바꿔도 파랑으로 남아요 —
+  주황·빨강 계열 브랜드에서 안내가 경고처럼 보이지 않아요. 바꾸려면 `createIntentColors('info', '#0891b2')`.
 - 직접 만든 portal 요소(예: `createPortal` 로 body 에 붙이는 패널)에는 `usePortalProps()` 가 돌려주는 `className`·`style` 을 붙여야 테마가 적용돼요.
 - 미리보기는 [Foundations › Theming](?path=/story/foundations-theming--playground),
   변수 전체 목록은 [CSS 변수](?path=/story/foundations-theming--css-variables) 에서 볼 수 있어요.

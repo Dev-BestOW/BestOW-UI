@@ -10,7 +10,9 @@ const accent = {
   text: createVar(),
 };
 
-function accentFrom(intent: keyof Pick<typeof vars.color, 'primary' | 'neutral' | 'danger' | 'success' | 'warning'>) {
+function accentFrom(
+  intent: keyof Pick<typeof vars.color, 'primary' | 'neutral' | 'danger' | 'success' | 'warning' | 'info'>,
+) {
   const c = vars.color[intent];
   return {
     vars: {
@@ -47,6 +49,7 @@ export const badge = recipe({
       danger: accentFrom('danger'),
       success: accentFrom('success'),
       warning: accentFrom('warning'),
+      info: accentFrom('info'),
     },
     size: {
       sm: { minHeight: '20px', paddingInline: vars.space[2], fontSize: vars.font.size.xs },

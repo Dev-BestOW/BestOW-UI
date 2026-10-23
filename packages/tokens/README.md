@@ -30,7 +30,7 @@ darkColors.fg.default; // '#f8f9fa'
 | export | 내용 |
 |---|---|
 | `palette` | 원시 색 단계 (`gray`, `blue`, `red`, `green`, `amber`, `white`, `black`) |
-| `lightColors`, `darkColors` | 의미 색 (`bg`, `fg`, `border`, `primary`, `neutral`, `danger`, `success`, `warning`) — 두 모드의 키가 같아요 |
+| `lightColors`, `darkColors` | 의미 색 (`bg`, `fg`, `border`, `primary`, `neutral`, `danger`, `success`, `warning`, `info`) — 두 모드의 키가 같아요. `info` 는 일반 안내용 파랑(브랜드 색과 따로) |
 | `space` | `0`–`16` (4px 단위) |
 | `radius` | `none`, `sm`, `md`, `lg`, `xl`, `full` |
 | `fontFamily`, `fontSize`, `fontWeight`, `lineHeight` | 글자 |

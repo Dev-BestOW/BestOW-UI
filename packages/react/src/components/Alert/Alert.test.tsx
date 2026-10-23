@@ -36,13 +36,13 @@ describe('Alert', () => {
   });
 
   it('color 마다 기본 아이콘이 다르다', () => {
-    const icons = (['primary', 'success', 'warning', 'danger'] as const).map((color) => {
+    const icons = (['primary', 'info', 'success', 'warning', 'danger'] as const).map((color) => {
       const { container, unmount } = render(<Alert color={color}>내용</Alert>);
       const name = container.querySelector('svg')?.getAttribute('data-icon');
       unmount();
       return name;
     });
-    expect(icons).toEqual(['Info', 'CircleCheck', 'TriangleAlert', 'CircleAlert']);
+    expect(icons).toEqual(['Info', 'Info', 'CircleCheck', 'TriangleAlert', 'CircleAlert']);
   });
 
   it('onClose 가 있으면 "닫기" 버튼을 표시하고, 누르면 호출한다', async () => {

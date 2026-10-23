@@ -11,7 +11,7 @@ const meta = {
   },
   argTypes: {
     variant: { control: 'inline-radio', options: ['solid', 'soft', 'outline'] },
-    color: { control: 'inline-radio', options: ['primary', 'neutral', 'danger', 'success', 'warning'] },
+    color: { control: 'inline-radio', options: ['primary', 'neutral', 'danger', 'success', 'warning', 'info'] },
     size: { control: 'inline-radio', options: ['sm', 'md', 'lg'] },
     startIcon: { control: false },
   },
@@ -25,7 +25,7 @@ export const Playground: Story = {};
 export const Variants: Story = {
   render: (args) => (
     <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, max-content)', gap: 12 }}>
-      {(['primary', 'neutral', 'danger', 'success', 'warning'] as const).map((color) =>
+      {(['primary', 'neutral', 'danger', 'success', 'warning', 'info'] as const).map((color) =>
         (['solid', 'soft', 'outline'] as const).map((variant) => (
           <Badge key={`${color}-${variant}`} {...args} color={color} variant={variant}>
             {color} {variant}

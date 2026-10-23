@@ -55,6 +55,13 @@ function Demo() {
       </Button>
       <Button
         variant="outline"
+        color="neutral"
+        onClick={() => toast({ title: '새 버전이 나왔어요', description: '새로 고침하면 적용돼요.', color: 'info' })}
+      >
+        안내
+      </Button>
+      <Button
+        variant="outline"
         color="danger"
         onClick={() => toast({ title: '저장 실패', description: '네트워크 연결을 확인해 주세요.', color: 'danger' })}
       >

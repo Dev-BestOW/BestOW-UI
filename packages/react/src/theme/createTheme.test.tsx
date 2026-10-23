@@ -18,7 +18,7 @@ describe('vars', () => {
 });
 
 describe('기본 intent 색', () => {
-  const intents = ['primary', 'neutral', 'danger', 'success', 'warning'] as const;
+  const intents = ['primary', 'neutral', 'danger', 'success', 'warning', 'info'] as const;
 
   it.each(intents)('%s: 라이트·다크 모두 글자 대비가 4.5:1 이상이다', (intent) => {
     for (const colors of [lightColors, darkColors]) {
@@ -111,6 +111,13 @@ describe('createIntentColors', () => {
     );
     expect(contrastRatio(darkFocus, darkColors.bg.default)).toBeGreaterThanOrEqual(3);
     expect(createIntentColors('danger', '#e11d48').light?.color?.border).toBeUndefined();
+  });
+
+  it('info 도 대표색으로 바꿀 수 있고, primary 를 바꿔도 info 는 기본 파랑 그대로다', () => {
+    const info = createIntentColors('info', '#0891b2');
+    expect(Object.keys(info.light!.color!)).toEqual(['info']);
+    const brand = createTheme(createIntentColors('primary', '#e8590c'));
+    expect(brand.light.color?.info).toBeUndefined();
   });
 
   it('잘못된 색은 에러를 낸다', () => {

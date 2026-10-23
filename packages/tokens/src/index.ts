@@ -180,9 +180,17 @@ export interface SemanticColors {
   danger: { solid: string; solidHover: string; contrast: string; subtle: string; subtleHover: string; text: string };
   success: { solid: string; solidHover: string; contrast: string; subtle: string; subtleHover: string; text: string };
   warning: { solid: string; solidHover: string; contrast: string; subtle: string; subtleHover: string; text: string };
+  /**
+   * 일반 안내(공지·도움말 Alert·Badge·Toast). 브랜드 색(primary)을 바꿔도 파랑으로 남는다.
+   * 1.x 에 추가한 키라 선택(?)이다 — 직접 만든 SemanticColors 객체가 타입 오류로 깨지지 않게. lightColors·darkColors 에는 항상 있다.
+   */
+  info?: SemanticColors['primary'];
 }
 
-export const lightColors: SemanticColors = {
+/** lightColors·darkColors 의 타입 — 선택 키(info)까지 모두 있다 */
+export type DefaultSemanticColors = SemanticColors & Required<Pick<SemanticColors, 'info'>>;
+
+export const lightColors: DefaultSemanticColors = {
   bg: {
     default: palette.white,
     subtle: palette.gray[50],
@@ -233,9 +241,18 @@ export const lightColors: SemanticColors = {
     subtleHover: palette.amber[100],
     text: palette.amber[800],
   },
+  // 기본 primary 와 같은 파랑 — 브랜드 색을 바꿔도 안내는 파랑으로 남는다
+  info: {
+    solid: palette.blue[600],
+    solidHover: palette.blue[700],
+    contrast: palette.white,
+    subtle: palette.blue[50],
+    subtleHover: palette.blue[100],
+    text: palette.blue[700],
+  },
 };
 
-export const darkColors: SemanticColors = {
+export const darkColors: DefaultSemanticColors = {
   bg: {
     default: palette.gray[950],
     subtle: palette.gray[900],
@@ -284,5 +301,13 @@ export const darkColors: SemanticColors = {
     subtle: 'rgba(245, 158, 11, 0.16)',
     subtleHover: 'rgba(245, 158, 11, 0.26)',
     text: palette.amber[300],
+  },
+  info: {
+    solid: palette.blue[600],
+    solidHover: palette.blue[700],
+    contrast: palette.white,
+    subtle: 'rgba(59, 111, 246, 0.16)',
+    subtleHover: 'rgba(59, 111, 246, 0.26)',
+    text: palette.blue[300],
   },
 };

@@ -137,7 +137,7 @@ const rgba = (hex: string, alpha: number) => {
   return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 };
 
-export type IntentName = 'primary' | 'neutral' | 'danger' | 'success' | 'warning';
+export type IntentName = 'primary' | 'neutral' | 'danger' | 'success' | 'warning' | 'info';
 
 /**
  * 대표색 하나로 intent(primary 등)의 라이트·다크 색 세트를 만든다. 결과는 createTheme 에 넘긴다.

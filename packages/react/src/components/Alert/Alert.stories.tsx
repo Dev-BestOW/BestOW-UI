@@ -1,9 +1,15 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { StarIcon } from '@bestow-ui/icons';
+import { createIntentColors } from '../../theme/color';
+import { createTheme } from '../../theme/createTheme';
+import { ThemeProvider } from '../../theme/ThemeProvider';
 import { Button } from '../Button';
 import { Stack } from '../Stack';
 import { Alert } from './Alert';
+
+// 주황 브랜드 — primary 안내가 경고처럼 보이는 예
+const brand = createTheme(createIntentColors('primary', '#e8590c'));
 
 const meta = {
   title: 'Components/Alert',
@@ -15,7 +21,7 @@ const meta = {
   },
   argTypes: {
     variant: { control: 'inline-radio', options: ['soft', 'outline', 'solid'] },
-    color: { control: 'inline-radio', options: ['primary', 'neutral', 'success', 'warning', 'danger'] },
+    color: { control: 'inline-radio', options: ['info', 'primary', 'neutral', 'success', 'warning', 'danger'] },
     icon: { control: false },
     action: { control: false },
   },
@@ -28,7 +34,8 @@ type Story = StoryObj<typeof meta>;
 export const Playground: Story = {};
 
 const examples = {
-  primary: { title: '안내', body: '9월 30일 새벽 2시부터 4시까지 점검이 있어요.' },
+  info: { title: '안내', body: '9월 30일 새벽 2시부터 4시까지 점검이 있어요.' },
+  primary: { title: '새 기능', body: '대시보드에서 차트를 바로 내보낼 수 있어요.' },
   neutral: { title: '참고', body: '이 설정은 팀원 모두에게 적용돼요.' },
   success: { title: '저장했어요', body: '변경 사항이 모든 기기에 반영됐어요.' },
   warning: { title: '저장 공간이 부족해요', body: '남은 공간이 10% 미만이에요. 오래된 파일을 정리해 주세요.' },
@@ -52,6 +59,26 @@ export const Soft: Story = { render: () => <AllColors variant="soft" /> };
 export const Outline: Story = { render: () => <AllColors variant="outline" /> };
 
 export const Solid: Story = { render: () => <AllColors variant="solid" /> };
+
+/**
+ * 일반 안내는 `info` — 브랜드 색(primary)을 바꿔도 파랑으로 남아요. primary 는 브랜드를 드러내는 안내(새 기능 소개 등)에 써요.
+ * 아래는 primary 를 주황 브랜드색으로 바꾼 테마예요. 점검 안내를 primary 로 쓰면 경고처럼 보여요.
+ */
+export const InfoVsBrand: Story = {
+  name: 'info 와 브랜드 색',
+  render: () => (
+    <ThemeProvider overrides={brand}>
+      <Stack gap={3} style={{ maxWidth: 560 }}>
+        <Alert color="info" title="안내 (info)">
+          9월 30일 새벽 2시부터 4시까지 점검이 있어요.
+        </Alert>
+        <Alert color="primary" title="같은 안내를 primary 로">
+          9월 30일 새벽 2시부터 4시까지 점검이 있어요.
+        </Alert>
+      </Stack>
+    </ThemeProvider>
+  ),
+};
 
 export const DescriptionOnly: Story = {
   name: '제목 없이',

@@ -7,7 +7,7 @@ import { Button } from '../Button';
 import * as styles from './Toast.css';
 import { useMessages } from '../../i18n/LocaleProvider';
 
-export type ToastColor = 'primary' | 'neutral' | 'danger' | 'success' | 'warning';
+export type ToastColor = 'primary' | 'neutral' | 'danger' | 'success' | 'warning' | 'info';
 
 export interface ToastOptions {
   /** 제목 */

@@ -153,7 +153,7 @@ export const choosing: ChoiceGroup[] = [
       {
         name: 'Alert',
         path: docs('components-alert'),
-        when: '페이지에 남아 있어야 하는 안내·경고.',
+        when: '페이지에 남아 있어야 하는 안내·경고. 일반 안내는 color="info"(브랜드 색과 따로 파랑), 브랜드를 드러내는 소개는 primary.',
       },
       {
         name: 'ErrorSummary',

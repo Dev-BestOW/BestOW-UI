@@ -5,8 +5,8 @@ import * as styles from './Badge.css';
 export interface BadgeProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'color'> {
   /** 시각적 스타일 */
   variant?: 'solid' | 'soft' | 'outline';
-  /** 의미 색상 */
-  color?: 'primary' | 'neutral' | 'danger' | 'success' | 'warning';
+  /** 의미 색상. 일반 안내는 info (브랜드 색과 따로 파랑) */
+  color?: 'primary' | 'neutral' | 'danger' | 'success' | 'warning' | 'info';
   /** 크기 */
   size?: 'sm' | 'md' | 'lg';
   /** 텍스트 앞에 표시할 아이콘 (장식용 — 의미는 텍스트로 전달한다) */

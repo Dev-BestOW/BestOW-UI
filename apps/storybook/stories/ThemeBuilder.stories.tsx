@@ -1,7 +1,7 @@
 import { useMemo, useState, type CSSProperties } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, within } from 'storybook/test';
-import { darkColors, lightColors, type SemanticColors } from '@bestow-ui/tokens';
+import { darkColors, lightColors, type DefaultSemanticColors } from '@bestow-ui/tokens';
 import {
   Alert,
   Badge,
@@ -34,13 +34,14 @@ import {
 // 대표색을 넣으면 createIntentColors 로 라이트·다크 색을 만들고, 실제 컴포넌트 미리보기·대비 리포트·코드를 보여 준다.
 // 라이브러리의 공개 API(createIntentColors, createTheme, contrastRatio)만 써서, 사용자가 같은 코드를 그대로 가져갈 수 있다.
 
-type Intent = 'primary' | 'danger' | 'success' | 'warning';
-const INTENTS: Intent[] = ['primary', 'danger', 'success', 'warning'];
+type Intent = 'primary' | 'danger' | 'success' | 'warning' | 'info';
+const INTENTS: Intent[] = ['primary', 'danger', 'success', 'warning', 'info'];
 const INTENT_LABEL: Record<Intent, string> = {
   primary: 'primary (대표색)',
   danger: 'danger (오류·삭제)',
   success: 'success (완료)',
   warning: 'warning (주의)',
+  info: 'info (안내)',
 };
 
 /** "#abc", "abc", "#aabbcc" → "#aabbcc". 올바르지 않으면 null */
@@ -111,11 +112,11 @@ function buildCode(state: BuilderState): string {
 }
 
 /** 기본 토큰 위에 테마의 색 오버라이드를 얹은 최종 색 */
-function resolveColors(theme: BestowTheme, mode: ThemeName): SemanticColors {
+function resolveColors(theme: BestowTheme, mode: ThemeName): DefaultSemanticColors {
   const base = mode === 'light' ? lightColors : darkColors;
-  const over = (theme[mode].color ?? {}) as Partial<Record<keyof SemanticColors, Record<string, string>>>;
-  const out = { ...base } as SemanticColors;
-  for (const key of Object.keys(base) as Array<keyof SemanticColors>) {
+  const over = (theme[mode].color ?? {}) as Partial<Record<keyof DefaultSemanticColors, Record<string, string>>>;
+  const out = { ...base } as DefaultSemanticColors;
+  for (const key of Object.keys(base) as Array<keyof DefaultSemanticColors>) {
     out[key] = { ...base[key], ...over[key] } as never;
   }
   return out;
@@ -127,7 +128,7 @@ interface Check {
   ratio: number;
 }
 
-function checksFor(colors: SemanticColors, intent: Intent): Check[] {
+function checksFor(colors: DefaultSemanticColors, intent: Intent): Check[] {
   const c = colors[intent];
   const bg = colors.bg.default;
   const checks: Check[] = [
@@ -210,6 +211,7 @@ function Preview({ mode, theme }: { mode: ThemeName; theme: BestowTheme }) {
           <Badge color="primary">primary</Badge>
           <Badge color="success">완료</Badge>
           <Badge color="warning">주의</Badge>
+          <Badge color="info">안내</Badge>
           <Badge color="danger" variant="solid">
             오류
           </Badge>
@@ -279,7 +281,7 @@ function Report({ theme }: { theme: BestowTheme }) {
 
 function ThemeBuilder({ initialPrimary = '#7c3aed' }: { initialPrimary?: string }) {
   const [state, setState] = useState<BuilderState>({
-    colors: { primary: initialPrimary, danger: '', success: '', warning: '' },
+    colors: { primary: initialPrimary, danger: '', success: '', warning: '', info: '' },
     radius: DEFAULT_RADIUS,
     font: DEFAULT_FONT,
   });

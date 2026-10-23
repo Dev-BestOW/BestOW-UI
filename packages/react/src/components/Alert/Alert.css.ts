@@ -10,7 +10,7 @@ const accent = {
   text: createVar(),
 };
 
-type Intent = 'primary' | 'neutral' | 'danger' | 'success' | 'warning';
+type Intent = 'primary' | 'neutral' | 'danger' | 'success' | 'warning' | 'info';
 
 function accentFrom(intent: Intent) {
   const c = vars.color[intent];
@@ -63,6 +63,7 @@ export const alert = recipe({
       danger: accentFrom('danger'),
       success: accentFrom('success'),
       warning: accentFrom('warning'),
+      info: accentFrom('info'),
     },
   },
   defaultVariants: {

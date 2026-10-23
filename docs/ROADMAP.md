@@ -21,7 +21,7 @@
   `oklch-contrast-theme`(10-21)·`kwcag-automated-testing`(10-23, NVDA 결과 포함). 블로그 표 스타일도 2026-10-23 손봄.
   GeekNews Show 본문은 비공개 Artifact https://claude.ai/artifact/EdgazWzz98aH3maLsXFwRT ("복사" 버튼, NVDA 결과 반영됨).
   런칭 뒤에는 이슈·Discussions 반응으로 다음 기능(Combobox 다중 선택·Tag 입력)을 정한다.
-- **9번 OS 다크 모드(`theme="system"`) 완료**, **10번 반응형 기반 완료**(2026-10-23, changeset `responsive-layout` react·tokens minor — 배포 대기). 다음은 11번 토큰.
+- **9번 OS 다크 모드(`theme="system"`) 완료**, **10번 반응형 기반 완료**(2026-10-23, changeset `responsive-layout` react·tokens minor — 배포 대기). 11번 info 색 완료(changeset `info-color`). 다음은 12번 Field·CheckboxGroup.
   **"앱 기본" 번들 여유가 50 B 뿐**(4.05/4.1 kB — Stack 구간별 값 +300 B) → 다음에 ThemeProvider·Button·Typography·Stack 을 키우면 한도를 사용자와 다시 정한다.
 - **2026-10-23 객관 점검** 결과를 "다음 플랜 › 객관 점검에서 나온 보완"(9~16번)에 넣음 — 런칭 게시 다음으로 9(OS 다크 모드)·10(반응형)·11(info 색 등 토큰)을 minor 하나로.
 - 번들(2026-10-23 측정, minify + brotli): react 전체 JS **68.98/80 kB** · Button 하나 1.51/2 · 앱 기본 **4.05/4.1**(10-23 system 모드·반응형 Stack 뒤) · styles.css 10.66/12 · 폼 세트(Select) 29.64/33 ·
@@ -168,7 +168,11 @@
     원래 계획: tokens 에 breakpoint 없음, 컴포넌트 미디어쿼리는 Drawer `30rem` 한 곳뿐.
     - tokens 에 `breakpoint`(minor) + vanilla-extract 를 안 쓰는 사용자도 쓸 수 있는 형태(CSS 변수로는 미디어쿼리 불가 → 값 export·문서).
     - `Stack` 의 `direction`·`gap` 반응형 값(`{ base, md }` 등), 필요하면 `Grid`·`Container`. 번들 "앱 기본" 한도(4.1 kB, 지금 3.75) 확인.
-11. **토큰 보강** — 의미 색 **`info`** 추가(Alert·Badge·Toast 안내용 — `createIntentColors` 로 대비 4.5 확인, `contract.test.ts` 목록 추가),
+11. ✅ **토큰 보강** (2026-10-23 완료 — 사용자 결정: info 만, border width·opacity 는 보류) — `info` 의미 색(기본 파랑, `SemanticColors.info` 는 선택 키 + `DefaultSemanticColors`),
+    `--bestow-color-info-*`, Alert·Badge·Toast `color="info"`, `createIntentColors('info')`, Theme Builder·Design Tokens·Introduction·Guides, playground 점검 안내 Alert 를 info 로.
+    border width·opacity: 쓰는 곳 없는 토큰은 만들지 않음. disabled 투명도 0.4·0.5·0.6 불일치·Alert 기본 color → info 는 `MIGRATION-2.0.md` 검토 표로.
+    차트·카테고리 색: 차트 컴포넌트가 없어 보류 — 필요해지면 palette 5색으로는 부족하니 OKLCH 로 밝기를 맞춘 카테고리 8색 + 색맹 구분 검사부터.
+    함정 발견: vitest 5 모듈 캐시(`node_modules/.vitest-cache`)가 tokens 변경을 모름 → CLAUDE.md 에 기록. 원래 계획: 의미 색 **`info`** 추가(Alert·Badge·Toast 안내용 — `createIntentColors` 로 대비 4.5 확인, `contract.test.ts` 목록 추가),
     border width·opacity 토큰, 차트·카테고리용 색 검토(palette 5색뿐).
 12. **공용 폼 필드** — `Field`(label·helperText·error·required·`aria-describedby` 연결을 직접 만든·서드파티 입력에도) +
     `CheckboxGroup`(묶음 label·그룹 오류. AgreementGroup 은 약관 전용). react-hook-form 통합 테스트에 추가.
@@ -283,3 +287,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-23 | 디자인 시스템 객관 점검(코드·토큰·문서 확인): OS 다크 모드·반응형·info 색·공용 Field/CheckboxGroup·한국 키트 확장·컴포넌트 공백·Figma·운영을 "Claude 가 할 일" 9~16번으로 추가, Figma 를 보류에서 올림 |
 | 2026-10-23 | 9번 OS 다크 모드: `theme="system"`·`ThemeMode`·`useSystemTheme`·`systemThemeClass`(서버 렌더링 미디어쿼리 + 오버라이드 `<style>`)·`color-scheme`, playground system 시작, 단위 9·SSR 1·E2E `theme.spec.ts` 3(변이 5 — 서버 스냅숏·구독·이스케이프·서버 인라인·미디어쿼리 제거), Introduction 쿠키 저장 가이드·README·llms.txt·CLAUDE.md, changeset minor. 앱 기본 3.75 kB → 한도 4.1 kB(사용자 결정) |
 | 2026-10-23 | 10번 반응형 기반: tokens `breakpoint`, react `media`·`Responsive`, Stack 구간별 값, `Grid`·`Container`(shared), 인라인 CSS 변수 + 미디어쿼리 방식(중첩 초기화), 단위 11·스토리 9(play 2)·SSR·E2E 4(변이 3), 문서(Design Tokens·Guides·componentA11y·README·CLAUDE.md), changeset react·tokens minor. 앱 기본 4.05/4.1 kB(여유 50 B) |
+| 2026-10-23 | 11번 토큰 보강: `info` 의미 색(tokens 선택 키 + `DefaultSemanticColors`, react 변수·Alert·Badge·Toast·createIntentColors), 스토리(Alert "info 와 브랜드 색")·Theme Builder·문서, MIGRATION-2.0 검토 2건(Alert 기본 info, disabled 투명도). border width·opacity·차트 색은 보류(사용자 결정). vitest 모듈 캐시 함정 CLAUDE.md |
