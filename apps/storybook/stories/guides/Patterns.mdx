@@ -53,6 +53,21 @@ const summary = Object.entries(errors).map(([name, e]) => ({ id: `signup-${name}
   )} />
 ```
 
+**직접 만든 입력·다른 라이브러리 입력** — [FormField](?path=/docs/components-formfield--docs)로 감싸면 TextField 와 같은 레이블·도움말·오류 연결이 붙어요.
+자식 함수의 첫째 인자(`id`·`aria-describedby`·`aria-invalid`·`aria-required`)를 입력에 펼치고, `register` 도 함께 펼치면 돼요.
+여러 개를 고르는 칸은 [CheckboxGroup](?path=/docs/components-checkboxgroup--docs) 을 `Controller` 로 연결해요.
+
+```tsx
+<FormField id="profile-company" label="회사명" required error={!!errors.company} helperText={errors.company?.message}>
+  {(field) => <input {...field} {...register('company', { required: '회사명을 입력해 주세요.' })} />}
+</FormField>
+<Controller name="interests" control={control} rules={{ validate: (v) => v.length > 0 || '하나 이상 골라 주세요.' }}
+  render={({ field, fieldState }) => (
+    <CheckboxGroup id="profile-interests" label="관심 분야" required options={interests} value={field.value}
+      onValueChange={field.onChange} error={!!fieldState.error} helperText={fieldState.error?.message} />
+  )} />
+```
+
 **대화상자 안의 폼** — Modal 의 `footer` 는 form 밖에 그려지므로 제출 버튼에 `type="submit" form="폼 id"` 를 줘요.
 ([Modal — 폼 제출](?path=/story/components-modal--submit-form))
 

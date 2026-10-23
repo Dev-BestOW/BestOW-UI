@@ -3,8 +3,10 @@ import userEvent from '@testing-library/user-event';
 import { Controller, useForm } from 'react-hook-form';
 import { AgreementGroup } from '../components/AgreementGroup';
 import { Checkbox } from '../components/Checkbox';
+import { CheckboxGroup } from '../components/CheckboxGroup';
 import { ErrorSummary } from '../components/ErrorSummary';
 import { FileUpload } from '../components/FileUpload';
+import { FormField } from '../components/FormField';
 import { TextField } from '../components/Input';
 import { NumberInput } from '../components/NumberInput';
 import { PhoneNumberInput } from '../components/PhoneNumberInput';
@@ -288,5 +290,84 @@ describe('react-hook-form 과 함께 쓰기', () => {
       await user.click(screen.getByRole('button', { name: '저장' }));
     });
     expect(onSubmit.mock.calls[0]![0]).toEqual({ region: 'busan' });
+  });
+
+  it('FormField(register 를 함께 펼침)·CheckboxGroup(Controller) — 오류 연결·요약 링크·제출 값', async () => {
+    const user = userEvent.setup();
+    const onSubmit = vi.fn();
+    function ProfileForm() {
+      const {
+        register,
+        control,
+        handleSubmit,
+        formState: { errors, submitCount },
+      } = useForm<{ company: string; interests: string[] }>({
+        shouldFocusError: false,
+        defaultValues: { company: '', interests: [] },
+      });
+      const summary = (['company', 'interests'] as const)
+        .filter((key) => errors[key])
+        .map((key) => ({ id: `profile-${key}`, message: errors[key]!.message ?? '' }));
+      return (
+        <form noValidate onSubmit={handleSubmit(onSubmit)}>
+          <ErrorSummary errors={summary} focusKey={submitCount} />
+          <FormField
+            id="profile-company"
+            label="회사명"
+            required
+            error={!!errors.company}
+            helperText={errors.company?.message}
+          >
+            {(field) => <input {...field} {...register('company', { required: '회사명을 입력해 주세요.' })} />}
+          </FormField>
+          <Controller
+            name="interests"
+            control={control}
+            rules={{ validate: (v) => v.length > 0 || '관심 분야를 하나 이상 골라 주세요.' }}
+            render={({ field, fieldState }) => (
+              <CheckboxGroup
+                id="profile-interests"
+                label="관심 분야"
+                required
+                options={[
+                  { value: 'design', label: '디자인' },
+                  { value: 'dev', label: '개발' },
+                ]}
+                value={field.value}
+                onValueChange={field.onChange}
+                error={!!fieldState.error}
+                helperText={fieldState.error?.message}
+              />
+            )}
+          />
+          <button type="submit">저장</button>
+        </form>
+      );
+    }
+    render(<ProfileForm />);
+    await user.click(screen.getByRole('button', { name: '저장' }));
+    expect(onSubmit).not.toHaveBeenCalled();
+    const company = screen.getByRole('textbox', { name: '회사명' });
+    expect(company.getAttribute('aria-invalid')).toBe('true');
+    expect(document.getElementById(company.getAttribute('aria-describedby')!)?.textContent).toBe(
+      '회사명을 입력해 주세요.',
+    );
+    for (const box of screen.getAllByRole('checkbox')) expect(box.getAttribute('aria-invalid')).toBe('true');
+
+    const summary = within(
+      screen.getByText('입력한 내용에 고칠 곳이 2개 있어요').closest('[tabindex="-1"]') as HTMLElement,
+    );
+    await user.click(summary.getByRole('link', { name: '관심 분야를 하나 이상 골라 주세요.' }));
+    expect(document.activeElement).toBe(screen.getByRole('checkbox', { name: '디자인' }));
+    await user.click(summary.getByRole('link', { name: '회사명을 입력해 주세요.' }));
+    expect(document.activeElement).toBe(company);
+
+    await user.type(company, '베스토우');
+    await user.click(screen.getByRole('checkbox', { name: '개발' }));
+    await user.click(screen.getByRole('checkbox', { name: '디자인' }));
+    await act(async () => {
+      await user.click(screen.getByRole('button', { name: '저장' }));
+    });
+    expect(onSubmit.mock.calls[0]![0]).toEqual({ company: '베스토우', interests: ['design', 'dev'] });
   });
 });

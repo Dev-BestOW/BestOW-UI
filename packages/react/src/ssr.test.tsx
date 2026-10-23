@@ -17,6 +17,7 @@ import {
   Card,
   CardBody,
   Checkbox,
+  CheckboxGroup,
   Combobox,
   Container,
   createIntentColors,
@@ -33,6 +34,7 @@ import {
   DropdownMenuTrigger,
   ErrorSummary,
   FileUpload,
+  FormField,
   Grid,
   IconButton,
   Input,
@@ -94,6 +96,10 @@ function Everything() {
               <span>칸</span>
             </Grid>
           </Container>
+          <CheckboxGroup label="관심 분야" required options={[{ value: 'a', label: '가' }]} defaultValue={['a']} />
+          <FormField label="시각" helperText="24시간">
+            {(field) => <input type="time" {...field} />}
+          </FormField>
           <ErrorSummary errors={[{ id: 'name', message: '이름을 입력해 주세요.' }]} />
           <VisuallyHidden>숨긴 글자</VisuallyHidden>
           <DescriptionList items={[{ term: '고객', description: '최별' }]} />

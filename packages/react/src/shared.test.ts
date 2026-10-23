@@ -57,6 +57,7 @@ describe('shared 진입점 (서버 컴포넌트용)', () => {
       'CardBody',
       'Container',
       'Divider',
+      'FormField',
       'Grid',
       'Progress',
       'Skeleton',

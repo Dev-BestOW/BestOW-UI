@@ -73,6 +73,22 @@ export const componentA11y: ComponentA11yGroup[] = [
           'radiogroup (label 이 그룹 이름) 안의 네이티브 radio — "n개 중 m번째" 와 선택 상태를 읽는다. 보조 설명은 각 radio 의 설명으로, helperText·error·required 는 그룹에 연결.',
       },
       {
+        name: 'CheckboxGroup',
+        keyboard:
+          'Tab 으로 체크박스마다 이동, Space 로 켜고 끈다(네이티브 checkbox). Safari 는 기본 설정에서 Tab 이 체크박스를 건너뛴다(Option+Tab).',
+        screenReader:
+          'group (label 이 묶음 이름) 안의 네이티브 checkbox. group 에는 aria-required 가 없어 required 면 이름에 "필수" 를 넣는다(* 는 숨김). helperText·error 는 묶음 설명으로, 오류면 체크박스마다 aria-invalid. 보조 설명은 각 체크박스의 설명으로.',
+        yours: '"하나 이상" 같은 검증은 폼에서 하고, 오류 문구에 무엇을 고칠지 적는다.',
+      },
+      {
+        name: 'FormField',
+        keyboard: '감싼 입력을 따른다.',
+        screenReader:
+          '<label for> 로 이름, helperText 를 aria-describedby 로, error·required 를 aria-invalid·aria-required 로 넘긴다. label 로 이름을 받을 수 없는 요소는 둘째 인자의 labelId 를 aria-labelledby 에.',
+        yours:
+          '받은 속성을 실제로 포커스를 받는 요소에 펼친다. group 처럼 aria-invalid·aria-required 를 받지 못하는 역할이면 그 둘은 빼고 안의 컨트롤에 준다.',
+      },
+      {
         name: 'FileUpload',
         keyboard:
           '"파일 선택" 버튼(Enter·Space)으로 운영체제 파일 창을 연다 — 끌어다 놓기는 덤. 목록의 "○○ 삭제" 버튼으로 지우면 포커스가 다음 삭제 버튼, 없으면 "파일 선택" 으로 간다.',

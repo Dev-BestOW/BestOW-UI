@@ -24,6 +24,7 @@ export * from './components/BusinessNumberInput';
 export * from './components/Button';
 export * from './components/Calendar';
 export * from './components/Checkbox';
+export * from './components/CheckboxGroup';
 export * from './components/Combobox';
 export * from './components/DatePicker';
 export * from './components/DateRangePicker';

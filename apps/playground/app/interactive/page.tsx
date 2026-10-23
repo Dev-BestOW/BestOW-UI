@@ -9,9 +9,12 @@ import {
   Avatar,
   Button,
   Card,
+  CheckboxGroup,
   Combobox,
   DatePicker,
   FileUpload,
+  FormField,
+  Input,
   Modal,
   PhoneNumberInput,
   ModalClose,
@@ -58,6 +61,7 @@ export default function InteractivePage() {
   const [code, setCode] = useState('');
   const [billing, setBilling] = useState<string>();
   const [region, setRegion] = useState('');
+  const [channels, setChannels] = useState<string[]>(['email']);
   const [seats, setSeats] = useState<number | null>(1);
   const [memo, setMemo] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -235,6 +239,28 @@ export default function InteractivePage() {
           helperText="PDF·이미지, 파일당 5MB 이하, 최대 2개"
         />
         <DatePicker label="정산 희망일" isHoliday={isHoliday} fullWidth />
+      </Stack>
+
+      <Stack as="section" aria-label="알림 설정" gap={3} style={{ maxWidth: 400 }}>
+        <CheckboxGroup
+          id="notify-channels"
+          label="받을 알림"
+          required
+          orientation="horizontal"
+          options={[
+            { value: 'email', label: '이메일' },
+            { value: 'sms', label: '문자' },
+            { value: 'push', label: '앱 푸시' },
+          ]}
+          value={channels}
+          onValueChange={setChannels}
+          error={channels.length === 0}
+          helperText={channels.length === 0 ? '하나 이상 골라 주세요.' : `${channels.length}개 골랐어요`}
+        />
+        {/* 시간 고르기 컴포넌트가 없을 때 — 네이티브 time 입력에 레이블·도움말 연결만 붙인다 */}
+        <FormField label="알림 받을 시각" helperText="밤 9시 이후에는 보내지 않아요">
+          {(field) => <Input type="time" defaultValue="09:00" max="21:00" {...field} />}
+        </FormField>
       </Stack>
 
       <Stack gap={3} style={{ maxWidth: 400 }}>

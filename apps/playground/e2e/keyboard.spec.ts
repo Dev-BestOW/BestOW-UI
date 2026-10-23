@@ -273,3 +273,25 @@ test('FileUpload: 고른 파일이 목록에 나오고, 삭제하면 포커스�
   await expect(list).toBeHidden();
   await expect(group.getByRole('button', { name: '파일 선택' })).toBeFocused();
 });
+
+test('CheckboxGroup·FormField: 묶음 이름에 "필수", Space 로 켜고 끄면 오류가 생기고 사라진다, 입력에 레이블·도움말 연결', async ({
+  page,
+}) => {
+  await page.goto('/interactive');
+  const group = page.getByRole('group', { name: '받을 알림 (필수)' });
+  await expect(group).toHaveAccessibleDescription('1개 골랐어요');
+  const email = group.getByRole('checkbox', { name: '이메일' });
+  await email.focus();
+  await page.keyboard.press('Space');
+  await expect(email).not.toBeChecked();
+  await expect(group).toHaveAccessibleDescription('하나 이상 골라 주세요.');
+  await expect(email).toHaveAttribute('aria-invalid', 'true');
+  // Safari 는 Tab 이 체크박스를 건너뛴다(기본 설정) — 포커스는 직접 옮긴다
+  await group.getByRole('checkbox', { name: '문자' }).focus();
+  await page.keyboard.press('Space');
+  await expect(group).toHaveAccessibleDescription('1개 골랐어요');
+  await expect(email).not.toHaveAttribute('aria-invalid');
+
+  const time = page.getByLabel('알림 받을 시각');
+  await expect(time).toHaveAccessibleDescription('밤 9시 이후에는 보내지 않아요');
+});

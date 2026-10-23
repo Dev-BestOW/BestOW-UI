@@ -85,7 +85,7 @@ examples/
   `theme` 생략 시 바깥 모드 상속, `overrides` 는 바깥과 병합(안쪽 우선). `useTheme()`,
   `usePortalProps()`(portal 요소용 className+style — 오버라이드까지 적용).
 - `src/index.ts` = `shared.ts`(서버 컴포넌트에서도 쓰는 순수 함수·값 + hook 없는 표시용 컴포넌트: createTheme, vars, 서식·날짜 함수, en,
-  Typography·Stack·Grid·Container·Card·Badge·Divider·Progress·Skeleton·DescriptionList·VisuallyHidden, focusField, media) + `client.ts`(`'use client'` — 나머지 컴포넌트·hook).
+  Typography·Stack·Grid·Container·Card·Badge·Divider·Progress·Skeleton·DescriptionList·VisuallyHidden·FormField, focusField, media) + `client.ts`(`'use client'` — 나머지 컴포넌트·hook).
   ESM 빌드는 둘을 `dist/shared.js`·`dist/client.js` 로 나눠 함수가 클라이언트 참조가 되지 않게 한다(tsup.config.ts 주석 참고, CJS 는 한 파일).
   **새 순수 함수와 hook(useId 제외)·Context·Radix·이벤트 핸들러·useMessages 가 없는 표시용 컴포넌트는 shared.ts, 나머지 컴포넌트는 client.ts** 에서
   export 한다. 같은 이름을 양쪽에서 export 하면 안 된다(Next.js 에서 이름이 모호해져 사라짐). `src/shared.test.ts` 가 shared 의 import 그래프에
