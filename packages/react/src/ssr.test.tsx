@@ -47,6 +47,7 @@ import {
   Popover,
   Progress,
   RadioGroup,
+  ResidentNumberInput,
   SegmentedControl,
   NativeSelect,
   Select,
@@ -96,6 +97,8 @@ function Everything() {
               <span>칸</span>
             </Grid>
           </Container>
+          <ResidentNumberInput name="rrn" defaultValue="9001011" />
+          <ResidentNumberInput digits={7} />
           <CheckboxGroup label="관심 분야" required options={[{ value: 'a', label: '가' }]} defaultValue={['a']} />
           <FormField label="시각" helperText="24시간">
             {(field) => <input type="time" {...field} />}

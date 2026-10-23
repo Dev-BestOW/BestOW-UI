@@ -172,6 +172,15 @@ export const componentA11y: ComponentA11yGroup[] = [
           '모바일에서 숫자 키패드(전화번호는 inputMode="tel", 나머지는 "numeric"). AmountInput 은 "12만 3,400원" 같은 한글 금액을 helperText 로 함께 읽는다. 사업자번호는 검증 실패를 aria-invalid + 문구로 — 10자리를 채운 순간의 오류는 숨은 status 영역에 입력이 0.8초 멈춘 뒤 넣어 다시 들어가지 않아도 읽힌다(VoiceOver 점검 2026-10-21 의 개선 후보).',
       },
       {
+        name: 'ResidentNumberInput',
+        keyboard:
+          '앞 6자리·뒷자리 두 칸을 Tab 으로 오간다. 앞칸을 채워도 포커스를 옮기지 않고(예고 없는 이동 금지, KWCAG 7.2.1), 번호를 통째로 붙여 넣으면 두 칸에 나눈다. 빈 뒷칸에서 Backspace 는 앞칸으로.',
+        screenReader:
+          'group(레이블이 묶음 이름) 안의 두 칸 — "앞 6자리", "뒤 7자리"(password 라 "보안 텍스트" 로 읽힘). 모바일 숫자 키패드(inputMode="numeric"), 자동 완성 끔. 다 채운 순간의 검증 오류는 사업자번호와 같이 0.8초 뒤 status 로 알린다.',
+        yours:
+          '법령 근거가 있을 때만 받는다. 나이·성별만 필요하면 digits={7}. 화면에 다시 보일 때는 maskResidentNumber.',
+      },
+      {
         name: 'VerificationCodeInput',
         keyboard:
           '입력 하나라 붙여넣기·자동 채우기(autoComplete="one-time-code")가 그대로 된다. 숫자 외 글자는 걸러진다.',

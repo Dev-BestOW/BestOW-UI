@@ -295,3 +295,25 @@ test('CheckboxGroup·FormField: 묶음 이름에 "필수", Space 로 켜고 끄�
   const time = page.getByLabel('알림 받을 시각');
   await expect(time).toHaveAccessibleDescription('밤 9시 이후에는 보내지 않아요');
 });
+
+test('ResidentNumberInput: 앞칸을 채워도 포커스는 그대로, 뒷칸은 가려지고, 다 채우면 가린 번호를 보여 주며, 빈 뒷칸의 Backspace 는 앞칸으로', async ({
+  page,
+}) => {
+  await page.goto('/interactive');
+  const group = page.getByRole('group', { name: '대표자 주민등록번호' });
+  const front = group.getByRole('textbox', { name: '앞 6자리' });
+  const back = group.getByLabel('뒤 7자리');
+  await front.fill('');
+  await front.pressSequentially('9001019');
+  await expect(front).toHaveValue('900101'); // 6자리까지
+  await expect(front).toBeFocused();
+  await expect(back).toHaveAttribute('type', 'password');
+  await back.focus();
+  await page.keyboard.type('1234567');
+  await expect(back).toHaveAccessibleDescription('입력한 번호 900101-1******');
+  for (let i = 0; i < 7; i++) await page.keyboard.press('Backspace');
+  await expect(back).toHaveValue('');
+  await page.keyboard.press('Backspace');
+  await expect(front).toBeFocused();
+  await expect(front).toHaveValue('900101');
+});

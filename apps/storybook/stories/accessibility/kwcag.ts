@@ -265,7 +265,7 @@ export const kwcag: KwcagGroup[] = [
         name: '사용자 요구에 따른 실행',
         coverage: '지원',
         provided:
-          '포커스나 값 변경만으로 페이지 이동·새 창 열기를 하지 않는다(Select·Combobox 는 값만 바꾼다). 새 창 링크는 미리 알린다.',
+          '포커스나 값 변경만으로 페이지 이동·새 창 열기를 하지 않는다(Select·Combobox 는 값만 바꾼다). 새 창 링크는 미리 알린다. 칸을 다 채워도 다음 칸으로 포커스를 옮기지 않는다(ResidentNumberInput 앞칸 — 붙여넣기는 두 칸에 나눔).',
         yours: '값 변경 이벤트에서 바로 페이지를 이동하지 않는다.',
         verified: '코드 검토',
       },
@@ -283,7 +283,7 @@ export const kwcag: KwcagGroup[] = [
         name: '오류 정정',
         coverage: '지원',
         provided:
-          '폼 컴포넌트는 error + helperText(aria-invalid, aria-describedby). 자동 검증이 고치는 방법을 알려 준다(사업자번호, 날짜, 약관 필수 동의). 입력 중에는 오류를 띄우지 않는다.',
+          '폼 컴포넌트는 error + helperText(aria-invalid, aria-describedby). 자동 검증이 고치는 방법을 알려 준다(사업자번호, 주민등록번호, 날짜, 약관 필수 동의). 입력 중에는 오류를 띄우지 않는다.',
         yours: '서버 검증 오류를 같은 방식으로 표시.',
         verified: '단위 테스트(오류 연결) · axe',
       },

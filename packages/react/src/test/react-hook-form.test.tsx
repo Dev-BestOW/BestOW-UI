@@ -11,6 +11,7 @@ import { TextField } from '../components/Input';
 import { NumberInput } from '../components/NumberInput';
 import { PhoneNumberInput } from '../components/PhoneNumberInput';
 import { RadioGroup } from '../components/RadioGroup';
+import { ResidentNumberInput } from '../components/ResidentNumberInput';
 import { NativeSelect } from '../components/NativeSelect';
 import { Select } from '../components/Select';
 
@@ -369,5 +370,52 @@ describe('react-hook-form 과 함께 쓰기', () => {
       await user.click(screen.getByRole('button', { name: '저장' }));
     });
     expect(onSubmit.mock.calls[0]![0]).toEqual({ company: '베스토우', interests: ['design', 'dev'] });
+  });
+
+  it('ResidentNumberInput(Controller) — 검증 결과를 rules 로, 오류 요약 링크는 앞칸으로, 제출 값은 숫자만', async () => {
+    const user = userEvent.setup();
+    const onSubmit = vi.fn();
+    function IdForm() {
+      const {
+        control,
+        handleSubmit,
+        formState: { errors, submitCount },
+      } = useForm<{ rrn: string }>({ shouldFocusError: false, defaultValues: { rrn: '' } });
+      return (
+        <form noValidate onSubmit={handleSubmit(onSubmit)}>
+          <ErrorSummary
+            errors={errors.rrn ? [{ id: 'id-rrn', message: errors.rrn.message ?? '' }] : []}
+            focusKey={submitCount}
+          />
+          <Controller
+            name="rrn"
+            control={control}
+            rules={{ validate: (v) => v.length === 13 || '주민등록번호 13자리를 입력해 주세요.' }}
+            render={({ field, fieldState }) => (
+              <ResidentNumberInput
+                id="id-rrn"
+                ref={field.ref}
+                value={field.value}
+                onValueChange={field.onChange}
+                error={!!fieldState.error}
+                helperText={fieldState.error?.message}
+              />
+            )}
+          />
+          <button type="submit">확인</button>
+        </form>
+      );
+    }
+    render(<IdForm />);
+    await user.click(screen.getByRole('button', { name: '확인' }));
+    const front = screen.getByRole('textbox', { name: '앞 6자리' });
+    expect(front.getAttribute('aria-invalid')).toBe('true');
+    await user.click(screen.getByRole('link', { name: '주민등록번호 13자리를 입력해 주세요.' }));
+    expect(document.activeElement).toBe(front);
+    await user.paste('900101-1234567');
+    await act(async () => {
+      await user.click(screen.getByRole('button', { name: '확인' }));
+    });
+    expect(onSubmit.mock.calls[0]![0]).toEqual({ rrn: '9001011234567' });
   });
 });

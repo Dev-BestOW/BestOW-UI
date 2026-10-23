@@ -78,6 +78,14 @@ export interface BestowMessages {
   businessNumber: string;
   businessNumberInvalid: string;
   businessNumberIncomplete: string;
+  /** ResidentNumberInput — "주민등록번호", 두 칸의 이름, 검증 문구 (1.0 이후 추가, 선택 키) */
+  residentNumber?: string;
+  residentNumberFront?: string;
+  residentNumberBack?: string;
+  /** 앞 7자리만 받을 때 뒷칸 이름 — "뒷자리 첫 숫자" */
+  residentNumberBackFirst?: string;
+  residentNumberInvalid?: string;
+  residentNumberIncomplete?: (digits: number) => string;
   /** AmountInput — "금액", "원" */
   amount: string;
   currencyUnit: string;

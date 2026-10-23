@@ -1,7 +1,7 @@
 # BestOW UI
 
 > 한국 서비스를 만들 때 바로 쓰는, 접근성이 검증된 React 디자인 시스템(npm `@bestow-ui/react`). 대표색 하나로 라이트·다크 브랜드 테마를 만들고
-> (글자 대비 4.5:1 보장), 약관 동의·인증번호·전화번호·사업자등록번호·금액·주소·날짜 입력 같은 한국 서비스 부품을 기본으로 제공한다.
+> (글자 대비 4.5:1 보장), 약관 동의·인증번호·전화번호·사업자등록번호·주민등록번호·금액·주소·날짜 입력 같은 한국 서비스 부품을 기본으로 제공한다.
 > 모든 스토리를 라이트·다크에서 axe 로 검사하고, 주요 컴포넌트는 스크린리더(VoiceOver·NVDA)로 수동 점검했으며, KWCAG 2.2 항목별 대응 근거를 문서로 둔다. 문서는 한국어.
 
 - 설치: `npm install @bestow-ui/react` → 앱 진입점에서 `import '@bestow-ui/react/styles.css'`, 최상위를 `<ThemeProvider theme="light">` 로 감싼다(OS 설정을 따르려면 `theme="system"` — 서버 렌더링도 CSS 미디어쿼리로 그려 깜빡임 없음).
@@ -12,7 +12,7 @@
 
 - [전체 문서 (LLM 용, 한 파일)](https://dev-bestow.github.io/BestOW-UI/llms-full.txt): README + 모든 컴포넌트의 props 정의(소스 그대로) + 언제 무엇을 쓰나 + 키보드·스크린리더 동작
 - [@bestow-ui/react README](https://raw.githubusercontent.com/Dev-BestOW/BestOW-UI/main/packages/react/README.md): 설치, Next.js 설정, 다크 모드, 브랜드 테마, 문구 바꾸기, 컴포넌트 목록
-- [@bestow-ui/korean-utils README](https://raw.githubusercontent.com/Dev-BestOW/BestOW-UI/main/packages/korean-utils/README.md): 전화번호·사업자등록번호·금액 한글 읽기·한국어 날짜 함수
+- [@bestow-ui/korean-utils README](https://raw.githubusercontent.com/Dev-BestOW/BestOW-UI/main/packages/korean-utils/README.md): 전화번호·사업자등록번호·주민등록번호·금액 한글 읽기·한국어 날짜·마스킹(이름·전화·주민번호·카드) 함수
 - [저장소 README](https://raw.githubusercontent.com/Dev-BestOW/BestOW-UI/main/README.md): Next.js App Router 에서 5분 만에 시작하기, 다른 라이브러리와 비교
 
 ## 예제

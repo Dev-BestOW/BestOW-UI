@@ -21,6 +21,7 @@ import {
   NumberInput,
   Progress,
   RadioGroup,
+  ResidentNumberInput,
   NativeSelect,
   Select,
   Skeleton,
@@ -33,6 +34,7 @@ import {
   Typography,
   VerificationCodeInput,
   hasAllRequiredAgreements,
+  maskResidentNumber,
   useToast,
 } from '@bestow-ui/react';
 import { InfoIcon, TrashIcon } from '@bestow-ui/icons';
@@ -62,6 +64,7 @@ export default function InteractivePage() {
   const [billing, setBilling] = useState<string>();
   const [region, setRegion] = useState('');
   const [channels, setChannels] = useState<string[]>(['email']);
+  const [rrn, setRrn] = useState('');
   const [seats, setSeats] = useState<number | null>(1);
   const [memo, setMemo] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -226,6 +229,15 @@ export default function InteractivePage() {
 
       <Stack as="section" aria-label="정산 정보" gap={3} style={{ maxWidth: 400 }}>
         <BusinessNumberInput fullWidth />
+        <ResidentNumberInput
+          label="대표자 주민등록번호"
+          value={rrn}
+          onValueChange={setRrn}
+          // 다 채우면 가린 번호로 다시 보여 준다(화면 표시용 maskResidentNumber)
+          helperText={
+            rrn.length === 13 ? `입력한 번호 ${maskResidentNumber(rrn)}` : '정산 신고에만 쓰고 저장하지 않아요.'
+          }
+        />
         {/* 기본 공급자: 카카오 우편번호 (검색을 누를 때 스크립트를 불러온다) */}
         <AddressInput label="사업장 주소" />
         <AmountInput label="정산 금액" max={100000000} fullWidth />

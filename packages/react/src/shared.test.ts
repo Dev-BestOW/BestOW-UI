@@ -80,6 +80,14 @@ describe('shared 진입점 (서버 컴포넌트용)', () => {
       'formatKoreanAmount',
       'formatKoreanDate',
       'composeExtraAddress',
+      'formatResidentNumber',
+      'isValidResidentNumber',
+      'parseResidentNumber',
+      'maskName',
+      'maskPhoneNumber',
+      'maskResidentNumber',
+      'maskCardNumber',
+      'maskDigits',
     ] as const) {
       expect(shared[name]).toBe(koreanUtils[name]);
     }

@@ -130,7 +130,7 @@ react-hook-form 과 함께 쓸 수 있어요. 입력창은 `register` 를 그대
 | 오버레이 | `Modal`, `Drawer`, `Popover`, `Tooltip`, `DropdownMenu` |
 | 탐색 | `Tabs`, `SegmentedControl`, `Accordion`, `Pagination`, `Breadcrumb`, `SkipLink`, `Stepper` |
 | 표시 | `Avatar`, `Table`(+ `TableEmpty`, `TableSkeleton`, `useTableSelection`), `DescriptionList` |
-| 한국 서비스 키트 | `AgreementGroup`(약관 동의), `VerificationCodeInput`(인증번호), `PhoneNumberInput`, `BusinessNumberInput`, `AmountInput`, `AddressInput`, `DatePicker`, `DateRangePicker`(+ `dateRangePresets`), `Calendar` (+ `formatPhoneNumber`, `formatBusinessNumber`, `isValidBusinessNumber`, `formatKoreanAmount`, `formatKoreanDate`, `parseISODate`, `toISODate` — 서식 함수는 React 없이도 쓰는 [`@bestow-ui/korean-utils`](https://www.npmjs.com/package/@bestow-ui/korean-utils) 에서 다시 내보내요) |
+| 한국 서비스 키트 | `AgreementGroup`(약관 동의), `VerificationCodeInput`(인증번호), `PhoneNumberInput`, `BusinessNumberInput`, `ResidentNumberInput`(주민·외국인등록번호, 뒷자리 가림), `AmountInput`, `AddressInput`, `DatePicker`, `DateRangePicker`(+ `dateRangePresets`), `Calendar` (+ `formatPhoneNumber`, `formatBusinessNumber`, `isValidBusinessNumber`, `formatKoreanAmount`, `formatKoreanDate`, 주민번호 `formatResidentNumber`·`isValidResidentNumber`·`parseResidentNumber`, 마스킹 `maskName`·`maskPhoneNumber`·`maskResidentNumber`·`maskCardNumber`·`maskDigits`, `parseISODate`, `toISODate` — 서식 함수는 React 없이도 쓰는 [`@bestow-ui/korean-utils`](https://www.npmjs.com/package/@bestow-ui/korean-utils) 에서 다시 내보내요) |
 | 문구 | `LocaleProvider`, `en`(영어 문구 묶음) |
 | 테마 | `ThemeProvider`, `createTheme`, `createIntentColors`, `strongInputBorders`, `vars`, `useTheme`, `usePortalProps` |
 | 도움 함수 | `focusField` |

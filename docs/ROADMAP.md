@@ -21,7 +21,7 @@
   `oklch-contrast-theme`(10-21)·`kwcag-automated-testing`(10-23, NVDA 결과 포함). 블로그 표 스타일도 2026-10-23 손봄.
   GeekNews Show 본문은 비공개 Artifact https://claude.ai/artifact/EdgazWzz98aH3maLsXFwRT ("복사" 버튼, NVDA 결과 반영됨).
   런칭 뒤에는 이슈·Discussions 반응으로 다음 기능(Combobox 다중 선택·Tag 입력)을 정한다.
-- **9번 OS 다크 모드(`theme="system"`) 완료**, **10번 반응형 기반 완료**(2026-10-23, changeset `responsive-layout` react·tokens minor — 배포 대기). 11번 info 색·12번 FormField·CheckboxGroup 완료(changeset `info-color`·`form-field-checkbox-group`). 다음은 13번 한국 키트 확장.
+- **9번 OS 다크 모드(`theme="system"`) 완료**, **10번 반응형 기반 완료**(2026-10-23, changeset `responsive-layout` react·tokens minor — 배포 대기). 11번 info 색·12번 FormField·CheckboxGroup 완료(changeset `info-color`·`form-field-checkbox-group`). 13번 한국 키트 1차(주민번호·마스킹) 완료(changeset `resident-number-masking`). 다음은 14번 컴포넌트 공백.
   **"앱 기본" 번들 여유가 50 B 뿐**(4.05/4.1 kB — Stack 구간별 값 +300 B) → 다음에 ThemeProvider·Button·Typography·Stack 을 키우면 한도를 사용자와 다시 정한다.
 - **2026-10-23 객관 점검** 결과를 "다음 플랜 › 객관 점검에서 나온 보완"(9~16번)에 넣음 — 런칭 게시 다음으로 9(OS 다크 모드)·10(반응형)·11(info 색 등 토큰)을 minor 하나로.
 - 번들(2026-10-23 측정, minify + brotli): react 전체 JS **68.98/80 kB** · Button 하나 1.51/2 · 앱 기본 **4.05/4.1**(10-23 system 모드·반응형 Stack 뒤) · styles.css 10.66/12 · 폼 세트(Select) 29.64/33 ·
@@ -86,6 +86,7 @@
 - [x] **VoiceOver(macOS) 짧은 재확인** (2026-10-23 완료, 모두 ✅) — 체크리스트 13번의 Switch(1.6 재구현)·NativeSelect(VO 열 비어 있음), 그리고 이번에 추가한
   사업자등록번호 10자리·DatePicker 8자리 오류 알림(입력 0.8초 뒤 "올바른 …가 아니에요" 가 들리는지). 로컬 `next start -p 3001` 로 push 없이 가능.
 - [ ] **런칭 게시** — 준비 끝(2026-10-23: react 1.6.1 배포, 블로그 기술 글 2편 공개, Artifact 의 GeekNews 본문 NVDA 반영). 순서: GeekNews Show(1순위) → velog·요즘IT 등에 기술 글 → 접근성 커뮤니티·공공/SI/에이전시 쪽 → FEConf·JSConf Korea 발표 지원.
+- [ ] **ResidentNumberInput 스크린리더 확인**(VoiceOver·NVDA, 2026-10-23 추가) — 묶음 이름 "주민등록번호" → "앞 6자리", 뒷칸이 "보안 텍스트" 로 읽히는지, 다 채운 뒤 검증 오류가 0.8초 뒤 들리는지. playground /interactive 정산 정보.
 - [ ] (가능하면) iOS VoiceOver·센스리더 점검 — 같은 체크리스트, 3·4번째 열.
 - [ ] (선택) 실제 기기 확인: 가상 키보드가 Modal·Drawer 입력을 가리는지(iOS Safari·Android Chrome).
 - [ ] 이 라이브러리로 만든 **실제 서비스**(개인 프로젝트라도)가 생기면 알려 주기 — README "사용 사례" 에 넣는다(2026-10-21 기준 없음. playground 는 데모라 사례로 약함).
@@ -179,7 +180,12 @@
     오류는 체크박스마다 aria-invalid, 값은 options 순서). 단위 13·rhf 통합 1·스토리 8(play 1)·SSR·E2E 1(WebKit Tab 이 체크박스를 건너뛰어 직접 focus), 변이 3.
     playground /interactive "알림 설정"(CheckboxGroup + FormField 로 time 입력). componentA11y·Guides(선택 기준·폼 패턴)·README. 원래 계획: `Field`(label·helperText·error·required·`aria-describedby` 연결을 직접 만든·서드파티 입력에도) +
     `CheckboxGroup`(묶음 label·그룹 오류. AgreementGroup 은 약관 전용). react-hook-form 통합 테스트에 추가.
-13. **한국 키트 확장** — korean-utils 에 마스킹 함수(이름 `홍*동`, 전화 `010-****-1234`) 먼저(작고 수요 확실),
+13. ✅ **한국 키트 확장 1차** (2026-10-23 — 사용자 결정: 마스킹 + 주민번호 입력, 카드·계좌+은행은 런칭 반응 뒤) — korean-utils `formatResidentNumber`·`parseResidentNumber`·`isValidResidentNumber`
+    (마지막 검증 숫자는 안 봄 — 2020-10 이후 임의 번호), `maskName`·`maskPhoneNumber`·`maskResidentNumber`·`maskCardNumber`·`maskDigits`, react 다시 export.
+    `ResidentNumberInput`(두 칸: 앞 text maxLength 6 + 뒤 password, 붙여넣기는 onPaste 로 두 칸에 나눔, 앞칸 채워도 포커스 이동 없음 — KWCAG 7.2.1,
+    빈 뒷칸 Backspace → 앞칸, 두 칸 값을 따로 들고 제어 값과 다를 때만 다시 나눔, digits={7}, name 은 숨긴 input). 단위 korean-utils 27·react 9 + rhf 1·스토리 4(play 1)·SSR·E2E 1, 변이 4.
+    korean-utils 전체 한도 1 → 1.5 kB(사용자 결정, 1.32 kB) + "maskName 하나" tree-shaking 감시(92 B). playground 정산 정보에 대표자 주민번호(다 채우면 maskResidentNumber 로 표시).
+    **스크린리더 점검 필요**(password 칸 읽기, 두 칸 묶음) — 사람이 할 일에 추가. 원래 계획: korean-utils 에 마스킹 함수(이름 `홍*동`, 전화 `010-****-1234`) 먼저(작고 수요 확실),
     그다음 주민·외국인등록번호 입력(뒷자리 마스킹), 카드번호, 계좌번호 + 은행 선택.
 14. **컴포넌트 공백** — Tag/Chip(표시·필터용, 6번 Tag 입력과 칩 부품 공유), 범용 `EmptyState`(지금은 TableEmpty 만),
     TimePicker(예약·배송 시간), 앱 뼈대 패턴(헤더·사이드바·모바일 하단 탭바 — Guides 화면 패턴 예시로 먼저).
@@ -292,3 +298,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-23 | 10번 반응형 기반: tokens `breakpoint`, react `media`·`Responsive`, Stack 구간별 값, `Grid`·`Container`(shared), 인라인 CSS 변수 + 미디어쿼리 방식(중첩 초기화), 단위 11·스토리 9(play 2)·SSR·E2E 4(변이 3), 문서(Design Tokens·Guides·componentA11y·README·CLAUDE.md), changeset react·tokens minor. 앱 기본 4.05/4.1 kB(여유 50 B) |
 | 2026-10-23 | 11번 토큰 보강: `info` 의미 색(tokens 선택 키 + `DefaultSemanticColors`, react 변수·Alert·Badge·Toast·createIntentColors), 스토리(Alert "info 와 브랜드 색")·Theme Builder·문서, MIGRATION-2.0 검토 2건(Alert 기본 info, disabled 투명도). border width·opacity·차트 색은 보류(사용자 결정). vitest 모듈 캐시 함정 CLAUDE.md |
 | 2026-10-23 | 12번 공용 폼 필드: `FormField`(shared, render prop + meta 인자)·`CheckboxGroup`(client), rhf 통합 테스트·스토리·SSR·E2E(알림 설정), 문서(componentA11y·Guides·README), changeset minor |
+| 2026-10-23 | 13번 한국 키트 1차: korean-utils 주민번호(서식·읽기·구조 검사)·마스킹 5종, react 다시 export + `ResidentNumberInput`(두 칸, 붙여넣기 나눔, 포커스 자동 이동 없음), 테스트·변이 4·E2E·문서(componentA11y·kwcag 7.2.1·README·korean-utils README), korean-utils 한도 1.5 kB(사용자 결정) |

@@ -71,7 +71,13 @@
     "name": "korean-utils: 전체",
     "path": "packages/korean-utils/dist/index.js",
     "import": "*",
-    "limit": "1 kB"
+    "limit": "1.5 kB"
+  },
+  {
+    "name": "korean-utils: 이름 마스킹 하나 (tree-shaking 감시)",
+    "path": "packages/korean-utils/dist/index.js",
+    "import": "{ maskName }",
+    "limit": "200 B"
   },
   {
     "name": "korean-utils: 전화번호 서식 하나 (tree-shaking 감시)",

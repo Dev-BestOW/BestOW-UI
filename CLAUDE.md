@@ -29,7 +29,7 @@ packages/
                                lightColors/darkColors). 의존성 없음. tsup 빌드.
   icons/    @bestow-ui/icons   SVG → React 아이콘. svg/*.svg 가 원본, src/generated/icons.ts 는 생성물(커밋함).
                                기본 세트는 Lucide(ISC) — LICENSE 유지 필수.
-  korean-utils/ @bestow-ui/korean-utils  한국 서비스 서식·검증 순수 함수(전화·사업자번호·금액·한국어 날짜·주소 참고항목). 의존성 없음,
+  korean-utils/ @bestow-ui/korean-utils  한국 서비스 서식·검증 순수 함수(전화·사업자번호·주민번호·금액·한국어 날짜·주소 참고항목·마스킹). 의존성 없음,
                                프레임워크 무관(React 없이도 씀 — 본체로 들어오는 통로). react 가 같은 이름을 shared.ts 에서 다시 export
                                (shared.test.ts 가 같은 함수인지 확인). 공개 이름 목록은 src/index.test.ts 가 고정. 0.x, 공휴일은 넣지 않는다.
   react/    @bestow-ui/react   테마 + 컴포넌트. tokens, icons, korean-utils, Radix primitives, vanilla-extract 에 의존.

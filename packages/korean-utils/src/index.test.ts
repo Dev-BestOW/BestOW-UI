@@ -9,7 +9,15 @@ it('공개 이름 목록', () => {
     'formatKoreanAmount',
     'formatKoreanDate',
     'formatPhoneNumber',
+    'formatResidentNumber',
     'isValidBusinessNumber',
+    'isValidResidentNumber',
+    'maskCardNumber',
+    'maskDigits',
+    'maskName',
+    'maskPhoneNumber',
+    'maskResidentNumber',
+    'parseResidentNumber',
     'phoneNumberMaxDigits',
   ]);
 });

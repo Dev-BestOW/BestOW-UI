@@ -28,7 +28,7 @@
 
 ### 1. 한국 서비스 키트 — "한국 서비스에 늘 필요한 부품이 기본으로"
 
-진행: 약관 동의(`AgreementGroup`)·인증번호(`VerificationCodeInput`)·전화번호·사업자등록번호·금액·주소·날짜 입력 완료 (2026-10-15, Storybook › Korean Kit). 키트 1·2차 완료.
+진행: 약관 동의(`AgreementGroup`)·인증번호(`VerificationCodeInput`)·전화번호·사업자등록번호·금액·주소·날짜 입력 완료 (2026-10-15, Storybook › Korean Kit). 키트 1·2차 완료. 3차(2026-10-23): 주민·외국인등록번호 입력(`ResidentNumberInput`) + korean-utils 마스킹 함수. 카드·계좌+은행은 런칭 반응을 보고(은행 목록 유지 부담).
 
 글로벌 DS 에는 없고, 한국 서비스는 거의 매번 직접 만드는 것들. (다른 한국 DS 의 제공 여부는 **(확인 필요)**)
 

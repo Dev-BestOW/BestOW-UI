@@ -23,6 +23,18 @@ export {
   formatPhoneNumber,
   isValidBusinessNumber,
 } from '@bestow-ui/korean-utils';
+// 1.7 에 korean-utils 에 추가한 주민번호·마스킹 함수 — react 만 설치한 사용자도 같은 이름으로 쓴다
+export {
+  formatResidentNumber,
+  isValidResidentNumber,
+  maskCardNumber,
+  maskDigits,
+  maskName,
+  maskPhoneNumber,
+  maskResidentNumber,
+  parseResidentNumber,
+  type ResidentNumberInfo,
+} from '@bestow-ui/korean-utils';
 export { parseISODate, toISODate } from './utils/date';
 export { media, type Breakpoint, type Responsive } from './utils/responsive';
 export {

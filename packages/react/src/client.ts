@@ -41,6 +41,7 @@ export * from './components/Pagination';
 export * from './components/PhoneNumberInput';
 export * from './components/Popover';
 export * from './components/RadioGroup';
+export * from './components/ResidentNumberInput';
 export * from './components/SegmentedControl';
 export * from './components/NativeSelect';
 export * from './components/Select';
