@@ -1,5 +1,44 @@
 # @bestow-ui/react
 
+## 1.7.0
+
+### Minor Changes
+
+- 6e9a438: `FormField`·`CheckboxGroup` 추가
+  
+  - `FormField` — 직접 만든 입력이나 다른 라이브러리 입력에 TextField 와 같은 레이블·도움말·오류·필수 연결을 붙여요. 자식 함수가 받은 `id`·`aria-describedby`·`aria-invalid`·`aria-required` 를 입력에 펼쳐 넣고(react-hook-form `register` 와 함께 펼쳐도 돼요), label 로 이름을 받을 수 없는 요소는 둘째 인자의 `labelId` 를 `aria-labelledby` 에 넣어요. hook 이 없어 서버 컴포넌트에서도 써요.
+  - `CheckboxGroup` — 여러 개를 고르는 체크박스 묶음(`options`·`value: string[]`·`onValueChange`, RadioGroup 과 같은 모양). 묶음 레이블·도움말·오류(체크박스마다 `aria-invalid`), `required` 는 * 와 스크린리더용 "필수", 고른 값은 같은 `name` 으로 폼에 제출돼요. ErrorSummary 링크는 선택된(없으면 첫) 체크박스로 가요.
+- a26f4ff: 의미 색 `info`(일반 안내) 추가
+  
+  - tokens: `lightColors`·`darkColors` 에 `info`(기본 파랑 — 기본 primary 와 같은 값). `SemanticColors.info` 는 선택 키라 직접 만든 `SemanticColors` 객체는 그대로 동작해요. 모든 키가 있는 타입 `DefaultSemanticColors` 추가.
+  - react: CSS 변수 `--bestow-color-info-*`, `Alert`·`Badge`·`Toast` 의 `color="info"`, `createIntentColors('info', 색)`.
+  - 브랜드 색(primary)을 바꿔도 `info` 는 파랑으로 남아요. 주황·빨강 계열 브랜드에서도 공지·도움말이 경고처럼 보이지 않아요. Alert 의 기본 `color` 는 그대로 `primary` 예요(2.0 에서 `info` 로 바꾸는 것을 검토).
+- 18f75b9: 주민등록번호 입력과 마스킹 함수 추가
+  
+  - korean-utils: `formatResidentNumber`·`parseResidentNumber`(생년월일·성별·외국인 여부)·`isValidResidentNumber`(생년월일·뒷자리 첫 숫자 — 2020년 10월 이후 번호는 뒤 6자리가 임의라 마지막 검증 숫자는 보지 않아요), 화면 표시용 마스킹 `maskName`(홍*동)·`maskPhoneNumber`(010-****-5678)·`maskResidentNumber`(900101-1******)·`maskCardNumber`·`maskDigits`.
+  - react: 위 함수를 같은 이름으로 다시 내보내요. 새 컴포넌트 `ResidentNumberInput` — 앞 6자리와 뒷자리를 두 칸으로 받고 뒷자리는 가려요(password). 번호를 통째로 붙여 넣으면 두 칸에 나누고, 다 채우면 생년월일·뒷자리 첫 숫자로 오타를 걸러요. 앞칸을 채워도 포커스를 옮기지 않아요(KWCAG 7.2.1). 나이·성별만 필요하면 `digits={7}`.
+  - 새 선택 문구 키 `residentNumber`·`residentNumberFront`·`residentNumberBack`·`residentNumberBackFirst`·`residentNumberInvalid`·`residentNumberIncomplete`(`en` 포함).
+- 768dcab: 반응형 레이아웃 기반 추가
+  
+  - tokens: `breakpoint`(반응형 구간 시작 폭 — `sm` 640 · `md` 768 · `lg` 1024 · `xl` 1280px, 모바일 우선 min-width).
+  - react: `media` — 같은 구간을 em 으로 바꾼 미디어쿼리 문자열이에요(브라우저 기본 글꼴 크기를 따라요). vanilla-extract 의 `@media` 에 넣어 써요. 타입 `Responsive<T>`·`Breakpoint`.
+  - `Stack` 의 `direction`·`gap`·`align`·`justify` 에 구간별 값을 줄 수 있어요(`direction={{ base: 'column', md: 'row' }}`). 주지 않은 구간은 앞 구간 값을 이어받아요. 한 값만 주던 기존 코드는 그대로예요.
+  - 새 컴포넌트 `Grid` — 같은 폭 칸을 여러 열로(`columns={{ base: 1, md: 2, lg: 3 }}` 또는 칸 최소 폭 `minItemWidth`), `gap` 도 구간별로 줄 수 있어요.
+  - 새 컴포넌트 `Container` — 페이지 본문의 최대 폭(`size` sm~xl·full)과 좌우 여백(좁은 화면 16px · md 이상 24px).
+  - 세 컴포넌트 모두 hook 이 없어 서버 컴포넌트에서 그대로 렌더링돼요(구간별 값은 CSS 변수 + 미디어쿼리, JS 없음).
+- 1a2c56e: `ThemeProvider` 에 `theme="system"` 추가 — OS 의 라이트·다크 설정을 따르고, 쓰는 도중 설정을 바꾸면 바로 반영해요.
+  서버 렌더링에서는 CSS 미디어쿼리(`prefers-color-scheme`)로 그려서 JS 가 실행되기 전 첫 화면부터 맞는 모드로 보여요(브랜드 테마 `overrides` 포함, 깜빡임 없음).
+  `useTheme()` 은 실제 적용 중인 `'light' | 'dark'` 를 돌려줘요(서버·hydration 첫 렌더에서는 `'light'`). 새 타입 `ThemeMode`(`'light' | 'dark' | 'system'`) — 기존 `ThemeName` 은 그대로예요.
+  테마 영역에 `color-scheme` 을 지정해 다크 모드에서 스크롤바·네이티브 컨트롤도 어둡게 그려요.
+
+### Patch Changes
+
+- Updated dependencies [a26f4ff]
+- Updated dependencies [18f75b9]
+- Updated dependencies [768dcab]
+  - @bestow-ui/tokens@1.7.0
+  - @bestow-ui/korean-utils@0.2.0
+
 ## 1.6.1
 
 ### Patch Changes
