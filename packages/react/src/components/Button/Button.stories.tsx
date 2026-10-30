@@ -69,6 +69,27 @@ export const Disabled: Story = {
   args: { disabled: true },
 };
 
+/** 페이지를 이동하는 주요 동작. Next.js 는 `<Button asChild><NextLink href="/signup" /></Button>` 처럼 쓴다 */
+export const AsLink: Story = {
+  name: '링크로 쓰기 (asChild)',
+  render: (args) => (
+    <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+      <Button {...args} asChild>
+        <a href="#signup">시작하기</a>
+      </Button>
+      <Button {...args} asChild variant="outline" color="neutral">
+        <a href="#docs">문서 보기</a>
+      </Button>
+      <Button {...args} asChild loading>
+        <a href="#loading">이동 중</a>
+      </Button>
+      <Button {...args} asChild disabled>
+        <a href="#disabled">준비 중</a>
+      </Button>
+    </div>
+  ),
+};
+
 export const FullWidth: Story = {
   args: { fullWidth: true },
 };

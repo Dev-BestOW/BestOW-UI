@@ -25,8 +25,9 @@ export const componentA11y: ComponentA11yGroup[] = [
         name: 'Button',
         keyboard: 'Enter·Space 로 실행.',
         screenReader:
-          'button. loading 이면 aria-busy·aria-disabled — 포커스는 유지되고(위치를 잃지 않음) 클릭·제출만 막힌다. 스피너는 장식으로 숨김.',
-        yours: '아이콘만 있는 버튼은 IconButton 을 쓴다.',
+          'button. loading 이면 aria-busy·aria-disabled — 포커스는 유지되고(위치를 잃지 않음) 클릭·제출만 막힌다. 스피너는 장식으로 숨김. asChild 로 링크가 되면 역할은 link 이고, disabled 는 aria-disabled + Tab 제외 + 클릭 차단으로 나타낸다.',
+        yours:
+          '아이콘만 있는 버튼은 IconButton 을 쓴다. 페이지를 이동하면 asChild 로 링크를 감싼다(링크는 되도록 비활성으로 두지 않는다).',
       },
       {
         name: 'IconButton',

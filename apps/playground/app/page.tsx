@@ -186,6 +186,9 @@ export default function ServerPage() {
           <Link asChild>
             <NextLink href="/interactive">상호작용 페이지</NextLink>
           </Link>
+          <Button asChild variant="soft" size="sm">
+            <NextLink href="/signup">회원가입 화면으로</NextLink>
+          </Button>
           를 보거나{' '}
           <Link href="https://github.com/Dev-BestOW/BestOW-UI" external>
             GitHub 저장소

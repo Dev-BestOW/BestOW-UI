@@ -219,7 +219,7 @@ export const choosing: ChoiceGroup[] = [
       {
         name: 'Link · Button',
         path: docs('components-link'),
-        when: '다른 페이지·주소로 가면 Link, 이 화면에서 동작하면 Button.',
+        when: '다른 페이지·주소로 가면 Link, 이 화면에서 동작하면 Button. 페이지 이동이 주요 동작이면 Button asChild 로 링크를 감싼다.',
       },
     ],
   },

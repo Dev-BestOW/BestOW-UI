@@ -38,7 +38,7 @@
 | 2 | [x] S2 + S16 form.reset 과 폼 공통 계약 테스트 (2026-10-31) | react patch |
 | 3 | [x] S3~S5 korean-utils 서식·검증 (2026-10-31) | korean-utils minor·react patch |
 | 4 | [x] S6~S7 Stepper 간격, SkipLink 그림자 (2026-10-31) | react patch |
-| 5 | [ ] S8 `asChild` (번들 한도 결정 필요) | react minor |
+| 5 | [x] S8 `asChild` (2026-10-31) | react minor |
 | 6 | [ ] S9~S11 Stepper 진행 중, 마스킹 기준, fieldset 모양 | react·korean-utils minor |
 | 7 | [ ] S18~S19 커버리지 측정, 누락 테스트 | 배포 없음 |
 | 8 | [ ] S12~S15 2.0 | react·tokens major |
@@ -101,7 +101,8 @@
 
 - 서버 컴포넌트에서 Next `Link` 를 감싸는 버튼 모양 링크. `Link` 의 `asChild` 구현을 따른다.
 - 링크일 때 `disabled`·`loading` 동작을 정해 문서에 적는다.
-- **시작 전 결정:** "앱 기본" 이 4.09/4.1 kB, "Button 하나" 가 1.51/2 kB 다. Slot 을 넣으면 앱 기본 한도를 넘을 가능성이 커서, 측정값을 보고 **사용자와 한도를 정한다.**
+- **결정(2026-10-31, 사용자):** Radix Slot 은 Button 2.69 kB·앱 기본 5.27 kB 라 쓰지 않고 `cloneElement` 로 직접 구현했다. 앱 기본 한도 4.1 → 4.4 kB.
+- **동작:** `disabled` 는 `aria-disabled`·`data-disabled`·`tabIndex=-1`·클릭 차단, `loading` 은 포커스를 유지하고 클릭을 막는다. 휠 클릭은 막지 못한다.
 
 ### S9. Stepper 진행 중 상태
 

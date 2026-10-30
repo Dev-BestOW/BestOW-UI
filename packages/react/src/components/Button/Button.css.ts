@@ -37,6 +37,9 @@ export const button = recipe({
     fontFamily: vars.font.family.sans,
     fontWeight: vars.font.weight.semibold,
     lineHeight: vars.font.lineHeight.tight,
+    // asChild 로 링크가 되어도 button 과 크기·모양이 같게 한다
+    boxSizing: 'border-box',
+    textDecoration: 'none',
     whiteSpace: 'nowrap',
     cursor: 'pointer',
     userSelect: 'none',
@@ -46,7 +49,7 @@ export const button = recipe({
         outline: `2px solid ${vars.color.border.focus}`,
         outlineOffset: '2px',
       },
-      '&:disabled': {
+      '&:disabled, &[data-disabled]': {
         opacity: 0.5,
         cursor: 'not-allowed',
       },
@@ -60,23 +63,23 @@ export const button = recipe({
       solid: {
         backgroundColor: accent.solid,
         color: accent.contrast,
-        selectors: { '&:hover:not(:disabled)': { backgroundColor: accent.solidHover } },
+        selectors: { '&:hover:not(:disabled, [data-disabled])': { backgroundColor: accent.solidHover } },
       },
       soft: {
         backgroundColor: accent.subtle,
         color: accent.text,
-        selectors: { '&:hover:not(:disabled)': { backgroundColor: accent.subtleHover } },
+        selectors: { '&:hover:not(:disabled, [data-disabled])': { backgroundColor: accent.subtleHover } },
       },
       outline: {
         backgroundColor: 'transparent',
         borderColor: accent.solid,
         color: accent.text,
-        selectors: { '&:hover:not(:disabled)': { backgroundColor: accent.subtle } },
+        selectors: { '&:hover:not(:disabled, [data-disabled])': { backgroundColor: accent.subtle } },
       },
       ghost: {
         backgroundColor: 'transparent',
         color: accent.text,
-        selectors: { '&:hover:not(:disabled)': { backgroundColor: accent.subtle } },
+        selectors: { '&:hover:not(:disabled, [data-disabled])': { backgroundColor: accent.subtle } },
       },
     },
     color: {

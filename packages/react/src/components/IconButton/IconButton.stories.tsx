@@ -87,6 +87,18 @@ export const WithTooltip: Story = {
   ),
 };
 
+/** 페이지를 이동하는 아이콘 버튼. 아이콘은 자식 링크 안에 넣는다 */
+export const AsLink: Story = {
+  name: '링크로 쓰기 (asChild)',
+  render: (args) => (
+    <IconButton {...args} asChild aria-label="설정으로 이동">
+      <a href="#settings">
+        <SettingsIcon />
+      </a>
+    </IconButton>
+  ),
+};
+
 export const States: Story = {
   name: '로딩 · 비활성',
   tags: ['!visual'], // 스피너 회전 애니메이션

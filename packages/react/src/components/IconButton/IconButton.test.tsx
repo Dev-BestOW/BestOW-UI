@@ -80,4 +80,29 @@ describe('IconButton', () => {
     expect(ref.current?.classList.contains('custom')).toBe(true);
     expect(ref.current?.disabled).toBe(true);
   });
+
+  it('asChild 면 자식 링크로 렌더링하고, 이름과 아이콘을 유지한다', () => {
+    render(
+      <IconButton asChild aria-label="설정으로 이동">
+        <a href="/settings">
+          <TrashIcon data-testid="icon" />
+        </a>
+      </IconButton>,
+    );
+    const link = screen.getByRole('link', { name: '설정으로 이동' });
+    expect(link.getAttribute('href')).toBe('/settings');
+    expect(link.contains(screen.getByTestId('icon'))).toBe(true);
+  });
+
+  it('asChild + loading 이면 링크는 유지하고 아이콘 대신 스피너만 보여 준다', () => {
+    render(
+      <IconButton asChild loading aria-label="이동">
+        <a href="/settings">
+          <TrashIcon data-testid="icon" />
+        </a>
+      </IconButton>,
+    );
+    expect(screen.getByRole('link', { name: '이동' }).getAttribute('aria-busy')).toBe('true');
+    expect(screen.queryByTestId('icon')).toBeNull();
+  });
 });

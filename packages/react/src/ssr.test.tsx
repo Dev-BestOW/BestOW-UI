@@ -108,6 +108,9 @@ function Everything() {
           <DescriptionList items={[{ term: '고객', description: '최별' }]} />
           <Typography variant="h1">제목</Typography>
           <Button startIcon={<PlusIcon />}>버튼</Button>
+          <Button asChild>
+            <a href="/">링크 버튼</a>
+          </Button>
           <Button loading>저장</Button>
           <IconButton aria-label="추가">
             <PlusIcon />

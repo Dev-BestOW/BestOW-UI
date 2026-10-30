@@ -1,4 +1,4 @@
-import { forwardRef, type ReactNode } from 'react';
+import { cloneElement, forwardRef, type ReactElement, type ReactNode } from 'react';
 import { cx } from '../../utils/cx';
 import { Button, type ButtonProps } from '../Button';
 import * as styles from './IconButton.css';
@@ -19,6 +19,8 @@ export interface IconButtonProps extends Omit<
   loading?: boolean;
   /** 버튼이 하는 일을 설명하는 이름 (예: "삭제"). 아이콘만으로는 스크린리더가 알 수 없어 필수다 */
   'aria-label': string;
+  /** 자식 요소(라우터 링크 등)에 모양과 속성을 입혀 그대로 렌더링한다. 아이콘은 그 요소 안에 넣는다 */
+  asChild?: boolean;
   /** 아이콘. 크기는 버튼 size 에 맞춰 자동으로 조절된다 (sm 16px · md 20px · lg 24px) */
   children: ReactNode;
 }
@@ -28,7 +30,7 @@ export interface IconButtonProps extends Omit<
  * 마우스 사용자에게도 이름을 보여 주려면 Tooltip 으로 감싼다.
  */
 export const IconButton = /* @__PURE__ */ forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(
-  { variant = 'ghost', color = 'neutral', size, loading, className, children, ...rest },
+  { variant = 'ghost', color = 'neutral', size, loading, asChild, className, children, ...rest },
   ref,
 ) {
   return (
@@ -38,11 +40,12 @@ export const IconButton = /* @__PURE__ */ forwardRef<HTMLButtonElement, IconButt
       color={color}
       size={size}
       loading={loading}
+      asChild={asChild}
       className={cx(styles.iconButton({ size }), className)}
       {...rest}
     >
       {/* loading 이면 Button 이 아이콘 자리에 스피너를 넣으므로 원래 아이콘은 뺀다 */}
-      {!loading && children}
+      {loading ? asChild && cloneElement(children as ReactElement, undefined, null) : children}
     </Button>
   );
 });

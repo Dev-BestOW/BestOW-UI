@@ -134,6 +134,15 @@ test('Combobox: 한글 조합 중 Enter 는 조합만 끝내고, 이어지는 En
   expect(await page.evaluate(() => (window as unknown as { submits: number }).submits)).toBe(0);
 });
 
+test('Button asChild: 서버 컴포넌트에서 감싼 NextLink 가 링크로 동작하고 Enter 로 이동한다', async ({ page }) => {
+  await page.goto('/');
+  const link = page.getByRole('link', { name: '회원가입 화면으로' });
+  await expect(link).toHaveAttribute('href', /\/signup/);
+  await link.focus();
+  await page.keyboard.press('Enter');
+  await expect(page).toHaveURL(/\/signup/);
+});
+
 test('form reset: 비제어 입력이 화면과 내부 상태 모두 처음으로 돌아간다', async ({ page }) => {
   await page.goto('/interactive');
   const email = page.getByRole('textbox', { name: '이메일' });

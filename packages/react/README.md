@@ -19,7 +19,7 @@
 - **대표색 하나로 테마** — 브랜드 색을 넣어도 글자 대비 4.5:1(hover 포함)과 포커스 링 3:1 을 라이트·다크 모두 지켜요.
   [테마 빌더](https://dev-bestow.github.io/BestOW-UI/?path=/story/foundations-theme-builder--builder)에서 바로 해 볼 수 있어요.
 - **가볍고 서버 컴포넌트 친화적** — 런타임 CSS 0, Next.js App Router 지원, 쓰는 컴포넌트만 번들에 들어가요
-  (Button 하나 약 1.5 kB, NativeSelect 로 만든 입력 폼 7종 약 4 kB, 모든 컴포넌트 CSS 를 합쳐도 약 10 kB — minify + brotli).
+  (Button 하나 약 1.8 kB, NativeSelect 로 만든 입력 폼 7종 약 4 kB, 모든 컴포넌트 CSS 를 합쳐도 약 10 kB — minify + brotli).
 - **기본 문구는 한국어** — 닫기·결과 없음·달력 등 기본 문구가 한국어이고, `LocaleProvider` 로 한 번에 바꿀 수 있어요(영어 묶음 포함).
 
 ⚡ **[StackBlitz 에서 바로 써 보기](https://stackblitz.com/github/Dev-BestOW/BestOW-UI/tree/main/examples/vite-starter?file=src%2FApp.tsx)** (설치 없이 브라우저에서)
