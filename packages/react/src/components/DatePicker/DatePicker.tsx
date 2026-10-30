@@ -2,6 +2,7 @@ import { forwardRef, useEffect, useRef, useState, type ReactNode } from 'react';
 import { CalendarIcon } from '@bestow-ui/icons';
 import { compareDays, parseISODate } from '../../utils/date';
 import { mergeRefs } from '../../utils/mergeRefs';
+import { useFormReset } from '../../utils/useFormReset';
 import { useFormattedInput } from '../../utils/useFormattedInput';
 import { useDelayedAnnouncement } from '../../utils/useDelayedAnnouncement';
 import { visuallyHidden } from '../../styles/visuallyHidden.css';
@@ -126,6 +127,7 @@ export const DatePicker = /* @__PURE__ */ forwardRef<HTMLInputElement, DatePicke
       format,
       isMeaningful: isDigit,
       inputRef,
+      manualReset: true,
     });
 
     // 제어 모드: 바깥 값이 바뀌면 입력창을 맞춘다. 단 바깥이 '' 가 된 것이 우리가 알린 '' (입력 중이거나 잘못된 날짜) 때문이면
@@ -143,6 +145,13 @@ export const DatePicker = /* @__PURE__ */ forwardRef<HTMLInputElement, DatePicke
       setRaw(next.replace(/\D/g, ''));
       // eslint-disable-next-line react-hooks/exhaustive-deps -- 바깥 값이 바뀔 때만 맞춘다
     }, [value]);
+
+    useFormReset(inputRef, () => {
+      setTouched(false);
+      const next = (isControlled ? value : defaultValue) ?? '';
+      setRaw(next.replace(/\D/g, ''));
+      if (!isControlled) emit(next);
+    });
 
     const date = parseISODate(textIso);
     const complete = field.raw.length === 8;

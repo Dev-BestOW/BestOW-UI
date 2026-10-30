@@ -134,6 +134,33 @@ test('Combobox: 한글 조합 중 Enter 는 조합만 끝내고, 이어지는 En
   expect(await page.evaluate(() => (window as unknown as { submits: number }).submits)).toBe(0);
 });
 
+test('form reset: 비제어 입력이 화면과 내부 상태 모두 처음으로 돌아간다', async ({ page }) => {
+  await page.goto('/interactive');
+  const email = page.getByRole('textbox', { name: '이메일' });
+  const phone = page.getByRole('textbox', { name: '휴대폰 번호' });
+  const bank = page.getByRole('combobox', { name: '결제 은행' });
+  const marketing = page.getByRole('switch', { name: '마케팅 알림 받기' });
+
+  await email.fill('a@b.co');
+  await phone.pressSequentially('01012345678');
+  await expect(phone).toHaveValue('010-1234-5678');
+  await bank.fill('국');
+  await page.keyboard.press('Enter');
+  await expect(bank).toHaveValue('국민은행');
+  await marketing.click();
+  await expect(marketing).toBeChecked();
+
+  await page.getByRole('button', { name: '다시 입력' }).click();
+  await expect(email).toHaveValue('');
+  await expect(phone).toHaveValue('');
+  await expect(bank).toHaveValue('');
+  await expect(marketing).not.toBeChecked();
+
+  // 화면만 비고 내부 값이 남으면 같은 값을 다시 넣어도 서식이 붙지 않는다
+  await phone.pressSequentially('010');
+  await expect(phone).toHaveValue('010');
+});
+
 test('Select: 키보드로 열고 글자 입력으로 찾아 고른다', async ({ page }) => {
   await page.goto('/interactive');
   const select = page.getByRole('combobox', { name: '플랜' });

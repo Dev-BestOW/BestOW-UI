@@ -1,6 +1,7 @@
 import { forwardRef, useRef, useState, type ReactNode } from 'react';
 import { formatBusinessNumber, isValidBusinessNumber } from '@bestow-ui/korean-utils';
 import { mergeRefs } from '../../utils/mergeRefs';
+import { useFormReset } from '../../utils/useFormReset';
 import { useFormattedInput } from '../../utils/useFormattedInput';
 import { useDelayedAnnouncement } from '../../utils/useDelayedAnnouncement';
 import { visuallyHidden } from '../../styles/visuallyHidden.css';
@@ -75,6 +76,7 @@ export const BusinessNumberInput = /* @__PURE__ */ forwardRef<HTMLInputElement, 
     const incompleteText = m.businessNumberIncomplete ?? '10자리를 모두 입력해 주세요.';
     // 입력 중에는 오류를 띄우지 않고, 10자리를 채웠거나 입력창을 벗어난 뒤에 보여 준다
     const [touched, setTouched] = useState(false);
+    useFormReset(inputRef, () => setTouched(false));
     const field = useFormattedInput({
       isControlled: 'value' in props,
       value,

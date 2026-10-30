@@ -3,6 +3,8 @@ import { FileIcon, UploadIcon, XIcon } from '@bestow-ui/icons';
 import { useMessages } from '../../i18n/LocaleProvider';
 import { visuallyHidden } from '../../styles/visuallyHidden.css';
 import { cx } from '../../utils/cx';
+import { mergeRefs } from '../../utils/mergeRefs';
+import { useFormReset } from '../../utils/useFormReset';
 import { Button } from '../Button';
 import { IconButton } from '../IconButton';
 import * as fieldStyles from '../Input/Input.css';
@@ -201,6 +203,16 @@ export const FileUpload = /* @__PURE__ */ forwardRef<HTMLDivElement, FileUploadP
     }
   }, [files, name]);
 
+  const rootRef = useRef<HTMLDivElement>(null);
+  useFormReset(rootRef, () => {
+    setRejections([]);
+    announce('');
+    if (isControlled) return;
+    const next = defaultValue ?? [];
+    setInnerFiles(next);
+    if (next.length !== files.length) onValueChange?.(next);
+  });
+
   const onDrag = (event: DragEvent<HTMLDivElement>, over: boolean) => {
     if (disabled) return;
     event.preventDefault();
@@ -208,7 +220,7 @@ export const FileUpload = /* @__PURE__ */ forwardRef<HTMLDivElement, FileUploadP
   };
 
   return (
-    <div ref={ref} className={cx(fieldStyles.field, styles.root, className)}>
+    <div ref={mergeRefs(ref, rootRef)} className={cx(fieldStyles.field, styles.root, className)}>
       {label && (
         <span id={labelId} className={fieldStyles.label}>
           {label}

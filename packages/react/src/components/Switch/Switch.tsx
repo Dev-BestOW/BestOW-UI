@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useId, useRef, useState, type MouseEvent, type ReactNode } from 'react';
 import { cx } from '../../utils/cx';
 import { mergeRefs } from '../../utils/mergeRefs';
+import { useFormReset } from '../../utils/useFormReset';
 import * as styles from './Switch.css';
 
 export interface SwitchProps {
@@ -70,20 +71,12 @@ export const Switch = /* @__PURE__ */ forwardRef<HTMLButtonElement, SwitchProps>
     if (!isControlled) setUncontrolled(next);
     if (next !== checked) onCheckedChange?.(next);
   };
-  // form reset 이벤트는 마운트 때 한 번 등록하므로 최신 함수를 ref 로 부른다
-  const setCheckedRef = useRef(setChecked);
-  setCheckedRef.current = setChecked;
+  useFormReset(buttonRef, () => {
+    if (!isControlled) setChecked(defaultChecked ?? false);
+  });
 
   useEffect(() => {
-    const form = buttonRef.current?.form;
-    setInForm(!!form);
-    if (!form) return;
-    const initial = checked;
-    const onReset = () => setCheckedRef.current(initial);
-    form.addEventListener('reset', onReset);
-    return () => form.removeEventListener('reset', onReset);
-    // 처음 값으로 되돌리는 것이라 마운트 때 한 번만 등록한다
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    setInForm(!!buttonRef.current?.form);
   }, []);
 
   // 숨긴 input 을 새 값에 맞추고, 사용자가 바꾼 경우 click 을 보내 바깥 form 의 change 듣기에 알린다

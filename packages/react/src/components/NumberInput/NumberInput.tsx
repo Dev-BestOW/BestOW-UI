@@ -4,6 +4,7 @@ import { useMessages } from '../../i18n/LocaleProvider';
 import { visuallyHidden } from '../../styles/visuallyHidden.css';
 import { cx } from '../../utils/cx';
 import { mergeRefs } from '../../utils/mergeRefs';
+import { useFormReset } from '../../utils/useFormReset';
 import { useFormattedInput } from '../../utils/useFormattedInput';
 import { IconButton } from '../IconButton';
 import { TextField, type TextFieldProps } from '../Input';
@@ -144,6 +145,7 @@ export const NumberInput = /* @__PURE__ */ forwardRef<HTMLInputElement, NumberIn
       format,
       isMeaningful,
       inputRef,
+      manualReset: true,
     });
     const { setRaw } = field;
     useEffect(() => {
@@ -153,6 +155,12 @@ export const NumberInput = /* @__PURE__ */ forwardRef<HTMLInputElement, NumberIn
       if (parse(field.raw) !== next) setRaw(toRaw(next));
       // eslint-disable-next-line react-hooks/exhaustive-deps -- 바깥 값이 바뀔 때만 맞춘다
     }, [value]);
+
+    useFormReset(inputRef, () => {
+      const next = toRaw(isControlled ? value : defaultValue);
+      setRaw(next);
+      if (!isControlled) emit(parse(next));
+    });
 
     const current = parse(field.raw);
     const valueText = (n: number) => `${format(toRaw(n))}${unit ?? ''}`;

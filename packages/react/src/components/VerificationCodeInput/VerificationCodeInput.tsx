@@ -1,6 +1,7 @@
 import { forwardRef, useEffect, useId, useRef, useState, type ChangeEvent, type ReactNode } from 'react';
 import { cx } from '../../utils/cx';
 import { mergeRefs } from '../../utils/mergeRefs';
+import { useFormReset } from '../../utils/useFormReset';
 import { Button } from '../Button';
 import * as fieldStyles from '../Input/Input.css';
 import * as styles from './VerificationCodeInput.css';
@@ -109,6 +110,13 @@ export const VerificationCodeInput = /* @__PURE__ */ forwardRef<HTMLInputElement
       tick();
       return () => clearInterval(timer);
     }, [endAt]);
+
+    useFormReset(inputRef, () => {
+      if (isControlled) return;
+      const next = defaultValue ?? '';
+      setInnerValue(next);
+      if (next !== code) onValueChange?.(next);
+    });
 
     const setCode = (next: string) => {
       if (!isControlled) setInnerValue(next);

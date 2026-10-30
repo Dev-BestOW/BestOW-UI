@@ -35,7 +35,7 @@
 | 단계 | 항목 | 버전 |
 |---|---|---|
 | 1 | [x] S1 + S17 Combobox IME 와 브라우저 E2E (2026-10-30) | react patch |
-| 2 | [ ] S2 + S16 form.reset 과 폼 공통 계약 테스트 | react patch |
+| 2 | [x] S2 + S16 form.reset 과 폼 공통 계약 테스트 (2026-10-31) | react patch |
 | 3 | [ ] S3~S5 korean-utils 서식·검증 | korean-utils·react patch |
 | 4 | [ ] S6~S7 Stepper 간격, SkipLink 그림자 | react patch |
 | 5 | [ ] S8 `asChild` (번들 한도 결정 필요) | react minor |
@@ -58,9 +58,10 @@
 
 - **위치:** `packages/react/src/utils/useFormattedInput.ts:47` — 값을 내부 상태로만 든다. `form` reset 처리는 `Switch` 에만 있다.
 - **재현:** PhoneNumberInput·AmountInput·DatePicker 에 입력 → reset 버튼 → 화면과 `FormData` 가 그대로. 같은 폼의 TextField 만 비워진다.
-- **미확인:** BusinessNumberInput 은 같은 훅이라 같을 것으로 본다. Combobox·NumberInput·ResidentNumberInput·VerificationCodeInput·AgreementGroup·CheckboxGroup·FileUpload·Select 는 S16 으로 확인한다.
-- **방향:** `Switch` 의 방식을 참고해 가장 가까운 form 의 `reset` 이벤트를 구독하고 비제어 모드에서 `defaultValue` 로 되돌린다. 제어 모드는 값 소유자가 맡는다.
-  DatePicker 는 훅에 `isControlled: false` 를 넘기므로 따로 처리하고 `touched` 도 지운다.
+- **실제 범위:** 계약 테스트로 보니 점검 때 확인한 3개가 아니라 14개 컴포넌트가 초기화되지 않았다. RadioGroup·CheckboxGroup 은 화면만 돌아오고 내부 상태가 남았다.
+- **수정:** 공용 훅 `utils/useFormReset.ts`. 비제어 모드는 `defaultValue` 로 돌아가며 `onValueChange` 로 알리고, 제어 모드는 값을 건드리지 않는다.
+  react-hook-form 의 `reset()` 도 `form.reset()` 을 불러 제어 모드에서 옛 값을 알리면 새 값을 덮어쓰기 때문이다. Switch 의 같은 위험도 함께 고쳤다.
+  DatePicker·NumberInput 은 입력 중 글자를 안에서 들어 `manualReset` 으로 직접 처리한다.
 - **완료 기준:** S16 계약 테스트 통과, 변이 확인.
 
 ### S3. `0507` 번호 서식 오류
@@ -128,7 +129,7 @@
 
 ## 4. 재발 방지
 
-- **S16 폼 공통 계약 테스트:** 값을 받는 모든 폼 컴포넌트를 표로 두고 `form.reset`, `name` 제출, `fieldset disabled` 를 한 파일에서 검사한다. `ssr.test.tsx` 처럼 새 컴포넌트가 빠지지 않게 한다.
+- **S16 폼 공통 계약 테스트:** ✅ `src/test/form-contract.test.tsx`. 22개 컴포넌트의 `form.reset`·`fieldset disabled` 를 검사하고, `name` prop 이 있는 컴포넌트가 표에서 빠지면 실패한다. Select 는 Radix 가 처리해 수정 없이 통과했다. `fieldset disabled` 는 모두 통과했다.
 - **S17 실제 브라우저 IME E2E:** ✅ `keyboard.spec.ts` 에 추가(Chromium 만, CDP `Input.imeSetComposition`). Safari·Firefox 는 단위 테스트로 조건만 확인한다.
 - **S18 커버리지 측정:** `@vitest/coverage-v8` 추가. 처음에는 CI 실패 기준 없이 보고만 한다.
 - **S19 누락 테스트:** `VisuallyHidden` 테스트 파일 없음. `Input` 은 전용 테스트가 없어 TextField 테스트로 충분한지 확인한다.

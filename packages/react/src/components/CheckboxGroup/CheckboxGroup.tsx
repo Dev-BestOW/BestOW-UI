@@ -1,7 +1,9 @@
-import { forwardRef, useId, useState, type ReactNode } from 'react';
+import { forwardRef, useId, useRef, useState, type ReactNode } from 'react';
 import { useMessages } from '../../i18n/LocaleProvider';
 import { visuallyHidden } from '../../styles/visuallyHidden.css';
 import { cx } from '../../utils/cx';
+import { mergeRefs } from '../../utils/mergeRefs';
+import { useFormReset } from '../../utils/useFormReset';
 import { Checkbox } from '../Checkbox';
 import * as fieldStyles from '../Input/Input.css';
 import * as styles from './CheckboxGroup.css';
@@ -82,6 +84,14 @@ export const CheckboxGroup = /* @__PURE__ */ forwardRef<HTMLDivElement, Checkbox
     const labelId = label ? `${baseId}-label` : undefined;
     const helperId = helperText ? `${baseId}-helper` : undefined;
 
+    const rootRef = useRef<HTMLDivElement>(null);
+    useFormReset(rootRef, () => {
+      if (isControlled) return;
+      const next = defaultValue ?? [];
+      setInnerValue(next);
+      if (next.join() !== current.join()) onValueChange?.(next);
+    });
+
     const toggle = (optionValue: string, checked: boolean) => {
       const next = options
         .map((option) => option.value)
@@ -107,7 +117,7 @@ export const CheckboxGroup = /* @__PURE__ */ forwardRef<HTMLDivElement, Checkbox
           </span>
         )}
         <div
-          ref={ref}
+          ref={mergeRefs(ref, rootRef)}
           id={baseId}
           role="group"
           aria-label={ariaLabel}

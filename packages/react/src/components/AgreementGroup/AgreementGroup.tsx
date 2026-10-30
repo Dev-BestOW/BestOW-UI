@@ -1,6 +1,8 @@
-import { forwardRef, useId, useState, type ReactNode } from 'react';
+import { forwardRef, useId, useRef, useState, type ReactNode } from 'react';
 import { ChevronDownIcon } from '@bestow-ui/icons';
 import { cx } from '../../utils/cx';
+import { mergeRefs } from '../../utils/mergeRefs';
+import { useFormReset } from '../../utils/useFormReset';
 import { Checkbox } from '../Checkbox';
 import * as fieldStyles from '../Input/Input.css';
 import * as styles from './AgreementGroup.css';
@@ -75,6 +77,14 @@ export const AgreementGroup = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, Ag
     const agreed = isControlled ? (value ?? []) : innerValue;
     const [expanded, setExpanded] = useState<string[]>([]);
 
+    const rootRef = useRef<HTMLFieldSetElement>(null);
+    useFormReset(rootRef, () => {
+      if (isControlled) return;
+      const next = defaultValue ?? [];
+      setInnerValue(next);
+      if (next.join() !== agreed.join()) onValueChange?.(next);
+    });
+
     const update = (next: string[]) => {
       if (!isControlled) setInnerValue(next);
       onValueChange?.(next);
@@ -89,7 +99,7 @@ export const AgreementGroup = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, Ag
 
     return (
       <fieldset
-        ref={ref}
+        ref={mergeRefs(ref, rootRef)}
         id={id}
         className={cx(styles.fieldset, className)}
         disabled={disabled}

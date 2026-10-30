@@ -1,6 +1,8 @@
 import * as RadixSlider from '@radix-ui/react-slider';
-import { forwardRef, useId, useState, type ReactNode } from 'react';
+import { forwardRef, useId, useRef, useState, type ReactNode } from 'react';
 import { cx } from '../../utils/cx';
+import { mergeRefs } from '../../utils/mergeRefs';
+import { useFormReset } from '../../utils/useFormReset';
 import * as styles from './Slider.css';
 import { useMessages } from '../../i18n/LocaleProvider';
 
@@ -78,6 +80,14 @@ export const Slider = /* @__PURE__ */ forwardRef<HTMLSpanElement, SliderProps>(f
   const current = isControlled ? (value ?? [min]) : innerValue;
   const isRange = current.length > 1;
 
+  const rootRef = useRef<HTMLSpanElement>(null);
+  useFormReset(rootRef, () => {
+    if (isControlled) return;
+    const next = defaultValue ?? [min];
+    setInnerValue(next);
+    if (next.join() !== current.join()) onValueChange?.(next);
+  });
+
   const handleChange = (next: number[]) => {
     if (!isControlled) setInnerValue(next);
     onValueChange?.(next);
@@ -103,7 +113,7 @@ export const Slider = /* @__PURE__ */ forwardRef<HTMLSpanElement, SliderProps>(f
         </div>
       )}
       <RadixSlider.Root
-        ref={ref}
+        ref={mergeRefs(ref, rootRef)}
         id={baseId}
         min={min}
         max={max}

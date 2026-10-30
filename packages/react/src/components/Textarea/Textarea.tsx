@@ -10,6 +10,7 @@ import {
 } from 'react';
 import { cx } from '../../utils/cx';
 import { mergeRefs } from '../../utils/mergeRefs';
+import { useFormReset } from '../../utils/useFormReset';
 import { useIsomorphicLayoutEffect } from '../../utils/useIsomorphicLayoutEffect';
 import * as fieldStyles from '../Input/Input.css';
 import * as styles from './Textarea.css';
@@ -74,6 +75,12 @@ export const Textarea = /* @__PURE__ */ forwardRef<HTMLTextAreaElement, Textarea
   }, [autoResize]);
 
   useIsomorphicLayoutEffect(fitHeight, [fitHeight, value]);
+
+  useFormReset(innerRef, () => {
+    if (value === undefined) setUncontrolledLength(String(defaultValue ?? '').length);
+    // 네이티브 reset 은 이 이벤트가 끝난 뒤에 글자를 되돌린다
+    setTimeout(fitHeight);
+  });
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     if (value === undefined) setUncontrolledLength(event.target.value.length);

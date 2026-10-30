@@ -1,7 +1,9 @@
-import { forwardRef, useId, useState, type ReactNode } from 'react';
+import { forwardRef, useId, useRef, useState, type ReactNode } from 'react';
 import { useMessages } from '../../i18n/LocaleProvider';
 import * as fieldStyles from '../Input/Input.css';
 import { cx } from '../../utils/cx';
+import { mergeRefs } from '../../utils/mergeRefs';
+import { useFormReset } from '../../utils/useFormReset';
 import { toISODate } from '../../utils/date';
 import { useIsClient } from '../../utils/useIsClient';
 import { Button } from '../Button';
@@ -87,6 +89,10 @@ export const DateRangePicker = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, D
       if (!isControlled) setInner(next);
       onValueChange?.(next);
     };
+    const rootRef = useRef<HTMLFieldSetElement>(null);
+    useFormReset(rootRef, () => {
+      if (!isControlled) update(defaultValue ?? { start: '', end: '' });
+    });
     const todayIso = () => today ?? toISODate(new Date());
 
     const startLabel = startLabelProp ?? m.dateRangeStart ?? '시작일';
@@ -95,7 +101,7 @@ export const DateRangePicker = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, D
 
     return (
       <fieldset
-        ref={ref}
+        ref={mergeRefs(ref, rootRef)}
         id={id}
         className={cx(styles.fieldset, className)}
         aria-describedby={helperId}

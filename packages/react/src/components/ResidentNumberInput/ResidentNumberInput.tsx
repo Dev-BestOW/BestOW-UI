@@ -4,6 +4,7 @@ import { useMessages } from '../../i18n/LocaleProvider';
 import { visuallyHidden } from '../../styles/visuallyHidden.css';
 import { cx } from '../../utils/cx';
 import { mergeRefs } from '../../utils/mergeRefs';
+import { useFormReset } from '../../utils/useFormReset';
 import { useDelayedAnnouncement } from '../../utils/useDelayedAnnouncement';
 import { Input } from '../Input';
 import * as fieldStyles from '../Input/Input.css';
@@ -116,6 +117,12 @@ export const ResidentNumberInput = /* @__PURE__ */ forwardRef<HTMLInputElement, 
 
     // 입력 중에는 오류를 띄우지 않고, 다 채웠거나 두 칸을 모두 벗어난 뒤에 보여 준다
     const [touched, setTouched] = useState(false);
+    useFormReset(frontRef, () => {
+      setTouched(false);
+      if (isControlled) return setParts(split(value ?? ''));
+      const next = split(defaultValue ?? '');
+      update(next);
+    });
     const autoInvalid = validate && raw.length > 0 && (complete ? !isValid(raw) : touched);
     const showAuto = autoInvalid && error === undefined;
     const invalid = error ?? autoInvalid;

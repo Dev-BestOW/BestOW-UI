@@ -15,6 +15,7 @@ import { visuallyHidden } from '../../styles/visuallyHidden.css';
 import { usePortalProps } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
 import { mergeRefs } from '../../utils/mergeRefs';
+import { useFormReset } from '../../utils/useFormReset';
 import { ANNOUNCE_DELAY } from '../../utils/useDelayedAnnouncement';
 import * as fieldStyles from '../Input/Input.css';
 import * as selectStyles from '../Select/Select.css';
@@ -150,6 +151,13 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
     setQuery(null); // 입력하다 닫으면 선택된 이름으로 되돌린다
     setActiveIndex(-1);
   };
+
+  useFormReset(inputRef, () => {
+    reset();
+    if (isControlled) return;
+    setInnerValue(defaultValue);
+    if (defaultValue !== selectedValue) onValueChange?.(defaultValue ?? '');
+  });
 
   const clearSelection = () => {
     if (!isControlled) setInnerValue(undefined);

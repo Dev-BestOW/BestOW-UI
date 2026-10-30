@@ -192,6 +192,9 @@ export default function InteractivePage() {
         >
           {submitting ? '가입하는 중' : '가입하기'}
         </Button>
+        <Button type="reset" variant="outline" color="neutral">
+          다시 입력
+        </Button>
       </Stack>
 
       <Stack gap={3} style={{ maxWidth: 400 }}>

@@ -1,5 +1,7 @@
 import { forwardRef, useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { cx } from '../../utils/cx';
+import { mergeRefs } from '../../utils/mergeRefs';
+import { useFormReset } from '../../utils/useFormReset';
 import { Button } from '../Button';
 import * as fieldStyles from '../Input/Input.css';
 import { TextField } from '../Input';
@@ -144,6 +146,11 @@ export const AddressInput = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, Addr
       onValueChange?.(next);
     };
 
+    const rootRef = useRef<HTMLFieldSetElement>(null);
+    useFormReset(rootRef, () => {
+      if (!isControlled) update(defaultValue ?? EMPTY);
+    });
+
     const openSearch = () => {
       if (disabled) return;
       selectedRef.current = false;
@@ -164,7 +171,12 @@ export const AddressInput = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, Addr
     const fullAddress = `${current.address}${current.extraAddress ?? ''}`;
 
     return (
-      <fieldset ref={ref} className={cx(styles.fieldset, className)} disabled={disabled} aria-describedby={helperId}>
+      <fieldset
+        ref={mergeRefs(ref, rootRef)}
+        className={cx(styles.fieldset, className)}
+        disabled={disabled}
+        aria-describedby={helperId}
+      >
         <legend className={styles.legend}>
           {label}
           {required && (

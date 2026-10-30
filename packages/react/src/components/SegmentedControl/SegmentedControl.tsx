@@ -1,5 +1,7 @@
 import { forwardRef, useId, useRef, useState, type KeyboardEvent, type ReactNode } from 'react';
 import { cx } from '../../utils/cx';
+import { mergeRefs } from '../../utils/mergeRefs';
+import { useFormReset } from '../../utils/useFormReset';
 import * as fieldStyles from '../Input/Input.css';
 import * as styles from './SegmentedControl.css';
 
@@ -71,6 +73,14 @@ export const SegmentedControl = /* @__PURE__ */ forwardRef<HTMLDivElement, Segme
     const itemRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
     const isEnabled = (index: number) => !disabled && !options[index]?.disabled;
+    const rootRef = useRef<HTMLDivElement>(null);
+    useFormReset(rootRef, () => {
+      if (isControlled) return;
+      const next = defaultValue ?? '';
+      setInnerValue(next);
+      if (next !== current) onValueChange?.(next);
+    });
+
     const select = (index: number) => {
       const next = options[index]!.value;
       if (next === current) return;
@@ -108,7 +118,7 @@ export const SegmentedControl = /* @__PURE__ */ forwardRef<HTMLDivElement, Segme
 
     const group = (
       <div
-        ref={ref}
+        ref={mergeRefs(ref, rootRef)}
         id={id}
         role="radiogroup"
         aria-labelledby={labelId}

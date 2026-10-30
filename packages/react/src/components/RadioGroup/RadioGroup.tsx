@@ -1,5 +1,7 @@
-import { forwardRef, useId, useState, type ReactNode } from 'react';
+import { forwardRef, useId, useRef, useState, type ReactNode } from 'react';
 import { cx } from '../../utils/cx';
+import { mergeRefs } from '../../utils/mergeRefs';
+import { useFormReset } from '../../utils/useFormReset';
 import * as fieldStyles from '../Input/Input.css';
 import * as styles from './RadioGroup.css';
 
@@ -79,6 +81,14 @@ export const RadioGroup = /* @__PURE__ */ forwardRef<HTMLDivElement, RadioGroupP
   const groupName = name ?? `${baseId}-radio`;
   const detachedForm = name ? undefined : `${baseId}-no-form`;
 
+  const rootRef = useRef<HTMLDivElement>(null);
+  useFormReset(rootRef, () => {
+    if (isControlled) return;
+    const next = defaultValue ?? '';
+    setInnerValue(next);
+    if (next !== current) onValueChange?.(next);
+  });
+
   const handleChange = (next: string) => {
     if (next === current) return;
     if (!isControlled) setInnerValue(next);
@@ -98,7 +108,7 @@ export const RadioGroup = /* @__PURE__ */ forwardRef<HTMLDivElement, RadioGroupP
         </span>
       )}
       <div
-        ref={ref}
+        ref={mergeRefs(ref, rootRef)}
         id={baseId}
         role="radiogroup"
         aria-label={ariaLabel}

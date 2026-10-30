@@ -1,4 +1,5 @@
 import { useRef, useState, type ChangeEvent, type KeyboardEvent, type RefObject } from 'react';
+import { useFormReset } from './useFormReset';
 import { useIsomorphicLayoutEffect } from './useIsomorphicLayoutEffect';
 
 interface Options {
@@ -14,6 +15,8 @@ interface Options {
   /** 화면 표시의 한 글자가 의미 있는 문자인지 (서식 문자가 아닌지) */
   isMeaningful: (char: string) => boolean;
   inputRef: RefObject<HTMLInputElement | null>;
+  /** form reset 을 직접 처리한다 (입력 중인 글자를 안에서 들고 제어 모드를 따로 맞추는 DatePicker·NumberInput) */
+  manualReset?: boolean;
 }
 
 /** 서식 문자열에서 의미 있는 문자 count 개 바로 뒤의 위치 */
@@ -43,6 +46,7 @@ export function useFormattedInput({
   format,
   isMeaningful,
   inputRef,
+  manualReset,
 }: Options) {
   const [innerValue, setInnerValue] = useState(() => sanitize(defaultValue ?? ''));
   const raw = isControlled ? sanitize(value ?? '') : innerValue;
@@ -56,6 +60,13 @@ export function useFormattedInput({
     const position = caretAfter(input.value, pendingCaret.current, isMeaningful);
     input.setSelectionRange(position, position);
     pendingCaret.current = null;
+  });
+
+  useFormReset(inputRef, () => {
+    if (isControlled || manualReset) return;
+    const next = sanitize(defaultValue ?? '');
+    setInnerValue(next);
+    if (next !== innerValue) onValueChange?.(next);
   });
 
   const commit = (next: string, caretCount: number) => {
