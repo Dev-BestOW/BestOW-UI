@@ -6,6 +6,7 @@ import { vars } from '../../theme/contract.css';
 
 const CIRCLE = '28px';
 const LINE_GAP = vars.space[2]; // 원과 연결선 사이 여백
+const VERTICAL_TEXT_OFFSET = `calc((${CIRCLE} - ${vars.font.size.sm} * 1.5) / 2)`; // 첫 줄 글자를 원의 세로 가운데에 맞춘다 (sm 글자 × 1.5 줄 높이 기준)
 
 export const root = recipe({
   base: {
@@ -133,8 +134,14 @@ export const text = recipe({
   variants: {
     orientation: {
       horizontal: { marginTop: vars.space[2], paddingInline: vars.space[1] },
-      // 첫 줄 글자를 원의 세로 가운데에 맞춘다 (sm 글자 × 1.5 줄 높이 기준)
-      vertical: { paddingTop: `calc((${CIRCLE} - ${vars.font.size.sm} * 1.5) / 2)` },
+      vertical: { paddingTop: VERTICAL_TEXT_OFFSET },
+    },
+    // 세로에서 설명 있는 단계와 없는 단계가 섞여도 원 사이 간격이 같도록 이름 + 설명 한 줄 높이를 잡아 둔다
+    reserveDescription: {
+      true: {
+        boxSizing: 'border-box',
+        minHeight: `calc(${VERTICAL_TEXT_OFFSET} + ${vars.font.size.sm} * ${vars.font.lineHeight.normal} + 2px + ${vars.font.size.xs} * ${vars.font.lineHeight.normal})`,
+      },
     },
   },
 });

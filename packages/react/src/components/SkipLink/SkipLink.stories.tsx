@@ -40,7 +40,13 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 /** 평소에는 보이지 않는다 (Tab 을 눌러 보세요) */
-export const Playground: Story = {};
+export const Playground: Story = {
+  // 숨은 상태에서 그림자가 화면 위쪽 끝으로 번지면 안 된다 (옅어서 axe·시각 회귀로는 잡히지 않는다)
+  play: async ({ canvasElement }) => {
+    const link = within(canvasElement).getByRole('link', { name: '본문 바로가기' });
+    await expect(getComputedStyle(link).boxShadow).toBe('none');
+  },
+};
 
 /** play 로 첫 Tab 을 누른 상태 — 나타난 모양을 시각 회귀·axe 로 확인한다 */
 export const Focused: Story = {
@@ -51,5 +57,6 @@ export const Focused: Story = {
     const link = within(canvasElement).getByRole('link', { name: '본문 바로가기' });
     link.focus();
     await expect(link).toHaveFocus();
+    await expect(getComputedStyle(link).boxShadow).not.toBe('none');
   },
 };

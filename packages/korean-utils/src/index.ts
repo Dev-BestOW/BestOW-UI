@@ -3,6 +3,7 @@ export {
   formatKoreanAmount,
   formatPhoneNumber,
   isValidBusinessNumber,
+  phoneNumberDigits,
   phoneNumberMaxDigits,
 } from './koreanFormat';
 export { formatKoreanDate, KOREAN_WEEKDAYS } from './date';

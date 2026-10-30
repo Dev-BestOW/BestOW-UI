@@ -61,7 +61,8 @@ maskDigits('110-123-456789', { end: 4 }); // '***-***-**6789' (계좌번호처�
 | 함수 | 하는 일 |
 |---|---|
 | `formatPhoneNumber(input)` | 하이픈 넣기. 서울(02)·대표번호(15xx·16xx·18xx)·휴대폰·지역번호·070 을 구분하고, 최대 자릿수를 넘으면 자른다 |
-| `phoneNumberMaxDigits(digits)` | 그 번호의 최대 자릿수(02 → 10, 대표번호 → 8, 나머지 → 11). 입력창 `maxLength` 계산에 |
+| `phoneNumberDigits(input)` | 국내 번호 숫자로 바꿈(`+82` → `0`, 숫자만 남기고 최대 자릿수로 자름) |
+| `phoneNumberMaxDigits(digits)` | 그 번호의 최대 자릿수(02 → 10, 대표번호 → 8, 050 → 12, 나머지 → 11). 입력창 `maxLength` 계산에 |
 | `formatBusinessNumber(input)` | 사업자등록번호 3-2-5 하이픈 |
 | `isValidBusinessNumber(input)` | 사업자등록번호 검증 공식(가중치 1,3,7,1,3,7,1,3,5) 확인. **실제로 등록된 번호인지는 국세청 조회가 필요해요** |
 | `formatKoreanAmount(amount, unit = '원')` | 만·억·조 단위로 읽기 쉽게. 음수는 `-` 를 붙인다 |

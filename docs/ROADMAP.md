@@ -10,7 +10,7 @@
 
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-30 기준)
 
-**지금 할 일: 코드 안정화** — [`STABILIZATION.md`](STABILIZATION.md) 의 "작업 순서"에서 체크되지 않은 첫 항목부터 진행한다(1·2단계 완료, 다음은 3단계 S3~S5 korean-utils 서식·검증).
+**지금 할 일: 코드 안정화** — [`STABILIZATION.md`](STABILIZATION.md) 의 "작업 순서"에서 체크되지 않은 첫 항목부터 진행한다(1~4단계 완료, 다음은 5단계 S8 `asChild` — 시작 전에 번들 한도 결정).
 사용자 결정(2026-10-30): **홍보보다 코드 안정화가 먼저**, 런칭 게시는 보류, 호환성을 깨는 변경은 런칭 전에 2.0 으로 묶는다.
 아래 "다음 플랜"의 런칭·기능 항목은 안정화가 끝난 뒤 다시 판단한다.
 
@@ -309,3 +309,5 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-30 | 코드 안정화 점검: 패키지 구조·CI·의존성·코드 규칙은 문제없음, Combobox IME·서식 입력 form.reset·0507·+82·사업자번호 0000000000 재현, 파일럿 2 버그 2건 미해결 확인. 사용자 결정으로 런칭 보류, 호환성을 깨는 변경은 런칭 전 2.0 으로. `STABILIZATION.md` 작성, 인수인계를 그 문서 기준으로 갱신 |
 | 2026-10-30 | S1·S17 Combobox IME: 조합 중 키 무시, 실제 Chrome 에서 `국민은행국` 깨짐 재현 뒤 수정, 단위 2·E2E 1(CDP), playground /interactive 폼에 결제 은행 Combobox 추가, changeset patch |
 | 2026-10-31 | S2·S16 form.reset: `useFormReset` 추가, 14개 컴포넌트 수정, Switch 제어 모드 알림 제거, `form-contract.test.tsx`(22개 컴포넌트·RHF reset·누락 검사), E2E 1, playground 다시 입력 버튼, 변이 6, changeset patch |
+| 2026-10-31 | S3~S5 korean-utils: 050 번호 11·12자리 서식(12자리 잘림 수정, 점검 문서의 기대값 정정), `+82` 처리와 새 함수 `phoneNumberDigits`, 사업자번호 모두 0 거부, PhoneNumberInput 붙여 넣기 테스트, changeset korean-utils minor·react patch |
+| 2026-10-31 | S6~S7: 세로 Stepper 가 설명이 섞여도 원 사이 간격을 맞춤(스토리 play 로 측정), 숨은 SkipLink 그림자 제거(스토리 play), changeset patch. `Vertical` 기준 이미지 갱신 필요 |

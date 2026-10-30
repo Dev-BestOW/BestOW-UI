@@ -31,6 +31,19 @@ describe('PhoneNumberInput', () => {
     expect(field.selectionStart).toBe(2); // "01|1-…"
   });
 
+  it.each([
+    ['+82 10-1234-5678', '010-1234-5678', '01012345678'],
+    ['050712345678', '0507-1234-5678', '050712345678'],
+  ])('%s 를 붙여 넣으면 %s 로 보이고 값은 국내 번호 숫자다', async (pasted, display, digits) => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(<PhoneNumberInput onValueChange={onValueChange} />);
+    await user.click(input());
+    await user.paste(pasted);
+    expect(input().value).toBe(display);
+    expect(onValueChange).toHaveBeenLastCalledWith(digits);
+  });
+
   it('붙여넣기는 숫자만 남기고, 제어 모드에서도 동작한다', async () => {
     const user = userEvent.setup();
     function Controlled() {

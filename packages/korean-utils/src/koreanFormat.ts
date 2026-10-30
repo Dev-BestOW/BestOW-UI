@@ -2,11 +2,22 @@
 
 const onlyDigits = (input: string) => input.replace(/\D/g, '');
 
-/** 전화번호 최대 자릿수: 02 는 10, 15xx·16xx·18xx 대표번호는 8, 나머지(010, 031, 070 …)는 11 */
+/** 전화번호 최대 자릿수: 02 는 10, 15xx·16xx·18xx 대표번호는 8, 050 번호는 12, 나머지(010, 031, 070 …)는 11 */
 export function phoneNumberMaxDigits(digits: string): number {
   if (digits.startsWith('02')) return 10;
   if (/^1[568]/.test(digits)) return 8;
+  if (digits.startsWith('050')) return 12;
   return 11;
+}
+
+/**
+ * 전화번호를 국내 번호 숫자로 바꾼다. 앞의 +82 는 0 으로 바꾸고 숫자만 남긴 뒤 최대 자릿수로 자른다.
+ * 숫자만 남기면 국가 번호를 구분할 수 없어 먼저 바꾼다.
+ * @example phoneNumberDigits('+82 10-1234-5678') // '01012345678'
+ */
+export function phoneNumberDigits(input: string): string {
+  const d = onlyDigits(input.replace(/^\s*\+82[\s().-]*0?[\s().-]*/, '0'));
+  return d.slice(0, phoneNumberMaxDigits(d));
 }
 
 /**
@@ -14,9 +25,11 @@ export function phoneNumberMaxDigits(digits: string): number {
  * @example formatPhoneNumber('01012345678') // '010-1234-5678'
  * @example formatPhoneNumber('021234567')   // '02-123-4567'
  * @example formatPhoneNumber('15881234')    // '1588-1234'
+ * @example formatPhoneNumber('050712345678') // '0507-1234-5678'
+ * @example formatPhoneNumber('+821012345678') // '010-1234-5678'
  */
 export function formatPhoneNumber(input: string): string {
-  const d = onlyDigits(input).slice(0, phoneNumberMaxDigits(onlyDigits(input)));
+  const d = phoneNumberDigits(input);
   if (d.startsWith('02')) {
     if (d.length <= 2) return d;
     if (d.length <= 5) return `${d.slice(0, 2)}-${d.slice(2)}`;
@@ -25,6 +38,12 @@ export function formatPhoneNumber(input: string): string {
   }
   if (/^1[568]/.test(d)) {
     return d.length <= 4 ? d : `${d.slice(0, 4)}-${d.slice(4)}`;
+  }
+  if (d.startsWith('050')) {
+    if (d.length <= 4) return d;
+    if (d.length <= 7) return `${d.slice(0, 4)}-${d.slice(4)}`;
+    if (d.length <= 11) return `${d.slice(0, 4)}-${d.slice(4, 7)}-${d.slice(7)}`;
+    return `${d.slice(0, 4)}-${d.slice(4, 8)}-${d.slice(8)}`;
   }
   if (d.length <= 3) return d;
   if (d.length <= 6) return `${d.slice(0, 3)}-${d.slice(3)}`;
@@ -49,7 +68,8 @@ export function formatBusinessNumber(input: string): string {
  */
 export function isValidBusinessNumber(input: string): boolean {
   const d = onlyDigits(input);
-  if (d.length !== 10) return false;
+  // 모두 0 은 공식을 통과하지만 번호가 아니다
+  if (d.length !== 10 || d === '0000000000') return false;
   const weights = [1, 3, 7, 1, 3, 7, 1, 3, 5];
   const digits = [...d].map(Number);
   let sum = weights.reduce((acc, w, i) => acc + w * digits[i]!, 0);

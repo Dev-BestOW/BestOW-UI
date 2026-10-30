@@ -36,8 +36,8 @@
 |---|---|---|
 | 1 | [x] S1 + S17 Combobox IME 와 브라우저 E2E (2026-10-30) | react patch |
 | 2 | [x] S2 + S16 form.reset 과 폼 공통 계약 테스트 (2026-10-31) | react patch |
-| 3 | [ ] S3~S5 korean-utils 서식·검증 | korean-utils·react patch |
-| 4 | [ ] S6~S7 Stepper 간격, SkipLink 그림자 | react patch |
+| 3 | [x] S3~S5 korean-utils 서식·검증 (2026-10-31) | korean-utils minor·react patch |
+| 4 | [x] S6~S7 Stepper 간격, SkipLink 그림자 (2026-10-31) | react patch |
 | 5 | [ ] S8 `asChild` (번들 한도 결정 필요) | react minor |
 | 6 | [ ] S9~S11 Stepper 진행 중, 마스킹 기준, fieldset 모양 | react·korean-utils minor |
 | 7 | [ ] S18~S19 커버리지 측정, 누락 테스트 | 배포 없음 |
@@ -64,18 +64,18 @@
   DatePicker·NumberInput 은 입력 중 글자를 안에서 들어 `manualReset` 으로 직접 처리한다.
 - **완료 기준:** S16 계약 테스트 통과, 변이 확인.
 
-### S3. `0507` 번호 서식 오류
+### S3. `050` 번호 서식 오류와 12자리 잘림
 
-- **위치:** `packages/korean-utils/src/koreanFormat.ts:18`
-- **재현:** `formatPhoneNumber('050712345678')` → `050-7123-4567`. 기대값 `0507-123-4567`.
-- **완료 기준:** 12자리 `050x` 안심번호 테스트 추가. `maskPhoneNumber` 결과도 확인한다(같은 함수를 쓴다).
+- **위치:** `packages/korean-utils/src/koreanFormat.ts`
+- **증상:** `formatPhoneNumber('050712345678')` → `050-7123-4567`. 최대 11자리로 잘라 **마지막 숫자가 사라졌고**, 입력창에 12자리를 넣을 수도 없었다.
+- **기준:** 050 번호는 11자리 또는 12자리다(libphonenumber `50\d{8,9}`, KT `0502-XXXX-YYYY`). 12자리 `0507-1234-5678`, 11자리 `0507-123-4567`. 점검 때 적은 기대값 `0507-123-4567`(12자리 입력)은 틀렸다.
+- **수정:** 최대 자릿수 12, 4-3-4·4-4-4 서식. `maskPhoneNumber` 도 따라 바뀐다.
 
 ### S4. `+82` 번호 깨짐
 
 - **위치:** 같은 함수, PhoneNumberInput 의 sanitize.
 - **재현:** `formatPhoneNumber('+821012345678')` → `821-0123-4567`.
-- **방향:** 숫자만 남기기 **전에** `+82` 를 `0` 으로 바꾼다. 숫자만 남긴 뒤에는 구분할 수 없다. 붙여 넣기·자동 완성 경로도 함께 확인한다.
-- **완료 기준:** 하이픈·공백이 섞인 `+82 10-1234-5678` 포함 테스트, 입력창 붙여 넣기 테스트.
+- **수정:** 새 공개 함수 `phoneNumberDigits` 가 숫자만 남기기 전에 `+82` 를 `0` 으로 바꾼다. `formatPhoneNumber`·PhoneNumberInput 이 같은 함수를 쓴다. `+` 없는 `8210…` 은 국가 번호로 보지 않는다.
 
 ### S5. `0000000000` 사업자번호 통과
 
@@ -87,13 +87,13 @@
 
 - **위치:** `packages/react/src/components/Stepper/Stepper.css.ts:71`. [`PILOT-FINDINGS.md`](PILOT-FINDINGS.md) 파일럿 2 버그.
 - **증상:** 설명 없는 단계 52px, 있는 단계 68px.
-- **완료 기준:** 스토리 `play` 로 실제 브라우저에서 원 사이 간격을 잰다. **시각 회귀 기준 이미지 갱신 필요.**
+- **수정:** 세로이고 설명이 하나라도 있을 때만 글자 영역에 이름 + 설명 한 줄 높이를 잡는다. 설명이 없는 세로 Stepper 는 지금 간격 그대로다. 설명이 두 줄 이상이면 그 단계는 더 길어진다.
+- **확인:** `Vertical` 스토리 `play` 가 실제 브라우저에서 원 사이 간격을 잰다. **시각 회귀 기준 이미지 갱신 필요**(`Vertical`).
 
 ### S7. 숨긴 SkipLink 그림자 노출
 
 - **위치:** `packages/react/src/components/SkipLink/SkipLink.css.ts`. 파일럿 2 버그.
-- **방향:** 기본 스타일의 `boxShadow` 를 `:focus` 선택자로 옮긴다.
-- **완료 기준:** 포커스 전 그림자 없음, 포커스 뒤 그림자 있음을 테스트로 확인.
+- **수정:** `boxShadow` 를 포커스 상태로만 옮겼다. 스토리 `play` 가 포커스 전후의 계산값을 확인한다.
 
 ## 2. 기능 공백 (minor)
 

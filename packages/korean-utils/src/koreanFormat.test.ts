@@ -3,6 +3,7 @@ import {
   formatKoreanAmount,
   formatPhoneNumber,
   isValidBusinessNumber,
+  phoneNumberDigits,
   phoneNumberMaxDigits,
 } from './koreanFormat';
 
@@ -13,6 +14,18 @@ describe('formatPhoneNumber', () => {
     ['0101234', '010-123-4'],
     ['01012345678', '010-1234-5678'],
     ['010123456789', '010-1234-5678'], // 11자리를 넘으면 자른다
+    ['050', '050'],
+    ['0507', '0507'],
+    ['05071', '0507-1'],
+    ['0507123', '0507-123'],
+    ['05071234', '0507-123-4'],
+    ['05071234567', '0507-123-4567'], // 11자리 050 번호
+    ['050712345678', '0507-1234-5678'], // 12자리 050 번호
+    ['0507123456789', '0507-1234-5678'], // 12자리를 넘으면 자른다
+    ['+821012345678', '010-1234-5678'],
+    ['+82 10-1234-5678', '010-1234-5678'],
+    ['+82 (0)10 1234 5678', '010-1234-5678'],
+    ['+82-2-123-4567', '02-123-4567'],
     ['0311234567', '031-123-4567'],
     ['07012345678', '070-1234-5678'],
     ['02', '02'],
@@ -27,6 +40,18 @@ describe('formatPhoneNumber', () => {
   });
 });
 
+describe('phoneNumberDigits', () => {
+  it.each([
+    ['010-1234-5678', '01012345678'],
+    ['+82 10-1234-5678', '01012345678'],
+    ['010123456789', '01012345678'],
+    ['050712345678', '050712345678'],
+    ['821012345678', '82101234567'], // + 가 없으면 국가 번호로 보지 않는다
+  ])('%s → %s', (input, expected) => {
+    expect(phoneNumberDigits(input)).toBe(expected);
+  });
+});
+
 describe('phoneNumberMaxDigits', () => {
   it.each([
     ['02', 10],
@@ -36,6 +61,7 @@ describe('phoneNumberMaxDigits', () => {
     ['010', 11],
     ['031', 11],
     ['070', 11],
+    ['0507', 12],
   ])('%s → %d', (digits, max) => {
     expect(phoneNumberMaxDigits(digits)).toBe(max);
   });
@@ -53,6 +79,7 @@ describe('사업자등록번호', () => {
     expect(isValidBusinessNumber('1248100999')).toBe(false);
     expect(isValidBusinessNumber('1234567890')).toBe(false);
     expect(isValidBusinessNumber('12481')).toBe(false);
+    expect(isValidBusinessNumber('0000000000')).toBe(false); // 공식은 통과하지만 번호가 아니다
   });
 });
 

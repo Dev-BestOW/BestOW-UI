@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect } from 'storybook/test';
 import { Button } from '../Button';
 import { Stack } from '../Stack';
 import { Stepper } from './Stepper';
@@ -50,6 +51,14 @@ export const Vertical: Story = {
       { label: '배송 중' },
       { label: '배송 완료' },
     ],
+  },
+  // 설명이 있는 단계와 없는 단계가 섞여도 원 사이 간격이 같아야 한다 (글자 높이는 실제 브라우저에서만 잴 수 있다)
+  play: async ({ canvasElement }) => {
+    const tops = [...canvasElement.querySelectorAll('li')].map(
+      (step) => step.querySelector('[aria-hidden]')!.getBoundingClientRect().top,
+    );
+    const gaps = tops.slice(1).map((top, index) => top - tops[index]!);
+    for (const gap of gaps) await expect(Math.abs(gap - gaps[0]!)).toBeLessThan(1);
   },
 };
 

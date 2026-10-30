@@ -33,6 +33,7 @@ export const Stepper = /* @__PURE__ */ forwardRef<HTMLOListElement, StepperProps
   ref,
 ) {
   const m = useMessages();
+  const reserveDescription = orientation === 'vertical' && steps.some((step) => step.description);
   return (
     <ol
       ref={ref}
@@ -52,7 +53,7 @@ export const Stepper = /* @__PURE__ */ forwardRef<HTMLOListElement, StepperProps
             <span className={styles.indicator({ status })} aria-hidden>
               {status === 'complete' ? <CheckIcon size={16} strokeWidth={2.5} /> : index + 1}
             </span>
-            <span className={styles.text({ orientation })}>
+            <span className={styles.text({ orientation, reserveDescription })}>
               <span className={styles.label({ status })}>
                 {step.label}
                 {status === 'complete' && <span className={visuallyHidden}> ({m.stepCompleted ?? '완료'})</span>}

@@ -18,6 +18,7 @@ it('공개 이름 목록', () => {
     'maskPhoneNumber',
     'maskResidentNumber',
     'parseResidentNumber',
+    'phoneNumberDigits',
     'phoneNumberMaxDigits',
   ]);
 });

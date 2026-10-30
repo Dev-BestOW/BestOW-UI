@@ -1,5 +1,5 @@
 import { forwardRef, useRef, type ReactNode } from 'react';
-import { formatPhoneNumber, phoneNumberMaxDigits } from '@bestow-ui/korean-utils';
+import { formatPhoneNumber, phoneNumberDigits } from '@bestow-ui/korean-utils';
 import { mergeRefs } from '../../utils/mergeRefs';
 import { useFormattedInput } from '../../utils/useFormattedInput';
 import { TextField, type TextFieldProps } from '../Input';
@@ -35,10 +35,6 @@ export interface PhoneNumberInputProps extends Omit<
   name?: string;
 }
 
-const sanitize = (input: string) => {
-  const digits = input.replace(/\D/g, '');
-  return digits.slice(0, phoneNumberMaxDigits(digits));
-};
 const isDigit = (char: string) => /\d/.test(char);
 
 /**
@@ -64,7 +60,7 @@ export const PhoneNumberInput = /* @__PURE__ */ forwardRef<HTMLInputElement, Pho
       value,
       defaultValue,
       onValueChange,
-      sanitize,
+      sanitize: phoneNumberDigits,
       format: formatPhoneNumber,
       isMeaningful: isDigit,
       inputRef,

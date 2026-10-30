@@ -20,12 +20,13 @@ export const skipLink = style({
   fontWeight: vars.font.weight.semibold,
   lineHeight: vars.font.lineHeight.normal,
   textDecoration: 'none',
-  boxShadow: vars.shadow.md,
   transform: `translateY(calc(-100% - ${vars.space[4]}))`,
   transition: `transform ${vars.duration.fast} ease-out`,
   selectors: {
     '&:focus, &:focus-visible': {
       transform: 'translateY(0)',
+      // 숨어 있을 때 주면 그림자가 화면 위쪽 끝으로 번져 비친다
+      boxShadow: vars.shadow.md,
       outline: `2px solid ${vars.color.border.focus}`,
       outlineOffset: '2px',
     },
