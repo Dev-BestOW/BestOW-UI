@@ -2,30 +2,32 @@
 
 > 이 문서는 다음 작업 세션(사람 또는 Claude)이 **무엇을, 어떤 순서로, 어디까지 하면 되는지** 바로 알 수 있게 쓴다.
 > 작업 규칙·구조·함정은 [`CLAUDE.md`](../CLAUDE.md), 완료된 단계(P1~P16)의 설계 메모·진행 기록 전체는 [`ROADMAP-HISTORY.md`](ROADMAP-HISTORY.md),
-> 누구를 위해 무엇을 차별화하는지는 [`POSITIONING.md`](POSITIONING.md), 2.0 에 모으는 변경은 [`MIGRATION-2.0.md`](MIGRATION-2.0.md).
+> 누구를 위해 무엇을 차별화하는지는 [`POSITIONING.md`](POSITIONING.md), 2.0 에 모으는 변경은 [`MIGRATION-2.0.md`](MIGRATION-2.0.md),
+> **지금 진행할 작업은 [`STABILIZATION.md`](STABILIZATION.md)**.
 >
 > **갱신 규칙:** 작업을 시작/완료하면 체크박스를 바꾸고 맨 아래 "진행 기록"에 한 줄 추가한다.
 > 단계가 끝나면 상세 메모는 ROADMAP-HISTORY.md 로 옮기고 여기에는 한 줄 요약만 남긴다.
 
-## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-23 기준)
+## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-30 기준)
+
+**지금 할 일: 코드 안정화** — [`STABILIZATION.md`](STABILIZATION.md) 의 "작업 순서"에서 체크되지 않은 첫 항목부터 진행한다(시작점 S1 Combobox IME).
+사용자 결정(2026-10-30): **홍보보다 코드 안정화가 먼저**, 런칭 게시는 보류, 호환성을 깨는 변경은 런칭 전에 2.0 으로 묶는다.
+아래 "다음 플랜"의 런칭·기능 항목은 안정화가 끝난 뒤 다시 판단한다.
 
 **마지막 상태**
-- npm: **react 1.6.1** · **korean-utils 0.1.0** · tokens 1.3.0 · icons 0.1.3 (배포된 것).
-  **버전 PR #26 열림 — react 1.7.0 · tokens 1.7.0 · korean-utils 0.2.0**(9~13번 changeset 5개. tokens 가 1.3 → 1.7 로 건너뛰는 것은
-  `.changeset/config.json` 의 linked 설정 — 정상). 머지는 main CI·PR 시각 회귀 녹색 확인 뒤. 머지하면 npm 배포 확인(react 가 korean-utils ^0.2.0 을 의존하는지).
-- origin/main = `c6105c1`(봇 — 13번 새 스토리 기준 이미지). 13번 = `18f75b9`. 9·10·11번 기준 이미지 갱신은 봇 커밋 `3406959`, 12번 새 스토리는 `ca3bd61`.
-  **로컬은 봇 커밋만큼 뒤처짐** → 다음 세션 시작 때 `git pull`.
+- npm: **react 1.7.0** · **tokens 1.7.0** · **korean-utils 0.2.0** · icons 0.1.3 (2026-10-30 확인. 버전 PR #26 머지됨, 열린 PR 없음).
+- main = origin/main = `68d4fe8`, 이 커밋의 CI 모두 성공(2026-10-30 확인).
 - GitHub 저장소 설정 완료(2026-10-21): 한국어 About·Website, Topics 18개, **Discussions 켜짐**(기본 카테고리 6개). 이슈·PR 템플릿 있음.
 - Pages: Storybook + playground + `llms.txt`·`llms-full.txt`. StackBlitz 예제 `examples/vite-starter`(npm 의 react ^1.6.0 — 통신사 NativeSelect 포함, 2026-10-21 설치·빌드·화면 확인).
 - 컴포넌트 약 56개(폴더 55 — 10-23 Grid·Container·FormField·CheckboxGroup·ResidentNumberInput 추가) + 테마·다국어·서식·마스킹 함수, 아이콘 57종. **P1~P16 완료**, 이번 플랜 1(노출)·2(번들)·3(korean-utils)·5(런칭 준비물) 완료.
 - 프로덕션 권장 선언 기준 **6/6 달성**(2026-10-23 NVDA + Chrome 13개 항목 모두 ✅, VoiceOver 재확인 ✅) — README·npm·Introduction·SUPPORT·POSITIONING 에 반영, 1.6.1 로 배포.
-- **런칭: 게시만 남음.** 블로그(https://jiwon-seok.com, 저장소 ~/Documents/Project/astro-blog) 기술 글 2편 **공개됨** —
+- **런칭: 준비물은 있지만 2026-10-30 부터 보류**(STABILIZATION.md 완료 조건 뒤). 블로그(https://jiwon-seok.com, 저장소 ~/Documents/Project/astro-blog) 기술 글 2편 **공개됨** —
   `oklch-contrast-theme`(10-21)·`kwcag-automated-testing`(10-23, NVDA 결과 포함). 블로그 표 스타일도 2026-10-23 손봄.
   GeekNews Show 본문은 비공개 Artifact https://claude.ai/artifact/EdgazWzz98aH3maLsXFwRT ("복사" 버튼, NVDA 결과 반영됨).
   런칭 뒤에는 이슈·Discussions 반응으로 다음 기능(Combobox 다중 선택·Tag 입력)을 정한다.
 - **9번 OS 다크 모드(`theme="system"`) 완료**, **10번 반응형 기반 완료**(2026-10-23, changeset `responsive-layout` react·tokens minor — 배포 대기). 11번 info 색·12번 FormField·CheckboxGroup 완료(changeset `info-color`·`form-field-checkbox-group`). 13번 한국 키트 1차(주민번호·마스킹) 완료(changeset `resident-number-masking`). 다음은 14번 컴포넌트 공백.
   **"앱 기본" 번들 여유가 10 B 뿐**(4.09/4.1 kB — system 모드 +390·Stack 구간별 값 +300·info 변수 +40 B) → 다음에 ThemeProvider·Button·Typography·Stack·vars 를 키우면 한도를 사용자와 다시 정한다.
-- **2026-10-23 객관 점검**(다음 플랜 9~16번) 중 9~13 완료. 남은 것: 14 컴포넌트 공백(Tag/Chip·EmptyState·TimePicker·앱 뼈대·TanStack 가이드)·15 Figma·16 운영. 런칭 게시는 여전히 사람이 할 일 1순위.
+- **2026-10-23 객관 점검**(다음 플랜 9~16번) 중 9~13 완료. 남은 것: 14 컴포넌트 공백(Tag/Chip·EmptyState·TimePicker·앱 뼈대·TanStack 가이드)·15 Figma·16 운영. 모두 안정화 뒤로 미룬다.
 - 번들(2026-10-23 13번 뒤 측정, minify + brotli): react 전체 JS **71.68/80 kB** · Button 하나 1.51/2 · 앱 기본 **4.09/4.1** · 폼 세트(Select) 29.66/33 ·
   **폼 세트(NativeSelect) 3.86/4.3** · 오버레이 세트 34.82/38 · 한국 키트 30.4/33.5 · styles.css 10.86/12 · tokens 1.32/1.5 ·
   korean-utils 전체 1.32/1.5 kB(10-23 한도 1 → 1.5, 사용자 결정)·전화번호 서식 하나 179/300 B·maskName 하나 92/200 B. 큰 덩어리는 모두 Radix(점검 결과는 아래 "Claude 가 할 일" 2번).
@@ -67,6 +69,8 @@
 
 ## 다음 플랜 (2026-10-21 재정리 — 알리기·도입 장벽 낮추기 우선, 위에서부터 추천 순서)
 
+> **2026-10-30 변경:** 이 플랜보다 [`STABILIZATION.md`](STABILIZATION.md) 가 먼저다. 아래 "품질은 충분하다" 는 판단은 같은 날 점검에서 찾은 버그로 바뀌었다.
+
 > 방향: 품질은 충분하다. 부족한 것은 **알리기**와 **도입 장벽**이다(스타 1, npm 월 다운로드 react 665 는 1주 24개 버전 배포·CI 설치로 부풀려진 값 —
 > 실사용자는 거의 없다고 보고 시작). 공개 런칭(GeekNews 등)은 **NVDA 점검으로 "프로덕션 권장 6/6" 을 채운 뒤 한 번에** 한다.
 > 첫 런칭은 한 번뿐이라 그 문구와 번들 숫자를 쓸 수 있을 때 한다.
@@ -87,7 +91,7 @@
   **Direct publishing 체크**) 생성 → ④ 그 다음에 react 버전 PR 머지. ②보다 ④가 먼저면 react 가 npm 에 없는 패키지를 의존한다.
 - [x] **VoiceOver(macOS) 짧은 재확인** (2026-10-23 완료, 모두 ✅) — 체크리스트 13번의 Switch(1.6 재구현)·NativeSelect(VO 열 비어 있음), 그리고 이번에 추가한
   사업자등록번호 10자리·DatePicker 8자리 오류 알림(입력 0.8초 뒤 "올바른 …가 아니에요" 가 들리는지). 로컬 `next start -p 3001` 로 push 없이 가능.
-- [ ] **런칭 게시** — 준비 끝(2026-10-23: react 1.6.1 배포, 블로그 기술 글 2편 공개, Artifact 의 GeekNews 본문 NVDA 반영). 순서: GeekNews Show(1순위) → velog·요즘IT 등에 기술 글 → 접근성 커뮤니티·공공/SI/에이전시 쪽 → FEConf·JSConf Korea 발표 지원.
+- [ ] **런칭 게시** (2026-10-30 보류 — STABILIZATION.md 완료 조건 뒤, 본문의 버전·문구는 그때 다시 맞춘다) — 준비 끝(2026-10-23: react 1.6.1 배포, 블로그 기술 글 2편 공개, Artifact 의 GeekNews 본문 NVDA 반영). 순서: GeekNews Show(1순위) → velog·요즘IT 등에 기술 글 → 접근성 커뮤니티·공공/SI/에이전시 쪽 → FEConf·JSConf Korea 발표 지원.
 - [ ] **ResidentNumberInput 스크린리더 확인**(VoiceOver·NVDA, 2026-10-23 추가) — 묶음 이름 "주민등록번호" → "앞 6자리", 뒷칸이 "보안 텍스트" 로 읽히는지, 다 채운 뒤 검증 오류가 0.8초 뒤 들리는지. playground /interactive 정산 정보.
 - [ ] (가능하면) iOS VoiceOver·센스리더 점검 — 같은 체크리스트, 3·4번째 열.
 - [ ] (선택) 실제 기기 확인: 가상 키보드가 Modal·Drawer 입력을 가리는지(iOS Safari·Android Chrome).
@@ -302,3 +306,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-23 | 11번 토큰 보강: `info` 의미 색(tokens 선택 키 + `DefaultSemanticColors`, react 변수·Alert·Badge·Toast·createIntentColors), 스토리(Alert "info 와 브랜드 색")·Theme Builder·문서, MIGRATION-2.0 검토 2건(Alert 기본 info, disabled 투명도). border width·opacity·차트 색은 보류(사용자 결정). vitest 모듈 캐시 함정 CLAUDE.md |
 | 2026-10-23 | 12번 공용 폼 필드: `FormField`(shared, render prop + meta 인자)·`CheckboxGroup`(client), rhf 통합 테스트·스토리·SSR·E2E(알림 설정), 문서(componentA11y·Guides·README), changeset minor |
 | 2026-10-23 | 13번 한국 키트 1차: korean-utils 주민번호(서식·읽기·구조 검사)·마스킹 5종, react 다시 export + `ResidentNumberInput`(두 칸, 붙여넣기 나눔, 포커스 자동 이동 없음), 테스트·변이 4·E2E·문서(componentA11y·kwcag 7.2.1·README·korean-utils README), korean-utils 한도 1.5 kB(사용자 결정) |
+| 2026-10-30 | 코드 안정화 점검: 패키지 구조·CI·의존성·코드 규칙은 문제없음, Combobox IME·서식 입력 form.reset·0507·+82·사업자번호 0000000000 재현, 파일럿 2 버그 2건 미해결 확인. 사용자 결정으로 런칭 보류, 호환성을 깨는 변경은 런칭 전 2.0 으로. `STABILIZATION.md` 작성, 인수인계를 그 문서 기준으로 갱신 |
