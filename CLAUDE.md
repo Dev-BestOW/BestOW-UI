@@ -166,6 +166,7 @@ pnpm storybook                       # http://localhost:6006
 pnpm build                           # packages/* (tokens → icons → react 순서)
 pnpm typecheck                       # react/storybook 의 typecheck 는 의존 패키지 dist 가 필요 → build 먼저
 pnpm test                            # vitest (icons, react) — jsdom 단위 테스트
+pnpm test:coverage                   # 커버리지(react·korean-utils). 스토리는 포함하지 않는다. CI 는 보고만 하고 실패 기준 없음
 pnpm test:stories                    # 모든 스토리를 브라우저(로컬은 시스템 Chrome)에서 라이트·다크로 렌더링 + axe. build 먼저
                                      # (vitest project storybook-light / storybook-dark — `--project storybook-dark` 로 하나만)
                                      # 다른 브라우저: STORYBOOK_BROWSERS=webkit (쉼표로 여럿, 기본 chromium). E2E 는 E2E_BROWSERS=webkit

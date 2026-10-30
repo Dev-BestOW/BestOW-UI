@@ -14,6 +14,7 @@
     "build-playground": "pnpm --filter @bestow-ui/playground build",
     "size": "size-limit",
     "test": "pnpm -r test",
+    "test:coverage": "pnpm --filter @bestow-ui/icons test && pnpm -r --if-present test:coverage",
     "test:stories": "pnpm --filter @bestow-ui/storybook test:stories",
     "test:visual": "pnpm --filter @bestow-ui/storybook test:visual",
     "test:e2e": "pnpm --filter @bestow-ui/playground test:e2e",

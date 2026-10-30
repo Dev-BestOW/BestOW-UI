@@ -1,5 +1,5 @@
 import { createRef } from 'react';
-import { render, screen, within } from '@testing-library/react';
+import { act, render, renderHook, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import {
   Table,
@@ -188,5 +188,26 @@ describe('useTableSelection', () => {
     expect(screen.getByRole('status').textContent).toBe('A,B');
     await user.click(screen.getByRole('button', { name: '선택 해제' }));
     expect(screen.getByRole('status').textContent).toBe('');
+  });
+
+  it('toggle 은 값을 주면 그 상태로, 없으면 뒤집고, 같은 상태면 그대로 둔다', () => {
+    const { result } = renderHook(() => useTableSelection<number>([1]));
+    act(() => result.current.toggle(1, true));
+    expect(result.current.selected).toEqual([1]);
+    act(() => result.current.toggle(2));
+    expect(result.current.selected).toEqual([1, 2]);
+    act(() => result.current.toggle(1));
+    expect(result.current.selected).toEqual([2]);
+    act(() => result.current.toggle(2, false));
+    expect(result.current.selected).toEqual([]);
+    expect(result.current.isSelected(2)).toBe(false);
+  });
+
+  it('빈 페이지는 "모두 선택" 이 아니고, 해제는 이 페이지 행만 뺀다', () => {
+    const { result } = renderHook(() => useTableSelection<string>(['A', 'B', 'C']));
+    expect(result.current.selectAllProps([]).checked).toBe(false);
+    expect(result.current.selectAllProps([]).indeterminate).toBe(false);
+    act(() => result.current.selectAllProps(['A', 'B']).onChange());
+    expect(result.current.selected).toEqual(['C']);
   });
 });

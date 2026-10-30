@@ -40,7 +40,7 @@
 | 4 | [x] S6~S7 Stepper 간격, SkipLink 그림자 (2026-10-31) | react patch |
 | 5 | [x] S8 `asChild` (2026-10-31) | react minor |
 | 6 | [x] S9~S11 Stepper 진행 중, 마스킹 기준, fieldset 모양 (2026-10-31) | react·korean-utils minor |
-| 7 | [ ] S18~S19 커버리지 측정, 누락 테스트 | 배포 없음 |
+| 7 | [x] S18~S19 커버리지 측정, 누락 테스트 (2026-10-31) | react patch(주소 재시도 수정) |
 | 8 | [ ] S12~S15 2.0 | react·tokens major |
 
 ## 1. 버그 (patch)
@@ -133,8 +133,8 @@
 
 - **S16 폼 공통 계약 테스트:** ✅ `src/test/form-contract.test.tsx`. 22개 컴포넌트의 `form.reset`·`fieldset disabled` 를 검사하고, `name` prop 이 있는 컴포넌트가 표에서 빠지면 실패한다. Select 는 Radix 가 처리해 수정 없이 통과했다. `fieldset disabled` 는 모두 통과했다.
 - **S17 실제 브라우저 IME E2E:** ✅ `keyboard.spec.ts` 에 추가(Chromium 만, CDP `Input.imeSetComposition`). Safari·Firefox 는 단위 테스트로 조건만 확인한다.
-- **S18 커버리지 측정:** `@vitest/coverage-v8` 추가. 처음에는 CI 실패 기준 없이 보고만 한다.
-- **S19 누락 테스트:** `VisuallyHidden` 테스트 파일 없음. `Input` 은 전용 테스트가 없어 TextField 테스트로 충분한지 확인한다.
+- **S18 커버리지 측정:** ✅ `pnpm test:coverage`, CI 의 Test 단계에서 실패 기준 없이 보고만 한다. 처음 값(단위 테스트만, 스토리 제외): react 줄 96.5%·분기 90.9%, korean-utils 줄 100%·분기 98.9%.
+- **S19 누락 테스트:** ✅ `VisuallyHidden`·`Input` 전용 테스트, 커버리지가 낮던 `addressProviders`(13%)·`en`·`useTableSelection` 테스트 추가. 이때 카카오 스크립트를 받았지만 서비스가 없을 때 다시 시도하지 못하던 버그를 찾아 고쳤다.
 
 ## 5. 사람이 확인할 것
 

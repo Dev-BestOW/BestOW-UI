@@ -54,18 +54,19 @@ function loadKakaoPostcode(): Promise<PostcodeConstructor> {
   const existing = w.kakao?.Postcode ?? w.daum?.Postcode;
   if (existing) return Promise.resolve(existing);
   loading ??= new Promise<PostcodeConstructor>((resolve, reject) => {
+    const fail = (message: string) => {
+      loading = null; // 다음에 다시 시도할 수 있게
+      reject(new Error(message));
+    };
     const script = document.createElement('script');
     script.src = KAKAO_POSTCODE_SRC;
     script.async = true;
     script.onload = () => {
       const ctor = w.kakao?.Postcode ?? w.daum?.Postcode;
-      if (ctor) resolve(ctor);
-      else reject(new Error('우편번호 서비스를 찾지 못했어요'));
+      if (ctor) return resolve(ctor);
+      fail('우편번호 서비스를 찾지 못했어요');
     };
-    script.onerror = () => {
-      loading = null; // 다음에 다시 시도할 수 있게
-      reject(new Error('우편번호 서비스를 불러오지 못했어요'));
-    };
+    script.onerror = () => fail('우편번호 서비스를 불러오지 못했어요');
     document.head.appendChild(script);
   });
   return loading;

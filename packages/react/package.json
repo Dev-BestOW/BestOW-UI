@@ -66,6 +66,7 @@
     "build": "node -e \"require('fs').rmSync('dist',{recursive:true,force:true})\" && tsup",
     "dev": "tsup --watch",
     "test": "vitest run",
+    "test:coverage": "vitest run --coverage",
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"
   },
@@ -100,6 +101,7 @@
     "@types/react-dom": "^19.2.0",
     "@vanilla-extract/esbuild-plugin": "^2.3.22",
     "@vanilla-extract/vite-plugin": "^5.2.6",
+    "@vitest/coverage-v8": "^5.0.5",
     "jsdom": "^27.0.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",

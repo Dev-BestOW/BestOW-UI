@@ -44,8 +44,9 @@ jobs:
       - name: Typecheck
         run: pnpm typecheck
 
+      # 커버리지는 보고만 한다 — 실패 기준을 두지 않아 숫자가 낮아져도 CI 는 실패하지 않는다(테스트가 실패하면 실패)
       - name: Test
-        run: pnpm test
+        run: pnpm test:coverage
 
       # 모든 스토리를 실제 브라우저에서 렌더링하고 axe 접근성 검사(a11y.test: 'error')를 실행한다.
       # vanilla-extract 가 토큰을 dist 에서 읽으므로 Build packages 다음에 실행해야 한다.
