@@ -1,5 +1,16 @@
 # @bestow-ui/korean-utils
 
+## 0.3.0
+
+### Minor Changes
+
+- ee53ee1: 마스킹 함수가 원본을 그대로 돌려주지 않게 바꿨어요. 한 글자 이름은 `*`, `maskDigits` 는 남길 자리가 전체를 덮으면 모두 가려요. `maskCardNumber` 는 13자리 미만, `maskPhoneNumber` 는 형식을 알 수 없는 번호를 모두 가려요(15xx 같은 대표번호는 그대로예요).
+- 5c0b60d: 전화번호·사업자등록번호 처리를 고쳤어요.
+  
+  - 050 번호를 11자리(`0507-123-4567`)와 12자리(`0507-1234-5678`)로 나누고, 12자리의 마지막 숫자가 잘리던 문제를 고쳤어요. `phoneNumberMaxDigits` 는 050 번호에 12 를 돌려줘요.
+  - `+82` 로 시작하는 번호를 국내 번호로 바꿔요. 새 함수 `phoneNumberDigits` 를 추가했고 `PhoneNumberInput` 붙여 넣기에도 적용돼요.
+  - `isValidBusinessNumber('0000000000')` 이 `false` 를 돌려줘요.
+
 ## 0.2.0
 
 ### Minor Changes
