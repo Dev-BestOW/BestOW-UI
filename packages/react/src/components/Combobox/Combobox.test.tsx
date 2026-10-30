@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { render, screen, waitFor, within } from '@testing-library/react';
+import { fireEvent, render, screen, waitFor, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { Combobox, type ComboboxOption } from './Combobox';
 
@@ -84,6 +84,22 @@ describe('Combobox', () => {
     await user.keyboard('{Escape}');
     expect(screen.queryByRole('listbox')).toBeNull();
     expect((input() as HTMLInputElement).value).toBe('사과');
+  });
+
+  it.each([
+    ['조합 중(isComposing)', { isComposing: true }],
+    ['조합 직후 Safari(keyCode 229)', { keyCode: 229 }],
+  ])('한글 %s Enter 는 항목을 고르지 않고, 이어지는 Enter 로 고른다', (_, composing) => {
+    const onValueChange = vi.fn();
+    render(<Combobox label="과일" options={fruits} onValueChange={onValueChange} />);
+    fireEvent.change(input(), { target: { value: '사' } });
+
+    fireEvent.keyDown(input(), { key: 'Enter', ...composing });
+    expect(onValueChange).not.toHaveBeenCalled();
+    expect(input().getAttribute('aria-expanded')).toBe('true');
+
+    fireEvent.keyDown(input(), { key: 'Enter' });
+    expect(onValueChange).toHaveBeenCalledWith('apple');
   });
 
   it('마우스로 항목을 누르면 선택되고, 선택된 항목은 aria-selected 다', async () => {

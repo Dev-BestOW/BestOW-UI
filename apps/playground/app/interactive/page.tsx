@@ -166,6 +166,16 @@ export default function InteractivePage() {
           onChange={(e) => setMemo(e.target.value)}
         />
         <Switch label="마케팅 알림 받기" />
+        <Combobox
+          label="결제 은행"
+          placeholder="은행을 검색하세요"
+          fullWidth
+          options={[
+            { value: 'kb', label: '국민은행' },
+            { value: 'ibk', label: '기업은행' },
+            { value: 'shinhan', label: '신한은행' },
+          ]}
+        />
         <PhoneNumberInput fullWidth />
         <VerificationCodeInput
           expiresIn={180}

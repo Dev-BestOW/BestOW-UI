@@ -15,7 +15,7 @@
 
 - 대상: 패키지 구조, CI, 의존성, 컴포넌트 파일·규칙, 폼 입력, 한국어 처리, korean-utils 경계값.
 - **전체 컴포넌트 감사는 아니다.** 폼 입력과 한국어 처리 위주로 봤고 Combobox·DatePicker·Button 외의 컴포넌트는 코드를 끝까지 읽지 않았다.
-- S1~S2 는 jsdom 재현이다. S1 의 실제 영향은 브라우저 IME 로 다시 확인해야 한다.
+- S2 는 jsdom 재현이다. S1 은 실제 Chrome 에서 재현하고 고쳤다.
 - 테스트 커버리지는 측정 도구가 없어 재지 못했다.
 
 ## 문제없음으로 확인한 것 (지금 손대지 않음)
@@ -34,7 +34,7 @@
 
 | 단계 | 항목 | 버전 |
 |---|---|---|
-| 1 | [ ] S1 + S17 Combobox IME 와 브라우저 E2E | react patch |
+| 1 | [x] S1 + S17 Combobox IME 와 브라우저 E2E (2026-10-30) | react patch |
 | 2 | [ ] S2 + S16 form.reset 과 폼 공통 계약 테스트 | react patch |
 | 3 | [ ] S3~S5 korean-utils 서식·검증 | korean-utils·react patch |
 | 4 | [ ] S6~S7 Stepper 간격, SkipLink 그림자 | react patch |
@@ -49,7 +49,8 @@
 
 - **위치:** `packages/react/src/components/Combobox/Combobox.tsx:199`. 저장소 전체에 `isComposing`·composition 처리가 없다.
 - **재현:** 조합 시작 → `국` 입력 → `keyDown { key: 'Enter', isComposing: true, keyCode: 229 }` → `onValueChange('a')` 호출.
-- **위험:** 조합 중 Enter 로 목록이 닫히고, 조합이 끝난 뒤 들어오는 Enter 는 목록이 닫힌 상태라 `preventDefault` 를 거치지 않아 폼이 제출될 수 있다(실제 브라우저 확인 필요).
+- **실제 Chrome 결과:** CDP 로 macOS Chrome 입력 순서(조합 중 keydown 229 → 조합 확정 → 일반 Enter)를 만들면 입력창이 **`국민은행국`** 으로 깨지고 목록이 다시 열렸다. 점검 때 예상한 폼 제출이 아니라 글자 깨짐이 실제 증상이었다.
+- **수정:** `handleKeyDown` 맨 앞에서 조합 중 키를 무시한다. Tab 도 건너뛰지만 입력창의 blur 처리가 목록을 닫는다.
 - **방향:** `handleKeyDown` 맨 앞에서 `event.nativeEvent.isComposing || event.keyCode === 229` 면 건너뛴다. 화살표·Escape 도 같은 경로로 막히므로 조합 중 동작을 함께 정한다.
 - **완료 기준:** 단위 테스트 + 실제 브라우저 E2E(S17), 변이 확인, 조합 뒤 Enter 한 번으로 고르고 폼은 제출되지 않음.
 
@@ -128,7 +129,7 @@
 ## 4. 재발 방지
 
 - **S16 폼 공통 계약 테스트:** 값을 받는 모든 폼 컴포넌트를 표로 두고 `form.reset`, `name` 제출, `fieldset disabled` 를 한 파일에서 검사한다. `ssr.test.tsx` 처럼 새 컴포넌트가 빠지지 않게 한다.
-- **S17 실제 브라우저 IME E2E:** `apps/playground/e2e` 에 추가. Playwright CDP `Input.imeSetComposition` 사용을 먼저 검토한다.
+- **S17 실제 브라우저 IME E2E:** ✅ `keyboard.spec.ts` 에 추가(Chromium 만, CDP `Input.imeSetComposition`). Safari·Firefox 는 단위 테스트로 조건만 확인한다.
 - **S18 커버리지 측정:** `@vitest/coverage-v8` 추가. 처음에는 CI 실패 기준 없이 보고만 한다.
 - **S19 누락 테스트:** `VisuallyHidden` 테스트 파일 없음. `Input` 은 전용 테스트가 없어 TextField 테스트로 충분한지 확인한다.
 

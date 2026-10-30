@@ -185,6 +185,9 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
   };
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
+    // 한글 조합 중의 키는 조합을 끝내는 입력이다. 여기서 항목을 고르면 조합이 끝나며 글자가 이름 뒤에 붙는다("국민은행국").
+    // Safari 는 조합을 끝낸 뒤 isComposing=false 로 보내 keyCode 229 로도 확인한다.
+    if (event.nativeEvent.isComposing || event.keyCode === 229) return;
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault();

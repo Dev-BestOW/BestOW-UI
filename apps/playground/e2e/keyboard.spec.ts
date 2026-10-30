@@ -95,6 +95,45 @@ test('Combobox: 입력으로 거르고 Enter 로 고르면 값이 바뀌고 토�
   await expect(page.getByText('busan 를 골랐어요', { exact: true })).toBeVisible();
 });
 
+test('Combobox: 한글 조합 중 Enter 는 조합만 끝내고, 이어지는 Enter 로 고르며 폼을 제출하지 않는다', async ({
+  page,
+  browserName,
+}) => {
+  test.skip(browserName !== 'chromium', 'IME 입력은 Chromium 의 CDP 로만 만들 수 있다');
+  await page.goto('/interactive');
+  await page.getByRole('textbox', { name: '이메일' }).fill('a@b.co');
+  const input = page.getByRole('combobox', { name: '결제 은행' });
+  await input.focus();
+  await input.evaluate((element) => {
+    (window as unknown as { submits: number }).submits = 0;
+    element.closest('form')?.addEventListener('submit', () => {
+      (window as unknown as { submits: number }).submits += 1;
+    });
+  });
+
+  // macOS Chrome 의 한글 입력 순서: 조합 중 keydown(229) → 조합 확정 → 일반 Enter keydown
+  const cdp = await page.context().newCDPSession(page);
+  const enter = { key: 'Enter', code: 'Enter' };
+  await cdp.send('Input.imeSetComposition', { text: '국', selectionStart: 1, selectionEnd: 1 });
+  await expect(page.getByRole('option', { name: '국민은행' })).toBeVisible();
+  await cdp.send('Input.dispatchKeyEvent', {
+    type: 'rawKeyDown',
+    ...enter,
+    windowsVirtualKeyCode: 229,
+    nativeVirtualKeyCode: 229,
+  });
+  await cdp.send('Input.insertText', { text: '국' });
+  await expect(input).toHaveValue('국');
+  await cdp.send('Input.dispatchKeyEvent', { type: 'rawKeyDown', ...enter, windowsVirtualKeyCode: 13 });
+  await cdp.send('Input.dispatchKeyEvent', { type: 'char', ...enter, text: '\r', windowsVirtualKeyCode: 13 });
+  await cdp.send('Input.dispatchKeyEvent', { type: 'keyUp', ...enter, windowsVirtualKeyCode: 13 });
+
+  await expect(input).toHaveValue('국민은행');
+  await expect(page.getByRole('listbox')).toBeHidden();
+  // 제출은 keydown 뒤에 동기로 일어나므로 위 확인이 끝나면 이미 결과가 나와 있다
+  expect(await page.evaluate(() => (window as unknown as { submits: number }).submits)).toBe(0);
+});
+
 test('Select: 키보드로 열고 글자 입력으로 찾아 고른다', async ({ page }) => {
   await page.goto('/interactive');
   const select = page.getByRole('combobox', { name: '플랜' });

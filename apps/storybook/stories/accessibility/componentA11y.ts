@@ -127,7 +127,7 @@ export const componentA11y: ComponentA11yGroup[] = [
       {
         name: 'Combobox',
         keyboard:
-          '입력하면 목록이 걸러진다. ↓/↑ 열기·이동(비활성 항목 건너뜀), Enter 선택(목록이 열려 있으면 폼 제출 대신), Esc 닫기, Tab 은 닫고 다음으로. 글자를 모두 지우고 닫으면(Enter·Esc·Tab) 선택이 지워진다.',
+          '입력하면 목록이 걸러진다. ↓/↑ 열기·이동(비활성 항목 건너뜀), Enter 선택(목록이 열려 있으면 폼 제출 대신), Esc 닫기, Tab 은 닫고 다음으로. 글자를 모두 지우고 닫으면(Enter·Esc·Tab) 선택이 지워진다. 한글 조합 중 누른 키는 조합을 끝내는 데만 쓴다.',
         screenReader:
           'combobox(aria-autocomplete="list") + listbox. 포커스는 입력에 둔 채 aria-activedescendant 로 현재 항목을 알린다. "결과가 없어요" 는 처음부터 있는 숨은 status 영역에, 입력이 0.8초 멈춘 뒤 넣어 읽힌다(새로 생긴 live region·입력과 같은 순간의 변경은 VoiceOver 가 읽지 않음 — VoiceOver+Safari 수동 확인 2026-10-21). clearable 의 "선택 지우기" 버튼은 마우스용이라 Tab 순서에서 빠진다(키보드는 글자를 지워서 지운다).',
       },

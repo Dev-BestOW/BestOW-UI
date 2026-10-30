@@ -10,7 +10,7 @@
 
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-30 기준)
 
-**지금 할 일: 코드 안정화** — [`STABILIZATION.md`](STABILIZATION.md) 의 "작업 순서"에서 체크되지 않은 첫 항목부터 진행한다(시작점 S1 Combobox IME).
+**지금 할 일: 코드 안정화** — [`STABILIZATION.md`](STABILIZATION.md) 의 "작업 순서"에서 체크되지 않은 첫 항목부터 진행한다(1단계 S1·S17 완료, 다음은 S2 form.reset + S16 계약 테스트).
 사용자 결정(2026-10-30): **홍보보다 코드 안정화가 먼저**, 런칭 게시는 보류, 호환성을 깨는 변경은 런칭 전에 2.0 으로 묶는다.
 아래 "다음 플랜"의 런칭·기능 항목은 안정화가 끝난 뒤 다시 판단한다.
 
@@ -307,3 +307,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-23 | 12번 공용 폼 필드: `FormField`(shared, render prop + meta 인자)·`CheckboxGroup`(client), rhf 통합 테스트·스토리·SSR·E2E(알림 설정), 문서(componentA11y·Guides·README), changeset minor |
 | 2026-10-23 | 13번 한국 키트 1차: korean-utils 주민번호(서식·읽기·구조 검사)·마스킹 5종, react 다시 export + `ResidentNumberInput`(두 칸, 붙여넣기 나눔, 포커스 자동 이동 없음), 테스트·변이 4·E2E·문서(componentA11y·kwcag 7.2.1·README·korean-utils README), korean-utils 한도 1.5 kB(사용자 결정) |
 | 2026-10-30 | 코드 안정화 점검: 패키지 구조·CI·의존성·코드 규칙은 문제없음, Combobox IME·서식 입력 form.reset·0507·+82·사업자번호 0000000000 재현, 파일럿 2 버그 2건 미해결 확인. 사용자 결정으로 런칭 보류, 호환성을 깨는 변경은 런칭 전 2.0 으로. `STABILIZATION.md` 작성, 인수인계를 그 문서 기준으로 갱신 |
+| 2026-10-30 | S1·S17 Combobox IME: 조합 중 키 무시, 실제 Chrome 에서 `국민은행국` 깨짐 재현 뒤 수정, 단위 2·E2E 1(CDP), playground /interactive 폼에 결제 은행 Combobox 추가, changeset patch |
