@@ -2,7 +2,7 @@ import { readdirSync, readFileSync } from 'node:fs';
 import { resolve } from 'node:path';
 import type { ReactElement } from 'react';
 import { Controller, useForm } from 'react-hook-form';
-import { act, render, screen } from '@testing-library/react';
+import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent, { type UserEvent } from '@testing-library/user-event';
 import {
   AddressInput,
@@ -201,6 +201,8 @@ describe.each(cases)('폼 계약 — $name', ({ element, change }) => {
     const controls = [...form().querySelectorAll('input, button, select, textarea')];
     expect(controls.length).toBeGreaterThan(0);
     expect(controls.filter((control) => !control.matches(':disabled'))).toEqual([]);
+    // Radix 가 span 으로 그리는 컨트롤은 네이티브 비활성이 닿지 않는다
+    expect([...form().querySelectorAll('[tabindex="0"]:not(:disabled)')]).toEqual([]);
     expect(submitted()).toEqual([]);
   });
 });
@@ -302,6 +304,20 @@ it('react-hook-form reset(새 값) 이 Controller 로 연결한 컴포넌트에 
   await user.click(screen.getByRole('button', { name: '불러오기' }));
   expect((screen.getByLabelText('칸') as HTMLInputElement).value).toBe('010-3333-4444');
   expect(screen.getByRole('switch', { name: '알림' }).getAttribute('aria-checked')).toBe('true');
+});
+
+it('fieldset disabled 안의 FileUpload 는 끌어다 놓은 파일을 받지 않는다', () => {
+  const onValueChange = vi.fn();
+  render(
+    <form>
+      <fieldset disabled>
+        <FileUpload label="칸" onValueChange={onValueChange} />
+      </fieldset>
+    </form>,
+  );
+  const zone = form().querySelector('[data-disabled]')!;
+  fireEvent.drop(zone, { dataTransfer: { files: [new File(['x'], 'a.txt')] } });
+  expect(onValueChange).not.toHaveBeenCalled();
 });
 
 it('name prop 이 있는 컴포넌트는 모두 계약 테스트에 있다', () => {

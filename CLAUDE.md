@@ -109,6 +109,7 @@ examples/
 - `src/test/react-hook-form.test.tsx` — react-hook-form(register·Controller·ErrorSummary) 통합 테스트. 값을 고르는 컴포넌트의 value/onValueChange·id 계약이 바뀌면 여기가 깨진다.
 - `src/test/form-contract.test.tsx` — 값을 받는 폼 컴포넌트의 `form.reset`·`fieldset disabled` 계약. `name` prop 이 있는데 표에 없으면 실패한다. **새 폼 컴포넌트는 여기에도 넣는다.**
 - `src/utils/useFormReset.ts` — 상태로 값을 드는 컴포넌트의 form reset. 비제어는 처음 값으로 돌아가며 알리고, **제어 모드는 값을 건드리지 않는다**(react-hook-form `reset()` 이 form.reset() 을 불러 옛 값을 알리면 새 값을 덮어쓴다).
+- `src/utils/useFieldsetDisabled.ts` — span 으로 그린 컨트롤(Slider)과 끌어다 놓기처럼 네이티브 `fieldset disabled` 가 닿지 않는 곳에 쓴다. 비활성 모양은 CSS `fieldset:disabled` 로 함께 맞춘다.
 - `src/ssr.test.tsx` — `// @vitest-environment node` 에서 모든 컴포넌트를 renderToString, 경고·오류 0. React 18 SSR 의 useLayoutEffect 경고 같은 것을 잡는다(React 19 는 이 경고가 없음 → CI react18 job). **새 컴포넌트는 여기에도 넣는다.**
 
 ## 컴포넌트 작성 규칙

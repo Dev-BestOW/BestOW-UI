@@ -28,7 +28,7 @@
 | CI | `68d4fe8` 의 main 체크 모두 성공 |
 | 코드 규칙 | 컴포넌트 스타일에 하드코딩 색 없음, `any`·`@ts-ignore`·`@ts-expect-error` 없음 |
 | SSR 테스트·접근성 문서 | 모든 컴포넌트 폴더가 `ssr.test.tsx`·`componentA11y.ts` 에 포함 |
-| `fieldset disabled` 동작 | 입력이 실제로 막힘 (모양 문제는 S11) |
+| `fieldset disabled` 동작 | 네이티브 입력은 막힘. Slider·FileUpload 끌어다 놓기는 S11 에서 고침 |
 
 ## 작업 순서
 
@@ -39,7 +39,7 @@
 | 3 | [x] S3~S5 korean-utils 서식·검증 (2026-10-31) | korean-utils minor·react patch |
 | 4 | [x] S6~S7 Stepper 간격, SkipLink 그림자 (2026-10-31) | react patch |
 | 5 | [x] S8 `asChild` (2026-10-31) | react minor |
-| 6 | [ ] S9~S11 Stepper 진행 중, 마스킹 기준, fieldset 모양 | react·korean-utils minor |
+| 6 | [x] S9~S11 Stepper 진행 중, 마스킹 기준, fieldset 모양 (2026-10-31) | react·korean-utils minor |
 | 7 | [ ] S18~S19 커버리지 측정, 누락 테스트 | 배포 없음 |
 | 8 | [ ] S12~S15 2.0 | react·tokens major |
 
@@ -106,16 +106,17 @@
 
 ### S9. Stepper 진행 중 상태
 
-- 단계에 `loading` 또는 `status`(`complete`·`current`·`loading`·`error`) 추가. 스토리 "비동기 진행", 스크린리더 알림 방식도 함께 정한다.
+- **수정:** `Stepper` 에 `loading` 추가(현재 단계 원에 스피너, 이름에 "(진행 중)"). `aria-busy` 는 내용을 건너뛰게 할 수 있어 쓰지 않았다. 자동으로 넘어가는 단계의 실시간 알림은 사용하는 쪽의 `role="status"` 로 둔다. `error` 상태는 수요를 보고 판단한다.
 
 ### S10. 마스킹 함수의 인식 실패 처리
 
 - 형식을 인식하지 못하면 원본을 돌려준다(`maskCardNumber('1234')` → `1234`, `maskName('김')` → `김`). 개인정보 함수는 실패할 때 가리는 쪽이 안전하다.
-- 입력별로 기대 결과를 정한다. `15881234` 같은 대표번호는 개인정보가 아니므로 그대로 둘 수 있다. korean-utils 는 0.x 라 minor 로 바꿀 수 있다.
+- **수정:** 한 글자 이름은 `*`, 남길 자리가 전체를 덮으면 모두 가림, 13자리 미만 카드번호와 형식을 모르는 전화번호도 모두 가림. 대표번호는 그대로 둔다.
 
 ### S11. `fieldset disabled` 모양
 
-- 입력은 막히지만 `data-disabled` 기준 스타일이 적용되지 않아 활성처럼 보인다. `:disabled` 선택자 추가 또는 상위 fieldset 감지 중 번들 영향이 작은 쪽을 고른다.
+- **수정:** CSS `fieldset:disabled` 선택자로 비활성 모양을 맞췄다.
+- **새로 찾은 버그:** Slider 는 `fieldset disabled` 안에서도 키보드로 값이 바뀌고, FileUpload 는 끌어다 놓기가 막히지 않았다. `utils/useFieldsetDisabled.ts` 로 고쳤다. 점검 문서의 "입력은 실제로 막힘" 은 이 둘에는 틀린 내용이었다.
 
 ## 3. 2.0 에 묶을 변경 (major)
 

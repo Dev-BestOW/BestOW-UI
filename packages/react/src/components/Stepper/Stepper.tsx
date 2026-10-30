@@ -3,6 +3,7 @@ import { CheckIcon } from '@bestow-ui/icons';
 import { useMessages } from '../../i18n/LocaleProvider';
 import { visuallyHidden } from '../../styles/visuallyHidden.css';
 import { cx } from '../../utils/cx';
+import { Spinner } from '../Spinner/Spinner';
 import * as styles from './Stepper.css';
 
 export interface StepperStep {
@@ -19,6 +20,11 @@ export interface StepperProps extends Omit<OlHTMLAttributes<HTMLOListElement>, '
   current: number;
   /** horizontal(기본): 가로로 나란히, 이름은 원 아래. vertical: 세로로, 이름은 원 오른쪽(설명이 길 때) */
   orientation?: 'horizontal' | 'vertical';
+  /**
+   * 현재 단계가 진행 중이다(AI 응답·업로드 처리 등). 원 안에 스피너를 보여 주고 이름에 "(진행 중)" 을 함께 읽는다.
+   * 단계가 바뀌는 순간을 스크린리더에 알리려면 `role="status"` 영역을 따로 둔다.
+   */
+  loading?: boolean;
   /** 목록 이름 (기본 "진행 단계") */
   'aria-label'?: string;
 }
@@ -29,7 +35,7 @@ export interface StepperProps extends Omit<OlHTMLAttributes<HTMLOListElement>, '
  * 단계를 눌러 이동하는 기능은 없다 — 이동은 "이전"·"다음" 버튼으로 둔다.
  */
 export const Stepper = /* @__PURE__ */ forwardRef<HTMLOListElement, StepperProps>(function Stepper(
-  { steps, current, orientation = 'horizontal', 'aria-label': ariaLabel, className, ...rest },
+  { steps, current, orientation = 'horizontal', loading, 'aria-label': ariaLabel, className, ...rest },
   ref,
 ) {
   const m = useMessages();
@@ -43,6 +49,7 @@ export const Stepper = /* @__PURE__ */ forwardRef<HTMLOListElement, StepperProps
     >
       {steps.map((step, index) => {
         const status = index < current ? 'complete' : index === current ? 'current' : 'upcoming';
+        const inProgress = loading && status === 'current';
         return (
           <li
             key={index}
@@ -51,12 +58,19 @@ export const Stepper = /* @__PURE__ */ forwardRef<HTMLOListElement, StepperProps
             aria-current={status === 'current' ? 'step' : undefined}
           >
             <span className={styles.indicator({ status })} aria-hidden>
-              {status === 'complete' ? <CheckIcon size={16} strokeWidth={2.5} /> : index + 1}
+              {status === 'complete' ? (
+                <CheckIcon size={16} strokeWidth={2.5} />
+              ) : inProgress ? (
+                <Spinner size="sm" label="" />
+              ) : (
+                index + 1
+              )}
             </span>
             <span className={styles.text({ orientation, reserveDescription })}>
               <span className={styles.label({ status })}>
                 {step.label}
                 {status === 'complete' && <span className={visuallyHidden}> ({m.stepCompleted ?? '완료'})</span>}
+                {inProgress && <span className={visuallyHidden}> ({m.stepInProgress ?? '진행 중'})</span>}
               </span>
               {step.description && <span className={styles.description}>{step.description}</span>}
             </span>

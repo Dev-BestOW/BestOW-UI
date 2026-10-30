@@ -13,7 +13,7 @@ export const root = recipe({
     gap: vars.space[2],
     color: vars.color.fg.default,
     selectors: {
-      '&[data-disabled]': { opacity: 0.5 },
+      '&[data-disabled], fieldset:disabled &': { opacity: 0.5 },
     },
   },
   variants: {
@@ -127,6 +127,6 @@ export const label = style({
   cursor: 'pointer',
   userSelect: 'none',
   selectors: {
-    '[data-disabled] > &': { cursor: 'not-allowed' },
+    '[data-disabled] > &, fieldset:disabled &': { cursor: 'not-allowed' },
   },
 });

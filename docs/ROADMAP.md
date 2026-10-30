@@ -10,7 +10,7 @@
 
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-30 기준)
 
-**지금 할 일: 코드 안정화** — [`STABILIZATION.md`](STABILIZATION.md) 의 "작업 순서"에서 체크되지 않은 첫 항목부터 진행한다(1~5단계 완료, 다음은 6단계 S9~S11 Stepper 진행 중·마스킹 기준·fieldset 모양).
+**지금 할 일: 코드 안정화** — [`STABILIZATION.md`](STABILIZATION.md) 의 "작업 순서"에서 체크되지 않은 첫 항목부터 진행한다(1~6단계 완료, 다음은 7단계 S18~S19 커버리지 측정·누락 테스트).
 사용자 결정(2026-10-30): **홍보보다 코드 안정화가 먼저**, 런칭 게시는 보류, 호환성을 깨는 변경은 런칭 전에 2.0 으로 묶는다.
 아래 "다음 플랜"의 런칭·기능 항목은 안정화가 끝난 뒤 다시 판단한다.
 
@@ -312,3 +312,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-31 | S3~S5 korean-utils: 050 번호 11·12자리 서식(12자리 잘림 수정, 점검 문서의 기대값 정정), `+82` 처리와 새 함수 `phoneNumberDigits`, 사업자번호 모두 0 거부, PhoneNumberInput 붙여 넣기 테스트, changeset korean-utils minor·react patch |
 | 2026-10-31 | S6~S7: 세로 Stepper 가 설명이 섞여도 원 사이 간격을 맞춤(스토리 play 로 측정), 숨은 SkipLink 그림자 제거(스토리 play), changeset patch. `Vertical` 기준 이미지 갱신 필요 |
 | 2026-10-31 | S8 Button·IconButton `asChild`: cloneElement 직접 구현(사용자 결정, Radix Slot 은 +1.18 kB), 앱 기본 한도 4.4 kB, 스토리 2·단위·SSR·E2E, playground 서버 컴포넌트 예, 문서, changeset minor |
+| 2026-10-31 | S9~S11: Stepper `loading`, 마스킹 실패 시 모두 가림, `fieldset:disabled` 스타일, Slider 키보드·FileUpload 끌어다 놓기 차단(`useFieldsetDisabled`), 계약 테스트·스토리·문서, changeset minor 2 |

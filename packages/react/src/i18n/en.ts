@@ -38,6 +38,7 @@ export const en: BestowMessages = {
   increment: 'Increase',
   steps: 'Progress',
   stepCompleted: 'completed',
+  stepInProgress: 'in progress',
   fileSelect: 'Choose files',
   fileDropHint: 'or drag and drop here',
   fileList: 'Selected files',

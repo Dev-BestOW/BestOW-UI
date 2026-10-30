@@ -41,7 +41,7 @@ export const item = recipe({
     userSelect: 'none',
     transition: `color ${vars.duration.fast}, background-color ${vars.duration.fast}, box-shadow ${vars.duration.fast}`,
     selectors: {
-      '&:hover:not([data-disabled])': { color: vars.color.fg.default },
+      '&:hover:not([data-disabled], :disabled)': { color: vars.color.fg.default },
       '&[data-state="checked"]': {
         color: vars.color.fg.default,
         backgroundColor: vars.color.bg.default,
@@ -51,7 +51,7 @@ export const item = recipe({
         outline: `2px solid ${vars.color.border.focus}`,
         outlineOffset: '-2px',
       },
-      '&[data-disabled]': { opacity: 0.5, cursor: 'not-allowed' },
+      '&[data-disabled], &:disabled': { opacity: 0.5, cursor: 'not-allowed' },
     },
     '@media': { [forcedColors]: { selectors: { '&[data-state="checked"]': systemHighlight } } },
   },

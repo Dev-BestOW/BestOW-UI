@@ -69,4 +69,19 @@ describe('Stepper', () => {
     expect(screen.getByRole('list', { name: 'Progress' })).toBeTruthy();
     expect(screen.getByText('(completed)', { exact: false })).toBeTruthy();
   });
+
+  it('loading 이면 현재 단계만 진행 중으로 읽고 숫자 대신 스피너를 보여 준다', () => {
+    render(<Stepper steps={[{ label: '하나' }, { label: '둘' }, { label: '셋' }]} current={1} loading />);
+    const items = screen.getAllByRole('listitem');
+    expect(items[1]!.textContent).toContain('(진행 중)');
+    expect(items[1]!.querySelector('[aria-hidden] svg, [aria-hidden] [class]')).not.toBeNull();
+    expect(items[1]!.textContent).not.toContain('2');
+    expect(items[0]!.textContent).not.toContain('진행 중');
+    expect(items[2]!.textContent).not.toContain('진행 중');
+  });
+
+  it('모두 완료한 뒤에는 loading 이어도 진행 중이 없다', () => {
+    render(<Stepper steps={[{ label: '하나' }]} current={1} loading />);
+    expect(screen.getByRole('listitem').textContent).not.toContain('진행 중');
+  });
 });

@@ -17,14 +17,14 @@ export const root = recipe({
     transition: `border-color ${vars.duration.fast}, box-shadow ${vars.duration.fast}`,
     cursor: 'text',
     selectors: {
-      '&:hover:not([data-disabled])': { borderColor: inputBorderHoverColor },
+      '&:hover:not([data-disabled], fieldset:disabled *)': { borderColor: inputBorderHoverColor },
       '&:focus-within': {
         borderColor: vars.color.border.focus,
         boxShadow: `0 0 0 1px ${vars.color.border.focus}`,
       },
       '&[data-invalid]': { borderColor: vars.color.danger.solid },
       '&[data-invalid]:focus-within': { boxShadow: `0 0 0 1px ${vars.color.danger.solid}` },
-      '&[data-disabled]': {
+      '&[data-disabled], fieldset:disabled &': {
         backgroundColor: vars.color.bg.muted,
         cursor: 'not-allowed',
         opacity: 0.6,

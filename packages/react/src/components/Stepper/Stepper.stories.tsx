@@ -62,6 +62,21 @@ export const Vertical: Story = {
   },
 };
 
+/** 스트리밍·업로드처럼 현재 단계가 오래 걸릴 때. 단계가 늘어나는 목록도 `steps` 를 바꾸면 된다 */
+export const InProgress: Story = {
+  name: '진행 중',
+  args: {
+    orientation: 'vertical',
+    current: 1,
+    loading: true,
+    steps: [
+      { label: '작업 영역 살펴보기', description: '2초' },
+      { label: '변경 파일 확인', description: '결과를 기다리고 있어요.' },
+      { label: '초안 쓰기' },
+    ],
+  },
+};
+
 export const WithDescription: Story = {
   name: '설명',
   args: {

@@ -2,6 +2,7 @@ import * as RadixSlider from '@radix-ui/react-slider';
 import { forwardRef, useId, useRef, useState, type ReactNode } from 'react';
 import { cx } from '../../utils/cx';
 import { mergeRefs } from '../../utils/mergeRefs';
+import { useFieldsetDisabled } from '../../utils/useFieldsetDisabled';
 import { useFormReset } from '../../utils/useFormReset';
 import * as styles from './Slider.css';
 import { useMessages } from '../../i18n/LocaleProvider';
@@ -63,7 +64,7 @@ export const Slider = /* @__PURE__ */ forwardRef<HTMLSpanElement, SliderProps>(f
     size,
     id,
     className,
-    disabled,
+    disabled: disabledProp,
     ...rest
   } = props;
   const m = useMessages();
@@ -81,6 +82,8 @@ export const Slider = /* @__PURE__ */ forwardRef<HTMLSpanElement, SliderProps>(f
   const isRange = current.length > 1;
 
   const rootRef = useRef<HTMLSpanElement>(null);
+  const fieldsetDisabled = useFieldsetDisabled(rootRef);
+  const disabled = disabledProp || fieldsetDisabled;
   useFormReset(rootRef, () => {
     if (isControlled) return;
     const next = defaultValue ?? [min];

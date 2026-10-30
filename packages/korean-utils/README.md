@@ -71,11 +71,11 @@ maskDigits('110-123-456789', { end: 4 }); // '***-***-**6789' (계좌번호처�
 | `formatResidentNumber(input)` | 주민·외국인등록번호 6-7 하이픈 |
 | `parseResidentNumber(input)` | 앞 7자리로 생년월일(`YYYY-MM-DD`)·성별·외국인 여부. 없는 날짜면 `null`. 앞 7자리만 받는 화면에도 |
 | `isValidResidentNumber(input)` | 13자리 + 생년월일·뒷자리 첫 숫자 확인. **마지막 검증 숫자는 보지 않아요** — 2020년 10월 이후 번호는 뒤 6자리가 임의 번호라 예전 공식으로는 올바른 번호도 틀렸다고 나와요. 실제 번호인지는 본인확인 기관 조회가 필요해요 |
-| `maskName(name)` | 가운데 글자 가리기(`홍*동`, `남**수`, 두 글자는 `이*`) |
-| `maskPhoneNumber(input)` | 가운데 자리 가리기(`010-****-5678`) |
+| `maskName(name)` | 가운데 글자 가리기(`홍*동`, `남**수`, 두 글자는 `이*`, 한 글자는 `*`) |
+| `maskPhoneNumber(input)` | 가운데 자리 가리기(`010-****-5678`). 대표번호는 그대로, 형식을 모르는 번호는 모두 가림 |
 | `maskResidentNumber(input)` | 뒤 6자리 가리기(`900101-1******`) |
-| `maskCardNumber(input)` | 앞 4·뒤 4자리만 남기기 |
-| `maskDigits(input, { start, end })` | 숫자 중 앞 `start`·뒤 `end` 개만 남기고 가리기(구분 글자는 그대로) |
+| `maskCardNumber(input)` | 앞 4·뒤 4자리만 남기기. 13자리 미만이면 모두 가림 |
+| `maskDigits(input, { start, end })` | 숫자 중 앞 `start`·뒤 `end` 개만 남기고 가리기(구분 글자는 그대로). 남길 자리가 전체를 덮으면 모두 가림 |
 | `composeExtraAddress(data)` | [카카오(다음) 우편번호 서비스](https://postcode.map.kakao.com/guide) 결과로 도로명 주소 참고항목(법정동, 공동주택 건물명)을 만든다 — 예: `' (역삼동, 래미안)'` |
 
 ### 입력창에서 쓰기

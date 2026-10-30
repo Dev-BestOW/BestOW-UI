@@ -4,6 +4,7 @@ import { useMessages } from '../../i18n/LocaleProvider';
 import { visuallyHidden } from '../../styles/visuallyHidden.css';
 import { cx } from '../../utils/cx';
 import { mergeRefs } from '../../utils/mergeRefs';
+import { useFieldsetDisabled } from '../../utils/useFieldsetDisabled';
 import { useFormReset } from '../../utils/useFormReset';
 import { Button } from '../Button';
 import { IconButton } from '../IconButton';
@@ -103,12 +104,15 @@ export const FileUpload = /* @__PURE__ */ forwardRef<HTMLDivElement, FileUploadP
     helperText,
     error,
     required,
-    disabled,
+    disabled: disabledProp,
     name,
     id,
     className,
   } = props;
   const m = useMessages();
+  const rootRef = useRef<HTMLDivElement>(null);
+  const fieldsetDisabled = useFieldsetDisabled(rootRef);
+  const disabled = disabledProp || fieldsetDisabled;
   const isControlled = 'value' in props;
   const [innerFiles, setInnerFiles] = useState<File[]>(defaultValue ?? []);
   const files = isControlled ? (value ?? NO_FILES) : innerFiles;
@@ -203,7 +207,6 @@ export const FileUpload = /* @__PURE__ */ forwardRef<HTMLDivElement, FileUploadP
     }
   }, [files, name]);
 
-  const rootRef = useRef<HTMLDivElement>(null);
   useFormReset(rootRef, () => {
     setRejections([]);
     announce('');

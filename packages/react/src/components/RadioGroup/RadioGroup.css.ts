@@ -89,7 +89,7 @@ export const labelText = style({
   userSelect: 'none',
   selectors: {
     // 비활성 옵션은 컨트롤과 레이블만 흐리게 한다. 설명은 "왜 고를 수 없는지" 를 알려 주므로 대비를 유지한다
-    '[data-disabled] &': { cursor: 'not-allowed', opacity: 0.5 },
+    '[data-disabled] &, fieldset:disabled &': { cursor: 'not-allowed', opacity: 0.5 },
   },
 });
 
