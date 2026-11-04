@@ -1,5 +1,30 @@
 # @bestow-ui/react
 
+## 1.8.0
+
+### Minor Changes
+
+- bf5426f: `Button`·`IconButton` 에 `asChild` 를 추가했어요. 서버 컴포넌트에서도 `<Button asChild><NextLink href="/signup">시작하기</NextLink></Button>` 처럼 라우터 링크를 버튼 모양으로 쓸 수 있어요.
+- ee53ee1: `Stepper` 에 `loading` 을 추가했어요. 현재 단계 원에 스피너를 보여 주고 스크린리더에 "(진행 중)" 을 읽어 줘요(문구 키 `stepInProgress`).
+  
+  감싸는 `fieldset` 이 `disabled` 면 폼 컴포넌트가 비활성 모양으로 보여요. Slider 는 키보드로 값이 바뀌지 않고, FileUpload 는 끌어다 놓은 파일을 받지 않아요.
+
+### Patch Changes
+
+- bf4f77e: Combobox 에서 한글 조합 중 Enter 를 누르면 입력창 글자가 깨지던 문제(`국민은행국`)를 고쳤어요. 조합 중 누른 키는 조합을 끝내는 데만 쓰고, 이어지는 Enter 로 항목을 골라요.
+- 1a91a65: 폼 컴포넌트가 `form.reset()` 에 네이티브 입력처럼 반응해요. 전화번호·사업자번호·금액·숫자·주민번호·인증번호·날짜·기간·주소 입력, Combobox, RadioGroup, CheckboxGroup, AgreementGroup, SegmentedControl, Slider, FileUpload, Textarea 글자 수가 처음 값으로 돌아가요. 제어 모드는 값을 바꾸지 않으며, Switch 도 제어 모드에서는 더 이상 `onCheckedChange` 를 부르지 않아요(react-hook-form `reset()` 의 새 값을 덮어쓰던 문제).
+- babd4eb: 카카오 우편번호 스크립트를 받았지만 서비스를 찾지 못했을 때, 새로고침 없이 다시 시도할 수 있어요.
+- ee53ee1: 마스킹 함수가 원본을 그대로 돌려주지 않게 바꿨어요. 한 글자 이름은 `*`, `maskDigits` 는 남길 자리가 전체를 덮으면 모두 가려요. `maskCardNumber` 는 13자리 미만, `maskPhoneNumber` 는 형식을 알 수 없는 번호를 모두 가려요(15xx 같은 대표번호는 그대로예요).
+- 5c0b60d: 전화번호·사업자등록번호 처리를 고쳤어요.
+  
+  - 050 번호를 11자리(`0507-123-4567`)와 12자리(`0507-1234-5678`)로 나누고, 12자리의 마지막 숫자가 잘리던 문제를 고쳤어요. `phoneNumberMaxDigits` 는 050 번호에 12 를 돌려줘요.
+  - `+82` 로 시작하는 번호를 국내 번호로 바꿔요. 새 함수 `phoneNumberDigits` 를 추가했고 `PhoneNumberInput` 붙여 넣기에도 적용돼요.
+  - `isValidBusinessNumber('0000000000')` 이 `false` 를 돌려줘요.
+- 5c0b60d: 세로 Stepper 에서 설명이 있는 단계와 없는 단계가 섞여도 원 사이 간격이 같아요. 숨어 있는 SkipLink 의 그림자가 화면 맨 위에 비치던 문제도 고쳤어요.
+- Updated dependencies [ee53ee1]
+- Updated dependencies [5c0b60d]
+  - @bestow-ui/korean-utils@0.3.0
+
 ## 1.7.0
 
 ### Minor Changes
