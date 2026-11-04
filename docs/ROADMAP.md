@@ -19,7 +19,7 @@
 - npm: **react 1.7.0** · **tokens 1.7.0** · **korean-utils 0.2.0** · icons 0.1.3 (2026-10-30 확인. 버전 PR #26 머지됨, 열린 PR 없음).
 - main = origin/main = `68d4fe8`, 이 커밋의 CI 모두 성공(2026-10-30 확인).
 - GitHub 저장소 설정 완료(2026-10-21): 한국어 About·Website, Topics 18개, **Discussions 켜짐**(기본 카테고리 6개). 이슈·PR 템플릿 있음.
-- Pages: Storybook + playground + `llms.txt`·`llms-full.txt`. StackBlitz 예제 `examples/vite-starter`(npm 의 react ^1.6.0 — 통신사 NativeSelect 포함, 2026-10-21 설치·빌드·화면 확인).
+- Pages: Storybook + playground + `llms.txt`·`llms-full.txt`. StackBlitz 예제 `examples/vite-starter`(npm 의 react ^2.0.0 — 2026-11-04 설치·빌드·화면 확인: 레이어·진한 입력 테두리 반영).
 - 컴포넌트 약 56개(폴더 55 — 10-23 Grid·Container·FormField·CheckboxGroup·ResidentNumberInput 추가) + 테마·다국어·서식·마스킹 함수, 아이콘 57종. **P1~P16 완료**, 이번 플랜 1(노출)·2(번들)·3(korean-utils)·5(런칭 준비물) 완료.
 - 프로덕션 권장 선언 기준 **6/6 달성**(2026-10-23 NVDA + Chrome 13개 항목 모두 ✅, VoiceOver 재확인 ✅) — README·npm·Introduction·SUPPORT·POSITIONING 에 반영, 1.6.1 로 배포.
 - **런칭: 준비물은 있지만 2026-10-30 부터 보류**(STABILIZATION.md 완료 조건 뒤). 블로그(https://jiwon-seok.com, 저장소 ~/Documents/Project/astro-blog) 기술 글 2편 **공개됨** —
@@ -320,3 +320,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-04 | S14 `as` 다형성 타입: `PolymorphicComponent`(as 가 있으면 그 요소·컴포넌트의 props·ref, 아니면 1.x 타입 — 호환 유지), 6개 컴포넌트, 타입 테스트(@ts-expect-error, 변이 2), docgen 결과 동일 확인, changeset react minor. 화면 변화 없음 |
 | 2026-11-04 | S13 CSS `@layer bestow`: `styles/cssLayer.ts` 를 tsup(dist/index.css, 소스맵 줄 보정)·Storybook Vite 플러그인이 함께 씀, 스토리 `CssLayer`(!visual)·E2E 3·단위 3, 변이 3(Storybook 플러그인·빌드 감싸기·레이어 순서), 가이드 MDX·README·llms.txt·MIGRATION-2.0, changeset react major |
 | 2026-11-04 | PR #28 시각 회귀 실패 원인: 기준 이미지 봇 커밋(`f4841fd`)을 기본 GITHUB_TOKEN 으로 push 해 release.yml·CI 가 돌지 않음 → 버전 PR 이 옛 기준 이미지 위에 남음. visual.yml 이 커밋하는 실행에서 GitHub App 토큰으로 checkout·push 하도록 수정 |
+| 2026-11-04 | react·tokens 2.0.0 배포 확인(PR #28, tokens 는 changeset `linked` 로 함께 2.0.0), main CI 녹색. `examples/vite-starter` 를 `^2.0.0` 으로 — npm 설치·tsc·vite build·Chrome 화면 확인 |
