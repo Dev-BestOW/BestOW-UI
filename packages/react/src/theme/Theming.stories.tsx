@@ -225,6 +225,35 @@ export const InputBorders: Story = {
   },
 };
 
+/**
+ * 2.0 부터 모든 컴포넌트 스타일은 CSS 레이어 `bestow` 안에 있어요. 레이어 밖에 쓴 CSS 는 선택자가 더 약해도 컴포넌트 스타일을 이겨서
+ * `className` 으로 덮어쓰기 쉬워요. 리셋 CSS 와 Tailwind 를 함께 쓰는 방법은 Guides › Tailwind 와 함께 쓰기.
+ * (Storybook 도 배포하는 styles.css 와 같이 감싼다 — .storybook/main.ts)
+ */
+export const CssLayer: Story = {
+  name: 'CSS 레이어 (@layer bestow)',
+  tags: ['!visual'],
+  render: () => (
+    <div className="layer-probe">
+      <Button>레이어 확인</Button>
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const button = within(canvasElement).getByRole('button', { name: '레이어 확인' });
+    const radius = () => getComputedStyle(button).borderTopLeftRadius;
+    await expect(radius()).not.toBe('0px');
+    const style = document.createElement('style');
+    // 요소 선택자(0,0,1) — 컴포넌트 클래스(0,1,0)보다 약하지만 레이어 밖이라 이긴다. :where 는 이 스토리 안으로만 좁힌다(우선순위 0)
+    style.textContent = ':where(.layer-probe) button { border-radius: 0 }';
+    document.head.append(style);
+    try {
+      await expect(radius()).toBe('0px');
+    } finally {
+      style.remove();
+    }
+  },
+};
+
 export const CssVariables: Story = {
   name: 'CSS 변수',
   render: () => {

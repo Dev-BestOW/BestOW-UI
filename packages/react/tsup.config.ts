@@ -1,5 +1,6 @@
 import { vanillaExtractPlugin } from '@vanilla-extract/esbuild-plugin';
 import { defineConfig, type Options } from 'tsup';
+import { LAYER_PRELUDE_LINES, wrapInLayer } from './src/styles/cssLayer';
 
 type EsbuildPlugin = NonNullable<Options['esbuildPlugins']>[number];
 
@@ -76,14 +77,16 @@ async function shortenCssSourceNames() {
     /^\/\* (vanilla-extract-css-ns:\S+) \*\/$/gm,
     (_, name: string) => `/* ${shorten(name)} */`,
   );
-  const map = JSON.parse(await readFile('dist/index.css.map', 'utf8')) as { sources: string[] };
+  const map = JSON.parse(await readFile('dist/index.css.map', 'utf8')) as { sources: string[]; mappings: string };
   map.sources = map.sources.map(shorten);
   if (css.includes('vanilla-extract-css-ns:') || map.sources.some((source) => source.includes('?source='))) {
     throw new Error(
       'dist/index.css 에 vanilla-extract 디버그 이름이 남았습니다 (tsup.config.ts shortenCssSourceNames)',
     );
   }
-  await writeFile('dist/index.css', css);
+  // 2.0: 모든 스타일을 @layer bestow 로 감싼다(src/styles/cssLayer.ts). 앞에 넣은 줄만큼 소스맵 줄을 민다
+  map.mappings = ';'.repeat(LAYER_PRELUDE_LINES) + map.mappings;
+  await writeFile('dist/index.css', wrapInLayer(css));
   await writeFile('dist/index.css.map', JSON.stringify(map));
 }
 

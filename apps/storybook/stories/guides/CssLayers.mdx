@@ -1,0 +1,76 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Guides/Tailwind 와 함께 쓰기" />
+
+# Tailwind 와 함께 쓰기 (CSS 레이어)
+
+2.0 부터 `@bestow-ui/react/styles.css` 의 모든 스타일은 CSS 레이어 **`bestow`** 안에 있어요.
+
+```css
+@layer base, bestow;
+@layer bestow {
+  /* 컴포넌트 스타일 전체 */
+}
+```
+
+레이어 밖에 쓴 CSS 는 선택자가 더 약해도 레이어 안의 스타일을 이겨요. 그래서 이렇게 돼요.
+
+- **덮어쓰기가 쉬워요.** `className` 에 준 클래스(CSS Modules·Tailwind·일반 CSS)가 선택자 우선순위를 따지지 않고 컴포넌트 스타일을 이겨요.
+- **리셋 CSS 가 컴포넌트를 덮을 수 있어요.** normalize.css, `button { padding: 0 }` 같은 직접 쓴 리셋, Tailwind v3 의 preflight 가 레이어 밖에 있으면
+  Button·Input 의 여백·배경·테두리가 사라져요. 리셋은 아래처럼 `base` 레이어에 넣어요.
+
+`@layer base, bestow;` 를 함께 적어 두었기 때문에 `base` 레이어(Tailwind v4 의 preflight 가 들어가는 곳)는 불러오는 순서와 관계없이 항상 BestOW 보다 약해요.
+
+## 직접 쓴 리셋
+
+```css
+/* app.css */
+@layer base {
+  * {
+    margin: 0;
+  }
+  button {
+    padding: 0;
+    background: none;
+  }
+}
+```
+
+파일 하나를 통째로 넣을 때는 `@import url('normalize.css') layer(base);` 처럼 `layer()` 를 붙여요.
+
+## Tailwind v4
+
+`@import 'tailwindcss';` 는 `theme`·`base`·`components`·`utilities` 레이어를 만들어요. 전역 CSS 맨 위에 순서를 적으면
+**preflight 는 BestOW 보다 약하고, 유틸리티 클래스는 BestOW 보다 강해져요.**
+
+```css
+/* globals.css */
+@layer theme, base, bestow, components, utilities;
+@import 'tailwindcss';
+```
+
+```tsx
+<Button className="rounded-none px-8">저장</Button> // 유틸리티가 이겨요
+```
+
+순서를 적지 않아도 preflight 는 BestOW 를 덮지 않아요. 다만 `styles.css` 를 Tailwind 보다 나중에 불러오면 `bestow` 가 마지막 레이어가 되어
+유틸리티 클래스가 컴포넌트 스타일을 이기지 못해요(1.x 와 같은 상태). 위 한 줄을 적으면 불러오는 순서와 관계없이 원하는 대로 돼요.
+
+## Tailwind v3
+
+v3 의 preflight 는 레이어 밖으로 나와서 **BestOW 컴포넌트를 덮어요**(버튼 배경·여백이 사라짐). 둘 중 하나를 고르세요.
+
+- preflight 끄기: `tailwind.config.js` 에 `corePlugins: { preflight: false }`. 필요한 리셋만 위 "직접 쓴 리셋" 처럼 `base` 레이어에 적어요.
+- Tailwind v4 로 올리기.
+
+## 테마 색 바꾸기
+
+CSS 변수(`--bestow-*`)도 레이어 안에서 정의돼요. 레이어 밖에서 덮어쓰면 그대로 이겨요.
+
+```css
+:root {
+  --bestow-color-primary-solid: #7c3aed;
+}
+```
+
+`ThemeProvider` 의 `overrides` 는 인라인 스타일이라 레이어와 관계없이 적용돼요.

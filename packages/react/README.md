@@ -62,6 +62,9 @@ Next.js App Router 에서는 Provider 를 `'use client'` 파일로 분리해 `ap
 서버 컴포넌트로 렌더링되고(클라이언트 JS 없음), `createTheme`·`createIntentColors`·`vars`·`formatKoreanAmount` 같은 함수·값도 서버에서 그대로 불러요.
 자세한 설정은 [Storybook 시작하기](https://dev-bestow.github.io/BestOW-UI/)에 있어요.
 
+`styles.css` 의 스타일은 CSS 레이어 `bestow` 안에 있어요. 레이어 밖에 쓴 CSS(`className` 등)가 선택자 우선순위와 관계없이 이기고,
+리셋 CSS 는 `@layer base { … }` 에 넣어요. Tailwind 와 함께 쓰는 법은 Storybook **Guides › Tailwind 와 함께 쓰기**.
+
 0.x 에서 올리시나요? [마이그레이션 가이드](https://github.com/Dev-BestOW/BestOW-UI/blob/main/docs/MIGRATION-1.0.md)를 보세요.
 
 ## 다크 모드

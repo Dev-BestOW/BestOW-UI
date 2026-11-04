@@ -93,6 +93,9 @@ examples/
   playground 첫 페이지(서버 컴포넌트)가 함수를 서버에서 부르고, 서버 함수를 Card `as` 로 넘겨 빌드로 확인한다.
 - `src/components/<Name>/` — `<Name>.tsx`, `<Name>.css.ts`, `<Name>.stories.tsx`, `<Name>.test.tsx`, `index.ts`.
 - `src/styles/animations.css.ts` — 공용 keyframes, `reducedMotion` 미디어쿼리.
+- `src/styles/cssLayer.ts` — 2.0: 모든 CSS 를 `@layer bestow` 로 감싸는 함수(앞에 `@layer base, bestow;`). 빌드(tsup `dist/index.css`)와
+  Storybook(`.storybook/main.ts` Vite 플러그인)이 같은 함수를 써 화면이 같다 — 레이어 밖 사용자 CSS 가 항상 이긴다. 확인: 스토리 Theming `CssLayer`·E2E `css-layer.spec.ts`.
+  가이드는 `stories/guides/CssLayers.mdx`(Tailwind 와 함께 쓰기). 레이어 이름 `bestow` 는 공개 API.
 - `src/i18n/` — `LocaleProvider`·`useMessages()`(기본 문구 바꾸기), `en`(영어 묶음). `BestowMessages` 타입이 문구 키 목록.
 - `src/utils/` — `cx`, `mergeRefs`, `useFormattedInput`(하이픈·쉼표 서식 입력: 원본/표시 분리, 커서 유지, 서식 문자 뒤 Backspace),
   `useReturnFocus`(trigger 없는 Dialog 의 포커스 복귀), `date`('YYYY-MM-DD' 문자열 기반 날짜 계산), `koreanFormat`(전화·사업자번호·금액 서식),

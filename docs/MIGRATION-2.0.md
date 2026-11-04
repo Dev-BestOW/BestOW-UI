@@ -65,6 +65,22 @@
 - FileUpload 는 그대로예요 — 영역 전체를 흐리면 안내 글자가 읽기 어려워져 테두리와 버튼으로만 비활성을 보여요.
 - **2.0 에서 예전처럼 쓰기:** 컴포넌트별 값은 하나의 변수로 모였으므로 되돌리려면 그 컴포넌트에 `className` 으로 `opacity` 를 직접 지정해요.
 
+### 3. 스타일이 CSS 레이어 `bestow` 안으로 들어가요 (S13, 반영됨)
+
+- **바뀌는 점:** `styles.css` 전체가 `@layer bestow { … }` 안에 있고, 맨 앞에 `@layer base, bestow;` 가 있어요.
+  레이어 밖(unlayered) CSS 는 선택자 우선순위와 관계없이 레이어 안의 스타일을 이겨요.
+- **좋아지는 점:** `className` 으로 덮어쓸 때 선택자 우선순위를 맞추지 않아도 돼요(1.x 는 `.my-button` 이 컴포넌트 클래스와 우선순위가 같아 불러오는 순서에 따라 졌어요).
+  Tailwind v4 의 유틸리티 클래스도 이기게 할 수 있어요.
+- **확인할 것 — 레이어 밖의 리셋 CSS:** normalize.css, 직접 쓴 `button { … }`·`* { … }`, **Tailwind v3 preflight** 가 레이어 밖에 있으면
+  이제 컴포넌트 스타일을 덮어요(버튼 배경·여백, 입력 칸 테두리가 사라짐).
+  - 직접 쓴 리셋: `@layer base { … }` 로 감싸요. 파일은 `@import url('normalize.css') layer(base);`.
+  - Tailwind v3: `corePlugins: { preflight: false }` 로 끄고 필요한 리셋만 `base` 레이어에, 또는 v4 로.
+  - Tailwind v4: 그대로 둬도 preflight 는 BestOW 를 덮지 않아요. 유틸리티가 BestOW 를 이기게 하려면 전역 CSS 맨 위에
+    `@layer theme, base, bestow, components, utilities;`.
+- **1.x 처럼 쓰기:** 레이어를 없애는 옵션은 없어요. 컴포넌트를 덮던 전역 CSS 가 있다면 그 CSS 를 `@layer base` 로 옮기는 것이 같은 결과예요.
+- **브라우저:** `@layer` 는 Chrome·Edge 99, Firefox 97, Safari 15.4 부터 지원해요(SUPPORT.md 의 최근 2개 메이저 버전 안).
+- 자세한 설명: Storybook **Guides › Tailwind 와 함께 쓰기**.
+
 ## 더 정확해지는 타입 (코드 수정 없음)
 
 ### `as` 로 고른 요소의 속성을 타입으로 받아요 (S14, 반영됨)

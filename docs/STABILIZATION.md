@@ -41,7 +41,7 @@
 | 5 | [x] S8 `asChild` (2026-10-31) | react minor |
 | 6 | [x] S9~S11 Stepper 진행 중, 마스킹 기준, fieldset 모양 (2026-10-31) | react·korean-utils minor |
 | 7 | [x] S18~S19 커버리지 측정, 누락 테스트 (2026-10-31) | react patch(주소 재시도 수정) |
-| 8 | [ ] S12~S15 2.0 (S12·S15·S14 완료 2026-11-04 · 순서 S12 → S15 → S14 → S13) | react major·tokens minor |
+| 8 | [x] S12~S15 2.0 (2026-11-04 — 코드 완료, 배포 대기) | react major·tokens minor |
 
 ## 1. 버그 (patch)
 
@@ -125,7 +125,7 @@
 | 항목 | 내용 | 비고 |
 |---|---|---|
 | S12 입력 칸 테두리 | 기본 대비 1.3:1 → 3:1 이상 | ✅ 2026-11-04. `border.input`·`inputHover`·`control` 을 tokens 기본값으로(`SemanticColors` 에서는 선택 키라 tokens 는 minor), `strongInputBorders` deprecated, 스토리 `InputBorders`(1.x 와 비교) |
-| S13 CSS `@layer` | `styles.css` 를 `@layer bestow` 로 감싸기 | 사용자 리셋 CSS 가 컴포넌트 스타일을 이길 수 있어 major. "Tailwind 와 함께 쓰기" 문서 포함 |
+| S13 CSS `@layer` | `styles.css` 를 `@layer bestow` 로 감싸기 | ✅ 2026-11-04. `styles/cssLayer.ts`(앞에 `@layer base, bestow;` — Tailwind v4 preflight 는 순서와 관계없이 BestOW 보다 약함), tsup·Storybook 같은 함수, 가이드 `Guides/Tailwind 와 함께 쓰기`, 스토리 `CssLayer`·E2E `css-layer.spec.ts` |
 | S14 `as` 다형성 타입 | `as="time"` 의 `dateTime` 등 | ✅ 2026-11-04. `utils/polymorphic.ts` — `as` 가 있을 때만 정확한 타입, 맞지 않으면 1.x 타입으로 물러나 **호환성 깨짐 없음(react minor)**. props 인터페이스·docgen 결과 그대로 |
 | S15 비활성 투명도 | 0.4·0.5·0.6 통일 | ✅ 2026-11-04. 0.5 + 토큰 `opacity.disabled`(`--bestow-opacity-disabled`), 15개 컴포넌트, `test/disabled-opacity.test.ts` 가 숫자 직접 적기를 막음. FileUpload 는 그대로 |
 

@@ -10,7 +10,7 @@
 
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-30 기준)
 
-**지금 할 일: 코드 안정화** — [`STABILIZATION.md`](STABILIZATION.md) 의 "작업 순서"에서 체크되지 않은 첫 항목부터 진행한다(1~7단계 완료·react 1.8.0 배포, 8단계 2.0 진행 중 — S12·S15·S14 완료, 다음 S13 `@layer`(마지막). 2026-11-04 사용자 결정: 네 가지 모두 런칭 전 2.0 으로, Alert 기본 color 는 제외).
+**지금 할 일: 코드 안정화** — [`STABILIZATION.md`](STABILIZATION.md) 의 "작업 순서"에서 체크되지 않은 첫 항목부터 진행한다(1~7단계 완료·react 1.8.0 배포, 8단계 2.0 **코드 완료**(S12·S15·S14·S13) — 다음: 사용자가 push → visual.yml 수동 update(기준 이미지) → 버전 PR(react 2.0.0·tokens 1.8.0) 머지 → 배포 확인 → STABILIZATION "런칭 전 완료 조건"(README 비교표·사람 확인). 2026-11-04 사용자 결정: 네 가지 모두 런칭 전 2.0 으로, Alert 기본 color 는 제외).
 2.0 major changeset 이 main 에 있으므로 2.0 을 내기 전까지 1.x patch 를 따로 낼 수 없다(필요하면 사용자와 상의).
 사용자 결정(2026-10-30): **홍보보다 코드 안정화가 먼저**, 런칭 게시는 보류, 호환성을 깨는 변경은 런칭 전에 2.0 으로 묶는다.
 아래 "다음 플랜"의 런칭·기능 항목은 안정화가 끝난 뒤 다시 판단한다.
@@ -318,3 +318,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-04 | react 1.8.0·korean-utils 0.3.0 배포 확인(PR #27). S12 입력 칸 테두리 2.0 기본값: tokens `border.input`·`inputHover`·`control`, 선택 토큰·`inputBorder.css.ts` 제거, `strongInputBorders` deprecated, 스토리 `InputBorders`(옛 `StrongInputBorders` 기준 이미지 삭제), 변이 2, MIGRATION-2.0·README·kwcag 갱신, changeset react major·tokens minor. 기준 이미지 전체 갱신 필요 |
 | 2026-11-04 | S15 비활성 투명도: 0.5 로 통일(Input·Textarea·인증번호 0.6, Pagination·Calendar 0.4 → 0.5), tokens `opacity` + `vars.opacity.disabled`, 가드 테스트(변이 확인), Design Tokens 스토리·MIGRATION-2.0·CLAUDE.md, changeset react major·tokens minor. 해당 비활성 스토리 기준 이미지 갱신 필요 |
 | 2026-11-04 | S14 `as` 다형성 타입: `PolymorphicComponent`(as 가 있으면 그 요소·컴포넌트의 props·ref, 아니면 1.x 타입 — 호환 유지), 6개 컴포넌트, 타입 테스트(@ts-expect-error, 변이 2), docgen 결과 동일 확인, changeset react minor. 화면 변화 없음 |
+| 2026-11-04 | S13 CSS `@layer bestow`: `styles/cssLayer.ts` 를 tsup(dist/index.css, 소스맵 줄 보정)·Storybook Vite 플러그인이 함께 씀, 스토리 `CssLayer`(!visual)·E2E 3·단위 3, 변이 3(Storybook 플러그인·빌드 감싸기·레이어 순서), 가이드 MDX·README·llms.txt·MIGRATION-2.0, changeset react major |
