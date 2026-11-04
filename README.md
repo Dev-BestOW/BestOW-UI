@@ -22,25 +22,28 @@ AI 코딩 도구용 [llms.txt](https://dev-bestow.github.io/BestOW-UI/llms.txt)
 - 🇰🇷 **한국 서비스 키트** — 약관 동의(전체 동의), 인증번호(문자 자동 채우기·남은 시간), 전화번호·사업자등록번호(검증 공식)·금액(“12만 5,000원” 읽기),
   주소(카카오 우편번호), 날짜(일요일 시작·공휴일 표시)·기간(빠른 선택). → [Storybook › Korean Kit](https://dev-bestow.github.io/BestOW-UI/?path=/docs/korean-kit-agreementgroup--docs)
 - ♿ **검사로 증명하는 접근성** — 모든 스토리를 실제 브라우저(Chromium·WebKit·Firefox)에서 라이트·다크 두 테마로 axe 검사해요(CI).
-  고대비 모드·320px 리플로·기본 글꼴 2배도 확인하고, KWCAG 2.2 33개 항목별 대응 근거와 검사가 실제로 찾아 고친 문제를 기록했어요.
+  입력 칸·체크 컨트롤 테두리도 배경과 3:1 이상이에요. 고대비 모드·320px 리플로·기본 글꼴 2배도 확인하고, KWCAG 2.2 33개 항목별 대응 근거와 검사가 실제로 찾아 고친 문제를 기록했어요.
   주요 컴포넌트는 스크린리더(VoiceOver·NVDA)로 직접 들어 보고 [점검 기록](docs/SCREEN-READER-CHECKLIST.md)을 남겼어요.
 - 🎨 **대표색 하나로 끝나는 테마** — 브랜드 색을 넣어도 글자 대비 4.5:1(hover 포함)·포커스 링 3:1 을 라이트·다크 모두 자동으로 지켜요.
 - ⚡ **가볍고 서버 컴포넌트 친화적** — 런타임 CSS 0(vanilla-extract), Next.js App Router 지원, 쓰는 컴포넌트만 번들에 들어가요
-  (Button 하나 약 1.8 kB, NativeSelect 로 만든 입력 폼 7종 약 4 kB, 모든 컴포넌트 CSS 를 합쳐도 약 10 kB — minify + brotli).
+  (Button 하나 약 1.8 kB, NativeSelect 로 만든 입력 폼 7종 약 4 kB, 모든 컴포넌트 CSS 를 합쳐도 약 11 kB — minify + brotli).
+  스타일은 CSS 레이어(`@layer bestow`) 안에 있어 `className`·Tailwind 로 덮어쓰기 쉬워요.
 - 🌐 **한국어 기본, 다국어 가능** — 기본 문구는 한국어, `LocaleProvider` 로 영어 등으로 한 번에 바꿔요. 한글은 단어 단위로 줄바꿈.
 
 ## 다른 선택지와 비교
 
-| | BestOW UI | [shadcn/ui](https://ui.shadcn.com/docs) | [Radix Themes](https://www.radix-ui.com/themes/docs/overview/getting-started) | [MUI](https://mui.com/material-ui/) |
-|---|---|---|---|---|
-| 쓰는 방식 | npm 패키지 (업데이트를 받음) | 컴포넌트 코드를 프로젝트에 복사 | npm 패키지 | npm 패키지 |
-| 스타일 | 빌드된 CSS 파일 하나 (vanilla-extract, 런타임 CSS 0) | Tailwind CSS 필요 | CSS 파일 import | Emotion 이 실행 중에 CSS 생성(기본) |
-| 한국 서비스 입력 (약관 동의·인증번호·전화·사업자번호·금액·주소) | **기본 제공** | 직접 구현 | 직접 구현 | 직접 구현 |
-| 기본 문구 | **한국어** (`en` 묶음 포함) | 복사한 코드에서 직접 수정 | — | 영어, `koKR` 로캘 제공 |
-| KWCAG 2.2 항목별 대응 근거 | **Storybook 문서로 제공** | — | — | — |
-| 브랜드색을 넣었을 때 대비 | 4.5:1 자동 보장·테스트 | 직접 확인 | 직접 확인 | 직접 확인 |
+| | BestOW UI | [Vapor UI](https://vapor-ui.goorm.io/docs/getting-started/principles) | [HANUI](https://github.com/oddodd-io/hanui) | [shadcn/ui](https://ui.shadcn.com/docs) | [MUI](https://mui.com/material-ui/) |
+|---|---|---|---|---|---|
+| 누구를 위해 | **민간 서비스 — 대표색 하나로 내 브랜드** | 구름 서비스의 디자인 시스템 | 공공 웹사이트 (정부 디자인 시스템 KRDS) | 범용 | 범용 (Material Design) |
+| 쓰는 방식 | npm 패키지 | npm 패키지 | 코드 복사(CLI) 또는 npm (0.x) | 코드 복사 | npm 패키지 |
+| 기반·스타일 | Radix + vanilla-extract, CSS 파일 하나 | Base UI + vanilla-extract | Radix + Tailwind | Tailwind 필요 | Emotion (기본) |
+| 한국 서비스 입력 (약관 동의·인증번호·전화·사업자번호·금액·주소) | **기본 제공** | — | — | 직접 구현 | 직접 구현 |
+| 기본 문구 | **한국어** (`en` 묶음 포함) | — | — | 복사한 코드에서 직접 수정 | 영어, `koKR` 로캘 제공 |
+| 접근성 근거 | **KWCAG 2.2 33개 항목별 대응 문서** + 모든 스토리 axe CI(3개 브라우저·라이트·다크) + 스크린리더 점검 기록 | WCAG 2.2 AA 준수 (원칙 문서) | KWCAG 2.2 / WCAG 2.1 AA (README) | — | — |
+| 브랜드색을 넣었을 때 대비 | 4.5:1 자동 보장·테스트 | 대비를 맞춘 팔레트 생성(Color Generator) | — | 직접 확인 | 직접 확인 |
 
-> 2026-10-21 각 공식 문서 기준(— 는 문서에서 찾지 못함). 다른 라이브러리도 각자 접근성에 힘쓰고 있어요 — 이 표는 "한국 서비스를 만들 때" 기준의 차이예요.
+> 2026-11-04 각 공식 문서·README·npm 정보 기준(— 는 찾지 못함). 다른 라이브러리도 각자 접근성에 힘쓰고 있어요 — 이 표는 "한국 민간 서비스를 만들 때" 기준의 차이예요.
+> 공공 웹사이트라 KRDS 를 따라야 하면 HANUI, 구름처럼 큰 조직의 디자인 시스템이 필요하면 Vapor UI 도 살펴보세요.
 > 틀린 내용이 있으면 [이슈](https://github.com/Dev-BestOW/BestOW-UI/issues)로 알려 주세요.
 
 ## 시작하기

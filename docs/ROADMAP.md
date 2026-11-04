@@ -8,16 +8,16 @@
 > **갱신 규칙:** 작업을 시작/완료하면 체크박스를 바꾸고 맨 아래 "진행 기록"에 한 줄 추가한다.
 > 단계가 끝나면 상세 메모는 ROADMAP-HISTORY.md 로 옮기고 여기에는 한 줄 요약만 남긴다.
 
-## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-30 기준)
+## 🔁 다음 세션 시작하기 (인수인계 — 2026-11-04 기준)
 
-**지금 할 일: 코드 안정화** — [`STABILIZATION.md`](STABILIZATION.md) 의 "작업 순서"에서 체크되지 않은 첫 항목부터 진행한다(1~7단계 완료·react 1.8.0 배포, 8단계 2.0 **코드 완료**(S12·S15·S14·S13) — 다음: 사용자가 push → visual.yml 수동 update(기준 이미지) → 버전 PR(react 2.0.0·tokens 1.8.0) 머지 → 배포 확인 → STABILIZATION "런칭 전 완료 조건"(README 비교표·사람 확인). 2026-11-04 사용자 결정: 네 가지 모두 런칭 전 2.0 으로, Alert 기본 color 는 제외).
-2.0 major changeset 이 main 에 있으므로 2.0 을 내기 전까지 1.x patch 를 따로 낼 수 없다(필요하면 사용자와 상의).
+**지금 할 일: 런칭 준비 마무리** — 코드 안정화(STABILIZATION 1~8단계)와 **2.0 배포 완료**(2026-11-04, react·tokens 2.0.0), README 비교표 갱신 완료.
+남은 것: ① 사람 확인 2개(STABILIZATION "사람이 확인할 것" — ResidentNumberInput 스크린리더, 모바일 가상 키보드) + 배포된 Storybook 문서 페이지가 `@layer` 뒤에도 괜찮은지 훑어보기
+② GeekNews Show 본문(Artifact)을 2.0 기준으로 갱신 ③ 런칭 게시(사용자). 런칭 뒤 반응으로 "다음 플랜" 의 기능을 고른다.
 사용자 결정(2026-10-30): **홍보보다 코드 안정화가 먼저**, 런칭 게시는 보류, 호환성을 깨는 변경은 런칭 전에 2.0 으로 묶는다.
 아래 "다음 플랜"의 런칭·기능 항목은 안정화가 끝난 뒤 다시 판단한다.
 
 **마지막 상태**
-- npm: **react 1.7.0** · **tokens 1.7.0** · **korean-utils 0.2.0** · icons 0.1.3 (2026-10-30 확인. 버전 PR #26 머지됨, 열린 PR 없음).
-- main = origin/main = `68d4fe8`, 이 커밋의 CI 모두 성공(2026-10-30 확인).
+- npm: **react 2.0.0** · **tokens 2.0.0** · **korean-utils 0.3.0** · icons 0.1.3 (2026-11-04 확인. 버전 PR #28 머지됨, main CI 녹색).
 - GitHub 저장소 설정 완료(2026-10-21): 한국어 About·Website, Topics 18개, **Discussions 켜짐**(기본 카테고리 6개). 이슈·PR 템플릿 있음.
 - Pages: Storybook + playground + `llms.txt`·`llms-full.txt`. StackBlitz 예제 `examples/vite-starter`(npm 의 react ^2.0.0 — 2026-11-04 설치·빌드·화면 확인: 레이어·진한 입력 테두리 반영).
 - 컴포넌트 약 56개(폴더 55 — 10-23 Grid·Container·FormField·CheckboxGroup·ResidentNumberInput 추가) + 테마·다국어·서식·마스킹 함수, 아이콘 57종. **P1~P16 완료**, 이번 플랜 1(노출)·2(번들)·3(korean-utils)·5(런칭 준비물) 완료.
@@ -321,3 +321,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-04 | S13 CSS `@layer bestow`: `styles/cssLayer.ts` 를 tsup(dist/index.css, 소스맵 줄 보정)·Storybook Vite 플러그인이 함께 씀, 스토리 `CssLayer`(!visual)·E2E 3·단위 3, 변이 3(Storybook 플러그인·빌드 감싸기·레이어 순서), 가이드 MDX·README·llms.txt·MIGRATION-2.0, changeset react major |
 | 2026-11-04 | PR #28 시각 회귀 실패 원인: 기준 이미지 봇 커밋(`f4841fd`)을 기본 GITHUB_TOKEN 으로 push 해 release.yml·CI 가 돌지 않음 → 버전 PR 이 옛 기준 이미지 위에 남음. visual.yml 이 커밋하는 실행에서 GitHub App 토큰으로 checkout·push 하도록 수정 |
 | 2026-11-04 | react·tokens 2.0.0 배포 확인(PR #28, tokens 는 changeset `linked` 로 함께 2.0.0), main CI 녹색. `examples/vite-starter` 를 `^2.0.0` 으로 — npm 설치·tsc·vite build·Chrome 화면 확인 |
+| 2026-11-04 | README 비교표를 Vapor UI·HANUI·shadcn/ui·MUI 로 갱신(공식 문서·README·npm 으로 확인, Radix Themes 뺌), "누구를 위해" 행과 공공→HANUI 안내, 특징에 입력 테두리 3:1·CSS 레이어, CSS 약 11 kB. POSITIONING 출처 메모, STABILIZATION 완료 조건 3개 체크 |

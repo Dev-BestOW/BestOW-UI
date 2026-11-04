@@ -80,6 +80,11 @@
 > 경쟁 제품 정보는 아래 출처에서 확인한 것만 적었다. 세부 기능 비교는 README·랜딩에 올리기 전에 각 문서에서 다시 확인한다.
 > 2026-10-21: 루트 README 의 "다른 선택지와 비교" 표(shadcn/ui·Radix Themes·MUI)는 각 공식 문서로 다시 확인한 것만 실었다 —
 > shadcn 은 코드 복사 + Tailwind 필요(설치 문서), Radix Themes 는 CSS 파일 import(시작하기), MUI 는 기본 Emotion·`koKR` 로캘(스타일 엔진·로캘 문서).
+> 2026-11-04(2.0 배포 뒤): 표를 Vapor UI·HANUI·shadcn/ui·MUI 로 바꿨다(Radix Themes 는 한국 맥락에서 덜 비교돼 뺌). 확인한 출처 —
+> Vapor UI: 원칙 문서(Base UI 기반, WCAG 2.2 AA, CSS cascade layer, Color Generator), npm `@vapor-ui/core` 1.7.0(MIT, 의존성에 vanilla-extract).
+> **Vapor 도 vanilla-extract·CSS 레이어라 "런타임 CSS 0"·"레이어" 는 Vapor 대비 차별점이 아니다** — 차별점은 한국 서비스 입력·한국어 기본 문구·KWCAG 항목별 근거·대표색 하나 브랜드.
+> HANUI: GitHub README(KRDS 기반 공공 웹, Radix + Tailwind, 코드 복사 CLI, "KWCAG 2.2 / WCAG 2.1 AA", 55+ 컴포넌트), npm `@hanui/react` 0.3.1(2026-03, MIT).
+> 둘 다 한국 서비스 입력(약관 동의·인증번호·전화·사업자번호·금액·주소)은 문서에서 찾지 못했다.
 
 | | BestOW UI | 글로벌 DS (MUI·Chakra·Mantine 등) | shadcn/ui | 한국 회사 DS |
 |---|---|---|---|---|
@@ -94,6 +99,8 @@
   ([GitHub](https://github.com/daangn/seed-design), [소개 글](https://discuss.pytorch.kr/t/seed-llms-txt-mcp-ai/11462)).
 - **Vapor UI (구름)** — `@vapor-ui/core`, MIT, 접근성·CSS cascade layer 를 원칙으로 함
   ([문서](https://vapor-ui.goorm.io/docs/getting-started/principles), [jsDelivr](https://www.jsdelivr.com/package/npm/@vapor-ui/core)).
+- **HANUI** — KRDS(정부 디자인 시스템) 기반 공공 웹사이트용, Radix + Tailwind, 코드 복사(CLI)·npm `@hanui/react`, MIT
+  ([GitHub](https://github.com/oddodd-io/hanui)). 공공은 KRDS 를 따라야 해 겹치지 않는다 — README 에서 공공이면 HANUI 를 안내한다.
 - **Bezier (채널톡)** — `bezier-react`, 채널톡 전용으로 만들어져 확장성 한계로 재설계 진행 중이라는 이슈
   ([GitHub](https://github.com/channel-io/bezier-react), [이슈 #1578](https://github.com/channel-io/bezier-react/issues/1578)).
 
