@@ -86,7 +86,11 @@ export const day = style({
       fontWeight: vars.font.weight.semibold,
     },
     '&[data-selected]:hover': { backgroundColor: vars.color.primary.solidHover },
-    '&[aria-disabled="true"]': { opacity: 0.4, cursor: 'not-allowed', textDecoration: 'line-through' },
+    '&[aria-disabled="true"]': {
+      opacity: vars.opacity.disabled,
+      cursor: 'not-allowed',
+      textDecoration: 'line-through',
+    },
     '&:focus-visible': { outline: `2px solid ${vars.color.border.focus}`, outlineOffset: '2px' },
   },
   '@media': { [forcedColors]: { selectors: { '&[data-selected], &[data-selected]:hover': systemHighlight } } },

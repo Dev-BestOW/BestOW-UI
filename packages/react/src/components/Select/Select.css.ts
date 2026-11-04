@@ -67,7 +67,7 @@ export const item = style({
   selectors: {
     '&[data-highlighted]': { backgroundColor: vars.color.neutral.subtle },
     '&[data-state="checked"]': { fontWeight: vars.font.weight.semibold, color: vars.color.primary.text },
-    '&[data-disabled]': { opacity: 0.5, cursor: 'not-allowed' },
+    '&[data-disabled]': { opacity: vars.opacity.disabled, cursor: 'not-allowed' },
   },
   // 고대비: 강조 배경이 지워져 키보드로 어느 항목에 있는지 안 보인다 (Combobox 도 이 스타일을 쓴다)
   '@media': { [forcedColors]: { selectors: { '&[data-highlighted]': systemHighlight } } },

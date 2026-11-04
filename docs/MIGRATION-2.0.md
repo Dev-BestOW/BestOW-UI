@@ -50,9 +50,23 @@
   });
   ```
 
+### 2. 비활성 투명도가 0.5 로 통일돼요 (S15, 반영됨)
+
+| | 1.x | 2.0 |
+| --- | --- | --- |
+| Input 을 쓰는 모든 칸, Textarea, 인증번호 칸 | 0.6 | 0.5 |
+| Pagination 버튼, Calendar 의 고를 수 없는 날 | 0.4 | 0.5 |
+| 그 밖의 컴포넌트(Button·Checkbox·Radio·Switch·Select·Tabs·Accordion·Slider·DropdownMenu·SegmentedControl) | 0.5 | 그대로 |
+
+- **이유:** 같은 화면의 비활성 컨트롤이 컴포넌트마다 다르게 흐려 보였어요.
+- **새 토큰:** `opacity.disabled`(tokens, `'0.5'`) → CSS 변수 `--bestow-opacity-disabled`, react `vars.opacity.disabled`.
+  모든 비활성 모양이 이 변수 하나를 써서, 한 번에 바꿀 수 있어요: `:root { --bestow-opacity-disabled: 0.6; }` 또는
+  `createTheme({ common: { opacity: { disabled: '0.6' } } })`.
+- FileUpload 는 그대로예요 — 영역 전체를 흐리면 안내 글자가 읽기 어려워져 테두리와 버튼으로만 비활성을 보여요.
+- **2.0 에서 예전처럼 쓰기:** 컴포넌트별 값은 하나의 변수로 모였으므로 되돌리려면 그 컴포넌트에 `className` 으로 `opacity` 를 직접 지정해요.
+
 ## 검토 중 (결정 전)
 
 | 후보 | 지금 | 생각해 둔 방향 |
 | --- | --- | --- |
 | Alert 기본 `color` | `primary`(브랜드 색) — 1.x 에 `info` 가 생기기 전 "일반 안내" 로 쓰던 값 | 2.0 기본값을 `info` 로. 브랜드색이 주황·빨강이면 기본 Alert 가 경고처럼 보인다. 1.x 에서 미리: `color="info"` |
-| disabled 투명도 | 컴포넌트마다 0.4(Pagination·Calendar)·0.5(대부분)·0.6(Input·Textarea·인증번호 칸) | 하나로 통일 + `opacity.disabled` 토큰 검토(2026-10-23 객관 점검 11번에서 보류 — 쓰는 곳 없는 토큰은 만들지 않음) |

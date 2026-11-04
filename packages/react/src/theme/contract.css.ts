@@ -7,6 +7,7 @@ import {
   fontWeight,
   lightColors,
   lineHeight,
+  opacity,
   radius,
   shadow,
   space,
@@ -30,6 +31,7 @@ const baseTokens = {
   radius,
   font: { family: fontFamily, size: fontSizeRem, weight: fontWeight, lineHeight },
   duration,
+  opacity,
   zIndex,
 };
 

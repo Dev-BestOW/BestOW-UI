@@ -12,7 +12,7 @@ export const root = recipe({
     gap: vars.space[2],
     color: vars.color.fg.default,
     selectors: {
-      '&[data-disabled], fieldset:disabled &': { opacity: 0.5 },
+      '&[data-disabled], fieldset:disabled &': { opacity: vars.opacity.disabled },
     },
   },
   variants: {

@@ -10,6 +10,7 @@ import {
   fontWeight,
   lightColors,
   lineHeight,
+  opacity,
   palette,
   radius,
   shadow,
@@ -394,6 +395,18 @@ function OtherTokens() {
           rows={Object.entries(duration).map(([key, value]) => ({
             name: `duration.${key}`,
             variable: cssVar('duration', key),
+            value,
+          }))}
+        />
+      </Section>
+      <Section
+        title="투명도 (opacity)"
+        description="비활성 컨트롤(버튼·입력 칸·체크 컨트롤·탭·메뉴 항목·달력 날짜 등)은 모두 같은 투명도로 흐려져요."
+      >
+        <TokenTable
+          rows={Object.entries(opacity).map(([key, value]) => ({
+            name: `opacity.${key}`,
+            variable: cssVar('opacity', key),
             value,
           }))}
         />

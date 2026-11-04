@@ -145,6 +145,14 @@ export const duration = {
 } as const;
 
 /**
+ * 투명도. disabled 는 모든 컴포넌트의 비활성 모양(버튼·입력 칸·체크 컨트롤·탭·메뉴 항목·달력 날짜 등)에 같은 값을 쓴다.
+ * 비활성 컨트롤은 대비 기준(WCAG 1.4.3·1.4.11)에서 빠지지만, 그래도 알아볼 수 있게 0.5 보다 낮추지 않는다.
+ */
+export const opacity = {
+  disabled: '0.5',
+} as const;
+
+/**
  * 쌓임 순서. dropdown(Select·Combobox·DropdownMenu·Popover 목록)은 modal 보다 위 — 대화상자 안에서 연 목록이 배경막에 가리지 않게.
  * 대화상자가 열려 있으면 바깥 페이지의 목록은 열 수 없으므로(포커스가 갇힘) 이 순서로 충돌하지 않는다.
  * (1.x 초기에는 dropdown 1000 이라 Modal 안의 Select 목록이 배경막 아래에 그려졌다 — 파일럿 화면에서 발견)

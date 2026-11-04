@@ -36,7 +36,7 @@ export const item = style({
   outline: 'none',
   selectors: {
     '&[data-highlighted]': { backgroundColor: vars.color.neutral.subtle },
-    '&[data-disabled]': { opacity: 0.5, cursor: 'not-allowed' },
+    '&[data-disabled]': { opacity: vars.opacity.disabled, cursor: 'not-allowed' },
   },
   // 고대비: 강조 배경이 지워져 키보드로 어느 항목에 있는지 안 보인다
   '@media': {

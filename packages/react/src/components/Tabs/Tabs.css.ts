@@ -65,7 +65,7 @@ export const trigger = recipe({
         outline: `2px solid ${vars.color.border.focus}`,
         outlineOffset: '-2px',
       },
-      '&[data-disabled]': { opacity: 0.5, cursor: 'not-allowed' },
+      '&[data-disabled]': { opacity: vars.opacity.disabled, cursor: 'not-allowed' },
       [vertical]: { justifyContent: 'flex-start' },
     },
     // 고대비: 선택 표시(밑줄 그림자·흰 배경)가 지워진다 → 선택된 탭을 시스템 강조색으로

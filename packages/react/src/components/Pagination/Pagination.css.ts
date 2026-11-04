@@ -33,7 +33,7 @@ export const item = recipe({
     selectors: {
       '&:hover:not(:disabled)': { backgroundColor: vars.color.neutral.subtle },
       '&:focus-visible': { outline: `2px solid ${vars.color.border.focus}`, outlineOffset: '2px' },
-      '&:disabled': { opacity: 0.4, cursor: 'not-allowed' },
+      '&:disabled': { opacity: vars.opacity.disabled, cursor: 'not-allowed' },
       '&[aria-current="page"]': {
         backgroundColor: vars.color.primary.solid,
         color: vars.color.primary.contrast,

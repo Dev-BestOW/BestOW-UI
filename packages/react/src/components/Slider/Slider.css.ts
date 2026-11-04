@@ -45,7 +45,7 @@ export const root = recipe({
     touchAction: 'none',
     userSelect: 'none',
     selectors: {
-      '&[data-disabled]': { opacity: 0.5, cursor: 'not-allowed' },
+      '&[data-disabled]': { opacity: vars.opacity.disabled, cursor: 'not-allowed' },
     },
   },
   variants: {

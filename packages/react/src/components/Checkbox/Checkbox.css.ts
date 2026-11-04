@@ -11,7 +11,7 @@ export const root = recipe({
     cursor: 'pointer',
     userSelect: 'none',
     selectors: {
-      '&[data-disabled], fieldset:disabled &': { cursor: 'not-allowed', opacity: 0.5 },
+      '&[data-disabled], fieldset:disabled &': { cursor: 'not-allowed', opacity: vars.opacity.disabled },
     },
   },
   variants: {

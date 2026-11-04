@@ -59,7 +59,7 @@ export const radio = recipe({
         boxShadow: `inset 0 0 0 calc(${radioSize} / 4 - 0.75px) ${vars.color.bg.default}`,
       },
       '&:focus-visible': { outline: `2px solid ${vars.color.border.focus}`, outlineOffset: '2px' },
-      '&:disabled': { cursor: 'not-allowed', opacity: 0.5 },
+      '&:disabled': { cursor: 'not-allowed', opacity: vars.opacity.disabled },
       '[aria-invalid="true"] &:not(:checked)': { borderColor: vars.color.danger.solid },
     },
     '@media': {
@@ -88,7 +88,7 @@ export const labelText = style({
   userSelect: 'none',
   selectors: {
     // 비활성 옵션은 컨트롤과 레이블만 흐리게 한다. 설명은 "왜 고를 수 없는지" 를 알려 주므로 대비를 유지한다
-    '[data-disabled] &, fieldset:disabled &': { cursor: 'not-allowed', opacity: 0.5 },
+    '[data-disabled] &, fieldset:disabled &': { cursor: 'not-allowed', opacity: vars.opacity.disabled },
   },
 });
 

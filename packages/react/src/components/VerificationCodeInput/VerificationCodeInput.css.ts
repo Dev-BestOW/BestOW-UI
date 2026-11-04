@@ -66,7 +66,7 @@ export const slot = style({
       boxShadow: `0 0 0 1px ${vars.color.border.focus}`,
     },
     '[data-invalid] &': { borderColor: vars.color.danger.solid },
-    '[data-disabled] &, fieldset:disabled &': { backgroundColor: vars.color.bg.muted, opacity: 0.6 },
+    '[data-disabled] &, fieldset:disabled &': { backgroundColor: vars.color.bg.muted, opacity: vars.opacity.disabled },
   },
 });
 

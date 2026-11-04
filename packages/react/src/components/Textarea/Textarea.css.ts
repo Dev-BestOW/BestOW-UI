@@ -25,7 +25,7 @@ export const textarea = recipe({
       },
       '&[aria-invalid="true"]': { borderColor: vars.color.danger.solid },
       '&[aria-invalid="true"]:focus': { boxShadow: `0 0 0 1px ${vars.color.danger.solid}` },
-      '&:disabled': { backgroundColor: vars.color.bg.muted, cursor: 'not-allowed', opacity: 0.6 },
+      '&:disabled': { backgroundColor: vars.color.bg.muted, cursor: 'not-allowed', opacity: vars.opacity.disabled },
     },
   },
   variants: {

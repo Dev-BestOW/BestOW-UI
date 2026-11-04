@@ -26,7 +26,7 @@ export const root = recipe({
       '&[data-disabled], fieldset:disabled &': {
         backgroundColor: vars.color.bg.muted,
         cursor: 'not-allowed',
-        opacity: 0.6,
+        opacity: vars.opacity.disabled,
       },
     },
   },

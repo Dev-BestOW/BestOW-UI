@@ -41,7 +41,7 @@ export const trigger = style({
       outlineOffset: '2px',
       borderRadius: vars.radius.sm,
     },
-    '&[data-disabled]': { opacity: 0.5, cursor: 'not-allowed' },
+    '&[data-disabled]': { opacity: vars.opacity.disabled, cursor: 'not-allowed' },
   },
 });
 

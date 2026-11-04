@@ -50,7 +50,7 @@ export const button = recipe({
         outlineOffset: '2px',
       },
       '&:disabled, &[data-disabled]': {
-        opacity: 0.5,
+        opacity: vars.opacity.disabled,
         cursor: 'not-allowed',
       },
       '&[aria-busy="true"]': {

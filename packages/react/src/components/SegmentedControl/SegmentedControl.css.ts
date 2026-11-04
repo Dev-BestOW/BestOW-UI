@@ -51,7 +51,7 @@ export const item = recipe({
         outline: `2px solid ${vars.color.border.focus}`,
         outlineOffset: '-2px',
       },
-      '&[data-disabled], &:disabled': { opacity: 0.5, cursor: 'not-allowed' },
+      '&[data-disabled], &:disabled': { opacity: vars.opacity.disabled, cursor: 'not-allowed' },
     },
     '@media': { [forcedColors]: { selectors: { '&[data-state="checked"]': systemHighlight } } },
   },

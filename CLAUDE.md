@@ -115,6 +115,7 @@ examples/
 ## 컴포넌트 작성 규칙
 
 - 스타일 값은 **반드시 `vars`(테마 토큰)로 참조**한다. 하드코딩한 색·간격 금지 (그래야 다크모드·테마 교체가 된다).
+  비활성 모양의 투명도는 `vars.opacity.disabled` 하나만 쓴다(`src/test/disabled-opacity.test.ts` 가 숫자를 직접 적은 곳을 잡는다).
 - 글자 크기 CSS 변수(`--bestow-font-size-*`)는 **rem** 이다(tokens 의 px 를 theme/contract.css.ts 가 변환) — 사용자 기본 글꼴 크기를 따른다.
   글자가 든 컨트롤은 `height` 대신 `minHeight`(Button·Tabs·Badge·SegmentedControl·Pagination). 예외: 한 줄 Input 은 고정 높이(200% 에도 들어가고
   input 의 height:100% 가 루트를 채움), Avatar 이니셜은 원이 px 고정이라 tokens 의 px. Button 을 더 작게 쓰는 곳은 `minHeight` 도 함께 맞춘다(NumberInput).

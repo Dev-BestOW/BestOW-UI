@@ -10,7 +10,7 @@
 
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-10-30 기준)
 
-**지금 할 일: 코드 안정화** — [`STABILIZATION.md`](STABILIZATION.md) 의 "작업 순서"에서 체크되지 않은 첫 항목부터 진행한다(1~7단계 완료·react 1.8.0 배포, 8단계 2.0 진행 중 — S12 완료, 다음 S15 비활성 투명도 → S14 `as` 타입 → S13 `@layer`. 2026-11-04 사용자 결정: 네 가지 모두 런칭 전 2.0 으로, Alert 기본 color 는 제외).
+**지금 할 일: 코드 안정화** — [`STABILIZATION.md`](STABILIZATION.md) 의 "작업 순서"에서 체크되지 않은 첫 항목부터 진행한다(1~7단계 완료·react 1.8.0 배포, 8단계 2.0 진행 중 — S12·S15 완료, 다음 S14 `as` 타입 → S13 `@layer`. 2026-11-04 사용자 결정: 네 가지 모두 런칭 전 2.0 으로, Alert 기본 color 는 제외).
 2.0 major changeset 이 main 에 있으므로 2.0 을 내기 전까지 1.x patch 를 따로 낼 수 없다(필요하면 사용자와 상의).
 사용자 결정(2026-10-30): **홍보보다 코드 안정화가 먼저**, 런칭 게시는 보류, 호환성을 깨는 변경은 런칭 전에 2.0 으로 묶는다.
 아래 "다음 플랜"의 런칭·기능 항목은 안정화가 끝난 뒤 다시 판단한다.
@@ -316,3 +316,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-10-31 | S9~S11: Stepper `loading`, 마스킹 실패 시 모두 가림, `fieldset:disabled` 스타일, Slider 키보드·FileUpload 끌어다 놓기 차단(`useFieldsetDisabled`), 계약 테스트·스토리·문서, changeset minor 2 |
 | 2026-10-31 | S18~S19: `pnpm test:coverage`(CI 는 보고만), 전용 테스트 추가, 카카오 우편번호 스크립트 재시도 버그 수정, changeset patch |
 | 2026-11-04 | react 1.8.0·korean-utils 0.3.0 배포 확인(PR #27). S12 입력 칸 테두리 2.0 기본값: tokens `border.input`·`inputHover`·`control`, 선택 토큰·`inputBorder.css.ts` 제거, `strongInputBorders` deprecated, 스토리 `InputBorders`(옛 `StrongInputBorders` 기준 이미지 삭제), 변이 2, MIGRATION-2.0·README·kwcag 갱신, changeset react major·tokens minor. 기준 이미지 전체 갱신 필요 |
+| 2026-11-04 | S15 비활성 투명도: 0.5 로 통일(Input·Textarea·인증번호 0.6, Pagination·Calendar 0.4 → 0.5), tokens `opacity` + `vars.opacity.disabled`, 가드 테스트(변이 확인), Design Tokens 스토리·MIGRATION-2.0·CLAUDE.md, changeset react major·tokens minor. 해당 비활성 스토리 기준 이미지 갱신 필요 |

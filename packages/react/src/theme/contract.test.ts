@@ -88,6 +88,8 @@ describe('vars (공개 CSS 변수 이름)', () => {
       '--bestow-font-weight-medium',
       '--bestow-font-weight-regular',
       '--bestow-font-weight-semibold',
+      // opacity (2.0 추가)
+      '--bestow-opacity-disabled',
       // radius
       '--bestow-radius-full',
       '--bestow-radius-lg',
