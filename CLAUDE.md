@@ -58,7 +58,7 @@ examples/
                                → test:stories(브라우저 렌더링 + axe, 라이트·다크) → build-storybook → build-playground → test:e2e
                                + browsers job(matrix webkit·firefox): test:stories·test:e2e 를 그 브라우저로 (시각 회귀는 Chromium 만,
                                  스토리가 실패해도 E2E 까지 돈다) + react18 job: pnpm overrides 로 React 18 만 쓰게 한 뒤 react 패키지 typecheck·test
-  workflows/visual.yml         PR·main: Playwright Docker 이미지에서 모든 스토리 라이트·다크 스크린샷 비교.
+  workflows/visual.yml         PR·main: Playwright Docker 이미지에서 모든 스토리 라이트·다크 스크린샷 비교. 봇 커밋은 App 토큰(release.yml 과 같은 App)으로 push.
                                새 스토리(기준 이미지 없음)는 자동 생성 → main push 면 봇이 커밋(--update-snapshots=missing).
                                기존 화면이 바뀌면 실패 → 수동 실행 + update 체크 → 기준 이미지 갱신 후 그 브랜치에 봇이 커밋.
                                update 실행은 별도 concurrency 그룹이라 도중에 push 가 와도 취소되지 않고, 커밋 시 브랜치가 앞서 있으면 rebase 후 push
@@ -285,4 +285,6 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
 - MDX 문서 페이지는 스토리 axe 테스트 대상이 아니다 — 문서에 컴포넌트를 그리면 axe 를 직접 돌려 확인한다.
   Storybook 문서의 기본 표 스타일이 Table 컴포넌트를 덮으므로 `<Unstyled>` 로 감싼다. MDX 는 GFM 표를 지원하지 않는다.
 - 외부 서비스(카카오 우편번호 등)는 공급자(provider)로 주입하고, 테스트·기본 스토리는 가짜 공급자로 네트워크 없이 돌린다.
+- **기본 `GITHUB_TOKEN` 으로 push 한 커밋은 다른 워크플로를 실행하지 않는다** — visual.yml 의 기준 이미지 커밋이 main 에 들어가도 release.yml 이
+  버전 PR 을 다시 만들지 않아 PR 이 옛 기준 이미지로 실패했다(2026-11-04, PR #28). 봇 커밋은 release.yml 과 같은 GitHub App 토큰으로 push 한다.
 - GitHub Actions `pull_request` 의 `branches`/`branches-ignore` 는 **base 브랜치** 기준이다. head 브랜치(예: changeset-release/**)로 거르려면 job 의 `if` 를 쓴다.
