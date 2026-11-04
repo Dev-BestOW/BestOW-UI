@@ -1,5 +1,6 @@
 import type { space } from '@bestow-ui/tokens';
 import { forwardRef, type CSSProperties, type ElementType, type HTMLAttributes } from 'react';
+import type { PolymorphicComponent } from '../../utils/polymorphic';
 import { cx } from '../../utils/cx';
 import { isResponsiveObject, responsiveVars, spaceVar, type Responsive } from '../../utils/responsive';
 import * as styles from './Stack.css';
@@ -68,4 +69,4 @@ export const Stack = /* @__PURE__ */ forwardRef<HTMLElement, StackProps>(functio
       {...rest}
     />
   );
-});
+}) as PolymorphicComponent<StackProps, HTMLElement>;

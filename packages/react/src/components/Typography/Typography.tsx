@@ -1,4 +1,5 @@
 import { forwardRef, type ElementType, type HTMLAttributes } from 'react';
+import type { PolymorphicComponent } from '../../utils/polymorphic';
 import { cx } from '../../utils/cx';
 import * as styles from './Typography.css';
 
@@ -43,4 +44,4 @@ export const Typography = /* @__PURE__ */ forwardRef<HTMLElement, TypographyProp
       {...rest}
     />
   );
-});
+}) as PolymorphicComponent<TypographyProps, HTMLElement, Omit<HTMLAttributes<HTMLElement>, 'color'>>;

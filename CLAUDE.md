@@ -125,6 +125,8 @@ examples/
   `apps/playground/e2e/forced-colors.spec.ts` 가 시스템 강조색인지 확인한다("투명 아님" 검사는 버튼의 ButtonFace 때문에 너무 약하다).
 - variant 는 `@vanilla-extract/recipes` 의 `recipe()` 로. prop 이름은 기존과 통일: `variant`, `color`, `size`(sm/md/lg), `fullWidth`.
 - `forwardRef` 로 ref 전달, `className` 과 나머지 HTML 속성 전달. HTML `color` 속성과 겹치면 `Omit` 한다.
+  `as` prop 이 있는 컴포넌트는 `forwardRef(...) as PolymorphicComponent<Props, Ref, Base>`(`utils/polymorphic.ts`)로 내보낸다 — props 인터페이스는 그대로 두고
+  `as` 를 줄 때만 그 요소의 props·ref 타입을 얹는다(맞지 않으면 1.x 타입으로 물러남). 타입 검사는 `utils/polymorphic.test.tsx` 의 `@ts-expect-error`(tsc).
 - 폼 컴포넌트는 TextField/Select 패턴을 따른다: `label`, `helperText`, `error`, `required`, `useId` 로 label/aria-describedby 연결.
   - 값을 고르는 Radix 컴포넌트(Select, Tabs 등)는 `'value' in props` 이면 `value ?? ''` 로 넘겨 **항상 제어 모드**로 둔다
     (`useState<string>()` 처럼 초기값이 없을 때 "uncontrolled → controlled" 경고 방지).

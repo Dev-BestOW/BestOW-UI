@@ -1,4 +1,5 @@
 import { forwardRef, type ElementType, type HTMLAttributes } from 'react';
+import type { PolymorphicComponent } from '../../utils/polymorphic';
 import { cx } from '../../utils/cx';
 import * as styles from './Container.css';
 
@@ -17,4 +18,4 @@ export const Container = /* @__PURE__ */ forwardRef<HTMLElement, ContainerProps>
   ref,
 ) {
   return <Component ref={ref} className={cx(styles.container({ size, flush }), className)} {...rest} />;
-});
+}) as PolymorphicComponent<ContainerProps, HTMLElement>;

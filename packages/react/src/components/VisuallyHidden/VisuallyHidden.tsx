@@ -1,5 +1,6 @@
 import { forwardRef, type ElementType, type HTMLAttributes } from 'react';
 import { visuallyHidden } from '../../styles/visuallyHidden.css';
+import type { PolymorphicComponent } from '../../utils/polymorphic';
 import { cx } from '../../utils/cx';
 
 export interface VisuallyHiddenProps extends HTMLAttributes<HTMLElement> {
@@ -16,4 +17,4 @@ export const VisuallyHidden = /* @__PURE__ */ forwardRef<HTMLElement, VisuallyHi
   ref,
 ) {
   return <Component ref={ref} className={cx(visuallyHidden, className)} {...rest} />;
-});
+}) as PolymorphicComponent<VisuallyHiddenProps, HTMLElement>;

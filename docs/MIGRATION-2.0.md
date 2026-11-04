@@ -65,6 +65,16 @@
 - FileUpload 는 그대로예요 — 영역 전체를 흐리면 안내 글자가 읽기 어려워져 테두리와 버튼으로만 비활성을 보여요.
 - **2.0 에서 예전처럼 쓰기:** 컴포넌트별 값은 하나의 변수로 모였으므로 되돌리려면 그 컴포넌트에 `className` 으로 `opacity` 를 직접 지정해요.
 
+## 더 정확해지는 타입 (코드 수정 없음)
+
+### `as` 로 고른 요소의 속성을 타입으로 받아요 (S14, 반영됨)
+
+- **대상:** Stack·Card·Grid·Typography·Container·VisuallyHidden.
+- **바뀌는 점:** `as` 를 주면 그 요소·컴포넌트의 props 와 ref 타입을 따라요. 1.x 에서는 모든 `as` 가 `HTMLAttributes<HTMLElement>` 라
+  `<Typography as="time" dateTime="…">`·`<Card as="a" href="…">` 가 타입 오류였어요.
+- **호환:** 맞지 않으면 1.x 타입으로 한 번 더 확인해서, 1.x 에서 통과하던 코드는 그대로 통과해요(`useRef<HTMLElement>` 를 넘기는 코드 등).
+  `StackProps` 등 props 타입과 `ComponentProps<typeof Stack>` 도 1.x 와 같아요.
+
 ## 검토 중 (결정 전)
 
 | 후보 | 지금 | 생각해 둔 방향 |
