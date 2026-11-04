@@ -1,6 +1,5 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
-import { inputBorderColor, inputBorderHoverColor } from '../../styles/inputBorder.css';
 import { vars } from '../../theme/contract.css';
 
 // 한 줄 입력창은 높이를 고정한다 — 글자 200%(14 → 28px)에서도 안쪽(38px)에 들어가고, input 이 height: 100% 로 루트를 채워
@@ -10,14 +9,14 @@ export const root = recipe({
     display: 'inline-flex',
     alignItems: 'center',
     gap: vars.space[2],
-    border: `1px solid ${inputBorderColor}`,
+    border: `1px solid ${vars.color.border.input}`,
     borderRadius: vars.radius.md,
     backgroundColor: vars.color.bg.default,
     color: vars.color.fg.default,
     transition: `border-color ${vars.duration.fast}, box-shadow ${vars.duration.fast}`,
     cursor: 'text',
     selectors: {
-      '&:hover:not([data-disabled], fieldset:disabled *)': { borderColor: inputBorderHoverColor },
+      '&:hover:not([data-disabled], fieldset:disabled *)': { borderColor: vars.color.border.inputHover },
       '&:focus-within': {
         borderColor: vars.color.border.focus,
         boxShadow: `0 0 0 1px ${vars.color.border.focus}`,

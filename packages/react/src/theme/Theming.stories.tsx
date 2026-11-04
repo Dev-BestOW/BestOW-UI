@@ -16,7 +16,6 @@ import { VerificationCodeInput } from '../components/VerificationCodeInput';
 import { createIntentColors } from './color';
 import { vars } from './contract.css';
 import { createTheme } from './createTheme';
-import { strongInputBorders } from './presets';
 import { ThemeProvider } from './ThemeProvider';
 
 interface ThemingArgs {
@@ -125,9 +124,6 @@ export const YellowBrand: Story = {
 
 type Tree = { [key: string]: string | Tree };
 
-// 기본값이 없는 선택 토큰 — 지정하지 않으면 쓰는 곳에서 기존 토큰을 따른다 (contract.css.ts 의 optionalTokens)
-const OPTIONAL_TOKENS = new Set(['color.border.input', 'color.border.inputHover', 'color.border.control']);
-
 function collect(tree: Tree, path: string[] = [], out: Array<[string, string]> = []) {
   for (const [key, value] of Object.entries(tree)) {
     if (typeof value === 'string') out.push([[...path, key].join('.'), value.replace(/^var\((.*)\)$/, '$1')]);
@@ -170,39 +166,42 @@ const rgb = (hex: string) => {
   return `rgb(${n >> 16}, ${(n >> 8) & 255}, ${n & 255})`;
 };
 
+// MIGRATION-2.0.md "2.0 에서 예전처럼 쓰기" 와 같은 값
+const classicInputBorders = createTheme({
+  light: { color: { border: { input: palette.gray[300], inputHover: palette.gray[500], control: palette.gray[500] } } },
+  dark: { color: { border: { input: palette.gray[700], inputHover: palette.gray[500], control: palette.gray[500] } } },
+});
+
 /**
- * 기본 입력 테두리(border.default)는 흰 배경과 1.3:1 이라 칸의 경계가 잘 보이지 않아요(WCAG 1.4.11 비텍스트 대비 3:1 미만).
- * Checkbox·Radio 테두리와 꺼진 Switch·Stepper 예정 단계(border.strong)도 라이트에서 2.07:1 이에요.
- * `strongInputBorders` 를 테마에 더하면 입력 칸(Input·Select·Combobox·DatePicker·서식 입력·Textarea·인증번호 칸)과 체크 컨트롤의 테두리가 3:1 이상으로 진해져요.
- * 2.0 에서 기본값이 될 예정이에요. 값만 바꾸려면 `color.border.input`·`inputHover`·`control` 토큰을 직접 지정해요(CSS: `--bestow-color-border-input` 등).
+ * 2.0 부터 입력 칸(Input·Select·Combobox·DatePicker·서식 입력·Textarea·인증번호 칸)과 체크 컨트롤(Checkbox·Radio 테두리, 꺼진 Switch,
+ * Stepper 예정 단계)의 테두리가 배경과 3:1 이상이에요(WCAG 1.4.11 비텍스트 대비). 1.x 기본은 흰 배경과 1.3:1·2.07:1 이라 칸의 경계가 잘 보이지 않았어요.
+ * 값만 바꾸려면 `color.border.input`·`inputHover`·`control` 토큰을 지정해요(CSS: `--bestow-color-border-input` 등).
+ * 1.x 처럼 옅게 되돌리는 방법은 MIGRATION-2.0.md 에 있어요(대비가 3:1 미만이 되니 권하지 않아요).
  *
  * ```tsx
- * <ThemeProvider overrides={createTheme(strongInputBorders)}>…</ThemeProvider>
- * createTheme(createIntentColors('primary', '#7c3aed'), strongInputBorders) // 브랜드 테마와 함께
+ * const classicInputBorders = createTheme({
+ *   light: { color: { border: { input: '#dee2e6', inputHover: '#adb5bd', control: '#adb5bd' } } },
+ *   dark: { color: { border: { input: '#495057', inputHover: '#adb5bd', control: '#adb5bd' } } },
+ * });
  * ```
  */
-export const StrongInputBorders: Story = {
-  name: '진한 입력 테두리 (strongInputBorders)',
-  render: () => {
-    const theme = createTheme(strongInputBorders);
-    return (
-      <Stack direction="row" gap={8} wrap>
-        <InputSamples label="기본" />
-        <ThemeProvider overrides={theme}>
-          <InputSamples label="진하게" />
-        </ThemeProvider>
-      </Stack>
-    );
-  },
+export const InputBorders: Story = {
+  name: '입력 칸 테두리 (1.x 와 비교)',
+  render: () => (
+    <Stack direction="row" gap={8} wrap>
+      <InputSamples label="기본" />
+      <ThemeProvider overrides={classicInputBorders}>
+        <InputSamples label="1.x" />
+      </ThemeProvider>
+    </Stack>
+  ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const dark = canvasElement.querySelector('[data-theme]')?.getAttribute('data-theme') === 'dark';
     const colors = dark ? darkColors : lightColors;
     const expected = {
-      기본: { input: colors.border.default, control: colors.border.strong },
-      진하게: dark
-        ? { input: palette.gray[500], control: palette.gray[500] }
-        : { input: palette.gray[600], control: palette.gray[600] },
+      기본: { input: colors.border.input, control: colors.border.control },
+      '1.x': { input: colors.border.default, control: colors.border.strong },
     };
     for (const [label, { input: color, control }] of Object.entries(expected)) {
       const field = canvas.getByRole('textbox', { name: `${label} · 이름` }).parentElement!;
@@ -250,11 +249,6 @@ export const CssVariables: Story = {
               <td style={{ padding: '4px 8px', fontFamily: vars.font.family.mono }}>
                 {path}
                 {/* 경로 옆에 붙이면 첫 열이 넓어져 다른 행이 줄바꿈된다 — 아래 줄에 작게 */}
-                {OPTIONAL_TOKENS.has(path) && (
-                  <div style={{ fontFamily: vars.font.family.sans, fontSize: 11, color: vars.color.fg.muted }}>
-                    선택 · 기본값 없음
-                  </div>
-                )}
               </td>
               <td style={{ padding: '4px 8px', fontFamily: vars.font.family.mono }}>{cssVar}</td>
               <td style={{ padding: '4px 8px' }}>

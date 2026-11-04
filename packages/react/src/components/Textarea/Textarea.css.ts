@@ -1,6 +1,5 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
-import { inputBorderColor, inputBorderHoverColor } from '../../styles/inputBorder.css';
 import { vars } from '../../theme/contract.css';
 
 export const textarea = recipe({
@@ -9,7 +8,7 @@ export const textarea = recipe({
     width: '100%',
     minHeight: '64px',
     margin: 0,
-    border: `1px solid ${inputBorderColor}`,
+    border: `1px solid ${vars.color.border.input}`,
     borderRadius: vars.radius.md,
     backgroundColor: vars.color.bg.default,
     color: vars.color.fg.default,
@@ -19,7 +18,7 @@ export const textarea = recipe({
     transition: `border-color ${vars.duration.fast}, box-shadow ${vars.duration.fast}`,
     selectors: {
       '&::placeholder': { color: vars.color.fg.subtle },
-      '&:hover:not(:disabled)': { borderColor: inputBorderHoverColor },
+      '&:hover:not(:disabled)': { borderColor: vars.color.border.inputHover },
       '&:focus': {
         borderColor: vars.color.border.focus,
         boxShadow: `0 0 0 1px ${vars.color.border.focus}`,

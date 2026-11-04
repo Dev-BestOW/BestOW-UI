@@ -1,7 +1,6 @@
 import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 import { forcedColors, systemHighlight } from '../../styles/forcedColors.css';
-import { controlBorderColor } from '../../styles/inputBorder.css';
 import { vars } from '../../theme/contract.css';
 
 const CIRCLE = '28px';
@@ -37,7 +36,7 @@ export const step = recipe({
         content: '""',
         position: 'absolute',
         borderRadius: vars.radius.full,
-        backgroundColor: controlBorderColor,
+        backgroundColor: vars.color.border.control,
       },
       '&[data-status="complete"]::after': { backgroundColor: vars.color.primary.text },
     },
@@ -115,7 +114,7 @@ export const indicator = recipe({
         color: vars.color.primary.text,
       },
       upcoming: {
-        border: `1.5px solid ${controlBorderColor}`,
+        border: `1.5px solid ${vars.color.border.control}`,
         backgroundColor: vars.color.bg.default,
         color: vars.color.fg.muted,
       },

@@ -41,16 +41,7 @@ type Contract<T> = { [K in keyof T]: T[K] extends string ? null : Contract<T[K]>
 
 /** 토큰 값의 리터럴 타입을 string 으로 넓힌 테마 토큰 구조 */
 type Widen<T> = { [K in keyof T]: T[K] extends string ? string : Widen<T[K]> };
-/**
- * 기본값이 없는 선택 토큰 — CSS 변수를 정의하지 않고, 쓰는 곳에서 `fallbackVar` 로 기존 토큰을 따른다.
- * 그래서 넣지 않으면 화면이 그대로이고, 기존 토큰(border.default 등)을 덮어쓴 사용자 설정도 계속 따른다(하위 영역의 CSS 덮어쓰기 포함).
- * - `color.border.input`·`inputHover` (1.x 추가): 입력 칸(Input·Select·Combobox·Textarea·인증번호 칸 등) 테두리. 기본은 border.default·border.strong.
- *   흰 배경과 1.3:1 인 기본 테두리를 3:1 이상으로 올리려면 `strongInputBorders` 를 쓴다(2.0 에서 기본값이 될 예정).
- * - `color.border.control` (1.x 추가): Checkbox·Radio 테두리, 꺼진 Switch 트랙, Stepper 의 예정 단계. 기본은 border.strong(라이트 2.07:1).
- */
-const optionalTokens = { color: { border: { input: '', inputHover: '', control: '' } } };
-
-export type ThemeTokens = Widen<typeof lightTokens> & Widen<typeof optionalTokens>;
+export type ThemeTokens = Widen<typeof lightTokens>;
 
 function toContract<T extends object>(tokens: T): Contract<T> {
   return Object.fromEntries(
@@ -65,20 +56,14 @@ const kebab = (s: string) => s.replace(/[A-Z]/g, (c) => `-${c.toLowerCase()}`);
  * CSS 변수 이름은 공개 API 다: `--bestow-color-primary-solid`, `--bestow-space-4`, `--bestow-font-line-height-normal` …
  */
 const varName = (_value: string | null, path: string[]) => `bestow-${path.map(kebab).join('-')}`;
-const requiredVars = createGlobalThemeContract(toContract(lightTokens), varName);
-const optionalVars = createGlobalThemeContract(toContract(optionalTokens), varName);
+export const vars = createGlobalThemeContract(toContract(lightTokens), varName);
 
-export const vars = {
-  ...requiredVars,
-  color: { ...requiredVars.color, border: { ...requiredVars.color.border, ...optionalVars.color.border } },
-};
-
-// ThemeProvider 없이 사용해도 라이트 테마 값이 적용되도록 :root 에 기본값을 둔다. (선택 토큰은 정의하지 않는다 — 위 optionalTokens)
-createGlobalTheme(':root', requiredVars, lightTokens);
+// ThemeProvider 없이 사용해도 라이트 테마 값이 적용되도록 :root 에 기본값을 둔다.
+createGlobalTheme(':root', vars, lightTokens);
 
 export const themeClass = {
-  light: createTheme(requiredVars, lightTokens),
-  dark: createTheme(requiredVars, darkTokens),
+  light: createTheme(vars, lightTokens),
+  dark: createTheme(vars, darkTokens),
 };
 
 export type ThemeName = keyof typeof themeClass;
@@ -91,6 +76,6 @@ export type ThemeMode = ThemeName | 'system';
  * 그래서 JS 가 실행되기 전 첫 화면부터 OS 설정을 따른다(깜빡임 없음). themeClass 에 넣지 않는다 — ThemeName 이 바뀌면 breaking.
  */
 export const systemThemeClass = style({
-  vars: assignVars(requiredVars, lightTokens),
-  '@media': { '(prefers-color-scheme: dark)': { vars: assignVars(requiredVars, darkTokens) } },
+  vars: assignVars(vars, lightTokens),
+  '@media': { '(prefers-color-scheme: dark)': { vars: assignVars(vars, darkTokens) } },
 });

@@ -11,11 +11,17 @@
 
 | 대상 | 1.x (deprecated) | 2.0 | 이유 |
 | --- | --- | --- | --- |
-| — | 지금 deprecated 인 이름은 없어요 | | |
+| — | 1.x 에서 deprecated 인 이름은 없어요 | | |
+
+2.0 에서 새로 deprecated 가 되는 이름(3.0 에서 제거):
+
+| 대상 | 2.x (deprecated) | 대신 | 이유 |
+| --- | --- | --- | --- |
+| 테마 | `strongInputBorders` | 넣지 않아도 돼요 | 2.0 기본 테두리와 같은 값 |
 
 ## 바뀌는 기본값 (화면이 달라짐)
 
-### 1. 입력 칸·체크 컨트롤 테두리가 진해져요 (ROADMAP P13-4)
+### 1. 입력 칸·체크 컨트롤 테두리가 진해져요 (S12, 반영됨)
 
 | | 1.x 기본 | 2.0 기본 |
 | --- | --- | --- |
@@ -29,8 +35,13 @@
   체크 컨트롤은 Checkbox·RadioGroup 테두리, 꺼진 Switch 트랙, Stepper 의 예정 단계(원·연결선)예요.
   카드·표·구분선 등 다른 테두리(`border.default`)와 `border.strong` 자체는 그대로예요.
 - **1.x 에서 미리 켜기:** `createTheme(strongInputBorders)` (브랜드 테마와 함께면 `createTheme(brand, strongInputBorders)`).
-  Storybook **Foundations › Theming › 진한 입력 테두리** 에서 비교할 수 있어요.
-- **2.0 에서 예전처럼 쓰기:**
+- **`border.default`·`border.strong` 을 덮어쓴 경우:** 1.x 에서는 입력 칸이 이 두 토큰을 따랐지만, 2.0 부터는 `border.input`·`inputHover`·`control`
+  (CSS `--bestow-color-border-input`·`--bestow-color-border-input-hover`·`--bestow-color-border-control`)이 따로 정해져 있어요.
+  입력 칸 색도 바꾸려면 이 세 토큰을 함께 지정해요.
+- **`strongInputBorders`:** 2.0 기본값과 같아져 넣지 않아도 돼요. 2.x 동안 남기고(`@deprecated`) 3.0 에서 지워요 — 지금 지워도 화면은 같아요.
+- **tokens:** `lightColors`·`darkColors` 의 `border` 에 `input`·`inputHover`·`control` 이 생겨요. `SemanticColors` 에서는 선택(`?`) 키라
+  직접 만든 색 객체는 타입 오류 없이 그대로 써요(이 경우 입력 칸 색은 ThemeProvider 기본값을 따라요).
+- **2.0 에서 예전처럼 쓰기**(대비가 3:1 미만이 되니 권하지 않아요). Storybook **Foundations › Theming › 입력 칸 테두리 (1.x 와 비교)** 에서 비교할 수 있어요.
 
   ```tsx
   const classicInputBorders = createTheme({
@@ -38,11 +49,6 @@
     dark: { color: { border: { input: '#495057', inputHover: '#adb5bd', control: '#adb5bd' } } }, // gray700 / gray500 / gray500
   });
   ```
-
-- **2.0 에서 할 일(구현):** `color.border.input`·`inputHover`·`control` 을 선택 토큰(기본값 없음)에서 일반 토큰으로 바꾸고 tokens 의
-  `lightColors`·`darkColors` 에 값을 넣는다(`SemanticColors.border` 의 선택 키 → 필수 키, 타입 변경이라 tokens 도 major).
-  `strongInputBorders` 는 기본값과 같아지므로 2.x 동안 남기고 deprecated 로 표시한다. `presets.test.ts` 의 "기본 테두리는 3:1 미만" 테스트를 뒤집는다.
-  시각 회귀 기준 이미지 전체 갱신.
 
 ## 검토 중 (결정 전)
 

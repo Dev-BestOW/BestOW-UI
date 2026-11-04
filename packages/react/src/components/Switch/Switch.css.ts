@@ -2,7 +2,6 @@ import { style } from '@vanilla-extract/css';
 import { recipe } from '@vanilla-extract/recipes';
 import { reducedMotion } from '../../styles/animations.css';
 import { forcedColors, systemHighlight } from '../../styles/forcedColors.css';
-import { controlBorderColor } from '../../styles/inputBorder.css';
 import { vars } from '../../theme/contract.css';
 
 export const root = recipe({
@@ -34,7 +33,7 @@ export const track = recipe({
     padding: '2px',
     border: 'none',
     borderRadius: vars.radius.full,
-    backgroundColor: controlBorderColor,
+    backgroundColor: vars.color.border.control,
     cursor: 'pointer',
     transition: `background-color ${vars.duration.fast}`,
     selectors: {

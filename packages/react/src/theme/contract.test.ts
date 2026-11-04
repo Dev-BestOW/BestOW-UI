@@ -22,7 +22,7 @@ describe('vars (공개 CSS 변수 이름)', () => {
       '--bestow-color-bg-subtle',
       '--bestow-color-border-default',
       '--bestow-color-border-focus',
-      '--bestow-color-border-control', // 1.x 에서 추가한 선택 토큰 (기본값 없음)
+      '--bestow-color-border-control', // 1.x 에 기본값 없이 추가, 2.0 부터 기본값 있음
       '--bestow-color-border-input',
       '--bestow-color-border-input-hover',
       '--bestow-color-border-strong',

@@ -1,13 +1,11 @@
 import type { ThemeInput } from './createTheme';
 
 /**
- * 입력 칸·체크 컨트롤 테두리를 배경과 3:1 이상으로 올리는 테마 입력 (WCAG 1.4.11 비텍스트 대비) — 2.0 에서 기본값이 될 예정.
- * - 입력 칸(border.input): 기본 border.default 는 흰 배경과 1.3:1. hover 는 테두리보다 더 진하게(다크는 더 밝게).
- * - Checkbox·Radio 테두리, 꺼진 Switch, Stepper 예정 단계(border.control): 기본 border.strong 은 라이트 흰 배경과 2.07:1.
+ * 입력 칸·체크 컨트롤 테두리를 배경과 3:1 이상으로 올리는 테마 입력 (WCAG 1.4.11 비텍스트 대비).
+ * 1.x 에서 2.0 기본값을 미리 켜던 묶음이다 — 2.0 부터 기본 테두리(border.input·inputHover·control)가 이 값과 같다.
  *
- * @example
- * <ThemeProvider overrides={createTheme(strongInputBorders)}>…</ThemeProvider>
- * createTheme(createIntentColors('primary', '#7c3aed'), strongInputBorders) // 브랜드 테마와 함께
+ * @deprecated 2.0 부터 기본값과 같아 넣지 않아도 된다. 3.0 에서 제거한다(docs/MIGRATION-2.0.md).
+ * 객체 값이라 개발 모드 경고(warnOnce)는 내지 않는다 — 읽을 때 경고하려면 getter 가 필요해 tree-shaking 이 깨진다.
  */
 // 색은 palette 를 import 하지 않고 값으로 적는다 — `palette.gray[600]` 같은 속성 읽기는 번들러가 지우지 못해,
 // 이 값을 쓰지 않는 앱에도 tokens 전체가 딸려 왔다("앱 기본" +460 B). palette 와 같은지는 presets.test.ts 가 확인한다.

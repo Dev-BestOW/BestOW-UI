@@ -158,7 +158,7 @@ const brand = createTheme(
   (사용자가 고른 모드를 쿠키로 저장하는 방법은 Storybook 시작하기 › 다크 모드).
 - CSS 변수 이름이 고정돼 있어서 CSS 로만 바꿀 수도 있어요: `:root { --bestow-color-primary-solid: #7c3aed; }`
   전체 목록은 Storybook **Foundations › Theming › CSS 변수**.
-- 입력 칸·체크 컨트롤 테두리를 배경과 3:1 이상으로 진하게 하려면 `createTheme(brand, strongInputBorders)` 처럼 `strongInputBorders` 를 더해요(2.0 에서 기본값이 될 예정).
+- 입력 칸·체크 컨트롤 테두리는 기본으로 배경과 3:1 이상이에요(2.0). 색만 바꾸려면 `color.border.input`·`inputHover`·`control` 토큰을 지정해요.
 
 ### 아이콘
 
@@ -183,7 +183,7 @@ import { SearchIcon, TrashIcon } from '@bestow-ui/icons';
 | 오버레이 | `Modal`, `Drawer`, `Popover`, `Tooltip`, `DropdownMenu` |
 | 탐색 | `Tabs`, `SegmentedControl`, `Accordion`, `Pagination`, `Breadcrumb`, `SkipLink`, `Stepper` |
 | 레이아웃·표시 | `Stack`(구간별 값), `Grid`, `Container`, `Divider`, `Card`, `Typography`, `VisuallyHidden`, `Avatar`, `Table`(+ 선택·빈 상태·로딩), `DescriptionList` |
-| 테마·문구 | `ThemeProvider`, `createTheme`, `createIntentColors`, `strongInputBorders`, `vars`, `LocaleProvider`, `en` |
+| 테마·문구 | `ThemeProvider`, `createTheme`, `createIntentColors`, `vars`, `LocaleProvider`, `en` |
 
 모든 컴포넌트는 [Storybook](https://dev-bestow.github.io/BestOW-UI/)에서 직접 조작해 볼 수 있고, 키보드·스크린리더 동작도 컴포넌트마다 정리돼 있어요.
 어떤 컴포넌트를 골라야 할지는 [언제 무엇을 쓰나](https://dev-bestow.github.io/BestOW-UI/?path=/docs/guides-%EC%96%B8%EC%A0%9C-%EB%AC%B4%EC%97%87%EC%9D%84-%EC%93%B0%EB%82%98--docs) 가이드를 보세요.

@@ -174,7 +174,13 @@ export const breakpoint = {
 export interface SemanticColors {
   bg: { default: string; subtle: string; muted: string; inverse: string; overlay: string };
   fg: { default: string; muted: string; subtle: string; inverse: string };
-  border: { default: string; strong: string; focus: string };
+  /**
+   * - `input`·`inputHover`: 입력 칸(Input·Select·Combobox·Textarea·인증번호 칸 등) 테두리와 hover.
+   * - `control`: Checkbox·Radio 테두리, 꺼진 Switch 트랙, Stepper 의 예정 단계.
+   * 셋 다 배경과 3:1 이상이다(WCAG 1.4.11). 1.x 에 추가한 키라 선택(?)이다 — 직접 만든 SemanticColors 객체가 타입 오류로 깨지지 않게.
+   * lightColors·darkColors 에는 항상 있다.
+   */
+  border: { default: string; strong: string; focus: string; input?: string; inputHover?: string; control?: string };
   primary: { solid: string; solidHover: string; contrast: string; subtle: string; subtleHover: string; text: string };
   neutral: { solid: string; solidHover: string; contrast: string; subtle: string; subtleHover: string; text: string };
   danger: { solid: string; solidHover: string; contrast: string; subtle: string; subtleHover: string; text: string };
@@ -187,8 +193,9 @@ export interface SemanticColors {
   info?: SemanticColors['primary'];
 }
 
-/** lightColors·darkColors 의 타입 — 선택 키(info)까지 모두 있다 */
-export type DefaultSemanticColors = SemanticColors & Required<Pick<SemanticColors, 'info'>>;
+/** lightColors·darkColors 의 타입 — 선택 키(info, border.input 등)까지 모두 있다 */
+export type DefaultSemanticColors = SemanticColors &
+  Required<Pick<SemanticColors, 'info'>> & { border: Required<SemanticColors['border']> };
 
 export const lightColors: DefaultSemanticColors = {
   bg: {
@@ -199,7 +206,15 @@ export const lightColors: DefaultSemanticColors = {
     overlay: 'rgba(0, 0, 0, 0.45)',
   },
   fg: { default: palette.gray[900], muted: palette.gray[700], subtle: palette.gray[600], inverse: palette.white },
-  border: { default: palette.gray[300], strong: palette.gray[500], focus: palette.blue[500] },
+  // 입력 칸 gray600(흰 배경 5.18:1, bg.subtle 4.91:1) / hover gray700, 체크 컨트롤 gray600
+  border: {
+    default: palette.gray[300],
+    strong: palette.gray[500],
+    focus: palette.blue[500],
+    input: palette.gray[600],
+    inputHover: palette.gray[700],
+    control: palette.gray[600],
+  },
   primary: {
     solid: palette.blue[600],
     solidHover: palette.blue[700],
@@ -261,7 +276,16 @@ export const darkColors: DefaultSemanticColors = {
     overlay: 'rgba(0, 0, 0, 0.65)',
   },
   fg: { default: palette.gray[50], muted: palette.gray[300], subtle: palette.gray[500], inverse: palette.gray[900] },
-  border: { default: palette.gray[700], strong: palette.gray[500], focus: palette.blue[400] },
+  // 입력 칸 gray500(bg.default 8.57:1, bg.subtle 7.43:1 — gray600 은 bg.subtle 위에서 2.98:1) / hover 는 더 밝게 gray300,
+  // 체크 컨트롤 gray500(border.strong 과 같다)
+  border: {
+    default: palette.gray[700],
+    strong: palette.gray[500],
+    focus: palette.blue[400],
+    input: palette.gray[500],
+    inputHover: palette.gray[300],
+    control: palette.gray[500],
+  },
   primary: {
     solid: palette.blue[600],
     solidHover: palette.blue[700], // 흰 글자 대비 유지를 위해 다크에서도 hover 는 어둡게 (blue500 은 4.38)
