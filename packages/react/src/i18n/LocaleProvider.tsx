@@ -87,6 +87,12 @@ export interface BestowMessages {
   residentNumberBackFirst?: string;
   residentNumberInvalid?: string;
   residentNumberIncomplete?: (digits: number) => string;
+  /** PasswordInput — "비밀번호", 보기 버튼 "비밀번호 보기" (1.0 이후 추가, 선택 키) */
+  password?: string;
+  showPassword?: string;
+  /** SearchInput — 레이블이 없을 때 이름 "검색", 지우기 버튼 "검색어 지우기" (1.0 이후 추가, 선택 키) */
+  search?: string;
+  clearSearch?: string;
   /** AmountInput — "금액", "원" */
   amount: string;
   currencyUnit: string;

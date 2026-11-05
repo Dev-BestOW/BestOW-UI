@@ -10,6 +10,7 @@ import {
   ErrorSummary,
   FileUpload,
   NumberInput,
+  PasswordInput,
   PhoneNumberInput,
   RadioGroup,
   Select,
@@ -22,6 +23,7 @@ import {
 
 interface Values {
   email: string;
+  password: string;
   phone: string;
   plan: string;
   billing: string;
@@ -47,6 +49,7 @@ function SignupForm({ onSubmit }: { onSubmit: (values: Values) => void }) {
     shouldFocusError: false, // 첫 칸 대신 오류 요약으로 포커스를 옮긴다
     defaultValues: {
       email: '',
+      password: '',
       phone: '',
       plan: '',
       billing: '',
@@ -74,6 +77,17 @@ function SignupForm({ onSubmit }: { onSubmit: (values: Values) => void }) {
           })}
           error={!!errors.email}
           helperText={errors.email?.message}
+        />
+        <PasswordInput
+          id="signup-password"
+          label="비밀번호"
+          autoComplete="new-password"
+          {...register('password', {
+            required: '비밀번호를 입력해 주세요.',
+            minLength: { value: 8, message: '비밀번호는 8자 이상이에요.' },
+          })}
+          error={!!errors.password}
+          helperText={errors.password?.message ?? '8자 이상'}
         />
         <Controller
           name="phone"

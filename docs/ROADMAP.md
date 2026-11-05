@@ -14,7 +14,7 @@
 **(완료) 런칭 준비 마무리** — 코드 안정화(STABILIZATION 1~8단계)와 **2.0 배포 완료**(2026-11-04, react·tokens 2.0.0), README 비교표 갱신 완료.
 **STABILIZATION 런칭 전 완료 조건 모두 충족(2026-11-05)** → 런칭 게시 완료(2026-11-05). 런칭 뒤 할 사람 확인: ResidentNumberInput NVDA, 가상 키보드 Android Chrome(둘 다 2026-11-05 사용자 결정으로 미룸, VoiceOver·iOS Safari 는 ✅).
 (2026-11-05 완료: Storybook 문서 페이지 `@layer` 점검 — 이상 없음, GeekNews Show 본문 2.0 기준 갱신.) 런칭 뒤 반응으로 "다음 플랜" 의 기능을 고른다.
-**다음 기능 작업: "런칭 뒤 완성도 보강" 17번(PasswordInput·SearchInput)부터** — 런칭 반응에 직접 요청이 있으면 그것이 먼저.
+**다음 기능 작업: "런칭 뒤 완성도 보강" 18번(Tag/Chip·EmptyState)부터** (17번 PasswordInput·SearchInput 2026-11-06 완료, changeset `password-search-input` minor — 배포 대기) — 런칭 반응에 직접 요청이 있으면 그것이 먼저.
 사용자 결정(2026-10-30): **홍보보다 코드 안정화가 먼저**, 런칭 게시는 보류, 호환성을 깨는 변경은 런칭 전에 2.0 으로 묶는다.
 아래 "다음 플랜"의 런칭·기능 항목은 안정화가 끝난 뒤 다시 판단한다.
 
@@ -212,7 +212,9 @@
 > 판단: 테스트·접근성·한국 키트는 이미 강하다. 완성도를 막는 것은 **실서비스 화면(회원가입·로그인·목록·정산)을 만들 때 바로 부딪히는 빈칸**이다.
 > 런칭 반응(GeekNews 댓글·이슈·Discussions)에서 직접 요청이 오면 그것을 이 순서보다 먼저 한다. 큰 기능 전에는 어느 size-limit 조합에 들어가는지 먼저 본다.
 
-17. **PasswordInput · SearchInput** (minor 하나로) — 작고 수요가 확실하다.
+17. ✅ **PasswordInput · SearchInput** (2026-11-06 완료, changeset `password-search-input` react minor — 배포 대기) — 보기 버튼(aria-pressed·Tab 순서·mousedown 으로 포커스 유지), Enter 검색(IME 무시)·Escape 지우기·지우기 후 포커스,
+    문구 선택 키 4개, 단위 21·계약 2(+제어 1)·SSR·스토리 13(play 2, !visual)·E2E 2(/signup 비밀번호, /orders 검색 Escape·지우기), 변이 7. 커서 복원 코드는 Chromium·WebKit 에서 불필요해 넣지 않음(스토리 CaretStays 가 CI 3개 브라우저에서 감시).
+    Caps Lock 안내는 하지 않음(필요하면 따로). 번들: 전체 72.35 → 73.07 kB, CSS 10.96 → 11.05 kB, 조합 변화 없음. **/signup 에 비밀번호 칸이 생겨 README 히어로 이미지(docs/images/hero.png)와 화면이 조금 다르다 — 다시 찍을지 사용자 결정.** 원래 계획(작고 수요가 확실하다):
     - PasswordInput: 보기/숨기기 버튼(이름·`aria-pressed` 상태, 눌러도 입력 포커스·커서 유지), `autoComplete` current/new-password, Caps Lock 안내 검토, 한국어·`en` 문구.
     - SearchInput: `type="search"` + 지우기 버튼(지운 뒤 입력으로 포커스), Enter → `onSearch`, IME 조합 중 Enter 무시(S1 Combobox 와 같은 처리), `role="search"` 는 쓰는 쪽 form 에 두도록 안내.
     - /orders 파일럿의 검색 칸을 SearchInput 으로 바꿔 확인. 폼 계약 테스트(`form-contract.test.tsx`)·SSR·componentA11y.
@@ -357,3 +359,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-06 | GeekNews Show 게시 확인(2026-11-05, https://news.hada.io/topic?id=36655 — Artifact 본문과 같음, Button 1.7 kB). 런칭 전 기준값: GitHub 스타 1·이슈 0·포크 0, npm 주간(10-29~11-04) react 417·korean-utils 219·tokens 219·icons 38(배포·CI 설치 포함) |
 | 2026-11-06 | README 크기 숫자를 런칭 글·실측과 맞춤: Button 하나 1.8 → 1.7 kB(루트·react README·POSITIONING), react README CSS 10 → 11 kB, korean-utils README 전체 1.3 → 1.4 kB·maskName 92 → 99 B. npm 페이지 README 는 다음 배포 때 반영 |
 | 2026-11-06 | "런칭 뒤 완성도 보강" 17~22번 추가(PasswordInput·SearchInput → Tag/Chip·EmptyState → 한국 키트 2차 → 앱 뼈대·TimePicker → 아이콘 확장 → 폼 검증 가이드). 14번 항목은 17~20번으로 나눠 옮김(TanStack 가이드만 남음), 인수인계에 다음 작업 표시 |
+| 2026-11-06 | 17번 PasswordInput·SearchInput: 컴포넌트·문구 키·단위·계약·SSR·스토리·E2E(/signup 비밀번호, /orders 검색), componentA11y·kwcag 7.3.3·Guides "글자 입력"·README, changeset react minor. 변이 7(커서 복원은 불필요해 제거). 새 스토리 기준 이미지는 push 뒤 자동 생성 |

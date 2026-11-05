@@ -17,9 +17,11 @@ import {
   FileUpload,
   NativeSelect,
   NumberInput,
+  PasswordInput,
   PhoneNumberInput,
   RadioGroup,
   ResidentNumberInput,
+  SearchInput,
   SegmentedControl,
   Select,
   Slider,
@@ -52,6 +54,20 @@ interface Case {
 
 const cases: Case[] = [
   { name: 'TextField', element: <TextField label="칸" name="f" />, change: typeInto('칸', '글자') },
+  {
+    name: 'PasswordInput',
+    element: <PasswordInput label="칸" name="f" />,
+    // 보기 버튼도 눌러 둔다 — reset 이면 다시 가려져야 한다(type 은 state() 의 controls 에 없어 화면 글자로는 못 잡으므로 아래 단위 테스트가 맡음)
+    change: async (user) => {
+      await user.type(screen.getByLabelText('칸'), '비밀');
+      await user.click(screen.getByRole('button', { name: '비밀번호 보기' }));
+    },
+  },
+  {
+    name: 'SearchInput',
+    element: <SearchInput label="칸" name="f" defaultValue="처음" />,
+    change: typeInto('칸', '글자'),
+  },
   {
     name: 'Textarea',
     element: <Textarea label="칸" name="f" showCount maxLength={10} />,
@@ -252,6 +268,7 @@ describe('form.reset() 과 알림', () => {
     ['Combobox', (fn: () => void) => <Combobox label="칸" options={options} value="a" onValueChange={fn} />],
     ['DatePicker', (fn: () => void) => <DatePicker label="칸" value="2026-01-01" onValueChange={fn} />],
     ['NumberInput', (fn: () => void) => <NumberInput label="칸" value={3} onValueChange={fn} />],
+    ['SearchInput', (fn: () => void) => <SearchInput label="칸" value="사과" onValueChange={fn} />],
   ])('제어 모드 %s 는 값을 알리지 않는다 (react-hook-form reset 의 새 값을 덮어쓰면 안 된다)', (_, element) => {
     const onChange = vi.fn();
     render(<form>{element(onChange)}</form>);

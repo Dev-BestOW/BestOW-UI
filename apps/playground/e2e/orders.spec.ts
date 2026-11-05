@@ -9,10 +9,25 @@ test.beforeEach(async ({ page }) => {
 const table = (page: Page) => page.getByRole('table', { name: '주문 목록' });
 
 test('검색 결과가 없으면 안내와 초기화 버튼, 초기화하면 다시 목록', async ({ page }) => {
-  await page.getByRole('textbox', { name: '검색' }).fill('없는주문');
+  await page.getByRole('searchbox', { name: '검색' }).fill('없는주문');
   await expect(page.getByText('조건에 맞는 주문이 없어요.')).toBeVisible();
   await page.getByRole('button', { name: '검색·필터 초기화' }).click();
   await expect(table(page).getByRole('row')).toHaveCount(11); // 머리 행 + 10건
+});
+
+test('검색 칸: Escape 나 지우기 버튼으로 검색어를 지우면 목록이 돌아온다', async ({ page }) => {
+  const search = page.getByRole('searchbox', { name: '검색' });
+  await search.fill('없는주문');
+  await expect(page.getByText('조건에 맞는 주문이 없어요.')).toBeVisible();
+  await search.press('Escape');
+  await expect(search).toHaveValue('');
+  await expect(table(page).getByRole('row')).toHaveCount(11);
+
+  await search.fill('없는주문');
+  await page.getByRole('button', { name: '검색어 지우기' }).click();
+  await expect(search).toHaveValue('');
+  await expect(search).toBeFocused();
+  await expect(table(page).getByRole('row')).toHaveCount(11);
 });
 
 test('아이콘만 있는 "작업" 열도 머리글 이름이 있다 (VisuallyHidden)', async ({ page }) => {

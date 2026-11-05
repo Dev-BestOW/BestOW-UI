@@ -67,6 +67,29 @@ export const adornment = style({
   color: vars.color.fg.subtle,
 });
 
+/**
+ * 입력창 안 끝에 붙는 작은 아이콘 버튼 (PasswordInput 보기, SearchInput 지우기).
+ * 루트의 paddingInline 안쪽에 들어가도록 오른쪽 여백을 조금 당긴다.
+ */
+export const inputAction = style({
+  display: 'inline-flex',
+  alignItems: 'center',
+  justifyContent: 'center',
+  flexShrink: 0,
+  margin: `0 calc(-1 * ${vars.space[1]}) 0 0`,
+  padding: vars.space[1],
+  border: 'none',
+  borderRadius: vars.radius.sm,
+  background: 'transparent',
+  color: vars.color.fg.subtle,
+  cursor: 'pointer',
+  selectors: {
+    '&:hover:not(:disabled)': { color: vars.color.fg.default },
+    '&:focus-visible': { outline: `2px solid ${vars.color.border.focus}`, outlineOffset: '1px' },
+    '&:disabled': { cursor: 'not-allowed' },
+  },
+});
+
 export const field = style({
   display: 'inline-flex',
   flexDirection: 'column',

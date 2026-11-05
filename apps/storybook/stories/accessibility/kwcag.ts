@@ -302,9 +302,10 @@ export const kwcag: KwcagGroup[] = [
         isNew: true,
         coverage: '지원',
         provided:
-          'VerificationCodeInput 은 문자 자동 채우기(autocomplete="one-time-code")와 붙여넣기를 지원해 번호를 외워 옮겨 적지 않아도 된다. 입력창은 붙여넣기를 막지 않는다.',
-        yours: '비밀번호 붙여넣기를 막지 않는다. 퍼즐형 인증만 두지 않는다.',
-        verified: '단위 테스트(붙여넣기 정리) · 실제 브라우저 점검',
+          'VerificationCodeInput 은 문자 자동 채우기(autocomplete="one-time-code")와 붙여넣기를 지원해 번호를 외워 옮겨 적지 않아도 된다. PasswordInput 은 비밀번호 관리자 자동 완성(current-password·new-password)을 받고, 보기 버튼으로 친 글자를 확인할 수 있다. 입력창은 붙여넣기를 막지 않는다.',
+        yours:
+          '비밀번호 붙여넣기를 막지 않는다. 새 비밀번호 칸은 autoComplete="new-password". 퍼즐형 인증만 두지 않는다.',
+        verified: '단위 테스트(붙여넣기 정리·자동 완성 속성) · E2E(회원가입 비밀번호 보기) · 실제 브라우저 점검',
       },
       {
         id: '7.3.4',

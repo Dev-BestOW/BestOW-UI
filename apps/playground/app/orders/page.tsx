@@ -27,6 +27,7 @@ import {
   Pagination,
   PhoneNumberInput,
   Select,
+  SearchInput,
   Stack,
   Table,
   TableBody,
@@ -45,7 +46,7 @@ import {
   useTableSelection,
   useToast,
 } from '@bestow-ui/react';
-import { EllipsisIcon, PlusIcon, SearchIcon } from '@bestow-ui/icons';
+import { EllipsisIcon, PlusIcon } from '@bestow-ui/icons';
 
 type Status = 'paid' | 'shipping' | 'delivered' | 'cancelled';
 interface Order {
@@ -147,13 +148,12 @@ export default function OrdersPage() {
       </Stack>
 
       <Stack as="section" aria-label="검색·필터" direction="row" gap={3} align="end" wrap>
-        <TextField
+        <SearchInput
           label="검색"
           placeholder="주문번호·고객·상품"
-          startAdornment={<SearchIcon size={16} />}
           value={query}
-          onChange={(e) => {
-            setQuery(e.target.value);
+          onValueChange={(next) => {
+            setQuery(next);
             setPage(1);
           }}
         />

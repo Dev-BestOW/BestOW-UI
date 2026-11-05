@@ -85,6 +85,34 @@ export const choosing: ChoiceGroup[] = [
     ],
   },
   {
+    group: '글자 입력',
+    rule: '한 줄은 TextField, 여러 줄은 Textarea. 비밀번호·검색처럼 버튼이 붙는 칸은 전용 컴포넌트를 쓴다.',
+    items: [
+      {
+        name: 'TextField',
+        path: docs('components-textfield'),
+        when: '이름·이메일처럼 한 줄 글자. 레이블·도움말·오류 연결이 들어 있다.',
+      },
+      {
+        name: 'Textarea',
+        path: docs('components-textarea'),
+        when: '메모·문의처럼 여러 줄(글자 수 표시·자동 높이).',
+      },
+      {
+        name: 'PasswordInput',
+        path: docs('components-passwordinput'),
+        when: '로그인·회원가입 비밀번호. 보기 버튼과 비밀번호 관리자 자동 완성.',
+        avoid: '인증번호(문자로 받는 숫자) (→ VerificationCodeInput).',
+      },
+      {
+        name: 'SearchInput',
+        path: docs('components-searchinput'),
+        when: '목록을 거르는 검색어, 검색 페이지의 검색창. 지우기 버튼·Escape·Enter 검색.',
+        avoid: '정해진 목록에서 하나를 골라야 함 (→ Combobox).',
+      },
+    ],
+  },
+  {
     group: '숫자 · 금액 · 날짜',
     rule: '정확한 값은 입력창, 대략적인 값·범위는 Slider. 서식(쉼표·하이픈)은 컴포넌트가 맡는다.',
     items: [

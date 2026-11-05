@@ -42,12 +42,14 @@ import {
   LocaleProvider,
   Modal,
   NumberInput,
+  PasswordInput,
   Pagination,
   PhoneNumberInput,
   Popover,
   Progress,
   RadioGroup,
   ResidentNumberInput,
+  SearchInput,
   SegmentedControl,
   NativeSelect,
   Select,
@@ -130,6 +132,8 @@ function Everything() {
           <TextField label="이름" helperText="도움말" />
           <Textarea label="메모" autoResize />
           <NumberInput label="수량" defaultValue={1} />
+          <PasswordInput helperText="8자 이상" />
+          <SearchInput defaultValue="사과" />
           <Select label="선택" options={options} />
           <NativeSelect label="기본 선택" placeholder="선택하세요" options={[{ value: 'a', label: '가' }]} />
           <Combobox label="검색" options={options} />

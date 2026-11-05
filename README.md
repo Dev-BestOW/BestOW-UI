@@ -183,7 +183,7 @@ import { SearchIcon, TrashIcon } from '@bestow-ui/icons';
 | 분류 | 컴포넌트 |
 |---|---|
 | 한국 서비스 키트 | `AgreementGroup`(약관 동의), `VerificationCodeInput`(인증번호), `PhoneNumberInput`, `BusinessNumberInput`, `ResidentNumberInput`(주민·외국인등록번호), `AmountInput`, `AddressInput`, `DatePicker`, `DateRangePicker`, `Calendar` + 서식·마스킹 함수(`formatPhoneNumber`, `isValidBusinessNumber`, `formatKoreanAmount`, `maskName`·`maskPhoneNumber` 등 — React 없이 쓰려면 [`@bestow-ui/korean-utils`](packages/korean-utils)) |
-| 폼 | `Input`, `TextField`, `FormField`(직접 만든 입력에 레이블·오류 연결), `Textarea`, `Select`, `NativeSelect`, `Combobox`, `NumberInput`, `FileUpload`, `Checkbox`, `CheckboxGroup`, `RadioGroup`, `Switch`, `Slider` |
+| 폼 | `Input`, `TextField`, `PasswordInput`(보기 버튼), `SearchInput`(지우기·Enter 검색), `FormField`(직접 만든 입력에 레이블·오류 연결), `Textarea`, `Select`, `NativeSelect`, `Combobox`, `NumberInput`, `FileUpload`, `Checkbox`, `CheckboxGroup`, `RadioGroup`, `Switch`, `Slider` |
 | 동작 | `Button`, `IconButton`, `Link` |
 | 피드백 | `Alert`, `ErrorSummary`, `Progress`, `ToastProvider` + `useToast`, `Spinner`, `Skeleton`, `Badge` |
 | 오버레이 | `Modal`, `Drawer`, `Popover`, `Tooltip`, `DropdownMenu` |

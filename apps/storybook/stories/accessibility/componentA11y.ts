@@ -55,6 +55,24 @@ export const componentA11y: ComponentA11yGroup[] = [
         yours: '오류 문구는 무엇이 틀렸고 어떻게 고치는지를 helperText 로.',
       },
       {
+        name: 'PasswordInput',
+        keyboard:
+          '보기 버튼은 입력창 다음 Tab 순서에 있고 Space·Enter 로 바꾼다. 마우스로 눌러도 입력창 포커스와 커서 위치가 그대로다.',
+        screenReader:
+          '보기 버튼은 이름 "비밀번호 보기" 고정 + aria-pressed(켜짐/꺼짐), aria-controls 로 입력창 연결. 글자로 보일 때는 일반 입력(type=text)으로 읽힌다. 자동 대문자·맞춤법 검사는 끈다.',
+        yours:
+          '비밀번호 규칙은 helperText 로 미리 알린다. 회원가입·변경의 새 비밀번호는 autoComplete="new-password". 붙여넣기를 막지 않는다(KWCAG 7.3.3).',
+      },
+      {
+        name: 'SearchInput',
+        keyboard:
+          'Enter → onSearch(한글 조합을 끝내는 Enter 는 무시), Escape → 검색어 지우기(빈 칸이면 아무것도 안 해서 바깥 Modal 등이 받는다). 지우기 버튼은 Escape 가 대신해 Tab 순서에서 빠져 있고, 누르면 입력창으로 포커스가 온다.',
+        screenReader:
+          'searchbox(type=search). 레이블이 없으면 이름 "검색". 지우기 버튼 "검색어 지우기", 돋보기는 숨김. 모바일 키보드 Enter 키가 "검색" 으로 보인다(enterKeyHint).',
+        yours:
+          '페이지의 주요 검색이면 감싸는 form 에 role="search"(랜드마크). 입력하는 대로 결과가 바뀌면 결과 수를 role="status" 로 알린다(/orders 예제). Modal 안에서는 Escape 가 검색어를 지우면서 Modal 도 닫는다(Radix 가 먼저 받음).',
+      },
+      {
         name: 'Checkbox',
         keyboard: 'Space 로 체크.',
         screenReader: '네이티브 checkbox 라 모든 보조기기에서 동작. indeterminate 는 "혼합" 상태로 읽힌다.',
