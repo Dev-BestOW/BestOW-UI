@@ -108,7 +108,8 @@
 
 1. ✅ **노출 정비** (2026-10-21 완료 — 남은 것: 사용자의 GitHub 설정, push 뒤 README 이미지·배지 확인)
    - 히어로 이미지 `docs/images/hero.png` 는 playground `/signup` 운영 빌드(3001)를 Playwright 로 라이트 기본·다크+브랜드(#7c3aed)로 찍어
-     나란히 합친 것(2x, 약 210 kB). 화면이 크게 바뀌면 같은 방법으로 다시 찍는다(값 입력: 이메일·전화·플랜 "프로"·연간·필수 약관 2개).
+     나란히 합친 것(2x). 화면이 크게 바뀌면 같은 방법으로 다시 찍는다(값 입력: 이메일 hello@bestow.dev·비밀번호·전화·플랜 "프로"·연간·필수 약관 2개, 이메일 ~ 약관 동의 영역 + 14px 여백, 아래 설명 13px).
+     2026-11-06 비밀번호 칸·2.0 입력 테두리 반영해 다시 찍음(2152×1676, 약 150 kB).
    - GitHub About·Topics 문구 제안(설정은 사용자).
    - 루트 README 재구성: 맨 위 **히어로 이미지**(playground `/signup` 같은 한국 서비스 키트 화면의 라이트·다크 비교 — Playwright 로 찍어 저장소에 둠),
      **배지**(npm·CI·license — 번들 크기 배지는 패키지 전체 크기를 보여 줘 "Button 하나 1.5 kB" 장점을 가리므로 달지 않고 본문에 숫자로),
@@ -214,7 +215,7 @@
 
 17. ✅ **PasswordInput · SearchInput** (2026-11-06 완료, changeset `password-search-input` react minor — 배포 대기) — 보기 버튼(aria-pressed·Tab 순서·mousedown 으로 포커스 유지), Enter 검색(IME 무시)·Escape 지우기·지우기 후 포커스,
     문구 선택 키 4개, 단위 21·계약 2(+제어 1)·SSR·스토리 13(play 2, !visual)·E2E 2(/signup 비밀번호, /orders 검색 Escape·지우기), 변이 7. 커서 복원 코드는 Chromium·WebKit 에서 불필요해 넣지 않음(스토리 CaretStays 가 CI 3개 브라우저에서 감시).
-    Caps Lock 안내는 하지 않음(필요하면 따로). 번들: 전체 72.35 → 73.07 kB, CSS 10.96 → 11.05 kB, 조합 변화 없음. **/signup 에 비밀번호 칸이 생겨 README 히어로 이미지(docs/images/hero.png)와 화면이 조금 다르다 — 다시 찍을지 사용자 결정.** 원래 계획(작고 수요가 확실하다):
+    Caps Lock 안내는 하지 않음(필요하면 따로). 번들: 전체 72.35 → 73.07 kB, CSS 10.96 → 11.05 kB, 조합 변화 없음. 히어로 이미지는 2026-11-06 다시 찍음(비밀번호 칸 포함). 원래 계획(작고 수요가 확실하다):
     - PasswordInput: 보기/숨기기 버튼(이름·`aria-pressed` 상태, 눌러도 입력 포커스·커서 유지), `autoComplete` current/new-password, Caps Lock 안내 검토, 한국어·`en` 문구.
     - SearchInput: `type="search"` + 지우기 버튼(지운 뒤 입력으로 포커스), Enter → `onSearch`, IME 조합 중 Enter 무시(S1 Combobox 와 같은 처리), `role="search"` 는 쓰는 쪽 form 에 두도록 안내.
     - /orders 파일럿의 검색 칸을 SearchInput 으로 바꿔 확인. 폼 계약 테스트(`form-contract.test.tsx`)·SSR·componentA11y.
@@ -360,3 +361,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-06 | README 크기 숫자를 런칭 글·실측과 맞춤: Button 하나 1.8 → 1.7 kB(루트·react README·POSITIONING), react README CSS 10 → 11 kB, korean-utils README 전체 1.3 → 1.4 kB·maskName 92 → 99 B. npm 페이지 README 는 다음 배포 때 반영 |
 | 2026-11-06 | "런칭 뒤 완성도 보강" 17~22번 추가(PasswordInput·SearchInput → Tag/Chip·EmptyState → 한국 키트 2차 → 앱 뼈대·TimePicker → 아이콘 확장 → 폼 검증 가이드). 14번 항목은 17~20번으로 나눠 옮김(TanStack 가이드만 남음), 인수인계에 다음 작업 표시 |
 | 2026-11-06 | 17번 PasswordInput·SearchInput: 컴포넌트·문구 키·단위·계약·SSR·스토리·E2E(/signup 비밀번호, /orders 검색), componentA11y·kwcag 7.3.3·Guides "글자 입력"·README, changeset react minor. 변이 7(커서 복원은 불필요해 제거). 새 스토리 기준 이미지는 push 뒤 자동 생성 |
+| 2026-11-06 | README 히어로 이미지 다시 찍음 — /signup 운영 빌드(3001)에 비밀번호 칸 포함, 2.0 입력 테두리 반영(2152×1676, 209 → 152 kB) |
