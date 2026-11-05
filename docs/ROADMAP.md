@@ -11,8 +11,8 @@
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-11-04 기준)
 
 **지금 할 일: 런칭 준비 마무리** — 코드 안정화(STABILIZATION 1~8단계)와 **2.0 배포 완료**(2026-11-04, react·tokens 2.0.0), README 비교표 갱신 완료.
-남은 것: ① 사람 확인 2개(STABILIZATION "사람이 확인할 것" — ResidentNumberInput 스크린리더, 모바일 가상 키보드) + 배포된 Storybook 문서 페이지가 `@layer` 뒤에도 괜찮은지 훑어보기
-② GeekNews Show 본문(Artifact)을 2.0 기준으로 갱신 ③ 런칭 게시(사용자). 런칭 뒤 반응으로 "다음 플랜" 의 기능을 고른다.
+남은 것: ① 사람 확인 2개(STABILIZATION "사람이 확인할 것" — ResidentNumberInput 스크린리더, 모바일 가상 키보드) ② 런칭 게시(사용자).
+(2026-11-05 완료: Storybook 문서 페이지 `@layer` 점검 — 이상 없음, GeekNews Show 본문 2.0 기준 갱신.) 런칭 뒤 반응으로 "다음 플랜" 의 기능을 고른다.
 사용자 결정(2026-10-30): **홍보보다 코드 안정화가 먼저**, 런칭 게시는 보류, 호환성을 깨는 변경은 런칭 전에 2.0 으로 묶는다.
 아래 "다음 플랜"의 런칭·기능 항목은 안정화가 끝난 뒤 다시 판단한다.
 
@@ -24,12 +24,14 @@
 - 프로덕션 권장 선언 기준 **6/6 달성**(2026-10-23 NVDA + Chrome 13개 항목 모두 ✅, VoiceOver 재확인 ✅) — README·npm·Introduction·SUPPORT·POSITIONING 에 반영, 1.6.1 로 배포.
 - **런칭: 준비물은 있지만 2026-10-30 부터 보류**(STABILIZATION.md 완료 조건 뒤). 블로그(https://jiwon-seok.com, 저장소 ~/Documents/Project/astro-blog) 기술 글 2편 **공개됨** —
   `oklch-contrast-theme`(10-21)·`kwcag-automated-testing`(10-23, NVDA 결과 포함). 블로그 표 스타일도 2026-10-23 손봄.
-  GeekNews Show 본문은 비공개 Artifact https://claude.ai/artifact/EdgazWzz98aH3maLsXFwRT ("복사" 버튼, NVDA 결과 반영됨).
+  GeekNews Show 본문은 비공개 Artifact https://claude.ai/artifact/EdgazWzz98aH3maLsXFwRT ("복사" 버튼, 2026-11-05 react 2.0 기준 숫자·특징으로 갱신).
   런칭 뒤에는 이슈·Discussions 반응으로 다음 기능(Combobox 다중 선택·Tag 입력)을 정한다.
 - **9번 OS 다크 모드(`theme="system"`) 완료**, **10번 반응형 기반 완료**(2026-10-23, changeset `responsive-layout` react·tokens minor — 배포 대기). 11번 info 색·12번 FormField·CheckboxGroup 완료(changeset `info-color`·`form-field-checkbox-group`). 13번 한국 키트 1차(주민번호·마스킹) 완료(changeset `resident-number-masking`). 다음은 14번 컴포넌트 공백.
   **"앱 기본" 번들 여유가 10 B 뿐**(4.09/4.1 kB — system 모드 +390·Stack 구간별 값 +300·info 변수 +40 B) → 다음에 ThemeProvider·Button·Typography·Stack·vars 를 키우면 한도를 사용자와 다시 정한다.
 - **2026-10-23 객관 점검**(다음 플랜 9~16번) 중 9~13 완료. 남은 것: 14 컴포넌트 공백(Tag/Chip·EmptyState·TimePicker·앱 뼈대·TanStack 가이드)·15 Figma·16 운영. 모두 안정화 뒤로 미룬다.
-- 번들(2026-10-23 13번 뒤 측정, minify + brotli): react 전체 JS **71.68/80 kB** · Button 하나 1.51/2 · 앱 기본 **4.09/4.1** · 폼 세트(Select) 29.66/33 ·
+- 번들(2026-11-05 2.0 기준, minify + brotli): 전체 72.35/80 · Button 하나 1.74/2 · 앱 기본 4.28/4.4 · 폼 세트(Select) 29.86/33 · NativeSelect 판 4.09/4.3 ·
+  오버레이 34.99/38 · 한국 키트 30.87/33.5 · styles.css 10.96/12 · tokens 1.36/1.5 · korean-utils 1.42/1.5 kB. 아래 줄은 10-23 기록.
+- (옛 기록) 번들(2026-10-23 13번 뒤 측정, minify + brotli): react 전체 JS **71.68/80 kB** · Button 하나 1.51/2 · 앱 기본 **4.09/4.1** · 폼 세트(Select) 29.66/33 ·
   **폼 세트(NativeSelect) 3.86/4.3** · 오버레이 세트 34.82/38 · 한국 키트 30.4/33.5 · styles.css 10.86/12 · tokens 1.32/1.5 ·
   korean-utils 전체 1.32/1.5 kB(10-23 한도 1 → 1.5, 사용자 결정)·전화번호 서식 하나 179/300 B·maskName 하나 92/200 B. 큰 덩어리는 모두 Radix(점검 결과는 아래 "Claude 가 할 일" 2번).
   **조합 한도는 여유가 약 10% 뿐** — 큰 기능(Combobox 다중 선택 등)을 넣기 전에 어느 조합에 들어가는지 보고 필요하면 한도를 사용자와 정한다.
@@ -322,3 +324,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-04 | PR #28 시각 회귀 실패 원인: 기준 이미지 봇 커밋(`f4841fd`)을 기본 GITHUB_TOKEN 으로 push 해 release.yml·CI 가 돌지 않음 → 버전 PR 이 옛 기준 이미지 위에 남음. visual.yml 이 커밋하는 실행에서 GitHub App 토큰으로 checkout·push 하도록 수정 |
 | 2026-11-04 | react·tokens 2.0.0 배포 확인(PR #28, tokens 는 changeset `linked` 로 함께 2.0.0), main CI 녹색. `examples/vite-starter` 를 `^2.0.0` 으로 — npm 설치·tsc·vite build·Chrome 화면 확인 |
 | 2026-11-04 | README 비교표를 Vapor UI·HANUI·shadcn/ui·MUI 로 갱신(공식 문서·README·npm 으로 확인, Radix Themes 뺌), "누구를 위해" 행과 공공→HANUI 안내, 특징에 입력 테두리 3:1·CSS 레이어, CSS 약 11 kB. POSITIONING 출처 메모, STABILIZATION 완료 조건 3개 체크 |
+| 2026-11-05 | Storybook 문서 페이지 `@layer` 점검: 로컬 빌드 두 벌(레이어 그대로 / `@layer bestow{` → `@media all{`)로 문서 62쪽 × 라이트·다크 124장을 픽셀 비교 — 차이 0(레이어 동작은 바깥 `button{padding:0}` 이 레이어판에서만 이기는 것으로 확인). GeekNews Show 본문 Artifact 를 2.0 기준으로 갱신(스토리 약 290·Button 1.7 kB·CSS 약 11 kB·korean-utils 약 1.4 kB, 주민번호·마스킹·입력 테두리 3:1·OS 다크 모드·CSS 레이어) |
