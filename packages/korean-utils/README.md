@@ -8,7 +8,7 @@
 **한국 서비스에 늘 필요한 서식·검증 함수를 모았어요.** 전화번호 하이픈, 사업자등록번호 검증 공식, 주민등록번호 생년월일·성별 읽기,
 "12만 5,000원" 금액 읽기, 한국어 날짜, 카카오 우편번호 참고항목, 화면에 보여 줄 때의 마스킹(`홍*동`, `010-****-5678`)까지.
 
-- **의존성 0, 프레임워크 무관** — React·Vue·Svelte·Node 서버 어디서나 써요. 전체 약 1.3 kB, 함수 하나만 쓰면 그만큼만 번들에 들어가요(`maskName` 하나 92 B, minify + brotli).
+- **의존성 0, 프레임워크 무관** — React·Vue·Svelte·Node 서버 어디서나 써요. 전체 약 1.4 kB, 함수 하나만 쓰면 그만큼만 번들에 들어가요(`maskName` 하나 99 B, minify + brotli).
 - **입력 중인 값도 자연스럽게** — `formatPhoneNumber('0101234')` → `'010-123-4'` 처럼 덜 입력한 값도 나눠서, 입력창의 onChange 에 그대로 쓸 수 있어요.
 - **하이픈이 섞여도 됨** — 숫자가 아닌 글자는 무시해요.
 - [BestOW UI](https://github.com/Dev-BestOW/BestOW-UI) 디자인 시스템의 `PhoneNumberInput`·`BusinessNumberInput`·`AmountInput` 이 쓰는 함수 그대로예요.

@@ -26,7 +26,7 @@ AI 코딩 도구용 [llms.txt](https://dev-bestow.github.io/BestOW-UI/llms.txt)
   주요 컴포넌트는 스크린리더(VoiceOver·NVDA)로 직접 들어 보고 [점검 기록](docs/SCREEN-READER-CHECKLIST.md)을 남겼어요.
 - 🎨 **대표색 하나로 끝나는 테마** — 브랜드 색을 넣어도 글자 대비 4.5:1(hover 포함)·포커스 링 3:1 을 라이트·다크 모두 자동으로 지켜요.
 - ⚡ **가볍고 서버 컴포넌트 친화적** — 런타임 CSS 0(vanilla-extract), Next.js App Router 지원, 쓰는 컴포넌트만 번들에 들어가요
-  (Button 하나 약 1.8 kB, NativeSelect 로 만든 입력 폼 7종 약 4 kB, 모든 컴포넌트 CSS 를 합쳐도 약 11 kB — minify + brotli).
+  (Button 하나 약 1.7 kB, NativeSelect 로 만든 입력 폼 7종 약 4 kB, 모든 컴포넌트 CSS 를 합쳐도 약 11 kB — minify + brotli).
   스타일은 CSS 레이어(`@layer bestow`) 안에 있어 `className`·Tailwind 로 덮어쓰기 쉬워요.
 - 🌐 **한국어 기본, 다국어 가능** — 기본 문구는 한국어, `LocaleProvider` 로 영어 등으로 한 번에 바꿔요. 한글은 단어 단위로 줄바꿈.
 

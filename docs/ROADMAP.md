@@ -332,3 +332,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-05 | 가상 키보드 점검 iOS Safari ✅(사용자 — /orders 주문 등록 Modal, /navigation 아래쪽 Drawer). playground 아래쪽 Drawer 에 편집 가능한 "받는 사람 이메일" 칸 추가(Drawer 에 입력 칸이 있는 화면이 없었음). Android Chrome 남음 |
 | 2026-11-05 | 가상 키보드 Android Chrome 확인은 런칭 뒤로(사용자 결정) → STABILIZATION "사람이 확인할 것"·런칭 전 완료 조건 모두 체크. 남은 것은 런칭 게시 |
 | 2026-11-06 | GeekNews Show 게시 확인(2026-11-05, https://news.hada.io/topic?id=36655 — Artifact 본문과 같음, Button 1.7 kB). 런칭 전 기준값: GitHub 스타 1·이슈 0·포크 0, npm 주간(10-29~11-04) react 417·korean-utils 219·tokens 219·icons 38(배포·CI 설치 포함) |
+| 2026-11-06 | README 크기 숫자를 런칭 글·실측과 맞춤: Button 하나 1.8 → 1.7 kB(루트·react README·POSITIONING), react README CSS 10 → 11 kB, korean-utils README 전체 1.3 → 1.4 kB·maskName 92 → 99 B. npm 페이지 README 는 다음 배포 때 반영 |
