@@ -139,7 +139,7 @@
 ## 5. 사람이 확인할 것
 
 - [x] `ResidentNumberInput` VoiceOver 점검 — VoiceOver + Safari ✅ 2026-11-05. NVDA 는 런칭 뒤로 미룸(2026-11-05 사용자 결정, ROADMAP "사람이 할 일").
-- [ ] iOS Safari·Android Chrome 에서 가상 키보드가 Modal·Drawer 입력을 가리는지.
+- [ ] iOS Safari·Android Chrome 에서 가상 키보드가 Modal·Drawer 입력을 가리는지 — **iOS Safari ✅ 2026-11-05**(/orders 주문 등록 Modal 의 고객 이름·메모·버튼, /navigation 아래쪽 Drawer 의 받는 사람 이메일 — 가리지 않음, 키보드를 내리면 제자리), Android Chrome 남음.
 - [x] 8단계 전에 2.0 범위와 출시 시점 확정 (2026-11-04: S12~S15 네 가지 모두, 런칭 전 출시. Alert 기본 color 는 제외).
 
 ## 런칭 전 완료 조건

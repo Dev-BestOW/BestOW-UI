@@ -284,7 +284,11 @@ export default function NavigationPage() {
               </Button>
             }
           >
-            <TextField label="링크" defaultValue="https://example.com/post/42" readOnly />
+            {/* 받는 사람 칸은 휴대폰에서 아래쪽 Drawer 가 가상 키보드에 가리지 않는지 확인하는 데 쓴다 */}
+            <Stack gap={3}>
+              <TextField label="링크" defaultValue="https://example.com/post/42" readOnly fullWidth />
+              <TextField label="받는 사람 이메일" type="email" autoComplete="email" fullWidth />
+            </Stack>
           </Drawer>
         </Stack>
       </Stack>

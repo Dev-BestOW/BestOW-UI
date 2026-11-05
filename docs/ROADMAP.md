@@ -11,7 +11,7 @@
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-11-04 기준)
 
 **지금 할 일: 런칭 준비 마무리** — 코드 안정화(STABILIZATION 1~8단계)와 **2.0 배포 완료**(2026-11-04, react·tokens 2.0.0), README 비교표 갱신 완료.
-남은 것: ① 사람 확인(STABILIZATION "사람이 확인할 것" — 모바일 가상 키보드 — ResidentNumberInput NVDA 는 런칭 뒤로 미룸(2026-11-05 결정, VoiceOver ✅)) ② 런칭 게시(사용자).
+남은 것: ① 사람 확인(STABILIZATION "사람이 확인할 것" — 모바일 가상 키보드 Android Chrome(iOS Safari ✅ 2026-11-05) — ResidentNumberInput NVDA 는 런칭 뒤로 미룸(2026-11-05 결정, VoiceOver ✅)) ② 런칭 게시(사용자).
 (2026-11-05 완료: Storybook 문서 페이지 `@layer` 점검 — 이상 없음, GeekNews Show 본문 2.0 기준 갱신.) 런칭 뒤 반응으로 "다음 플랜" 의 기능을 고른다.
 사용자 결정(2026-10-30): **홍보보다 코드 안정화가 먼저**, 런칭 게시는 보류, 호환성을 깨는 변경은 런칭 전에 2.0 으로 묶는다.
 아래 "다음 플랜"의 런칭·기능 항목은 안정화가 끝난 뒤 다시 판단한다.
@@ -97,7 +97,8 @@
 - [ ] **런칭 게시** (2026-10-30 보류 — STABILIZATION.md 완료 조건 뒤, 본문의 버전·문구는 그때 다시 맞춘다) — 준비 끝(2026-10-23: react 1.6.1 배포, 블로그 기술 글 2편 공개, Artifact 의 GeekNews 본문 NVDA 반영). 순서: GeekNews Show(1순위) → velog·요즘IT 등에 기술 글 → 접근성 커뮤니티·공공/SI/에이전시 쪽 → FEConf·JSConf Korea 발표 지원.
 - [ ] **ResidentNumberInput 스크린리더 확인**(VoiceOver·NVDA, 2026-10-23 추가 — **VoiceOver + Safari ✅ 2026-11-05**, NVDA 는 런칭 뒤 — 2026-11-05 사용자 결정) — 묶음 이름 "주민등록번호" → "앞 6자리", 뒷칸이 "보안 텍스트" 로 읽히는지, 다 채운 뒤 검증 오류가 0.8초 뒤 들리는지. playground /interactive 정산 정보.
 - [ ] (가능하면) iOS VoiceOver·센스리더 점검 — 같은 체크리스트, 3·4번째 열.
-- [ ] (선택) 실제 기기 확인: 가상 키보드가 Modal·Drawer 입력을 가리는지(iOS Safari·Android Chrome).
+- [ ] (선택) 실제 기기 확인: 가상 키보드가 Modal·Drawer 입력을 가리는지(iOS Safari·Android Chrome) — **iOS Safari ✅ 2026-11-05**, Android Chrome 남음.
+  확인 화면: /orders "주문 등록" Modal(고객 이름·메모), /navigation 아래쪽 Drawer "공유하기"(받는 사람 이메일 — 이 확인용으로 추가한 칸). 맥에서 `next start -H 0.0.0.0 -p 3001`.
 - [ ] 이 라이브러리로 만든 **실제 서비스**(개인 프로젝트라도)가 생기면 알려 주기 — README "사용 사례" 에 넣는다(2026-10-21 기준 없음. playground 는 데모라 사례로 약함).
 - [ ] 수요 확인: Combobox 다중 선택·비동기 검색, Tag 입력 — 런칭 반응(이슈·Discussions)으로 판단.
 
@@ -327,3 +328,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-05 | Storybook 문서 페이지 `@layer` 점검: 로컬 빌드 두 벌(레이어 그대로 / `@layer bestow{` → `@media all{`)로 문서 62쪽 × 라이트·다크 124장을 픽셀 비교 — 차이 0(레이어 동작은 바깥 `button{padding:0}` 이 레이어판에서만 이기는 것으로 확인). GeekNews Show 본문 Artifact 를 2.0 기준으로 갱신(스토리 약 290·Button 1.7 kB·CSS 약 11 kB·korean-utils 약 1.4 kB, 주민번호·마스킹·입력 테두리 3:1·OS 다크 모드·CSS 레이어) |
 | 2026-11-05 | ResidentNumberInput VoiceOver + Safari 점검 ✅(사용자 — 이름·보안 텍스트·포커스 유지·0.8초 뒤 오류 알림 모두 기대대로). 체크리스트 VO 열·점검 기록, STABILIZATION·인수인계 갱신. NVDA 남음 |
 | 2026-11-05 | ResidentNumberInput NVDA 점검은 런칭 뒤로(사용자 결정). CheckboxGroup VoiceOver + Safari 점검 ✅(로컬 운영 빌드 3001 — 묶음 이름·도움말 설명·별표 숨김·모두 끈 뒤 잘못됨 + 오류 설명), 체크리스트 VO 열·점검 기록 |
+| 2026-11-05 | 가상 키보드 점검 iOS Safari ✅(사용자 — /orders 주문 등록 Modal, /navigation 아래쪽 Drawer). playground 아래쪽 Drawer 에 편집 가능한 "받는 사람 이메일" 칸 추가(Drawer 에 입력 칸이 있는 화면이 없었음). Android Chrome 남음 |
