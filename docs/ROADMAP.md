@@ -10,8 +10,9 @@
 
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-11-04 기준)
 
-**지금 할 일: 런칭 준비 마무리** — 코드 안정화(STABILIZATION 1~8단계)와 **2.0 배포 완료**(2026-11-04, react·tokens 2.0.0), README 비교표 갱신 완료.
-**STABILIZATION 런칭 전 완료 조건 모두 충족(2026-11-05)** → 남은 것: **런칭 게시(사용자)**. 런칭 뒤 할 사람 확인: ResidentNumberInput NVDA, 가상 키보드 Android Chrome(둘 다 2026-11-05 사용자 결정으로 미룸, VoiceOver·iOS Safari 는 ✅).
+**지금 할 일: 런칭 뒤 반응 보기** (2026-11-05 GeekNews Show 게시 — https://news.hada.io/topic?id=36655). 아래 줄은 런칭 직전 기록 —
+**(완료) 런칭 준비 마무리** — 코드 안정화(STABILIZATION 1~8단계)와 **2.0 배포 완료**(2026-11-04, react·tokens 2.0.0), README 비교표 갱신 완료.
+**STABILIZATION 런칭 전 완료 조건 모두 충족(2026-11-05)** → 런칭 게시 완료(2026-11-05). 런칭 뒤 할 사람 확인: ResidentNumberInput NVDA, 가상 키보드 Android Chrome(둘 다 2026-11-05 사용자 결정으로 미룸, VoiceOver·iOS Safari 는 ✅).
 (2026-11-05 완료: Storybook 문서 페이지 `@layer` 점검 — 이상 없음, GeekNews Show 본문 2.0 기준 갱신.) 런칭 뒤 반응으로 "다음 플랜" 의 기능을 고른다.
 사용자 결정(2026-10-30): **홍보보다 코드 안정화가 먼저**, 런칭 게시는 보류, 호환성을 깨는 변경은 런칭 전에 2.0 으로 묶는다.
 아래 "다음 플랜"의 런칭·기능 항목은 안정화가 끝난 뒤 다시 판단한다.
@@ -94,7 +95,7 @@
   **Direct publishing 체크**) 생성 → ④ 그 다음에 react 버전 PR 머지. ②보다 ④가 먼저면 react 가 npm 에 없는 패키지를 의존한다.
 - [x] **VoiceOver(macOS) 짧은 재확인** (2026-10-23 완료, 모두 ✅) — 체크리스트 13번의 Switch(1.6 재구현)·NativeSelect(VO 열 비어 있음), 그리고 이번에 추가한
   사업자등록번호 10자리·DatePicker 8자리 오류 알림(입력 0.8초 뒤 "올바른 …가 아니에요" 가 들리는지). 로컬 `next start -p 3001` 로 push 없이 가능.
-- [ ] **런칭 게시** (2026-10-30 보류 — STABILIZATION.md 완료 조건 뒤, 본문의 버전·문구는 그때 다시 맞춘다) — 준비 끝(2026-10-23: react 1.6.1 배포, 블로그 기술 글 2편 공개, Artifact 의 GeekNews 본문 NVDA 반영). 순서: GeekNews Show(1순위) → velog·요즘IT 등에 기술 글 → 접근성 커뮤니티·공공/SI/에이전시 쪽 → FEConf·JSConf Korea 발표 지원.
+- [x] **런칭 게시** (2026-11-05 GeekNews Show 게시 https://news.hada.io/topic?id=36655 — Artifact 본문 그대로. 다음: velog·요즘IT 기술 글 → 접근성 커뮤니티 → 발표 지원) (2026-10-30 보류 — STABILIZATION.md 완료 조건 뒤, 본문의 버전·문구는 그때 다시 맞춘다) — 준비 끝(2026-10-23: react 1.6.1 배포, 블로그 기술 글 2편 공개, Artifact 의 GeekNews 본문 NVDA 반영). 순서: GeekNews Show(1순위) → velog·요즘IT 등에 기술 글 → 접근성 커뮤니티·공공/SI/에이전시 쪽 → FEConf·JSConf Korea 발표 지원.
 - [ ] **ResidentNumberInput 스크린리더 확인**(VoiceOver·NVDA, 2026-10-23 추가 — **VoiceOver + Safari ✅ 2026-11-05**, NVDA 는 런칭 뒤 — 2026-11-05 사용자 결정) — 묶음 이름 "주민등록번호" → "앞 6자리", 뒷칸이 "보안 텍스트" 로 읽히는지, 다 채운 뒤 검증 오류가 0.8초 뒤 들리는지. playground /interactive 정산 정보.
 - [ ] (가능하면) iOS VoiceOver·센스리더 점검 — 같은 체크리스트, 3·4번째 열.
 - [ ] (선택) 실제 기기 확인: 가상 키보드가 Modal·Drawer 입력을 가리는지(iOS Safari·Android Chrome) — **iOS Safari ✅ 2026-11-05**, Android Chrome 은 런칭 뒤(2026-11-05 사용자 결정).
@@ -330,3 +331,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-05 | ResidentNumberInput NVDA 점검은 런칭 뒤로(사용자 결정). CheckboxGroup VoiceOver + Safari 점검 ✅(로컬 운영 빌드 3001 — 묶음 이름·도움말 설명·별표 숨김·모두 끈 뒤 잘못됨 + 오류 설명), 체크리스트 VO 열·점검 기록 |
 | 2026-11-05 | 가상 키보드 점검 iOS Safari ✅(사용자 — /orders 주문 등록 Modal, /navigation 아래쪽 Drawer). playground 아래쪽 Drawer 에 편집 가능한 "받는 사람 이메일" 칸 추가(Drawer 에 입력 칸이 있는 화면이 없었음). Android Chrome 남음 |
 | 2026-11-05 | 가상 키보드 Android Chrome 확인은 런칭 뒤로(사용자 결정) → STABILIZATION "사람이 확인할 것"·런칭 전 완료 조건 모두 체크. 남은 것은 런칭 게시 |
+| 2026-11-06 | GeekNews Show 게시 확인(2026-11-05, https://news.hada.io/topic?id=36655 — Artifact 본문과 같음, Button 1.7 kB). 런칭 전 기준값: GitHub 스타 1·이슈 0·포크 0, npm 주간(10-29~11-04) react 417·korean-utils 219·tokens 219·icons 38(배포·CI 설치 포함) |
