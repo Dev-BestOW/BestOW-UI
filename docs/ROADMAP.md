@@ -14,6 +14,7 @@
 **(완료) 런칭 준비 마무리** — 코드 안정화(STABILIZATION 1~8단계)와 **2.0 배포 완료**(2026-11-04, react·tokens 2.0.0), README 비교표 갱신 완료.
 **STABILIZATION 런칭 전 완료 조건 모두 충족(2026-11-05)** → 런칭 게시 완료(2026-11-05). 런칭 뒤 할 사람 확인: ResidentNumberInput NVDA, 가상 키보드 Android Chrome(둘 다 2026-11-05 사용자 결정으로 미룸, VoiceOver·iOS Safari 는 ✅).
 (2026-11-05 완료: Storybook 문서 페이지 `@layer` 점검 — 이상 없음, GeekNews Show 본문 2.0 기준 갱신.) 런칭 뒤 반응으로 "다음 플랜" 의 기능을 고른다.
+**다음 기능 작업: "런칭 뒤 완성도 보강" 17번(PasswordInput·SearchInput)부터** — 런칭 반응에 직접 요청이 있으면 그것이 먼저.
 사용자 결정(2026-10-30): **홍보보다 코드 안정화가 먼저**, 런칭 게시는 보류, 호환성을 깨는 변경은 런칭 전에 2.0 으로 묶는다.
 아래 "다음 플랜"의 런칭·기능 항목은 안정화가 끝난 뒤 다시 판단한다.
 
@@ -198,13 +199,35 @@
     korean-utils 전체 한도 1 → 1.5 kB(사용자 결정, 1.32 kB) + "maskName 하나" tree-shaking 감시(92 B). playground 정산 정보에 대표자 주민번호(다 채우면 maskResidentNumber 로 표시).
     **스크린리더 점검 필요**(password 칸 읽기, 두 칸 묶음) — 사람이 할 일에 추가. 원래 계획: korean-utils 에 마스킹 함수(이름 `홍*동`, 전화 `010-****-1234`) 먼저(작고 수요 확실),
     그다음 주민·외국인등록번호 입력(뒷자리 마스킹), 카드번호, 계좌번호 + 은행 선택.
-14. **컴포넌트 공백** — Tag/Chip(표시·필터용, 6번 Tag 입력과 칩 부품 공유), 범용 `EmptyState`(지금은 TableEmpty 만),
+14. **컴포넌트 공백** (2026-11-06 아래 "런칭 뒤 완성도 보강" 17~20번으로 나눠 옮김 — TanStack 가이드만 여기 남음) — Tag/Chip(표시·필터용, 6번 Tag 입력과 칩 부품 공유), 범용 `EmptyState`(지금은 TableEmpty 만),
     TimePicker(예약·배송 시간), 앱 뼈대 패턴(헤더·사이드바·모바일 하단 탭바 — Guides 화면 패턴 예시로 먼저).
     데이터 표는 직접 키우지 말고 **TanStack Table 과 함께 쓰는 패턴 가이드**(정렬·필터·페이지·선택).
 15. **Figma 라이브러리** (아래 보류에서 올림) — 팀 도입은 디자이너가 함께 결정하는 경우가 많아 코드만 있는 DS 는 불리하다.
     먼저 tokens → Figma 변수 동기화(Figma MCP 연결됨), 그다음 주요 컴포넌트·Code Connect.
 16. **운영** — 런칭 뒤 배포는 SUPPORT.md 의 주기대로 묶는다(1주 24개 버전은 "불안정" 인상). 외부 기여자용 짧은 입구(CONTRIBUTING 첫 화면에
     "처음 기여하기" — CLAUDE.md·ROADMAP 은 너무 길다). 큰 기능 전 번들 조합 한도(여유 약 10%) 확인은 6번과 같음.
+
+### 런칭 뒤 완성도 보강 (2026-11-06 — 위에서부터 추천 순서)
+
+> 판단: 테스트·접근성·한국 키트는 이미 강하다. 완성도를 막는 것은 **실서비스 화면(회원가입·로그인·목록·정산)을 만들 때 바로 부딪히는 빈칸**이다.
+> 런칭 반응(GeekNews 댓글·이슈·Discussions)에서 직접 요청이 오면 그것을 이 순서보다 먼저 한다. 큰 기능 전에는 어느 size-limit 조합에 들어가는지 먼저 본다.
+
+17. **PasswordInput · SearchInput** (minor 하나로) — 작고 수요가 확실하다.
+    - PasswordInput: 보기/숨기기 버튼(이름·`aria-pressed` 상태, 눌러도 입력 포커스·커서 유지), `autoComplete` current/new-password, Caps Lock 안내 검토, 한국어·`en` 문구.
+    - SearchInput: `type="search"` + 지우기 버튼(지운 뒤 입력으로 포커스), Enter → `onSearch`, IME 조합 중 Enter 무시(S1 Combobox 와 같은 처리), `role="search"` 는 쓰는 쪽 form 에 두도록 안내.
+    - /orders 파일럿의 검색 칸을 SearchInput 으로 바꿔 확인. 폼 계약 테스트(`form-contract.test.tsx`)·SSR·componentA11y.
+18. **Tag/Chip · EmptyState** — Tag/Chip 은 표시·필터용(삭제 버튼 이름 "… 삭제", 선택 가능한 칩은 `aria-pressed`)으로 먼저 내고, 6번 Combobox 다중 선택·Tag 입력이 같은 부품을 쓴다.
+    EmptyState 는 아이콘·제목·설명·행동 버튼(hook 없는 표시용이면 shared). TableEmpty 와 관계 정리(안에서 EmptyState 를 쓰게).
+19. **한국 키트 2차** (13번 때 "런칭 반응 뒤" 로 미룬 것) — 차별점을 키운다.
+    - 계좌번호 + 은행 선택(은행마다 자릿수·서식이 달라 은행 목록·서식 데이터를 korean-utils 에 둘지 먼저 판단 — 공휴일처럼 갱신 부담이 있는지 확인).
+    - 카드번호 입력(4자리씩, 표시할 때 `maskCardNumber`), 법인등록번호·외국인등록번호(ResidentNumberInput 구조 재사용).
+    - 한국 키트 size-limit 조합(30.87/33.5 kB)에 들어가는지 확인.
+20. **앱 뼈대 패턴 · TimePicker** — 헤더·사이드바·모바일 하단 탭바는 컴포넌트보다 Guides "화면 패턴" 예시로 먼저(playground 에도). TimePicker 는 예약·배송 시간 —
+    지금 대안(FormField + 네이티브 time)을 먼저 Guides 에 적고, 수요가 보이면 만든다.
+21. **아이콘 확장** — 57종은 실서비스에 모자란다. 자주 쓰는 Lucide 아이콘을 100~150종으로(svg/ + generate, LICENSE 유지), 또는 `lucide-react` 를 함께 써도 된다는 안내(크기·stroke 맞추는 법).
+    "아이콘 하나" size-limit 은 그대로여야 한다(tree-shaking).
+22. **폼 검증 가이드** — react-hook-form + zod 스키마 + ErrorSummary 예시를 Guides "화면 패턴" 에(서버 오류를 칸에 붙이는 법 포함). 새 API 없음.
+    (Figma 는 15번, 실사용 사례는 "사람이 할 일" 그대로.)
 
 ### 보류 (수요가 생기면)
 
@@ -333,3 +356,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-05 | 가상 키보드 Android Chrome 확인은 런칭 뒤로(사용자 결정) → STABILIZATION "사람이 확인할 것"·런칭 전 완료 조건 모두 체크. 남은 것은 런칭 게시 |
 | 2026-11-06 | GeekNews Show 게시 확인(2026-11-05, https://news.hada.io/topic?id=36655 — Artifact 본문과 같음, Button 1.7 kB). 런칭 전 기준값: GitHub 스타 1·이슈 0·포크 0, npm 주간(10-29~11-04) react 417·korean-utils 219·tokens 219·icons 38(배포·CI 설치 포함) |
 | 2026-11-06 | README 크기 숫자를 런칭 글·실측과 맞춤: Button 하나 1.8 → 1.7 kB(루트·react README·POSITIONING), react README CSS 10 → 11 kB, korean-utils README 전체 1.3 → 1.4 kB·maskName 92 → 99 B. npm 페이지 README 는 다음 배포 때 반영 |
+| 2026-11-06 | "런칭 뒤 완성도 보강" 17~22번 추가(PasswordInput·SearchInput → Tag/Chip·EmptyState → 한국 키트 2차 → 앱 뼈대·TimePicker → 아이콘 확장 → 폼 검증 가이드). 14번 항목은 17~20번으로 나눠 옮김(TanStack 가이드만 남음), 인수인계에 다음 작업 표시 |
