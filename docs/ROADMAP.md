@@ -14,7 +14,7 @@
 **(완료) 런칭 준비 마무리** — 코드 안정화(STABILIZATION 1~8단계)와 **2.0 배포 완료**(2026-11-04, react·tokens 2.0.0), README 비교표 갱신 완료.
 **STABILIZATION 런칭 전 완료 조건 모두 충족(2026-11-05)** → 런칭 게시 완료(2026-11-05). 런칭 뒤 할 사람 확인: ResidentNumberInput NVDA, 가상 키보드 Android Chrome(둘 다 2026-11-05 사용자 결정으로 미룸, VoiceOver·iOS Safari 는 ✅).
 (2026-11-05 완료: Storybook 문서 페이지 `@layer` 점검 — 이상 없음, GeekNews Show 본문 2.0 기준 갱신.) 런칭 뒤 반응으로 "다음 플랜" 의 기능을 고른다.
-**다음 기능 작업: "런칭 뒤 완성도 보강" 18번(Tag/Chip·EmptyState)부터** (17번 PasswordInput·SearchInput 2026-11-06 완료, changeset `password-search-input` minor — 배포 대기) — 런칭 반응에 직접 요청이 있으면 그것이 먼저.
+**다음 기능 작업: "런칭 뒤 완성도 보강" 19번(한국 키트 2차)부터** (17번 PasswordInput·SearchInput·18번 Tag·TagGroup·EmptyState 2026-11-06 완료, changeset `password-search-input`·`tag-empty-state` minor — 배포 대기) — 런칭 반응에 직접 요청이 있으면 그것이 먼저.
 사용자 결정(2026-10-30): **홍보보다 코드 안정화가 먼저**, 런칭 게시는 보류, 호환성을 깨는 변경은 런칭 전에 2.0 으로 묶는다.
 아래 "다음 플랜"의 런칭·기능 항목은 안정화가 끝난 뒤 다시 판단한다.
 
@@ -219,7 +219,11 @@
     - PasswordInput: 보기/숨기기 버튼(이름·`aria-pressed` 상태, 눌러도 입력 포커스·커서 유지), `autoComplete` current/new-password, Caps Lock 안내 검토, 한국어·`en` 문구.
     - SearchInput: `type="search"` + 지우기 버튼(지운 뒤 입력으로 포커스), Enter → `onSearch`, IME 조합 중 Enter 무시(S1 Combobox 와 같은 처리), `role="search"` 는 쓰는 쪽 form 에 두도록 안내.
     - /orders 파일럿의 검색 칸을 SearchInput 으로 바꿔 확인. 폼 계약 테스트(`form-contract.test.tsx`)·SSR·componentA11y.
-18. **Tag/Chip · EmptyState** — Tag/Chip 은 표시·필터용(삭제 버튼 이름 "… 삭제", 선택 가능한 칩은 `aria-pressed`)으로 먼저 내고, 6번 Combobox 다중 선택·Tag 입력이 같은 부품을 쓴다.
+18. ✅ **Tag/Chip · EmptyState** (2026-11-06 완료, changeset `tag-empty-state` react minor — 배포 대기) — `Tag`(표시·`onRemove` 삭제·`selected` 고르는 칩 — 이름은 Chip 대신 Tag 하나로, 삭제 버튼 위 Delete·Backspace,
+    켜짐은 aria-pressed + 체크 아이콘 + 고대비 Highlight(일회성 확인), 삭제 태그는 글자를 흐리게 하지 않음 — span 이라 axe 대비 예외가 없음), `TagGroup`(ul, 지우면 다음 → 앞 → 목록으로 포커스, 0.5초 뒤 "… 삭제됨",
+    삭제를 누르고 1초 안에 줄지 않으면 포커스를 옮기지 않음 — 단위 테스트가 이 버그를 찾음), `EmptyState`(shared, titleAs 기본 h3). /orders 에 "적용한 조건" 태그와 표 안 EmptyState + E2E 1.
+    단위 26·SSR·스토리 11(play 1)·변이 6, 문구 선택 키 removeTag·tagRemoved. 번들: 전체 73.07 → 74.09 kB, CSS 11.05 → 11.47/12 kB(여유 0.5 kB — CSS 한도에 가까워짐), 조합 변화 없음.
+    6번 Combobox 다중 선택·Tag 입력은 이 Tag 를 칩으로 쓴다. 원래 계획: Tag/Chip 은 표시·필터용(삭제 버튼 이름 "… 삭제", 선택 가능한 칩은 `aria-pressed`)으로 먼저 내고, 6번 Combobox 다중 선택·Tag 입력이 같은 부품을 쓴다.
     EmptyState 는 아이콘·제목·설명·행동 버튼(hook 없는 표시용이면 shared). TableEmpty 와 관계 정리(안에서 EmptyState 를 쓰게).
 19. **한국 키트 2차** (13번 때 "런칭 반응 뒤" 로 미룬 것) — 차별점을 키운다.
     - 계좌번호 + 은행 선택(은행마다 자릿수·서식이 달라 은행 목록·서식 데이터를 korean-utils 에 둘지 먼저 판단 — 공휴일처럼 갱신 부담이 있는지 확인).
@@ -362,3 +366,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-06 | "런칭 뒤 완성도 보강" 17~22번 추가(PasswordInput·SearchInput → Tag/Chip·EmptyState → 한국 키트 2차 → 앱 뼈대·TimePicker → 아이콘 확장 → 폼 검증 가이드). 14번 항목은 17~20번으로 나눠 옮김(TanStack 가이드만 남음), 인수인계에 다음 작업 표시 |
 | 2026-11-06 | 17번 PasswordInput·SearchInput: 컴포넌트·문구 키·단위·계약·SSR·스토리·E2E(/signup 비밀번호, /orders 검색), componentA11y·kwcag 7.3.3·Guides "글자 입력"·README, changeset react minor. 변이 7(커서 복원은 불필요해 제거). 새 스토리 기준 이미지는 push 뒤 자동 생성 |
 | 2026-11-06 | README 히어로 이미지 다시 찍음 — /signup 운영 빌드(3001)에 비밀번호 칸 포함, 2.0 입력 테두리 반영(2152×1676, 209 → 152 kB) |
+| 2026-11-06 | 18번 Tag·TagGroup·EmptyState: 컴포넌트·문구 키·단위·SSR·스토리·E2E(/orders 적용한 조건 태그·표 안 EmptyState), componentA11y·Guides·README, 비활성 투명도 목록에 Tag, changeset react minor. 변이 6, 고대비 일회성 확인. CSS 11.47/12 kB |

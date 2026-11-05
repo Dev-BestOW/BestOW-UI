@@ -58,7 +58,7 @@ function SaveButton() {
 ```
 
 Next.js App Router 에서는 Provider 를 `'use client'` 파일로 분리해 `app/layout.tsx` 에서 감싸면 돼요. 컴포넌트는 서버 컴포넌트에서도 바로 쓸 수 있어요.
-상태가 없는 표시용 컴포넌트(`Typography`, `Stack`, `Grid`, `Container`, `Card`, `Badge`, `Divider`, `Progress`, `Skeleton`, `DescriptionList`, `VisuallyHidden`)는
+상태가 없는 표시용 컴포넌트(`Typography`, `Stack`, `Grid`, `Container`, `Card`, `Badge`, `Divider`, `EmptyState`, `Progress`, `Skeleton`, `DescriptionList`, `VisuallyHidden`)는
 서버 컴포넌트로 렌더링되고(클라이언트 JS 없음), `createTheme`·`createIntentColors`·`vars`·`formatKoreanAmount` 같은 함수·값도 서버에서 그대로 불러요.
 자세한 설정은 [Storybook 시작하기](https://dev-bestow.github.io/BestOW-UI/)에 있어요.
 
@@ -125,7 +125,7 @@ react-hook-form 과 함께 쓸 수 있어요. 입력창은 `register` 를 그대
 | 글자 | `Typography` |
 | 동작 | `Button`, `IconButton`, `Link` |
 | 폼 | `Input`, `TextField`, `PasswordInput`(보기 버튼), `SearchInput`(지우기·Enter 검색), `FormField`(직접 만든 입력에 레이블·오류 연결), `Textarea`, `Select`, `NativeSelect`, `Combobox`, `NumberInput`, `FileUpload`, `Checkbox`, `CheckboxGroup`, `RadioGroup`, `Switch`, `Slider` |
-| 피드백 | `Alert`, `ErrorSummary`, `Progress`, `ToastProvider` + `useToast`, `Spinner`, `Skeleton`, `Badge` |
+| 피드백 | `Alert`, `ErrorSummary`, `Progress`, `ToastProvider` + `useToast`, `Spinner`, `Skeleton`, `Badge`, `Tag` + `TagGroup`(고른 필터·필터 칩), `EmptyState` |
 | 오버레이 | `Modal`, `Drawer`, `Popover`, `Tooltip`, `DropdownMenu` |
 | 탐색 | `Tabs`, `SegmentedControl`, `Accordion`, `Pagination`, `Breadcrumb`, `SkipLink`, `Stepper` |
 | 표시 | `Avatar`, `Table`(+ `TableEmpty`, `TableSkeleton`, `useTableSelection`), `DescriptionList` |

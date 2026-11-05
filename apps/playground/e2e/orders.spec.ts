@@ -30,6 +30,25 @@ test('검색 칸: Escape 나 지우기 버튼으로 검색어를 지우면 목�
   await expect(table(page).getByRole('row')).toHaveCount(11);
 });
 
+test('적용한 조건 태그: 지우면 그 조건만 풀리고 포커스는 다음 태그 → 다 지우면 목록', async ({ page }) => {
+  await page.getByRole('searchbox', { name: '검색' }).fill('ORD');
+  await page.getByRole('combobox', { name: '상태' }).click();
+  await page.getByRole('option', { name: '배송 중' }).click();
+  const tags = page.getByRole('list', { name: '적용한 조건' });
+  await expect(tags.getByRole('listitem')).toHaveCount(2);
+
+  await tags.getByRole('button', { name: '검색: ORD 삭제' }).click();
+  await expect(page.getByRole('searchbox', { name: '검색' })).toHaveValue('');
+  const statusRemove = tags.getByRole('button', { name: '상태: 배송 중 삭제' });
+  await expect(statusRemove).toBeFocused();
+  await expect(page.getByRole('status').filter({ hasText: '검색: ORD 삭제됨' })).toBeAttached();
+
+  await page.keyboard.press('Delete');
+  await expect(tags).toBeFocused();
+  await expect(tags.getByRole('listitem')).toHaveCount(0);
+  await expect(table(page).getByRole('row')).toHaveCount(11);
+});
+
 test('아이콘만 있는 "작업" 열도 머리글 이름이 있다 (VisuallyHidden)', async ({ page }) => {
   await expect(table(page).getByRole('columnheader', { name: '작업' })).toBeAttached();
 });

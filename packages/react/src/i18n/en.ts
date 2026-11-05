@@ -77,6 +77,8 @@ export const en: BestowMessages = {
   showPassword: 'Show password',
   search: 'Search',
   clearSearch: 'Clear search',
+  removeTag: (label) => (label ? `Remove ${label}` : 'Remove'),
+  tagRemoved: (label) => `${label} removed`,
   amount: 'Amount',
   currencyUnit: 'KRW',
   address: 'Address',

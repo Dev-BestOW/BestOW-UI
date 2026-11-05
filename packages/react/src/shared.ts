@@ -58,6 +58,7 @@ export {
   type DateRangePreset,
 } from './components/DateRangePicker/presets';
 export * from './components/Divider';
+export * from './components/EmptyState';
 export * from './components/FormField';
 export * from './components/Grid';
 export * from './components/Progress';

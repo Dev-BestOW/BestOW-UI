@@ -21,5 +21,8 @@ describe('en', () => {
     expect(en.errorSummaryTitle?.(2)).toContain('2 problems');
     expect(en.residentNumberIncomplete?.(13)).toBe('Enter all 13 digits.');
     expect(en.monthTitle?.(2026, 10)).toBe('October 2026');
+    expect(en.removeTag?.('apple')).toBe('Remove apple');
+    expect(en.removeTag?.('')).toBe('Remove');
+    expect(en.tagRemoved?.('apple')).toBe('apple removed');
   });
 });

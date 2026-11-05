@@ -56,6 +56,7 @@ describe('비활성 투명도', () => {
         'Slider',
         'Switch',
         'Tabs',
+        'Tag',
         'Textarea',
         'VerificationCodeInput',
       ].sort(),

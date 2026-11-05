@@ -209,6 +209,7 @@ export interface TableEmptyProps extends Omit<TdHTMLAttributes<HTMLTableCellElem
 
 /**
  * 보여 줄 행이 없을 때(검색 결과 없음 등) TableBody 안에 두는 안내 행. 표 전체 폭 가운데에 글자·버튼을 놓는다.
+ * 안내를 갖춰 쓰려면 안에 `<EmptyState size="sm" titleAs="p" … />` 를 넣는다.
  * 검색·필터로 결과가 바뀌면 개수를 role="status" 로 따로 알리는 것을 권장한다(파일럿 /orders 참고).
  */
 export const TableEmpty = /* @__PURE__ */ forwardRef<HTMLTableCellElement, TableEmptyProps>(function TableEmpty(

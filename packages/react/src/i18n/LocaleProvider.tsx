@@ -93,6 +93,9 @@ export interface BestowMessages {
   /** SearchInput — 레이블이 없을 때 이름 "검색", 지우기 버튼 "검색어 지우기" (1.0 이후 추가, 선택 키) */
   search?: string;
   clearSearch?: string;
+  /** Tag 삭제 버튼 "사과 삭제", TagGroup 삭제 알림 "사과 삭제됨" (1.0 이후 추가, 선택 키). 글자가 문자열이 아니면 label 은 '' */
+  removeTag?: (label: string) => string;
+  tagRemoved?: (label: string) => string;
   /** AmountInput — "금액", "원" */
   amount: string;
   currencyUnit: string;

@@ -253,7 +253,7 @@ export const choosing: ChoiceGroup[] = [
   },
   {
     group: '기다림 · 상태 표시',
-    rule: '얼마나 남았는지 알면 Progress, 모르면 Spinner, 내용 자리를 미리 보여 주면 Skeleton.',
+    rule: '얼마나 남았는지 알면 Progress, 모르면 Spinner, 내용 자리를 미리 보여 주면 Skeleton. 상태 라벨은 Badge, 분류·필터는 Tag, 비어 있으면 EmptyState.',
     items: [
       {
         name: 'Progress',
@@ -267,6 +267,17 @@ export const choosing: ChoiceGroup[] = [
         when: '불러오는 동안 내용 모양을 미리(aria-busy 와 함께).',
       },
       { name: 'Badge', path: docs('components-badge'), when: '짧은 상태 라벨(결제 완료·배송 중).' },
+      {
+        name: 'Tag',
+        path: docs('components-tag'),
+        when: '분류·키워드, 고른 필터를 보여 주고 지우기(onRemove + TagGroup), 바로 켜고 끄는 필터 칩(selected).',
+        avoid: '상태 라벨 (→ Badge). 폼에 제출하는 여러 선택 (→ CheckboxGroup).',
+      },
+      {
+        name: 'EmptyState',
+        path: docs('components-emptystate'),
+        when: '보여 줄 것이 없을 때(검색 결과 없음, 아직 만든 것 없음) — 무엇을 하면 되는지와 행동 버튼. 표 안은 TableEmpty 에 넣는다.',
+      },
     ],
   },
 ];

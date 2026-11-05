@@ -53,6 +53,7 @@ export * from './components/Stepper';
 export * from './components/Spinner';
 export * from './components/Switch';
 export * from './components/Table';
+export * from './components/Tag';
 export * from './components/Tabs';
 export * from './components/Textarea';
 export * from './components/Toast';

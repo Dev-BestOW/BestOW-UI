@@ -354,6 +354,23 @@ export const componentA11y: ComponentA11yGroup[] = [
           'Badge 는 글자 그대로. Avatar 는 alt 또는 name 이 있으면 img 와 그 이름(이미지 로딩·실패와 관계없이 같은 이름, 실패 시 화면은 이니셜), 없으면 장식으로 숨김.',
         yours: '색만으로 상태를 구분하지 않게 Badge 글자에 상태를 쓴다.',
       },
+      {
+        name: 'Tag · TagGroup',
+        keyboard:
+          '삭제 버튼은 Tab 순서에 있고 Enter·Space, 그리고 Delete·Backspace 로도 지운다. TagGroup 안에서 지우면 포커스가 그 자리의 다음 태그(없으면 앞 태그) 삭제 버튼으로, 다 지우면 목록으로 간다. 고르는 칩은 button 이라 Space·Enter.',
+        screenReader:
+          'TagGroup 은 이름 있는 목록(ul, 태그마다 li). 삭제 버튼 이름 "<글자> 삭제", 지우면 포커스를 옮긴 0.5초 뒤 처음부터 있는 status 영역에 "<글자> 삭제됨". 고르는 칩은 aria-pressed(켜짐/꺼짐), 켜지면 체크 아이콘도 보여 색만으로 상태를 보이지 않는다(고대비 모드는 시스템 강조색).',
+        yours:
+          '목록 이름(aria-label·aria-labelledby)을 준다. 고르는 칩 묶음은 role="group" + 이름으로 감싼다. 지우는 것(목록에서 빼기)은 onRemove 에서 직접. 글자가 문자열이 아니면 removeLabel.',
+      },
+      {
+        name: 'EmptyState',
+        keyboard: '',
+        screenReader:
+          '제목은 기본 h3(titleAs 로 수준을 맞추거나 표·카드 안에서는 p), 아이콘은 숨김. 나타날 때 스스로 알리지는 않는다.',
+        yours:
+          '검색·필터로 결과가 0건이 되면 결과 수를 role="status" 로 알린다(/orders 예제). 제목은 무엇이 없는지, 설명은 무엇을 하면 되는지.',
+      },
     ],
   },
   {

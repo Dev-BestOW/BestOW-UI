@@ -16,6 +16,7 @@ import {
   DateRangePicker,
   Divider,
   Drawer,
+  EmptyState,
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -36,6 +37,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
+  Tag,
+  TagGroup,
   TextField,
   Textarea,
   Typography,
@@ -179,6 +182,35 @@ export default function OrdersPage() {
         />
       </Stack>
 
+      {/* 걸어 둔 조건을 태그로 — 지우면 그 조건만 푼다. 마지막 태그를 지워도 포커스가 갈 곳이 있게 TagGroup 은 늘 그린다 */}
+      <Stack direction="row" gap={2} align="center" wrap>
+        <Typography variant="body-sm" color="muted" id="active-filters">
+          적용한 조건
+        </Typography>
+        <TagGroup aria-labelledby="active-filters">
+          {query.trim() !== '' && (
+            <Tag key="query" size="sm" color="primary" onRemove={() => setQuery('')}>
+              {`검색: ${query.trim()}`}
+            </Tag>
+          )}
+          {status !== 'all' && (
+            <Tag key="status" size="sm" color="primary" onRemove={() => setStatus('all')}>
+              {`상태: ${STATUS[status as Status].label}`}
+            </Tag>
+          )}
+          {(period.start !== '' || period.end !== '') && (
+            <Tag key="period" size="sm" color="primary" onRemove={() => setPeriod({ start: '', end: '' })}>
+              {`주문일: ${period.start || '처음'} ~ ${period.end || '끝'}`}
+            </Tag>
+          )}
+        </TagGroup>
+        {!query.trim() && status === 'all' && !period.start && !period.end && (
+          <Typography variant="body-sm" color="muted">
+            없음
+          </Typography>
+        )}
+      </Stack>
+
       {selected.length > 0 && (
         <Card as="section" aria-label="선택한 주문">
           <CardBody>
@@ -219,19 +251,26 @@ export default function OrdersPage() {
         <TableBody>
           {pageRows.length === 0 ? (
             <TableEmpty colSpan={8}>
-              조건에 맞는 주문이 없어요.
-              <Button
+              <EmptyState
                 size="sm"
-                variant="outline"
-                color="neutral"
-                onClick={() => {
-                  setQuery('');
-                  setStatus('all');
-                  setPeriod({ start: '', end: '' });
-                }}
-              >
-                검색·필터 초기화
-              </Button>
+                titleAs="p"
+                title="조건에 맞는 주문이 없어요."
+                description="검색어를 바꾸거나 위의 조건을 지워 보세요."
+                action={
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    color="neutral"
+                    onClick={() => {
+                      setQuery('');
+                      setStatus('all');
+                      setPeriod({ start: '', end: '' });
+                    }}
+                  >
+                    검색·필터 초기화
+                  </Button>
+                }
+              />
             </TableEmpty>
           ) : (
             pageRows.map((o) => {
