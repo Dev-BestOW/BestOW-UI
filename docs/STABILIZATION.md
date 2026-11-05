@@ -139,14 +139,14 @@
 ## 5. 사람이 확인할 것
 
 - [x] `ResidentNumberInput` VoiceOver 점검 — VoiceOver + Safari ✅ 2026-11-05. NVDA 는 런칭 뒤로 미룸(2026-11-05 사용자 결정, ROADMAP "사람이 할 일").
-- [ ] iOS Safari·Android Chrome 에서 가상 키보드가 Modal·Drawer 입력을 가리는지 — **iOS Safari ✅ 2026-11-05**(/orders 주문 등록 Modal 의 고객 이름·메모·버튼, /navigation 아래쪽 Drawer 의 받는 사람 이메일 — 가리지 않음, 키보드를 내리면 제자리), Android Chrome 남음.
+- [x] iOS Safari·Android Chrome 에서 가상 키보드가 Modal·Drawer 입력을 가리는지 — **iOS Safari ✅ 2026-11-05**(/orders 주문 등록 Modal 의 고객 이름·메모·버튼, /navigation 아래쪽 Drawer 의 받는 사람 이메일 — 가리지 않음, 키보드를 내리면 제자리). Android Chrome 은 런칭 뒤로 미룸(2026-11-05 사용자 결정, ROADMAP "사람이 할 일").
 - [x] 8단계 전에 2.0 범위와 출시 시점 확정 (2026-11-04: S12~S15 네 가지 모두, 런칭 전 출시. Alert 기본 color 는 제외).
 
 ## 런칭 전 완료 조건
 
 - [x] 1~7단계 완료, main CI 녹색.
 - [x] 2.0 배포 또는 범위 재결정 (2026-11-04 react·tokens 2.0.0).
-- [ ] 위 "사람이 확인할 것" 완료.
+- [x] 위 "사람이 확인할 것" 완료 (2026-11-05 — ResidentNumberInput NVDA·가상 키보드 Android 는 런칭 뒤로).
 - [x] 2.0 까지 나온 뒤 README 비교표·메인 문구 갱신 (2026-11-04 — Vapor UI·HANUI 포함, 공식 문서·npm 으로 재확인).
 
 ## 작업 시 주의
