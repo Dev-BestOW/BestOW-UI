@@ -138,7 +138,7 @@
 
 ## 5. 사람이 확인할 것
 
-- [ ] `ResidentNumberInput` VoiceOver·NVDA 점검 (ROADMAP "사람이 할 일").
+- [ ] `ResidentNumberInput` VoiceOver·NVDA 점검 (ROADMAP "사람이 할 일") — VoiceOver + Safari ✅ 2026-11-05, NVDA 남음.
 - [ ] iOS Safari·Android Chrome 에서 가상 키보드가 Modal·Drawer 입력을 가리는지.
 - [x] 8단계 전에 2.0 범위와 출시 시점 확정 (2026-11-04: S12~S15 네 가지 모두, 런칭 전 출시. Alert 기본 color 는 제외).
 
