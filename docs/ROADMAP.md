@@ -14,7 +14,7 @@
 **(완료) 런칭 준비 마무리** — 코드 안정화(STABILIZATION 1~8단계)와 **2.0 배포 완료**(2026-11-04, react·tokens 2.0.0), README 비교표 갱신 완료.
 **STABILIZATION 런칭 전 완료 조건 모두 충족(2026-11-05)** → 런칭 게시 완료(2026-11-05). 런칭 뒤 할 사람 확인: ResidentNumberInput NVDA, 가상 키보드 Android Chrome(둘 다 2026-11-05 사용자 결정으로 미룸, VoiceOver·iOS Safari 는 ✅).
 (2026-11-05 완료: Storybook 문서 페이지 `@layer` 점검 — 이상 없음, GeekNews Show 본문 2.0 기준 갱신.) 런칭 뒤 반응으로 "다음 플랜" 의 기능을 고른다.
-**다음 기능 작업: "런칭 뒤 완성도 보강" 21번(아이콘 확장)부터** (17~20번 2026-11-06 완료, changeset `password-search-input`·`tag-empty-state`·`korean-kit-2` minor — 배포 대기) — 런칭 반응에 직접 요청이 있으면 그것이 먼저.
+**다음 기능 작업: "런칭 뒤 완성도 보강" 22번(폼 검증 가이드)부터** (17~21번 2026-11-06 완료, changeset `more-icons`(icons minor) 포함, changeset `password-search-input`·`tag-empty-state`·`korean-kit-2` minor — 배포 대기) — 런칭 반응에 직접 요청이 있으면 그것이 먼저.
 사용자 결정(2026-10-30): **홍보보다 코드 안정화가 먼저**, 런칭 게시는 보류, 호환성을 깨는 변경은 런칭 전에 2.0 으로 묶는다.
 아래 "다음 플랜"의 런칭·기능 항목은 안정화가 끝난 뒤 다시 판단한다.
 
@@ -239,7 +239,9 @@
     3개(넓은 화면·휴대폰 폭·메뉴 열기 play — 스토리는 컨테이너 쿼리, 구간 변이 1), 목록 화면 패턴을 SearchInput·Tag·EmptyState 로 갱신, Guides 선택 기준에 "시간" 줄. TimePicker 는 수요가 보이면.
     playground 에는 넣지 않음(예제 앱에 이미 머리글이 있어 뼈대를 겹치면 랜드마크가 중복). 원래 계획: 헤더·사이드바·모바일 하단 탭바는 컴포넌트보다 Guides "화면 패턴" 예시로 먼저(playground 에도). TimePicker 는 예약·배송 시간 —
     지금 대안(FormField + 네이티브 time)을 먼저 Guides 에 적고, 수요가 보이면 만든다.
-21. **아이콘 확장** — 57종은 실서비스에 모자란다. 자주 쓰는 Lucide 아이콘을 100~150종으로(svg/ + generate, LICENSE 유지), 또는 `lucide-react` 를 함께 써도 된다는 안내(크기·stroke 맞추는 법).
+21. ✅ **아이콘 확장** (2026-11-06 완료, changeset `more-icons` icons minor — 배포 대기) — 사용자가 고른 목록으로 91개 추가(57 → 148종, lucide-static 1.61.0 — 2주 넘은 버전, 라이선스 주석·class 만 빼서 기존 파일과 같은 형식),
+    상거래·결제·장소·일정·동작·소통·상태·파일·사람·데이터. 뺀 13개(미디어 재생·확대·창 조절 등)는 필요하면. icons README 에 lucide-react 함께 쓰기. "아이콘 하나" size-limit 그대로.
+    **Foundations/Icons Gallery 스크린샷이 바뀜 → push 뒤 visual.yml 수동 update 필요.** 원래 계획: 57종은 실서비스에 모자란다. 자주 쓰는 Lucide 아이콘을 100~150종으로(svg/ + generate, LICENSE 유지), 또는 `lucide-react` 를 함께 써도 된다는 안내(크기·stroke 맞추는 법).
     "아이콘 하나" size-limit 은 그대로여야 한다(tree-shaking).
 22. **폼 검증 가이드** — react-hook-form + zod 스키마 + ErrorSummary 예시를 Guides "화면 패턴" 에(서버 오류를 칸에 붙이는 법 포함). 새 API 없음.
     (Figma 는 15번, 실사용 사례는 "사람이 할 일" 그대로.)
@@ -377,3 +379,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-06 | 18번 Tag·TagGroup·EmptyState: 컴포넌트·문구 키·단위·SSR·스토리·E2E(/orders 적용한 조건 태그·표 안 EmptyState), componentA11y·Guides·README, 비활성 투명도 목록에 Tag, changeset react minor. 변이 6, 고대비 일회성 확인. CSS 11.47/12 kB |
 | 2026-11-06 | 19번 한국 키트 2차: korean-utils 카드·법인·계좌 함수 + KOREAN_BANKS, react CardNumberInput·CorporateNumberInput·AccountNumberInput(내부 CheckedNumberField 로 BusinessNumberInput 과 공유), 계약·SSR·스토리·E2E, 접근성 문서·README, korean-utils 한도 2.2 kB(사용자 결정), changeset minor 2 |
 | 2026-11-06 | 20번: Guides 화면 패턴 "앱 뼈대"·"시간 고르기", 스토리 Guides/앱 뼈대 3개(axe 라이트·다크, play), 목록 패턴을 새 컴포넌트로, 선택 기준 "시간". 링크 index.json 대조. 새 공개 API 없음 |
+| 2026-11-06 | 21번 아이콘 91개 추가(148종, Lucide 1.61.0), generate, icons README lucide-react 안내, 루트 README 아이콘 수, changeset icons minor. Icons Gallery 기준 이미지 갱신 필요 |

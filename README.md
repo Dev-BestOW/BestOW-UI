@@ -176,7 +176,7 @@ import { SearchIcon, TrashIcon } from '@bestow-ui/icons';
 <SearchIcon title="검색" />             // 스크린리더가 읽는 아이콘
 ```
 
-필요한 아이콘만 import 하면 그 아이콘만 번들에 들어가요. 기본 세트는 [Lucide](https://lucide.dev) 기반 57종이에요.
+필요한 아이콘만 import 하면 그 아이콘만 번들에 들어가요. 기본 세트는 [Lucide](https://lucide.dev) 기반 148종(상거래·결제·일정·파일·차트 등 서비스 화면에 자주 쓰는 것)이에요. 더 필요하면 `lucide-react` 를 함께 써도 돼요([아이콘 README](packages/icons#더-많은-아이콘이-필요하면)).
 
 ## 컴포넌트
 

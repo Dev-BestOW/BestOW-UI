@@ -42,6 +42,21 @@ import { SearchIcon, TrashIcon } from '@bestow-ui/icons';
 선 색은 `currentColor` 라 주변 글자색을 따라가요. 아이콘만 있는 버튼은 아이콘의 `title` 보다 버튼의 `aria-label` 을 권해요.
 아이콘 추가 방법은 [CONTRIBUTING.md](https://github.com/Dev-BestOW/BestOW-UI/blob/main/CONTRIBUTING.md#아이콘-추가) 에 있어요.
 
+## 더 많은 아이콘이 필요하면
+
+기본 세트는 Lucide 에서 서비스 화면에 자주 쓰는 148종(상거래·결제·일정·파일·차트·소통 등)을 골랐어요. 전체 목록은 [Storybook › Icons](https://dev-bestow.github.io/BestOW-UI/?path=/story/foundations-icons--gallery).
+여기에 없는 아이콘은 같은 그림 세트인 [`lucide-react`](https://lucide.dev/guide/packages/lucide-react) 를 함께 써도 어색하지 않아요 — 크기 24px·선 두께 2·`currentColor` 가 같아요.
+
+```tsx
+import { SearchIcon } from '@bestow-ui/icons';
+import { Rocket } from 'lucide-react';
+
+<SearchIcon size={16} />
+<Rocket size={16} aria-hidden />   // 장식용이면 숨기기 — 의미가 있으면 아이콘 대신 버튼에 aria-label
+```
+
+자주 쓰게 되는 아이콘이 있으면 [이슈](https://github.com/Dev-BestOW/BestOW-UI/issues)로 알려 주세요. 기본 세트에 넣을게요.
+
 ## 라이선스
 
 [ISC](https://github.com/Dev-BestOW/BestOW-UI/blob/main/packages/icons/LICENSE) — 아이콘 그림 © Lucide Icons and Contributors
