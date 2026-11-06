@@ -143,6 +143,11 @@ export const choosing: ChoiceGroup[] = [
         when: '날짜 하나. 숫자 입력(YYYY-MM-DD)과 달력 둘 다.',
         avoid: '생년월일처럼 먼 날짜 — 숫자 입력이 더 빠르다는 것을 안내.',
       },
+      {
+        name: '시간 (전용 컴포넌트 없음)',
+        path: './?path=/docs/guides-화면-패턴--docs',
+        when: '정해진 시간대(예약·배송)는 RadioGroup·Select, 아무 시각은 FormField + <input type="time">(min·max·step). 화면 패턴 "시간 고르기" 참고.',
+      },
     ],
   },
   {

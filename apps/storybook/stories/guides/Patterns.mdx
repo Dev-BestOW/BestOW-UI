@@ -6,7 +6,7 @@ import { Meta } from '@storybook/addon-docs/blocks';
 
 여러 컴포넌트를 함께 쓰는 흔한 화면의 짜임새예요. 각 패턴은 예제 앱과 스토리에서 실제로 동작하고, E2E 테스트로 확인해요.
 
-- 예제 앱: [주문 관리](https://dev-bestow.github.io/BestOW-UI/playground/orders)(목록·상세·등록 폼),
+- 예제 앱: [주문 관리](https://dev-bestow.github.io/BestOW-UI/playground/orders)(목록·상세·등록 폼, 검색·적용한 조건 태그),
   [회원가입](https://dev-bestow.github.io/BestOW-UI/playground/signup)(react-hook-form)
 - 무엇을 고를지는 [언제 무엇을 쓰나](?path=/docs/guides-언제-무엇을-쓰나--docs)를 보세요.
 
@@ -101,15 +101,89 @@ import { Container, Grid, media, Stack } from '@bestow-ui/react';
 export const aside = style({ display: 'none', '@media': { [media.lg]: { display: 'block' } } });
 ```
 
+## 앱 뼈대 (머리글 · 사이드바 · 모바일 하단 탭바)
+
+넓으면 왼쪽 사이드바, 좁으면 머리글의 메뉴 버튼([Drawer](?path=/docs/components-drawer--docs))과 아래 탭바로 바꿔요.
+([앱 뼈대 예시](?path=/story/guides-앱-뼈대--wide) — 넓은 화면 · 휴대폰 폭 · 메뉴 열기)
+
+- 맨 앞에 [SkipLink](?path=/docs/components-skiplink--docs), 본문은 `<main id="main" tabIndex={-1}>` — 첫 Tab 으로 메뉴를 건너뛰어요(KWCAG 6.4.1).
+- 머리글은 `<header>`, 메뉴는 이름 있는 `<nav aria-label="주요 메뉴">`. 지금 페이지 링크에 `aria-current="page"` 를 주고, 색만이 아니라 굵기·배경으로도 구분해요.
+- 사이드바와 탭바는 같은 메뉴라 **한 번에 하나만** 보이게 `display: none` 으로 숨겨요 — 접근성 트리에서도 빠져서 "주요 메뉴" 가 둘로 들리지 않아요(`aria-hidden` 이 아니라 `display`).
+- 탭바는 4~5개, 아이콘 + 글자(아이콘만 두지 않기), 누를 자리 높이 44px 이상. 화면 아래에 붙이면 `padding-bottom: env(safe-area-inset-bottom)` 로 홈 표시줄을 비키고, 본문 아래에 탭바 높이만큼 여백을 둬요.
+- 메뉴 Drawer 안의 링크를 누르면 Drawer 를 닫아요(`open`·`onOpenChange` 제어). 닫히면 포커스가 메뉴 버튼으로 돌아가요(자동).
+- 라우터 링크는 `<Link as={NextLink}>`(서버 컴포넌트에서는 `asChild`). 지금 페이지는 `usePathname()` 으로 비교해요.
+
+```tsx
+// app/(app)/layout.tsx — 메뉴 상태가 있어 클라이언트 컴포넌트로 뺀 뼈대
+<SkipLink />
+<header className={styles.header}>
+  <span className={styles.menuButton}>
+    <Drawer side="left" size="sm" title="전체 메뉴" open={open} onOpenChange={setOpen}
+      trigger={<IconButton aria-label="메뉴 열기" variant="ghost" color="neutral"><MenuIcon /></IconButton>}>
+      <nav aria-label="전체 메뉴"><NavLinks onNavigate={() => setOpen(false)} /></nav>
+    </Drawer>
+  </span>
+  …
+</header>
+<div className={styles.body}>
+  <nav aria-label="주요 메뉴" className={styles.sidebar}><NavLinks /></nav>
+  <main id="main" tabIndex={-1} className={styles.main}>{children}</main>
+</div>
+<nav aria-label="주요 메뉴" className={styles.tabbar}><NavLinks variant="tab" /></nav>
+
+// NavLinks 의 링크 하나
+<Link as={NextLink} href={item.href} aria-current={pathname === item.href ? 'page' : undefined}>
+  {item.icon}{item.label}
+</Link>
+
+// layout.css.ts (vanilla-extract) — 모바일 우선, md(768px) 부터 사이드바
+export const sidebar = style({ display: 'none', '@media': { [media.md]: { display: 'block', width: '15rem' } } });
+export const menuButton = style({ '@media': { [media.md]: { display: 'none' } } });
+export const tabbar = style({
+  position: 'fixed', insetInline: 0, bottom: 0, paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+  background: vars.color.bg.default, borderTop: `1px solid ${vars.color.border.default}`, zIndex: 10, // 오버레이(vars.zIndex.overlay)보다 낮게
+  '@media': { [media.md]: { display: 'none' } },
+});
+export const main = style({ paddingBottom: '5rem', '@media': { [media.md]: { paddingBottom: 0 } } });
+```
+
+## 시간 고르기 (예약·배송 시간)
+
+시간 전용 컴포넌트(TimePicker)는 아직 없어요. 상황에 따라 이미 있는 컴포넌트로 충분해요 — 필요한 경우가 있으면
+[Discussions](https://github.com/Dev-BestOW/BestOW-UI/discussions)로 알려 주세요.
+
+- **정해진 시간 중 고르기(예약 슬롯·배송 시간대)** — 대부분의 예약 화면이 이 경우예요. 몇 개면 [RadioGroup](?path=/docs/components-radiogroup--docs)·[SegmentedControl](?path=/docs/components-segmentedcontrol--docs),
+  많으면 [Select](?path=/docs/components-select--docs)·[NativeSelect](?path=/docs/components-nativeselect--docs). 마감된 시간은 `disabled` 로 두고 이유를 도움말에 써요.
+- **아무 시각이나 입력(알림 시각·영업시간)** — [FormField](?path=/docs/components-formfield--docs) + 네이티브 `<input type="time">`. 모바일은 운영체제 시간 선택기가 뜨고,
+  `min`·`max`·`step`(초 단위, 30분 = `1800`)을 줄 수 있어요. 값은 `'HH:mm'`(24시간) 문자열이라 날짜 값처럼 시간대 문제가 없어요.
+  화면 표시(오전/오후)는 브라우저 언어를 따라요.
+
+```tsx
+// 정해진 시간대
+<RadioGroup label="배송 시간" options={[
+  { value: '09-12', label: '오전 9시 ~ 12시' },
+  { value: '12-15', label: '오후 12시 ~ 3시', disabled: true, description: '마감됐어요' },
+  { value: '15-18', label: '오후 3시 ~ 6시' },
+]} value={slot} onValueChange={setSlot} />
+
+// 아무 시각
+<FormField label="알림 받을 시각" helperText="밤 9시 이후에는 보내지 않아요">
+  {(field) => <Input type="time" min="07:00" max="21:00" step={1800} defaultValue="09:00" {...field} />}
+</FormField>
+```
+
 ## 목록 화면
 
 검색·필터 → 표 → 행 선택과 일괄 작업 → 페이지 이동 → 행 메뉴로 상세(Drawer)·작업.
 ([Table — 목록 화면 패턴](?path=/story/components-table--list-pattern-story), 예제 앱 주문 관리)
 
+- 검색 칸은 [SearchInput](?path=/docs/components-searchinput--docs)(지우기 버튼·Escape). 걸어 둔 조건은 [Tag](?path=/docs/components-tag--docs) + `TagGroup` 으로 보여 주고 하나씩 지우게 해요 —
+  마지막 태그를 지워도 포커스가 갈 곳이 있게 `TagGroup` 은 늘 그려 둬요.
+
 - 행 선택은 `useTableSelection` — "이 페이지 모두 선택"(일부면 혼합 상태)과 행 체크박스 prop 을 돌려주고, 페이지를 넘겨도 유지돼요.
   행 체크박스 이름은 "ORD-001 선택" 처럼 행을 구분할 수 있게.
 - 선택하면 일괄 작업 바(Card + 버튼)를 보여 주고 "N건 선택됨" 을 `role="status"` 로 알려요.
-- 결과가 없으면 `TableEmpty`(안내 + 초기화 버튼), 불러오는 동안은 `TableSkeleton` + 표에 `aria-busy`.
+- 결과가 없으면 `TableEmpty` 안에 [EmptyState](?path=/docs/components-emptystate--docs)(`size="sm" titleAs="p"`, 안내 + 초기화 버튼), 불러오는 동안은 `TableSkeleton` + 표에 `aria-busy`.
 - 검색·필터로 결과 수가 바뀌면 "37건 중 1–10" 같은 문구를 `role="status"` 로 알려요(포커스는 그대로).
 - 아이콘만 있는 열 머리글은 [VisuallyHidden](?path=/docs/components-visuallyhidden--docs)으로 이름("작업")을 준다.
 - 행 메뉴(DropdownMenu)에서 연 Drawer·Modal 은 닫히면 메뉴 버튼으로 포커스가 돌아가요(자동).
@@ -121,7 +195,12 @@ const selection = useTableSelection<string>();
 {
   rows.length === 0 ? (
     <TableEmpty colSpan={8}>
-      조건에 맞는 주문이 없어요.<Button onClick={reset}>초기화</Button>
+      <EmptyState
+        size="sm"
+        titleAs="p"
+        title="조건에 맞는 주문이 없어요."
+        action={<Button onClick={reset}>초기화</Button>}
+      />
     </TableEmpty>
   ) : (
     rows.map((row) => (
