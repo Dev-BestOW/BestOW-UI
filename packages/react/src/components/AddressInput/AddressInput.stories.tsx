@@ -103,6 +103,6 @@ export const Controlled: Story = { render: () => <ControlledDemo /> };
 /** 실제 카카오 우편번호 서비스 — 외부 스크립트를 불러오므로 자동 테스트·스크린샷에서는 뺀다 */
 export const KakaoPostcode: Story = {
   name: '실제 카카오 우편번호',
-  tags: ['!test', '!visual'],
+  tags: ['!test', 'no-visual'],
   args: { provider: kakaoPostcodeProvider },
 };

@@ -55,6 +55,6 @@ function VerifyDemo() {
 
 export const WithTimer: Story = {
   name: '남은 시간 · 재전송 (123456 입력 시 성공)',
-  tags: ['!visual'], // 시간이 흘러 화면이 매번 달라진다
+  tags: ['no-visual'], // 시간이 흘러 화면이 매번 달라진다
   render: () => <VerifyDemo />,
 };

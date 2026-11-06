@@ -67,7 +67,7 @@ export const OnSearch: Story = { name: 'Enter 로 검색 (제어 모드)', rende
 /** 실제 브라우저에서 Escape·지우기 버튼 동작을 확인한다 */
 export const ClearAndEscape: Story = {
   name: '지우기 버튼과 Escape',
-  tags: ['!visual'],
+  tags: ['no-visual'],
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const box = canvas.getByRole('searchbox', { name: '검색' }) as HTMLInputElement;

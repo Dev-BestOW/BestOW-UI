@@ -208,7 +208,7 @@ export const Narrow: Story = {
 /** 좁은 화면에서 메뉴 버튼으로 Drawer 를 연 상태 — 열린 상태도 axe 로 검사한다 */
 export const NarrowMenuOpen: Story = {
   name: '휴대폰 폭 — 메뉴 열기',
-  tags: ['!visual'],
+  tags: ['no-visual'],
   render: () => (
     <>
       <style>{css}</style>

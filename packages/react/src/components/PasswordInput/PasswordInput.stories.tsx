@@ -57,7 +57,7 @@ export const Disabled: Story = { name: '비활성', args: { defaultValue: 'besto
 /** 실제 브라우저에서 보기 버튼을 눌러도 입력창 포커스와 커서가 그대로인지 확인한다 (jsdom 은 커서를 실제와 다르게 다룬다) */
 export const CaretStays: Story = {
   name: '보기 버튼을 눌러도 커서 유지',
-  tags: ['!visual'],
+  tags: ['no-visual'],
   args: { defaultValue: 'abcdef' },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

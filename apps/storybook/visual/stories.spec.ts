@@ -14,8 +14,9 @@ interface IndexEntry {
 const indexPath = fileURLToPath(new URL('../storybook-static/index.json', import.meta.url));
 const { entries } = JSON.parse(readFileSync(indexPath, 'utf8')) as { entries: Record<string, IndexEntry> };
 
-// 스크린샷에서 뺄 스토리는 tags: ['!visual'] 로 표시한다.
-const stories = Object.values(entries).filter((entry) => entry.type === 'story' && !entry.tags?.includes('!visual'));
+// 스크린샷에서 뺄 스토리는 tags: ['no-visual'] 로 표시한다.
+// '!visual' 은 안 된다 — Storybook 은 '!이름' 을 "그 태그 빼기" 로 처리해 index.json 에 남기지 않는다.
+const stories = Object.values(entries).filter((entry) => entry.type === 'story' && !entry.tags?.includes('no-visual'));
 
 for (const theme of ['light', 'dark'] as const) {
   test.describe(theme, () => {

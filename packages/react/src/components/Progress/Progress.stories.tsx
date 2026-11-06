@@ -71,7 +71,7 @@ export const WithoutLabel: Story = {
 
 export const Indeterminate: Story = {
   name: '진행률을 모를 때',
-  tags: ['!visual'], // 막대가 계속 움직인다
+  tags: ['no-visual'], // 막대가 계속 움직인다
   args: { value: null, label: '파일을 준비하고 있어요' },
 };
 
@@ -100,6 +100,6 @@ function UploadDemo() {
 
 export const Live: Story = {
   name: '진행 흉내',
-  tags: ['!visual'],
+  tags: ['no-visual'],
   render: () => <UploadDemo />,
 };

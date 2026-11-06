@@ -142,7 +142,7 @@ examples/
 - 다른 컴포넌트로 렌더링하는 prop(`as={NextLink}`, `linkAs`)은 함수라 **서버 컴포넌트에서 넘길 수 없다**.
   서버 컴포넌트에서도 쓰여야 하면 `asChild`(`@radix-ui/react-slot`)를 함께 제공한다(Link 참고). Button 은 Radix Slot 이 Button 하나를 1.2 kB 늘려 `cloneElement` 로 직접 구현했다(2026-10-31 사용자 결정, React 18·19 ref 처리 주의).
 - 스토리: `tags: ['autodocs']`, Playground + 변형별 스토리. 모든 스토리는 CI 에서 라이트·다크 두 테마로 axe 검사를 통과해야 한다(대비 4.5:1 등).
-  스크린샷에서 뺄 스토리는 `tags: ['!visual']`. 열린 상태(목록·팝업)도 axe 로 검사하려면 `play` 로 열어 둔 스토리를 만든다(Combobox "Open").
+  스크린샷에서 뺄 스토리는 `tags: ['no-visual']`(`'!visual'` 은 안 됨 — 아래 함정). 열린 상태(목록·팝업)도 axe 로 검사하려면 `play` 로 열어 둔 스토리를 만든다(Combobox "Open").
 - 테스트: 역할/라벨 기반(Testing Library), 접근성 속성 확인. 상호작용은 `@testing-library/user-event`(`userEvent.setup()`).
 - **최상위 `forwardRef(...)`/`createContext(...)` 에는 `/* @__PURE__ */` 를 붙인다** — 없으면 tree-shaking 이 깨져
   Button 하나만 써도 전체 Radix 가 번들에 들어간다(size-limit 의 "Button 하나" 항목이 감시, 한도 2 kB).
@@ -255,6 +255,8 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
   play 안에서 열린 요소는 `toBeVisible()` 이 아니라 `toBeInTheDocument()` 로 확인한다(여는 애니메이션 중 opacity 0).
   모달형 Select·DropdownMenu 를 연 스토리는 axe `aria-hidden-focus` 를 그 스토리에서만 끈다 — Radix 가 바깥(트리거 포함)을
   aria-hidden 으로 숨기고 포커스를 가두는 정상 패턴이라 실제로는 닿지 않는다(Modal·Drawer 는 걸리지 않음).
+- **Storybook 태그 `'!이름'` 은 "그 태그 빼기" 명령**이라 index.json 에 남지 않는다(`'!test'`·`'!autodocs'` 는 그래서 동작). 우리 스크립트가 읽는 표시는
+  평범한 이름(`no-visual`)으로 단다 — `'!visual'` 로 달았던 11개 스토리가 2026-11-06 까지 계속 스크린샷에 찍혔다. 스토리를 빼면 그 기준 이미지(라이트·다크)도 지운다.
 - 시각 회귀 기준 이미지(`apps/storybook/visual/__screenshots__/linux`)는 **Linux Docker 이미지에서만** 만든다(글꼴·렌더링 차이).
   `playwright`/`@playwright/test` 버전과 visual.yml 의 `mcr.microsoft.com/playwright:vX.Y.Z` 태그를 항상 같이 올린다.
   macOS 에서 돌리면 `__screenshots__/darwin` 에 따로 저장된다(커밋 안 함).

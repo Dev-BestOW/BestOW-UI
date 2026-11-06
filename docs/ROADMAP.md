@@ -20,9 +20,8 @@
 
 **2026-11-06 세션 끝 — 남은 일(다음 세션에서 먼저)**
 1. ✅ 버전 PR #29 머지·배포 확인(2026-11-06) — npm react 2.1.0 · korean-utils 0.4.0 · icons 0.2.0 · tokens 2.0.0, main CI 녹색, examples/vite-starter 를 npm 에서 설치해 tsc·vite build 통과.
-2. **`!visual` 태그 버그** — Storybook 이 `tags: ['!visual']` 을 "visual 태그 빼기" 로 처리해 index.json 에 `!visual` 이 남지 않는다 →
-   `apps/storybook/visual/stories.spec.ts` 의 필터가 아무것도 빼지 못함(빌드한 index.json 으로 확인, `!visual` 스토리 14장이 기준 이미지로 찍혀 있음).
-   고칠 방향: 평범한 태그(예: `no-visual`)로 바꾸고 스크립트·스토리 10개·CLAUDE.md 규칙·남는 기준 이미지 정리. CI 를 깨지는 않아 급하지 않음.
+2. ✅ **`!visual` 태그 버그**(2026-11-06) — 태그를 `no-visual` 로 바꿈(스토리 11개), `visual/stories.spec.ts` 필터·CLAUDE.md 규칙·함정, 빠진 스토리의 기준 이미지 22장 삭제
+   (build-storybook index.json 으로 찍을 이미지 626장 = 남은 기준 이미지 626장 확인 — 기준 이미지 갱신 불필요).
 3. ✅ 전역 스킬 정리(2026-11-06) — `.claude/settings.local.json`(전역 gitignore, 커밋 안 됨)의 `skillOverrides`: replica-*·claude-api·morning·import-memory·docx·pptx·xlsx·google-workspace 는 off,
    loop·schedule·브라우저/computer-use·deep-research·pdf·skill-creator·dataviz 등은 user-invocable-only(/이름 으로만). 다음 세션 스킬 목록에서 빠졌는지 확인 — 플러그인 스킬(`anthropic-skills:`·`superpowers:` 접두사) 키가 먹지 않으면 접두사 없는 이름으로 바꾼다.
 
@@ -392,3 +391,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-06 | 21번 아이콘 91개 추가(148종, Lucide 1.61.0), generate, icons README lucide-react 안내, 루트 README 아이콘 수, changeset icons minor. Icons Gallery 기준 이미지 갱신 필요 |
 | 2026-11-06 | 22번 폼 검증 가이드(zod): 화면 패턴 절 + 같은 코드 통합 테스트 3, react devDependencies zod·@hookform/resolvers. 17~22번 완료 |
 | 2026-11-06 | 버전 PR #29 배포 확인(react 2.1.0·korean-utils 0.4.0·icons 0.2.0, vite-starter 설치·빌드 통과). 전역 스킬 정리: `.claude/settings.local.json` skillOverrides(off 18·명령만 16) |
+| 2026-11-06 | `!visual` 태그 버그: Storybook 이 `!이름` 을 태그 빼기로 처리해 필터가 동작하지 않았음 → `no-visual` 로 변경(스토리 11개·spec·CLAUDE.md), 안 쓰이게 된 기준 이미지 22장 삭제(남은 626장 = 찍을 626장) |

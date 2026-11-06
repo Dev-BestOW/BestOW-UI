@@ -98,7 +98,7 @@ export const Responsive: Story = {
 
 /** 중첩해도 안쪽 Stack 은 바깥의 구간별 값을 이어받지 않는다 (CSS 변수 초기화) */
 export const ResponsiveNested: Story = {
-  tags: ['!autodocs', '!visual'],
+  tags: ['!autodocs', 'no-visual'],
   render: () => (
     <Stack align={{ base: 'center' }} gap={{ base: 4 }}>
       <Stack data-testid="inner" direction="row" justify={{ xl: 'end' }} align={{ xl: 'end' }}>

@@ -98,7 +98,7 @@ export const Removable: Story = { name: '삭제 (TagGroup)', render: () => <Remo
 /** 실제 브라우저에서 지운 뒤 포커스가 다음 태그로 가는지 */
 export const RemoveFocus: Story = {
   name: '지우면 다음 태그로 포커스',
-  tags: ['!visual'],
+  tags: ['no-visual'],
   render: () => <RemovableDemo />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);

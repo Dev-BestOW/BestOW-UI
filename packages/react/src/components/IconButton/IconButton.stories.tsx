@@ -101,7 +101,7 @@ export const AsLink: Story = {
 
 export const States: Story = {
   name: '로딩 · 비활성',
-  tags: ['!visual'], // 스피너 회전 애니메이션
+  tags: ['no-visual'], // 스피너 회전 애니메이션
   render: () => (
     <Stack direction="row" gap={2} align="center">
       <IconButton aria-label="저장 중" variant="solid" color="primary" loading>

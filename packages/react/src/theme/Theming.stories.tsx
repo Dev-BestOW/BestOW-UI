@@ -232,7 +232,7 @@ export const InputBorders: Story = {
  */
 export const CssLayer: Story = {
   name: 'CSS 레이어 (@layer bestow)',
-  tags: ['!visual'],
+  tags: ['no-visual'],
   render: () => (
     <div className="layer-probe">
       <Button>레이어 확인</Button>
