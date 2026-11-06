@@ -18,6 +18,7 @@ import {
   DatePicker,
   DateRangePicker,
   FileUpload,
+  MultiCombobox,
   NativeSelect,
   NumberInput,
   PasswordInput,
@@ -134,6 +135,11 @@ const cases: Case[] = [
     name: 'Combobox',
     element: <Combobox label="칸" name="f" options={options} />,
     change: (user) => user.type(screen.getByRole('combobox', { name: '칸' }), '가{Enter}'),
+  },
+  {
+    name: 'MultiCombobox',
+    element: <MultiCombobox label="칸" name="f" options={options} defaultValue={['b']} />,
+    change: (user) => user.type(screen.getByRole('combobox', { name: '칸' }), '가{Enter}{Escape}'),
   },
   {
     name: 'Select',
@@ -266,6 +272,12 @@ describe('form.reset() 과 알림', () => {
       clickOn('checkbox', '나'),
       ['a'],
     ],
+    [
+      'MultiCombobox',
+      (fn: () => void) => <MultiCombobox label="칸" options={options} defaultValue={['a']} onValueChange={fn} />,
+      (user: UserEvent) => user.type(screen.getByRole('combobox', { name: '칸' }), '나{Enter}'),
+      ['a'],
+    ],
   ])('비제어 %s 도 처음 값을 알린다', async (_, element, change, expected) => {
     const user = userEvent.setup();
     const onValueChange = vi.fn();
@@ -280,6 +292,10 @@ describe('form.reset() 과 알림', () => {
     ['PhoneNumberInput', (fn: () => void) => <PhoneNumberInput label="칸" value="01011112222" onValueChange={fn} />],
     ['Switch', (fn: () => void) => <Switch label="칸" checked onCheckedChange={fn} />],
     ['Combobox', (fn: () => void) => <Combobox label="칸" options={options} value="a" onValueChange={fn} />],
+    [
+      'MultiCombobox',
+      (fn: () => void) => <MultiCombobox label="칸" options={options} value={['a']} onValueChange={fn} />,
+    ],
     ['DatePicker', (fn: () => void) => <DatePicker label="칸" value="2026-01-01" onValueChange={fn} />],
     ['NumberInput', (fn: () => void) => <NumberInput label="칸" value={3} onValueChange={fn} />],
     ['SearchInput', (fn: () => void) => <SearchInput label="칸" value="사과" onValueChange={fn} />],

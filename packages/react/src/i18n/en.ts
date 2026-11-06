@@ -79,6 +79,8 @@ export const en: BestowMessages = {
   clearSearch: 'Clear search',
   removeTag: (label) => (label ? `Remove ${label}` : 'Remove'),
   tagRemoved: (label) => `${label} removed`,
+  selectedOptions: 'Selected',
+  maxSelected: (max) => `You can choose up to ${max}.`,
   cardNumber: 'Card number',
   cardNumberInvalid: 'This card number is not valid. Please check it again.',
   cardNumberIncomplete: 'Enter the full card number.',

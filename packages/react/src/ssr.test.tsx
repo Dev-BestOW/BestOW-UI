@@ -45,6 +45,7 @@ import {
   Link,
   LocaleProvider,
   Modal,
+  MultiCombobox,
   NumberInput,
   PasswordInput,
   Pagination,
@@ -149,6 +150,7 @@ function Everything() {
           <Select label="선택" options={options} />
           <NativeSelect label="기본 선택" placeholder="선택하세요" options={[{ value: 'a', label: '가' }]} />
           <Combobox label="검색" options={options} />
+          <MultiCombobox label="여러 개 검색" options={options} defaultValue={['a']} maxSelected={1} clearable />
           <SegmentedControl aria-label="보기" options={options} defaultValue="a" />
           <RadioGroup label="라디오" options={options} />
           <Checkbox label="체크" />

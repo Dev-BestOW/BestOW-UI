@@ -14,7 +14,7 @@
 **(완료) 런칭 준비 마무리** — 코드 안정화(STABILIZATION 1~8단계)와 **2.0 배포 완료**(2026-11-04, react·tokens 2.0.0), README 비교표 갱신 완료.
 **STABILIZATION 런칭 전 완료 조건 모두 충족(2026-11-05)** → 런칭 게시 완료(2026-11-05). 런칭 뒤 할 사람 확인: ResidentNumberInput NVDA, 가상 키보드 Android Chrome(둘 다 2026-11-05 사용자 결정으로 미룸, VoiceOver·iOS Safari 는 ✅).
 (2026-11-05 완료: Storybook 문서 페이지 `@layer` 점검 — 이상 없음, GeekNews Show 본문 2.0 기준 갱신.) 런칭 뒤 반응으로 "다음 플랜" 의 기능을 고른다.
-**"런칭 뒤 완성도 보강" 17~22번 모두 완료(2026-11-06)** — 다음은 런칭 반응을 보고 6번(Combobox 다중 선택·Tag 입력 — Tag 를 칩으로)·14번 TanStack 가이드·15번 Figma 중에서 (17~21번 changeset `more-icons`(icons minor) 포함, changeset `password-search-input`·`tag-empty-state`·`korean-kit-2` minor — 배포 대기) — 런칭 반응에 직접 요청이 있으면 그것이 먼저.
+**6번 A(MultiCombobox) 완료(2026-11-06)** — 다음은 6번 C Tag 입력(칩 입력 UI 를 MultiCombobox 와 공유) → B 비동기 검색. **"런칭 뒤 완성도 보강" 17~22번 모두 완료(2026-11-06)** — 그 전 기록: 다음은 런칭 반응을 보고 6번(Combobox 다중 선택·Tag 입력 — Tag 를 칩으로)·14번 TanStack 가이드·15번 Figma 중에서 (17~21번 changeset `more-icons`(icons minor) 포함, changeset `password-search-input`·`tag-empty-state`·`korean-kit-2` minor — 배포 대기) — 런칭 반응에 직접 요청이 있으면 그것이 먼저.
 사용자 결정(2026-10-30): **홍보보다 코드 안정화가 먼저**, 런칭 게시는 보류, 호환성을 깨는 변경은 런칭 전에 2.0 으로 묶는다.
 아래 "다음 플랜"의 런칭·기능 항목은 안정화가 끝난 뒤 다시 판단한다.
 
@@ -161,7 +161,7 @@
    StackBlitz(또는 CodeSandbox) 예제와 README 의 "바로 써 보기" 링크, `llms.txt`·컴포넌트 사용법 요약(AI 코딩 도구가 찾고 쓰기 쉽게),
    GeekNews Show 소개 글 초안, 기술 글 초안 2편("KWCAG 2.2 33개 항목을 CI 로 검증하기", "대표색 하나로 대비 4.5:1 을 보장하는 테마 만들기" —
    라이브러리 홍보 없이도 읽히게). 게시는 사용자.
-6. **Combobox 다중 선택·비동기 검색** (구 P14-5, 런칭 반응으로 수요 확인 후) — 선택 칩(Backspace 로 지우기), 검색 중 상태 알림(`role=status`), 긴 목록 가상화는 따로.
+6. **Combobox 다중 선택·비동기 검색** (구 P14-5) — 2026-11-06 A·B·C 로 나눔: **A 다중 선택 ✅ `MultiCombobox`**(설계 `docs/superpowers/specs/2026-11-06-multi-combobox-design.md`, changeset `multi-combobox`) → C Tag 입력 → B 비동기 검색. 원래 메모: — 선택 칩(Backspace 로 지우기), 검색 중 상태 알림(`role=status`), 긴 목록 가상화는 따로.
    폼 세트 조합에 영향 → 별도 컴포넌트(`MultiCombobox` 등)로 나눌지 먼저 판단. **Tag 입력**(구 P14-6)은 쉼표·Enter 로 추가, 칩 공유.
 7. **의존성 정비 2차** — 막힌 것이 풀리면: TypeScript 7(typescript-eslint 가 `<6.1`), ESLint 10(jsx-a11y 가 9 까지).
    jsdom 30 은 Node ≥22.22.2 필요(로컬 Node 를 올리면). CI 러너 Ubuntu 26 전환은 Playwright `-resolute` 이미지(1.64.1 부터 있음)로 모든 workflow 함께 검토.
@@ -392,3 +392,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-06 | 22번 폼 검증 가이드(zod): 화면 패턴 절 + 같은 코드 통합 테스트 3, react devDependencies zod·@hookform/resolvers. 17~22번 완료 |
 | 2026-11-06 | 버전 PR #29 배포 확인(react 2.1.0·korean-utils 0.4.0·icons 0.2.0, vite-starter 설치·빌드 통과). 전역 스킬 정리: `.claude/settings.local.json` skillOverrides(off 18·명령만 16) |
 | 2026-11-06 | `!visual` 태그 버그: Storybook 이 `!이름` 을 태그 빼기로 처리해 필터가 동작하지 않았음 → `no-visual` 로 변경(스토리 11개·spec·CLAUDE.md), 안 쓰이게 된 기준 이미지 22장 삭제(남은 626장 = 찍을 626장) |
+| 2026-11-06 | 6번 A `MultiCombobox`: Combobox 목록 로직을 내부 `useComboboxList`·`ComboboxListbox` 로 나눠 공유, 칸 안 칩·Backspace·칩 삭제 포커스·삭제/최대 개수 지연 알림·maxSelected·값마다 hidden input. 단위 12(변이 5개 확인)·폼 계약·SSR·스토리 9(axe 라이트·다크)·E2E(Chromium·WebKit 5회), 선택 기준·접근성 문서·README, 새 선택 키 2, changeset minor. 새 스토리 기준 이미지 생성 필요 |

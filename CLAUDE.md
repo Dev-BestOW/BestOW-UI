@@ -107,6 +107,7 @@ examples/
   그 변수를 미디어쿼리로 읽는 클래스를 만든다 — 변수는 `initial` 로 초기화(중첩 요소가 바깥 값을 이어받지 않게, Stack 스토리 ResponsiveNested).
   구간마다 클래스를 만들지 않는 이유는 CSS·JS 크기. Stack 은 한 값이면 기존 recipe 클래스, 구간별 값일 때만 이 방식(Grid 는 항상).
 - `src/styles/visuallyHidden.css.ts` — 스크린리더 전용 텍스트. `src/test/setup.ts` — jsdom 폴리필(ResizeObserver, pointer capture 등 — node 환경 테스트를 위해 DOM 이 있을 때만).
+- `src/components/Combobox/useComboboxList.ts`·`ComboboxListbox.tsx` — Combobox·MultiCombobox 공용 목록 로직(거르기·이동·한글 조합·결과 없음 지연 알림)과 목록 그리기. 내부용(export 안 함) — 목록 동작을 고치면 두 컴포넌트에 함께 반영된다.
 - `src/components/Input/CheckedNumberField.tsx` — 숫자 번호 입력(사업자·카드·법인·계좌)의 공통 동작(서식, 다 채우면 검증, 덜 채우고 벗어나면 안내, 0.8초 뒤 알림). 번호마다 다른 것은 `rules` 로. 내부용(export 안 함).
 - `src/utils/focusField.ts` — 칸 id 로 포커스(묶음이면 선택된·첫 항목, 숨긴 input 이면 같은 role=group 의 버튼). ErrorSummary 링크가 쓴다. shared 로 공개.
 - `apps/storybook/.storybook/vitest.setup.ts` — 스토리 테스트마다 iframe 창에 포커스(`window.focus()`) — CI Firefox 에서 포커스에 기대는 play 가 가끔 실패했다.

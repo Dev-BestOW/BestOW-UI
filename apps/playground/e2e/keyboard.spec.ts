@@ -95,6 +95,31 @@ test('Combobox: 입력으로 거르고 Enter 로 고르면 값이 바뀌고 토�
   await expect(page.getByText('busan 를 골랐어요', { exact: true })).toBeVisible();
 });
 
+test('MultiCombobox: Enter 로 여러 개 고르고, 빈 입력창 Backspace 로 마지막 칩을 지우며 알린다', async ({ page }) => {
+  await page.goto('/interactive');
+  const input = page.getByRole('combobox', { name: '관심 지역' });
+  const chips = page.getByRole('list', { name: '고른 항목' }).getByRole('listitem');
+  await input.fill('부');
+  await page.keyboard.press('Enter');
+  await input.fill('인');
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('listbox')).toBeVisible(); // 고른 뒤에도 열린 채
+  await page.keyboard.press('Escape');
+  await expect(page.getByRole('listbox')).toBeHidden();
+  await expect(chips).toHaveText(['부산', '인천']);
+
+  await page.keyboard.press('Backspace');
+  await expect(chips).toHaveText(['부산']);
+  await expect(input).toBeFocused();
+  await expect(page.getByRole('status').filter({ hasText: '인천 삭제됨' })).toBeAttached();
+
+  // 칩 삭제 버튼에서 지우면(마지막 칩) 입력창으로 돌아온다. Tab 순서는 단위 테스트가 본다 — Safari(WebKit)는 Tab 이 버튼을 건너뛸 수 있다
+  await page.getByRole('button', { name: '부산 삭제' }).focus();
+  await page.keyboard.press('Enter');
+  await expect(page.getByRole('list', { name: '고른 항목' })).toHaveCount(0);
+  await expect(input).toBeFocused();
+});
+
 test('Combobox: 한글 조합 중 Enter 는 조합만 끝내고, 이어지는 Enter 로 고르며 폼을 제출하지 않는다', async ({
   page,
   browserName,

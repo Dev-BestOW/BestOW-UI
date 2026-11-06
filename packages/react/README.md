@@ -124,7 +124,7 @@ react-hook-form 과 함께 쓸 수 있어요. 입력창은 `register` 를 그대
 | 레이아웃 | `Stack`(구간별 값 `{ base, md }`), `Grid`, `Container`, `Divider`, `Card`, `VisuallyHidden` — 구간 `media`(sm 640 · md 768 · lg 1024 · xl 1280px) |
 | 글자 | `Typography` |
 | 동작 | `Button`, `IconButton`, `Link` |
-| 폼 | `Input`, `TextField`, `PasswordInput`(보기 버튼), `SearchInput`(지우기·Enter 검색), `FormField`(직접 만든 입력에 레이블·오류 연결), `Textarea`, `Select`, `NativeSelect`, `Combobox`, `NumberInput`, `FileUpload`, `Checkbox`, `CheckboxGroup`, `RadioGroup`, `Switch`, `Slider` |
+| 폼 | `Input`, `TextField`, `PasswordInput`(보기 버튼), `SearchInput`(지우기·Enter 검색), `FormField`(직접 만든 입력에 레이블·오류 연결), `Textarea`, `Select`, `NativeSelect`, `Combobox`, `MultiCombobox`(여러 개, 칸 안 칩), `NumberInput`, `FileUpload`, `Checkbox`, `CheckboxGroup`, `RadioGroup`, `Switch`, `Slider` |
 | 피드백 | `Alert`, `ErrorSummary`, `Progress`, `ToastProvider` + `useToast`, `Spinner`, `Skeleton`, `Badge`, `Tag` + `TagGroup`(고른 필터·필터 칩), `EmptyState` |
 | 오버레이 | `Modal`, `Drawer`, `Popover`, `Tooltip`, `DropdownMenu` |
 | 탐색 | `Tabs`, `SegmentedControl`, `Accordion`, `Pagination`, `Breadcrumb`, `SkipLink`, `Stepper` |

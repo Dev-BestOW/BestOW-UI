@@ -24,5 +24,6 @@ describe('en', () => {
     expect(en.removeTag?.('apple')).toBe('Remove apple');
     expect(en.removeTag?.('')).toBe('Remove');
     expect(en.tagRemoved?.('apple')).toBe('apple removed');
+    expect(en.maxSelected?.(3)).toBe('You can choose up to 3.');
   });
 });

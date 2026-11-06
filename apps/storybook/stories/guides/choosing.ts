@@ -54,12 +54,19 @@ export const choosing: ChoiceGroup[] = [
   },
   {
     group: '여러 개 고르기 · 켜고 끄기',
-    rule: '폼에서 여러 개면 CheckboxGroup(하나뿐이면 Checkbox), 약관은 AgreementGroup, 표의 행은 useTableSelection. 바로 적용되는 설정은 Switch.',
+    rule: '폼에서 여러 개면 CheckboxGroup(하나뿐이면 Checkbox), 선택지가 많아 찾아야 하면 MultiCombobox, 약관은 AgreementGroup, 표의 행은 useTableSelection. 바로 적용되는 설정은 Switch.',
     items: [
       {
         name: 'CheckboxGroup',
         path: docs('components-checkboxgroup'),
         when: '폼에서 여러 선택지 중 여러 개(관심 분야·받을 알림). 묶음 레이블·오류·"하나 이상" 필수 표시.',
+        avoid: '선택지가 많아(10개 넘게) 한눈에 안 들어옴 (→ MultiCombobox).',
+      },
+      {
+        name: 'MultiCombobox',
+        path: docs('components-multicombobox'),
+        when: '많은 선택지에서 글자를 입력해 찾아 여러 개(업무 지역·담당자·태그). 고른 값은 칸 안의 칩, 최대 개수(maxSelected).',
+        avoid: '선택지가 몇 개뿐이라 모두 보여 줄 수 있음 (→ CheckboxGroup).',
       },
       {
         name: 'Checkbox',

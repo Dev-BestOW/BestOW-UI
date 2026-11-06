@@ -21,6 +21,7 @@ import {
   Modal,
   PhoneNumberInput,
   ModalClose,
+  MultiCombobox,
   NumberInput,
   Progress,
   RadioGroup,
@@ -326,6 +327,22 @@ export default function InteractivePage() {
             { value: 'jeju', label: '제주' },
           ]}
           onValueChange={(value) => toast({ title: `${value} 를 골랐어요` })}
+          fullWidth
+        />
+        <MultiCombobox
+          label="관심 지역"
+          placeholder="지역을 검색하세요"
+          options={[
+            { value: 'seoul', label: '서울' },
+            { value: 'busan', label: '부산' },
+            { value: 'incheon', label: '인천' },
+            { value: 'daegu', label: '대구' },
+            { value: 'daejeon', label: '대전' },
+            { value: 'jeju', label: '제주' },
+          ]}
+          maxSelected={3}
+          helperText="최대 3곳까지 골라 새 소식을 받아요"
+          clearable
           fullWidth
         />
         <Slider label="음량" defaultValue={[40]} showValue />

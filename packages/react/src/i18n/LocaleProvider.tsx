@@ -96,6 +96,9 @@ export interface BestowMessages {
   /** Tag 삭제 버튼 "사과 삭제", TagGroup 삭제 알림 "사과 삭제됨" (1.0 이후 추가, 선택 키). 글자가 문자열이 아니면 label 은 '' */
   removeTag?: (label: string) => string;
   tagRemoved?: (label: string) => string;
+  /** MultiCombobox — 칩 목록 이름 "고른 항목", 다 골랐을 때 "최대 3개까지 고를 수 있어요" (1.0 이후 추가, 선택 키) */
+  selectedOptions?: string;
+  maxSelected?: (max: number) => string;
   /** CardNumberInput — "카드번호" 와 검증 문구 (1.0 이후 추가, 선택 키) */
   cardNumber?: string;
   cardNumberInvalid?: string;

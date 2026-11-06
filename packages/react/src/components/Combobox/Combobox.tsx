@@ -1,26 +1,15 @@
 import * as Popover from '@radix-ui/react-popover';
-import {
-  forwardRef,
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-  type ChangeEvent,
-  type KeyboardEvent,
-  type ReactNode,
-} from 'react';
-import { CheckIcon, ChevronDownIcon, XIcon } from '@bestow-ui/icons';
+import { forwardRef, useRef, useState, type ChangeEvent, type KeyboardEvent, type ReactNode } from 'react';
+import { ChevronDownIcon, XIcon } from '@bestow-ui/icons';
 import { visuallyHidden } from '../../styles/visuallyHidden.css';
-import { usePortalProps } from '../../theme/ThemeProvider';
 import { cx } from '../../utils/cx';
 import { mergeRefs } from '../../utils/mergeRefs';
 import { useFormReset } from '../../utils/useFormReset';
-import { ANNOUNCE_DELAY } from '../../utils/useDelayedAnnouncement';
 import * as fieldStyles from '../Input/Input.css';
-import * as selectStyles from '../Select/Select.css';
 import * as styles from './Combobox.css';
 import { useMessages } from '../../i18n/LocaleProvider';
+import { ComboboxListbox } from './ComboboxListbox';
+import { defaultComboboxFilter, isComposingKey, useComboboxList } from './useComboboxList';
 
 export interface ComboboxOption {
   value: string;
@@ -70,12 +59,10 @@ export interface ComboboxProps {
   className?: string;
 }
 
-const defaultFilter = (option: ComboboxOption, query: string) =>
-  option.label.toLowerCase().includes(query.trim().toLowerCase());
-
 /**
  * 입력해서 거르며 고르는 선택 상자 (WAI-ARIA combobox + listbox 패턴).
  * ↓/↑ 로 목록을 열고 이동, Enter 로 선택, Esc 로 닫는다. 목록에 없는 값은 입력할 수 없다(선택만).
+ * 여러 개를 고르려면 MultiCombobox.
  */
 export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(props, ref) {
   const {
@@ -83,7 +70,7 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
     value,
     defaultValue,
     onValueChange,
-    filter = defaultFilter,
+    filter = defaultComboboxFilter,
     emptyMessage: emptyMessageProp,
     placeholder,
     label,
@@ -105,13 +92,6 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
   const emptyMessage = emptyMessageProp ?? m.noResults ?? '결과가 없어요';
   const toggleLabel = toggleLabelProp ?? m.openList ?? '목록 열기';
   const clearLabel = clearLabelProp ?? m.clearSelection ?? '선택 지우기';
-  const generatedId = useId();
-  const inputId = id ?? generatedId;
-  const labelId = `${inputId}-label`;
-  const listId = `${inputId}-listbox`;
-  const helperId = helperText ? `${inputId}-helper` : undefined;
-  const optionId = (index: number) => `${inputId}-option-${index}`;
-  const portal = usePortalProps();
   const inputRef = useRef<HTMLInputElement>(null);
   const anchorRef = useRef<HTMLDivElement>(null);
 
@@ -121,36 +101,18 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
   const selectedValue = isControlled ? value : innerValue;
   const selectedOption = options.find((o) => o.value === selectedValue);
 
-  const [open, setOpen] = useState(false);
-  // 사용자가 입력 중일 때만 query 로 거른다. 아니면 입력창에 선택된 이름을 보여 준다
-  const [query, setQuery] = useState<string | null>(null);
-  const [activeIndex, setActiveIndex] = useState(-1);
-
-  const filtered = useMemo(() => (query ? options.filter((o) => filter(o, query)) : options), [options, filter, query]);
+  const list = useComboboxList({
+    id,
+    options,
+    filter,
+    disabled,
+    isSelected: (option) => option.value === selectedValue,
+  });
+  const { inputId, listId, optionId, open, query, activeIndex, filtered, hasOptions, reset } = list;
+  const labelId = `${inputId}-label`;
+  const helperId = helperText ? `${inputId}-helper` : undefined;
+  // 입력 중이 아니면 입력창에 선택된 이름을 보여 준다
   const inputText = query ?? selectedOption?.label ?? '';
-
-  const firstEnabled = (list: ComboboxOption[], from = 0, step = 1) => {
-    for (let i = from; i >= 0 && i < list.length; i += step) if (!list[i]!.disabled) return i;
-    return -1;
-  };
-
-  const openList = (list: ComboboxOption[] = filtered, preferLast = false) => {
-    setOpen(true);
-    const selectedIndex = list.findIndex((o) => o.value === selectedValue);
-    setActiveIndex(
-      selectedIndex >= 0 && !list[selectedIndex]!.disabled
-        ? selectedIndex
-        : preferLast
-          ? firstEnabled(list, list.length - 1, -1)
-          : firstEnabled(list),
-    );
-  };
-
-  const reset = () => {
-    setOpen(false);
-    setQuery(null); // 입력하다 닫으면 선택된 이름으로 되돌린다
-    setActiveIndex(-1);
-  };
 
   useFormReset(inputRef, () => {
     reset();
@@ -167,7 +129,7 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
   /** 고르지 않고 닫는다. 입력창 글자를 모두 지운 채 닫으면 선택도 지운다 */
   const close = () => {
     if (query === '' && selectedValue) clearSelection();
-    reset();
+    reset(); // 입력하다 닫으면 선택된 이름으로 되돌린다
   };
 
   const select = (option: ComboboxOption) => {
@@ -177,35 +139,18 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
     reset();
   };
 
-  const move = (step: 1 | -1) => {
-    const start = activeIndex < 0 ? (step === 1 ? 0 : filtered.length - 1) : activeIndex + step;
-    const next = firstEnabled(filtered, start, step);
-    if (next >= 0) setActiveIndex(next);
-  };
-
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const nextQuery = event.target.value;
-    const nextList = nextQuery ? options.filter((o) => filter(o, nextQuery)) : options;
-    setQuery(nextQuery);
-    setOpen(true);
-    // 모두 지웠을 때는 아무 항목도 가리키지 않는다 — 그대로 Enter 를 누르면 첫 항목이 아니라 "선택 지우기" 가 된다
-    setActiveIndex(nextQuery ? firstEnabled(nextList) : -1);
-  };
-
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
-    // 한글 조합 중의 키는 조합을 끝내는 입력이다. 여기서 항목을 고르면 조합이 끝나며 글자가 이름 뒤에 붙는다("국민은행국").
-    // Safari 는 조합을 끝낸 뒤 isComposing=false 로 보내 keyCode 229 로도 확인한다.
-    if (event.nativeEvent.isComposing || event.keyCode === 229) return;
+    if (isComposingKey(event)) return;
     switch (event.key) {
       case 'ArrowDown':
         event.preventDefault();
-        if (!open) openList();
-        else move(1);
+        if (!open) list.openList();
+        else list.move(1);
         break;
       case 'ArrowUp':
         event.preventDefault();
-        if (!open) openList(filtered, true);
-        else move(-1);
+        if (!open) list.openList(filtered, true);
+        else list.move(-1);
         break;
       case 'Enter':
         if (open) {
@@ -227,28 +172,6 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
     }
   };
 
-  // 키보드로 옮긴 항목이 보이도록 스크롤한다
-  useEffect(() => {
-    if (!open || activeIndex < 0) return;
-    document.getElementById(optionId(activeIndex))?.scrollIntoView?.({ block: 'nearest' });
-    // optionId 는 inputId 에서 만들어지므로 의존성에서 뺀다
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [open, activeIndex]);
-
-  const hasOptions = filtered.length > 0;
-  const noResults = open && !disabled && !hasOptions;
-
-  // "결과가 없어요" 알림은 입력이 잠시 멈춘 뒤 넣는다. 글자를 칠 때 바로 바꾸면 VoiceOver 가 입력한 글자를 읽느라
-  // 이 알림을 버렸다(스크린리더 수동 점검 2026-10-21, GOV.UK accessible-autocomplete 도 같은 이유로 늦춘다).
-  // 어떤 입력에 대한 알림인지 기억해, 입력이 바뀌면 다시 기다린다.
-  const [announcedFor, setAnnouncedFor] = useState<string | null | undefined>(undefined);
-  useEffect(() => {
-    if (!noResults) return;
-    const timer = setTimeout(() => setAnnouncedFor(query), ANNOUNCE_DELAY);
-    return () => clearTimeout(timer);
-  }, [noResults, query]);
-  const announceNoResults = noResults && announcedFor === query;
-
   return (
     <div className={cx(fieldStyles.field, fullWidth && fieldStyles.fieldFullWidth)}>
       {label && (
@@ -261,7 +184,7 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
           )}
         </label>
       )}
-      <Popover.Root open={open && !disabled} onOpenChange={(next) => (next ? openList() : close())}>
+      <Popover.Root open={open && !disabled} onOpenChange={(next) => (next ? list.openList() : close())}>
         <Popover.Anchor asChild>
           <div
             ref={anchorRef}
@@ -286,7 +209,7 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
               placeholder={placeholder}
               disabled={disabled}
               value={inputText}
-              onChange={handleChange}
+              onChange={(event: ChangeEvent<HTMLInputElement>) => list.changeQuery(event.target.value)}
               onKeyDown={handleKeyDown}
               onBlur={() => {
                 // 목록 항목을 누르는 중에는 닫지 않는다 (항목의 mousedown 에서 blur 를 막는다)
@@ -322,7 +245,7 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
               onMouseDown={(event) => event.preventDefault()}
               onClick={() => {
                 if (open) close();
-                else openList(options);
+                else list.openList(options);
                 inputRef.current?.focus();
               }}
             >
@@ -330,70 +253,24 @@ export const Combobox = /* @__PURE__ */ forwardRef<HTMLInputElement, ComboboxPro
             </button>
           </div>
         </Popover.Anchor>
-        <Popover.Portal>
-          <Popover.Content
-            role="presentation"
-            align="start"
-            sideOffset={4}
-            collisionPadding={8}
-            className={cx(portal.className, styles.content)}
-            style={portal.style}
-            // 포커스는 입력창에 그대로 둔다 (목록은 aria-activedescendant 로 가리킨다)
-            onOpenAutoFocus={(event) => event.preventDefault()}
-            onCloseAutoFocus={(event) => event.preventDefault()}
-            // 목록(스크롤바 포함)을 눌러도 입력창 포커스가 빠지지 않게 한다
-            onMouseDown={(event) => event.preventDefault()}
-            onInteractOutside={(event) => {
-              if (anchorRef.current?.contains(event.target as Node)) event.preventDefault();
-            }}
-          >
-            {hasOptions ? (
-              <div
-                id={listId}
-                role="listbox"
-                aria-labelledby={label ? labelId : undefined}
-                aria-label={label ? undefined : ariaLabel}
-              >
-                {filtered.map((option, index) => {
-                  const isSelected = option.value === selectedValue;
-                  return (
-                    // aria-activedescendant 패턴: 포커스·키보드는 입력창이 맡고 항목은 포커스를 받지 않는다 (WAI-ARIA combobox)
-                    // eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/interactive-supports-focus
-                    <div
-                      key={option.value}
-                      id={optionId(index)}
-                      role="option"
-                      aria-selected={isSelected}
-                      aria-disabled={option.disabled || undefined}
-                      // Select 항목 스타일을 그대로 쓰기 위한 상태 속성
-                      data-highlighted={index === activeIndex ? '' : undefined}
-                      data-state={isSelected ? 'checked' : 'unchecked'}
-                      data-disabled={option.disabled ? '' : undefined}
-                      className={selectStyles.item}
-                      onMouseDown={(event) => event.preventDefault()}
-                      onMouseMove={() => !option.disabled && setActiveIndex(index)}
-                      onClick={() => select(option)}
-                    >
-                      {option.label}
-                      {isSelected && (
-                        <span className={selectStyles.itemIndicator} aria-hidden>
-                          <CheckIcon size={16} />
-                        </span>
-                      )}
-                    </div>
-                  );
-                })}
-              </div>
-            ) : (
-              // 스크린리더 알림은 아래의 항상 있는 status 영역이 맡는다 (여기는 화면 표시만)
-              <div className={styles.empty}>{emptyMessage}</div>
-            )}
-          </Popover.Content>
-        </Popover.Portal>
+        <ComboboxListbox
+          listId={listId}
+          optionId={optionId}
+          options={filtered}
+          activeIndex={activeIndex}
+          onActiveIndexChange={list.setActiveIndex}
+          onSelect={select}
+          isSelected={(option) => option.value === selectedValue}
+          isDisabled={list.isDisabled}
+          emptyMessage={emptyMessage}
+          labelledBy={label ? labelId : undefined}
+          ariaLabel={ariaLabel}
+          anchorRef={anchorRef}
+        />
       </Popover.Root>
       {/* 결과 없음 알림 — 처음부터 있는 빈 영역에 글자만 넣는다(글자를 담은 채 새로 생긴 live region 은 읽히지 않는다) */}
       <span role="status" className={visuallyHidden}>
-        {announceNoResults ? emptyMessage : ''}
+        {list.announceNoResults ? emptyMessage : ''}
       </span>
       {name && <input type="hidden" name={name} value={selectedValue ?? ''} />}
       {helperText && (
