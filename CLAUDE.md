@@ -111,6 +111,7 @@ examples/
 - `src/utils/focusField.ts` — 칸 id 로 포커스(묶음이면 선택된·첫 항목, 숨긴 input 이면 같은 role=group 의 버튼). ErrorSummary 링크가 쓴다. shared 로 공개.
 - `apps/storybook/.storybook/vitest.setup.ts` — 스토리 테스트마다 iframe 창에 포커스(`window.focus()`) — CI Firefox 에서 포커스에 기대는 play 가 가끔 실패했다.
 - `src/test/react-hook-form.test.tsx` — react-hook-form(register·Controller·ErrorSummary) 통합 테스트. 값을 고르는 컴포넌트의 value/onValueChange·id 계약이 바뀌면 여기가 깨진다.
+- `src/test/zod-form.test.tsx` — Guides 화면 패턴 "스키마로 검증하기(zod)" 의 코드 그대로(zodResolver·refine path·서버 오류 setError). 문서를 고치면 여기도 맞춘다. zod·@hookform/resolvers 는 react 의 devDependencies 만.
 - `src/test/form-contract.test.tsx` — 값을 받는 폼 컴포넌트의 `form.reset`·`fieldset disabled` 계약. `name` prop 이 있는데 표에 없으면 실패한다. **새 폼 컴포넌트는 여기에도 넣는다.**
 - `src/utils/useFormReset.ts` — 상태로 값을 드는 컴포넌트의 form reset. 비제어는 처음 값으로 돌아가며 알리고, **제어 모드는 값을 건드리지 않는다**(react-hook-form `reset()` 이 form.reset() 을 불러 옛 값을 알리면 새 값을 덮어쓴다).
 - `src/utils/useFieldsetDisabled.ts` — span 으로 그린 컨트롤(Slider)과 끌어다 놓기처럼 네이티브 `fieldset disabled` 가 닿지 않는 곳에 쓴다. 비활성 모양은 CSS `fieldset:disabled` 로 함께 맞춘다.

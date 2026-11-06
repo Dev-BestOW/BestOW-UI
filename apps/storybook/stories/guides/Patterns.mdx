@@ -53,6 +53,86 @@ const summary = Object.entries(errors).map(([name, e]) => ({ id: `signup-${name}
   )} />
 ```
 
+**스키마로 검증하기(zod)** — 규칙을 스키마 한곳에 모으고 `zodResolver` 로 연결해요. 위와 같이 `shouldFocusError: false` + ErrorSummary.
+이 코드는 패키지의 통합 테스트(`src/test/zod-form.test.tsx`)와 같아서 실제로 동작하는지 매번 확인해요.
+
+- 한국 서비스 키트의 검증 함수를 그대로 써요 — `isValidBusinessNumber`·`isValidCardNumber`·`isValidCorporateNumber`·`hasAllRequiredAgreements` 등.
+  이때 컴포넌트의 자동 검증은 `validate={false}` 로 꺼서 같은 오류가 두 번 나오지 않게 해요.
+- 서식이 붙는 입력(전화·사업자번호)은 `Controller` 로 연결하면 **숫자만 있는 값**이 스키마로 가요(`010-1234-5678` 이 아니라 `01012345678`).
+- 여러 칸에 걸친 규칙(비밀번호 확인)은 `.refine(…, { path: ['passwordConfirm'] })` 으로 칸을 정해요. zod 는 칸 오류가 모두 없어진 뒤에 이 규칙을 확인해요.
+- **서버 오류**(이미 가입한 이메일 등)는 제출 뒤 `setError(칸, { type: 'server', message })` 로 붙여요. 클라이언트 검증을 통과해 비어 있던 오류 요약이 다시 나타나며 포커스를 받아요.
+
+```tsx
+import { zodResolver } from '@hookform/resolvers/zod';
+import { z } from 'zod';
+import { hasAllRequiredAgreements, isValidBusinessNumber } from '@bestow-ui/react';
+
+const schema = z
+  .object({
+    email: z.string().min(1, '이메일을 입력해 주세요.').pipe(z.email('이메일 형식이 아니에요.')),
+    password: z.string().min(8, '비밀번호는 8자 이상이에요.'),
+    passwordConfirm: z.string(),
+    phone: z.string().min(10, '휴대폰 번호를 끝까지 입력해 주세요.'),
+    businessNumber: z.string().refine(isValidBusinessNumber, '올바른 사업자등록번호가 아니에요.'),
+    agreements: z
+      .array(z.string())
+      .refine((v) => hasAllRequiredAgreements(AGREEMENTS, v), '필수 약관에 동의해 주세요.'),
+  })
+  .refine((v) => v.password === v.passwordConfirm, { path: ['passwordConfirm'], message: '비밀번호가 같지 않아요.' });
+
+const {
+  register,
+  control,
+  handleSubmit,
+  setError,
+  formState: { errors, submitCount },
+} = useForm<z.infer<typeof schema>>({ resolver: zodResolver(schema), shouldFocusError: false, defaultValues });
+const summary = Object.entries(errors).map(([name, e]) => ({ id: `join-${name}`, message: e?.message ?? '' }));
+
+<form
+  noValidate
+  onSubmit={handleSubmit(async (values) => {
+    const result = await api.join(values);
+    if (result.emailTaken) setError('email', { type: 'server', message: '이미 가입한 이메일이에요.' });
+  })}
+>
+  <ErrorSummary errors={summary} focusKey={submitCount} />
+  <TextField
+    id="join-email"
+    label="이메일"
+    {...register('email')}
+    error={!!errors.email}
+    helperText={errors.email?.message}
+  />
+  <PasswordInput
+    id="join-password"
+    label="비밀번호"
+    autoComplete="new-password"
+    {...register('password')}
+    error={!!errors.password}
+    helperText={errors.password?.message ?? '8자 이상'}
+  />
+  <Controller
+    name="businessNumber"
+    control={control}
+    render={({ field, fieldState }) => (
+      <BusinessNumberInput
+        id="join-businessNumber"
+        ref={field.ref}
+        name={field.name}
+        value={field.value}
+        onValueChange={(digits) => field.onChange(digits)}
+        onBlur={field.onBlur}
+        validate={false}
+        error={!!fieldState.error}
+        helperText={fieldState.error?.message}
+      />
+    )}
+  />
+  …
+</form>;
+```
+
 **직접 만든 입력·다른 라이브러리 입력** — [FormField](?path=/docs/components-formfield--docs)로 감싸면 TextField 와 같은 레이블·도움말·오류 연결이 붙어요.
 자식 함수의 첫째 인자(`id`·`aria-describedby`·`aria-invalid`·`aria-required`)를 입력에 펼치고, `register` 도 함께 펼치면 돼요.
 여러 개를 고르는 칸은 [CheckboxGroup](?path=/docs/components-checkboxgroup--docs) 을 `Controller` 로 연결해요.
