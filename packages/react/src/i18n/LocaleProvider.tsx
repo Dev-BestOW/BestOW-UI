@@ -96,6 +96,17 @@ export interface BestowMessages {
   /** Tag 삭제 버튼 "사과 삭제", TagGroup 삭제 알림 "사과 삭제됨" (1.0 이후 추가, 선택 키). 글자가 문자열이 아니면 label 은 '' */
   removeTag?: (label: string) => string;
   tagRemoved?: (label: string) => string;
+  /** CardNumberInput — "카드번호" 와 검증 문구 (1.0 이후 추가, 선택 키) */
+  cardNumber?: string;
+  cardNumberInvalid?: string;
+  cardNumberIncomplete?: string;
+  /** CorporateNumberInput — "법인등록번호" 와 검증 문구 (1.0 이후 추가, 선택 키) */
+  corporateNumber?: string;
+  corporateNumberInvalid?: string;
+  corporateNumberIncomplete?: string;
+  /** AccountNumberInput — "계좌번호", 10자리보다 짧을 때 문구 (1.0 이후 추가, 선택 키) */
+  accountNumber?: string;
+  accountNumberIncomplete?: string;
   /** AmountInput — "금액", "원" */
   amount: string;
   currencyUnit: string;

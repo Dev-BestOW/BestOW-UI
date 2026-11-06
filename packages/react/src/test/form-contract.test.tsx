@@ -5,13 +5,16 @@ import { Controller, useForm } from 'react-hook-form';
 import { act, fireEvent, render, screen } from '@testing-library/react';
 import userEvent, { type UserEvent } from '@testing-library/user-event';
 import {
+  AccountNumberInput,
   AddressInput,
   AgreementGroup,
   AmountInput,
   BusinessNumberInput,
+  CardNumberInput,
   Checkbox,
   CheckboxGroup,
   Combobox,
+  CorporateNumberInput,
   DatePicker,
   DateRangePicker,
   FileUpload,
@@ -93,6 +96,17 @@ const cases: Case[] = [
     name: 'BusinessNumberInput',
     element: <BusinessNumberInput label="칸" name="f" />,
     change: typeInto('칸', '123'),
+  },
+  { name: 'CardNumberInput', element: <CardNumberInput label="칸" name="f" />, change: typeInto('칸', '4111') },
+  {
+    name: 'CorporateNumberInput',
+    element: <CorporateNumberInput label="칸" name="f" />,
+    change: typeInto('칸', '1301110'),
+  },
+  {
+    name: 'AccountNumberInput',
+    element: <AccountNumberInput label="칸" name="f" defaultValue="1101234567" />,
+    change: typeInto('칸', '{Backspace}'),
   },
   { name: 'AmountInput', element: <AmountInput label="칸" name="f" />, change: typeInto('칸', '1000') },
   { name: 'NumberInput', element: <NumberInput label="칸" name="f" defaultValue={1} />, change: typeInto('칸', '2') },

@@ -191,6 +191,15 @@ export const componentA11y: ComponentA11yGroup[] = [
           '모바일에서 숫자 키패드(전화번호는 inputMode="tel", 나머지는 "numeric"). AmountInput 은 "12만 3,400원" 같은 한글 금액을 helperText 로 함께 읽는다. 사업자번호는 검증 실패를 aria-invalid + 문구로 — 10자리를 채운 순간의 오류는 숨은 status 영역에 입력이 0.8초 멈춘 뒤 넣어 다시 들어가지 않아도 읽힌다(VoiceOver 점검 2026-10-21 의 개선 후보).',
       },
       {
+        name: 'CardNumberInput · CorporateNumberInput · AccountNumberInput',
+        keyboard:
+          'BusinessNumberInput 과 같다 — 하이픈은 자동, 서식 문자 뒤 Backspace 는 그 너머 숫자를 지운다(계좌번호는 서식 없음).',
+        screenReader:
+          '숫자 키패드(inputMode="numeric"). 카드번호는 다 채운 순간의 검사 공식(Luhn) 오류, 법인등록번호는 검증 공식 오류를 숨은 status 영역에 입력이 0.8초 멈춘 뒤 넣는다(BusinessNumberInput 과 같은 내부 구현). 덜 채운 채 벗어나면 "끝까지 입력" 안내를 aria-describedby 로. 카드번호는 autocomplete="cc-number".',
+        yours:
+          '은행은 KOREAN_BANKS 로 Combobox·NativeSelect 를 계좌번호 칸과 함께 두고 각각 레이블을 준다. 카드번호를 다시 보여 줄 때는 maskCardNumber. 붙여넣기를 막지 않는다.',
+      },
+      {
         name: 'ResidentNumberInput',
         keyboard:
           '앞 6자리·뒷자리 두 칸을 Tab 으로 오간다. 앞칸을 채워도 포커스를 옮기지 않고(예고 없는 이동 금지, KWCAG 7.2.1), 번호를 통째로 붙여 넣으면 두 칸에 나눈다. 빈 뒷칸에서 Backspace 는 앞칸으로.',

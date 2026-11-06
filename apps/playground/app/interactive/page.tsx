@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import {
+  AccountNumberInput,
   AddressInput,
   AgreementGroup,
   AmountInput,
@@ -9,8 +10,10 @@ import {
   Avatar,
   Button,
   Card,
+  CardNumberInput,
   CheckboxGroup,
   Combobox,
+  CorporateNumberInput,
   DatePicker,
   FileUpload,
   FormField,
@@ -34,6 +37,9 @@ import {
   Typography,
   VerificationCodeInput,
   hasAllRequiredAgreements,
+  KOREAN_BANKS,
+  formatCardNumber,
+  maskCardNumber,
   maskResidentNumber,
   useToast,
 } from '@bestow-ui/react';
@@ -65,6 +71,7 @@ export default function InteractivePage() {
   const [region, setRegion] = useState('');
   const [channels, setChannels] = useState<string[]>(['email']);
   const [rrn, setRrn] = useState('');
+  const [card, setCard] = useState<{ digits: string; valid: boolean | null }>({ digits: '', valid: null });
   const [seats, setSeats] = useState<number | null>(1);
   const [memo, setMemo] = useState('');
   const [submitting, setSubmitting] = useState(false);
@@ -176,6 +183,15 @@ export default function InteractivePage() {
             { value: 'shinhan', label: '신한은행' },
           ]}
         />
+        <CardNumberInput
+          label="결제 카드"
+          fullWidth
+          onValueChange={(digits, valid) => setCard({ digits, valid })}
+          // 검증을 통과하면 가린 번호로 다시 보여 준다(화면 표시용 maskCardNumber) — 예제: 4111 1111 1111 1111
+          helperText={
+            card.valid ? `입력한 카드 ${maskCardNumber(formatCardNumber(card.digits))}` : '예제라 결제하지 않아요.'
+          }
+        />
         <PhoneNumberInput fullWidth />
         <VerificationCodeInput
           expiresIn={180}
@@ -242,6 +258,15 @@ export default function InteractivePage() {
 
       <Stack as="section" aria-label="정산 정보" gap={3} style={{ maxWidth: 400 }}>
         <BusinessNumberInput fullWidth />
+        <CorporateNumberInput fullWidth helperText="법인 사업자만 (개인 사업자는 비워 두세요)" />
+        {/* 은행은 KOREAN_BANKS(금융결제원 코드) 로 — 많아서 검색되는 Combobox, 계좌번호는 숫자만 */}
+        <Combobox
+          label="정산 은행"
+          placeholder="은행 이름으로 검색"
+          fullWidth
+          options={KOREAN_BANKS.map((bank) => ({ value: bank.code, label: bank.name }))}
+        />
+        <AccountNumberInput label="정산 계좌번호" fullWidth helperText="은행 앱에서 복사해 붙여 넣어도 돼요" />
         <ResidentNumberInput
           label="대표자 주민등록번호"
           value={rrn}

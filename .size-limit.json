@@ -71,7 +71,13 @@
     "name": "korean-utils: 전체",
     "path": "packages/korean-utils/dist/index.js",
     "import": "*",
-    "limit": "1.5 kB"
+    "limit": "2.2 kB"
+  },
+  {
+    "name": "korean-utils: 카드번호 서식·검증 (은행 목록이 딸려 오지 않는지 감시)",
+    "path": "packages/korean-utils/dist/index.js",
+    "import": "{ formatCardNumber, isValidCardNumber }",
+    "limit": "300 B"
   },
   {
     "name": "korean-utils: 이름 마스킹 하나 (tree-shaking 감시)",

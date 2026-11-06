@@ -35,6 +35,16 @@ export {
   parseResidentNumber,
   type ResidentNumberInfo,
 } from '@bestow-ui/korean-utils';
+// 2.x(korean-utils 0.4)에 추가한 카드·법인등록번호·계좌 함수와 은행 목록
+export {
+  formatCardNumber,
+  formatCorporateNumber,
+  isValidAccountNumber,
+  isValidCardNumber,
+  isValidCorporateNumber,
+  KOREAN_BANKS,
+  type KoreanBank,
+} from '@bestow-ui/korean-utils';
 export { parseISODate, toISODate } from './utils/date';
 export { media, type Breakpoint, type Responsive } from './utils/responsive';
 export {

@@ -1,11 +1,7 @@
-import { forwardRef, useRef, useState, type ReactNode } from 'react';
+import { forwardRef, type ReactNode } from 'react';
 import { formatBusinessNumber, isValidBusinessNumber } from '@bestow-ui/korean-utils';
-import { mergeRefs } from '../../utils/mergeRefs';
-import { useFormReset } from '../../utils/useFormReset';
-import { useFormattedInput } from '../../utils/useFormattedInput';
-import { useDelayedAnnouncement } from '../../utils/useDelayedAnnouncement';
-import { visuallyHidden } from '../../styles/visuallyHidden.css';
-import { TextField, type TextFieldProps } from '../Input';
+import { CheckedNumberField, type CheckedNumberRules } from '../Input/CheckedNumberField';
+import type { TextFieldProps } from '../Input';
 import { useMessages } from '../../i18n/LocaleProvider';
 
 export interface BusinessNumberInputProps extends Omit<
@@ -46,78 +42,31 @@ export interface BusinessNumberInputProps extends Omit<
 }
 
 const sanitize = (input: string) => input.replace(/\D/g, '').slice(0, 10);
-const isDigit = (char: string) => /\d/.test(char);
 
 /**
  * 사업자등록번호 입력. 123-45-67890 형식으로 하이픈을 넣고, 10자리를 채우면 검증 공식으로 확인한다.
  * (검증 공식은 오타를 거르는 용도 — 실제 등록·휴폐업 여부는 국세청 조회가 필요하다)
  */
 export const BusinessNumberInput = /* @__PURE__ */ forwardRef<HTMLInputElement, BusinessNumberInputProps>(
-  function BusinessNumberInput(props, ref) {
-    const {
-      value,
-      defaultValue,
-      onValueChange,
-      validate = true,
-      invalidText: invalidTextProp,
-      label: labelProp,
-      placeholder = '000-00-00000',
-      error,
-      helperText,
-      onBlur,
-      onKeyDown,
-      ...rest
-    } = props;
-    const inputRef = useRef<HTMLInputElement>(null);
+  function BusinessNumberInput({ placeholder = '000-00-00000', ...props }, ref) {
     const m = useMessages();
-    const invalidText =
-      invalidTextProp ?? m.businessNumberInvalid ?? '올바른 사업자등록번호가 아니에요. 번호를 다시 확인해 주세요.';
-    const label = labelProp ?? m.businessNumber ?? '사업자등록번호';
-    const incompleteText = m.businessNumberIncomplete ?? '10자리를 모두 입력해 주세요.';
-    // 입력 중에는 오류를 띄우지 않고, 10자리를 채웠거나 입력창을 벗어난 뒤에 보여 준다
-    const [touched, setTouched] = useState(false);
-    useFormReset(inputRef, () => setTouched(false));
-    const field = useFormattedInput({
-      isControlled: 'value' in props,
-      value,
-      defaultValue,
-      onValueChange: (digits) => onValueChange?.(digits, digits.length === 10 ? isValidBusinessNumber(digits) : null),
+    const rules: CheckedNumberRules = {
       sanitize,
       format: formatBusinessNumber,
-      isMeaningful: isDigit,
-      inputRef,
-    });
-    const complete = field.raw.length === 10;
-    const autoInvalid = validate && field.raw.length > 0 && (complete ? !isValidBusinessNumber(field.raw) : touched);
-    const showAuto = autoInvalid && error === undefined;
-    // 10자리를 채운 순간 생긴 오류는 입력이 멈춘 뒤 알린다(설명으로는 다시 들어가야 들린다 — 스크린리더 수동 점검 2026-10-21).
-    const announcement = useDelayedAnnouncement(showAuto && complete ? invalidText : '');
-
+      isComplete: (digits) => digits.length === 10,
+      isValid: isValidBusinessNumber,
+      defaultLabel: m.businessNumber ?? '사업자등록번호',
+      defaultInvalidText: m.businessNumberInvalid ?? '올바른 사업자등록번호가 아니에요. 번호를 다시 확인해 주세요.',
+      incompleteText: m.businessNumberIncomplete ?? '10자리를 모두 입력해 주세요.',
+    };
     return (
-      <>
-        <TextField
-          ref={mergeRefs(ref, inputRef)}
-          label={label}
-          placeholder={placeholder}
-          inputMode="numeric"
-          value={field.display}
-          onChange={field.onChange}
-          onKeyDown={(event) => {
-            field.onKeyDown(event);
-            onKeyDown?.(event);
-          }}
-          onBlur={(event) => {
-            setTouched(true);
-            onBlur?.(event);
-          }}
-          error={error ?? autoInvalid}
-          helperText={showAuto ? (complete ? invalidText : incompleteText) : helperText}
-          {...rest}
-        />
-        <span role="status" className={visuallyHidden}>
-          {announcement}
-        </span>
-      </>
+      <CheckedNumberField
+        ref={ref}
+        rules={rules}
+        isControlled={'value' in props}
+        placeholder={placeholder}
+        {...props}
+      />
     );
   },
 );

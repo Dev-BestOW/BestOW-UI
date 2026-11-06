@@ -214,6 +214,35 @@ test('서식 입력: 숫자만 입력하면 하이픈·쉼표가 붙는다 (Date
   await expect(amount).toHaveValue('1,250,000');
 });
 
+test('카드·법인·계좌: 카드는 4자리씩 끊고 맞으면 가린 번호, 틀리면 오류 / 계좌는 붙여 넣어도 숫자만 / 은행은 금융결제원 목록', async ({
+  page,
+}) => {
+  await page.goto('/interactive');
+  const card = page.getByRole('textbox', { name: '결제 카드' });
+  await card.pressSequentially('4111111111111111');
+  await expect(card).toHaveValue('4111-1111-1111-1111');
+  await expect(page.getByText('입력한 카드 4111-****-****-1111')).toBeVisible();
+  await card.press('Backspace');
+  await card.pressSequentially('2');
+  await expect(card).toHaveAttribute('aria-invalid', 'true');
+  await expect(page.getByText('올바른 카드번호가 아니에요. 번호를 다시 확인해 주세요.').first()).toBeVisible();
+
+  const corporate = page.getByRole('textbox', { name: '법인등록번호' });
+  await corporate.pressSequentially('1301110006246');
+  await expect(corporate).toHaveValue('130111-0006246');
+  await expect(corporate).not.toHaveAttribute('aria-invalid', 'true');
+
+  const account = page.getByRole('textbox', { name: '정산 계좌번호' });
+  // 은행 앱에서 복사한 하이픈 섞인 번호를 한 번에 넣는다
+  await account.fill('110-123-456789');
+  await expect(account).toHaveValue('110123456789');
+
+  const bank = page.getByRole('combobox', { name: '정산 은행' });
+  await bank.fill('카카');
+  await page.keyboard.press('Enter');
+  await expect(bank).toHaveValue('카카오뱅크');
+});
+
 test('Tabs: 화살표로 탭을 옮기면 패널이 바뀐다', async ({ page }) => {
   await page.goto('/navigation');
   const tablist = page.getByRole('tablist', { name: '계정 설정' });

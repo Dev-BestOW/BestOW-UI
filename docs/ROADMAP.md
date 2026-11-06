@@ -14,7 +14,7 @@
 **(완료) 런칭 준비 마무리** — 코드 안정화(STABILIZATION 1~8단계)와 **2.0 배포 완료**(2026-11-04, react·tokens 2.0.0), README 비교표 갱신 완료.
 **STABILIZATION 런칭 전 완료 조건 모두 충족(2026-11-05)** → 런칭 게시 완료(2026-11-05). 런칭 뒤 할 사람 확인: ResidentNumberInput NVDA, 가상 키보드 Android Chrome(둘 다 2026-11-05 사용자 결정으로 미룸, VoiceOver·iOS Safari 는 ✅).
 (2026-11-05 완료: Storybook 문서 페이지 `@layer` 점검 — 이상 없음, GeekNews Show 본문 2.0 기준 갱신.) 런칭 뒤 반응으로 "다음 플랜" 의 기능을 고른다.
-**다음 기능 작업: "런칭 뒤 완성도 보강" 19번(한국 키트 2차)부터** (17번 PasswordInput·SearchInput·18번 Tag·TagGroup·EmptyState 2026-11-06 완료, changeset `password-search-input`·`tag-empty-state` minor — 배포 대기) — 런칭 반응에 직접 요청이 있으면 그것이 먼저.
+**다음 기능 작업: "런칭 뒤 완성도 보강" 20번(앱 뼈대 패턴·TimePicker)부터** (17·18·19번 2026-11-06 완료, changeset `password-search-input`·`tag-empty-state`·`korean-kit-2` minor — 배포 대기) — 런칭 반응에 직접 요청이 있으면 그것이 먼저.
 사용자 결정(2026-10-30): **홍보보다 코드 안정화가 먼저**, 런칭 게시는 보류, 호환성을 깨는 변경은 런칭 전에 2.0 으로 묶는다.
 아래 "다음 플랜"의 런칭·기능 항목은 안정화가 끝난 뒤 다시 판단한다.
 
@@ -225,7 +225,12 @@
     단위 26·SSR·스토리 11(play 1)·변이 6, 문구 선택 키 removeTag·tagRemoved. 번들: 전체 73.07 → 74.09 kB, CSS 11.05 → 11.47/12 kB(여유 0.5 kB — CSS 한도에 가까워짐), 조합 변화 없음.
     6번 Combobox 다중 선택·Tag 입력은 이 Tag 를 칩으로 쓴다. 원래 계획: Tag/Chip 은 표시·필터용(삭제 버튼 이름 "… 삭제", 선택 가능한 칩은 `aria-pressed`)으로 먼저 내고, 6번 Combobox 다중 선택·Tag 입력이 같은 부품을 쓴다.
     EmptyState 는 아이콘·제목·설명·행동 버튼(hook 없는 표시용이면 shared). TableEmpty 와 관계 정리(안에서 EmptyState 를 쓰게).
-19. **한국 키트 2차** (13번 때 "런칭 반응 뒤" 로 미룬 것) — 차별점을 키운다.
+19. ✅ **한국 키트 2차** (2026-11-06 완료, changeset `korean-kit-2` korean-utils·react minor — 배포 대기) — 사용자 결정: 은행 기본 목록 제공, 카드는 서식 + Luhn.
+    korean-utils: 카드(`formatCardNumber`·`isValidCardNumber`·`cardNumberLength`, 아멕스 4-6-5), 법인등록번호(`formatCorporateNumber`·`isValidCorporateNumber`), 계좌(`accountNumberDigits`·`isValidAccountNumber` — 서식 없음, 10~16자리),
+    `KOREAN_BANKS` 26곳(금융결제원 코드, 토스페이먼츠 기관 코드 문서로 대조 — **합병·이름 변경 때 갱신**). react: `CardNumberInput`·`CorporateNumberInput`·`AccountNumberInput`(은행 선택은 묶지 않고 Combobox·NativeSelect + KOREAN_BANKS 로),
+    공통 동작은 내부 `Input/CheckedNumberField` 로 모으고 BusinessNumberInput 도 옮김(기존 테스트 그대로 통과). 외국인등록번호는 이미 ResidentNumberInput 이 지원(뒷자리 5~8).
+    단위(korean-utils 32·react 10)·계약 3·SSR·스토리 10·E2E 1(/interactive 결제 카드·법인등록번호·정산 은행·계좌), 공식 변이 4. 번들: korean-utils 전체 1.42 → 2.02 kB(**한도 1.5 → 2.2 kB, 사용자 결정**) +
+    "카드번호 서식·검증" 감시 260/300 B, react 전체 74.09 → 75.09 kB, 한국 키트 30.98/33.5. 원래 계획(13번 때 "런칭 반응 뒤" 로 미룬 것 — 차별점을 키운다):
     - 계좌번호 + 은행 선택(은행마다 자릿수·서식이 달라 은행 목록·서식 데이터를 korean-utils 에 둘지 먼저 판단 — 공휴일처럼 갱신 부담이 있는지 확인).
     - 카드번호 입력(4자리씩, 표시할 때 `maskCardNumber`), 법인등록번호·외국인등록번호(ResidentNumberInput 구조 재사용).
     - 한국 키트 size-limit 조합(30.87/33.5 kB)에 들어가는지 확인.
@@ -367,3 +372,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-06 | 17번 PasswordInput·SearchInput: 컴포넌트·문구 키·단위·계약·SSR·스토리·E2E(/signup 비밀번호, /orders 검색), componentA11y·kwcag 7.3.3·Guides "글자 입력"·README, changeset react minor. 변이 7(커서 복원은 불필요해 제거). 새 스토리 기준 이미지는 push 뒤 자동 생성 |
 | 2026-11-06 | README 히어로 이미지 다시 찍음 — /signup 운영 빌드(3001)에 비밀번호 칸 포함, 2.0 입력 테두리 반영(2152×1676, 209 → 152 kB) |
 | 2026-11-06 | 18번 Tag·TagGroup·EmptyState: 컴포넌트·문구 키·단위·SSR·스토리·E2E(/orders 적용한 조건 태그·표 안 EmptyState), componentA11y·Guides·README, 비활성 투명도 목록에 Tag, changeset react minor. 변이 6, 고대비 일회성 확인. CSS 11.47/12 kB |
+| 2026-11-06 | 19번 한국 키트 2차: korean-utils 카드·법인·계좌 함수 + KOREAN_BANKS, react CardNumberInput·CorporateNumberInput·AccountNumberInput(내부 CheckedNumberField 로 BusinessNumberInput 과 공유), 계약·SSR·스토리·E2E, 접근성 문서·README, korean-utils 한도 2.2 kB(사용자 결정), changeset minor 2 |

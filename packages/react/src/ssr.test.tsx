@@ -12,6 +12,9 @@ import {
   Badge,
   Breadcrumb,
   BusinessNumberInput,
+  CardNumberInput,
+  CorporateNumberInput,
+  AccountNumberInput,
   Button,
   Calendar,
   Card,
@@ -200,6 +203,9 @@ function Everything() {
           </DropdownMenu>
           <PhoneNumberInput />
           <BusinessNumberInput />
+          <CardNumberInput defaultValue="4111111111111111" />
+          <CorporateNumberInput />
+          <AccountNumberInput defaultValue="110123456789" />
           <AmountInput />
           <AddressInput />
           <AgreementGroup items={[{ value: 'terms', label: '이용약관', required: true }]} />
