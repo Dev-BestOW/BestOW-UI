@@ -1,5 +1,32 @@
 # @bestow-ui/react
 
+## 2.1.0
+
+### Minor Changes
+
+- 79f9813: 한국 키트 2차: 카드번호·법인등록번호·계좌번호와 은행 목록.
+  
+  - korean-utils: `formatCardNumber`·`isValidCardNumber`(자릿수 + Luhn, 아메리칸 익스프레스 15자리 4-6-5)·`cardNumberLength`, `formatCorporateNumber`·`isValidCorporateNumber`(검증 공식), `accountNumberDigits`·`isValidAccountNumber`(숫자만, 10~16자리), `KOREAN_BANKS`(국내 은행 26곳, 금융결제원 표준 코드 3자리 + 이름, 2026-11 기준)와 `KoreanBank` 타입.
+  - react: `CardNumberInput`(autocomplete cc-number), `CorporateNumberInput`, `AccountNumberInput`(서식 없이 숫자만, 하이픈 붙여넣기 가능) 추가. 다 채운 순간의 검증 오류는 0.8초 뒤 알린다(BusinessNumberInput 과 같은 내부 구현으로 정리 — 동작 변화 없음). 위 함수와 `KOREAN_BANKS` 를 같은 이름으로 다시 export. `BestowMessages` 에 선택 키 `cardNumber`·`cardNumberInvalid`·`cardNumberIncomplete`·`corporateNumber`·`corporateNumberInvalid`·`corporateNumberIncomplete`·`accountNumber`·`accountNumberIncomplete` 추가(`en` 포함).
+- c547fad: `PasswordInput`·`SearchInput` 추가.
+  
+  - `PasswordInput`: 입력창 끝의 보기 버튼(`aria-pressed`, Tab 으로 닿음, 마우스로 눌러도 입력창 포커스·커서 유지)으로 글자를 보이거나 가린다. `visible`·`defaultVisible`·`onVisibleChange`, 기본 `autoComplete="current-password"`(새 비밀번호는 `"new-password"`), form reset 이면 다시 가린다.
+  - `SearchInput`: 돋보기 + 글자가 있을 때 지우기 버튼(지우면 입력창으로 포커스). `value`·`defaultValue`·`onValueChange`, Enter → `onSearch`(한글 조합을 끝내는 Enter 는 무시), Escape → 검색어 지우기. 레이블이 없으면 이름 "검색".
+  - `BestowMessages` 에 선택 키 `password`·`showPassword`·`search`·`clearSearch` 추가(`en` 포함).
+- bb65b5c: `Tag`·`TagGroup`·`EmptyState` 추가.
+  
+  - `Tag`: 짧은 글자 태그. 표시용, `onRemove` 로 삭제(삭제 버튼 "<글자> 삭제", 버튼 위에서 Delete·Backspace 도), `selected`·`defaultSelected`·`onSelectedChange` 로 고르는 칩(button, `aria-pressed` + 켜지면 체크 아이콘, 고대비 모드는 시스템 강조색). `color`·`variant`(soft/outline)·`size`(sm 24px/md 32px). 삭제 버튼은 24px 누를 자리.
+  - `TagGroup`: Tag 목록(`role="list"`). 지우면 포커스를 다음 태그(없으면 앞 태그, 다 지우면 목록)로 옮기고 0.5초 뒤 "<글자> 삭제됨" 을 알린다.
+  - `EmptyState`: 보여 줄 것이 없을 때의 안내(아이콘·제목·설명·행동 버튼, `titleAs` 기본 h3, `size` sm/md). hook 이 없어 서버 컴포넌트에서도 쓴다. `TableEmpty` 안에 넣어도 된다.
+  - `BestowMessages` 에 선택 키 `removeTag`·`tagRemoved` 추가(`en` 포함).
+
+### Patch Changes
+
+- Updated dependencies [79f9813]
+- Updated dependencies [2be6ce2]
+  - @bestow-ui/korean-utils@0.4.0
+  - @bestow-ui/icons@0.2.0
+
 ## 2.0.0
 
 ### Major Changes
