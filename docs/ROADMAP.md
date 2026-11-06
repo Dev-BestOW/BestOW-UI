@@ -18,6 +18,13 @@
 사용자 결정(2026-10-30): **홍보보다 코드 안정화가 먼저**, 런칭 게시는 보류, 호환성을 깨는 변경은 런칭 전에 2.0 으로 묶는다.
 아래 "다음 플랜"의 런칭·기능 항목은 안정화가 끝난 뒤 다시 판단한다.
 
+**2026-11-06 세션 끝 — 남은 일(다음 세션에서 먼저)**
+1. 버전 PR #29 "chore: version packages"(react 2.1.0 · korean-utils 0.4.0 · icons 0.2.0) — CI 모두 녹색, **머지 대기**. 머지 뒤 npm 버전·examples/vite-starter 설치 확인.
+2. **`!visual` 태그 버그** — Storybook 이 `tags: ['!visual']` 을 "visual 태그 빼기" 로 처리해 index.json 에 `!visual` 이 남지 않는다 →
+   `apps/storybook/visual/stories.spec.ts` 의 필터가 아무것도 빼지 못함(빌드한 index.json 으로 확인, `!visual` 스토리 14장이 기준 이미지로 찍혀 있음).
+   고칠 방향: 평범한 태그(예: `no-visual`)로 바꾸고 스크립트·스토리 10개·CLAUDE.md 규칙·남는 기준 이미지 정리. CI 를 깨지는 않아 급하지 않음.
+3. 전역 스킬 정리 — `.claude/settings.json` 의 `skillOverrides`(on·off·user-invocable-only·name-only)로 이 프로젝트에서 쓸 스킬만. 분류안은 제시했고 사용자 확인 전(replica-* 등 끄기 제안).
+
 **마지막 상태**
 - npm: **react 2.0.0** · **tokens 2.0.0** · **korean-utils 0.3.0** · icons 0.1.3 (2026-11-04 확인. 버전 PR #28 머지됨, main CI 녹색).
 - GitHub 저장소 설정 완료(2026-10-21): 한국어 About·Website, Topics 18개, **Discussions 켜짐**(기본 카테고리 6개). 이슈·PR 템플릿 있음.
