@@ -10,7 +10,10 @@
 
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-11-04 기준)
 
-**지금 할 일: 런칭 뒤 반응 보기** (2026-11-05 GeekNews Show 게시 — https://news.hada.io/topic?id=36655). 아래 줄은 런칭 직전 기록 —
+**지금 할 일(2026-11-11 결정): "사용자 유치 플랜" 23번부터** — 아래 "다음 플랜" 맨 위 절. 런칭 6일 뒤 점검에서 막힌 곳이 기능이 아니라
+**발견 → 신뢰 → 첫 사용** 경로로 나왔다(스타 4·외부 이슈 0·Discussions 0·웹 검색 결과 없음). 새 컴포넌트(6번 C Tag 입력·B 비동기 검색)는 외부 요청이 생길 때까지 미룬다.
+열린 버전 PR #30(MultiCombobox 등) 머지 여부는 사용자에게 확인.
+(그 전 기록) **런칭 뒤 반응 보기** (2026-11-05 GeekNews Show 게시 — https://news.hada.io/topic?id=36655). 아래 줄은 런칭 직전 기록 —
 **(완료) 런칭 준비 마무리** — 코드 안정화(STABILIZATION 1~8단계)와 **2.0 배포 완료**(2026-11-04, react·tokens 2.0.0), README 비교표 갱신 완료.
 **STABILIZATION 런칭 전 완료 조건 모두 충족(2026-11-05)** → 런칭 게시 완료(2026-11-05). 런칭 뒤 할 사람 확인: ResidentNumberInput NVDA, 가상 키보드 Android Chrome(둘 다 2026-11-05 사용자 결정으로 미룸, VoiceOver·iOS Safari 는 ✅).
 (2026-11-05 완료: Storybook 문서 페이지 `@layer` 점검 — 이상 없음, GeekNews Show 본문 2.0 기준 갱신.) 런칭 뒤 반응으로 "다음 플랜" 의 기능을 고른다.
@@ -86,6 +89,34 @@
 > 방향: 품질은 충분하다. 부족한 것은 **알리기**와 **도입 장벽**이다(스타 1, npm 월 다운로드 react 665 는 1주 24개 버전 배포·CI 설치로 부풀려진 값 —
 > 실사용자는 거의 없다고 보고 시작). 공개 런칭(GeekNews 등)은 **NVDA 점검으로 "프로덕션 권장 6/6" 을 채운 뒤 한 번에** 한다.
 > 첫 런칭은 한 번뿐이라 그 문구와 번들 숫자를 쓸 수 있을 때 한다.
+
+### 사용자 유치 플랜 (2026-11-11 — 위에서부터 추천 순서, 이 절이 지금 1순위)
+
+> 2026-11-11 점검(런칭 6일 뒤): GitHub 스타 4(런칭 전 1)·포크 0·외부 이슈 0·Discussions 글 0, npm react 평소 하루 15~30(큰 값은 배포·CI 설치),
+> 웹 검색 "BestOW UI" 결과 없음, npm 검색은 `kwcag` 3위뿐 — `한국 디자인 시스템`·`사업자등록번호`·`korean phone number format` 은 20위 밖.
+> 비교: Vapor UI 40·HANUI 36·es-hangul 1,887 스타(한국 DS 시장은 작고 유틸 함수 수요가 훨씬 크다). GeekNews 글의 추천·댓글 수는 읽지 못함.
+> 판단: 컴포넌트·테스트·접근성에 더 투자해도 사용자는 늘지 않는다. **검색에 잡히기 → 일부만 써 볼 길 → 실사용 증거** 순으로 한다.
+> 새 컴포넌트·테스트 추가·번들 미세 조정은 외부 요청이 생길 때까지 하지 않는다.
+
+23. **검색·공유에 잡히는 홈페이지** — 지금 Pages 루트는 Storybook 이라 제목이 `storybook - Storybook`, description·OG 태그·sitemap.xml·robots.txt 없음(본문도 iframe 안이라 색인이 약함).
+    - [ ] A(작고 즉시): `apps/storybook/.storybook/manager-head.html` 에 제목·설명·OG/트위터 카드(이미지는 `docs/images/hero.png` 를 public 으로), `public/robots.txt`·`sitemap.xml`.
+      playground `layout.tsx` metadata 에도 OG. 확인: 배포 뒤 `curl` 로 태그, 카카오톡·슬랙 미리보기(사용자).
+    - [ ] B(제대로): 정적 랜딩·문서 페이지를 Pages 루트에, Storybook 은 `/storybook/` 으로 — **기존 링크(README·npm README·llms.txt·블로그·GeekNews 글)가 깨지므로
+      루트의 `?path=` 를 `/storybook/` 으로 넘기는 처리 먼저**. playground(Next.js 정적 export) 위에 만들지 별도 앱으로 둘지는 시작할 때 판단. storybook.yml 배포 경로 함께.
+    - [ ] Google Search Console·네이버 서치어드바이저 등록(사용자).
+24. **korean-utils 를 입구로** — 함수(전화번호 하이픈·사업자등록번호 검증·금액 한글 읽기·마스킹·주민번호·카드·계좌)마다 검색되는 문서 페이지:
+    문제 → 코드 한 줄 → 직접 쳐 보는 입력 → 같은 동작의 react 입력 컴포넌트 링크. 23번 B 의 사이트에 둔다(B 전에는 korean-utils README 를 함수별 절로 보강).
+    - [ ] npm 검색 키워드·description 점검(`사업자등록번호`·`전화번호` 로 20위 안에 드는지 배포 뒤 다시 조회).
+    - [ ] 문제 단위 글 초안(게시는 사용자 — 블로그·velog): "React 인증번호 입력에 문자 자동 채우기", "사업자등록번호 검증 공식", "약관 전체 동의 체크박스 접근성" 등. 라이브러리 소개가 아니라 문제 해결 글.
+25. **기존 스택에 일부만 얹기** — Guides 에 "shadcn/ui·Tailwind 프로젝트에 한국 키트만 쓰기": `styles.css` + `@layer` 순서, shadcn CSS 변수(`--primary` 등) → `--bestow-*` 매핑 예시,
+    ThemeProvider 최소 설정, 번들 숫자. `examples/` 에 shadcn 예제(StackBlitz, npm 배포본만 사용) + E2E 는 일회성 확인. 포지셔닝("Tailwind 전용 복사형은 하지 않는다")은 그대로 — 보류 중인 shadcn 레지스트리와 다르다.
+26. **완성된 템플릿·실사용 증거** — 회원가입·로그인·본인인증·정산 정보가 완성된 Next.js 템플릿(`examples/next-starter`, `create-next-app -e` 로 받는 형태, react-hook-form + zod — Guides 패턴 코드 그대로).
+    README "사용 사례" 절은 실제 서비스가 생기면(사람이 할 일 — 사용자 본인 프로젝트가 가장 강한 증거).
+27. **AI 코딩 도구 경로** — llms.txt 는 있음. 다음: Cursor·Claude Code 규칙 파일 예시(README 에 복사용), Context7 등록(사용자), MCP 서버(컴포넌트 검색·props·예제 — SEED 참고, 새 패키지라 첫 배포 절차 주의)는 반응을 보고.
+28. **Figma 라이브러리** — 기존 15번 그대로(tokens → Figma 변수 → 주요 컴포넌트·Code Connect). 팀 도입용이라 23~26 뒤.
+29. **측정** — Pages 방문 통계가 없어 유입·이탈을 모른다. 쿠키 없는 통계 도구를 붙일지 **사용자 결정 필요**(붙이면 SECURITY·문서에 밝힌다).
+    그 전에는 세션 시작 때 스타·이슈·Discussions·npm 평일 기준값을 진행 기록에 남긴다(배포일 제외).
+30. **꾸준한 노출·안정 인상** — 24번 글을 velog·요즘IT → 접근성 커뮤니티 → 발표 지원 순으로(사람이 할 일의 런칭 순서와 같음). 배포는 SUPPORT.md 주기대로 묶는다(한 달 30개 버전은 불안정해 보임 — 기존 16번).
 
 ### 사람이 할 일
 
@@ -393,3 +424,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-06 | 버전 PR #29 배포 확인(react 2.1.0·korean-utils 0.4.0·icons 0.2.0, vite-starter 설치·빌드 통과). 전역 스킬 정리: `.claude/settings.local.json` skillOverrides(off 18·명령만 16) |
 | 2026-11-06 | `!visual` 태그 버그: Storybook 이 `!이름` 을 태그 빼기로 처리해 필터가 동작하지 않았음 → `no-visual` 로 변경(스토리 11개·spec·CLAUDE.md), 안 쓰이게 된 기준 이미지 22장 삭제(남은 626장 = 찍을 626장) |
 | 2026-11-06 | 6번 A `MultiCombobox`: Combobox 목록 로직을 내부 `useComboboxList`·`ComboboxListbox` 로 나눠 공유, 칸 안 칩·Backspace·칩 삭제 포커스·삭제/최대 개수 지연 알림·maxSelected·값마다 hidden input. 단위 12(변이 5개 확인)·폼 계약·SSR·스토리 9(axe 라이트·다크)·E2E(Chromium·WebKit 5회), 선택 기준·접근성 문서·README, 새 선택 키 2, changeset minor. 새 스토리 기준 이미지 생성 필요 |
+| 2026-11-11 | 사용자 유치 점검(런칭 6일 뒤): 스타 4·포크 0·외부 이슈 0·Discussions 0, npm react 평소 하루 15~30, 웹 검색 결과 없음, npm 검색 `kwcag` 3위뿐, Pages 루트 제목 `storybook - Storybook`·OG·sitemap 없음. "사용자 유치 플랜" 23~30번 추가(홈페이지 메타·랜딩 → korean-utils 입구 → shadcn 과 함께 쓰기 → 템플릿 → AI 도구 → Figma → 측정 → 노출), 새 컴포넌트는 외부 요청 때까지 미룸. 열린 버전 PR #30 |
