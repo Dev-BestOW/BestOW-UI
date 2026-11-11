@@ -13,6 +13,14 @@
 - **하이픈이 섞여도 됨** — 숫자가 아닌 글자는 무시해요.
 - [BestOW UI](https://github.com/Dev-BestOW/BestOW-UI) 디자인 시스템의 `PhoneNumberInput`·`BusinessNumberInput`·`CardNumberInput`·`AmountInput` 등이 쓰는 함수 그대로예요.
 
+## 문서 — 직접 입력해 보기
+
+함수마다 무엇을 푸는지, 알아 둘 점, 같은 동작의 React 입력 컴포넌트를 정리했고 브라우저에서 바로 입력해 볼 수 있어요.
+
+- [전화번호 하이픈 넣기](https://dev-bestow.github.io/BestOW-UI/korean-utils/phone-number/) · [사업자등록번호 검증](https://dev-bestow.github.io/BestOW-UI/korean-utils/business-number/) · [법인등록번호 검증](https://dev-bestow.github.io/BestOW-UI/korean-utils/corporate-number/)
+- [주민등록번호 생년월일·성별 읽기](https://dev-bestow.github.io/BestOW-UI/korean-utils/resident-number/) · [카드번호 서식·Luhn 검증](https://dev-bestow.github.io/BestOW-UI/korean-utils/card-number/) · [은행 코드 목록과 계좌번호](https://dev-bestow.github.io/BestOW-UI/korean-utils/bank-account/)
+- [금액 한글 읽기](https://dev-bestow.github.io/BestOW-UI/korean-utils/korean-amount/) · [한국어 날짜](https://dev-bestow.github.io/BestOW-UI/korean-utils/korean-date/) · [주소 참고항목](https://dev-bestow.github.io/BestOW-UI/korean-utils/extra-address/) · [개인정보 마스킹](https://dev-bestow.github.io/BestOW-UI/korean-utils/masking/)
+
 ## 설치
 
 ```bash

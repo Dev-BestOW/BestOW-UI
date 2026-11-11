@@ -53,6 +53,11 @@ const more = [
     label: '컴포넌트 문서(Storybook)',
     body: '모든 컴포넌트를 직접 조작해 보고, 키보드·스크린리더 동작을 확인해요.',
   },
+  {
+    href: links.koreanUtils,
+    label: '서식·검증 함수',
+    body: '전화번호 하이픈, 사업자등록번호 검증, 금액 한글 읽기 같은 함수를 직접 입력해 보고 가져가요. React 없이도 써요.',
+  },
   { href: links.playground, label: 'Next.js 예제 앱', body: '회원가입·주문 관리 화면을 App Router 로 만든 예제예요.' },
   {
     href: links.choosing,

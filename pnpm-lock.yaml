@@ -93,6 +93,9 @@ importers:
       '@bestow-ui/icons':
         specifier: workspace:*
         version: link:../../packages/icons
+      '@bestow-ui/korean-utils':
+        specifier: workspace:*
+        version: link:../../packages/korean-utils
       '@bestow-ui/react':
         specifier: workspace:*
         version: link:../../packages/react

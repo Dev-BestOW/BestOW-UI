@@ -1,7 +1,7 @@
 {
   "name": "@bestow-ui/korean-utils",
   "version": "0.4.0",
-  "description": "한국 서비스용 서식·검증·마스킹 함수 — 전화번호·사업자등록번호(검증 공식)·주민등록번호(생년월일·성별)·금액 한글 읽기(12만 5,000원)·한국어 날짜·주소 참고항목·마스킹(홍*동, 010-****-5678). 의존성 없음, 프레임워크 무관",
+  "description": "한국 서비스용 서식·검증·마스킹 함수 — 전화번호 하이픈·사업자등록번호·법인등록번호(검증 공식)·주민등록번호(생년월일·성별)·카드번호(Luhn)·계좌번호와 은행 코드·금액 한글 읽기(12만 5,000원)·한국어 날짜·주소 참고항목·마스킹(홍*동, 010-****-5678). 의존성 없음, 프레임워크 무관",
   "keywords": [
     "korean",
     "korea",
@@ -19,7 +19,20 @@
     "resident-registration-number",
     "masking",
     "주민등록번호",
-    "마스킹"
+    "마스킹",
+    "hyphen",
+    "phone-number-format",
+    "corporate-registration-number",
+    "card-number",
+    "luhn",
+    "bank-account",
+    "bank-code",
+    "krw",
+    "하이픈",
+    "법인등록번호",
+    "카드번호",
+    "계좌번호",
+    "은행코드"
   ],
   "license": "MIT",
   "author": "Dev-BestOW",
@@ -28,7 +41,7 @@
     "url": "git+https://github.com/Dev-BestOW/BestOW-UI.git",
     "directory": "packages/korean-utils"
   },
-  "homepage": "https://github.com/Dev-BestOW/BestOW-UI/tree/main/packages/korean-utils#readme",
+  "homepage": "https://dev-bestow.github.io/BestOW-UI/korean-utils/",
   "bugs": {
     "url": "https://github.com/Dev-BestOW/BestOW-UI/issues"
   },

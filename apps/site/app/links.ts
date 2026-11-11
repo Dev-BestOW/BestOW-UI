@@ -19,8 +19,15 @@ export const links = {
   themeBuilder: storybookHref('/story/foundations-theme-builder--builder'),
   choosing: storybookHref('/docs/guides-%EC%96%B8%EC%A0%9C-%EB%AC%B4%EC%97%87%EC%9D%84-%EC%93%B0%EB%82%98--docs'),
   playground: `${basePath}/playground/`,
+  koreanUtils: `${basePath}/korean-utils/`,
+  koreanUtilsNpm: 'https://www.npmjs.com/package/@bestow-ui/korean-utils',
   llms: `${basePath}/llms.txt`,
   github: 'https://github.com/Dev-BestOW/BestOW-UI',
   stackblitz: 'https://stackblitz.com/github/Dev-BestOW/BestOW-UI/tree/main/examples/vite-starter?file=src%2FApp.tsx',
   npm: 'https://www.npmjs.com/package/@bestow-ui/react',
 };
+
+/** 함수 문서 한 쪽의 주소 */
+export function koreanUtilsHref(slug: string) {
+  return `${basePath}/korean-utils/${slug}/`;
+}

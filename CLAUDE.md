@@ -46,7 +46,9 @@ apps/
                                public/llms.txt(직접 작성)·llms-full.txt(build 때 scripts/generate-llms.mjs 가 README·props 정의·choosing·componentA11y 로 생성,
                                커밋 안 함)를 Pages 루트에도 복사해 배포(scripts/assemble-pages.sh) — AI 코딩 도구용. 컴포넌트 props 의 JSDoc 이 곧 그 문서다.
   site/ (private)              Pages 루트의 소개 사이트(Next.js 16 정적 export, basePath 기본 /BestOW-UI — SITE_BASE_PATH). 패키지 dist 를 쓴다.
-                               첫 화면 데모(KitDemo — 한국 키트 입력 + 대표색 바꾸기), 링크 미리보기 메타(layout.tsx metadata)·public/og.png·sitemap.xml.
+                               첫 화면 데모(KitDemo — 한국 키트 입력 + 대표색 바꾸기), 링크 미리보기 메타(layout.tsx metadata)·public/og.png·app/sitemap.ts(guides 로 생성).
+                               /korean-utils/ — korean-utils 함수 문서(데이터 korean-utils/guides.ts, 직접 입력 Try.tsx, 쪽 메타 seo.ts). 코드 예시의 `호출; // 결과`
+                               줄은 E2E 가 실제로 계산해 비교한다 — 함수 동작을 바꾸면 guides 도 고친다. 새 함수가 생기면 guides 에 쪽을 더한다.
                                **옛 Storybook 주소 넘겨주기**: 2026-11 까지 루트가 Storybook 이라 README·npm·블로그에 `…/BestOW-UI/?path=…` 가 남아 있다 —
                                layout.tsx 의 beforeInteractive 스크립트가 `?path=`·`?id=`·`?viewMode=` 를 /storybook/ 으로, public/iframe.html 이 옛 스토리 단독 주소를 넘긴다.
                                e2e/ — Playwright(`pnpm --filter @bestow-ui/site test:e2e`, 포트 3108): e2e/serve.mjs 가 out 을 Pages 와 같은 경로로 띄우고

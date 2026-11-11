@@ -13,6 +13,8 @@
 **지금 할 일(2026-11-11 결정): "사용자 유치 플랜" 23번부터** — 아래 "다음 플랜" 맨 위 절. 런칭 6일 뒤 점검에서 막힌 곳이 기능이 아니라
 **발견 → 신뢰 → 첫 사용** 경로로 나왔다(스타 4·외부 이슈 0·Discussions 0·웹 검색 결과 없음). 새 컴포넌트(6번 C Tag 입력·B 비동기 검색)는 외부 요청이 생길 때까지 미룬다.
 열린 버전 PR #30(MultiCombobox 등) 머지 여부는 사용자에게 확인.
+**2026-11-11 세 번째 세션:** 24번 함수 문서 10쪽 + 목록을 소개 사이트에 추가(아래 24번), korean-utils npm 메타 보강(changeset patch). 다음: push·배포 뒤 sitemap 재제출(사용자) → 24번 글 초안 또는 25번.
+
 **2026-11-11 두 번째 세션:** 23번 A·B 배포 확인(루트·/storybook/·/playground/·llms·og·sitemap 200, `lang="ko"`, 실제 배포에서 옛 `?path=`·`iframe.html` 넘겨주기 동작).
 main CI 의 site E2E 실패(320px 리플로 — CI Linux 글꼴이 넓어 대표색 칸이 335px, WebKit 넘겨주기 대기 시간 초과, Firefox 경고) 고침 — push 뒤 CI 녹색 확인 필요. 다음은 23번 Search Console(사용자) → 24번.
 (그 전 기록) **런칭 뒤 반응 보기** (2026-11-05 GeekNews Show 게시 — https://news.hada.io/topic?id=36655). 아래 줄은 런칭 직전 기록 —
@@ -116,7 +118,12 @@ main CI 의 site E2E 실패(320px 리플로 — CI Linux 글꼴이 넓어 대표
       Google: URL 접두어 속성, HTML 태그 확인 — `apps/site/app/layout.tsx` metadata `verification.google` 에 넣음(2026-11-11, E2E 가 태그 확인). push·배포 뒤 "확인" → sitemap 제출(사용자). 네이버는 호스트 단위만 받아 조직 루트 사이트 저장소 `Dev-BestOW/dev-bestow.github.io`(index.html → /BestOW-UI/ 이동·robots.txt(sitemap 위치)·네이버 확인 파일)를 만듦 — 2026-11-11 배포 확인, 기존 경로 영향 없음. 남은 것: 네이버 소유확인·sitemap 제출(사용자). **그 저장소에 `BestOW-UI` 폴더를 만들지 않는다**(경로 충돌).
 24. **korean-utils 를 입구로** — 함수(전화번호 하이픈·사업자등록번호 검증·금액 한글 읽기·마스킹·주민번호·카드·계좌)마다 검색되는 문서 페이지:
     문제 → 코드 한 줄 → 직접 쳐 보는 입력 → 같은 동작의 react 입력 컴포넌트 링크. 23번 B 의 사이트에 둔다(B 전에는 korean-utils README 를 함수별 절로 보강).
-    - [ ] npm 검색 키워드·description 점검(`사업자등록번호`·`전화번호` 로 20위 안에 드는지 배포 뒤 다시 조회).
+    - [x] 함수 문서(2026-11-11): `apps/site/app/korean-utils/` — 목록 `/korean-utils/` + 10쪽(`guides.ts` 데이터 → `[slug]/page.tsx`, 직접 입력은 `Try.tsx`):
+      전화번호·사업자·금액·주민번호·마스킹·카드·법인·계좌(은행 코드 표 26곳)·날짜·주소 참고항목. 쪽마다 제목·description·canonical·OG(`seo.ts`), 헤더 "서식 함수"·홈 "더 알아보기" 링크.
+      sitemap 은 `app/sitemap.ts` 가 guides 로 만든다(public/sitemap.xml 제거). E2E `korean-utils.spec.ts`: 메타·링크·직접 입력·은행 표·sitemap·axe 라이트·다크·320px,
+      **코드 예시의 `호출; // 결과` 37줄을 node 에서 실제 계산해 비교**(결과를 일부러 틀리면 실패하는 것 확인).
+    - [x] npm description·keywords 보강(하이픈·법인등록번호·카드번호·계좌번호·은행코드·luhn 등), homepage → 함수 문서, README 에 함수별 문서 링크(changeset patch — 다음 배포 때 npm 반영).
+    - [ ] 배포 뒤: Search Console 에 sitemap 다시 제출(사용자), `사업자등록번호`·`전화번호` npm 검색 순위 다시 조회.
     - [ ] 문제 단위 글 초안(게시는 사용자 — 블로그·velog): "React 인증번호 입력에 문자 자동 채우기", "사업자등록번호 검증 공식", "약관 전체 동의 체크박스 접근성" 등. 라이브러리 소개가 아니라 문제 해결 글.
 25. **기존 스택에 일부만 얹기** — Guides 에 "shadcn/ui·Tailwind 프로젝트에 한국 키트만 쓰기": `styles.css` + `@layer` 순서, shadcn CSS 변수(`--primary` 등) → `--bestow-*` 매핑 예시,
     ThemeProvider 최소 설정, 번들 숫자. `examples/` 에 shadcn 예제(StackBlitz, npm 배포본만 사용) + E2E 는 일회성 확인. 포지셔닝("Tailwind 전용 복사형은 하지 않는다")은 그대로 — 보류 중인 shadcn 레지스트리와 다르다.
@@ -436,5 +443,6 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-06 | 6번 A `MultiCombobox`: Combobox 목록 로직을 내부 `useComboboxList`·`ComboboxListbox` 로 나눠 공유, 칸 안 칩·Backspace·칩 삭제 포커스·삭제/최대 개수 지연 알림·maxSelected·값마다 hidden input. 단위 12(변이 5개 확인)·폼 계약·SSR·스토리 9(axe 라이트·다크)·E2E(Chromium·WebKit 5회), 선택 기준·접근성 문서·README, 새 선택 키 2, changeset minor. 새 스토리 기준 이미지 생성 필요 |
 | 2026-11-11 | 사용자 유치 점검(런칭 6일 뒤): 스타 4·포크 0·외부 이슈 0·Discussions 0, npm react 평소 하루 15~30, 웹 검색 결과 없음, npm 검색 `kwcag` 3위뿐, Pages 루트 제목 `storybook - Storybook`·OG·sitemap 없음. "사용자 유치 플랜" 23~30번 추가(홈페이지 메타·랜딩 → korean-utils 입구 → shadcn 과 함께 쓰기 → 템플릿 → AI 도구 → Figma → 측정 → 노출), 새 컴포넌트는 외부 요청 때까지 미룸. 열린 버전 PR #30 |
 | 2026-11-11 | 23번 A 홈페이지 메타: Storybook 제목(`title` 프리셋)·manager-head.html(description·canonical·OG·트위터 카드)·og.png(1200×630, `scripts/generate-og.mjs`)·sitemap.xml, playground OG 메타데이터. robots.txt 는 프로젝트 Pages 에서 읽히지 않아 제외. 빌드 결과물 index.html 로 태그 확인. 공개 API 변화 없음(changeset 없음), 시각 회귀 영향 없음 |
+| 2026-11-11 | 24번 korean-utils 함수 문서: 소개 사이트 `/korean-utils/` 목록 + 10쪽(직접 입력·코드·알아 둘 점·React 컴포넌트 링크, 계좌 쪽 은행 코드 표), 쪽별 메타, `app/sitemap.ts`, E2E(코드 예시 결과 주석 계산 비교 포함). korean-utils description·keywords·homepage·README(patch) |
 | 2026-11-11 | 23번 B 소개 사이트: `apps/site`(Next.js 정적 export, Pages 루트) — 한국 키트 데모·대표색 바꾸기·소개·시작 방법, Storybook 을 /storybook/ 으로 옮기고 옛 `?path=`·iframe.html 주소 넘겨주기, assemble-pages.sh, CI build-site·site E2E 14(변이 2), 문서 링크 /storybook/ 으로. 공개 API 변화 없음(changeset 없음), 스토리·기준 이미지 영향 없음 |
 | 2026-11-11 | 23번 배포 확인 + main CI site E2E 수정: 대표색 SegmentedControl 을 데모에서만 줄바꿈 허용(CI Linux 글꼴로 320px 에서 335px), fixture 가 hydration 과 /storybook/ 도착 중 먼저 오는 것을 기다림(WebKit 은 넘겨주기 전에 goto 가 끝남), Firefox bounce tracker·넘겨주기 중 끊긴 스크립트 경고 무시. 스타 4·포크 0·외부 이슈 0, 버전 PR #30 열림 |
