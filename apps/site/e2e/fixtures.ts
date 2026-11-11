@@ -61,6 +61,16 @@ export { expect };
 
 /** WCAG 2.2 A·AA 규칙으로 axe 를 돌려 위반 목록(규칙 id + 대상)을 돌려준다 */
 export async function axeViolations(page: Page): Promise<string[]> {
+  // 색 전환(Link·Button 의 transition)이 도는 중에 재면 라이트·다크 중간색으로 대비가 모자라게 나온다 —
+  // 다크 모드 토글 직후 CI WebKit 에서 color-contrast 로 실패했다. 끝나는 애니메이션만 기다린다(무한 반복 제외)
+  await page.evaluate(() =>
+    Promise.all(
+      document
+        .getAnimations()
+        .filter((animation) => animation.effect?.getComputedTiming().iterations !== Infinity)
+        .map((animation) => animation.finished.catch(() => {})),
+    ),
+  );
   await page.addScriptTag({ content: axeSource });
   return page.evaluate(async () => {
     const result = await (

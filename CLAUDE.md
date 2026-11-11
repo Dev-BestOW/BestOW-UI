@@ -295,6 +295,8 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
 - `page.goto` 는 load 에서 끝나지만 hydration 은 그 뒤에 끝날 수 있어, 그 사이의 첫 조작이 사라진다(CI WebKit 불안정). `e2e/fixtures.ts` 의 `page` 가
   `goto` 뒤에 `html[data-hydrated]`(playground Providers 가 남김)를 기다린다 — E2E 는 `@playwright/test` 가 아니라 `./fixtures` 의 `test` 를 쓴다.
   스토리 `play` 에서 Modal 이 닫힌 뒤 바깥 요소를 role 로 찾으려면 대화상자가 사라질 때까지 먼저 기다린다(닫힘 애니메이션 동안 바깥이 aria-hidden).
+- **테마를 바꾼 직후 axe 를 돌리면 색 전환(transition 120ms) 중간색으로 대비 위반이 난다** — 배경은 바로 바뀌고 글자만 전환된다.
+  site·playground `e2e/fixtures.ts` 의 `axeViolations` 가 끝나는 애니메이션(`getAnimations()`, 무한 반복 제외)을 기다린 뒤 잰다(2026-11-11, CI WebKit 다크 토글 실패).
 - E2E 실패 원인은 CI 에서 `github` reporter 의 annotation 으로 남는다 — `curl https://api.github.com/repos/Dev-BestOW/BestOW-UI/check-runs/<job id>/annotations` 로 읽는다.
 - `useRef<T>(undefined)` 는 React 19 타입에서만 된다 — @types/react 18 에는 그 오버로드가 없어 CI react18 job 이 실패했다(FileUpload 타이머).
   `useRef<T | undefined>(undefined)` 로 쓴다. 로컬 확인은 ci.yml react18 job 처럼 overrides 를 붙여 install → typecheck(끝나면 원래대로).
