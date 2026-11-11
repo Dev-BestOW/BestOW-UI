@@ -4,3 +4,11 @@ packages:
 
 allowBuilds:
   esbuild: true
+
+# 보안 경고(Dependabot) 대응 — 개발 도구만 쓰는 패키지라 배포물에는 영향 없음. 상위 패키지가 고친 버전을 쓰면 지운다.
+# glob 13: Storybook 의 @joshwooding/vite-plugin-react-docgen-typescript 0.7(GHSA-3g3m-2fjr-6pw4)
+# minimatch 10: typescript-eslint·glob(GHSA-g3hv-75wg-m249)
+# CI react18 job 이 이 블록 아래에 react 줄을 덧붙인다 — overrides 는 파일 맨 끝에 둔다.
+overrides:
+  glob@13: ^14.0.2
+  minimatch@10: ^11.0.1

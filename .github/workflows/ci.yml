@@ -153,7 +153,8 @@ jobs:
 
       - name: Use React 18 (pnpm overrides)
         run: |
-          printf '\noverrides:\n  react: 18.3.1\n  react-dom: 18.3.1\n  "@types/react": 18.3.12\n  "@types/react-dom": 18.3.1\n' >> pnpm-workspace.yaml
+          # pnpm-workspace.yaml 맨 끝의 overrides 블록에 줄을 더한다(키를 다시 만들면 중복 키 오류)
+          printf '  react: 18.3.1\n  react-dom: 18.3.1\n  "@types/react": 18.3.12\n  "@types/react-dom": 18.3.1\n' >> pnpm-workspace.yaml
           pnpm install --no-frozen-lockfile
           version=$(cd packages/react && node -p "require('react/package.json').version")
           echo "react $version"
