@@ -13,6 +13,8 @@
 **지금 할 일(2026-11-11 결정): "사용자 유치 플랜" 23번부터** — 아래 "다음 플랜" 맨 위 절. 런칭 6일 뒤 점검에서 막힌 곳이 기능이 아니라
 **발견 → 신뢰 → 첫 사용** 경로로 나왔다(스타 4·외부 이슈 0·Discussions 0·웹 검색 결과 없음). 새 컴포넌트(6번 C Tag 입력·B 비동기 검색)는 외부 요청이 생길 때까지 미룬다.
 열린 버전 PR #30(MultiCombobox 등) 머지 여부는 사용자에게 확인.
+**2026-11-11 두 번째 세션:** 23번 A·B 배포 확인(루트·/storybook/·/playground/·llms·og·sitemap 200, `lang="ko"`, 실제 배포에서 옛 `?path=`·`iframe.html` 넘겨주기 동작).
+main CI 의 site E2E 실패(320px 리플로 — CI Linux 글꼴이 넓어 대표색 칸이 335px, WebKit 넘겨주기 대기 시간 초과, Firefox 경고) 고침 — push 뒤 CI 녹색 확인 필요. 다음은 23번 Search Console(사용자) → 24번.
 (그 전 기록) **런칭 뒤 반응 보기** (2026-11-05 GeekNews Show 게시 — https://news.hada.io/topic?id=36655). 아래 줄은 런칭 직전 기록 —
 **(완료) 런칭 준비 마무리** — 코드 안정화(STABILIZATION 1~8단계)와 **2.0 배포 완료**(2026-11-04, react·tokens 2.0.0), README 비교표 갱신 완료.
 **STABILIZATION 런칭 전 완료 조건 모두 충족(2026-11-05)** → 런칭 게시 완료(2026-11-05). 런칭 뒤 할 사람 확인: ResidentNumberInput NVDA, 가상 키보드 Android Chrome(둘 다 2026-11-05 사용자 결정으로 미룸, VoiceOver·iOS Safari 는 ✅).
@@ -434,3 +436,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-11 | 사용자 유치 점검(런칭 6일 뒤): 스타 4·포크 0·외부 이슈 0·Discussions 0, npm react 평소 하루 15~30, 웹 검색 결과 없음, npm 검색 `kwcag` 3위뿐, Pages 루트 제목 `storybook - Storybook`·OG·sitemap 없음. "사용자 유치 플랜" 23~30번 추가(홈페이지 메타·랜딩 → korean-utils 입구 → shadcn 과 함께 쓰기 → 템플릿 → AI 도구 → Figma → 측정 → 노출), 새 컴포넌트는 외부 요청 때까지 미룸. 열린 버전 PR #30 |
 | 2026-11-11 | 23번 A 홈페이지 메타: Storybook 제목(`title` 프리셋)·manager-head.html(description·canonical·OG·트위터 카드)·og.png(1200×630, `scripts/generate-og.mjs`)·sitemap.xml, playground OG 메타데이터. robots.txt 는 프로젝트 Pages 에서 읽히지 않아 제외. 빌드 결과물 index.html 로 태그 확인. 공개 API 변화 없음(changeset 없음), 시각 회귀 영향 없음 |
 | 2026-11-11 | 23번 B 소개 사이트: `apps/site`(Next.js 정적 export, Pages 루트) — 한국 키트 데모·대표색 바꾸기·소개·시작 방법, Storybook 을 /storybook/ 으로 옮기고 옛 `?path=`·iframe.html 주소 넘겨주기, assemble-pages.sh, CI build-site·site E2E 14(변이 2), 문서 링크 /storybook/ 으로. 공개 API 변화 없음(changeset 없음), 스토리·기준 이미지 영향 없음 |
+| 2026-11-11 | 23번 배포 확인 + main CI site E2E 수정: 대표색 SegmentedControl 을 데모에서만 줄바꿈 허용(CI Linux 글꼴로 320px 에서 335px), fixture 가 hydration 과 /storybook/ 도착 중 먼저 오는 것을 기다림(WebKit 은 넘겨주기 전에 goto 가 끝남), Firefox bounce tracker·넘겨주기 중 끊긴 스크립트 경고 무시. 스타 4·포크 0·외부 이슈 0, 버전 PR #30 열림 |
