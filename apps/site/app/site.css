@@ -1,0 +1,324 @@
+/*
+ * 소개 사이트 스타일. 색·간격·글자는 모두 BestOW 테마 변수(--bestow-*)로 — 라이트·다크·브랜드가 그대로 따라온다.
+ * 컴포넌트 스타일(@layer bestow)보다 이 파일(레이어 밖)이 이긴다.
+ */
+body {
+  margin: 0;
+}
+
+.site-root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  background: var(--bestow-color-bg-default);
+}
+
+.site-root main {
+  flex: 1;
+}
+
+.site-inner {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 72rem;
+  margin-inline: auto;
+  padding-inline: var(--bestow-space-6);
+}
+
+/* 휴대폰 폭: 좌우 여백 16px — 320px 에서도 가로 스크롤 없이(KWCAG 1.4.10 리플로) */
+@media (max-width: 40em) {
+  .site-inner {
+    padding-inline: var(--bestow-space-4);
+  }
+}
+
+/* 머리글 */
+.site-header {
+  border-bottom: 1px solid var(--bestow-color-border-default);
+}
+
+.site-header-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--bestow-space-3) var(--bestow-space-6);
+  padding-block: var(--bestow-space-3);
+}
+
+.site-logo {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bestow-space-2);
+  color: var(--bestow-color-fg-default);
+  text-decoration: none;
+  border-radius: var(--bestow-radius-sm);
+}
+
+.site-logo:focus-visible {
+  outline: 2px solid var(--bestow-color-border-focus);
+  outline-offset: 2px;
+}
+
+.site-nav {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--bestow-space-2) var(--bestow-space-5);
+}
+
+/* 첫 화면: 왼쪽 소개, 오른쪽 데모 */
+.hero {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--bestow-space-10);
+  padding-block: var(--bestow-space-12);
+}
+
+@media (min-width: 64em) {
+  .hero {
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: var(--bestow-space-12);
+    align-items: start;
+    padding-block: var(--bestow-space-16);
+  }
+
+  .hero-copy {
+    position: sticky;
+    top: var(--bestow-space-8);
+  }
+}
+
+.hero-copy {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bestow-space-6);
+}
+
+/* 이 사이트에서 하나뿐인 큰 글자 — 테마의 가장 큰 글자(4xl)보다 크게, 좁은 화면에서는 줄인다 */
+.hero-title {
+  font-size: clamp(var(--bestow-font-size-3xl), 2rem + 2.4vw, 3.75rem);
+  font-weight: var(--bestow-font-weight-bold);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+  text-wrap: balance;
+}
+
+.nowrap {
+  white-space: nowrap;
+}
+
+.hero-lead {
+  max-width: 34em;
+}
+
+.hero-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--bestow-space-3);
+}
+
+/* 설치 명령 */
+.command {
+  display: flex;
+  align-items: center;
+  gap: var(--bestow-space-2);
+  width: fit-content;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
+  padding: var(--bestow-space-2) var(--bestow-space-2) var(--bestow-space-2) var(--bestow-space-4);
+  border: 1px solid var(--bestow-color-border-default);
+  border-radius: var(--bestow-radius-md);
+  background: var(--bestow-color-bg-subtle);
+}
+
+.command code {
+  font-family: var(--bestow-font-family-mono);
+  font-size: var(--bestow-font-size-sm);
+  color: var(--bestow-color-fg-default);
+  /* 명령이 중간에서 끊기면 그대로 복사해 쓰기 어렵다 — 줄을 바꾸지 않고 칸 안에서 가로로 스크롤 */
+  white-space: nowrap;
+  overflow-x: auto;
+  min-width: 0;
+}
+
+/* 데모 */
+.demo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bestow-space-5);
+  padding: var(--bestow-space-6);
+  border: 1px solid var(--bestow-color-border-default);
+  border-radius: var(--bestow-radius-xl);
+  background: var(--bestow-color-bg-subtle);
+  min-width: 0;
+}
+
+/* 휴대폰 폭에서는 바깥·안쪽 여백이 겹쳐 입력 칸이 좁아진다 */
+@media (max-width: 40em) {
+  .demo,
+  .demo-panel {
+    padding: var(--bestow-space-4);
+  }
+}
+
+.demo-brand {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: end;
+  gap: var(--bestow-space-3) var(--bestow-space-4);
+}
+
+.demo-swatch {
+  display: inline-block;
+  width: 0.75em;
+  height: 0.75em;
+  border-radius: var(--bestow-radius-full);
+  /* 고대비 모드에서도 칸 구분이 보이게 테두리를 함께 둔다 */
+  border: 1px solid var(--bestow-color-border-strong);
+}
+
+.demo-custom-color {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--bestow-space-2);
+  min-height: 2rem;
+  color: var(--bestow-color-fg-default);
+  cursor: pointer;
+}
+
+.demo-custom-color input {
+  width: 2rem;
+  height: 2rem;
+  padding: 0;
+  border: 1px solid var(--bestow-color-border-control);
+  border-radius: var(--bestow-radius-sm);
+  background: var(--bestow-color-bg-default);
+  cursor: pointer;
+}
+
+.demo-custom-color input:focus-visible {
+  outline: 2px solid var(--bestow-color-border-focus);
+  outline-offset: 2px;
+}
+
+.demo-panel {
+  padding: var(--bestow-space-6);
+  border-radius: var(--bestow-radius-lg);
+  background: var(--bestow-color-bg-default);
+  box-shadow: var(--bestow-shadow-sm);
+}
+
+/* 아래 절: 왼쪽 제목, 오른쪽 내용 */
+.band {
+  border-top: 1px solid var(--bestow-color-border-default);
+  padding-block: var(--bestow-space-12);
+}
+
+.split {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: var(--bestow-space-6);
+}
+
+@media (min-width: 64em) {
+  .split {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    gap: var(--bestow-space-12);
+  }
+}
+
+.reasons {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bestow-space-10);
+}
+
+.reason {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--bestow-space-3);
+  max-width: 40em;
+}
+
+.sizes {
+  margin: 0 0 var(--bestow-space-4);
+}
+
+.size {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--bestow-space-2) var(--bestow-space-6);
+  padding-block: var(--bestow-space-4);
+  border-bottom: 1px solid var(--bestow-color-border-default);
+}
+
+.size dt {
+  color: var(--bestow-color-fg-muted);
+}
+
+.size dd {
+  margin: 0;
+  font-size: var(--bestow-font-size-2xl);
+  font-weight: var(--bestow-font-weight-bold);
+  font-variant-numeric: tabular-nums;
+  color: var(--bestow-color-fg-default);
+}
+
+.steps {
+  margin: 0 0 var(--bestow-space-6);
+  padding-left: 1.5em;
+  display: flex;
+  flex-direction: column;
+  gap: var(--bestow-space-6);
+}
+
+.step::marker {
+  color: var(--bestow-color-fg-muted);
+  font-weight: var(--bestow-font-weight-semibold);
+}
+
+.step h3 {
+  margin-bottom: var(--bestow-space-3);
+}
+
+.code {
+  margin: 0;
+  padding: var(--bestow-space-4);
+  overflow-x: auto;
+  border-radius: var(--bestow-radius-md);
+  background: var(--bestow-color-bg-subtle);
+  border: 1px solid var(--bestow-color-border-default);
+  font-family: var(--bestow-font-family-mono);
+  font-size: var(--bestow-font-size-sm);
+  line-height: var(--bestow-font-line-height-relaxed);
+  color: var(--bestow-color-fg-default);
+}
+
+.more {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
+  gap: var(--bestow-space-6) var(--bestow-space-8);
+}
+
+.more li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bestow-space-1);
+}
+
+.more-link {
+  font-weight: var(--bestow-font-weight-semibold);
+}
+
+.site-footer {
+  border-top: 1px solid var(--bestow-color-border-default);
+  padding-block: var(--bestow-space-8);
+}

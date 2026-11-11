@@ -25,4 +25,5 @@
 
 - [지원 범위·버전 정책](https://raw.githubusercontent.com/Dev-BestOW/BestOW-UI/main/SUPPORT.md)
 - [변경 내역](https://raw.githubusercontent.com/Dev-BestOW/BestOW-UI/main/packages/react/CHANGELOG.md)
-- [Storybook (사람용 문서, JS 필요)](https://dev-bestow.github.io/BestOW-UI/)
+- [홈페이지 (사람용 소개·데모)](https://dev-bestow.github.io/BestOW-UI/)
+- [Storybook (사람용 문서, JS 필요)](https://dev-bestow.github.io/BestOW-UI/storybook/)

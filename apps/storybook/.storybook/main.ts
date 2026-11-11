@@ -28,8 +28,8 @@ const config: StorybookConfig & { title: string } = {
     '../stories/**/*.mdx',
     '../stories/**/*.stories.@(ts|tsx)',
   ],
-  // public/llms.txt(직접 작성)·llms-full.txt(빌드 때 scripts/generate-llms.mjs 가 생성) — AI 코딩 도구용 문서,
-  // og.png(링크 미리보기 — scripts/generate-og.mjs)·sitemap.xml(검색엔진 등록용. robots.txt 는 호스트 루트에서만 읽혀 두지 않는다)
+  // public/llms.txt(직접 작성)·llms-full.txt(빌드 때 scripts/generate-llms.mjs 가 생성) — AI 코딩 도구용 문서.
+  // 배포 때 Pages 루트로도 복사한다(scripts/assemble-pages.sh). 링크 미리보기 이미지·sitemap 은 소개 사이트(apps/site/public)에.
   staticDirs: ['../public'],
   addons: ['@storybook/addon-docs', '@storybook/addon-a11y', '@storybook/addon-vitest'],
   framework: '@storybook/react-vite',

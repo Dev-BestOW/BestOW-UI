@@ -103,8 +103,13 @@
       `.storybook/manager-head.html`(description·canonical·OG·트위터 카드), `public/og.png`(1200×630 — `node scripts/generate-og.mjs` 가 `scripts/og-image.html` + 히어로 이미지를 찍음),
       `public/sitemap.xml`(루트 + playground 5쪽), playground `layout.tsx` metadata 에 OG. **robots.txt 는 두지 않음** — 호스트 루트(dev-bestow.github.io/robots.txt)에서만 읽혀 프로젝트 Pages 에서는 소용없다(sitemap 은 Search Console 에 직접 제출).
       못 바꾼 것: Storybook 껍데기의 `<html lang="en">`(템플릿 고정 — B 에서 랜딩을 만들면 해결). push 뒤 확인: `curl` 로 배포된 태그, 카카오톡·슬랙 미리보기(사용자, 카카오는 캐시 초기화 도구 필요할 수 있음).
-    - [ ] B(제대로): 정적 랜딩·문서 페이지를 Pages 루트에, Storybook 은 `/storybook/` 으로 — **기존 링크(README·npm README·llms.txt·블로그·GeekNews 글)가 깨지므로
-      루트의 `?path=` 를 `/storybook/` 으로 넘기는 처리 먼저**. playground(Next.js 정적 export) 위에 만들지 별도 앱으로 둘지는 시작할 때 판단. storybook.yml 배포 경로 함께.
+    - [x] B(2026-11-11 완료 — push 뒤 배포 확인 남음): 새 앱 `apps/site`(Next.js 정적 export — playground 는 예제 앱이라 섞지 않음)를 Pages 루트에, Storybook 은 `/storybook/`, 예제 앱은 그대로 `/playground/`
+      (`scripts/assemble-pages.sh` 가 모으고 빠진 파일이 있으면 실패, llms*.txt 는 루트에도). 첫 화면은 **직접 입력해 보는 한국 키트 데모 + 대표색 바꾸기**(버튼 글자 대비 숫자 표시),
+      그 아래 무엇이 다른가요·크기·Next.js 시작 3단계·더 알아보기. `<html lang="ko">`, OG·canonical·sitemap 은 site 로 옮김.
+      옛 주소: layout 의 beforeInteractive 스크립트가 `?path=`·`?id=`·`?viewMode=` 를 쿼리·해시 그대로 /storybook/ 으로, `public/iframe.html` 이 옛 스토리 단독 주소를 넘김.
+      E2E 14개(`apps/site/e2e`, Pages 와 같은 경로의 정적 서버 + 가짜 Storybook): 넘겨주기 6·axe 라이트·다크·토글·데모·메타·320/390px 리플로, 변이 2(넘겨주기 조건·휴대폰 여백).
+      README·npm README·POSITIONING·CONTRIBUTING·llms.txt·이슈 템플릿 링크를 `/storybook/` 으로(npm 페이지는 다음 배포 때 반영). CI 는 check·browsers job 에 build-site + site E2E.
+      push 뒤 확인: 루트·/storybook/·/playground/·/llms.txt 열림, 옛 링크(README 의 예전 주소·GeekNews 글) 넘어가는지, 카카오톡·슬랙 미리보기.
     - [ ] Google Search Console·네이버 서치어드바이저 등록(사용자).
 24. **korean-utils 를 입구로** — 함수(전화번호 하이픈·사업자등록번호 검증·금액 한글 읽기·마스킹·주민번호·카드·계좌)마다 검색되는 문서 페이지:
     문제 → 코드 한 줄 → 직접 쳐 보는 입력 → 같은 동작의 react 입력 컴포넌트 링크. 23번 B 의 사이트에 둔다(B 전에는 korean-utils README 를 함수별 절로 보강).
@@ -428,3 +433,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-06 | 6번 A `MultiCombobox`: Combobox 목록 로직을 내부 `useComboboxList`·`ComboboxListbox` 로 나눠 공유, 칸 안 칩·Backspace·칩 삭제 포커스·삭제/최대 개수 지연 알림·maxSelected·값마다 hidden input. 단위 12(변이 5개 확인)·폼 계약·SSR·스토리 9(axe 라이트·다크)·E2E(Chromium·WebKit 5회), 선택 기준·접근성 문서·README, 새 선택 키 2, changeset minor. 새 스토리 기준 이미지 생성 필요 |
 | 2026-11-11 | 사용자 유치 점검(런칭 6일 뒤): 스타 4·포크 0·외부 이슈 0·Discussions 0, npm react 평소 하루 15~30, 웹 검색 결과 없음, npm 검색 `kwcag` 3위뿐, Pages 루트 제목 `storybook - Storybook`·OG·sitemap 없음. "사용자 유치 플랜" 23~30번 추가(홈페이지 메타·랜딩 → korean-utils 입구 → shadcn 과 함께 쓰기 → 템플릿 → AI 도구 → Figma → 측정 → 노출), 새 컴포넌트는 외부 요청 때까지 미룸. 열린 버전 PR #30 |
 | 2026-11-11 | 23번 A 홈페이지 메타: Storybook 제목(`title` 프리셋)·manager-head.html(description·canonical·OG·트위터 카드)·og.png(1200×630, `scripts/generate-og.mjs`)·sitemap.xml, playground OG 메타데이터. robots.txt 는 프로젝트 Pages 에서 읽히지 않아 제외. 빌드 결과물 index.html 로 태그 확인. 공개 API 변화 없음(changeset 없음), 시각 회귀 영향 없음 |
+| 2026-11-11 | 23번 B 소개 사이트: `apps/site`(Next.js 정적 export, Pages 루트) — 한국 키트 데모·대표색 바꾸기·소개·시작 방법, Storybook 을 /storybook/ 으로 옮기고 옛 `?path=`·iframe.html 주소 넘겨주기, assemble-pages.sh, CI build-site·site E2E 14(변이 2), 문서 링크 /storybook/ 으로. 공개 API 변화 없음(changeset 없음), 스토리·기준 이미지 영향 없음 |

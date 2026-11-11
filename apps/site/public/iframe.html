@@ -1,0 +1,18 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="robots" content="noindex" />
+    <link rel="icon" href="data:," />
+    <title>BestOW UI Storybook 으로 이동</title>
+    <!-- 2026-11 까지 Pages 루트가 Storybook 이었다 — 옛 스토리 단독 주소(iframe.html?id=…)를 /storybook/ 으로 넘긴다 -->
+    <script>
+      location.replace(
+        location.pathname.replace(/iframe\.html$/, 'storybook/iframe.html') + location.search + location.hash,
+      );
+    </script>
+  </head>
+  <body>
+    <p><a href="storybook/iframe.html">Storybook 으로 이동</a></p>
+  </body>
+</html>

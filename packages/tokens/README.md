@@ -8,7 +8,7 @@
 
 > Design tokens for BestOW UI, a React design system for Korean services. Docs are in Korean.
 
-📖 **전체 토큰 보기:** [Storybook › Foundations › Design Tokens](https://dev-bestow.github.io/BestOW-UI/?path=/story/foundations-design-tokens--colors)
+📖 **전체 토큰 보기:** [Storybook › Foundations › Design Tokens](https://dev-bestow.github.io/BestOW-UI/storybook/?path=/story/foundations-design-tokens--colors)
 
 ## 설치
 

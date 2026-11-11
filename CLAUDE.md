@@ -40,10 +40,18 @@ apps/
                                사이드바: Introduction → Foundations → Accessibility → Guides → Layout → Components → Korean Kit.
                                새 컴포넌트·API 가 생기면 guides 의 선택 기준·패턴 코드도 맞춘다(MDX 의 링크는 index.json 으로 검사, axe 는 직접).
                                vite alias 로 dist 가 아닌 각 패키지 src 를 바로 본다.
-                               검색·링크 미리보기: 페이지 제목은 main.ts 의 `title`, 설명·OG 태그는 .storybook/manager-head.html, public/og.png(`node scripts/generate-og.mjs` —
-                               히어로 이미지·소개 문구가 바뀌면 다시 만든다)·sitemap.xml. 주소는 배포 주소를 직접 적었다(Pages 경로가 바뀌면 함께 고친다).
+                               Pages 의 /storybook/ 에 배포한다(루트는 apps/site). 문서·README 의 Storybook 링크는 `…/BestOW-UI/storybook/?path=…`.
+                               검색·링크 미리보기: 페이지 제목은 main.ts 의 `title`, 설명·OG 태그는 .storybook/manager-head.html, 이미지는 apps/site/public/og.png
+                               (`node scripts/generate-og.mjs` — 히어로 이미지·소개 문구가 바뀌면 다시 만든다). 주소는 배포 주소를 직접 적었다(Pages 경로가 바뀌면 함께 고친다).
                                public/llms.txt(직접 작성)·llms-full.txt(build 때 scripts/generate-llms.mjs 가 README·props 정의·choosing·componentA11y 로 생성,
-                               커밋 안 함)를 Pages 루트에 함께 배포 — AI 코딩 도구용. 컴포넌트 props 의 JSDoc 이 곧 그 문서다.
+                               커밋 안 함)를 Pages 루트에도 복사해 배포(scripts/assemble-pages.sh) — AI 코딩 도구용. 컴포넌트 props 의 JSDoc 이 곧 그 문서다.
+  site/ (private)              Pages 루트의 소개 사이트(Next.js 16 정적 export, basePath 기본 /BestOW-UI — SITE_BASE_PATH). 패키지 dist 를 쓴다.
+                               첫 화면 데모(KitDemo — 한국 키트 입력 + 대표색 바꾸기), 링크 미리보기 메타(layout.tsx metadata)·public/og.png·sitemap.xml.
+                               **옛 Storybook 주소 넘겨주기**: 2026-11 까지 루트가 Storybook 이라 README·npm·블로그에 `…/BestOW-UI/?path=…` 가 남아 있다 —
+                               layout.tsx 의 beforeInteractive 스크립트가 `?path=`·`?id=`·`?viewMode=` 를 /storybook/ 으로, public/iframe.html 이 옛 스토리 단독 주소를 넘긴다.
+                               e2e/ — Playwright(`pnpm --filter @bestow-ui/site test:e2e`, 포트 3108): e2e/serve.mjs 가 out 을 Pages 와 같은 경로로 띄우고
+                               /storybook/ 에는 가짜 Storybook(e2e/fixtures)을 둔다 — 넘겨주기·axe(라이트·다크)·데모·320px 리플로.
+                               문서 링크는 `links.ts` 의 storybookHref 로(Storybook 은 Next.js 앱 밖이라 일반 링크).
   playground/ (private)        Next.js 16 App Router 예제 앱. alias 없이 패키지 dist 를 그대로 써서 실제 설치와 같은 조건으로
                                SSR·서버 컴포넌트·portal 테마를 확인한다 (packages 를 먼저 build 해야 함). 헤더에 다크/브랜드 토글.
                                `PLAYGROUND_BASE_PATH` 가 있을 때만 정적 export(+basePath) — Pages 배포용. 평소엔 일반 서버 모드.
@@ -57,7 +65,7 @@ examples/
 .github/
   actions/setup/               pnpm + Node(.nvmrc=22) + pnpm install 공통 composite action
   workflows/ci.yml             PR·main: 아이콘 생성물 확인 → lint → format:check → build → size → typecheck → test
-                               → test:stories(브라우저 렌더링 + axe, 라이트·다크) → build-storybook → build-playground → test:e2e
+                               → test:stories(브라우저 렌더링 + axe, 라이트·다크) → build-storybook → build-playground → build-site → test:e2e(playground·site)
                                + browsers job(matrix webkit·firefox): test:stories·test:e2e 를 그 브라우저로 (시각 회귀는 Chromium 만,
                                  스토리가 실패해도 E2E 까지 돈다) + react18 job: pnpm overrides 로 React 18 만 쓰게 한 뒤 react 패키지 typecheck·test
   workflows/visual.yml         PR·main: Playwright Docker 이미지에서 모든 스토리 라이트·다크 스크린샷 비교. 봇 커밋은 App 토큰(release.yml 과 같은 App)으로 push.
@@ -67,8 +75,9 @@ examples/
   workflows/size.yml           PR: 번들 크기를 base 와 비교해 PR 코멘트 하나로 보고(push 마다 갱신, scripts/size-report.mjs).
                                보고만 하고 실패하지 않음(한도 검사는 ci.yml). 포크 PR 은 Summary 에만. 버전 PR 은 건너뜀
   workflows/release.yml        main: changesets/action — 버전 PR 생성 또는 npm 배포 (OIDC)
-  workflows/storybook.yml      main: Storybook + playground(정적 export, /playground/) 를 GitHub Pages 로 배포
-                               → https://dev-bestow.github.io/BestOW-UI/ , …/BestOW-UI/playground/
+  workflows/storybook.yml      main: 소개 사이트(루트) + Storybook(/storybook/) + playground(/playground/) 를 GitHub Pages 로 배포
+                               (scripts/assemble-pages.sh 가 폴더를 모으고 빠진 파일이 있으면 실패)
+                               → https://dev-bestow.github.io/BestOW-UI/ , …/BestOW-UI/storybook/ , …/BestOW-UI/playground/
 ```
 
 ### react 패키지 내부
@@ -190,7 +199,8 @@ pnpm size                            # size-limit (.size-limit.json). build 먼�
 pnpm build-storybook
 pnpm playground                      # http://localhost:3000 (packages 를 build 한 뒤. dist 를 쓰므로 패키지 수정 후 다시 build)
 pnpm build-playground
-pnpm test:e2e                        # playground E2E (build + build-playground 먼저). 로컬은 시스템 Chrome, 포트 3107
+pnpm site / pnpm build-site          # 소개 사이트 dev(http://localhost:3002/BestOW-UI/) / 정적 export(apps/site/out)
+pnpm test:e2e                        # playground(3107) + 소개 사이트(3108) E2E (build + build-playground + build-site 먼저). 로컬은 시스템 Chrome
 pnpm --filter @bestow-ui/icons generate
 pnpm changeset                       # 변경 내역 기록 (대화형) — 비대화형이면 .changeset/<이름>.md 를 직접 작성
 ```
@@ -199,7 +209,7 @@ pnpm changeset                       # 변경 내역 기록 (대화형) — 비�
 
 ```bash
 pnpm lint && pnpm format:check && pnpm build && pnpm size && pnpm typecheck && pnpm test && pnpm test:stories \
-  && pnpm build-storybook && pnpm build-playground && pnpm test:e2e && rm -rf apps/storybook/storybook-static
+  && pnpm build-storybook && pnpm build-playground && pnpm build-site && pnpm test:e2e && rm -rf apps/storybook/storybook-static
 ```
 
 ### 브라우저 점검 (UI 를 바꿨을 때)
