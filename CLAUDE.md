@@ -40,6 +40,8 @@ apps/
                                사이드바: Introduction → Foundations → Accessibility → Guides → Layout → Components → Korean Kit.
                                새 컴포넌트·API 가 생기면 guides 의 선택 기준·패턴 코드도 맞춘다(MDX 의 링크는 index.json 으로 검사, axe 는 직접).
                                vite alias 로 dist 가 아닌 각 패키지 src 를 바로 본다.
+                               검색·링크 미리보기: 페이지 제목은 main.ts 의 `title`, 설명·OG 태그는 .storybook/manager-head.html, public/og.png(`node scripts/generate-og.mjs` —
+                               히어로 이미지·소개 문구가 바뀌면 다시 만든다)·sitemap.xml. 주소는 배포 주소를 직접 적었다(Pages 경로가 바뀌면 함께 고친다).
                                public/llms.txt(직접 작성)·llms-full.txt(build 때 scripts/generate-llms.mjs 가 README·props 정의·choosing·componentA11y 로 생성,
                                커밋 안 함)를 Pages 루트에 함께 배포 — AI 코딩 도구용. 컴포넌트 props 의 JSDoc 이 곧 그 문서다.
   playground/ (private)        Next.js 16 App Router 예제 앱. alias 없이 패키지 dist 를 그대로 써서 실제 설치와 같은 조건으로

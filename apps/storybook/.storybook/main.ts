@@ -18,14 +18,18 @@ const bestowCssLayer: Plugin = {
   },
 };
 
-const config: StorybookConfig = {
+// `title` 은 Storybook 타입에 없는 프리셋 값이다 — 없으면 package.json 의 name 을 써서 페이지 제목이 "storybook - Storybook" 이 된다
+// (검색 결과·링크 미리보기에 그대로 보임). 빌드한 index.html 의 <title> 로 확인한다. 설명·OG 태그는 manager-head.html.
+const config: StorybookConfig & { title: string } = {
+  title: 'BestOW UI — 한국 서비스를 위한 접근성 검증 React 디자인 시스템',
   stories: [
     '../../../packages/*/src/**/*.mdx',
     '../../../packages/*/src/**/*.stories.@(ts|tsx)',
     '../stories/**/*.mdx',
     '../stories/**/*.stories.@(ts|tsx)',
   ],
-  // public/llms.txt(직접 작성)·llms-full.txt(빌드 때 scripts/generate-llms.mjs 가 생성) — AI 코딩 도구용 문서
+  // public/llms.txt(직접 작성)·llms-full.txt(빌드 때 scripts/generate-llms.mjs 가 생성) — AI 코딩 도구용 문서,
+  // og.png(링크 미리보기 — scripts/generate-og.mjs)·sitemap.xml(검색엔진 등록용. robots.txt 는 호스트 루트에서만 읽혀 두지 않는다)
   staticDirs: ['../public'],
   addons: ['@storybook/addon-docs', '@storybook/addon-a11y', '@storybook/addon-vitest'],
   framework: '@storybook/react-vite',

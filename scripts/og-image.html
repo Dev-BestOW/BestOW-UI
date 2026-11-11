@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="ko">
+  <meta charset="utf-8" /><style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+    }
+    body {
+      width: 1200px;
+      height: 630px;
+      overflow: hidden;
+      background: #eef0f4;
+      font-family: Pretendard, 'Apple SD Gothic Neo', sans-serif;
+      color: #16181d;
+      position: relative;
+    }
+    .text {
+      position: absolute;
+      left: 64px;
+      top: 0;
+      bottom: 0;
+      width: 500px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      gap: 24px;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 34px;
+      font-weight: 700;
+      letter-spacing: -0.01em;
+    }
+    .brand svg {
+      width: 52px;
+      height: 52px;
+    }
+    h1 {
+      font-size: 50px;
+      line-height: 1.22;
+      font-weight: 800;
+      letter-spacing: -0.025em;
+      word-break: keep-all;
+    }
+    h1 em {
+      font-style: normal;
+      color: #2554eb;
+    }
+    p {
+      font-size: 23px;
+      line-height: 1.5;
+      color: #4a5160;
+      word-break: keep-all;
+    }
+    .shot {
+      position: absolute;
+      left: 606px;
+      top: -136px;
+      width: 1040px;
+    }
+    .shot img {
+      width: 100%;
+      display: block;
+    }
+  </style>
+  <div class="text">
+    <div class="brand">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+        <rect width="32" height="32" rx="8" fill="#2554eb" />
+        <path
+          d="M10 9h7.5a4.5 4.5 0 0 1 0 9H10zM10 18h8.5a4.5 4.5 0 0 1 0 9H10z"
+          fill="none"
+          stroke="#fff"
+          stroke-width="2.5"
+          stroke-linejoin="round"
+        /></svg
+      >BestOW UI
+    </div>
+    <h1>한국 서비스를 위한<br /><em>접근성 검증</em><br />React 디자인 시스템</h1>
+    <p>약관 동의 · 인증번호 · 사업자등록번호 · 주소<br />대표색 하나로 라이트 · 다크 브랜드 테마</p>
+  </div>
+  <div class="shot"><img src="../docs/images/hero.png" /></div>
+</html>

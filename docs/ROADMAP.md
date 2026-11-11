@@ -99,8 +99,10 @@
 > 새 컴포넌트·테스트 추가·번들 미세 조정은 외부 요청이 생길 때까지 하지 않는다.
 
 23. **검색·공유에 잡히는 홈페이지** — 지금 Pages 루트는 Storybook 이라 제목이 `storybook - Storybook`, description·OG 태그·sitemap.xml·robots.txt 없음(본문도 iframe 안이라 색인이 약함).
-    - [ ] A(작고 즉시): `apps/storybook/.storybook/manager-head.html` 에 제목·설명·OG/트위터 카드(이미지는 `docs/images/hero.png` 를 public 으로), `public/robots.txt`·`sitemap.xml`.
-      playground `layout.tsx` metadata 에도 OG. 확인: 배포 뒤 `curl` 로 태그, 카카오톡·슬랙 미리보기(사용자).
+    - [x] A(2026-11-11 완료 — push 뒤 배포 확인 남음): Storybook 제목(`main.ts` 의 `title` 프리셋 → "BestOW UI — 한국 서비스를 위한 접근성 검증 React 디자인 시스템 - Storybook"),
+      `.storybook/manager-head.html`(description·canonical·OG·트위터 카드), `public/og.png`(1200×630 — `node scripts/generate-og.mjs` 가 `scripts/og-image.html` + 히어로 이미지를 찍음),
+      `public/sitemap.xml`(루트 + playground 5쪽), playground `layout.tsx` metadata 에 OG. **robots.txt 는 두지 않음** — 호스트 루트(dev-bestow.github.io/robots.txt)에서만 읽혀 프로젝트 Pages 에서는 소용없다(sitemap 은 Search Console 에 직접 제출).
+      못 바꾼 것: Storybook 껍데기의 `<html lang="en">`(템플릿 고정 — B 에서 랜딩을 만들면 해결). push 뒤 확인: `curl` 로 배포된 태그, 카카오톡·슬랙 미리보기(사용자, 카카오는 캐시 초기화 도구 필요할 수 있음).
     - [ ] B(제대로): 정적 랜딩·문서 페이지를 Pages 루트에, Storybook 은 `/storybook/` 으로 — **기존 링크(README·npm README·llms.txt·블로그·GeekNews 글)가 깨지므로
       루트의 `?path=` 를 `/storybook/` 으로 넘기는 처리 먼저**. playground(Next.js 정적 export) 위에 만들지 별도 앱으로 둘지는 시작할 때 판단. storybook.yml 배포 경로 함께.
     - [ ] Google Search Console·네이버 서치어드바이저 등록(사용자).
@@ -425,3 +427,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-06 | `!visual` 태그 버그: Storybook 이 `!이름` 을 태그 빼기로 처리해 필터가 동작하지 않았음 → `no-visual` 로 변경(스토리 11개·spec·CLAUDE.md), 안 쓰이게 된 기준 이미지 22장 삭제(남은 626장 = 찍을 626장) |
 | 2026-11-06 | 6번 A `MultiCombobox`: Combobox 목록 로직을 내부 `useComboboxList`·`ComboboxListbox` 로 나눠 공유, 칸 안 칩·Backspace·칩 삭제 포커스·삭제/최대 개수 지연 알림·maxSelected·값마다 hidden input. 단위 12(변이 5개 확인)·폼 계약·SSR·스토리 9(axe 라이트·다크)·E2E(Chromium·WebKit 5회), 선택 기준·접근성 문서·README, 새 선택 키 2, changeset minor. 새 스토리 기준 이미지 생성 필요 |
 | 2026-11-11 | 사용자 유치 점검(런칭 6일 뒤): 스타 4·포크 0·외부 이슈 0·Discussions 0, npm react 평소 하루 15~30, 웹 검색 결과 없음, npm 검색 `kwcag` 3위뿐, Pages 루트 제목 `storybook - Storybook`·OG·sitemap 없음. "사용자 유치 플랜" 23~30번 추가(홈페이지 메타·랜딩 → korean-utils 입구 → shadcn 과 함께 쓰기 → 템플릿 → AI 도구 → Figma → 측정 → 노출), 새 컴포넌트는 외부 요청 때까지 미룸. 열린 버전 PR #30 |
+| 2026-11-11 | 23번 A 홈페이지 메타: Storybook 제목(`title` 프리셋)·manager-head.html(description·canonical·OG·트위터 카드)·og.png(1200×630, `scripts/generate-og.mjs`)·sitemap.xml, playground OG 메타데이터. robots.txt 는 프로젝트 Pages 에서 읽히지 않아 제외. 빌드 결과물 index.html 로 태그 확인. 공개 API 변화 없음(changeset 없음), 시각 회귀 영향 없음 |
