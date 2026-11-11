@@ -14,6 +14,11 @@ test('첫 화면: 제목·한국어 lang·링크 미리보기 태그', async ({ 
     'content',
     'https://dev-bestow.github.io/BestOW-UI/og.png',
   );
+  // Search Console 소유 확인 — 빠지면 확인이 풀린다
+  await expect(page.locator('meta[name="google-site-verification"]')).toHaveAttribute(
+    'content',
+    'fjhHTSTn5cz8gnw_LCEgdNw4vawqPE4__ZqF4UQp9lo',
+  );
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
     'href',
     'https://dev-bestow.github.io/BestOW-UI/',
@@ -74,6 +79,13 @@ test('다크 모드 토글', async ({ page }) => {
   await page.getByRole('button', { name: '다크 모드로 전환' }).click();
   await expect(page.getByRole('button', { name: '라이트 모드로 전환' })).toBeVisible();
   expect(await axeViolations(page)).toEqual([]);
+});
+
+// Search Console 소유 확인 파일 — 받은 그대로 루트에서 열려야 확인이 유지된다(태그 확인과 둘 중 하나만 있어도 되지만 둘 다 둠)
+test('Google 소유 확인 파일', async ({ request }) => {
+  const response = await request.get('/BestOW-UI/google0b0babb132369702.html');
+  expect(response.status()).toBe(200);
+  expect(await response.text()).toBe('google-site-verification: google0b0babb132369702.html');
 });
 
 // KWCAG 1.4.10 리플로 — 대표색 버튼·설치 명령·데모 칸이 좁은 화면에서 가로 스크롤을 만들었던 적이 있다

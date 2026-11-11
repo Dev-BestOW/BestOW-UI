@@ -34,6 +34,8 @@ export const metadata: Metadata = {
     ],
   },
   twitter: { card: 'summary_large_image' },
+  // 검색 엔진 소유 확인(URL 접두어 속성 https://dev-bestow.github.io/BestOW-UI/). 지우면 확인이 풀린다
+  verification: { google: 'fjhHTSTn5cz8gnw_LCEgdNw4vawqPE4__ZqF4UQp9lo' },
 };
 
 /**

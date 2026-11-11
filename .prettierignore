@@ -7,3 +7,5 @@ packages/icons/src/generated
 pnpm-lock.yaml
 # 문서는 손으로 정렬한 표·줄바꿈을 유지한다 (changesets 가 만드는 CHANGELOG 포함)
 *.md
+# 검색 엔진 소유 확인 파일 — 받은 그대로 둬야 확인이 유지된다
+apps/site/public/google*.html

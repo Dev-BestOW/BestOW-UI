@@ -113,6 +113,7 @@ main CI 의 site E2E 실패(320px 리플로 — CI Linux 글꼴이 넓어 대표
       README·npm README·POSITIONING·CONTRIBUTING·llms.txt·이슈 템플릿 링크를 `/storybook/` 으로(npm 페이지는 다음 배포 때 반영). CI 는 check·browsers job 에 build-site + site E2E.
       push 뒤 확인: 루트·/storybook/·/playground/·/llms.txt 열림, 옛 링크(README 의 예전 주소·GeekNews 글) 넘어가는지, 카카오톡·슬랙 미리보기.
     - [ ] Google Search Console·네이버 서치어드바이저 등록(사용자).
+      Google: URL 접두어 속성, HTML 태그 확인 — `apps/site/app/layout.tsx` metadata `verification.google` 에 넣음(2026-11-11, E2E 가 태그 확인). push·배포 뒤 "확인" → sitemap 제출(사용자). 네이버는 값 받으면 `verification.other['naver-site-verification']`.
 24. **korean-utils 를 입구로** — 함수(전화번호 하이픈·사업자등록번호 검증·금액 한글 읽기·마스킹·주민번호·카드·계좌)마다 검색되는 문서 페이지:
     문제 → 코드 한 줄 → 직접 쳐 보는 입력 → 같은 동작의 react 입력 컴포넌트 링크. 23번 B 의 사이트에 둔다(B 전에는 korean-utils README 를 함수별 절로 보강).
     - [ ] npm 검색 키워드·description 점검(`사업자등록번호`·`전화번호` 로 20위 안에 드는지 배포 뒤 다시 조회).
