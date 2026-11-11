@@ -13,7 +13,10 @@
 **지금 할 일(2026-11-11 결정): "사용자 유치 플랜" 23번부터** — 아래 "다음 플랜" 맨 위 절. 런칭 6일 뒤 점검에서 막힌 곳이 기능이 아니라
 **발견 → 신뢰 → 첫 사용** 경로로 나왔다(스타 4·외부 이슈 0·Discussions 0·웹 검색 결과 없음). 새 컴포넌트(6번 C Tag 입력·B 비동기 검색)는 외부 요청이 생길 때까지 미룬다.
 열린 버전 PR #30(MultiCombobox 등) 머지 여부는 사용자에게 확인.
-**2026-11-11 세 번째 세션:** 24번 함수 문서 10쪽 + 목록을 소개 사이트에 추가(아래 24번), korean-utils npm 메타 보강(changeset patch). 다음: push·배포 뒤 sitemap 재제출(사용자) → 24번 글 초안 또는 25번.
+**2026-11-11 세 번째 세션:** 24번 함수 문서 10쪽 + 목록을 소개 사이트에 추가(아래 24번), korean-utils npm 메타 보강(changeset patch).
+CI WebKit "다크 모드 토글" 간헐 실패 수정(axe 를 색 전환 뒤에 — 커밋 eac34ea). Dependabot 2건(glob·minimatch, 개발 도구만) pnpm overrides 로 해결(커밋 9d871f5).
+다음: ① push 뒤 CI(특히 React 18 job — overrides 블록에 줄을 덧붙이는 방식으로 바꿈)·Dependabot 경고 닫힘 확인 ② 배포 뒤 sitemap 재제출·네이버 소유확인(사용자)
+③ main force push 금지 규칙이 다시 켜졌는지(사용자 — 이번에 잘못된 커밋 메시지를 고치려고 잠깐 force push 함) ④ 24번 글 초안 또는 25번.
 
 **2026-11-11 두 번째 세션:** 23번 A·B 배포 확인(루트·/storybook/·/playground/·llms·og·sitemap 200, `lang="ko"`, 실제 배포에서 옛 `?path=`·`iframe.html` 넘겨주기 동작).
 main CI 의 site E2E 실패(320px 리플로 — CI Linux 글꼴이 넓어 대표색 칸이 335px, WebKit 넘겨주기 대기 시간 초과, Firefox 경고) 고침 — push 뒤 CI 녹색 확인 필요. 다음은 23번 Search Console(사용자) → 24번.
@@ -445,5 +448,6 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-11 | 23번 A 홈페이지 메타: Storybook 제목(`title` 프리셋)·manager-head.html(description·canonical·OG·트위터 카드)·og.png(1200×630, `scripts/generate-og.mjs`)·sitemap.xml, playground OG 메타데이터. robots.txt 는 프로젝트 Pages 에서 읽히지 않아 제외. 빌드 결과물 index.html 로 태그 확인. 공개 API 변화 없음(changeset 없음), 시각 회귀 영향 없음 |
 | 2026-11-11 | 24번 korean-utils 함수 문서: 소개 사이트 `/korean-utils/` 목록 + 10쪽(직접 입력·코드·알아 둘 점·React 컴포넌트 링크, 계좌 쪽 은행 코드 표), 쪽별 메타, `app/sitemap.ts`, E2E(코드 예시 결과 주석 계산 비교 포함). korean-utils description·keywords·homepage·README(patch) |
 | 2026-11-11 | CI WebKit site E2E "다크 모드 토글" 간헐 실패 수정: 토글 직후 색 전환(120ms) 중에 axe 가 돌아 중간색 대비 위반(전환 중 실행 시 WebKit 1·Chromium 19개 → 기다리면 0 으로 재현). site·playground `axeViolations` 가 끝나는 애니메이션을 기다린다 |
+| 2026-11-11 | Dependabot 보안 경고 2건(moderate): glob 13(GHSA-3g3m-2fjr-6pw4, Storybook docgen 플러그인)·minimatch 10(GHSA-g3hv-75wg-m249, typescript-eslint) — 상위 최신판도 옛 버전이라 `pnpm-workspace.yaml` 끝 overrides 로 glob 14·minimatch 11. 개발 도구만이라 changeset 없음. ci.yml react18 job 은 그 블록에 줄만 덧붙이게 |
 | 2026-11-11 | 23번 B 소개 사이트: `apps/site`(Next.js 정적 export, Pages 루트) — 한국 키트 데모·대표색 바꾸기·소개·시작 방법, Storybook 을 /storybook/ 으로 옮기고 옛 `?path=`·iframe.html 주소 넘겨주기, assemble-pages.sh, CI build-site·site E2E 14(변이 2), 문서 링크 /storybook/ 으로. 공개 API 변화 없음(changeset 없음), 스토리·기준 이미지 영향 없음 |
 | 2026-11-11 | 23번 배포 확인 + main CI site E2E 수정: 대표색 SegmentedControl 을 데모에서만 줄바꿈 허용(CI Linux 글꼴로 320px 에서 335px), fixture 가 hydration 과 /storybook/ 도착 중 먼저 오는 것을 기다림(WebKit 은 넘겨주기 전에 goto 가 끝남), Firefox bounce tracker·넘겨주기 중 끊긴 스크립트 경고 무시. 스타 4·포크 0·외부 이슈 0, 버전 PR #30 열림 |

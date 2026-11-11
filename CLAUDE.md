@@ -301,6 +301,7 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
 - `useRef<T>(undefined)` 는 React 19 타입에서만 된다 — @types/react 18 에는 그 오버로드가 없어 CI react18 job 이 실패했다(FileUpload 타이머).
   `useRef<T | undefined>(undefined)` 로 쓴다. 로컬 확인은 ci.yml react18 job 처럼 overrides 를 붙여 install → typecheck(끝나면 원래대로).
 - React 18 로 테스트할 때 react 패키지만 18 로 바꾸면 Radix·icons 가 19 를 물어 두 벌이 섞인다("Objects are not valid as a React child"). pnpm overrides 로 전체를 맞춘다(ci.yml react18).
+  `pnpm-workspace.yaml` 에는 보안 경고용 `overrides:` 블록이 **맨 끝**에 있고 react18 job 이 그 아래에 줄을 덧붙인다 — 블록을 옮기거나 그 뒤에 다른 키를 두면 그 job 이 깨진다(상위 패키지가 고친 버전을 쓰면 항목을 지운다).
 - 이 Mac(macOS 27)에서는 Playwright Firefox 가 "Could not find profile folder" 로 실행되지 않는다(샌드박스와 무관) — Firefox 는 CI(Linux)에서 확인한다.
 - Radix Popover Content 는 기본 `role="dialog"` — 목록 팝업(Combobox)으로 쓸 때는 `role="presentation"` 으로 덮어쓴다(props 가 뒤에 적용됨).
 - MDX 문서 페이지는 스토리 axe 테스트 대상이 아니다 — 문서에 컴포넌트를 그리면 axe 를 직접 돌려 확인한다.
