@@ -11,7 +11,7 @@
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-11-04 기준)
 
 **2026-11-13 세션:** 사용자 할 일 완료 확인(Search Console·네이버 sitemap 제출, force push 금지 규칙, Dependabot) — 버전 PR #30 은 아직 열림(머지는 사용자 판단).
-24번 글 초안 2편(사업자등록번호 검증 공식 `business-number-checksum.md`, 인증번호 문자 자동 채우기 `sms-otp-autofill-react.md` — 둘 다 astro-blog draft). 다음: 글 3편(약관 전체 동의 체크박스 접근성) 또는 25번 shadcn 가이드.
+24번 글 초안 2편(사업자등록번호 검증 공식 `business-number-checksum.md`, 인증번호 문자 자동 채우기 `sms-otp-autofill-react.md` — 둘 다 astro-blog draft), 3편 약관 전체 동의 체크박스 접근성 `agreement-checkbox-a11y.md`(draft). 다음: 25번 shadcn 가이드.
 
 **지금 할 일(2026-11-11 결정): "사용자 유치 플랜" 23번부터** — 아래 "다음 플랜" 맨 위 절. 런칭 6일 뒤 점검에서 막힌 곳이 기능이 아니라
 **발견 → 신뢰 → 첫 사용** 경로로 나왔다(스타 4·외부 이슈 0·Discussions 0·웹 검색 결과 없음). 새 컴포넌트(6번 C Tag 입력·B 비동기 검색)는 외부 요청이 생길 때까지 미룬다.
@@ -132,6 +132,7 @@ main CI 의 site E2E 실패(320px 리플로 — CI Linux 글꼴이 넓어 대표
     - [ ] 배포 뒤: ~~Search Console 에 sitemap 다시 제출(사용자)~~ 완료(2026-11-13), `사업자등록번호`·`전화번호` npm 검색 순위 다시 조회(버전 PR #30 배포 뒤 — npm 메타가 그때 반영).
     - [ ] 문제 단위 글 초안(게시는 사용자 — 블로그·velog) — 1편 완료(2026-11-13): astro-blog `src/content/posts/business-number-checksum.md`(`draft: true` — 공개는 사용자가 false 로 바꿔 push).
       2편(2026-11-13): `sms-otp-autofill-react.md`(draft) — 칸 여섯 개 대신 입력창 하나 + 칸 그림, maxLength·type=number 를 피하는 이유, iOS one-time-code·Android WebOTP(문자 마지막 줄 `@도메인 #번호`), 자동 제출 한 번만, timer·status 만료 알림.
+      3편(2026-11-13): `agreement-checkbox-a11y.md`(draft) — fieldset·indeterminate(항목에서 계산)·이름 앞 필수/선택(공백)·보기 버튼 aria-labelledby·스크롤 영역 region+tabIndex·disabled 대신 오류 표시, 개인정보 보호법상 선택 동의(법무 검토 권고). 처음 계획한 세 주제 모두 초안.
       9번째 자리 몫 항이 왜 있는지(없으면 5d 의 일의 자리가 0·5 뿐), 한 자리 오타 100%·이웃 자리 바꿈 89% 검출(무작위 2만 개로 계산), 입력 시점·지연 알림. 남은 주제: "React 인증번호 입력에 문자 자동 채우기", "사업자등록번호 검증 공식", "약관 전체 동의 체크박스 접근성" 등. 라이브러리 소개가 아니라 문제 해결 글.
 25. **기존 스택에 일부만 얹기** — Guides 에 "shadcn/ui·Tailwind 프로젝트에 한국 키트만 쓰기": `styles.css` + `@layer` 순서, shadcn CSS 변수(`--primary` 등) → `--bestow-*` 매핑 예시,
     ThemeProvider 최소 설정, 번들 숫자. `examples/` 에 shadcn 예제(StackBlitz, npm 배포본만 사용) + E2E 는 일회성 확인. 포지셔닝("Tailwind 전용 복사형은 하지 않는다")은 그대로 — 보류 중인 shadcn 레지스트리와 다르다.
@@ -458,3 +459,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-11 | 23번 배포 확인 + main CI site E2E 수정: 대표색 SegmentedControl 을 데모에서만 줄바꿈 허용(CI Linux 글꼴로 320px 에서 335px), fixture 가 hydration 과 /storybook/ 도착 중 먼저 오는 것을 기다림(WebKit 은 넘겨주기 전에 goto 가 끝남), Firefox bounce tracker·넘겨주기 중 끊긴 스크립트 경고 무시. 스타 4·포크 0·외부 이슈 0, 버전 PR #30 열림 |
 | 2026-11-13 | 사용자 할 일 완료(Search Console·네이버 sitemap 제출 등), main CI 녹색, 스타 4·포크 0·외부 이슈 0, 버전 PR #30 열림. 24번 글 초안 1편: astro-blog `business-number-checksum.md`(draft) — 몫 항의 역할·검출률(한 자리 100%·이웃 바꿈 89%) 계산으로 확인, 블로그 check 0 errors·build 통과 |
 | 2026-11-13 | 24번 글 초안 2편: astro-blog `sms-otp-autofill-react.md`(draft) — VerificationCodeInput 구조 기반(입력창 하나·one-time-code·WebOTP·자동 제출·만료 알림), Storybook 링크 index.json 으로 확인, 블로그 check 0 errors·build 통과 |
+| 2026-11-13 | 24번 글 초안 3편: astro-blog `agreement-checkbox-a11y.md`(draft) — AgreementGroup 구조 기반, KWCAG 번호(5.4.1·6.4.3)는 kwcag.ts 로 확인, "스크린리더로 찾았다" 는 기록과 다른 서술은 고침. 블로그 check 0 errors·build 통과 |
