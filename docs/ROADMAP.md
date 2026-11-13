@@ -10,6 +10,9 @@
 
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-11-04 기준)
 
+**2026-11-13 세션:** 사용자 할 일 완료 확인(Search Console·네이버 sitemap 제출, force push 금지 규칙, Dependabot) — 버전 PR #30 은 아직 열림(머지는 사용자 판단).
+24번 글 1편 초안(사업자등록번호 검증 공식, astro-blog draft). 다음: 글 2편(인증번호 문자 자동 채우기) 또는 25번 shadcn 가이드.
+
 **지금 할 일(2026-11-11 결정): "사용자 유치 플랜" 23번부터** — 아래 "다음 플랜" 맨 위 절. 런칭 6일 뒤 점검에서 막힌 곳이 기능이 아니라
 **발견 → 신뢰 → 첫 사용** 경로로 나왔다(스타 4·외부 이슈 0·Discussions 0·웹 검색 결과 없음). 새 컴포넌트(6번 C Tag 입력·B 비동기 검색)는 외부 요청이 생길 때까지 미룬다.
 열린 버전 PR #30(MultiCombobox 등) 머지 여부는 사용자에게 확인.
@@ -117,7 +120,7 @@ main CI 의 site E2E 실패(320px 리플로 — CI Linux 글꼴이 넓어 대표
       E2E 14개(`apps/site/e2e`, Pages 와 같은 경로의 정적 서버 + 가짜 Storybook): 넘겨주기 6·axe 라이트·다크·토글·데모·메타·320/390px 리플로, 변이 2(넘겨주기 조건·휴대폰 여백).
       README·npm README·POSITIONING·CONTRIBUTING·llms.txt·이슈 템플릿 링크를 `/storybook/` 으로(npm 페이지는 다음 배포 때 반영). CI 는 check·browsers job 에 build-site + site E2E.
       push 뒤 확인: 루트·/storybook/·/playground/·/llms.txt 열림, 옛 링크(README 의 예전 주소·GeekNews 글) 넘어가는지, 카카오톡·슬랙 미리보기.
-    - [ ] Google Search Console·네이버 서치어드바이저 등록(사용자).
+    - [x] Google Search Console·네이버 서치어드바이저 등록(사용자 — 2026-11-13 확인·sitemap 제출 완료).
       Google: URL 접두어 속성, HTML 태그 확인 — `apps/site/app/layout.tsx` metadata `verification.google` 에 넣음(2026-11-11, E2E 가 태그 확인). push·배포 뒤 "확인" → sitemap 제출(사용자). 네이버는 호스트 단위만 받아 조직 루트 사이트 저장소 `Dev-BestOW/dev-bestow.github.io`(index.html → /BestOW-UI/ 이동·robots.txt(sitemap 위치)·네이버 확인 파일)를 만듦 — 2026-11-11 배포 확인, 기존 경로 영향 없음. 남은 것: 네이버 소유확인·sitemap 제출(사용자). **그 저장소에 `BestOW-UI` 폴더를 만들지 않는다**(경로 충돌).
 24. **korean-utils 를 입구로** — 함수(전화번호 하이픈·사업자등록번호 검증·금액 한글 읽기·마스킹·주민번호·카드·계좌)마다 검색되는 문서 페이지:
     문제 → 코드 한 줄 → 직접 쳐 보는 입력 → 같은 동작의 react 입력 컴포넌트 링크. 23번 B 의 사이트에 둔다(B 전에는 korean-utils README 를 함수별 절로 보강).
@@ -126,8 +129,9 @@ main CI 의 site E2E 실패(320px 리플로 — CI Linux 글꼴이 넓어 대표
       sitemap 은 `app/sitemap.ts` 가 guides 로 만든다(public/sitemap.xml 제거). E2E `korean-utils.spec.ts`: 메타·링크·직접 입력·은행 표·sitemap·axe 라이트·다크·320px,
       **코드 예시의 `호출; // 결과` 37줄을 node 에서 실제 계산해 비교**(결과를 일부러 틀리면 실패하는 것 확인).
     - [x] npm description·keywords 보강(하이픈·법인등록번호·카드번호·계좌번호·은행코드·luhn 등), homepage → 함수 문서, README 에 함수별 문서 링크(changeset patch — 다음 배포 때 npm 반영).
-    - [ ] 배포 뒤: Search Console 에 sitemap 다시 제출(사용자), `사업자등록번호`·`전화번호` npm 검색 순위 다시 조회.
-    - [ ] 문제 단위 글 초안(게시는 사용자 — 블로그·velog): "React 인증번호 입력에 문자 자동 채우기", "사업자등록번호 검증 공식", "약관 전체 동의 체크박스 접근성" 등. 라이브러리 소개가 아니라 문제 해결 글.
+    - [ ] 배포 뒤: ~~Search Console 에 sitemap 다시 제출(사용자)~~ 완료(2026-11-13), `사업자등록번호`·`전화번호` npm 검색 순위 다시 조회(버전 PR #30 배포 뒤 — npm 메타가 그때 반영).
+    - [ ] 문제 단위 글 초안(게시는 사용자 — 블로그·velog) — 1편 완료(2026-11-13): astro-blog `src/content/posts/business-number-checksum.md`(`draft: true` — 공개는 사용자가 false 로 바꿔 push).
+      9번째 자리 몫 항이 왜 있는지(없으면 5d 의 일의 자리가 0·5 뿐), 한 자리 오타 100%·이웃 자리 바꿈 89% 검출(무작위 2만 개로 계산), 입력 시점·지연 알림. 남은 주제: "React 인증번호 입력에 문자 자동 채우기", "사업자등록번호 검증 공식", "약관 전체 동의 체크박스 접근성" 등. 라이브러리 소개가 아니라 문제 해결 글.
 25. **기존 스택에 일부만 얹기** — Guides 에 "shadcn/ui·Tailwind 프로젝트에 한국 키트만 쓰기": `styles.css` + `@layer` 순서, shadcn CSS 변수(`--primary` 등) → `--bestow-*` 매핑 예시,
     ThemeProvider 최소 설정, 번들 숫자. `examples/` 에 shadcn 예제(StackBlitz, npm 배포본만 사용) + E2E 는 일회성 확인. 포지셔닝("Tailwind 전용 복사형은 하지 않는다")은 그대로 — 보류 중인 shadcn 레지스트리와 다르다.
 26. **완성된 템플릿·실사용 증거** — 회원가입·로그인·본인인증·정산 정보가 완성된 Next.js 템플릿(`examples/next-starter`, `create-next-app -e` 로 받는 형태, react-hook-form + zod — Guides 패턴 코드 그대로).
@@ -451,3 +455,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-11 | Dependabot 보안 경고 2건(moderate): glob 13(GHSA-3g3m-2fjr-6pw4, Storybook docgen 플러그인)·minimatch 10(GHSA-g3hv-75wg-m249, typescript-eslint) — 상위 최신판도 옛 버전이라 `pnpm-workspace.yaml` 끝 overrides 로 glob 14·minimatch 11. 개발 도구만이라 changeset 없음. ci.yml react18 job 은 그 블록에 줄만 덧붙이게 |
 | 2026-11-11 | 23번 B 소개 사이트: `apps/site`(Next.js 정적 export, Pages 루트) — 한국 키트 데모·대표색 바꾸기·소개·시작 방법, Storybook 을 /storybook/ 으로 옮기고 옛 `?path=`·iframe.html 주소 넘겨주기, assemble-pages.sh, CI build-site·site E2E 14(변이 2), 문서 링크 /storybook/ 으로. 공개 API 변화 없음(changeset 없음), 스토리·기준 이미지 영향 없음 |
 | 2026-11-11 | 23번 배포 확인 + main CI site E2E 수정: 대표색 SegmentedControl 을 데모에서만 줄바꿈 허용(CI Linux 글꼴로 320px 에서 335px), fixture 가 hydration 과 /storybook/ 도착 중 먼저 오는 것을 기다림(WebKit 은 넘겨주기 전에 goto 가 끝남), Firefox bounce tracker·넘겨주기 중 끊긴 스크립트 경고 무시. 스타 4·포크 0·외부 이슈 0, 버전 PR #30 열림 |
+| 2026-11-13 | 사용자 할 일 완료(Search Console·네이버 sitemap 제출 등), main CI 녹색, 스타 4·포크 0·외부 이슈 0, 버전 PR #30 열림. 24번 글 초안 1편: astro-blog `business-number-checksum.md`(draft) — 몫 항의 역할·검출률(한 자리 100%·이웃 바꿈 89%) 계산으로 확인, 블로그 check 0 errors·build 통과 |
