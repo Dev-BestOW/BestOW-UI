@@ -95,6 +95,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
 `styles.css` 의 스타일은 CSS 레이어 `bestow` 안에 있어서, 레이어 밖에 쓴 CSS(`className` 등)가 선택자 우선순위와 관계없이 이겨요.
 리셋 CSS·Tailwind 와 함께 쓸 때는 Storybook **Guides › Tailwind 와 함께 쓰기** 를 보세요(리셋은 `@layer base` 에).
+이미 shadcn/ui 를 쓰고 있다면 한국 입력만 얹을 수 있어요 — **Guides › shadcn·Tailwind 프로젝트에 한국 키트만 쓰기**, [StackBlitz 예제](https://stackblitz.com/github/Dev-BestOW/BestOW-UI/tree/main/examples/shadcn-starter?file=src%2Fbestow-theme.ts).
 
 **3. 컴포넌트를 써요.** 상태가 없는 표시용 컴포넌트(`Card`, `Typography`, `Stack`, `Grid` 등)는 서버 컴포넌트에서 그대로 렌더링돼요.
 

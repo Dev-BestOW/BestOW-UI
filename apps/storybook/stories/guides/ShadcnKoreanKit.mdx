@@ -1,0 +1,180 @@
+import { Meta } from '@storybook/addon-docs/blocks';
+
+<Meta title="Guides/shadcn·Tailwind 프로젝트에 한국 키트만 쓰기" />
+
+# shadcn·Tailwind 프로젝트에 한국 키트만 쓰기
+
+이미 shadcn/ui 와 Tailwind 로 만든 화면이 있다면, 디자인 시스템을 통째로 바꿀 필요 없이 **한국 서비스 입력만** 얹어 쓸 수 있어요.
+사업자등록번호·휴대폰 번호·인증번호·약관 동의 같은 칸은 BestOW, 나머지 버튼·카드·레이아웃은 지금 쓰는 shadcn/ui 그대로예요.
+
+바로 해 보려면 [StackBlitz 예제](https://stackblitz.com/github/Dev-BestOW/BestOW-UI/tree/main/examples/shadcn-starter?file=src%2Fbestow-theme.ts)
+(Vite + Tailwind v4 + shadcn/ui Button·Card, 코드는 저장소 `examples/shadcn-starter`)를 여세요.
+
+## 1. 설치와 스타일 한 줄
+
+```bash
+npm install @bestow-ui/react
+```
+
+```tsx
+// 앱 진입점 (main.tsx, Next.js 는 app/layout.tsx)
+import '@bestow-ui/react/styles.css';
+```
+
+전역 CSS 맨 위에 레이어 순서를 적어요. Tailwind 의 리셋(preflight)이 BestOW 를 덮지 않고, Tailwind 유틸리티 클래스는 BestOW 를 덮어쓸 수 있게 돼요.
+자세한 이유는 [Tailwind 와 함께 쓰기](?path=/docs/guides-tailwind-와-함께-쓰기--docs) 에 있어요.
+
+```css
+/* globals.css 또는 index.css */
+@layer theme, base, bestow, components, utilities;
+@import 'tailwindcss';
+```
+
+## 2. shadcn 색을 BestOW 에 잇기
+
+shadcn/ui 는 `--primary`·`--background` 같은 CSS 변수로 테마를 정하고, BestOW 는 `--bestow-*` 변수를 써요.
+`ThemeProvider` 의 `overrides` 에 shadcn 변수를 그대로 넣으면 두 쪽이 같은 색을 써요.
+
+```ts
+// bestow-theme.ts
+import { createTheme } from '@bestow-ui/react';
+
+export const shadcnBridge = createTheme({
+  common: {
+    color: {
+      bg: { default: 'var(--background)' },
+      fg: { default: 'var(--foreground)' },
+      border: { default: 'var(--border)' },
+      primary: {
+        solid: 'var(--primary)',
+        solidHover: 'color-mix(in oklab, var(--primary) 90%, var(--background))', // hover:bg-primary/90 과 같은 색
+        contrast: 'var(--primary-foreground)',
+        text: 'var(--primary)',
+        subtle: 'var(--accent)',
+        subtleHover: 'color-mix(in oklab, var(--accent) 90%, var(--foreground))',
+      },
+    },
+    radius: {
+      sm: 'calc(var(--radius) - 4px)',
+      md: 'calc(var(--radius) - 2px)',
+      lg: 'var(--radius)',
+      xl: 'calc(var(--radius) + 4px)',
+    },
+    font: { family: { sans: 'var(--font-sans)' } },
+  },
+});
+```
+
+- 값이 `var(--primary)` 라서 라이트·다크를 따로 적지 않아도 돼요. `.dark` 를 켜면 shadcn 변수가 바뀌고 BestOW 도 따라가요.
+- `overrides` 는 팝업·대화상자처럼 `body` 로 나가는 요소(portal)에도 붙어요. CSS 파일에서 `--bestow-*` 를 직접 덮어쓰면 이 부분이 빠지기 쉬워요.
+- 글꼴은 `'inherit'` 가 아니라 `var(--font-sans)` 로 적어요. CSS 변수에 `inherit` 를 넣으면 앱 글꼴이 아니라 바깥의 같은 변수(BestOW 기본 글꼴)를 이어받아요.
+
+### 일부러 잇지 않는 것
+
+shadcn/ui 기본 테마(neutral)의 몇몇 값은 접근성 기준에 못 미쳐요. 이것들은 BestOW 값을 그대로 두는 것을 권해요.
+
+<table>
+  <thead>
+    <tr>
+      <th>shadcn 변수</th>
+      <th>기본값의 대비</th>
+      <th>필요한 대비</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>
+        <code>--input</code> (입력 칸 테두리)
+      </td>
+      <td>흰 배경과 1.26:1</td>
+      <td>3:1 (WCAG 1.4.11 비텍스트 대비)</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--ring</code> (포커스 표시)
+      </td>
+      <td>흰 배경과 2.59:1</td>
+      <td>3:1</td>
+    </tr>
+    <tr>
+      <td>
+        <code>--muted-foreground</code> (보조 글자)
+      </td>
+      <td>
+        <code>--muted</code> 배경과 4.34:1
+      </td>
+      <td>4.5:1 (KWCAG 5.4.3)</td>
+    </tr>
+  </tbody>
+</table>
+
+그래서 BestOW 입력 칸은 shadcn 입력보다 테두리가 진하고, 포커스 표시가 파란색이에요. 상태 색(오류 빨강·성공 초록 등)도 BestOW 값이 라이트·다크 모두
+4.5:1 을 계산해 둔 값이라 잇지 않았어요. 대표색을 직접 정한다면 [Theming](?path=/story/foundations-theming--playground) 의 `createIntentColors` 가 대비를 맞춰 줘요.
+
+## 3. ThemeProvider 로 감싸고 다크 모드 맞추기
+
+shadcn/ui 는 `<html class="dark">` 로 다크 모드를 켜요. BestOW 는 `ThemeProvider` 의 `theme` 으로 같은 값을 받아요.
+
+```tsx
+import { ThemeProvider } from '@bestow-ui/react';
+import { shadcnBridge } from './bestow-theme';
+
+export function App() {
+  const [dark, setDark] = useState(false);
+  useEffect(() => {
+    document.documentElement.classList.toggle('dark', dark);
+  }, [dark]);
+
+  return (
+    <ThemeProvider theme={dark ? 'dark' : 'light'} overrides={shadcnBridge} className="min-h-screen">
+      {/* shadcn/ui 와 BestOW 컴포넌트를 섞어 쓴다 */}
+    </ThemeProvider>
+  );
+}
+```
+
+Next.js 에서 `next-themes` 를 쓴다면 `resolvedTheme` 을 넘겨요. 이 값은 서버에서 알 수 없어서, hydration 이 끝나기 전에는 `'system'` 으로 둬요
+(OS 설정을 CSS 미디어쿼리로 따라 그려서 hydration 경고가 없어요). OS 와 다른 모드를 직접 고른 사용자는 첫 화면에서 잠깐 OS 쪽 색이 보일 수 있어요.
+
+```tsx
+const { resolvedTheme } = useTheme(); // next-themes
+const [mounted, setMounted] = useState(false);
+useEffect(() => setMounted(true), []);
+
+<ThemeProvider theme={mounted ? (resolvedTheme === 'dark' ? 'dark' : 'light') : 'system'} overrides={shadcnBridge}>
+```
+
+## 4. 섞어 쓰기
+
+```tsx
+import { AgreementGroup, BusinessNumberInput, PhoneNumberInput, VerificationCodeInput } from '@bestow-ui/react';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardFooter } from '@/components/ui/card';
+
+<Card>
+  <CardContent className="flex flex-col gap-5">
+    <BusinessNumberInput value={bizNo} onValueChange={setBizNo} required fullWidth />
+    <PhoneNumberInput value={phone} onValueChange={setPhone} required fullWidth />
+    <VerificationCodeInput value={code} onValueChange={setCode} expiresIn={180} onResend={resend} />
+    <AgreementGroup label="약관 동의" items={agreements} value={agreed} onValueChange={setAgreed} />
+  </CardContent>
+  <CardFooter>
+    <Button type="submit">가입하기</Button>
+  </CardFooter>
+</Card>;
+```
+
+BestOW 컴포넌트의 `className` 에 Tailwind 클래스를 주면 1번의 레이어 순서 덕분에 그대로 이겨요(`className="max-w-xs"` 등).
+react-hook-form·zod 와 함께 쓰는 법은 [화면 패턴](?path=/docs/guides-화면-패턴--docs) 에 있어요.
+
+## 크기
+
+한국 키트 네 개(사업자등록번호·휴대폰 번호·인증번호·약관 동의)와 `ThemeProvider`·`createTheme` 를 더하면 JS 약 **8.7 kB**(minify + brotli, React 제외)예요.
+휴대폰 번호 하나만 쓰면 약 5.1 kB 예요. 쓰지 않는 컴포넌트는 번들에 들어가지 않아요.
+
+CSS 는 `styles.css` 파일 하나(약 11.6 kB, brotli)라 쓰는 컴포넌트와 관계없이 전부 들어가요. 런타임에 스타일을 만들지 않아서 서버 컴포넌트에서도 그대로 써요.
+
+## 왜 shadcn 레지스트리(복사형)가 아닌가요
+
+shadcn/ui 처럼 소스를 프로젝트에 복사해 넣는 방식은 고치기 쉽지만, 버그·접근성 수정이 복사한 코드에 전해지지 않아요.
+한국 입력은 검증 공식·스크린리더 알림 시점처럼 한번 맞춰 두면 손댈 일이 적고 고칠 때는 모두 함께 고쳐져야 하는 부분이라, npm 패키지로 받아 업데이트로 고침을 받는 쪽이 낫다고 봤어요.

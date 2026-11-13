@@ -64,6 +64,7 @@ Next.js App Router 에서는 Provider 를 `'use client'` 파일로 분리해 `ap
 
 `styles.css` 의 스타일은 CSS 레이어 `bestow` 안에 있어요. 레이어 밖에 쓴 CSS(`className` 등)가 선택자 우선순위와 관계없이 이기고,
 리셋 CSS 는 `@layer base { … }` 에 넣어요. Tailwind 와 함께 쓰는 법은 Storybook **Guides › Tailwind 와 함께 쓰기**.
+shadcn/ui 프로젝트에 한국 입력만 얹는 법은 **Guides › shadcn·Tailwind 프로젝트에 한국 키트만 쓰기**([StackBlitz 예제](https://stackblitz.com/github/Dev-BestOW/BestOW-UI/tree/main/examples/shadcn-starter?file=src%2Fbestow-theme.ts)).
 
 0.x 에서 올리시나요? [마이그레이션 가이드](https://github.com/Dev-BestOW/BestOW-UI/blob/main/docs/MIGRATION-1.0.md)를 보세요.
 
