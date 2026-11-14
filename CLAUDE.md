@@ -257,6 +257,7 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
 - GitHub Actions 로그는 인증이 필요해 Claude 가 직접 못 읽는다(공개 API 로 run/step 상태와 annotation 만 보임).
   배포 실패 시 추측으로 고치지 말고 사용자에게 **"Create release PR or publish" 단계 로그**를 붙여 달라고 요청한다.
 - Radix 의 portal 콘텐츠는 ThemeProvider div 밖(body)에 렌더링된다 → `usePortalProps()` 를 안 붙이면 다크모드·브랜드 테마가 깨진다.
+- **토큰 값·이름을 바꾸면 Figma 라이브러리도 맞춘다** — `scripts/generate-figma-tokens.mjs` 로 JSON 을 만들어 use_figma 로 적용(`docs/FIGMA.md`). Figma Starter 요금제라 Color 는 라이트 모드만, 글꼴은 Noto Sans KR.
 - `vars` 의 CSS 변수 이름(`--bestow-*`)은 사용자가 CSS 로 덮어쓰는 공개 API 다. 토큰 키 이름을 바꾸면 breaking change.
   `src/theme/contract.test.ts` 가 이름 목록을 고정한다 — 토큰을 **추가**하면 그 목록에도 더한다.
 - npm 배포를 실행하는 명령(`changeset publish`, `pnpm publish` 실제 실행)은 Claude 가 실행하지 않는다.
