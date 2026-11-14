@@ -3,6 +3,7 @@ dist
 storybook-static
 # 빌드 때 생성 (scripts/generate-llms.mjs)
 apps/storybook/public/llms-full.txt
+apps/storybook/public/ai/
 *.log
 .DS_Store
 coverage

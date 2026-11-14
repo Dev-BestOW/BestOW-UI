@@ -24,6 +24,8 @@
 
 ⚡ **[StackBlitz 에서 바로 써 보기](https://stackblitz.com/github/Dev-BestOW/BestOW-UI/tree/main/examples/vite-starter?file=src%2FApp.tsx)** (설치 없이 브라우저에서)
 
+🤖 **AI 코딩 도구 규칙 파일**(Claude Code·Cursor·AGENTS.md): https://dev-bestow.github.io/BestOW-UI/ai/bestow-ui.md · Cursor 용 https://dev-bestow.github.io/BestOW-UI/ai/bestow-ui.mdc — 넣는 법은 [저장소 README](https://github.com/Dev-BestOW/BestOW-UI#ai-코딩-도구와-함께-쓰기)
+
 🚀 **Next.js 템플릿**(가입·본인 확인·정산 정보·로그인, react-hook-form + zod): `npx create-next-app@latest my-app --example "https://github.com/Dev-BestOW/BestOW-UI/tree/main/examples/next-starter"`
 
 📖 **문서와 실제 예제:** [Storybook](https://dev-bestow.github.io/BestOW-UI/storybook/) · [Next.js 예제 앱](https://dev-bestow.github.io/BestOW-UI/playground/)

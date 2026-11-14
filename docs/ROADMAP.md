@@ -12,7 +12,7 @@
 
 **2026-11-13 세션:** 사용자 할 일 완료 확인(Search Console·네이버 sitemap 제출, force push 금지 규칙, Dependabot) — 버전 PR #30 은 아직 열림(머지는 사용자 판단).
 24번 글 초안 2편(사업자등록번호 검증 공식 `business-number-checksum.md`, 인증번호 문자 자동 채우기 `sms-otp-autofill-react.md` — 둘 다 astro-blog draft), 3편 약관 전체 동의 체크박스 접근성 `agreement-checkbox-a11y.md` — 세 편 모두 astro-blog `content-queue/001~003-*.md`(draft: false)로 옮겨 매일 09:00 하나씩 예약 발행.
-**25번·26번 완료**(아래). 다음: 27번 AI 코딩 도구 규칙 파일, 버전 PR #30 배포 뒤 npm 검색 순위 조회, push 뒤 `create-next-app --example` 실제 설치 확인.
+**25~27번 완료**(아래). 다음: 28번 Figma 또는 29번 측정(사용자 결정 필요), Context7 등록(사용자), 버전 PR #30 배포 뒤 npm 검색 순위 조회, push 뒤 `create-next-app --example` 실제 설치 확인.
 
 **지금 할 일(2026-11-11 결정): "사용자 유치 플랜" 23번부터** — 아래 "다음 플랜" 맨 위 절. 런칭 6일 뒤 점검에서 막힌 곳이 기능이 아니라
 **발견 → 신뢰 → 첫 사용** 경로로 나왔다(스타 4·외부 이슈 0·Discussions 0·웹 검색 결과 없음). 새 컴포넌트(6번 C Tag 입력·B 비동기 검색)는 외부 요청이 생길 때까지 미룬다.
@@ -149,7 +149,10 @@ main CI 의 site E2E 실패(320px 리플로 — CI Linux 글꼴이 넓어 대표
     README·npm README·Patterns·llms.txt·CLAUDE.md 연결. 공개 API 변화 없음(changeset 없음). 남은 것: 실사용 증거("사용 사례" 절)는 그대로 사람이 할 일.
     원래 계획: 회원가입·로그인·본인인증·정산 정보가 완성된 Next.js 템플릿(`examples/next-starter`, `create-next-app -e` 로 받는 형태, react-hook-form + zod — Guides 패턴 코드 그대로).
     README "사용 사례" 절은 실제 서비스가 생기면(사람이 할 일 — 사용자 본인 프로젝트가 가장 강한 증거).
-27. **AI 코딩 도구 경로** — llms.txt 는 있음. 다음: Cursor·Claude Code 규칙 파일 예시(README 에 복사용), Context7 등록(사용자), MCP 서버(컴포넌트 검색·props·예제 — SEED 참고, 새 패키지라 첫 배포 절차 주의)는 반응을 보고.
+27. ✅ (2026-11-14, 규칙 파일) **AI 코딩 도구 경로** — `docs/ai/bestow-ui.md`(한국 입력 → 컴포넌트·값 형태 표, 서버 컴포넌트·asChild, 폼(RHF + zod·ErrorSummary·validate={false}), 테마·접근성 규칙).
+    `scripts/generate-llms.mjs` 가 Pages `/ai/bestow-ui.md`·`/ai/bestow-ui.mdc`(Cursor frontmatter, globs tsx·jsx)로 내보내고, 규칙 속 이름이 dist export 에 없으면 빌드 실패(변이 확인 — 처음 쓴 `Toast` 가 실제로 걸림).
+    README "AI 코딩 도구와 함께 쓰기"(Claude Code `@bestow-ui.md`·Cursor·AGENTS.md 한 줄 명령)·npm README·llms.txt. 남은 것: Context7 등록(사용자), MCP 서버는 반응을 보고. push·배포 뒤 /ai/ 두 파일 200 확인.
+    원래 계획: llms.txt 는 있음. 다음: Cursor·Claude Code 규칙 파일 예시(README 에 복사용), Context7 등록(사용자), MCP 서버(컴포넌트 검색·props·예제 — SEED 참고, 새 패키지라 첫 배포 절차 주의)는 반응을 보고.
 28. **Figma 라이브러리** — 기존 15번 그대로(tokens → Figma 변수 → 주요 컴포넌트·Code Connect). 팀 도입용이라 23~26 뒤.
 29. **측정** — Pages 방문 통계가 없어 유입·이탈을 모른다. 쿠키 없는 통계 도구를 붙일지 **사용자 결정 필요**(붙이면 SECURITY·문서에 밝힌다).
     그 전에는 세션 시작 때 스타·이슈·Discussions·npm 평일 기준값을 진행 기록에 남긴다(배포일 제외).
@@ -473,3 +476,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-13 | 24번 글 초안 3편: astro-blog `agreement-checkbox-a11y.md`(draft) — AgreementGroup 구조 기반, KWCAG 번호(5.4.1·6.4.3)는 kwcag.ts 로 확인, "스크린리더로 찾았다" 는 기록과 다른 서술은 고침. 블로그 check 0 errors·build 통과 |
 | 2026-11-13 | 24번 글 3편 astro-blog content-queue 예약(001~003). 25번: `examples/shadcn-starter` + Guides MDX(shadcn 변수 → overrides, 대비 모자란 변수는 잇지 않음) + README·llms.txt 링크. 검증 전부 통과(lint·format·build·size·typecheck·test 615·stories 666·build 3종·E2E 87+24) |
 | 2026-11-14 | 26번 Next.js 템플릿 `examples/next-starter`(3단계 가입·로그인·내 정보, react-hook-form + zod, 스키마를 서버 액션과 공유, 단계마다 폼) + README·Patterns·llms.txt 연결. 브라우저 흐름 16개·axe 라이트·다크 0 |
+| 2026-11-14 | 27번 AI 코딩 도구 규칙 파일: `docs/ai/bestow-ui.md` + 빌드 때 Pages `/ai/`(md·Cursor mdc)로, 규칙 속 이름을 export 와 대조(변이 확인), README·npm README·llms.txt 안내 |

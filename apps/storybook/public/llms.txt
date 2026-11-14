@@ -18,6 +18,8 @@
 
 ## 예제
 
+- [AI 코딩 도구 규칙 파일](https://dev-bestow.github.io/BestOW-UI/ai/bestow-ui.md): 프로젝트에 넣어 두는 짧은 사용 규칙(한국 입력 컴포넌트·값 형태·폼·서버 컴포넌트·테마). Cursor 용은 같은 내용의 `ai/bestow-ui.mdc`
+
 - [Vite 시작 예제](https://raw.githubusercontent.com/Dev-BestOW/BestOW-UI/main/examples/vite-starter/src/App.tsx): 전화번호·인증번호·금액·약관 동의 폼, 다크 모드, 대표색 테마
 - [react-hook-form 회원가입](https://raw.githubusercontent.com/Dev-BestOW/BestOW-UI/main/apps/playground/app/signup/page.tsx): register·Controller·ErrorSummary
 - [주문 관리 화면](https://raw.githubusercontent.com/Dev-BestOW/BestOW-UI/main/apps/playground/app/orders/page.tsx): Table·검색·필터·기간 선택·선택 처리

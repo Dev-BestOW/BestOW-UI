@@ -141,3 +141,49 @@ out.push(`## 테마·문구 API\n\n${theme.join('\n\n')}`);
 mkdirSync(outDir, { recursive: true });
 writeFileSync(join(outDir, 'llms-full.txt'), out.join('\n\n') + '\n');
 console.log(`llms-full.txt (${Math.round(out.join('\n\n').length / 1024)} KB) → ${outDir}`);
+
+// ── AI 코딩 도구 규칙 파일 (docs/ai/bestow-ui.md 가 원본) ──
+// 사용자가 받아 CLAUDE.md·AGENTS.md 에 붙이거나 Cursor 규칙(.cursor/rules/*.mdc)으로 둔다. Pages 의 /ai/ 로 배포(assemble-pages.sh).
+// 규칙에 적은 컴포넌트·함수 이름이 실제 export 에 있는지 확인한다 — 이름이 바뀌면 틀린 규칙이 배포되지 않게.
+// 패키지 dist 가 있을 때만 검사한다(CI 는 build 뒤에 build-storybook 을 돌린다).
+const rules = read('docs/ai/bestow-ui.md');
+const exportNames = (path) => {
+  if (!existsSync(join(root, path))) return null;
+  const names = new Set();
+  for (const [, list] of read(path).matchAll(/^export \{([^}]*)\}/gm)) {
+    for (const item of list.split(',')) {
+      const name = item
+        .trim()
+        .replace(/^type /, '')
+        .split(/\s+as\s+/)
+        .pop()
+        ?.trim();
+      if (name) names.add(name);
+    }
+  }
+  return names;
+};
+const reactExports = exportNames('packages/react/dist/index.d.ts');
+const iconExports = exportNames('packages/icons/dist/index.d.ts');
+if (reactExports && iconExports) {
+  // 라이브러리 밖 이름(Next.js·react-hook-form·zod)과 예시 값
+  const outside = new Set(['NextLink', 'Controller', 'useForm', 'Date', 'YYYY', 'MM', 'DD']);
+  const unknown = new Set();
+  for (const [, code] of rules.matchAll(/`([^`\n]+)`/g)) {
+    for (const [name] of code.matchAll(
+      /\b(?:[A-Z][a-z]\w*|(?:format|is|mask|create|has|use|parse|compose)[A-Z]\w*|[A-Z][A-Z_]{3,})\b/g,
+    )) {
+      if (!reactExports.has(name) && !iconExports.has(name) && !outside.has(name)) unknown.add(name);
+    }
+  }
+  if (unknown.size) throw new Error(`docs/ai/bestow-ui.md 에 export 에 없는 이름: ${[...unknown].join(', ')}`);
+} else {
+  console.warn('docs/ai/bestow-ui.md 이름 검사 건너뜀 — packages dist 가 없음(pnpm build 먼저)');
+}
+mkdirSync(join(outDir, 'ai'), { recursive: true });
+writeFileSync(join(outDir, 'ai/bestow-ui.md'), rules);
+writeFileSync(
+  join(outDir, 'ai/bestow-ui.mdc'),
+  `---\ndescription: BestOW UI(@bestow-ui/react) 컴포넌트·한국 서비스 입력·폼·테마 사용 규칙\nglobs: **/*.tsx,**/*.jsx\nalwaysApply: false\n---\n\n${rules}`,
+);
+console.log(`ai/bestow-ui.md·mdc → ${outDir}`);

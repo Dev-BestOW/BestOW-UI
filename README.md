@@ -187,6 +187,24 @@ import { SearchIcon, TrashIcon } from '@bestow-ui/icons';
 
 필요한 아이콘만 import 하면 그 아이콘만 번들에 들어가요. 기본 세트는 [Lucide](https://lucide.dev) 기반 148종(상거래·결제·일정·파일·차트 등 서비스 화면에 자주 쓰는 것)이에요. 더 필요하면 `lucide-react` 를 함께 써도 돼요([아이콘 README](packages/icons#더-많은-아이콘이-필요하면)).
 
+## AI 코딩 도구와 함께 쓰기
+
+Claude Code·Cursor·Codex 같은 도구가 컴포넌트를 새로 만들지 않고 BestOW 를 쓰도록 규칙 파일을 넣어 두세요.
+한국 입력은 어떤 컴포넌트를 쓰는지, 값은 어떤 형태인지(숫자 문자열·`'YYYY-MM-DD'`), 폼·서버 컴포넌트·테마는 어떻게 쓰는지가 들어 있어요([원본](docs/ai/bestow-ui.md)).
+
+```bash
+# Claude Code — 파일을 받고 CLAUDE.md 에서 불러와요
+curl -so bestow-ui.md https://dev-bestow.github.io/BestOW-UI/ai/bestow-ui.md && echo '@bestow-ui.md' >> CLAUDE.md
+
+# Cursor — 프로젝트 규칙(.tsx·.jsx 파일을 다룰 때 붙어요)
+mkdir -p .cursor/rules && curl -so .cursor/rules/bestow-ui.mdc https://dev-bestow.github.io/BestOW-UI/ai/bestow-ui.mdc
+
+# Codex 등 AGENTS.md 를 읽는 도구
+curl -s https://dev-bestow.github.io/BestOW-UI/ai/bestow-ui.md >> AGENTS.md
+```
+
+props 까지 모두 담은 한 파일은 [`llms-full.txt`](https://dev-bestow.github.io/BestOW-UI/llms-full.txt) 예요(규칙 파일이 모를 때 읽으라고 안내해요).
+
 ## 컴포넌트
 
 | 분류 | 컴포넌트 |
