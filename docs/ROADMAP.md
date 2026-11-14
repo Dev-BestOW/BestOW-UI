@@ -51,11 +51,9 @@
 ## 남은 일
 
 ### 사람이 할 일
-- [ ] **bestow-ui.com 연결**(순서대로): ① 도메인 구매 + 자동 갱신 켜기 ② GitHub 조직 Settings › Pages › Verified domains 에 도메인 인증(TXT)
-  ③ DNS: `@` A 185.199.108.153·109·110·111.153, AAAA 2606:50c0:8000::153·8001·8002·8003::153, `www` CNAME dev-bestow.github.io
-  ④ 저장소 Settings › Pages › Custom domain `bestow-ui.com` → DNS 확인 뒤 Enforce HTTPS ⑤ **곧바로** 이 변경을 main 에 push(또는 storybook.yml Run workflow) — 그 사이 몇 분은 옛 빌드라 화면이 깨진다
-  ⑥ Search Console 에 `https://bestow-ui.com/` 속성 추가(태그 값이 다르면 Claude 에게) + sitemap 제출, 네이버 서치어드바이저 새 사이트 + 확인 파일(apps/site/public 에) ⑦ Cloudflare Web Analytics 사이트 호스트 확인
-  ⑧ 조직 루트 저장소 `dev-bestow.github.io` 의 index.html 이동 대상·robots.txt 를 새 주소로(선택).
+- [ ] **bestow-ui.com 마무리**(①~⑤ 도메인·DNS·Custom domain·HTTPS·배포는 2026-11-14 끝남): Search Console 에 `https://bestow-ui.com/` 속성 추가(태그 값이 다르면 Claude 에게) + sitemap 제출,
+  네이버 서치어드바이저 새 사이트 + 확인 파일(apps/site/public 에 — Claude 에게), Cloudflare Web Analytics 사이트 호스트 확인,
+  (선택) 조직 루트 저장소 `dev-bestow.github.io` 의 index.html 이동 대상·robots.txt 를 새 주소로. 도메인 자동 갱신 유지.
 - [ ] 블로그 예약 발행 워크플로 켜기 — 일요일 09:00 이후 ~ 월요일 09:00 전에 Actions › Daily post › Enable workflow(Run 은 누르지 않기).
 - [ ] 11/19 버전 PR #30 머지(첫 정기 배포).
 - [ ] good first issue 4개 등록(초안: 알리기 준비물 Artifact https://claude.ai/artifact/LvPgoSsmGKHjLd34FP789u) — 블로그 글이 나가기 전에.
@@ -66,7 +64,6 @@
 - [ ] 이 라이브러리로 만든 실제 서비스가 생기면 알려 주기 — README "사용 사례".
 
 ### Claude 가 확인할 것 (push·배포 뒤)
-- [ ] bestow-ui.com: `/`·`/storybook/`·`/playground/`·`/robots.txt`·`/sitemap.xml` 열림, 옛 `dev-bestow.github.io/BestOW-UI/?path=…`·`/iframe.html?id=…` 가 새 도메인 Storybook 으로, OG 이미지 절대 주소.
 - [ ] 배포된 `/ai/bestow-ui.md`·`/ai/bestow-ui.mdc` 열림(27번).
 - [ ] `npx create-next-app --example …/examples/next-starter` 실제 설치(26번), shadcn-starter StackBlitz 링크(25번).
 - [ ] 11/19 배포 뒤 npm 검색 `사업자등록번호`·`전화번호` 순위 다시 조회(24번).
@@ -128,3 +125,4 @@
 | 2026-11-14 | 14번: Guides "TanStack Table 과 함께 쓰기" — 예시 스토리(정렬·검색·페이지·선택·결과 없음, play 테스트·변이 확인)와 문서(연결 표·접근성·서버 모드). 새 스토리 1개 시각 회귀 기준 이미지 생성 필요(main push 때 자동) |
 | 2026-11-14 | 문서 정리: STABILIZATION 삭제(요약은 HISTORY), 파일럿·설계 기록 docs/archive, ROADMAP 503 → 약 120줄(옛 계획 절 403줄·11-10 까지 진행 기록 52줄은 HISTORY 에 그대로 보관). 미완료 항목 모두 "남은 일" 로, 깨진 링크 0 |
 | 2026-11-14 | 도메인 bestow-ui.com(사용자 결정, 후보는 RDAP 로 조회): 옛 주소 68곳 교체(README·package.json homepage·문서·llms.txt·OG·canonical), 소개 사이트 basePath 기본 ''·E2E 를 루트 구조로, `robots.txt`(sitemap 위치) 추가. 4개 패키지 patch changeset. 연결 순서는 "사람이 할 일" |
+| 2026-11-14 | bestow-ui.com 연결 확인: DNS(A·AAAA·www CNAME·인증 TXT), HTTPS, 16쪽 200(사이트·Storybook·playground·robots·sitemap·llms·ai·확인 파일), canonical·OG·sitemap 새 주소, 옛 `?path=`·`iframe.html?id=` 가 Chrome 에서 새 도메인 Storybook 으로, http·www → https 루트 |
