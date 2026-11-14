@@ -240,6 +240,7 @@ Chrome·Edge·Firefox·Safari 최근 2개 메이저 버전(모바일 포함), Re
 ## 참여하기
 
 질문·아이디어는 [Discussions](https://github.com/Dev-BestOW/BestOW-UI/discussions), 버그는 [이슈](https://github.com/Dev-BestOW/BestOW-UI/issues)로 알려 주세요.
+처음 기여한다면 [CONTRIBUTING.md 의 "처음 기여하기"](CONTRIBUTING.md#처음-기여하기)와 [`good first issue`](https://github.com/Dev-BestOW/BestOW-UI/labels/good%20first%20issue) 이슈부터 보세요.
 개발 환경·컴포넌트 추가 체크리스트·배포 흐름은 [CONTRIBUTING.md](CONTRIBUTING.md), 왜 이렇게 만드는지는 [docs/POSITIONING.md](docs/POSITIONING.md),
 앞으로의 계획은 [docs/ROADMAP.md](docs/ROADMAP.md)에 있어요.
 

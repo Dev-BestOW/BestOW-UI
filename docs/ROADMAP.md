@@ -298,7 +298,9 @@ main CI 의 site E2E 실패(320px 리플로 — CI Linux 글꼴이 넓어 대표
     데이터 표는 직접 키우지 말고 **TanStack Table 과 함께 쓰는 패턴 가이드**(정렬·필터·페이지·선택).
 15. **Figma 라이브러리** (아래 보류에서 올림) — 팀 도입은 디자이너가 함께 결정하는 경우가 많아 코드만 있는 DS 는 불리하다.
     먼저 tokens → Figma 변수 동기화(Figma MCP 연결됨), 그다음 주요 컴포넌트·Code Connect.
-16. **운영** — 런칭 뒤 배포는 SUPPORT.md 의 주기대로 묶는다(1주 24개 버전은 "불안정" 인상). 외부 기여자용 짧은 입구(CONTRIBUTING 첫 화면에
+16. ✅ (2026-11-14) **운영** — 배포 주기는 30번(격주 목요일). CONTRIBUTING 맨 위 "처음 기여하기"(무엇부터 — good first issue, fork → PR 10분 명령, 메인테이너가 맡는 것: changeset·기준 이미지·배포), README "참여하기" 에서 링크.
+    good first issue 초안 4개(알리기 준비물 Artifact): presetRange 예외 테스트·en verificationCodeHint·dayLabel 테스트·vite-starter 영어 전환·Tag 분기 테스트 — 모두 커버리지로 확인한 실제 빈 곳, 기대값은 실제 계산, 확인 명령은 직접 돌려 봄. **등록은 사용자.**
+    원래 계획: 런칭 뒤 배포는 SUPPORT.md 의 주기대로 묶는다(1주 24개 버전은 "불안정" 인상). 외부 기여자용 짧은 입구(CONTRIBUTING 첫 화면에
     "처음 기여하기" — CLAUDE.md·ROADMAP 은 너무 길다). 큰 기능 전 번들 조합 한도(여유 약 10%) 확인은 6번과 같음.
 
 ### 런칭 뒤 완성도 보강 (2026-11-06 — 위에서부터 추천 순서)
@@ -497,3 +499,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-14 | 기준값: 스타 4 · 포크 0 · 이슈 열림 0/닫힘 0 · Discussions ?(GITHUB_TOKEN 없음) · npm 평일 중앙값(최근 28일, 배포일·다음날 제외) react 12/일(12일) · korean-utils 5/일(14일) · tokens 5/일(15일) · icons 4/일(17일) — 같은 기간 react 합계 2,001(대부분 배포·CI) |
 | 2026-11-14 | 29번 측정: `scripts/stats.mjs`(기준값 한 줄), Cloudflare Web Analytics(사용자 결정) — 배포 빌드에만 토큰으로 beacon, site E2E 로 테스트 빌드에 없는지 확인, SECURITY.md 공개. 토큰 등록은 사용자 |
 | 2026-11-14 | 30번: 배포 주기 격주 목요일(SUPPORT.md·CLAUDE.md), 알리기 준비물 Artifact(velog·요즘IT·발표 제안서·커뮤니티), 블로그 예약 발행 워크플로 9/13 이후 멈춤 발견 |
+| 2026-11-14 | 16번: CONTRIBUTING "처음 기여하기" + README 링크, good first issue 초안 4개(커버리지로 찾은 실제 빈 곳 — presets 분기 2·en 2·Tag 14, vite-starter 영어 전환) |

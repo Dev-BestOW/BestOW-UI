@@ -3,6 +3,46 @@
 BestOW UI 에 컴포넌트·아이콘을 추가하거나 버그를 고칠 때 필요한 내용을 정리했어요.
 사용 방법은 [Storybook](https://dev-bestow.github.io/BestOW-UI/storybook/) 의 **Introduction** 페이지를 봐 주세요.
 
+## 처음 기여하기
+
+이 문서 아래쪽은 길지만, 처음에는 이 절만 읽으면 돼요.
+
+**무엇부터 하면 좋을까요?** [`good first issue`](https://github.com/Dev-BestOW/BestOW-UI/labels/good%20first%20issue) 라벨이 붙은 이슈부터 골라 주세요.
+고칠 파일과 확인 방법이 이슈에 적혀 있어요. 하고 싶은 이슈에 댓글을 남기면 겹치지 않게 맡겨 드려요.
+그 밖에도 이런 기여를 반겨요.
+
+- 문서의 오타·어색한 문장, 틀린 예시 고치기
+- 테스트가 비어 있는 분기 채우기 — 파일별 리포트는
+  `pnpm --filter @bestow-ui/react exec vitest run --coverage --coverage.reporter=html` 뒤 `packages/react/coverage/index.html`
+- 버그를 재현하는 최소 예시와 함께 이슈 남기기
+- 쓰면서 불편했던 점·필요한 컴포넌트 이야기는 [Discussions](https://github.com/Dev-BestOW/BestOW-UI/discussions) 에
+
+**처음부터 PR 까지 (10분)**
+
+```bash
+# 1. 저장소를 fork 한 뒤 내 fork 를 받아요
+git clone https://github.com/<내 계정>/BestOW-UI.git && cd BestOW-UI
+corepack enable          # pnpm 11 을 씁니다 (Node.js 22.18 이상)
+pnpm install
+pnpm build               # 패키지를 한 번 빌드해 둬요
+
+# 2. 브랜치를 만들고 고쳐요
+git switch -c fix/어떤-내용
+
+# 3. 고친 곳에 맞는 확인만 돌려요
+pnpm storybook           # 화면을 바꿨다면 http://localhost:6006 에서 라이트·다크로 확인
+pnpm test                # 단위 테스트
+pnpm lint && pnpm format:check
+```
+
+4. PR 을 올리면 CI 가 브라우저 3종·접근성·시각 회귀까지 모두 검사해요. 로컬에서 전부 돌리지 않아도 괜찮아요.
+5. 이런 건 몰라도 돼요 — **메인테이너가 맡아요**: changeset(버전 기록), 시각 회귀 기준 이미지 갱신, 배포.
+
+PR 설명에는 무엇을 왜 바꿨는지만 적어 주세요. 한국어로 써 주시면 돼요(영어도 괜찮아요).
+
+**더 큰 기여를 하려면** — 새 컴포넌트나 공개 API 변경은 먼저 Discussions·이슈에서 이야기해 주세요.
+이 라이브러리가 하지 않기로 한 것도 있어요([docs/POSITIONING.md](docs/POSITIONING.md)). 아래 "컴포넌트 추가 체크리스트" 가 그다음 단계예요.
+
 ## 개발 환경
 
 - Node.js 22.18 이상 (`.nvmrc` — tsup 9 가 요구)
