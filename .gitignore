@@ -4,6 +4,10 @@ storybook-static
 # 빌드 때 생성 (scripts/generate-llms.mjs)
 apps/storybook/public/llms-full.txt
 apps/storybook/public/ai/
+# 토큰 → Figma 변수 JSON (scripts/generate-figma-tokens.mjs, docs/FIGMA.md) — 실행할 때마다 만든다
+figma-tokens.json
+# 예제는 npm 으로 설치해 확인한다. 잠금 파일은 커밋하지 않는다(StackBlitz·create-next-app 이 최신 배포본을 받게)
+examples/*/package-lock.json
 *.log
 .DS_Store
 coverage
