@@ -9,3 +9,4 @@ pnpm-lock.yaml
 *.md
 # 검색 엔진 소유 확인 파일 — 받은 그대로 둬야 확인이 유지된다
 apps/site/public/google*.html
+apps/site/public/naver*.html

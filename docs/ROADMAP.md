@@ -52,7 +52,7 @@
 
 ### 사람이 할 일
 - [ ] **bestow-ui.com 마무리**(①~⑤ 도메인·DNS·Custom domain·HTTPS·배포는 2026-11-14 끝남): Search Console 에 `https://bestow-ui.com/` 속성 추가(태그 값이 다르면 Claude 에게) + sitemap 제출,
-  네이버 서치어드바이저 새 사이트 + 확인 파일(apps/site/public 에 — Claude 에게), Cloudflare Web Analytics 사이트 호스트 확인,
+  네이버 서치어드바이저 소유확인 버튼(확인 파일은 apps/site/public 에 넣음 — push·배포 뒤) + sitemap 제출, Cloudflare Web Analytics 사이트 호스트 확인,
   (선택) 조직 루트 저장소 `dev-bestow.github.io` 의 index.html 이동 대상·robots.txt 를 새 주소로. 도메인 자동 갱신 유지.
 - [ ] 블로그 예약 발행 워크플로 켜기 — 일요일 09:00 이후 ~ 월요일 09:00 전에 Actions › Daily post › Enable workflow(Run 은 누르지 않기).
 - [ ] 11/19 버전 PR #30 머지(첫 정기 배포).

@@ -86,6 +86,14 @@ test('Google 소유 확인 파일', async ({ request }) => {
   expect(await response.text()).toBe('google-site-verification: google0b0babb132369702.html');
 });
 
+// 네이버 서치어드바이저 소유 확인 파일(https://bestow-ui.com) — 받은 그대로 루트에서 열려야 확인이 유지된다.
+// 옛 주소(dev-bestow.github.io)의 확인 파일은 조직 루트 저장소에 있다
+test('네이버 소유 확인 파일', async ({ request }) => {
+  const response = await request.get('/naverdbb94071b934e2519ccd47042ba23ee1.html');
+  expect(response.status()).toBe(200);
+  expect(await response.text()).toBe('naver-site-verification: naverdbb94071b934e2519ccd47042ba23ee1.html');
+});
+
 // KWCAG 1.4.10 리플로 — 대표색 버튼·설치 명령·데모 칸이 좁은 화면에서 가로 스크롤을 만들었던 적이 있다
 for (const width of [320, 390]) {
   test(`${width}px 폭에서 가로 스크롤 없음`, async ({ page }) => {
