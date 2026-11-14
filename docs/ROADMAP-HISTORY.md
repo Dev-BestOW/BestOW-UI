@@ -429,7 +429,415 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 - **재발 방지 S16~S19:** 폼 공통 계약 테스트(`form-contract.test.tsx`), 실제 브라우저 IME E2E, 커버리지 보고(`pnpm test:coverage`), 누락 테스트 보강(카카오 스크립트 재시도 버그 발견).
 - **런칭 전 완료 조건(모두 충족, 2026-11-05):** 1~7단계·main CI 녹색, 2.0 배포(11-04), 사람 확인(ResidentNumberInput VoiceOver·iOS Safari 가상 키보드 — NVDA·Android 는 런칭 뒤로), README 비교표 갱신. → 2026-11-05 GeekNews 런칭.
 
-## 진행 기록 보관 (2026-10-14 ~ 10-21)
+## 로드맵 계획 절 보관 (2026-11-14 정리 전 ROADMAP 의 인수인계·다음 플랜·현재 상태 그대로)
+
+> 2026-10-21 ~ 11-14 의 계획·인수인계 메모. 제목 단계만 하나씩 내렸다. 사용자 유치 플랜 23~30번의 상세 기록도 여기에 있다.
+
+### 🔁 다음 세션 시작하기 (인수인계 — 2026-11-04 기준)
+
+**2026-11-13 세션:** 사용자 할 일 완료 확인(Search Console·네이버 sitemap 제출, force push 금지 규칙, Dependabot) — 버전 PR #30 은 아직 열림(머지는 사용자 판단).
+24번 글 초안 2편(사업자등록번호 검증 공식 `business-number-checksum.md`, 인증번호 문자 자동 채우기 `sms-otp-autofill-react.md` — 둘 다 astro-blog draft), 3편 약관 전체 동의 체크박스 접근성 `agreement-checkbox-a11y.md` — 세 편 모두 astro-blog `content-queue/001~003-*.md`(draft: false)로 옮겨 매일 09:00 하나씩 예약 발행.
+**25~27번 완료, 28번 토큰·스타일·주요 컴포넌트 완료, 29번 통계 연결(토큰 대기), 30번 준비물 완료**(아래). 다음: 사용자 게시·토큰 등록·블로그 워크플로 켜기, 그다음 28번 남은 정리 또는 새 요청. 이전 다음: 28번 남은 정리(MCP 한도 뒤) 또는 29번 측정(사용자 결정 필요), Context7 등록(사용자), 버전 PR #30 배포 뒤 npm 검색 순위 조회, push 뒤 `create-next-app --example` 실제 설치 확인.
+
+**지금 할 일(2026-11-11 결정): "사용자 유치 플랜" 23번부터** — 아래 "다음 플랜" 맨 위 절. 런칭 6일 뒤 점검에서 막힌 곳이 기능이 아니라
+**발견 → 신뢰 → 첫 사용** 경로로 나왔다(스타 4·외부 이슈 0·Discussions 0·웹 검색 결과 없음). 새 컴포넌트(6번 C Tag 입력·B 비동기 검색)는 외부 요청이 생길 때까지 미룬다.
+열린 버전 PR #30(MultiCombobox 등) 머지 여부는 사용자에게 확인.
+**2026-11-11 세 번째 세션:** 24번 함수 문서 10쪽 + 목록을 소개 사이트에 추가(아래 24번), korean-utils npm 메타 보강(changeset patch).
+CI WebKit "다크 모드 토글" 간헐 실패 수정(axe 를 색 전환 뒤에 — 커밋 eac34ea). Dependabot 2건(glob·minimatch, 개발 도구만) pnpm overrides 로 해결(커밋 9d871f5).
+다음: ① push 뒤 CI(특히 React 18 job — overrides 블록에 줄을 덧붙이는 방식으로 바꿈)·Dependabot 경고 닫힘 확인 ② 배포 뒤 sitemap 재제출·네이버 소유확인(사용자)
+③ main force push 금지 규칙이 다시 켜졌는지(사용자 — 이번에 잘못된 커밋 메시지를 고치려고 잠깐 force push 함) ④ 24번 글 초안 또는 25번.
+
+**2026-11-11 두 번째 세션:** 23번 A·B 배포 확인(루트·/storybook/·/playground/·llms·og·sitemap 200, `lang="ko"`, 실제 배포에서 옛 `?path=`·`iframe.html` 넘겨주기 동작).
+main CI 의 site E2E 실패(320px 리플로 — CI Linux 글꼴이 넓어 대표색 칸이 335px, WebKit 넘겨주기 대기 시간 초과, Firefox 경고) 고침 — push 뒤 CI 녹색 확인 필요. 다음은 23번 Search Console(사용자) → 24번.
+(그 전 기록) **런칭 뒤 반응 보기** (2026-11-05 GeekNews Show 게시 — https://news.hada.io/topic?id=36655). 아래 줄은 런칭 직전 기록 —
+**(완료) 런칭 준비 마무리** — 코드 안정화(STABILIZATION 1~8단계)와 **2.0 배포 완료**(2026-11-04, react·tokens 2.0.0), README 비교표 갱신 완료.
+**STABILIZATION 런칭 전 완료 조건 모두 충족(2026-11-05)** → 런칭 게시 완료(2026-11-05). 런칭 뒤 할 사람 확인: ResidentNumberInput NVDA, 가상 키보드 Android Chrome(둘 다 2026-11-05 사용자 결정으로 미룸, VoiceOver·iOS Safari 는 ✅).
+(2026-11-05 완료: Storybook 문서 페이지 `@layer` 점검 — 이상 없음, GeekNews Show 본문 2.0 기준 갱신.) 런칭 뒤 반응으로 "다음 플랜" 의 기능을 고른다.
+**6번 A(MultiCombobox) 완료(2026-11-06)** — 다음은 6번 C Tag 입력(칩 입력 UI 를 MultiCombobox 와 공유) → B 비동기 검색. **"런칭 뒤 완성도 보강" 17~22번 모두 완료(2026-11-06)** — 그 전 기록: 다음은 런칭 반응을 보고 6번(Combobox 다중 선택·Tag 입력 — Tag 를 칩으로)·14번 TanStack 가이드·15번 Figma 중에서 (17~21번 changeset `more-icons`(icons minor) 포함, changeset `password-search-input`·`tag-empty-state`·`korean-kit-2` minor — 배포 대기) — 런칭 반응에 직접 요청이 있으면 그것이 먼저.
+사용자 결정(2026-10-30): **홍보보다 코드 안정화가 먼저**, 런칭 게시는 보류, 호환성을 깨는 변경은 런칭 전에 2.0 으로 묶는다.
+아래 "다음 플랜"의 런칭·기능 항목은 안정화가 끝난 뒤 다시 판단한다.
+
+**2026-11-06 세션 끝 — 남은 일(다음 세션에서 먼저)**
+1. ✅ 버전 PR #29 머지·배포 확인(2026-11-06) — npm react 2.1.0 · korean-utils 0.4.0 · icons 0.2.0 · tokens 2.0.0, main CI 녹색, examples/vite-starter 를 npm 에서 설치해 tsc·vite build 통과.
+2. ✅ **`!visual` 태그 버그**(2026-11-06) — 태그를 `no-visual` 로 바꿈(스토리 11개), `visual/stories.spec.ts` 필터·CLAUDE.md 규칙·함정, 빠진 스토리의 기준 이미지 22장 삭제
+   (build-storybook index.json 으로 찍을 이미지 626장 = 남은 기준 이미지 626장 확인 — 기준 이미지 갱신 불필요).
+3. ✅ 전역 스킬 정리(2026-11-06) — `.claude/settings.local.json`(전역 gitignore, 커밋 안 됨)의 `skillOverrides`: replica-*·claude-api·morning·import-memory·docx·pptx·xlsx·google-workspace 는 off,
+   loop·schedule·브라우저/computer-use·deep-research·pdf·skill-creator·dataviz 등은 user-invocable-only(/이름 으로만). 다음 세션 스킬 목록에서 빠졌는지 확인 — 플러그인 스킬(`anthropic-skills:`·`superpowers:` 접두사) 키가 먹지 않으면 접두사 없는 이름으로 바꾼다.
+
+**마지막 상태**
+- npm: **react 2.0.0** · **tokens 2.0.0** · **korean-utils 0.3.0** · icons 0.1.3 (2026-11-04 확인. 버전 PR #28 머지됨, main CI 녹색).
+- GitHub 저장소 설정 완료(2026-10-21): 한국어 About·Website, Topics 18개, **Discussions 켜짐**(기본 카테고리 6개). 이슈·PR 템플릿 있음.
+- Pages: Storybook + playground + `llms.txt`·`llms-full.txt`. StackBlitz 예제 `examples/vite-starter`(npm 의 react ^2.0.0 — 2026-11-04 설치·빌드·화면 확인: 레이어·진한 입력 테두리 반영).
+- 컴포넌트 약 56개(폴더 55 — 10-23 Grid·Container·FormField·CheckboxGroup·ResidentNumberInput 추가) + 테마·다국어·서식·마스킹 함수, 아이콘 57종. **P1~P16 완료**, 이번 플랜 1(노출)·2(번들)·3(korean-utils)·5(런칭 준비물) 완료.
+- 프로덕션 권장 선언 기준 **6/6 달성**(2026-10-23 NVDA + Chrome 13개 항목 모두 ✅, VoiceOver 재확인 ✅) — README·npm·Introduction·SUPPORT·POSITIONING 에 반영, 1.6.1 로 배포.
+- **런칭: 준비물은 있지만 2026-10-30 부터 보류**(STABILIZATION.md 완료 조건 뒤). 블로그(https://jiwon-seok.com, 저장소 ~/Documents/Project/astro-blog) 기술 글 2편 **공개됨** —
+  `oklch-contrast-theme`(10-21)·`kwcag-automated-testing`(10-23, NVDA 결과 포함). 블로그 표 스타일도 2026-10-23 손봄.
+  GeekNews Show 본문은 비공개 Artifact https://claude.ai/artifact/EdgazWzz98aH3maLsXFwRT ("복사" 버튼, 2026-11-05 react 2.0 기준 숫자·특징으로 갱신).
+  런칭 뒤에는 이슈·Discussions 반응으로 다음 기능(Combobox 다중 선택·Tag 입력)을 정한다.
+- **9번 OS 다크 모드(`theme="system"`) 완료**, **10번 반응형 기반 완료**(2026-10-23, changeset `responsive-layout` react·tokens minor — 배포 대기). 11번 info 색·12번 FormField·CheckboxGroup 완료(changeset `info-color`·`form-field-checkbox-group`). 13번 한국 키트 1차(주민번호·마스킹) 완료(changeset `resident-number-masking`). 다음은 14번 컴포넌트 공백.
+  **"앱 기본" 번들 여유가 10 B 뿐**(4.09/4.1 kB — system 모드 +390·Stack 구간별 값 +300·info 변수 +40 B) → 다음에 ThemeProvider·Button·Typography·Stack·vars 를 키우면 한도를 사용자와 다시 정한다.
+- **2026-10-23 객관 점검**(다음 플랜 9~16번) 중 9~13 완료. 남은 것: 14 컴포넌트 공백(Tag/Chip·EmptyState·TimePicker·앱 뼈대·TanStack 가이드)·15 Figma·16 운영. 모두 안정화 뒤로 미룬다.
+- 번들(2026-11-05 2.0 기준, minify + brotli): 전체 72.35/80 · Button 하나 1.74/2 · 앱 기본 4.28/4.4 · 폼 세트(Select) 29.86/33 · NativeSelect 판 4.09/4.3 ·
+  오버레이 34.99/38 · 한국 키트 30.87/33.5 · styles.css 10.96/12 · tokens 1.36/1.5 · korean-utils 1.42/1.5 kB. 아래 줄은 10-23 기록.
+- (옛 기록) 번들(2026-10-23 13번 뒤 측정, minify + brotli): react 전체 JS **71.68/80 kB** · Button 하나 1.51/2 · 앱 기본 **4.09/4.1** · 폼 세트(Select) 29.66/33 ·
+  **폼 세트(NativeSelect) 3.86/4.3** · 오버레이 세트 34.82/38 · 한국 키트 30.4/33.5 · styles.css 10.86/12 · tokens 1.32/1.5 ·
+  korean-utils 전체 1.32/1.5 kB(10-23 한도 1 → 1.5, 사용자 결정)·전화번호 서식 하나 179/300 B·maskName 하나 92/200 B. 큰 덩어리는 모두 Radix(점검 결과는 아래 "Claude 가 할 일" 2번).
+  **조합 한도는 여유가 약 10% 뿐** — 큰 기능(Combobox 다중 선택 등)을 넣기 전에 어느 조합에 들어가는지 보고 필요하면 한도를 사용자와 정한다.
+- semver 적용 중: 기존 이름·타입·CSS 변수 변경 = major. 이름을 바꿀 땐 새 이름 + 옛 이름 deprecated(minor) 먼저 (CLAUDE.md "작업 규칙").
+  기본 화면을 바꾸는 개선은 **선택 토큰 + 2.0 기본값**(`MIGRATION-2.0.md`) — 입력 칸·체크 컨트롤 테두리가 이 방식.
+
+**세션 시작 체크리스트**
+1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다
+   (저장소에 `pull.rebase=true`, `rebase.autoStash=true` 설정됨. Claude 는 커밋·push 하지 않음 — 이 세션 셸은 GitHub 인증이 없어 push 불가).
+2. 열린 버전 PR 확인: `curl -s https://api.github.com/repos/Dev-BestOW/BestOW-UI/pulls?state=open` — 있으면 머지 여부를 사용자에게 알린다.
+3. 배포 버전 확인: `curl -s https://registry.npmjs.org/@bestow-ui%2freact | python3 -c "import json,sys;print(json.load(sys.stdin)['dist-tags'])"`
+3-1. 기준값: `node scripts/stats.mjs` → 출력 한 줄을 "진행 기록" 에 붙인다(29번).
+4. main CI 확인: `curl -s https://api.github.com/repos/Dev-BestOW/BestOW-UI/commits/<sha>/check-runs` — 실패면 annotations 로 원인부터.
+5. `pnpm install && pnpm build` 후 아래 "다음 플랜" 중 사용자가 고른 작업부터 진행.
+
+**작업 습관 (굳어진 것)**
+- 컴포넌트: CLAUDE.md 규칙 + 스토리(열린 상태가 있으면 `play` 로 연 스토리) + 테스트 + `src/client.ts` export(순수 함수는 `shared.ts`)
+  + changeset + playground 사용 예 + E2E(키보드 등 실제 브라우저에서만 확인되는 동작) + 접근성 문서(`componentA11y.ts`·필요하면 `kwcag.ts`)
+  + README 컴포넌트 표(루트·`packages/react/README.md`) + 필요하면 `Guides`(언제 무엇을 쓰나·화면 패턴) + `ssr.test.tsx`.
+- 핵심 테스트는 구현을 일부러 망가뜨려 실패하는지 확인한다 (**복원은 scratchpad 백업 파일 복사로만 — `git checkout` 금지**).
+- 로컬에서 재현이 안 되는 CI 실패는 조건을 만들어 재현한다(느린 애니메이션 주입, CDP CPU 스로틀, React 18 overrides) — 추측으로 고치지 않는다.
+- 새 Radix 패키지는 올라온 지 24시간 넘은 버전만(pnpm minimumReleaseAge). package.json 을 바꾸기 전에 origin 과 같은지 확인.
+- 색을 고를 때는 대비를 계산한다: 글자 4.5:1, 막대·테두리 등 그래픽 3:1. 고대비 모드는 `styles/forcedColors.css.ts` 로 시스템 색 지정.
+- 반복되는 브라우저 확인은 `apps/playground/e2e`(포트 3107)에, 일회성 확인만 scratchpad 스크립트로(시스템 Chrome·Playwright WebKit).
+  입력 중 생긴 메시지를 스크린리더에 알릴 때는 `utils/useDelayedAnnouncement`(0.8초 뒤, 항상 있는 status 영역)를 쓴다.
+  사용자 dev 서버(3000)는 건드리지 않는다. 새 E2E 는 `--repeat-each 5` 로 불안정하지 않은지 본다. Firefox 는 로컬 실행 불가(macOS 27) → CI 로 확인.
+- 시각 회귀가 바뀌는 변경은 push 후 visual.yml 수동 update 가 필요하다(job 이 실패하면 새 스토리 기준 이미지도 커밋되지 않음 — update 한 번으로 둘 다).
+  보고할 때 "허용치 안 통과" 와 "픽셀 동일" 을 구분한다.
+- 문서는 한국어(npm README 는 영어 한 줄 소개만). `en` 문구 묶음은 기능이라 유지.
+
+**스크린리더 점검 진행 방식 (2026-10-21 VoiceOver 에서 잘 된 방식)**
+- 로컬 playground 를 운영 빌드로 띄운다: `pnpm build && pnpm build-playground` → `pnpm --filter @bestow-ui/playground exec next start -p 3001`
+  (백그라운드, 3000·3107 과 겹치지 않게). 고칠 때마다 다시 빌드·재시작하고 사용자에게 새로고침을 부탁한다 — push 없이 바로 재확인. 끝나면 서버를 끈다.
+  Windows PC 에서 점검하면 맥의 서버에 같은 네트워크로 접속하거나(`next start -H 0.0.0.0 -p 3001`), 배포된 Pages(push 후)를 쓴다.
+- [`SCREEN-READER-CHECKLIST.md`](SCREEN-READER-CHECKLIST.md) 항목 하나씩: 누를 키·기대 문구를 안내 → 사용자가 ✅/⚠️/❌ 와 들린 문장을 알려 줌 →
+  문제는 바로 원인 확인(실제 브라우저로 DOM 재현 먼저)·수정·테스트(변이)·재확인. 결과는 해당 열(NVDA 는 2번째 열)에, 끝나면 "점검 기록" 표에 한 줄.
+- 배운 것: live region 은 **처음부터 있어야** 하고, **입력·포커스 이동과 같은 순간**에 바꾸면 VoiceOver 가 버린다(늦춰서 넣기).
+  Safari 는 텍스트 입력 spinbutton 의 aria-valuetext 를 읽지 않는다(NumberInput 은 따로 알림). 맥 키보드 F8 은 fn + F8.
+
+### 다음 플랜 (2026-10-21 재정리 — 알리기·도입 장벽 낮추기 우선, 위에서부터 추천 순서)
+
+> **2026-10-30 변경:** 이 플랜보다 코드 안정화(ROADMAP-HISTORY "코드 안정화", 2026-11-05 완료)가 먼저였다. 아래 "품질은 충분하다" 는 판단은 같은 날 점검에서 찾은 버그로 바뀌었다.
+
+> 방향: 품질은 충분하다. 부족한 것은 **알리기**와 **도입 장벽**이다(스타 1, npm 월 다운로드 react 665 는 1주 24개 버전 배포·CI 설치로 부풀려진 값 —
+> 실사용자는 거의 없다고 보고 시작). 공개 런칭(GeekNews 등)은 **NVDA 점검으로 "프로덕션 권장 6/6" 을 채운 뒤 한 번에** 한다.
+> 첫 런칭은 한 번뿐이라 그 문구와 번들 숫자를 쓸 수 있을 때 한다.
+
+#### 사용자 유치 플랜 (2026-11-11 — 위에서부터 추천 순서, 이 절이 지금 1순위)
+
+> 2026-11-11 점검(런칭 6일 뒤): GitHub 스타 4(런칭 전 1)·포크 0·외부 이슈 0·Discussions 글 0, npm react 평소 하루 15~30(큰 값은 배포·CI 설치),
+> 웹 검색 "BestOW UI" 결과 없음, npm 검색은 `kwcag` 3위뿐 — `한국 디자인 시스템`·`사업자등록번호`·`korean phone number format` 은 20위 밖.
+> 비교: Vapor UI 40·HANUI 36·es-hangul 1,887 스타(한국 DS 시장은 작고 유틸 함수 수요가 훨씬 크다). GeekNews 글의 추천·댓글 수는 읽지 못함.
+> 판단: 컴포넌트·테스트·접근성에 더 투자해도 사용자는 늘지 않는다. **검색에 잡히기 → 일부만 써 볼 길 → 실사용 증거** 순으로 한다.
+> 새 컴포넌트·테스트 추가·번들 미세 조정은 외부 요청이 생길 때까지 하지 않는다.
+
+23. **검색·공유에 잡히는 홈페이지** — 지금 Pages 루트는 Storybook 이라 제목이 `storybook - Storybook`, description·OG 태그·sitemap.xml·robots.txt 없음(본문도 iframe 안이라 색인이 약함).
+    - [x] A(2026-11-11 완료 — push 뒤 배포 확인 남음): Storybook 제목(`main.ts` 의 `title` 프리셋 → "BestOW UI — 한국 서비스를 위한 접근성 검증 React 디자인 시스템 - Storybook"),
+      `.storybook/manager-head.html`(description·canonical·OG·트위터 카드), `public/og.png`(1200×630 — `node scripts/generate-og.mjs` 가 `scripts/og-image.html` + 히어로 이미지를 찍음),
+      `public/sitemap.xml`(루트 + playground 5쪽), playground `layout.tsx` metadata 에 OG. **robots.txt 는 두지 않음** — 호스트 루트(dev-bestow.github.io/robots.txt)에서만 읽혀 프로젝트 Pages 에서는 소용없다(sitemap 은 Search Console 에 직접 제출).
+      못 바꾼 것: Storybook 껍데기의 `<html lang="en">`(템플릿 고정 — B 에서 랜딩을 만들면 해결). push 뒤 확인: `curl` 로 배포된 태그, 카카오톡·슬랙 미리보기(사용자, 카카오는 캐시 초기화 도구 필요할 수 있음).
+    - [x] B(2026-11-11 완료 — push 뒤 배포 확인 남음): 새 앱 `apps/site`(Next.js 정적 export — playground 는 예제 앱이라 섞지 않음)를 Pages 루트에, Storybook 은 `/storybook/`, 예제 앱은 그대로 `/playground/`
+      (`scripts/assemble-pages.sh` 가 모으고 빠진 파일이 있으면 실패, llms*.txt 는 루트에도). 첫 화면은 **직접 입력해 보는 한국 키트 데모 + 대표색 바꾸기**(버튼 글자 대비 숫자 표시),
+      그 아래 무엇이 다른가요·크기·Next.js 시작 3단계·더 알아보기. `<html lang="ko">`, OG·canonical·sitemap 은 site 로 옮김.
+      옛 주소: layout 의 beforeInteractive 스크립트가 `?path=`·`?id=`·`?viewMode=` 를 쿼리·해시 그대로 /storybook/ 으로, `public/iframe.html` 이 옛 스토리 단독 주소를 넘김.
+      E2E 14개(`apps/site/e2e`, Pages 와 같은 경로의 정적 서버 + 가짜 Storybook): 넘겨주기 6·axe 라이트·다크·토글·데모·메타·320/390px 리플로, 변이 2(넘겨주기 조건·휴대폰 여백).
+      README·npm README·POSITIONING·CONTRIBUTING·llms.txt·이슈 템플릿 링크를 `/storybook/` 으로(npm 페이지는 다음 배포 때 반영). CI 는 check·browsers job 에 build-site + site E2E.
+      push 뒤 확인: 루트·/storybook/·/playground/·/llms.txt 열림, 옛 링크(README 의 예전 주소·GeekNews 글) 넘어가는지, 카카오톡·슬랙 미리보기.
+    - [x] Google Search Console·네이버 서치어드바이저 등록(사용자 — 2026-11-13 확인·sitemap 제출 완료).
+      Google: URL 접두어 속성, HTML 태그 확인 — `apps/site/app/layout.tsx` metadata `verification.google` 에 넣음(2026-11-11, E2E 가 태그 확인). push·배포 뒤 "확인" → sitemap 제출(사용자). 네이버는 호스트 단위만 받아 조직 루트 사이트 저장소 `Dev-BestOW/dev-bestow.github.io`(index.html → /BestOW-UI/ 이동·robots.txt(sitemap 위치)·네이버 확인 파일)를 만듦 — 2026-11-11 배포 확인, 기존 경로 영향 없음. 남은 것: 네이버 소유확인·sitemap 제출(사용자). **그 저장소에 `BestOW-UI` 폴더를 만들지 않는다**(경로 충돌).
+24. **korean-utils 를 입구로** — 함수(전화번호 하이픈·사업자등록번호 검증·금액 한글 읽기·마스킹·주민번호·카드·계좌)마다 검색되는 문서 페이지:
+    문제 → 코드 한 줄 → 직접 쳐 보는 입력 → 같은 동작의 react 입력 컴포넌트 링크. 23번 B 의 사이트에 둔다(B 전에는 korean-utils README 를 함수별 절로 보강).
+    - [x] 함수 문서(2026-11-11): `apps/site/app/korean-utils/` — 목록 `/korean-utils/` + 10쪽(`guides.ts` 데이터 → `[slug]/page.tsx`, 직접 입력은 `Try.tsx`):
+      전화번호·사업자·금액·주민번호·마스킹·카드·법인·계좌(은행 코드 표 26곳)·날짜·주소 참고항목. 쪽마다 제목·description·canonical·OG(`seo.ts`), 헤더 "서식 함수"·홈 "더 알아보기" 링크.
+      sitemap 은 `app/sitemap.ts` 가 guides 로 만든다(public/sitemap.xml 제거). E2E `korean-utils.spec.ts`: 메타·링크·직접 입력·은행 표·sitemap·axe 라이트·다크·320px,
+      **코드 예시의 `호출; // 결과` 37줄을 node 에서 실제 계산해 비교**(결과를 일부러 틀리면 실패하는 것 확인).
+    - [x] npm description·keywords 보강(하이픈·법인등록번호·카드번호·계좌번호·은행코드·luhn 등), homepage → 함수 문서, README 에 함수별 문서 링크(changeset patch — 다음 배포 때 npm 반영).
+    - [ ] 배포 뒤: ~~Search Console 에 sitemap 다시 제출(사용자)~~ 완료(2026-11-13), `사업자등록번호`·`전화번호` npm 검색 순위 다시 조회(버전 PR #30 배포 뒤 — npm 메타가 그때 반영).
+    - [ ] 문제 단위 글 초안(게시는 사용자 — 블로그·velog) — 1편 완료(2026-11-13): astro-blog `src/content/posts/business-number-checksum.md`(`draft: true` — 공개는 사용자가 false 로 바꿔 push).
+      2편(2026-11-13): `sms-otp-autofill-react.md`(draft) — 칸 여섯 개 대신 입력창 하나 + 칸 그림, maxLength·type=number 를 피하는 이유, iOS one-time-code·Android WebOTP(문자 마지막 줄 `@도메인 #번호`), 자동 제출 한 번만, timer·status 만료 알림.
+      3편(2026-11-13): `agreement-checkbox-a11y.md`(draft) — fieldset·indeterminate(항목에서 계산)·이름 앞 필수/선택(공백)·보기 버튼 aria-labelledby·스크롤 영역 region+tabIndex·disabled 대신 오류 표시, 개인정보 보호법상 선택 동의(법무 검토 권고). 처음 계획한 세 주제 모두 초안.
+      9번째 자리 몫 항이 왜 있는지(없으면 5d 의 일의 자리가 0·5 뿐), 한 자리 오타 100%·이웃 자리 바꿈 89% 검출(무작위 2만 개로 계산), 입력 시점·지연 알림. 남은 주제: "React 인증번호 입력에 문자 자동 채우기", "사업자등록번호 검증 공식", "약관 전체 동의 체크박스 접근성" 등. 라이브러리 소개가 아니라 문제 해결 글.
+25. ✅ (2026-11-13) **기존 스택에 일부만 얹기** — `examples/shadcn-starter`(Vite + Tailwind v4 + shadcn Button·Card 줄여 옮김 + BestOW 사업자·휴대폰·인증번호·약관 동의, 다크 토글),
+    `src/bestow-theme.ts`(shadcn 변수 → ThemeProvider overrides: bg·fg·border·primary·radius·font — `--input` 1.26:1·`--ring` 2.59:1·`--muted-foreground` on muted 4.34:1 은 일부러 잇지 않음),
+    Storybook `Guides/shadcn·Tailwind 프로젝트에 한국 키트만 쓰기`(ShadcnKoreanKit.mdx — axe 0·링크 index.json 확인), README·npm README·llms.txt 링크. 크기: 키트 4개 + ThemeProvider 8.69 kB·휴대폰 하나 5.09 kB(br, React 제외).
+    일회성 확인(Chrome, vite preview): 라이트·다크·오류 상태 axe 0, 글꼴 `var(--font-sans)`(`'inherit'` 는 CSS 변수에서 바깥 변수를 이어받아 안 됨). 공개 API 변화 없음(changeset 없음). push 뒤 StackBlitz 링크 동작 확인.
+    원래 계획: Guides 에 "shadcn/ui·Tailwind 프로젝트에 한국 키트만 쓰기": `styles.css` + `@layer` 순서, shadcn CSS 변수(`--primary` 등) → `--bestow-*` 매핑 예시,
+    ThemeProvider 최소 설정, 번들 숫자. `examples/` 에 shadcn 예제(StackBlitz, npm 배포본만 사용) + E2E 는 일회성 확인. 포지셔닝("Tailwind 전용 복사형은 하지 않는다")은 그대로 — 보류 중인 shadcn 레지스트리와 다르다.
+26. ✅ (2026-11-14, 템플릿 부분) `examples/next-starter` — `npx create-next-app@latest my-app --example "https://github.com/Dev-BestOW/BestOW-UI/tree/main/examples/next-starter"`
+    (주소 형식은 main 에 있는 vite-starter 로 내려받아 확인). 3단계 가입(계정·약관 → 이름·통신사·휴대폰·인증번호 → 사업자·은행·계좌·예금주)·로그인·내 정보(서버 컴포넌트, 마스킹·서식 서버 호출)·로그아웃.
+    `lib/schemas.ts` 를 zodResolver 와 서버 액션이 함께 씀, **단계마다 useForm** (한 폼이면 `.refine`(비밀번호 확인)이 다른 단계 칸이 비어 1단계에서 안 돌아감 — Patterns 단계별 흐름에도 적음),
+    서버 오류(이미 가입한 이메일·틀린 인증번호·로그인 실패)는 setError → ErrorSummary. 저장소·세션·인증번호는 예제용(⚠️ 주석, README "실제 서비스로 바꿀 곳").
+    일회성 확인(Chrome, next start): 흐름 16개 PASS(오류 요약 포커스·단계 제목 포커스·이전으로 값 유지·가입 후 /account·320px), 모든 화면 라이트·다크 axe 0, 콘솔 오류 0.
+    README·npm README·Patterns·llms.txt·CLAUDE.md 연결. 공개 API 변화 없음(changeset 없음). 남은 것: 실사용 증거("사용 사례" 절)는 그대로 사람이 할 일.
+    원래 계획: 회원가입·로그인·본인인증·정산 정보가 완성된 Next.js 템플릿(`examples/next-starter`, `create-next-app -e` 로 받는 형태, react-hook-form + zod — Guides 패턴 코드 그대로).
+    README "사용 사례" 절은 실제 서비스가 생기면(사람이 할 일 — 사용자 본인 프로젝트가 가장 강한 증거).
+27. ✅ (2026-11-14, 규칙 파일) **AI 코딩 도구 경로** — `docs/ai/bestow-ui.md`(한국 입력 → 컴포넌트·값 형태 표, 서버 컴포넌트·asChild, 폼(RHF + zod·ErrorSummary·validate={false}), 테마·접근성 규칙).
+    `scripts/generate-llms.mjs` 가 Pages `/ai/bestow-ui.md`·`/ai/bestow-ui.mdc`(Cursor frontmatter, globs tsx·jsx)로 내보내고, 규칙 속 이름이 dist export 에 없으면 빌드 실패(변이 확인 — 처음 쓴 `Toast` 가 실제로 걸림).
+    README "AI 코딩 도구와 함께 쓰기"(Claude Code `@bestow-ui.md`·Cursor·AGENTS.md 한 줄 명령)·npm README·llms.txt. 남은 것: Context7 등록(사용자), MCP 서버는 반응을 보고. push·배포 뒤 /ai/ 두 파일 200 확인.
+    원래 계획: llms.txt 는 있음. 다음: Cursor·Claude Code 규칙 파일 예시(README 에 복사용), Context7 등록(사용자), MCP 서버(컴포넌트 검색·props·예제 — SEED 참고, 새 패키지라 첫 배포 절차 주의)는 반응을 보고.
+28. 🟡 (2026-11-14 토큰·스타일·주요 컴포넌트 완료, 정리 2건 남음) **Figma 라이브러리** — 파일 "BestOW UI Library"(`tHxrcOkPvOAPxVQhJj8hvS`, 사용자 팀 drafts, 비공개). `docs/FIGMA.md`.
+    `scripts/generate-figma-tokens.mjs`(tokens dist → JSON, CSS 변수 이름을 contract.test 목록과 대조) → use_figma: 변수 133개(Primitives 53 hidden·Color 51(라이트 50개 alias)·Space 11·Radius 6·Typography 12),
+    모든 변수 scopes(ALL_SCOPES 0)·WEB codeSyntax `var(--bestow-…)`, 글자 스타일 9(Typography variant, 크기는 변수 연결)·그림자 6(라이트·다크), Foundations 견본 페이지(색 51·글자 9, 스크린샷 확인).
+    **제약:** Starter 요금제 = 컬렉션당 모드 1개(addMode 실패) → Color 다크 모드 없음(요금제 올리면 같은 JSON 으로 추가). Pretendard 가 Figma 클라우드 글꼴에 없어 Noto Sans KR(600 없음 → Bold). Code Connect 는 Organization 이상이라 제외.
+    **2단계(2026-11-14) 컴포넌트:** Components 페이지 Button 36·TextField 12·Checkbox 18·Badge 18, Korean Kit 페이지 VerificationCodeInput 3·Phone/Business/AccountNumberInput(TextField 인스턴스), 글자 스타일 4 추가.
+    속성 이름은 코드 props 그대로, 색·간격·모서리·글자 크기 변수 연결(감사: Components 페이지 미연결 색 = Checkbox icon 프레임 흰 배경 12곳뿐), 스크린샷 확인. Starter 제약: 페이지 3개, **MCP 호출 한도에 걸림** →
+    남은 일: Checkbox icon 프레임 배경 삭제·Korean Kit 감사(docs/FIGMA.md). 다음 후보: Select·RadioGroup·Switch·AgreementGroup·Alert·Modal, 아이콘 컴포넌트. 공개·게시 여부는 사용자 결정. 원래 계획: 기존 15번 그대로(tokens → Figma 변수 → 주요 컴포넌트·Code Connect). 팀 도입용이라 23~26 뒤.
+29. 🟡 (2026-11-14, 토큰만 남음) **측정** — 사용자 결정: **Cloudflare Web Analytics**(쿠키 없음). 소개 사이트·playground `app/analytics.tsx`, Storybook `main.ts` managerHead 가
+    저장소 변수 `CF_WEB_ANALYTICS_TOKEN`(16진수 32자, 형식이 틀리면 빌드 실패)이 있는 배포 빌드에서만 beacon 을 넣는다(storybook.yml 두 단계에 env). 가짜 토큰 빌드로 세 곳 확인(Storybook 은 manager 에만,
+    OG 태그 유지), 브라우저에서 data-cf-beacon 확인, site E2E "첫 화면" 에 토큰 없으면 스크립트 0개(토큰 빌드로 실패 확인). SECURITY.md "웹사이트 방문 통계".
+    **사람이 할 일:** Cloudflare 대시보드 › Web Analytics › 사이트 추가(dev-bestow.github.io) → 토큰을 GitHub 저장소 Settings › Secrets and variables › Actions › **Variables** 에 `CF_WEB_ANALYTICS_TOKEN` 으로 → 다음 배포부터 집계.
+    기준값: `node scripts/stats.mjs`(스타·포크·이슈·npm 평일 중앙값 — 배포일·다음날·주말 제외, `GITHUB_TOKEN` 있으면 Discussions)를 세션 시작 때 돌려 진행 기록에 붙인다.
+    원래 계획: Pages 방문 통계가 없어 유입·이탈을 모른다. 쿠키 없는 통계 도구를 붙일지 **사용자 결정 필요**(붙이면 SECURITY·문서에 밝힌다).
+    그 전에는 세션 시작 때 스타·이슈·Discussions·npm 평일 기준값을 진행 기록에 남긴다(배포일 제외).
+30. 🟡 (2026-11-14 준비 완료, 게시는 사용자) **꾸준한 노출·안정 인상** — 배포 주기: **격주 목요일**(2026-11-19 첫 배포 — PR #30, 이후 12/3·12/17), 보안·심각한 버그만 즉시 — SUPPORT.md·CLAUDE.md "배포".
+    알리기 준비물(비공개 Artifact https://claude.ai/artifact/LvPgoSsmGKHjLd34FP789u): velog 옮겨 올리기 5편(원문 줄·태그·시리즈), 요즘IT 기고 제안 메일(KWCAG 글), FEConf·JSConf 발표 제안서(25분 목차), 접근성 커뮤니티 소개 글.
+    **발견:** astro-blog 예약 발행 워크플로가 2026-09-13 이후 돌지 않음(60일 무활동 자동 비활성으로 보임) → 3편이 content-queue 에 그대로. 사용자: Actions › Daily post › Enable workflow.
+    원래 계획: 24번 글을 velog·요즘IT → 접근성 커뮤니티 → 발표 지원 순으로(사람이 할 일의 런칭 순서와 같음). 배포는 SUPPORT.md 주기대로 묶는다(한 달 30개 버전은 불안정해 보임 — 기존 16번).
+
+#### 사람이 할 일
+
+- [x] **GitHub 저장소 설정** (2026-10-21 완료 — Claude 가 API 로 확인) — About 설명(지금 영어·옛 문구 "React design system — vanilla-extract + Radix")을 한국어로,
+  Topics 추가(react, design-system, korean, accessibility, kwcag, vanilla-extract, radix-ui, nextjs 등), Discussions 켜기.
+- [x] **NVDA 스크린리더 점검** (2026-10-23 완료 — NVDA + Chrome, 13개 항목 모두 ✅, 체크리스트·점검 기록에 반영) — 준비: Windows PC 에 NVDA(nvaccess.org, 무료) 설치, Chrome 또는 Firefox,
+  배포된 예제 앱(https://dev-bestow.github.io/BestOW-UI/playground/interactive — 1.6 반영됨)을 쓴다(맥의 로컬 서버는 같은 네트워크면 `next start -H 0.0.0.0 -p 3001`).
+  Claude 가 항목마다 누를 키·기대 문장을 안내 → 들은 문장을 받아 문제는 바로 수정. 13번 표에 1.6 의 Switch(재구현)·NativeSelect(신규)가 추가됨 —
+  두 줄은 VoiceOver 로도 다시 확인(맥에서 가능). 체크리스트 13개 항목. **NumberInput "2석" 이 두 번 들리는지 꼭 확인**(VoiceOver 때문에 추가한 알림).
+  끝나면 프로덕션 권장 선언 기준 6/6 → 런칭 가능.
+- [x] **`@bestow-ui/korean-utils` 0.1.0 첫 배포** (2026-10-21 완료, Trusted Publisher 설정함 — 다음 버전부터 changeset) — 코드는 2026-10-21 완료(changeset 없이 package.json 0.1.0). **순서가 중요:**
+  ① 이 변경을 main 에 머지(release.yml 은 react patch changeset 때문에 버전 PR 만 만든다) →
+  ② 로컬에서 `git pull && pnpm install && pnpm build` → `cd packages/korean-utils && npm login && pnpm publish --access public`
+  (pnpm 11 이 workspace 를 처리, 2FA 면 OTP) → ③ npmjs.com 에서 Trusted Publisher(`Dev-BestOW` / `BestOW-UI` / `release.yml`,
+  **Direct publishing 체크**) 생성 → ④ 그 다음에 react 버전 PR 머지. ②보다 ④가 먼저면 react 가 npm 에 없는 패키지를 의존한다.
+- [x] **VoiceOver(macOS) 짧은 재확인** (2026-10-23 완료, 모두 ✅) — 체크리스트 13번의 Switch(1.6 재구현)·NativeSelect(VO 열 비어 있음), 그리고 이번에 추가한
+  사업자등록번호 10자리·DatePicker 8자리 오류 알림(입력 0.8초 뒤 "올바른 …가 아니에요" 가 들리는지). 로컬 `next start -p 3001` 로 push 없이 가능.
+- [x] **런칭 게시** (2026-11-05 GeekNews Show 게시 https://news.hada.io/topic?id=36655 — Artifact 본문 그대로. 다음: velog·요즘IT 기술 글 → 접근성 커뮤니티 → 발표 지원) (2026-10-30 보류 — STABILIZATION.md 완료 조건 뒤, 본문의 버전·문구는 그때 다시 맞춘다) — 준비 끝(2026-10-23: react 1.6.1 배포, 블로그 기술 글 2편 공개, Artifact 의 GeekNews 본문 NVDA 반영). 순서: GeekNews Show(1순위) → velog·요즘IT 등에 기술 글 → 접근성 커뮤니티·공공/SI/에이전시 쪽 → FEConf·JSConf Korea 발표 지원.
+- [ ] **ResidentNumberInput 스크린리더 확인**(VoiceOver·NVDA, 2026-10-23 추가 — **VoiceOver + Safari ✅ 2026-11-05**, NVDA 는 런칭 뒤 — 2026-11-05 사용자 결정) — 묶음 이름 "주민등록번호" → "앞 6자리", 뒷칸이 "보안 텍스트" 로 읽히는지, 다 채운 뒤 검증 오류가 0.8초 뒤 들리는지. playground /interactive 정산 정보.
+- [ ] (가능하면) iOS VoiceOver·센스리더 점검 — 같은 체크리스트, 3·4번째 열.
+- [ ] (선택) 실제 기기 확인: 가상 키보드가 Modal·Drawer 입력을 가리는지(iOS Safari·Android Chrome) — **iOS Safari ✅ 2026-11-05**, Android Chrome 은 런칭 뒤(2026-11-05 사용자 결정).
+  확인 화면: /orders "주문 등록" Modal(고객 이름·메모), /navigation 아래쪽 Drawer "공유하기"(받는 사람 이메일 — 이 확인용으로 추가한 칸). 맥에서 `next start -H 0.0.0.0 -p 3001`.
+- [ ] 이 라이브러리로 만든 **실제 서비스**(개인 프로젝트라도)가 생기면 알려 주기 — README "사용 사례" 에 넣는다(2026-10-21 기준 없음. playground 는 데모라 사례로 약함).
+- [ ] 수요 확인: Combobox 다중 선택·비동기 검색, Tag 입력 — 런칭 반응(이슈·Discussions)으로 판단.
+
+#### Claude 가 할 일
+
+1. ✅ **노출 정비** (2026-10-21 완료 — 남은 것: 사용자의 GitHub 설정, push 뒤 README 이미지·배지 확인)
+   - 히어로 이미지 `docs/images/hero.png` 는 playground `/signup` 운영 빌드(3001)를 Playwright 로 라이트 기본·다크+브랜드(#7c3aed)로 찍어
+     나란히 합친 것(2x). 화면이 크게 바뀌면 같은 방법으로 다시 찍는다(값 입력: 이메일 hello@bestow.dev·비밀번호·전화·플랜 "프로"·연간·필수 약관 2개, 이메일 ~ 약관 동의 영역 + 14px 여백, 아래 설명 13px).
+     2026-11-06 비밀번호 칸·2.0 입력 테두리 반영해 다시 찍음(2152×1676, 약 150 kB).
+   - GitHub About·Topics 문구 제안(설정은 사용자).
+   - 루트 README 재구성: 맨 위 **히어로 이미지**(playground `/signup` 같은 한국 서비스 키트 화면의 라이트·다크 비교 — Playwright 로 찍어 저장소에 둠),
+     **배지**(npm·CI·license — 번들 크기 배지는 패키지 전체 크기를 보여 줘 "Button 하나 1.5 kB" 장점을 가리므로 달지 않고 본문에 숫자로),
+     설치 예시는 **npm 먼저**, "Next.js 에서 5분 만에 시작하기", 컴포넌트 목록(썸네일 그리드 또는 표).
+     메인테이너용 "개발·배포·CI/CD" 절은 CONTRIBUTING.md 로 옮긴다.
+   - **비교표**(shadcn/ui·Radix Themes·MUI 등 대비: 한국형 입력, KWCAG 대응 근거, 런타임 CSS, RSC 지원, 한국어 기본 문구) — `POSITIONING.md` 의 비교 절을 바탕으로,
+     **다른 라이브러리 기능은 각 공식 문서로 다시 확인한 것만** 적는다(틀리면 신뢰를 잃음).
+   - 이슈·PR 템플릿(`.github/ISSUE_TEMPLATE`, 버그·기능 요청·질문은 Discussions 로).
+2. **번들 줄이기** (2026-10-21 esbuild 분석: 폼 세트 minify 110 kB 중 BestOW 코드 15 kB, Radix Select + popper·floating-ui·collection·remove-scroll 약 55 kB.
+   전체 266 kB 중 BestOW 코드 96 kB) — 효과 순서:
+   - ✅ Switch 를 네이티브 button 으로(2026-10-21, patch) — `<button role="switch">` + form 안에서만 숨긴 checkbox(제출·required·reset·바깥 change 전달,
+     Radix 와 같은 방식). 폼 세트 30.08 → 29.64 kB, 전체 69.12 → 68.62 kB — Radix 공용 부품(primitive 등)을 Select 가 계속 써서 작게 줄었다.
+   - ✅ **`NativeSelect` 추가**(2026-10-21, minor) — 기존 Select 유지. size-limit 에 "폼 세트 — NativeSelect 판" 추가: **3.87 kB**(한도 4.3)
+     vs Select 판 29.64 kB → 폼 세트 번들의 대부분이 Radix Select(+ popper·floating-ui). README·Guides 에 "가볍게는 NativeSelect" 로 안내.
+   - ✅ BestOW 코드 96 kB 점검(2026-10-21) — **낭비 없음.** dist 를 소스 파일별로 나눠 minify: 합계 약 102 kB = 컴포넌트 66% · `.css.ts` 클래스 매핑 18%
+     (이미 짧은 해시 이름) · 함수·테마 16%. 한 곳에 몰린 것 없이 컴포넌트 기능만큼(FileUpload·Combobox·AddressInput 각 ~4.5 kB) 퍼져 있다.
+     export 별 단독 번들도 엉뚱한 의존성이 딸려 오는 곳 없음(tree-shaking 정상). 측정 메모: react 를 external 로 두면 tsup 이 소스 파일마다 남긴
+     `import … from "react"` 60여 개가 남아 minify 크기가 부풀지만(Spinner 8.2 kB 중 5.2 kB), brotli·실제 번들(react 포함)에서는 사라진다 —
+     react 포함 실측 Spinner +1.48 · Button +1.74 · NativeSelect 판 폼 세트 +4.26 · Select 판 +31.7 kB(br). **큰 덩어리는 모두 Radix**
+     (Select·Popover/floating-ui 를 쓰는 DatePicker 27.6·Tooltip 18.9·Dialog 를 쓰는 AddressInput 17 kB 등).
+   - 남은 후보(효과 작음, 필요하면): Avatar 를 네이티브로(Radix Avatar+Slot 로 단독 4.8 kB → 약 2 kB 예상, 이미지 로드 실패 시 이니셜 대체만 구현).
+     Tabs·Accordion·Tooltip 은 Radix 의 키보드·포커스 동작을 다시 만들어야 해 위험 대비 이득이 작다 — 하지 않는다.
+   - 줄인 뒤 size-limit 한도 재설정(사용자와 결정) → Combobox 다중 선택을 넣을 여유 확보. 결과 숫자는 README·런칭 글에 쓴다.
+3. ✅ **`@bestow-ui/korean-utils` 패키지** (2026-10-21 코드 완료 — **첫 배포는 사용자, react 버전 PR 머지 전에**) — 의존성 없는 headless 함수 패키지. 어떤 UI 라이브러리를 쓰든 쓸 수 있게 해 본체로 들어오는 통로로 쓴다.
+   - 내용: `utils/koreanFormat.ts`(전화번호·사업자등록번호 서식·검증, 금액 한글 읽기 — 이미 import 없는 순수 함수). **공휴일 데이터는 넣지 않는다**(해마다 갱신 부담, 아래 보류).
+     `useFormattedInput`(입력 중 커서 유지) 같은 headless hook 을 넣을지(React peer 가 생김) 또는 별도 진입점으로 둘지 검토 — 금액 한글 변환은 `es-hangul` 등
+     이미 있는 패키지가 있어 함수만으로는 차별점이 약하다.
+   - react 패키지는 korean-utils 에 의존하고 **같은 이름을 다시 export** 한다(기존 사용자 breaking 없음, 새 API 없음 → react patch). `shared.test.ts` 가 같은 함수인지 확인.
+     `KOREAN_WEEKDAYS`·`phoneNumberMaxDigits` 는 korean-utils 에만 공개(react 에는 새로 내보내지 않음). `parseISODate`·`toISODate` 는 한국과 무관해 react 에 남김.
+   - README(한국어 + 영어 한 줄, 입력창 예시), size-limit(전체 1 kB·함수 하나 300 B), CI 는 `pnpm build`·`pnpm -r test` 가 자동으로 포함.
+     korean-utils 는 changeset 없이 package.json 0.1.0 으로 첫 배포(사용자, 위 "사람이 할 일" 순서). 다음 버전부터 changeset.
+   - 다음 후보(반응을 보고): 입력 중 커서를 지키는 headless 함수(`useFormattedInput` 의 계산 부분), 주민·법인등록번호 서식 등.
+4. ✅ **NVDA 점검 반영** (2026-10-23 — 문제 0건. 사업자번호·DatePicker 자동 검증 오류를 `useDelayedAnnouncement`(utils, 0.8초 뒤 status)로 알림, 테스트·변이 3개,
+   componentA11y·kwcag(caughtIssues)·Kwcag.mdx·README·Introduction·SUPPORT·POSITIONING·llms.txt 갱신, changeset patch. 그 밖의 입력 중 자동 오류는 없음 — AmountInput 은 max 로 조용히 자름) — 원래 계획: 발견한 문제 수정(테스트·변이 확인), `kwcag.ts`·`componentA11y.ts`·체크리스트 기록.
+   기준 6/6 이면 README(루트·npm)·Storybook Introduction·POSITIONING 의 표현을 "프로덕션 권장" 으로 바꾸고 changeset(patch).
+   함께: **BusinessNumberInput** 10자리를 채워 오류가 생기는 순간 알림(지금은 다시 들어가야 설명으로 들림) — Combobox 처럼 항상 있는 영역 + 늦춰서.
+   같은 패턴(입력 중 자동 검증 오류)이 있는 곳도 점검(PhoneNumberInput·VerificationCodeInput 만료 알림은 이미 있음).
+5. ✅ **런칭 준비물** (2026-10-21 — 게시는 사용자) — `examples/vite-starter`(StackBlitz, npm 의 react ^1.5.0 로 설치·빌드·화면 확인. 아직 배포 안 된 API 는 쓰지 않는다),
+   README(루트·npm)의 "StackBlitz 에서 바로 써 보기" 링크(push 뒤 동작), `apps/storybook/public/llms.txt` + 빌드 때 생성하는 `llms-full.txt`
+   (`scripts/generate-llms.mjs` — README·모든 컴포넌트 props 정의·choosing·componentA11y, 약 80 KB, Pages 루트), 초안 3편은 비공개 Artifact 페이지
+   (GeekNews Show GN·기술 글 2편, 숫자는 데이터·실제 계산으로 확인. [NVDA 점검 완료 후] 자리 있음). 원래 계획:
+   StackBlitz(또는 CodeSandbox) 예제와 README 의 "바로 써 보기" 링크, `llms.txt`·컴포넌트 사용법 요약(AI 코딩 도구가 찾고 쓰기 쉽게),
+   GeekNews Show 소개 글 초안, 기술 글 초안 2편("KWCAG 2.2 33개 항목을 CI 로 검증하기", "대표색 하나로 대비 4.5:1 을 보장하는 테마 만들기" —
+   라이브러리 홍보 없이도 읽히게). 게시는 사용자.
+6. **Combobox 다중 선택·비동기 검색** (구 P14-5) — 2026-11-06 A·B·C 로 나눔: **A 다중 선택 ✅ `MultiCombobox`**(설계 `docs/archive/2026-11-06-multi-combobox-design.md`, changeset `multi-combobox`) → C Tag 입력 → B 비동기 검색. 원래 메모: — 선택 칩(Backspace 로 지우기), 검색 중 상태 알림(`role=status`), 긴 목록 가상화는 따로.
+   폼 세트 조합에 영향 → 별도 컴포넌트(`MultiCombobox` 등)로 나눌지 먼저 판단. **Tag 입력**(구 P14-6)은 쉼표·Enter 로 추가, 칩 공유.
+7. **의존성 정비 2차** — 막힌 것이 풀리면: TypeScript 7(typescript-eslint 가 `<6.1`), ESLint 10(jsx-a11y 가 9 까지).
+   jsdom 30 은 Node ≥22.22.2 필요(로컬 Node 를 올리면). CI 러너 Ubuntu 26 전환은 Playwright `-resolute` 이미지(1.64.1 부터 있음)로 모든 workflow 함께 검토.
+8. **2.0 준비** — 후보가 쌓이면 `MIGRATION-2.0.md` 에 추가(지금: 입력 칸·체크 컨트롤 테두리 기본값 1개, deprecated 이름 없음). 출시 시점은 사용자와 결정.
+
+#### 객관 점검에서 나온 보완 (2026-10-23 — 위에서부터 추천 순서)
+
+> 점검 결론: 테스트·접근성·한국 키트는 충분히 강하다(오히려 검증에 과투자). 약점은 **실사용 증거 0**(스타 1·이슈 0·사례 0)과
+> **실서비스 도입 때 바로 부딪힐 기초 기능 공백**. 런칭 게시가 1순위이고, 반응을 기다리는 동안 9 → 10 → 11 을 minor 하나로 묶는다.
+
+9. ✅ **OS 다크 모드 따르기** (2026-10-23 완료, react minor changeset `theme-system-mode` — 배포 대기) — `ThemeProvider theme="system"` + 타입 `ThemeMode`(공개 `ThemeName` 은 그대로).
+   서버·hydration 첫 렌더는 `systemThemeClass`(CSS 미디어쿼리) + 오버라이드 `<style>`(라이트·다크 둘 다)로 그려 깜빡임 없음, 그 뒤 `useSystemTheme`(useSyncExternalStore)로 실제 값.
+   테마 클래스마다 `color-scheme`. playground 는 system 으로 시작(토글은 보이는 모드의 반대로 고정). 단위 9·SSR 1·E2E 3(JS 끈 페이지 포함), 변이 5.
+   Introduction 에 쿠키 저장 예시(서버에서 읽어 첫 HTML 부터). 번들 "앱 기본" 3.37 → 3.75 kB(+390 B — 구독·서버용 오버라이드 CSS) → 사용자와 결정해 한도 3.7 → **4.1 kB**.
+   남은 것: push 뒤 시각 회귀 확인(다크 스토리의 스크롤바·네이티브 컨트롤이 `color-scheme` 으로 바뀌었을 수 있음 → 바뀌면 visual.yml 수동 update). 원래 계획: `ThemeName` 이 `light | dark` 뿐이고 패키지에 `prefers-color-scheme` 대응이 없다.
+   - `ThemeProvider theme="system"`(OS 설정을 따르고 바뀌면 반영 — SSR 첫 값·hydration 주의, `useIsClient` 참고).
+   - 루트 `color-scheme` 지정(지금은 NativeSelect 만 — 다크에서 스크롤바·네이티브 컨트롤이 밝게 남음).
+   - 사용자 선택 저장 + SSR 첫 화면 깜빡임(FOUC) 방지 가이드(Next.js `<head>` 인라인 스크립트로 `data-theme` 먼저 지정), playground 토글에 적용 + E2E.
+10. ✅ **반응형 기반** (2026-10-23 완료) — tokens `breakpoint`(sm 640·md 768·lg 1024·xl 1280px), react `media`(em 미디어쿼리 — 값을 적고 테스트로 tokens 와 비교)·`Responsive<T>`·`Breakpoint`,
+    Stack 구간별 `direction`·`gap`·`align`·`justify`(한 값은 기존 recipe 그대로), 새 `Grid`(columns·minItemWidth·gap)·`Container`(size·flush) — 셋 다 shared(서버 컴포넌트).
+    구간별 값은 인라인 CSS 변수 + 미디어쿼리 클래스(`styles/responsiveProperty.ts`, 변수 initial 초기화로 중첩 안전) — 구간별 클래스보다 CSS·JS 가 작다.
+    playground 첫 페이지 카드 Grid·본문 Container, E2E `responsive.spec.ts`(767/768/1280px 열 수·Container 폭), 스토리 play(실제 브라우저 계산값·중첩),
+    Design Tokens 에 breakpoint 표, Guides(선택 기준 "배치 · 페이지 틀"·화면 패턴 "반응형 페이지 틀"), componentA11y. 변이 3(초기화 제거·md 경계 2).
+    번들: 앱 기본 3.75 → 4.05 kB(한도 4.1), styles.css 10.26 → 10.66 kB. 남은 것: push 뒤 시각 회귀 확인 — 새 스토리 기준 이미지는 자동 생성, Design Tokens 페이지는 표가 늘어 수동 update 필요.
+    원래 계획: tokens 에 breakpoint 없음, 컴포넌트 미디어쿼리는 Drawer `30rem` 한 곳뿐.
+    - tokens 에 `breakpoint`(minor) + vanilla-extract 를 안 쓰는 사용자도 쓸 수 있는 형태(CSS 변수로는 미디어쿼리 불가 → 값 export·문서).
+    - `Stack` 의 `direction`·`gap` 반응형 값(`{ base, md }` 등), 필요하면 `Grid`·`Container`. 번들 "앱 기본" 한도(4.1 kB, 지금 3.75) 확인.
+11. ✅ **토큰 보강** (2026-10-23 완료 — 사용자 결정: info 만, border width·opacity 는 보류) — `info` 의미 색(기본 파랑, `SemanticColors.info` 는 선택 키 + `DefaultSemanticColors`),
+    `--bestow-color-info-*`, Alert·Badge·Toast `color="info"`, `createIntentColors('info')`, Theme Builder·Design Tokens·Introduction·Guides, playground 점검 안내 Alert 를 info 로.
+    border width·opacity: 쓰는 곳 없는 토큰은 만들지 않음. disabled 투명도 0.4·0.5·0.6 불일치·Alert 기본 color → info 는 `MIGRATION-2.0.md` 검토 표로.
+    차트·카테고리 색: 차트 컴포넌트가 없어 보류 — 필요해지면 palette 5색으로는 부족하니 OKLCH 로 밝기를 맞춘 카테고리 8색 + 색맹 구분 검사부터.
+    함정 발견: vitest 5 모듈 캐시(`node_modules/.vitest-cache`)가 tokens 변경을 모름 → CLAUDE.md 에 기록. 원래 계획: 의미 색 **`info`** 추가(Alert·Badge·Toast 안내용 — `createIntentColors` 로 대비 4.5 확인, `contract.test.ts` 목록 추가),
+    border width·opacity 토큰, 차트·카테고리용 색 검토(palette 5색뿐).
+12. ✅ **공용 폼 필드** (2026-10-23 완료) — `FormField`(render prop: 첫째 인자 id·aria-describedby·aria-invalid·aria-required, 둘째 인자 labelId·helperId — DOM 에 모르는 속성이 가지 않게 분리,
+    이름은 Formik `Field` 와 겹치지 않게 FormField, shared) + `CheckboxGroup`(RadioGroup 모양, 네이티브 checkbox, group 엔 aria-required 가 없어 이름에 숨김 "(필수)",
+    오류는 체크박스마다 aria-invalid, 값은 options 순서). 단위 13·rhf 통합 1·스토리 8(play 1)·SSR·E2E 1(WebKit Tab 이 체크박스를 건너뛰어 직접 focus), 변이 3.
+    playground /interactive "알림 설정"(CheckboxGroup + FormField 로 time 입력). componentA11y·Guides(선택 기준·폼 패턴)·README. 원래 계획: `Field`(label·helperText·error·required·`aria-describedby` 연결을 직접 만든·서드파티 입력에도) +
+    `CheckboxGroup`(묶음 label·그룹 오류. AgreementGroup 은 약관 전용). react-hook-form 통합 테스트에 추가.
+13. ✅ **한국 키트 확장 1차** (2026-10-23 — 사용자 결정: 마스킹 + 주민번호 입력, 카드·계좌+은행은 런칭 반응 뒤) — korean-utils `formatResidentNumber`·`parseResidentNumber`·`isValidResidentNumber`
+    (마지막 검증 숫자는 안 봄 — 2020-10 이후 임의 번호), `maskName`·`maskPhoneNumber`·`maskResidentNumber`·`maskCardNumber`·`maskDigits`, react 다시 export.
+    `ResidentNumberInput`(두 칸: 앞 text maxLength 6 + 뒤 password, 붙여넣기는 onPaste 로 두 칸에 나눔, 앞칸 채워도 포커스 이동 없음 — KWCAG 7.2.1,
+    빈 뒷칸 Backspace → 앞칸, 두 칸 값을 따로 들고 제어 값과 다를 때만 다시 나눔, digits={7}, name 은 숨긴 input). 단위 korean-utils 27·react 9 + rhf 1·스토리 4(play 1)·SSR·E2E 1, 변이 4.
+    korean-utils 전체 한도 1 → 1.5 kB(사용자 결정, 1.32 kB) + "maskName 하나" tree-shaking 감시(92 B). playground 정산 정보에 대표자 주민번호(다 채우면 maskResidentNumber 로 표시).
+    **스크린리더 점검 필요**(password 칸 읽기, 두 칸 묶음) — 사람이 할 일에 추가. 원래 계획: korean-utils 에 마스킹 함수(이름 `홍*동`, 전화 `010-****-1234`) 먼저(작고 수요 확실),
+    그다음 주민·외국인등록번호 입력(뒷자리 마스킹), 카드번호, 계좌번호 + 은행 선택.
+14. ✅ (2026-11-14 TanStack 가이드로 마무리) **컴포넌트 공백** — Guides "TanStack Table 과 함께 쓰기"(TanStackTable.mdx + 예시 스토리 2: 정렬·검색·페이지·선택·결과 없음, play 상호작용 테스트 — sortDescFirst 를 지우면 실패 확인, 서버 정렬·페이지(manual*·rowCount·getRowId), React Compiler 경고 안내). @tanstack/react-table 은 storybook devDependency 만(패키지·번들 영향 없음). 이전 메모: (2026-11-06 아래 "런칭 뒤 완성도 보강" 17~20번으로 나눠 옮김 — TanStack 가이드만 여기 남음) — Tag/Chip(표시·필터용, 6번 Tag 입력과 칩 부품 공유), 범용 `EmptyState`(지금은 TableEmpty 만),
+    TimePicker(예약·배송 시간), 앱 뼈대 패턴(헤더·사이드바·모바일 하단 탭바 — Guides 화면 패턴 예시로 먼저).
+    데이터 표는 직접 키우지 말고 **TanStack Table 과 함께 쓰는 패턴 가이드**(정렬·필터·페이지·선택).
+15. **Figma 라이브러리** (아래 보류에서 올림) — 팀 도입은 디자이너가 함께 결정하는 경우가 많아 코드만 있는 DS 는 불리하다.
+    먼저 tokens → Figma 변수 동기화(Figma MCP 연결됨), 그다음 주요 컴포넌트·Code Connect.
+16. ✅ (2026-11-14) **운영** — 배포 주기는 30번(격주 목요일). CONTRIBUTING 맨 위 "처음 기여하기"(무엇부터 — good first issue, fork → PR 10분 명령, 메인테이너가 맡는 것: changeset·기준 이미지·배포), README "참여하기" 에서 링크.
+    good first issue 초안 4개(알리기 준비물 Artifact): presetRange 예외 테스트·en verificationCodeHint·dayLabel 테스트·vite-starter 영어 전환·Tag 분기 테스트 — 모두 커버리지로 확인한 실제 빈 곳, 기대값은 실제 계산, 확인 명령은 직접 돌려 봄. **등록은 사용자.**
+    원래 계획: 런칭 뒤 배포는 SUPPORT.md 의 주기대로 묶는다(1주 24개 버전은 "불안정" 인상). 외부 기여자용 짧은 입구(CONTRIBUTING 첫 화면에
+    "처음 기여하기" — CLAUDE.md·ROADMAP 은 너무 길다). 큰 기능 전 번들 조합 한도(여유 약 10%) 확인은 6번과 같음.
+
+#### 런칭 뒤 완성도 보강 (2026-11-06 — 위에서부터 추천 순서)
+
+> 판단: 테스트·접근성·한국 키트는 이미 강하다. 완성도를 막는 것은 **실서비스 화면(회원가입·로그인·목록·정산)을 만들 때 바로 부딪히는 빈칸**이다.
+> 런칭 반응(GeekNews 댓글·이슈·Discussions)에서 직접 요청이 오면 그것을 이 순서보다 먼저 한다. 큰 기능 전에는 어느 size-limit 조합에 들어가는지 먼저 본다.
+
+17. ✅ **PasswordInput · SearchInput** (2026-11-06 완료, changeset `password-search-input` react minor — 배포 대기) — 보기 버튼(aria-pressed·Tab 순서·mousedown 으로 포커스 유지), Enter 검색(IME 무시)·Escape 지우기·지우기 후 포커스,
+    문구 선택 키 4개, 단위 21·계약 2(+제어 1)·SSR·스토리 13(play 2, !visual)·E2E 2(/signup 비밀번호, /orders 검색 Escape·지우기), 변이 7. 커서 복원 코드는 Chromium·WebKit 에서 불필요해 넣지 않음(스토리 CaretStays 가 CI 3개 브라우저에서 감시).
+    Caps Lock 안내는 하지 않음(필요하면 따로). 번들: 전체 72.35 → 73.07 kB, CSS 10.96 → 11.05 kB, 조합 변화 없음. 히어로 이미지는 2026-11-06 다시 찍음(비밀번호 칸 포함). 원래 계획(작고 수요가 확실하다):
+    - PasswordInput: 보기/숨기기 버튼(이름·`aria-pressed` 상태, 눌러도 입력 포커스·커서 유지), `autoComplete` current/new-password, Caps Lock 안내 검토, 한국어·`en` 문구.
+    - SearchInput: `type="search"` + 지우기 버튼(지운 뒤 입력으로 포커스), Enter → `onSearch`, IME 조합 중 Enter 무시(S1 Combobox 와 같은 처리), `role="search"` 는 쓰는 쪽 form 에 두도록 안내.
+    - /orders 파일럿의 검색 칸을 SearchInput 으로 바꿔 확인. 폼 계약 테스트(`form-contract.test.tsx`)·SSR·componentA11y.
+18. ✅ **Tag/Chip · EmptyState** (2026-11-06 완료, changeset `tag-empty-state` react minor — 배포 대기) — `Tag`(표시·`onRemove` 삭제·`selected` 고르는 칩 — 이름은 Chip 대신 Tag 하나로, 삭제 버튼 위 Delete·Backspace,
+    켜짐은 aria-pressed + 체크 아이콘 + 고대비 Highlight(일회성 확인), 삭제 태그는 글자를 흐리게 하지 않음 — span 이라 axe 대비 예외가 없음), `TagGroup`(ul, 지우면 다음 → 앞 → 목록으로 포커스, 0.5초 뒤 "… 삭제됨",
+    삭제를 누르고 1초 안에 줄지 않으면 포커스를 옮기지 않음 — 단위 테스트가 이 버그를 찾음), `EmptyState`(shared, titleAs 기본 h3). /orders 에 "적용한 조건" 태그와 표 안 EmptyState + E2E 1.
+    단위 26·SSR·스토리 11(play 1)·변이 6, 문구 선택 키 removeTag·tagRemoved. 번들: 전체 73.07 → 74.09 kB, CSS 11.05 → 11.47/12 kB(여유 0.5 kB — CSS 한도에 가까워짐), 조합 변화 없음.
+    6번 Combobox 다중 선택·Tag 입력은 이 Tag 를 칩으로 쓴다. 원래 계획: Tag/Chip 은 표시·필터용(삭제 버튼 이름 "… 삭제", 선택 가능한 칩은 `aria-pressed`)으로 먼저 내고, 6번 Combobox 다중 선택·Tag 입력이 같은 부품을 쓴다.
+    EmptyState 는 아이콘·제목·설명·행동 버튼(hook 없는 표시용이면 shared). TableEmpty 와 관계 정리(안에서 EmptyState 를 쓰게).
+19. ✅ **한국 키트 2차** (2026-11-06 완료, changeset `korean-kit-2` korean-utils·react minor — 배포 대기) — 사용자 결정: 은행 기본 목록 제공, 카드는 서식 + Luhn.
+    korean-utils: 카드(`formatCardNumber`·`isValidCardNumber`·`cardNumberLength`, 아멕스 4-6-5), 법인등록번호(`formatCorporateNumber`·`isValidCorporateNumber`), 계좌(`accountNumberDigits`·`isValidAccountNumber` — 서식 없음, 10~16자리),
+    `KOREAN_BANKS` 26곳(금융결제원 코드, 토스페이먼츠 기관 코드 문서로 대조 — **합병·이름 변경 때 갱신**). react: `CardNumberInput`·`CorporateNumberInput`·`AccountNumberInput`(은행 선택은 묶지 않고 Combobox·NativeSelect + KOREAN_BANKS 로),
+    공통 동작은 내부 `Input/CheckedNumberField` 로 모으고 BusinessNumberInput 도 옮김(기존 테스트 그대로 통과). 외국인등록번호는 이미 ResidentNumberInput 이 지원(뒷자리 5~8).
+    단위(korean-utils 32·react 10)·계약 3·SSR·스토리 10·E2E 1(/interactive 결제 카드·법인등록번호·정산 은행·계좌), 공식 변이 4. 번들: korean-utils 전체 1.42 → 2.02 kB(**한도 1.5 → 2.2 kB, 사용자 결정**) +
+    "카드번호 서식·검증" 감시 260/300 B, react 전체 74.09 → 75.09 kB, 한국 키트 30.98/33.5. 원래 계획(13번 때 "런칭 반응 뒤" 로 미룬 것 — 차별점을 키운다):
+    - 계좌번호 + 은행 선택(은행마다 자릿수·서식이 달라 은행 목록·서식 데이터를 korean-utils 에 둘지 먼저 판단 — 공휴일처럼 갱신 부담이 있는지 확인).
+    - 카드번호 입력(4자리씩, 표시할 때 `maskCardNumber`), 법인등록번호·외국인등록번호(ResidentNumberInput 구조 재사용).
+    - 한국 키트 size-limit 조합(30.87/33.5 kB)에 들어가는지 확인.
+20. ✅ **앱 뼈대 패턴 · TimePicker** (2026-11-06 완료 — 새 컴포넌트·공개 API 없음, changeset 없음) — Guides 화면 패턴에 "앱 뼈대"(SkipLink·nav aria-label·aria-current, 사이드바/탭바는 display 로 하나만,
+    탭바 safe-area·44px, 메뉴 Drawer 는 링크를 누르면 닫기, 실제 페이지용 media 코드)와 "시간 고르기"(정해진 시간대 → RadioGroup·Select, 아무 시각 → FormField + input time). 스토리 `Guides/앱 뼈대`
+    3개(넓은 화면·휴대폰 폭·메뉴 열기 play — 스토리는 컨테이너 쿼리, 구간 변이 1), 목록 화면 패턴을 SearchInput·Tag·EmptyState 로 갱신, Guides 선택 기준에 "시간" 줄. TimePicker 는 수요가 보이면.
+    playground 에는 넣지 않음(예제 앱에 이미 머리글이 있어 뼈대를 겹치면 랜드마크가 중복). 원래 계획: 헤더·사이드바·모바일 하단 탭바는 컴포넌트보다 Guides "화면 패턴" 예시로 먼저(playground 에도). TimePicker 는 예약·배송 시간 —
+    지금 대안(FormField + 네이티브 time)을 먼저 Guides 에 적고, 수요가 보이면 만든다.
+21. ✅ **아이콘 확장** (2026-11-06 완료, changeset `more-icons` icons minor — 배포 대기) — 사용자가 고른 목록으로 91개 추가(57 → 148종, lucide-static 1.61.0 — 2주 넘은 버전, 라이선스 주석·class 만 빼서 기존 파일과 같은 형식),
+    상거래·결제·장소·일정·동작·소통·상태·파일·사람·데이터. 뺀 13개(미디어 재생·확대·창 조절 등)는 필요하면. icons README 에 lucide-react 함께 쓰기. "아이콘 하나" size-limit 그대로.
+    **Foundations/Icons Gallery 스크린샷이 바뀜 → push 뒤 visual.yml 수동 update 필요.** 원래 계획: 57종은 실서비스에 모자란다. 자주 쓰는 Lucide 아이콘을 100~150종으로(svg/ + generate, LICENSE 유지), 또는 `lucide-react` 를 함께 써도 된다는 안내(크기·stroke 맞추는 법).
+    "아이콘 하나" size-limit 은 그대로여야 한다(tree-shaking).
+22. ✅ **폼 검증 가이드** (2026-11-06 완료 — 새 API 없음, changeset 없음) — 화면 패턴 "스키마로 검증하기(zod)": zodResolver + shouldFocusError false + ErrorSummary, 한국 키트 검증 함수 재사용(컴포넌트 자동 검증은 validate={false}),
+    Controller 로 숫자만 있는 값, refine path(비밀번호 확인 — zod 는 칸 오류가 없을 때 돈다), 서버 오류 setError → 요약이 다시 나타나며 포커스. 같은 코드의 통합 테스트 `src/test/zod-form.test.tsx`(3개)
+    — react devDependencies 에 zod ^4.6.7·@hookform/resolvers ^6.0.2. 원래 계획: react-hook-form + zod 스키마 + ErrorSummary 예시를 Guides "화면 패턴" 에(서버 오류를 칸에 붙이는 법 포함). 새 API 없음.
+    (Figma 는 15번, 실사용 사례는 "사람이 할 일" 그대로.)
+
+#### 보류 (수요가 생기면)
+
+- [ ] **shadcn/ui 레지스트리로 제공** (2026-10-21 외부 추천, 보류) — `POSITIONING.md` "하지 않을 것"(Tailwind 전용 복사형)과 충돌하고,
+  컴포넌트가 vanilla-extract `.css.ts`·`vars` 에 기대어 복사해 가는 쪽이 빌드 플러그인을 따로 설정해야 한다(도입 장벽이 오히려 커짐).
+  하려면 포지셔닝 변경을 사용자가 먼저 결정. korean-utils 반응을 본 뒤 headless 부분부터 검토.
+- [ ] 한국 공휴일 도움 함수(`koreanHolidays(year)` 등) — 음력·대체·임시공휴일 때문에 해마다 갱신 필요. 지금은 `isHoliday` 로 받는다. korean-utils 에도 넣지 않음.
+- [ ] 컴포넌트별 CSS 선택 import (구 P7-B) — 실제 CSS 가 전체 9.9 kB 라 우선순위 낮음.
+- [ ] ~~Figma 변수 ↔ tokens 동기화, Code Connect (구 P11)~~ → 2026-10-23 "Claude 가 할 일" 15번으로 올림.
+- [ ] DateRangePicker 를 한 달력에서 끌어 고르는 방식.
+- [ ] 아이콘 추가: Lucide 에서 가져오면 `svg/` 에 넣고 `generate`. 자체 아이콘은 같은 규격(24×24, stroke 2, round).
+
+#### 프로덕션 권장 선언 기준
+
+- [x] Chromium·WebKit·Firefox 에서 스토리 테스트·E2E 통과 (P12-1)
+- [x] 모바일(터치·좁은 화면) 주요 시나리오 E2E (P12-2)
+- [x] React 18·19 둘 다 CI (P12-3)
+- [x] 주요 컴포넌트 스크린리더 수동 점검 기록 — VoiceOver(macOS) ✅ 2026-10-21 · NVDA(Chrome) ✅ 2026-10-23 · 가능하면 iOS VoiceOver·센스리더 (P13-1 · P16-5)
+- [x] 실제 화면 파일럿에서 발견한 문제 해결 (P14-1 — 버그 2개 수정, 빈칸 6개 모두 해결: [`archive/PILOT-FINDINGS.md`](archive/PILOT-FINDINGS.md))
+- [x] 지원 범위·배포 주기·보안 문의 경로 문서화 (P12-5, 2026-10-21 정책 확정·비공개 취약점 신고 켜짐)
+
+---
+
+### 현재 상태 (2026-10-23)
+
+| 패키지 | 배포 버전 | 내용 |
+|---|---|---|
+| `@bestow-ui/tokens` | 1.3.0 (1.7.0 대기) | palette(gray·blue·red·green·amber), space, radius, font, shadow/darkShadow, duration, zIndex(overlay < modal < dropdown < toast < tooltip), light/dark 의미 색상(1.7: + info, `DefaultSemanticColors`), 1.7: breakpoint |
+| `@bestow-ui/icons` | 0.1.3 | 아이콘 57종 (Lucide 기반), SVG → 컴포넌트 생성 스크립트 |
+| `@bestow-ui/korean-utils` | 0.1.0 (0.2.0 대기) | 전화·사업자번호·금액·한국어 날짜·주소 참고항목, 0.2: 주민번호(서식·읽기·구조 검사)·마스킹 5종 |
+| `@bestow-ui/react` | 1.6.1 (1.7.0 대기) | 아래 컴포넌트 + 테마(ThemeProvider — 1.7: `theme="system"`·createTheme·createIntentColors·strongInputBorders·vars·usePortalProps, 선택 토큰 border.input·inputHover·control) + 다국어(LocaleProvider·en) + 서식·날짜·마스킹 함수·focusField + 1.7: `media`·`Responsive` |
+
+| 분류 | 컴포넌트 |
+|---|---|
+| 레이아웃·표시 | Stack(1.7: 구간별 값), Grid(1.7), Container(1.7), Divider, Card, Typography, VisuallyHidden, Avatar, Badge, DescriptionList, Table(+ TableEmpty·TableSkeleton·useTableSelection) |
+| 동작 | Button(loading), IconButton, Link |
+| 폼 | Input, TextField, FormField(1.7), Textarea, Select, Combobox(clearable), NumberInput, FileUpload, SegmentedControl, Checkbox, CheckboxGroup(1.7), RadioGroup(네이티브), Switch, Slider |
+| 피드백 | Alert(1.7: color info), ErrorSummary, Progress, Toast, Spinner, Skeleton |
+| 오버레이 | Modal, Drawer, Popover, Tooltip, DropdownMenu(체크·라디오·하위 메뉴) |
+| 탐색 | Tabs(가로·세로), Accordion, Pagination, Breadcrumb, SkipLink, Stepper |
+| 한국 서비스 키트 | AgreementGroup, VerificationCodeInput, PhoneNumberInput, BusinessNumberInput, ResidentNumberInput(1.7), AmountInput, AddressInput, Calendar, DatePicker, DateRangePicker(+ dateRangePresets) |
+
+빌드: ESM 은 `dist/client.js`("use client" — 컴포넌트·hook) + `dist/shared.js`(서버 컴포넌트에서도 쓰는 함수·값·표시용 컴포넌트 12개 — 1.7 에 Grid·Container·FormField), CJS 는 한 파일. tsup 9.
+운영: CI(생성물·lint·format·build·size·typecheck·test·스토리 렌더링+axe 라이트·다크·Storybook·playground 빌드·E2E), browsers job(WebKit·Firefox 스토리·E2E),
+react18 job, PR 번들 크기 코멘트(size.yml), 시각 회귀(visual.yml, Chromium, Playwright 1.64.1 이미지), changesets + npm Trusted Publishing(OIDC), CI 러너 ubuntu-24.04 고정.
+테스트: vitest 5(단위 514 — react 444·korean-utils 66·icons 4, 스토리 560, 라이트·다크 axe), E2E 77(테마 system·반응형 구간 포함, 키보드·모바일 Pixel 7·iPhone 15·고대비·확대/리플로·파일럿 /orders·react-hook-form /signup·portal 테마·axe, hydration 대기).
+문서: Storybook(Introduction, Foundations, Accessibility — KWCAG 2.2·컴포넌트별 키보드·스크린리더, Guides — 언제 무엇을 쓰나·화면 패턴, Korean Kit),
+README·npm README(한국어), CONTRIBUTING.md, SUPPORT.md, SECURITY.md, docs/POSITIONING.md·MIGRATION-1.0.md·MIGRATION-2.0.md(초안)·SCREEN-READER-CHECKLIST.md·PILOT-FINDINGS.md.
+Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://dev-bestow.github.io/BestOW-UI/playground/
+
+#### 완료한 단계 (상세는 ROADMAP-HISTORY.md)
+
+| 단계 | 내용 |
+|---|---|
+| P1 | 브랜드 테마(`createTheme`/`overrides`, 고정 CSS 변수 `--bestow-*`), Next.js playground |
+| P2 | 폼·표시·탐색·오버레이 컴포넌트 1차 (Switch ~ Pagination) |
+| P3 | ESLint/Prettier, 스토리 axe(라이트·다크), size-limit, 시각 회귀, 버전 PR CI(GitHub App) |
+| P4 | Storybook Introduction·Design Tokens, CONTRIBUTING.md |
+| P5 | npm README/LICENSE, 러너 고정, 다크 shadow, warning 색, Alert·IconButton·Progress·Drawer·Link·Breadcrumb·Table·Slider·Combobox, recipe tree-shaking 수정, 시각 회귀 자동화 |
+| P6 | 차별화: 테마 빌더, 한국 서비스 키트 8종, KWCAG 2.2 대응 근거 문서, LocaleProvider·한글 줄바꿈, README 메시지 |
+| P8 | **1.0.0 출시**(2026-10-16): API 감사 → deprecated → 제거, `vars` 고정 테스트, 마이그레이션 가이드, 컴포넌트별 접근성 문서 |
+| P10 | playground E2E(Playwright, CI), 열린 상태 스토리를 시각 회귀에 포함 |
+| P7 | 서버 컴포넌트 엔트리, styles.css 디버그 이름 제거(33 → 9 kB), size-limit PR 코멘트 |
+| P9 | DropdownMenu 체크·라디오·하위 메뉴, Tabs 세로, Combobox 선택 지우기, SkipLink, SegmentedControl, NumberInput, Stepper, FileUpload |
+| P12 | WebKit·Firefox CI, 모바일·터치 E2E, React 18 CI + SSR 경고 테스트, 번들 한도 80 kB + 대표 조합 4개, SUPPORT.md·SECURITY.md |
+| P13 | 고대비(forced-colors) 대응·E2E, 320px 리플로·글자 간격·글꼴 2배 E2E, 글자 크기 rem, 스크린리더 체크리스트 |
+| P14 | 파일럿 `/orders`(버그 2개 수정), ErrorSummary·focusField·VisuallyHidden·DescriptionList, react-hook-form `/signup`, TableEmpty·TableSkeleton·useTableSelection, DateRangePicker |
+| P15 | Storybook Guides(언제 무엇을 쓰나·화면 패턴), 문서 한국어 전환 |
+| P16 | WebKit CI 불안정 수정(hydration 대기), 의존성 1차(vitest 5·tsup 9·Playwright 1.64.1), 입력 칸·체크 컨트롤 테두리 선택 토큰 + `strongInputBorders`, MIGRATION-2.0 초안, 지원 정책 확정, **VoiceOver 점검**(알림 4건 수정) — react 1.4.0·1.5.0 |
+
+## 진행 기록 보관 (2026-10-14 ~ 11-10)
 
 | 날짜 | 내용 |
 |---|---|
@@ -532,3 +940,55 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 | 2026-10-21 | 스크린리더 수동 점검 VoiceOver+Safari(사용자와 함께, 로컬 playground 3001): 13개 모두 ✅. 고친 것 — Combobox 결과 없음 알림(항상 있는 status + 입력 멈춘 뒤 0.8초), NumberInput 키·버튼 값 알림(assertive "2석"), FileUpload 삭제 알림(포커스 이동 0.5초 뒤)·삭제 버튼 설명에 크기, playground DatePicker 에 고정 공휴일(isHoliday). 각각 단위 테스트·변이 확인 후 VoiceOver 재확인. changeset 3개(patch). 남은 것: NVDA·iOS·센스리더. 개선 후보: 사업자번호 오류를 입력 순간 알림, 공휴일 도움 함수 |
 | 2026-10-21 | 세션 마무리: NVDA 점검은 다음으로(사용자). 인수인계에 커밋 대기 내용·스크린리더 점검 진행 방식·배운 것 정리 |
 | 2026-10-21 | CI `eb7535d`: React 18 job 만 실패 — FileUpload `useRef<Timeout>(undefined)` 가 @types/react 18 에 없는 오버로드 → `useRef<Timeout \| undefined>`. overrides 로 로컬 재현·해결(typecheck 0, 테스트 410). 버전 PR #23(1.5.0)은 이 수정 push 후 머지 |
+| 2026-10-21 | react 1.5.0 배포 확인(npm·Release·설치본에 border.control·알림 지연 코드). 로드맵 정리: 10/20~21 작업을 HISTORY P16 으로, 진행 기록 99줄을 HISTORY 로 보관, 다음 플랜을 NVDA 점검 → 개선 후보 → 수요 기반 기능 → 의존성 2차 → 2.0 준비 순으로 |
+| 2026-10-21 | 다음 플랜 재정리: 알리기·도입 장벽 우선 — 노출 정비(README·Topics·비교표) → 번들 줄이기(Switch 네이티브·NativeSelect) → `@bestow-ui/korean-utils` → NVDA → 런칭 준비물·게시. 런칭은 프로덕션 권장 6/6 뒤. shadcn 레지스트리는 포지셔닝과 충돌해 보류, 실제 서비스 사례는 아직 없음 |
+| 2026-10-21 | 노출 정비: 루트 README 재구성(배지 npm·CI·license, 히어로 이미지, 비교표 — 공식 문서 확인, npm 설치 먼저, Next.js 5분 시작 — 예제 코드 playground 에서 타입 검사, 컴포넌트 표), 개발·배포·CI/CD 절을 CONTRIBUTING 으로, npm README 에 CI 배지·히어로 이미지(raw URL), 이슈 템플릿(버그·기능 제안·config)·PR 템플릿 |
+| 2026-10-21 | 번들 줄이기 1차: Switch 네이티브 구현(`@radix-ui/react-switch` 제거, 테스트 12·변이 6), NativeSelect 추가(테스트 8·변이 5, rhf register·SSR·E2E·스토리 play) — NativeSelect 판 폼 세트 3.87 kB(Select 판 29.64 kB) |
+| 2026-10-21 | BestOW 코드 번들 점검: 소스별·export 별 측정 — 낭비·tree-shaking 누수 없음, 큰 덩어리는 Radix. 남은 후보 Avatar 네이티브(효과 작음). playground NativeSelect 선택지를 권역으로(Combobox "부산" 과 이름이 겹쳐 E2E 2개 실패했던 것) |
+| 2026-10-21 | `@bestow-ui/korean-utils` 0.1.0 준비: 전화·사업자번호·금액·한국어 날짜·주소 참고항목 순수 함수(의존성 0, 전체 838 B·함수 하나 179 B br), react 는 같은 이름으로 다시 export(호환 테스트), 테스트 39(공개 이름 목록 고정), README(예시 값 dist 로 확인)·size-limit·SUPPORT·SECURITY·CLAUDE.md. react changeset patch. 첫 배포는 사용자(순서 주의) |
+| 2026-10-21 | 런칭 준비물: StackBlitz 예제(examples/vite-starter — npm 1.5.0 으로 빌드·화면·콘솔 확인), llms.txt·llms-full.txt(빌드 때 생성, storybook.yml 경로에 스크립트 추가), README 링크, 초안 3편(비공개 Artifact). CLAUDE.md 에 examples·llms 설명 |
+| 2026-10-21 | react 1.6.0·korean-utils 0.1.0 배포 확인(react 가 ^0.1.0 의존), GitHub About·Website·Topics 18개·Discussions 설정 확인, 블로그에 기술 글 2편(테마 공개 대기, KWCAG draft), 인수인계 갱신 |
+| 2026-10-21 | StackBlitz 예제를 react ^1.6.0 으로, 통신사 선택(NativeSelect) 추가 — npm 설치·빌드·브라우저 확인 |
+| 2026-10-23 | **NVDA + Chrome 점검 완료**(13개 항목 모두 ✅, NumberInput "2석" 중복 없음) → 프로덕션 권장 6/6. BusinessNumberInput·DatePicker 자동 검증 오류를 입력이 멈춘 뒤 status 로 알림(`utils/useDelayedAnnouncement`, Combobox 와 지연 값 공유, 테스트 3·변이 3), 접근성 문서·README·Introduction·SUPPORT·POSITIONING·llms.txt 에 점검 결과·프로덕션 권장 문구, changeset patch. 검증 전체 통과(단위 402·스토리 516·E2E 68) |
+| 2026-10-23 | VoiceOver 재확인(Switch 1.6·NativeSelect·입력 순간 오류 알림) ✅. 블로그 `kwcag-automated-testing.md` 에 NVDA 단락을 넣고 공개 준비(draft: false, pubDate 10-23, astro check·build 통과) |
+| 2026-10-23 | 런칭 초안 Artifact 갱신: GeekNews 본문에 VoiceOver·NVDA 점검 결과, 기술 글 ① 원문을 블로그 파일과 같게, 확인 상자 정리 |
+| 2026-10-23 | react 1.6.1 배포 확인(npm 패키지에 알림 코드·README 문구, Release, Pages llms.txt), main CI 전부 녹색. 블로그 KWCAG 글 공개(Cloudflare 첫 빌드 실패 → 재시도 성공), 블로그 표 스타일 수정. 인수인계를 "런칭 게시만 남음" 으로 정리 |
+| 2026-10-23 | 디자인 시스템 객관 점검(코드·토큰·문서 확인): OS 다크 모드·반응형·info 색·공용 Field/CheckboxGroup·한국 키트 확장·컴포넌트 공백·Figma·운영을 "Claude 가 할 일" 9~16번으로 추가, Figma 를 보류에서 올림 |
+| 2026-10-23 | 9번 OS 다크 모드: `theme="system"`·`ThemeMode`·`useSystemTheme`·`systemThemeClass`(서버 렌더링 미디어쿼리 + 오버라이드 `<style>`)·`color-scheme`, playground system 시작, 단위 9·SSR 1·E2E `theme.spec.ts` 3(변이 5 — 서버 스냅숏·구독·이스케이프·서버 인라인·미디어쿼리 제거), Introduction 쿠키 저장 가이드·README·llms.txt·CLAUDE.md, changeset minor. 앱 기본 3.75 kB → 한도 4.1 kB(사용자 결정) |
+| 2026-10-23 | 10번 반응형 기반: tokens `breakpoint`, react `media`·`Responsive`, Stack 구간별 값, `Grid`·`Container`(shared), 인라인 CSS 변수 + 미디어쿼리 방식(중첩 초기화), 단위 11·스토리 9(play 2)·SSR·E2E 4(변이 3), 문서(Design Tokens·Guides·componentA11y·README·CLAUDE.md), changeset react·tokens minor. 앱 기본 4.05/4.1 kB(여유 50 B) |
+| 2026-10-23 | 11번 토큰 보강: `info` 의미 색(tokens 선택 키 + `DefaultSemanticColors`, react 변수·Alert·Badge·Toast·createIntentColors), 스토리(Alert "info 와 브랜드 색")·Theme Builder·문서, MIGRATION-2.0 검토 2건(Alert 기본 info, disabled 투명도). border width·opacity·차트 색은 보류(사용자 결정). vitest 모듈 캐시 함정 CLAUDE.md |
+| 2026-10-23 | 12번 공용 폼 필드: `FormField`(shared, render prop + meta 인자)·`CheckboxGroup`(client), rhf 통합 테스트·스토리·SSR·E2E(알림 설정), 문서(componentA11y·Guides·README), changeset minor |
+| 2026-10-23 | 13번 한국 키트 1차: korean-utils 주민번호(서식·읽기·구조 검사)·마스킹 5종, react 다시 export + `ResidentNumberInput`(두 칸, 붙여넣기 나눔, 포커스 자동 이동 없음), 테스트·변이 4·E2E·문서(componentA11y·kwcag 7.2.1·README·korean-utils README), korean-utils 한도 1.5 kB(사용자 결정) |
+| 2026-10-30 | 코드 안정화 점검: 패키지 구조·CI·의존성·코드 규칙은 문제없음, Combobox IME·서식 입력 form.reset·0507·+82·사업자번호 0000000000 재현, 파일럿 2 버그 2건 미해결 확인. 사용자 결정으로 런칭 보류, 호환성을 깨는 변경은 런칭 전 2.0 으로. `STABILIZATION.md` 작성, 인수인계를 그 문서 기준으로 갱신 |
+| 2026-10-30 | S1·S17 Combobox IME: 조합 중 키 무시, 실제 Chrome 에서 `국민은행국` 깨짐 재현 뒤 수정, 단위 2·E2E 1(CDP), playground /interactive 폼에 결제 은행 Combobox 추가, changeset patch |
+| 2026-10-31 | S2·S16 form.reset: `useFormReset` 추가, 14개 컴포넌트 수정, Switch 제어 모드 알림 제거, `form-contract.test.tsx`(22개 컴포넌트·RHF reset·누락 검사), E2E 1, playground 다시 입력 버튼, 변이 6, changeset patch |
+| 2026-10-31 | S3~S5 korean-utils: 050 번호 11·12자리 서식(12자리 잘림 수정, 점검 문서의 기대값 정정), `+82` 처리와 새 함수 `phoneNumberDigits`, 사업자번호 모두 0 거부, PhoneNumberInput 붙여 넣기 테스트, changeset korean-utils minor·react patch |
+| 2026-10-31 | S6~S7: 세로 Stepper 가 설명이 섞여도 원 사이 간격을 맞춤(스토리 play 로 측정), 숨은 SkipLink 그림자 제거(스토리 play), changeset patch. `Vertical` 기준 이미지 갱신 필요 |
+| 2026-10-31 | S8 Button·IconButton `asChild`: cloneElement 직접 구현(사용자 결정, Radix Slot 은 +1.18 kB), 앱 기본 한도 4.4 kB, 스토리 2·단위·SSR·E2E, playground 서버 컴포넌트 예, 문서, changeset minor |
+| 2026-10-31 | S9~S11: Stepper `loading`, 마스킹 실패 시 모두 가림, `fieldset:disabled` 스타일, Slider 키보드·FileUpload 끌어다 놓기 차단(`useFieldsetDisabled`), 계약 테스트·스토리·문서, changeset minor 2 |
+| 2026-10-31 | S18~S19: `pnpm test:coverage`(CI 는 보고만), 전용 테스트 추가, 카카오 우편번호 스크립트 재시도 버그 수정, changeset patch |
+| 2026-11-04 | react 1.8.0·korean-utils 0.3.0 배포 확인(PR #27). S12 입력 칸 테두리 2.0 기본값: tokens `border.input`·`inputHover`·`control`, 선택 토큰·`inputBorder.css.ts` 제거, `strongInputBorders` deprecated, 스토리 `InputBorders`(옛 `StrongInputBorders` 기준 이미지 삭제), 변이 2, MIGRATION-2.0·README·kwcag 갱신, changeset react major·tokens minor. 기준 이미지 전체 갱신 필요 |
+| 2026-11-04 | S15 비활성 투명도: 0.5 로 통일(Input·Textarea·인증번호 0.6, Pagination·Calendar 0.4 → 0.5), tokens `opacity` + `vars.opacity.disabled`, 가드 테스트(변이 확인), Design Tokens 스토리·MIGRATION-2.0·CLAUDE.md, changeset react major·tokens minor. 해당 비활성 스토리 기준 이미지 갱신 필요 |
+| 2026-11-04 | S14 `as` 다형성 타입: `PolymorphicComponent`(as 가 있으면 그 요소·컴포넌트의 props·ref, 아니면 1.x 타입 — 호환 유지), 6개 컴포넌트, 타입 테스트(@ts-expect-error, 변이 2), docgen 결과 동일 확인, changeset react minor. 화면 변화 없음 |
+| 2026-11-04 | S13 CSS `@layer bestow`: `styles/cssLayer.ts` 를 tsup(dist/index.css, 소스맵 줄 보정)·Storybook Vite 플러그인이 함께 씀, 스토리 `CssLayer`(!visual)·E2E 3·단위 3, 변이 3(Storybook 플러그인·빌드 감싸기·레이어 순서), 가이드 MDX·README·llms.txt·MIGRATION-2.0, changeset react major |
+| 2026-11-04 | PR #28 시각 회귀 실패 원인: 기준 이미지 봇 커밋(`f4841fd`)을 기본 GITHUB_TOKEN 으로 push 해 release.yml·CI 가 돌지 않음 → 버전 PR 이 옛 기준 이미지 위에 남음. visual.yml 이 커밋하는 실행에서 GitHub App 토큰으로 checkout·push 하도록 수정 |
+| 2026-11-04 | react·tokens 2.0.0 배포 확인(PR #28, tokens 는 changeset `linked` 로 함께 2.0.0), main CI 녹색. `examples/vite-starter` 를 `^2.0.0` 으로 — npm 설치·tsc·vite build·Chrome 화면 확인 |
+| 2026-11-04 | README 비교표를 Vapor UI·HANUI·shadcn/ui·MUI 로 갱신(공식 문서·README·npm 으로 확인, Radix Themes 뺌), "누구를 위해" 행과 공공→HANUI 안내, 특징에 입력 테두리 3:1·CSS 레이어, CSS 약 11 kB. POSITIONING 출처 메모, STABILIZATION 완료 조건 3개 체크 |
+| 2026-11-05 | Storybook 문서 페이지 `@layer` 점검: 로컬 빌드 두 벌(레이어 그대로 / `@layer bestow{` → `@media all{`)로 문서 62쪽 × 라이트·다크 124장을 픽셀 비교 — 차이 0(레이어 동작은 바깥 `button{padding:0}` 이 레이어판에서만 이기는 것으로 확인). GeekNews Show 본문 Artifact 를 2.0 기준으로 갱신(스토리 약 290·Button 1.7 kB·CSS 약 11 kB·korean-utils 약 1.4 kB, 주민번호·마스킹·입력 테두리 3:1·OS 다크 모드·CSS 레이어) |
+| 2026-11-05 | ResidentNumberInput VoiceOver + Safari 점검 ✅(사용자 — 이름·보안 텍스트·포커스 유지·0.8초 뒤 오류 알림 모두 기대대로). 체크리스트 VO 열·점검 기록, STABILIZATION·인수인계 갱신. NVDA 남음 |
+| 2026-11-05 | ResidentNumberInput NVDA 점검은 런칭 뒤로(사용자 결정). CheckboxGroup VoiceOver + Safari 점검 ✅(로컬 운영 빌드 3001 — 묶음 이름·도움말 설명·별표 숨김·모두 끈 뒤 잘못됨 + 오류 설명), 체크리스트 VO 열·점검 기록 |
+| 2026-11-05 | 가상 키보드 점검 iOS Safari ✅(사용자 — /orders 주문 등록 Modal, /navigation 아래쪽 Drawer). playground 아래쪽 Drawer 에 편집 가능한 "받는 사람 이메일" 칸 추가(Drawer 에 입력 칸이 있는 화면이 없었음). Android Chrome 남음 |
+| 2026-11-05 | 가상 키보드 Android Chrome 확인은 런칭 뒤로(사용자 결정) → STABILIZATION "사람이 확인할 것"·런칭 전 완료 조건 모두 체크. 남은 것은 런칭 게시 |
+| 2026-11-06 | GeekNews Show 게시 확인(2026-11-05, https://news.hada.io/topic?id=36655 — Artifact 본문과 같음, Button 1.7 kB). 런칭 전 기준값: GitHub 스타 1·이슈 0·포크 0, npm 주간(10-29~11-04) react 417·korean-utils 219·tokens 219·icons 38(배포·CI 설치 포함) |
+| 2026-11-06 | README 크기 숫자를 런칭 글·실측과 맞춤: Button 하나 1.8 → 1.7 kB(루트·react README·POSITIONING), react README CSS 10 → 11 kB, korean-utils README 전체 1.3 → 1.4 kB·maskName 92 → 99 B. npm 페이지 README 는 다음 배포 때 반영 |
+| 2026-11-06 | "런칭 뒤 완성도 보강" 17~22번 추가(PasswordInput·SearchInput → Tag/Chip·EmptyState → 한국 키트 2차 → 앱 뼈대·TimePicker → 아이콘 확장 → 폼 검증 가이드). 14번 항목은 17~20번으로 나눠 옮김(TanStack 가이드만 남음), 인수인계에 다음 작업 표시 |
+| 2026-11-06 | 17번 PasswordInput·SearchInput: 컴포넌트·문구 키·단위·계약·SSR·스토리·E2E(/signup 비밀번호, /orders 검색), componentA11y·kwcag 7.3.3·Guides "글자 입력"·README, changeset react minor. 변이 7(커서 복원은 불필요해 제거). 새 스토리 기준 이미지는 push 뒤 자동 생성 |
+| 2026-11-06 | README 히어로 이미지 다시 찍음 — /signup 운영 빌드(3001)에 비밀번호 칸 포함, 2.0 입력 테두리 반영(2152×1676, 209 → 152 kB) |
+| 2026-11-06 | 18번 Tag·TagGroup·EmptyState: 컴포넌트·문구 키·단위·SSR·스토리·E2E(/orders 적용한 조건 태그·표 안 EmptyState), componentA11y·Guides·README, 비활성 투명도 목록에 Tag, changeset react minor. 변이 6, 고대비 일회성 확인. CSS 11.47/12 kB |
+| 2026-11-06 | 19번 한국 키트 2차: korean-utils 카드·법인·계좌 함수 + KOREAN_BANKS, react CardNumberInput·CorporateNumberInput·AccountNumberInput(내부 CheckedNumberField 로 BusinessNumberInput 과 공유), 계약·SSR·스토리·E2E, 접근성 문서·README, korean-utils 한도 2.2 kB(사용자 결정), changeset minor 2 |
+| 2026-11-06 | 20번: Guides 화면 패턴 "앱 뼈대"·"시간 고르기", 스토리 Guides/앱 뼈대 3개(axe 라이트·다크, play), 목록 패턴을 새 컴포넌트로, 선택 기준 "시간". 링크 index.json 대조. 새 공개 API 없음 |
+| 2026-11-06 | 21번 아이콘 91개 추가(148종, Lucide 1.61.0), generate, icons README lucide-react 안내, 루트 README 아이콘 수, changeset icons minor. Icons Gallery 기준 이미지 갱신 필요 |
+| 2026-11-06 | 22번 폼 검증 가이드(zod): 화면 패턴 절 + 같은 코드 통합 테스트 3, react devDependencies zod·@hookform/resolvers. 17~22번 완료 |
+| 2026-11-06 | 버전 PR #29 배포 확인(react 2.1.0·korean-utils 0.4.0·icons 0.2.0, vite-starter 설치·빌드 통과). 전역 스킬 정리: `.claude/settings.local.json` skillOverrides(off 18·명령만 16) |
+| 2026-11-06 | `!visual` 태그 버그: Storybook 이 `!이름` 을 태그 빼기로 처리해 필터가 동작하지 않았음 → `no-visual` 로 변경(스토리 11개·spec·CLAUDE.md), 안 쓰이게 된 기준 이미지 22장 삭제(남은 626장 = 찍을 626장) |
+| 2026-11-06 | 6번 A `MultiCombobox`: Combobox 목록 로직을 내부 `useComboboxList`·`ComboboxListbox` 로 나눠 공유, 칸 안 칩·Backspace·칩 삭제 포커스·삭제/최대 개수 지연 알림·maxSelected·값마다 hidden input. 단위 12(변이 5개 확인)·폼 계약·SSR·스토리 9(axe 라이트·다크)·E2E(Chromium·WebKit 5회), 선택 기준·접근성 문서·README, 새 선택 키 2, changeset minor. 새 스토리 기준 이미지 생성 필요 |
