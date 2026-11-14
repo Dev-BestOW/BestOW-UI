@@ -51,9 +51,7 @@
 ## 남은 일
 
 ### 사람이 할 일
-- [ ] **bestow-ui.com 마무리**(①~⑤ 도메인·DNS·Custom domain·HTTPS·배포는 2026-11-14 끝남): Search Console 에 `https://bestow-ui.com/` 속성 추가(태그 값이 다르면 Claude 에게) + sitemap 제출,
-  네이버 서치어드바이저 소유확인 버튼(확인 파일은 apps/site/public 에 넣음 — push·배포 뒤) + sitemap 제출, Cloudflare Web Analytics 사이트 호스트 확인,
-  (선택) 조직 루트 저장소 `dev-bestow.github.io` 의 index.html 이동 대상·robots.txt 를 새 주소로. 도메인 자동 갱신 유지.
+- [ ] **bestow-ui.com 마무리**: Cloudflare Web Analytics 에 bestow-ui.com 방문이 잡히는지 확인(안 잡히면 사이트 추가·토큰 교체), (선택) 조직 루트 저장소 `dev-bestow.github.io` 이동 대상·robots.txt 를 새 주소로. 도메인 자동 갱신 유지. (Search Console·네이버 소유확인·sitemap 제출은 2026-11-14 끝남)
 - [ ] 블로그 예약 발행 워크플로 켜기 — 일요일 09:00 이후 ~ 월요일 09:00 전에 Actions › Daily post › Enable workflow(Run 은 누르지 않기).
 - [ ] 11/19 버전 PR #30 머지(첫 정기 배포).
 - [ ] good first issue 4개 등록(초안: 알리기 준비물 Artifact https://claude.ai/artifact/LvPgoSsmGKHjLd34FP789u) — 블로그 글이 나가기 전에.
@@ -71,6 +69,7 @@
 - [ ] 방문 통계 일주일 뒤 읽히는 문서·유입 경로 정리 → 다음 작업 제안, 29번 ✅.
 
 ### Claude 가 할 일
+- **다음 작업: SEO·GEO 계획 [`SEO-GEO-PLAN.md`](SEO-GEO-PLAN.md)** — 사용자가 계획서 검토 뒤 시작. Task 1(컴포넌트 문서 틀 + PhoneNumberInput 한 쪽, 사용자 확인)부터 순서대로, 작업마다 커밋 확인 후 다음.
 - **28번 Figma 정리 2건**(MCP 호출 한도가 풀리면): Checkbox `icon` 프레임 12개 흰 배경 지우기, Korean Kit 페이지 변수 연결 감사 — `docs/FIGMA.md`.
 - 28번 다음 컴포넌트(요청 시): Select·RadioGroup·Switch·AgreementGroup·Alert·Modal, 아이콘 컴포넌트(Button 아이콘 자리).
 - **외부 요청이 생기면:** Tag 입력(MultiCombobox 와 칩 공유), Combobox 비동기 검색.
@@ -126,3 +125,5 @@
 | 2026-11-14 | 문서 정리: STABILIZATION 삭제(요약은 HISTORY), 파일럿·설계 기록 docs/archive, ROADMAP 503 → 약 120줄(옛 계획 절 403줄·11-10 까지 진행 기록 52줄은 HISTORY 에 그대로 보관). 미완료 항목 모두 "남은 일" 로, 깨진 링크 0 |
 | 2026-11-14 | 도메인 bestow-ui.com(사용자 결정, 후보는 RDAP 로 조회): 옛 주소 68곳 교체(README·package.json homepage·문서·llms.txt·OG·canonical), 소개 사이트 basePath 기본 ''·E2E 를 루트 구조로, `robots.txt`(sitemap 위치) 추가. 4개 패키지 patch changeset. 연결 순서는 "사람이 할 일" |
 | 2026-11-14 | bestow-ui.com 연결 확인: DNS(A·AAAA·www CNAME·인증 TXT), HTTPS, 16쪽 200(사이트·Storybook·playground·robots·sitemap·llms·ai·확인 파일), canonical·OG·sitemap 새 주소, 옛 `?path=`·`iframe.html?id=` 가 Chrome 에서 새 도메인 Storybook 으로, http·www → https 루트 |
+| 2026-11-14 | 네이버 소유 확인 파일(사이트 루트, prettier 제외, E2E). SEO·GEO 조사(Storybook 문서는 같은 제목·canonical 에 JS 렌더라 검색에 안 잡힘) → 계획서 `SEO-GEO-PLAN.md`(한국 키트 13쪽 정적 문서·JSON-LD·비교 쪽·GEO 점검) |
+| 2026-11-14 | 사용자: bestow-ui.com 을 Google Search Console·네이버 서치어드바이저에 등록하고 sitemap 제출 |
