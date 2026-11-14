@@ -293,7 +293,7 @@ main CI 의 site E2E 실패(320px 리플로 — CI Linux 글꼴이 넓어 대표
     korean-utils 전체 한도 1 → 1.5 kB(사용자 결정, 1.32 kB) + "maskName 하나" tree-shaking 감시(92 B). playground 정산 정보에 대표자 주민번호(다 채우면 maskResidentNumber 로 표시).
     **스크린리더 점검 필요**(password 칸 읽기, 두 칸 묶음) — 사람이 할 일에 추가. 원래 계획: korean-utils 에 마스킹 함수(이름 `홍*동`, 전화 `010-****-1234`) 먼저(작고 수요 확실),
     그다음 주민·외국인등록번호 입력(뒷자리 마스킹), 카드번호, 계좌번호 + 은행 선택.
-14. **컴포넌트 공백** (2026-11-06 아래 "런칭 뒤 완성도 보강" 17~20번으로 나눠 옮김 — TanStack 가이드만 여기 남음) — Tag/Chip(표시·필터용, 6번 Tag 입력과 칩 부품 공유), 범용 `EmptyState`(지금은 TableEmpty 만),
+14. ✅ (2026-11-14 TanStack 가이드로 마무리) **컴포넌트 공백** — Guides "TanStack Table 과 함께 쓰기"(TanStackTable.mdx + 예시 스토리 2: 정렬·검색·페이지·선택·결과 없음, play 상호작용 테스트 — sortDescFirst 를 지우면 실패 확인, 서버 정렬·페이지(manual*·rowCount·getRowId), React Compiler 경고 안내). @tanstack/react-table 은 storybook devDependency 만(패키지·번들 영향 없음). 이전 메모: (2026-11-06 아래 "런칭 뒤 완성도 보강" 17~20번으로 나눠 옮김 — TanStack 가이드만 여기 남음) — Tag/Chip(표시·필터용, 6번 Tag 입력과 칩 부품 공유), 범용 `EmptyState`(지금은 TableEmpty 만),
     TimePicker(예약·배송 시간), 앱 뼈대 패턴(헤더·사이드바·모바일 하단 탭바 — Guides 화면 패턴 예시로 먼저).
     데이터 표는 직접 키우지 말고 **TanStack Table 과 함께 쓰는 패턴 가이드**(정렬·필터·페이지·선택).
 15. **Figma 라이브러리** (아래 보류에서 올림) — 팀 도입은 디자이너가 함께 결정하는 경우가 많아 코드만 있는 DS 는 불리하다.
@@ -500,3 +500,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-14 | 29번 측정: `scripts/stats.mjs`(기준값 한 줄), Cloudflare Web Analytics(사용자 결정) — 배포 빌드에만 토큰으로 beacon, site E2E 로 테스트 빌드에 없는지 확인, SECURITY.md 공개. 토큰 등록은 사용자 |
 | 2026-11-14 | 30번: 배포 주기 격주 목요일(SUPPORT.md·CLAUDE.md), 알리기 준비물 Artifact(velog·요즘IT·발표 제안서·커뮤니티), 블로그 예약 발행 워크플로 9/13 이후 멈춤 발견 |
 | 2026-11-14 | 16번: CONTRIBUTING "처음 기여하기" + README 링크, good first issue 초안 4개(커버리지로 찾은 실제 빈 곳 — presets 분기 2·en 2·Tag 14, vite-starter 영어 전환) |
+| 2026-11-14 | 14번: Guides "TanStack Table 과 함께 쓰기" — 예시 스토리(정렬·검색·페이지·선택·결과 없음, play 테스트·변이 확인)와 문서(연결 표·접근성·서버 모드). 새 스토리 1개 시각 회귀 기준 이미지 생성 필요(main push 때 자동) |

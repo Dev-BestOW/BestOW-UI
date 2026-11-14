@@ -39,6 +39,7 @@ apps/
                                컴포넌트별 키보드·스크린리더 문서(데이터 componentA11y.ts + ComponentA11y.mdx)).
                                사이드바: Introduction → Foundations → Accessibility → Guides → Layout → Components → Korean Kit.
                                새 컴포넌트·API 가 생기면 guides 의 선택 기준·패턴 코드도 맞춘다(MDX 의 링크는 index.json 으로 검사, axe 는 직접).
+                               guides/TanStackTable — TanStack Table(@tanstack/react-table, storybook devDependency 만)과 Table 을 잇는 예시 스토리 + 문서. Table·Pagination·Checkbox API 가 바뀌면 함께 고친다(play 테스트가 잡는다).
                                vite alias 로 dist 가 아닌 각 패키지 src 를 바로 본다.
                                Pages 의 /storybook/ 에 배포한다(루트는 apps/site). 문서·README 의 Storybook 링크는 `…/BestOW-UI/storybook/?path=…`.
                                검색·링크 미리보기: 페이지 제목은 main.ts 의 `title`, 설명·OG 태그는 .storybook/manager-head.html, 이미지는 apps/site/public/og.png
