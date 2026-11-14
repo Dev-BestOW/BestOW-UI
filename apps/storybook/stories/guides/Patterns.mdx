@@ -300,6 +300,8 @@ const selection = useTableSelection<string>();
 - 위에 [Stepper](?path=/docs/components-stepper--docs)로 현재 단계를 보여 주고, 이동은 "이전"·"다음" 버튼으로 해요(Stepper 는 표시용).
 - 단계가 바뀌면 **새 단계의 제목으로 포커스**를 옮겨 바뀐 것을 알려요 — 제목에 `tabIndex={-1}`.
 - 다음으로 가기 전에 그 단계의 칸을 검증하고, 실패하면 ErrorSummary.
+- react-hook-form + zod 라면 **단계마다 폼(useForm)과 스키마를 따로** 둬요. 하나의 폼으로 묶으면 비밀번호 확인 같은 `.refine` 이 다른 단계 칸이 모두 채워질 때까지 확인되지 않아요.
+  마지막 단계에서 모은 값을 서버 액션 하나로 보내고, 서버도 같은 스키마로 다시 확인해요. 완성된 예는 Next.js 템플릿 [`examples/next-starter`](https://github.com/Dev-BestOW/BestOW-UI/tree/main/examples/next-starter).
 
 ```tsx
 const titleRef = useRef<HTMLHeadingElement>(null);

@@ -12,7 +12,7 @@
 
 **2026-11-13 세션:** 사용자 할 일 완료 확인(Search Console·네이버 sitemap 제출, force push 금지 규칙, Dependabot) — 버전 PR #30 은 아직 열림(머지는 사용자 판단).
 24번 글 초안 2편(사업자등록번호 검증 공식 `business-number-checksum.md`, 인증번호 문자 자동 채우기 `sms-otp-autofill-react.md` — 둘 다 astro-blog draft), 3편 약관 전체 동의 체크박스 접근성 `agreement-checkbox-a11y.md` — 세 편 모두 astro-blog `content-queue/001~003-*.md`(draft: false)로 옮겨 매일 09:00 하나씩 예약 발행.
-**25번 완료**(아래). 다음: 26번 Next.js 템플릿 또는 27번 AI 코딩 도구 규칙 파일, 버전 PR #30 배포 뒤 npm 검색 순위 조회.
+**25번·26번 완료**(아래). 다음: 27번 AI 코딩 도구 규칙 파일, 버전 PR #30 배포 뒤 npm 검색 순위 조회, push 뒤 `create-next-app --example` 실제 설치 확인.
 
 **지금 할 일(2026-11-11 결정): "사용자 유치 플랜" 23번부터** — 아래 "다음 플랜" 맨 위 절. 런칭 6일 뒤 점검에서 막힌 곳이 기능이 아니라
 **발견 → 신뢰 → 첫 사용** 경로로 나왔다(스타 4·외부 이슈 0·Discussions 0·웹 검색 결과 없음). 새 컴포넌트(6번 C Tag 입력·B 비동기 검색)는 외부 요청이 생길 때까지 미룬다.
@@ -141,7 +141,13 @@ main CI 의 site E2E 실패(320px 리플로 — CI Linux 글꼴이 넓어 대표
     일회성 확인(Chrome, vite preview): 라이트·다크·오류 상태 axe 0, 글꼴 `var(--font-sans)`(`'inherit'` 는 CSS 변수에서 바깥 변수를 이어받아 안 됨). 공개 API 변화 없음(changeset 없음). push 뒤 StackBlitz 링크 동작 확인.
     원래 계획: Guides 에 "shadcn/ui·Tailwind 프로젝트에 한국 키트만 쓰기": `styles.css` + `@layer` 순서, shadcn CSS 변수(`--primary` 등) → `--bestow-*` 매핑 예시,
     ThemeProvider 최소 설정, 번들 숫자. `examples/` 에 shadcn 예제(StackBlitz, npm 배포본만 사용) + E2E 는 일회성 확인. 포지셔닝("Tailwind 전용 복사형은 하지 않는다")은 그대로 — 보류 중인 shadcn 레지스트리와 다르다.
-26. **완성된 템플릿·실사용 증거** — 회원가입·로그인·본인인증·정산 정보가 완성된 Next.js 템플릿(`examples/next-starter`, `create-next-app -e` 로 받는 형태, react-hook-form + zod — Guides 패턴 코드 그대로).
+26. ✅ (2026-11-14, 템플릿 부분) `examples/next-starter` — `npx create-next-app@latest my-app --example "https://github.com/Dev-BestOW/BestOW-UI/tree/main/examples/next-starter"`
+    (주소 형식은 main 에 있는 vite-starter 로 내려받아 확인). 3단계 가입(계정·약관 → 이름·통신사·휴대폰·인증번호 → 사업자·은행·계좌·예금주)·로그인·내 정보(서버 컴포넌트, 마스킹·서식 서버 호출)·로그아웃.
+    `lib/schemas.ts` 를 zodResolver 와 서버 액션이 함께 씀, **단계마다 useForm** (한 폼이면 `.refine`(비밀번호 확인)이 다른 단계 칸이 비어 1단계에서 안 돌아감 — Patterns 단계별 흐름에도 적음),
+    서버 오류(이미 가입한 이메일·틀린 인증번호·로그인 실패)는 setError → ErrorSummary. 저장소·세션·인증번호는 예제용(⚠️ 주석, README "실제 서비스로 바꿀 곳").
+    일회성 확인(Chrome, next start): 흐름 16개 PASS(오류 요약 포커스·단계 제목 포커스·이전으로 값 유지·가입 후 /account·320px), 모든 화면 라이트·다크 axe 0, 콘솔 오류 0.
+    README·npm README·Patterns·llms.txt·CLAUDE.md 연결. 공개 API 변화 없음(changeset 없음). 남은 것: 실사용 증거("사용 사례" 절)는 그대로 사람이 할 일.
+    원래 계획: 회원가입·로그인·본인인증·정산 정보가 완성된 Next.js 템플릿(`examples/next-starter`, `create-next-app -e` 로 받는 형태, react-hook-form + zod — Guides 패턴 코드 그대로).
     README "사용 사례" 절은 실제 서비스가 생기면(사람이 할 일 — 사용자 본인 프로젝트가 가장 강한 증거).
 27. **AI 코딩 도구 경로** — llms.txt 는 있음. 다음: Cursor·Claude Code 규칙 파일 예시(README 에 복사용), Context7 등록(사용자), MCP 서버(컴포넌트 검색·props·예제 — SEED 참고, 새 패키지라 첫 배포 절차 주의)는 반응을 보고.
 28. **Figma 라이브러리** — 기존 15번 그대로(tokens → Figma 변수 → 주요 컴포넌트·Code Connect). 팀 도입용이라 23~26 뒤.
@@ -466,3 +472,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-13 | 24번 글 초안 2편: astro-blog `sms-otp-autofill-react.md`(draft) — VerificationCodeInput 구조 기반(입력창 하나·one-time-code·WebOTP·자동 제출·만료 알림), Storybook 링크 index.json 으로 확인, 블로그 check 0 errors·build 통과 |
 | 2026-11-13 | 24번 글 초안 3편: astro-blog `agreement-checkbox-a11y.md`(draft) — AgreementGroup 구조 기반, KWCAG 번호(5.4.1·6.4.3)는 kwcag.ts 로 확인, "스크린리더로 찾았다" 는 기록과 다른 서술은 고침. 블로그 check 0 errors·build 통과 |
 | 2026-11-13 | 24번 글 3편 astro-blog content-queue 예약(001~003). 25번: `examples/shadcn-starter` + Guides MDX(shadcn 변수 → overrides, 대비 모자란 변수는 잇지 않음) + README·llms.txt 링크. 검증 전부 통과(lint·format·build·size·typecheck·test 615·stories 666·build 3종·E2E 87+24) |
+| 2026-11-14 | 26번 Next.js 템플릿 `examples/next-starter`(3단계 가입·로그인·내 정보, react-hook-form + zod, 스키마를 서버 액션과 공유, 단계마다 폼) + README·Patterns·llms.txt 연결. 브라우저 흐름 16개·axe 라이트·다크 0 |

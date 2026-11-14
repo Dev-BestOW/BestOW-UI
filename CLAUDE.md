@@ -62,6 +62,8 @@ apps/
                                mobile.spec.ts 는 `<브라우저>-mobile` 프로젝트(Pixel 7·iPhone 15, 터치·좁은 화면)에서만 — 탭 조작·리플로(가로 스크롤 없음),
                                axe(라이트·다크+브랜드), portal 테마, 키보드 시나리오, 서버 컴포넌트에서 부른 함수.
 examples/
+  next-starter/                `create-next-app --example` 로 받는 Next.js 템플릿(26번): 3단계 가입·로그인·내 정보, react-hook-form + zod.
+                               lib/schemas.ts 를 클라이언트·서버 액션이 함께 씀, 저장소·세션·인증번호는 예제용(⚠️ 주석). npm 배포본만. CI 밖 — 바꾸면 build + 브라우저로 흐름 확인.
   shadcn-starter/              StackBlitz 예제(Vite + Tailwind v4 + shadcn/ui Button·Card 를 줄여 옮김) 위에 한국 키트 입력만 얹음. vite-starter 와 같은 규칙(npm 배포본만).
                                src/bestow-theme.ts 가 shadcn 변수 → ThemeProvider overrides. 설명은 Storybook Guides/ShadcnKoreanKit.mdx(25번).
   vite-starter/                StackBlitz 로 바로 여는 예제(Vite + React). 워크스페이스 밖 — npm 에 배포된 @bestow-ui/react 를 설치한다

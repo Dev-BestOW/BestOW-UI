@@ -57,6 +57,14 @@ React 18 이상이 필요해요. 아이콘(`@bestow-ui/icons`)과 토큰(`@besto
 
 ### Next.js 에서 5분 만에 시작하기 (App Router)
 
+가입·본인 확인·정산 정보·로그인이 완성된 템플릿으로 시작하려면(react-hook-form + zod, [설명](examples/next-starter)):
+
+```bash
+npx create-next-app@latest my-app --example "https://github.com/Dev-BestOW/BestOW-UI/tree/main/examples/next-starter"
+```
+
+직접 붙이려면 아래 세 단계예요.
+
 **1. Provider 를 `'use client'` 파일로 만들어요.**
 
 ```tsx
