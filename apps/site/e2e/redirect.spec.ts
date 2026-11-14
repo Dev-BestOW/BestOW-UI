@@ -10,20 +10,20 @@ const cases = [
 
 for (const query of cases) {
   test(`옛 Storybook 주소 ${query} → /storybook/ 로 쿼리·해시 그대로`, async ({ page }) => {
-    await page.goto(`/BestOW-UI/${query}`);
-    await expect(page).toHaveURL(`/BestOW-UI/storybook/${query}`);
+    await page.goto(`/${query}`);
+    await expect(page).toHaveURL(`/storybook/${query}`);
     await expect(page.getByRole('heading', { name: '가짜 Storybook' })).toBeVisible();
   });
 }
 
 test('옛 스토리 단독 주소 iframe.html?id=… → /storybook/iframe.html', async ({ page }) => {
-  await page.goto('/BestOW-UI/iframe.html?id=components-button--playground&viewMode=story');
-  await expect(page).toHaveURL('/BestOW-UI/storybook/iframe.html?id=components-button--playground&viewMode=story');
+  await page.goto('/iframe.html?id=components-button--playground&viewMode=story');
+  await expect(page).toHaveURL('/storybook/iframe.html?id=components-button--playground&viewMode=story');
   await expect(page.getByRole('heading', { name: '가짜 Storybook 스토리' })).toBeVisible();
 });
 
 test('쿼리가 없거나 상관없는 쿼리면 넘기지 않는다', async ({ page }) => {
-  for (const url of ['/BestOW-UI/', '/BestOW-UI/?utm_source=geeknews']) {
+  for (const url of ['/', '/?utm_source=geeknews']) {
     await page.goto(url);
     await expect(page).toHaveURL(url);
     await expect(page.getByRole('heading', { level: 1 })).toBeVisible();

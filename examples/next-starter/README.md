@@ -36,5 +36,5 @@ npm run dev
 
 ## 더 보기
 
-- 컴포넌트 문서: [Storybook](https://dev-bestow.github.io/BestOW-UI/storybook/) · 폼 패턴: [Guides › 화면 패턴](https://dev-bestow.github.io/BestOW-UI/storybook/?path=/docs/guides-화면-패턴--docs)
-- 서식·검증 함수만 쓰려면: [`@bestow-ui/korean-utils`](https://dev-bestow.github.io/BestOW-UI/korean-utils/)
+- 컴포넌트 문서: [Storybook](https://bestow-ui.com/storybook/) · 폼 패턴: [Guides › 화면 패턴](https://bestow-ui.com/storybook/?path=/docs/guides-화면-패턴--docs)
+- 서식·검증 함수만 쓰려면: [`@bestow-ui/korean-utils`](https://bestow-ui.com/korean-utils/)

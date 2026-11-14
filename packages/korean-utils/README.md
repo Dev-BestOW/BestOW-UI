@@ -17,9 +17,9 @@
 
 함수마다 무엇을 푸는지, 알아 둘 점, 같은 동작의 React 입력 컴포넌트를 정리했고 브라우저에서 바로 입력해 볼 수 있어요.
 
-- [전화번호 하이픈 넣기](https://dev-bestow.github.io/BestOW-UI/korean-utils/phone-number/) · [사업자등록번호 검증](https://dev-bestow.github.io/BestOW-UI/korean-utils/business-number/) · [법인등록번호 검증](https://dev-bestow.github.io/BestOW-UI/korean-utils/corporate-number/)
-- [주민등록번호 생년월일·성별 읽기](https://dev-bestow.github.io/BestOW-UI/korean-utils/resident-number/) · [카드번호 서식·Luhn 검증](https://dev-bestow.github.io/BestOW-UI/korean-utils/card-number/) · [은행 코드 목록과 계좌번호](https://dev-bestow.github.io/BestOW-UI/korean-utils/bank-account/)
-- [금액 한글 읽기](https://dev-bestow.github.io/BestOW-UI/korean-utils/korean-amount/) · [한국어 날짜](https://dev-bestow.github.io/BestOW-UI/korean-utils/korean-date/) · [주소 참고항목](https://dev-bestow.github.io/BestOW-UI/korean-utils/extra-address/) · [개인정보 마스킹](https://dev-bestow.github.io/BestOW-UI/korean-utils/masking/)
+- [전화번호 하이픈 넣기](https://bestow-ui.com/korean-utils/phone-number/) · [사업자등록번호 검증](https://bestow-ui.com/korean-utils/business-number/) · [법인등록번호 검증](https://bestow-ui.com/korean-utils/corporate-number/)
+- [주민등록번호 생년월일·성별 읽기](https://bestow-ui.com/korean-utils/resident-number/) · [카드번호 서식·Luhn 검증](https://bestow-ui.com/korean-utils/card-number/) · [은행 코드 목록과 계좌번호](https://bestow-ui.com/korean-utils/bank-account/)
+- [금액 한글 읽기](https://bestow-ui.com/korean-utils/korean-amount/) · [한국어 날짜](https://bestow-ui.com/korean-utils/korean-date/) · [주소 참고항목](https://bestow-ui.com/korean-utils/extra-address/) · [개인정보 마스킹](https://bestow-ui.com/korean-utils/masking/)
 
 ## 설치
 
@@ -110,7 +110,7 @@ const [phone, setPhone] = useState('');
 ```
 
 숫자만 저장하고 보여 줄 때 서식을 입혀요. 이렇게 하면 중간에 글자를 지울 때 커서가 맨 끝으로 튀는데,
-BestOW UI 의 [`PhoneNumberInput`](https://dev-bestow.github.io/BestOW-UI/storybook/?path=/docs/korean-kit-phonenumberinput--docs) 은 커서 위치와
+BestOW UI 의 [`PhoneNumberInput`](https://bestow-ui.com/storybook/?path=/docs/korean-kit-phonenumberinput--docs) 은 커서 위치와
 하이픈 뒤 Backspace 까지 처리해 두었어요.
 
 > 마스킹은 **화면 표시용**이에요. 저장·전송·로그에는 가린 값이 아니라 꼭 필요한 값만 남기세요.
@@ -119,7 +119,7 @@ BestOW UI 의 [`PhoneNumberInput`](https://dev-bestow.github.io/BestOW-UI/storyb
 ## React 컴포넌트가 필요하면
 
 [`@bestow-ui/react`](https://www.npmjs.com/package/@bestow-ui/react) 에 이 함수들을 쓰는 입력 컴포넌트가 있어요 — 전화번호·사업자등록번호·주민등록번호·금액·주소·인증번호·약관 동의·날짜.
-접근성(KWCAG 2.2)을 CI 로 검사하고, 대표색 하나로 브랜드 테마를 만들 수 있어요. → [Storybook › Korean Kit](https://dev-bestow.github.io/BestOW-UI/storybook/?path=/docs/korean-kit-agreementgroup--docs)
+접근성(KWCAG 2.2)을 CI 로 검사하고, 대표색 하나로 브랜드 테마를 만들 수 있어요. → [Storybook › Korean Kit](https://bestow-ui.com/storybook/?path=/docs/korean-kit-agreementgroup--docs)
 
 `@bestow-ui/react` 1.5 까지 쓰던 `import { formatPhoneNumber } from '@bestow-ui/react'` 도 그대로 동작해요(같은 함수를 다시 내보내요).
 

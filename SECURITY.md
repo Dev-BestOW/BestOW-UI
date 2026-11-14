@@ -36,7 +36,7 @@
 
 ## 웹사이트 방문 통계
 
-소개 사이트·Storybook 문서·예제 앱(https://dev-bestow.github.io/BestOW-UI/ 아래)에는 어떤 문서가 읽히는지 알기 위해
+소개 사이트·Storybook 문서·예제 앱(https://bestow-ui.com/ 아래)에는 어떤 문서가 읽히는지 알기 위해
 [Cloudflare Web Analytics](https://www.cloudflare.com/web-analytics/) 를 붙여요(2026-11-14 결정 — 저장소 변수에 토큰을 넣은 배포부터).
 
 - 쿠키·로컬 저장소를 쓰지 않고, 방문자를 따라다니며 식별하지 않아요(Cloudflare 설명 기준). 그래서 동의 배너가 없어요.

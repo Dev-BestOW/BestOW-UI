@@ -14,9 +14,9 @@
 | | VoiceOver | Safari | iPhone |
 | | 센스리더 | Chrome 또는 Edge | Windows (국내 공공기관에서 많이 씀) |
 
-점검 페이지(배포된 예제 앱): [상호작용](https://dev-bestow.github.io/BestOW-UI/playground/interactive) ·
-[탐색·오버레이](https://dev-bestow.github.io/BestOW-UI/playground/navigation) ·
-[서버 컴포넌트](https://dev-bestow.github.io/BestOW-UI/playground/)
+점검 페이지(배포된 예제 앱): [상호작용](https://bestow-ui.com/playground/interactive) ·
+[탐색·오버레이](https://bestow-ui.com/playground/navigation) ·
+[서버 컴포넌트](https://bestow-ui.com/playground/)
 
 ### 자주 쓰는 키
 

@@ -1,7 +1,7 @@
 # BestOW UI 기여 가이드
 
 BestOW UI 에 컴포넌트·아이콘을 추가하거나 버그를 고칠 때 필요한 내용을 정리했어요.
-사용 방법은 [Storybook](https://dev-bestow.github.io/BestOW-UI/storybook/) 의 **Introduction** 페이지를 봐 주세요.
+사용 방법은 [Storybook](https://bestow-ui.com/storybook/) 의 **Introduction** 페이지를 봐 주세요.
 
 ## 처음 기여하기
 

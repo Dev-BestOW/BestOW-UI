@@ -2,16 +2,13 @@ import * as utils from '@bestow-ui/korean-utils';
 import { guides } from '../app/korean-utils/guides';
 import { axeViolations, expect, test } from './fixtures';
 
-const LIST = '/BestOW-UI/korean-utils/';
+const LIST = '/korean-utils/';
 const pages = [LIST, ...guides.map(({ slug }) => `${LIST}${slug}/`)];
 
 test('목록: 모든 함수 문서로 가는 링크', async ({ page }) => {
   await page.goto(LIST);
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('한국 서비스 서식·검증 함수');
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
-    'href',
-    'https://dev-bestow.github.io/BestOW-UI/korean-utils/',
-  );
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://bestow-ui.com/korean-utils/');
   const list = page.getByRole('region', { name: '무엇을 하려고 하나요' });
   for (const guide of guides) {
     await expect(list.getByRole('link', { name: guide.title })).toHaveAttribute('href', `${LIST}${guide.slug}/`);
@@ -28,17 +25,14 @@ test('함수 문서: 제목·설명·canonical·미리보기 태그', async ({ p
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(guide.title);
     await expect(page).toHaveTitle(`${guide.title} — @bestow-ui/korean-utils`);
     await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', guide.summary);
-    const url = `https://dev-bestow.github.io${LIST}${guide.slug}/`;
+    const url = `https://bestow-ui.com${LIST}${guide.slug}/`;
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', url);
     await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', url);
-    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
-      'content',
-      'https://dev-bestow.github.io/BestOW-UI/og.png',
-    );
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://bestow-ui.com/og.png');
     if (guide.component) {
       await expect(page.getByRole('link', { name: `${guide.component.name} 문서 보기` })).toHaveAttribute(
         'href',
-        `/BestOW-UI/storybook/?path=${guide.component.path}`,
+        `/storybook/?path=${guide.component.path}`,
       );
     }
   }
@@ -72,8 +66,8 @@ test('은행 코드 표: KOREAN_BANKS 전부', async ({ page }) => {
 });
 
 test('sitemap.xml 에 모든 함수 문서가 있다', async ({ request }) => {
-  const xml = await (await request.get('/BestOW-UI/sitemap.xml')).text();
-  for (const path of pages) expect(xml).toContain(`<loc>https://dev-bestow.github.io${path}</loc>`);
+  const xml = await (await request.get('/sitemap.xml')).text();
+  for (const path of pages) expect(xml).toContain(`<loc>https://bestow-ui.com${path}</loc>`);
 });
 
 /**

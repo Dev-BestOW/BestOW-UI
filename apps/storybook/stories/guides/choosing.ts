@@ -6,7 +6,7 @@ export interface ChoiceGroup {
   items: Array<{ name: string; path: string; when: string; avoid?: string }>;
 }
 
-// 표는 문서 iframe(iframe.html) 안에 그려지므로 ./?path= 에 target="_top" 으로 바깥 Storybook 을 이동시킨다(Pages 의 /BestOW-UI/ 에서도 맞음)
+// 표는 문서 iframe(iframe.html) 안에 그려지므로 ./?path= 에 target="_top" 으로 바깥 Storybook 을 이동시킨다(Pages 의 /storybook/ 에서도 맞음)
 const docs = (id: string) => `./?path=/docs/${id}--docs`;
 
 export const choosing: ChoiceGroup[] = [

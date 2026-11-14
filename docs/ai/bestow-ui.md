@@ -1,7 +1,7 @@
 # BestOW UI (@bestow-ui/react) 사용 규칙
 
 이 프로젝트의 화면은 `@bestow-ui/react`(한국 서비스용 React 디자인 시스템)로 만든다. 컴포넌트를 새로 만들기 전에 아래 목록에 있는지 먼저 본다.
-props 를 모르면 추측하지 말고 전체 문서를 읽는다: https://dev-bestow.github.io/BestOW-UI/llms-full.txt (모든 컴포넌트의 props 정의·선택 기준·키보드 동작).
+props 를 모르면 추측하지 말고 전체 문서를 읽는다: https://bestow-ui.com/llms-full.txt (모든 컴포넌트의 props 정의·선택 기준·키보드 동작).
 
 ## 설치·설정
 

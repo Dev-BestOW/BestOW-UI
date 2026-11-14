@@ -13,14 +13,14 @@
 ![BestOW UI 회원가입 화면 — 왼쪽은 라이트 기본 테마, 오른쪽은 다크 모드에 브랜드색(#7c3aed)을 입힌 같은 화면](docs/images/hero.png)
 
 ⚡ **[StackBlitz 에서 바로 써 보기](https://stackblitz.com/github/Dev-BestOW/BestOW-UI/tree/main/examples/vite-starter?file=src%2FApp.tsx)** (설치 없이 브라우저에서) ·
-🏠 **[홈페이지](https://dev-bestow.github.io/BestOW-UI/)** (직접 입력해 보는 데모) · 📖 **[Storybook 문서](https://dev-bestow.github.io/BestOW-UI/storybook/)** · **[Next.js 예제 앱](https://dev-bestow.github.io/BestOW-UI/playground/)** (위 화면은 예제 앱의 [회원가입](https://dev-bestow.github.io/BestOW-UI/playground/signup/)) ·
-[테마 빌더](https://dev-bestow.github.io/BestOW-UI/storybook/?path=/story/foundations-theme-builder--builder) · [KWCAG 2.2 대응](https://dev-bestow.github.io/BestOW-UI/storybook/?path=/docs/accessibility-kwcag-2-2-%EB%8C%80%EC%9D%91--docs) ·
-AI 코딩 도구용 [llms.txt](https://dev-bestow.github.io/BestOW-UI/llms.txt)
+🏠 **[홈페이지](https://bestow-ui.com/)** (직접 입력해 보는 데모) · 📖 **[Storybook 문서](https://bestow-ui.com/storybook/)** · **[Next.js 예제 앱](https://bestow-ui.com/playground/)** (위 화면은 예제 앱의 [회원가입](https://bestow-ui.com/playground/signup/)) ·
+[테마 빌더](https://bestow-ui.com/storybook/?path=/story/foundations-theme-builder--builder) · [KWCAG 2.2 대응](https://bestow-ui.com/storybook/?path=/docs/accessibility-kwcag-2-2-%EB%8C%80%EC%9D%91--docs) ·
+AI 코딩 도구용 [llms.txt](https://bestow-ui.com/llms.txt)
 
 ## 특징
 
 - 🇰🇷 **한국 서비스 키트** — 약관 동의(전체 동의), 인증번호(문자 자동 채우기·남은 시간), 전화번호·사업자등록번호(검증 공식)·금액(“12만 5,000원” 읽기),
-  주소(카카오 우편번호), 날짜(일요일 시작·공휴일 표시)·기간(빠른 선택). → [Storybook › Korean Kit](https://dev-bestow.github.io/BestOW-UI/storybook/?path=/docs/korean-kit-agreementgroup--docs)
+  주소(카카오 우편번호), 날짜(일요일 시작·공휴일 표시)·기간(빠른 선택). → [Storybook › Korean Kit](https://bestow-ui.com/storybook/?path=/docs/korean-kit-agreementgroup--docs)
 - ♿ **검사로 증명하는 접근성** — 모든 스토리를 실제 브라우저(Chromium·WebKit·Firefox)에서 라이트·다크 두 테마로 axe 검사해요(CI).
   입력 칸·체크 컨트롤 테두리도 배경과 3:1 이상이에요. 고대비 모드·320px 리플로·기본 글꼴 2배도 확인하고, KWCAG 2.2 33개 항목별 대응 근거와 검사가 실제로 찾아 고친 문제를 기록했어요.
   주요 컴포넌트는 스크린리더(VoiceOver·NVDA)로 직접 들어 보고 [점검 기록](docs/SCREEN-READER-CHECKLIST.md)을 남겼어요.
@@ -152,7 +152,7 @@ export function SignupForm() {
 }
 ```
 
-react-hook-form 과 함께 쓰는 방법, 오류 요약(`ErrorSummary`)은 [화면 패턴](https://dev-bestow.github.io/BestOW-UI/storybook/?path=/docs/guides-%ED%99%94%EB%A9%B4-%ED%8C%A8%ED%84%B4--docs) 가이드에 있어요.
+react-hook-form 과 함께 쓰는 방법, 오류 요약(`ErrorSummary`)은 [화면 패턴](https://bestow-ui.com/storybook/?path=/docs/guides-%ED%99%94%EB%A9%B4-%ED%8C%A8%ED%84%B4--docs) 가이드에 있어요.
 Next.js 가 아니어도 같아요 — 앱 진입점에서 `styles.css` 를 불러오고 `ThemeProvider` 로 감싸면 돼요.
 
 ### 다크 모드와 브랜드 테마
@@ -194,16 +194,16 @@ Claude Code·Cursor·Codex 같은 도구가 컴포넌트를 새로 만들지 않
 
 ```bash
 # Claude Code — 파일을 받고 CLAUDE.md 에서 불러와요
-curl -so bestow-ui.md https://dev-bestow.github.io/BestOW-UI/ai/bestow-ui.md && echo '@bestow-ui.md' >> CLAUDE.md
+curl -so bestow-ui.md https://bestow-ui.com/ai/bestow-ui.md && echo '@bestow-ui.md' >> CLAUDE.md
 
 # Cursor — 프로젝트 규칙(.tsx·.jsx 파일을 다룰 때 붙어요)
-mkdir -p .cursor/rules && curl -so .cursor/rules/bestow-ui.mdc https://dev-bestow.github.io/BestOW-UI/ai/bestow-ui.mdc
+mkdir -p .cursor/rules && curl -so .cursor/rules/bestow-ui.mdc https://bestow-ui.com/ai/bestow-ui.mdc
 
 # Codex 등 AGENTS.md 를 읽는 도구
-curl -s https://dev-bestow.github.io/BestOW-UI/ai/bestow-ui.md >> AGENTS.md
+curl -s https://bestow-ui.com/ai/bestow-ui.md >> AGENTS.md
 ```
 
-props 까지 모두 담은 한 파일은 [`llms-full.txt`](https://dev-bestow.github.io/BestOW-UI/llms-full.txt) 예요(규칙 파일이 모를 때 읽으라고 안내해요).
+props 까지 모두 담은 한 파일은 [`llms-full.txt`](https://bestow-ui.com/llms-full.txt) 예요(규칙 파일이 모를 때 읽으라고 안내해요).
 
 ## 컴포넌트
 
@@ -218,8 +218,8 @@ props 까지 모두 담은 한 파일은 [`llms-full.txt`](https://dev-bestow.gi
 | 레이아웃·표시 | `Stack`(구간별 값), `Grid`, `Container`, `Divider`, `Card`, `Typography`, `VisuallyHidden`, `Avatar`, `Table`(+ 선택·빈 상태·로딩), `DescriptionList` |
 | 테마·문구 | `ThemeProvider`, `createTheme`, `createIntentColors`, `vars`, `LocaleProvider`, `en` |
 
-모든 컴포넌트는 [Storybook](https://dev-bestow.github.io/BestOW-UI/storybook/)에서 직접 조작해 볼 수 있고, 키보드·스크린리더 동작도 컴포넌트마다 정리돼 있어요.
-어떤 컴포넌트를 골라야 할지는 [언제 무엇을 쓰나](https://dev-bestow.github.io/BestOW-UI/storybook/?path=/docs/guides-%EC%96%B8%EC%A0%9C-%EB%AC%B4%EC%97%87%EC%9D%84-%EC%93%B0%EB%82%98--docs) 가이드를 보세요.
+모든 컴포넌트는 [Storybook](https://bestow-ui.com/storybook/)에서 직접 조작해 볼 수 있고, 키보드·스크린리더 동작도 컴포넌트마다 정리돼 있어요.
+어떤 컴포넌트를 골라야 할지는 [언제 무엇을 쓰나](https://bestow-ui.com/storybook/?path=/docs/guides-%EC%96%B8%EC%A0%9C-%EB%AC%B4%EC%97%87%EC%9D%84-%EC%93%B0%EB%82%98--docs) 가이드를 보세요.
 
 ## 패키지
 

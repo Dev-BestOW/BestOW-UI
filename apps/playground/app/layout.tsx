@@ -14,7 +14,7 @@ export const metadata: Metadata = {
     locale: 'ko_KR',
     title: 'BestOW UI Playground — 한국 서비스 화면 예제',
     description: '회원가입·주문 관리 등 한국 서비스 화면을 @bestow-ui/react 로 만든 Next.js(App Router) 예제 앱',
-    images: [{ url: 'https://dev-bestow.github.io/BestOW-UI/og.png', width: 1200, height: 630 }],
+    images: [{ url: 'https://bestow-ui.com/og.png', width: 1200, height: 630 }],
   },
   twitter: { card: 'summary_large_image' },
 };

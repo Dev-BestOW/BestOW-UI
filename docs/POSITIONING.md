@@ -48,7 +48,7 @@
 - 핵심 동작 테스트는 구현을 일부러 망가뜨려 실제로 잡아내는지 확인(변이 확인).
 - 색은 계산해서 고른다: 글자 4.5:1, 막대·테두리 3:1. hover 상태까지 테스트로 보장.
 
-더한 것 (2026-10-15): [Storybook › Accessibility › KWCAG 2.2 대응](https://dev-bestow.github.io/BestOW-UI/storybook/?path=/docs/accessibility-kwcag-2-2-%EB%8C%80%EC%9D%91--docs)
+더한 것 (2026-10-15): [Storybook › Accessibility › KWCAG 2.2 대응](https://bestow-ui.com/storybook/?path=/docs/accessibility-kwcag-2-2-%EB%8C%80%EC%9D%91--docs)
 — 33항목별 "해 둔 것 / 사용하는 쪽이 할 일 / 확인 방법" + 검사로 찾아 고친 문제 기록.
 
 처음 계획:
@@ -63,7 +63,7 @@
 대비 4.5:1(hover 포함)을 테스트로 보장한다. CSS 변수 이름(`--bestow-*`)이 고정이라 CSS 만으로도 덮어쓸 수 있다.
 
 더한 것 (2026-10-15):
-- **테마 빌더 페이지** ([Storybook › Foundations › Theme Builder](https://dev-bestow.github.io/BestOW-UI/storybook/?path=/story/foundations-theme-builder--builder))
+- **테마 빌더 페이지** ([Storybook › Foundations › Theme Builder](https://bestow-ui.com/storybook/?path=/story/foundations-theme-builder--builder))
   — 색을 고르면 라이트·다크 미리보기 + 대비 리포트(intent 별 글자·hover·subtle·막대·포커스 링) + `createTheme(...)` 코드 복사.
   만들면서 밝은 브랜드 색의 포커스 링 대비 미달을 찾아 고쳤다 — "보장" 이 실제로 검사로 지켜진다는 사례.
 

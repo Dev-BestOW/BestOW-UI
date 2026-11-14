@@ -41,18 +41,18 @@ apps/
                                새 컴포넌트·API 가 생기면 guides 의 선택 기준·패턴 코드도 맞춘다(MDX 의 링크는 index.json 으로 검사, axe 는 직접).
                                guides/TanStackTable — TanStack Table(@tanstack/react-table, storybook devDependency 만)과 Table 을 잇는 예시 스토리 + 문서. Table·Pagination·Checkbox API 가 바뀌면 함께 고친다(play 테스트가 잡는다).
                                vite alias 로 dist 가 아닌 각 패키지 src 를 바로 본다.
-                               Pages 의 /storybook/ 에 배포한다(루트는 apps/site). 문서·README 의 Storybook 링크는 `…/BestOW-UI/storybook/?path=…`.
+                               Pages 의 /storybook/ 에 배포한다(루트는 apps/site). 문서·README 의 Storybook 링크는 `https://bestow-ui.com/storybook/?path=…`.
                                검색·링크 미리보기: 페이지 제목은 main.ts 의 `title`, 설명·OG 태그는 .storybook/manager-head.html, 이미지는 apps/site/public/og.png
                                (`node scripts/generate-og.mjs` — 히어로 이미지·소개 문구가 바뀌면 다시 만든다). 주소는 배포 주소를 직접 적었다(Pages 경로가 바뀌면 함께 고친다).
                                public/llms.txt(직접 작성)·llms-full.txt(build 때 scripts/generate-llms.mjs 가 README·props 정의·choosing·componentA11y 로 생성,
                                커밋 안 함)를 Pages 루트에도 복사해 배포(scripts/assemble-pages.sh) — AI 코딩 도구용. 컴포넌트 props 의 JSDoc 이 곧 그 문서다.
                                사용자가 프로젝트에 넣는 규칙 파일은 `docs/ai/bestow-ui.md`(직접 작성) → 같은 스크립트가 `ai/bestow-ui.md`·Cursor 용 `.mdc` 로 내보내 Pages `/ai/` 에 배포.
                                규칙에 적은 컴포넌트·함수 이름이 dist export 에 없으면 빌드 실패 — **공개 이름을 바꾸거나 컴포넌트를 더하면 이 파일도 고친다**.
-  site/ (private)              Pages 루트의 소개 사이트(Next.js 16 정적 export, basePath 기본 /BestOW-UI — SITE_BASE_PATH). 패키지 dist 를 쓴다.
+  site/ (private)              Pages 루트의 소개 사이트(Next.js 16 정적 export, basePath 기본 '' — SITE_BASE_PATH, 배포는 configure-pages 의 base_path). 패키지 dist 를 쓴다.
                                첫 화면 데모(KitDemo — 한국 키트 입력 + 대표색 바꾸기), 링크 미리보기 메타(layout.tsx metadata)·public/og.png·app/sitemap.ts(guides 로 생성).
                                /korean-utils/ — korean-utils 함수 문서(데이터 korean-utils/guides.ts, 직접 입력 Try.tsx, 쪽 메타 seo.ts). 코드 예시의 `호출; // 결과`
                                줄은 E2E 가 실제로 계산해 비교한다 — 함수 동작을 바꾸면 guides 도 고친다. 새 함수가 생기면 guides 에 쪽을 더한다.
-                               **옛 Storybook 주소 넘겨주기**: 2026-11 까지 루트가 Storybook 이라 README·npm·블로그에 `…/BestOW-UI/?path=…` 가 남아 있다 —
+                               **옛 Storybook 주소 넘겨주기**: 2026-11 까지 루트가 Storybook 이라 README·npm·블로그에 `dev-bestow.github.io/BestOW-UI/?path=…` 가 남아 있다(GitHub 가 bestow-ui.com 같은 경로로 301) —
                                layout.tsx 의 beforeInteractive 스크립트가 `?path=`·`?id=`·`?viewMode=` 를 /storybook/ 으로, public/iframe.html 이 옛 스토리 단독 주소를 넘긴다.
                                e2e/ — Playwright(`pnpm --filter @bestow-ui/site test:e2e`, 포트 3108): e2e/serve.mjs 가 out 을 Pages 와 같은 경로로 띄우고
                                /storybook/ 에는 가짜 Storybook(e2e/fixtures)을 둔다 — 넘겨주기·axe(라이트·다크)·데모·320px 리플로.
@@ -88,7 +88,7 @@ examples/
                                방문 통계(Cloudflare Web Analytics, 쿠키 없음 — SECURITY.md)는 저장소 변수 CF_WEB_ANALYTICS_TOKEN 이 있을 때만 이 배포 빌드에 들어간다
                                (apps/site·playground 의 app/analytics.tsx, .storybook/main.ts managerHead). 로컬·CI·E2E 빌드에는 없다(site E2E 가 확인)
                                (scripts/assemble-pages.sh 가 폴더를 모으고 빠진 파일이 있으면 실패)
-                               → https://dev-bestow.github.io/BestOW-UI/ , …/BestOW-UI/storybook/ , …/BestOW-UI/playground/
+                               → https://bestow-ui.com/ , …/storybook/ , …/playground/ (사용자 도메인 — 아래 함정 "bestow-ui.com")
 ```
 
 ### react 패키지 내부
@@ -210,7 +210,7 @@ pnpm size                            # size-limit (.size-limit.json). build 먼�
 pnpm build-storybook
 pnpm playground                      # http://localhost:3000 (packages 를 build 한 뒤. dist 를 쓰므로 패키지 수정 후 다시 build)
 pnpm build-playground
-pnpm site / pnpm build-site          # 소개 사이트 dev(http://localhost:3002/BestOW-UI/) / 정적 export(apps/site/out)
+pnpm site / pnpm build-site          # 소개 사이트 dev(http://localhost:3002/) / 정적 export(apps/site/out)
 pnpm test:e2e                        # playground(3107) + 소개 사이트(3108) E2E (build + build-playground + build-site 먼저). 로컬은 시스템 Chrome
 pnpm --filter @bestow-ui/icons generate
 pnpm changeset                       # 변경 내역 기록 (대화형) — 비대화형이면 .changeset/<이름>.md 를 직접 작성
@@ -320,4 +320,8 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
 - 외부 서비스(카카오 우편번호 등)는 공급자(provider)로 주입하고, 테스트·기본 스토리는 가짜 공급자로 네트워크 없이 돌린다.
 - **기본 `GITHUB_TOKEN` 으로 push 한 커밋은 다른 워크플로를 실행하지 않는다** — visual.yml 의 기준 이미지 커밋이 main 에 들어가도 release.yml 이
   버전 PR 을 다시 만들지 않아 PR 이 옛 기준 이미지로 실패했다(2026-11-04, PR #28). 봇 커밋은 release.yml 과 같은 GitHub App 토큰으로 push 한다.
+- **사이트 주소는 사용자 도메인 `bestow-ui.com`**(2026-11-14 결정, 저장소 Settings › Pages 의 Custom domain). GitHub 가 옛 `dev-bestow.github.io/BestOW-UI/…` 를
+  같은 경로로 넘겨 준다. 배포 빌드의 basePath 는 configure-pages 의 `base_path`(도메인이면 '') — Settings 에서 도메인을 빼면 다시 /BestOW-UI 로 빌드된다.
+  주소를 적는 곳: `apps/site/app/links.ts` 의 `siteOrigin`(canonical·OG·sitemap·robots), Storybook `manager-head.html`, playground `layout.tsx` OG, README·package.json `homepage`.
+  **도메인 자동 갱신과 GitHub 조직 Verified domains 를 유지한다** — 만료되면 남이 사서 npm README 링크를 가로챌 수 있다.
 - GitHub Actions `pull_request` 의 `branches`/`branches-ignore` 는 **base 브랜치** 기준이다. head 브랜치(예: changeset-release/**)로 거르려면 job 의 `if` 를 쓴다.

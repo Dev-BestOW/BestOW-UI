@@ -13,4 +13,4 @@ npm run dev
 - shadcn 색 → BestOW 토큰 연결: [`src/bestow-theme.ts`](src/bestow-theme.ts) — 접근성 기준에 못 미치는 값(입력 칸 테두리·포커스 표시·보조 글자)은 일부러 잇지 않아요
 - 레이어 순서 한 줄: [`src/index.css`](src/index.css) 맨 위 · 스타일 불러오기: [`src/main.tsx`](src/main.tsx)
 - 화면: [`src/App.tsx`](src/App.tsx) · shadcn/ui 컴포넌트(MIT, 줄여 옮김): [`src/components/ui`](src/components/ui)
-- 설명: Storybook [Guides › shadcn·Tailwind 프로젝트에 한국 키트만 쓰기](https://dev-bestow.github.io/BestOW-UI/storybook/?path=/docs/guides-shadcn·tailwind-프로젝트에-한국-키트만-쓰기--docs)
+- 설명: Storybook [Guides › shadcn·Tailwind 프로젝트에 한국 키트만 쓰기](https://bestow-ui.com/storybook/?path=/docs/guides-shadcn·tailwind-프로젝트에-한국-키트만-쓰기--docs)

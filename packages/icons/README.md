@@ -11,7 +11,7 @@
 - hook 을 쓰지 않아 서버 컴포넌트에서도 그대로 써요.
 - 기본은 장식용(`aria-hidden`)이고, `title` 을 주면 스크린리더가 읽어요.
 
-📖 **전체 아이콘 보기:** [Storybook › Foundations › Icons](https://dev-bestow.github.io/BestOW-UI/storybook/?path=/story/foundations-icons--gallery)
+📖 **전체 아이콘 보기:** [Storybook › Foundations › Icons](https://bestow-ui.com/storybook/?path=/story/foundations-icons--gallery)
 
 ## 설치
 
@@ -44,7 +44,7 @@ import { SearchIcon, TrashIcon } from '@bestow-ui/icons';
 
 ## 더 많은 아이콘이 필요하면
 
-기본 세트는 Lucide 에서 서비스 화면에 자주 쓰는 148종(상거래·결제·일정·파일·차트·소통 등)을 골랐어요. 전체 목록은 [Storybook › Icons](https://dev-bestow.github.io/BestOW-UI/storybook/?path=/story/foundations-icons--gallery).
+기본 세트는 Lucide 에서 서비스 화면에 자주 쓰는 148종(상거래·결제·일정·파일·차트·소통 등)을 골랐어요. 전체 목록은 [Storybook › Icons](https://bestow-ui.com/storybook/?path=/story/foundations-icons--gallery).
 여기에 없는 아이콘은 같은 그림 세트인 [`lucide-react`](https://lucide.dev/guide/packages/lucide-react) 를 함께 써도 어색하지 않아요 — 크기 24px·선 두께 2·`currentColor` 가 같아요.
 
 ```tsx

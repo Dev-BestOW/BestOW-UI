@@ -2,7 +2,7 @@
 export const basePath = process.env.NEXT_PUBLIC_BASE_PATH ?? '';
 
 /** 배포 주소의 origin — 링크 미리보기(OG)는 절대 주소여야 한다 */
-export const siteOrigin = 'https://dev-bestow.github.io';
+export const siteOrigin = 'https://bestow-ui.com';
 
 /**
  * 같은 Pages 사이트의 Storybook 주소. Next.js 앱 밖이라 라우터 링크가 아닌 일반 링크로 연다.

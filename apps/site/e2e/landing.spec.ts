@@ -1,6 +1,6 @@
 import { axeViolations, expect, test } from './fixtures';
 
-const HOME = '/BestOW-UI/';
+const HOME = '/';
 
 test('첫 화면: 제목·한국어 lang·링크 미리보기 태그', async ({ page }) => {
   await page.goto(HOME);
@@ -10,32 +10,28 @@ test('첫 화면: 제목·한국어 lang·링크 미리보기 태그', async ({ 
   await expect(page.locator('html')).toHaveAttribute('lang', 'ko');
   await expect(page).toHaveTitle(/BestOW UI/);
   // 미리보기 이미지는 절대 주소여야 카카오톡·슬랙에서 뜬다
-  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
-    'content',
-    'https://dev-bestow.github.io/BestOW-UI/og.png',
-  );
+  await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://bestow-ui.com/og.png');
   // Search Console 소유 확인 — 빠지면 확인이 풀린다
   await expect(page.locator('meta[name="google-site-verification"]')).toHaveAttribute(
     'content',
     'fjhHTSTn5cz8gnw_LCEgdNw4vawqPE4__ZqF4UQp9lo',
   );
-  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
-    'href',
-    'https://dev-bestow.github.io/BestOW-UI/',
-  );
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://bestow-ui.com/');
   // 방문 통계는 배포 빌드에만(토큰 CF_WEB_ANALYTICS_TOKEN) — 테스트·로컬 빌드에 들어가면 가짜 방문이 쌓인다
   await expect(page.locator('script[src*="cloudflareinsights"]')).toHaveCount(0);
   // 문서 링크는 Storybook 의 새 자리(/storybook/)로
   await expect(page.getByRole('link', { name: '시작하기 문서 보기' })).toHaveAttribute(
     'href',
-    '/BestOW-UI/storybook/?path=/docs/introduction--docs',
+    '/storybook/?path=/docs/introduction--docs',
   );
 });
 
-test('og.png·sitemap.xml·iframe.html 이 사이트 루트에 있다', async ({ request }) => {
-  for (const path of ['og.png', 'sitemap.xml', 'iframe.html']) {
+test('og.png·sitemap.xml·robots.txt·iframe.html 이 사이트 루트에 있다', async ({ request }) => {
+  for (const path of ['og.png', 'sitemap.xml', 'robots.txt', 'iframe.html']) {
     expect((await request.get(`${HOME}${path}`)).status(), path).toBe(200);
   }
+  // robots.txt 는 호스트 루트에서만 읽힌다 — 사용자 도메인이라 둘 수 있다. sitemap 위치를 알린다
+  expect(await (await request.get(`${HOME}robots.txt`)).text()).toContain('Sitemap: https://bestow-ui.com/sitemap.xml');
 });
 
 for (const mode of ['light', 'dark'] as const) {
@@ -85,7 +81,7 @@ test('다크 모드 토글', async ({ page }) => {
 
 // Search Console 소유 확인 파일 — 받은 그대로 루트에서 열려야 확인이 유지된다(태그 확인과 둘 중 하나만 있어도 되지만 둘 다 둠)
 test('Google 소유 확인 파일', async ({ request }) => {
-  const response = await request.get('/BestOW-UI/google0b0babb132369702.html');
+  const response = await request.get('/google0b0babb132369702.html');
   expect(response.status()).toBe(200);
   expect(await response.text()).toBe('google-site-verification: google0b0babb132369702.html');
 });

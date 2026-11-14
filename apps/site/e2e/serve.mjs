@@ -1,6 +1,6 @@
-// E2E 용 정적 서버 — GitHub Pages 와 같은 주소 구조로 띄운다.
-//   /BestOW-UI/            → apps/site/out (next build 결과)
-//   /BestOW-UI/storybook/  → e2e/fixtures/storybook (옛 주소 넘겨주기 확인용 가짜 Storybook)
+// E2E 용 정적 서버 — GitHub Pages(https://bestow-ui.com/)와 같은 주소 구조로 띄운다.
+//   /            → apps/site/out (next build 결과)
+//   /storybook/  → e2e/fixtures/storybook (옛 주소 넘겨주기 확인용 가짜 Storybook)
 // next start 는 output: 'export' 를 띄우지 못하고, 서버 리다이렉트가 없는 정적 호스팅을 그대로 흉내 내려고 직접 만든다.
 import { createReadStream, statSync } from 'node:fs';
 import { createServer } from 'node:http';
@@ -8,11 +8,10 @@ import { extname, join, normalize } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const port = Number(process.argv[2] ?? 3108);
-const base = '/BestOW-UI';
 const here = fileURLToPath(new URL('.', import.meta.url));
 const roots = [
-  { prefix: `${base}/storybook/`, dir: join(here, 'fixtures/storybook') },
-  { prefix: `${base}/`, dir: join(here, '../out') },
+  { prefix: '/storybook/', dir: join(here, 'fixtures/storybook') },
+  { prefix: '/', dir: join(here, '../out') },
 ];
 const types = {
   '.html': 'text/html; charset=utf-8',
@@ -42,11 +41,6 @@ function findFile(dir, relative) {
 
 createServer((request, response) => {
   const { pathname } = new URL(request.url ?? '/', 'http://localhost');
-  // Pages 처럼 폴더 주소에 / 가 없으면 붙여서 보낸다
-  if (pathname === base) {
-    response.writeHead(301, { location: `${base}/` }).end();
-    return;
-  }
   const root = roots.find(({ prefix }) => pathname.startsWith(prefix));
   const file = root && findFile(root.dir, decodeURIComponent(pathname.slice(root.prefix.length)));
   if (!file) {
@@ -55,4 +49,4 @@ createServer((request, response) => {
   }
   response.writeHead(200, { 'content-type': types[extname(file)] ?? 'application/octet-stream' });
   createReadStream(file).pipe(response);
-}).listen(port, () => console.log(`site e2e server http://localhost:${port}${base}/`));
+}).listen(port, () => console.log(`site e2e server http://localhost:${port}/`));

@@ -35,13 +35,14 @@ export const metadata: Metadata = {
     ],
   },
   twitter: { card: 'summary_large_image' },
-  // 검색 엔진 소유 확인(URL 접두어 속성 https://dev-bestow.github.io/BestOW-UI/). 지우면 확인이 풀린다
+  // 검색 엔진 소유 확인(Search Console). 지우면 확인이 풀린다 — 새 주소 https://bestow-ui.com/ 속성에 다른 값을 받으면 바꾼다(E2E landing 도)
   verification: { google: 'fjhHTSTn5cz8gnw_LCEgdNw4vawqPE4__ZqF4UQp9lo' },
 };
 
 /**
  * 옛 주소 넘겨주기 — 2026-11 까지 Pages 루트가 Storybook 이었다. README·npm·블로그·GeekNews 에 남은
- * `…/BestOW-UI/?path=/docs/…` 링크를 같은 쿼리·해시 그대로 `…/BestOW-UI/storybook/` 로 보낸다.
+ * `dev-bestow.github.io/BestOW-UI/?path=/docs/…` 링크는 GitHub 가 사용자 도메인 `bestow-ui.com/?path=…` 로 넘기고,
+ * 이 스크립트가 같은 쿼리·해시 그대로 `/storybook/` 으로 보낸다.
  * 정적 호스팅이라 서버 리다이렉트가 없어 스크립트로 한다(e2e/redirect.spec.ts 가 확인).
  */
 const redirectOldStorybookLinks = `(function(){var b=${JSON.stringify(basePath)};var p=location.pathname;if((p===b+'/'||p===b)&&/[?&](path|id|viewMode)=/.test(location.search)){location.replace(b+'/storybook/'+location.search+location.hash)}})();`;

@@ -14,7 +14,7 @@ cp -R apps/playground/out "$out/playground"
 cp apps/storybook/storybook-static/llms.txt apps/storybook/storybook-static/llms-full.txt "$out/"
 cp -R apps/storybook/storybook-static/ai "$out/ai"
 # 루트에 있어야 할 파일이 빠지면 배포하지 않는다
-for file in index.html og.png sitemap.xml iframe.html llms.txt llms-full.txt ai/bestow-ui.md ai/bestow-ui.mdc storybook/index.html storybook/iframe.html playground/index.html; do
+for file in index.html og.png sitemap.xml robots.txt iframe.html llms.txt llms-full.txt ai/bestow-ui.md ai/bestow-ui.mdc storybook/index.html storybook/iframe.html playground/index.html; do
   test -f "$out/$file" || { echo "::error::$file 이 없습니다"; exit 1; }
 done
 echo "assembled $out"

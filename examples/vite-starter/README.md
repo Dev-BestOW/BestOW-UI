@@ -11,4 +11,4 @@ npm run dev
 ```
 
 - 코드: [`src/App.tsx`](src/App.tsx) · 스타일 한 번 불러오기: [`src/main.tsx`](src/main.tsx)
-- 문서: [Storybook](https://dev-bestow.github.io/BestOW-UI/storybook/) · Next.js App Router 는 [저장소 README](https://github.com/Dev-BestOW/BestOW-UI#nextjs-에서-5분-만에-시작하기-app-router)
+- 문서: [Storybook](https://bestow-ui.com/storybook/) · Next.js App Router 는 [저장소 README](https://github.com/Dev-BestOW/BestOW-UI#nextjs-에서-5분-만에-시작하기-app-router)

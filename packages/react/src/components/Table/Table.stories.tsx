@@ -296,6 +296,6 @@ function ListPattern() {
 /**
  * 목록 화면 패턴 — `useTableSelection`(이 페이지 모두 선택·혼합 상태·페이지 넘어 유지), 선택하면 나타나는 일괄 작업 바,
  * `TableEmpty`(결과 없음), `TableSkeleton` + `aria-busy`(불러오는 중), 결과 개수는 role="status" 로 알린다.
- * 실제 화면 예: 예제 앱의 [주문 관리](https://dev-bestow.github.io/BestOW-UI/playground/orders).
+ * 실제 화면 예: 예제 앱의 [주문 관리](https://bestow-ui.com/playground/orders).
  */
 export const ListPatternStory: Story = { name: '목록 화면 패턴', render: () => <ListPattern /> };
