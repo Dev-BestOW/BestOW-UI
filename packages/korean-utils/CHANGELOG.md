@@ -1,5 +1,12 @@
 # @bestow-ui/korean-utils
 
+## 0.4.1
+
+### Patch Changes
+
+- 7a57c90: 홈페이지·문서 주소를 새 도메인 https://bestow-ui.com/ 으로 바꿨어요(package.json `homepage`·README 링크). 옛 주소(dev-bestow.github.io/BestOW-UI/)도 같은 쪽으로 넘어가요. 코드 변화는 없어요.
+- 0026943: 함수별 문서(직접 입력해 보기)를 소개 사이트에 열었어요 — npm homepage 를 그 주소(https://bestow-ui.com/korean-utils/)로 바꾸고, README 에 함수별 문서 링크를, 검색 키워드(하이픈·카드번호·계좌번호·은행코드·luhn 등)를 더했어요. 코드 변화는 없어요.
+
 ## 0.4.0
 
 ### Minor Changes
