@@ -33,9 +33,10 @@ BestOW UI(`@bestow-ui/react` · `@bestow-ui/tokens` · `@bestow-ui/icons` · `@b
 
 ## 배포 주기
 
-- 변경은 [changesets](https://github.com/changesets/changesets) 로 기록하고, **준비되면 배포**해요(정해진 요일 없음).
-  main 에 모인 변경은 버전 PR 하나로 묶여, 머지하면 npm 에 나가요 — 한 번에 여러 변경이 함께 나갈 수 있어요.
+- **2주에 한 번, 격주 목요일**에 배포해요(2026-11-19 부터). 그사이 main 에 모인 변경은 [changesets](https://github.com/changesets/changesets) 의
+  버전 PR 하나로 묶여 그날 함께 npm 에 나가요. 배포할 변경이 없으면 건너뛰어요.
 - 보안 문제나 서비스를 막는 심각한 버그는 기다리지 않고 바로 patch 로 배포해요.
+- 버전 번호가 자주 바뀌면 업데이트 부담이 커서 묶어서 내요(2026-10 에는 react 만 27개 버전이 나갔어요).
 - 버전마다 GitHub Release 와 `CHANGELOG.md` 에 변경 내역이 남아요.
 
 ## 이전 major 지원

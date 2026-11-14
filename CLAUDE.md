@@ -239,6 +239,7 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
 1. 변경과 함께 `.changeset/<이름>.md` 커밋 (형식: frontmatter 에 `"@bestow-ui/react": minor` 등).
 2. main 에 머지되면 release.yml 이 "chore: version packages" PR 을 만든다.
 3. 그 PR 을 머지하면 changesets 가 npm 에 배포 + git 태그 + GitHub Release.
+   **버전 PR 은 정기 배포일(격주 목요일, 2026-11-19 부터 — SUPPORT.md)에만 머지한다.** 보안·심각한 버그만 예외로 바로. 작업이 끝나면 다음 배포일을 함께 알린다.
 
 버전 규칙(react·tokens 1.0 이후, semver): 기존 이름·타입·CSS 변수를 바꾸거나 지움 = **major**, 새 컴포넌트/기능/prop = minor,
 버그·내부 변경 = patch. 이름을 바꿀 때는 위 "작업 규칙" 의 deprecated 절차를 먼저 minor 로 배포한다. icons·korean-utils 는 아직 0.x(기능 = minor).

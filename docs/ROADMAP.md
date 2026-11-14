@@ -12,7 +12,7 @@
 
 **2026-11-13 세션:** 사용자 할 일 완료 확인(Search Console·네이버 sitemap 제출, force push 금지 규칙, Dependabot) — 버전 PR #30 은 아직 열림(머지는 사용자 판단).
 24번 글 초안 2편(사업자등록번호 검증 공식 `business-number-checksum.md`, 인증번호 문자 자동 채우기 `sms-otp-autofill-react.md` — 둘 다 astro-blog draft), 3편 약관 전체 동의 체크박스 접근성 `agreement-checkbox-a11y.md` — 세 편 모두 astro-blog `content-queue/001~003-*.md`(draft: false)로 옮겨 매일 09:00 하나씩 예약 발행.
-**25~27번 완료, 28번 토큰·스타일·주요 컴포넌트 완료, 29번 통계 연결(토큰 대기)**(아래). 다음: 28번 남은 정리(MCP 한도 뒤) 또는 29번 측정(사용자 결정 필요), Context7 등록(사용자), 버전 PR #30 배포 뒤 npm 검색 순위 조회, push 뒤 `create-next-app --example` 실제 설치 확인.
+**25~27번 완료, 28번 토큰·스타일·주요 컴포넌트 완료, 29번 통계 연결(토큰 대기), 30번 준비물 완료**(아래). 다음: 사용자 게시·토큰 등록·블로그 워크플로 켜기, 그다음 28번 남은 정리 또는 새 요청. 이전 다음: 28번 남은 정리(MCP 한도 뒤) 또는 29번 측정(사용자 결정 필요), Context7 등록(사용자), 버전 PR #30 배포 뒤 npm 검색 순위 조회, push 뒤 `create-next-app --example` 실제 설치 확인.
 
 **지금 할 일(2026-11-11 결정): "사용자 유치 플랜" 23번부터** — 아래 "다음 플랜" 맨 위 절. 런칭 6일 뒤 점검에서 막힌 곳이 기능이 아니라
 **발견 → 신뢰 → 첫 사용** 경로로 나왔다(스타 4·외부 이슈 0·Discussions 0·웹 검색 결과 없음). 새 컴포넌트(6번 C Tag 입력·B 비동기 검색)는 외부 요청이 생길 때까지 미룬다.
@@ -168,7 +168,10 @@ main CI 의 site E2E 실패(320px 리플로 — CI Linux 글꼴이 넓어 대표
     기준값: `node scripts/stats.mjs`(스타·포크·이슈·npm 평일 중앙값 — 배포일·다음날·주말 제외, `GITHUB_TOKEN` 있으면 Discussions)를 세션 시작 때 돌려 진행 기록에 붙인다.
     원래 계획: Pages 방문 통계가 없어 유입·이탈을 모른다. 쿠키 없는 통계 도구를 붙일지 **사용자 결정 필요**(붙이면 SECURITY·문서에 밝힌다).
     그 전에는 세션 시작 때 스타·이슈·Discussions·npm 평일 기준값을 진행 기록에 남긴다(배포일 제외).
-30. **꾸준한 노출·안정 인상** — 24번 글을 velog·요즘IT → 접근성 커뮤니티 → 발표 지원 순으로(사람이 할 일의 런칭 순서와 같음). 배포는 SUPPORT.md 주기대로 묶는다(한 달 30개 버전은 불안정해 보임 — 기존 16번).
+30. 🟡 (2026-11-14 준비 완료, 게시는 사용자) **꾸준한 노출·안정 인상** — 배포 주기: **격주 목요일**(2026-11-19 첫 배포 — PR #30, 이후 12/3·12/17), 보안·심각한 버그만 즉시 — SUPPORT.md·CLAUDE.md "배포".
+    알리기 준비물(비공개 Artifact https://claude.ai/artifact/LvPgoSsmGKHjLd34FP789u): velog 옮겨 올리기 5편(원문 줄·태그·시리즈), 요즘IT 기고 제안 메일(KWCAG 글), FEConf·JSConf 발표 제안서(25분 목차), 접근성 커뮤니티 소개 글.
+    **발견:** astro-blog 예약 발행 워크플로가 2026-09-13 이후 돌지 않음(60일 무활동 자동 비활성으로 보임) → 3편이 content-queue 에 그대로. 사용자: Actions › Daily post › Enable workflow.
+    원래 계획: 24번 글을 velog·요즘IT → 접근성 커뮤니티 → 발표 지원 순으로(사람이 할 일의 런칭 순서와 같음). 배포는 SUPPORT.md 주기대로 묶는다(한 달 30개 버전은 불안정해 보임 — 기존 16번).
 
 ### 사람이 할 일
 
@@ -493,3 +496,4 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-14 | 28번 Figma 2단계: 컴포넌트 세트 Button·TextField·Checkbox·Badge·VerificationCodeInput + 한국 입력 3(TextField 인스턴스), 컴포넌트 글자 스타일 4(생성 스크립트에도). Starter 페이지 3개·MCP 호출 한도로 정리 2건 남음 |
 | 2026-11-14 | 기준값: 스타 4 · 포크 0 · 이슈 열림 0/닫힘 0 · Discussions ?(GITHUB_TOKEN 없음) · npm 평일 중앙값(최근 28일, 배포일·다음날 제외) react 12/일(12일) · korean-utils 5/일(14일) · tokens 5/일(15일) · icons 4/일(17일) — 같은 기간 react 합계 2,001(대부분 배포·CI) |
 | 2026-11-14 | 29번 측정: `scripts/stats.mjs`(기준값 한 줄), Cloudflare Web Analytics(사용자 결정) — 배포 빌드에만 토큰으로 beacon, site E2E 로 테스트 빌드에 없는지 확인, SECURITY.md 공개. 토큰 등록은 사용자 |
+| 2026-11-14 | 30번: 배포 주기 격주 목요일(SUPPORT.md·CLAUDE.md), 알리기 준비물 Artifact(velog·요즘IT·발표 제안서·커뮤니티), 블로그 예약 발행 워크플로 9/13 이후 멈춤 발견 |
