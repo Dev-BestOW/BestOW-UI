@@ -40,7 +40,7 @@ playground 와 다른 조건: npm 에서 설치한 패키지를 씀, Next.js 16.
 
 ## 버그
 
-> 아래 2건은 2026-10-31 에 고쳤다 ([`STABILIZATION.md`](STABILIZATION.md) S6·S7).
+> 아래 2건은 2026-10-31 에 고쳤다 ([ROADMAP-HISTORY "코드 안정화"](../ROADMAP-HISTORY.md) S6·S7).
 
 | 문제 | 원인 | 제안 |
 |---|---|---|

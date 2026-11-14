@@ -3,7 +3,7 @@
 > 이 문서는 다음 작업 세션(사람 또는 Claude)이 **무엇을, 어떤 순서로, 어디까지 하면 되는지** 바로 알 수 있게 쓴다.
 > 작업 규칙·구조·함정은 [`CLAUDE.md`](../CLAUDE.md), 완료된 단계(P1~P16)의 설계 메모·진행 기록 전체는 [`ROADMAP-HISTORY.md`](ROADMAP-HISTORY.md),
 > 누구를 위해 무엇을 차별화하는지는 [`POSITIONING.md`](POSITIONING.md), 2.0 에 모으는 변경은 [`MIGRATION-2.0.md`](MIGRATION-2.0.md),
-> **지금 진행할 작업은 [`STABILIZATION.md`](STABILIZATION.md)**.
+> 지난 계획·완료 단계(코드 안정화 포함)는 [`ROADMAP-HISTORY.md`](ROADMAP-HISTORY.md), 끝난 설계·파일럿 기록은 [`archive/`](archive/).
 >
 > **갱신 규칙:** 작업을 시작/완료하면 체크박스를 바꾸고 맨 아래 "진행 기록"에 한 줄 추가한다.
 > 단계가 끝나면 상세 메모는 ROADMAP-HISTORY.md 로 옮기고 여기에는 한 줄 요약만 남긴다.
@@ -96,7 +96,7 @@ main CI 의 site E2E 실패(320px 리플로 — CI Linux 글꼴이 넓어 대표
 
 ## 다음 플랜 (2026-10-21 재정리 — 알리기·도입 장벽 낮추기 우선, 위에서부터 추천 순서)
 
-> **2026-10-30 변경:** 이 플랜보다 [`STABILIZATION.md`](STABILIZATION.md) 가 먼저다. 아래 "품질은 충분하다" 는 판단은 같은 날 점검에서 찾은 버그로 바뀌었다.
+> **2026-10-30 변경:** 이 플랜보다 코드 안정화(ROADMAP-HISTORY "코드 안정화", 2026-11-05 완료)가 먼저였다. 아래 "품질은 충분하다" 는 판단은 같은 날 점검에서 찾은 버그로 바뀌었다.
 
 > 방향: 품질은 충분하다. 부족한 것은 **알리기**와 **도입 장벽**이다(스타 1, npm 월 다운로드 react 665 는 1주 24개 버전 배포·CI 설치로 부풀려진 값 —
 > 실사용자는 거의 없다고 보고 시작). 공개 런칭(GeekNews 등)은 **NVDA 점검으로 "프로덕션 권장 6/6" 을 채운 뒤 한 번에** 한다.
@@ -247,7 +247,7 @@ main CI 의 site E2E 실패(320px 리플로 — CI Linux 글꼴이 넓어 대표
    StackBlitz(또는 CodeSandbox) 예제와 README 의 "바로 써 보기" 링크, `llms.txt`·컴포넌트 사용법 요약(AI 코딩 도구가 찾고 쓰기 쉽게),
    GeekNews Show 소개 글 초안, 기술 글 초안 2편("KWCAG 2.2 33개 항목을 CI 로 검증하기", "대표색 하나로 대비 4.5:1 을 보장하는 테마 만들기" —
    라이브러리 홍보 없이도 읽히게). 게시는 사용자.
-6. **Combobox 다중 선택·비동기 검색** (구 P14-5) — 2026-11-06 A·B·C 로 나눔: **A 다중 선택 ✅ `MultiCombobox`**(설계 `docs/superpowers/specs/2026-11-06-multi-combobox-design.md`, changeset `multi-combobox`) → C Tag 입력 → B 비동기 검색. 원래 메모: — 선택 칩(Backspace 로 지우기), 검색 중 상태 알림(`role=status`), 긴 목록 가상화는 따로.
+6. **Combobox 다중 선택·비동기 검색** (구 P14-5) — 2026-11-06 A·B·C 로 나눔: **A 다중 선택 ✅ `MultiCombobox`**(설계 `docs/archive/2026-11-06-multi-combobox-design.md`, changeset `multi-combobox`) → C Tag 입력 → B 비동기 검색. 원래 메모: — 선택 칩(Backspace 로 지우기), 검색 중 상태 알림(`role=status`), 긴 목록 가상화는 따로.
    폼 세트 조합에 영향 → 별도 컴포넌트(`MultiCombobox` 등)로 나눌지 먼저 판단. **Tag 입력**(구 P14-6)은 쉼표·Enter 로 추가, 칩 공유.
 7. **의존성 정비 2차** — 막힌 것이 풀리면: TypeScript 7(typescript-eslint 가 `<6.1`), ESLint 10(jsx-a11y 가 9 까지).
    jsdom 30 은 Node ≥22.22.2 필요(로컬 Node 를 올리면). CI 러너 Ubuntu 26 전환은 Playwright `-resolute` 이미지(1.64.1 부터 있음)로 모든 workflow 함께 검토.
@@ -360,7 +360,7 @@ main CI 의 site E2E 실패(320px 리플로 — CI Linux 글꼴이 넓어 대표
 - [x] 모바일(터치·좁은 화면) 주요 시나리오 E2E (P12-2)
 - [x] React 18·19 둘 다 CI (P12-3)
 - [x] 주요 컴포넌트 스크린리더 수동 점검 기록 — VoiceOver(macOS) ✅ 2026-10-21 · NVDA(Chrome) ✅ 2026-10-23 · 가능하면 iOS VoiceOver·센스리더 (P13-1 · P16-5)
-- [x] 실제 화면 파일럿에서 발견한 문제 해결 (P14-1 — 버그 2개 수정, 빈칸 6개 모두 해결: [`PILOT-FINDINGS.md`](PILOT-FINDINGS.md))
+- [x] 실제 화면 파일럿에서 발견한 문제 해결 (P14-1 — 버그 2개 수정, 빈칸 6개 모두 해결: [`archive/PILOT-FINDINGS.md`](archive/PILOT-FINDINGS.md))
 - [x] 지원 범위·배포 주기·보안 문의 경로 문서화 (P12-5, 2026-10-21 정책 확정·비공개 취약점 신고 켜짐)
 
 ---

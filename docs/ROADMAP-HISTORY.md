@@ -356,7 +356,7 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 
 - [x] **P14-1. 파일럿 화면** (2026-10-19) — playground `/orders`(주문 관리: 검색·필터·정렬·선택·일괄 취소·페이지·상세 Drawer·등록 폼) + `orders.spec.ts`(6개).
   **버그 2개 발견·수정**: Modal 안 Select 목록이 배경막에 가림(z-index dropdown 1000 → 1320), 메뉴에서 연 Drawer 닫을 때 포커스 사라짐(useReturnFocus).
-  빈칸 6개는 `docs/PILOT-FINDINGS.md` — 다음 순서: 오류 요약(P14-2 와 함께) → VisuallyHidden → DescriptionList. 원래 메모: 실제 제품 화면 하나(예: 관리자 목록 + 상세 + 등록 폼)를 이 시스템만으로 만든다. 가능하면 사용자의 실제 제품,
+  빈칸 6개는 `docs/archive/PILOT-FINDINGS.md` — 다음 순서: 오류 요약(P14-2 와 함께) → VisuallyHidden → DescriptionList. 원래 메모: 실제 제품 화면 하나(예: 관리자 목록 + 상세 + 등록 폼)를 이 시스템만으로 만든다. 가능하면 사용자의 실제 제품,
   아니면 playground 에 "실전 예제" 페이지로. 빠진 컴포넌트·불편한 API·성능 문제를 이슈로 모아 아래 순서를 정한다.
 - [x] **P14-2. 폼 라이브러리 연동** (2026-10-19) — `ErrorSummary`(포커스·focusKey·링크로 칸 이동) + `focusField` + `VisuallyHidden` 추가, AgreementGroup `id`.
   react-hook-form 통합 테스트 3개(변이 2종) + playground `/signup`(실제 브라우저 E2E), 파일럿 폼을 ErrorSummary 로 교체. 방침: group 컴포넌트는 ref 가 포커스 불가 →
@@ -417,6 +417,17 @@ Radix 패키지를 추가할 때는 개별 패키지(`@radix-ui/react-*`)를 `pa
 - 남은 것(ROADMAP): NVDA(NumberInput "2석" 두 번 읽힘 여부), iOS VoiceOver·센스리더.
 
 ---
+
+## 코드 안정화 (2026-10-30 ~ 11-05, react·tokens 2.0.0) — 옛 `docs/STABILIZATION.md` 요약
+
+전체 내용(버그별 재현·원인·수정)은 git 기록의 `docs/STABILIZATION.md`(2026-11-14 삭제 직전 커밋)에 있다.
+
+- **결정(2026-10-30):** 홍보보다 코드 안정화를 먼저, 런칭 게시는 보류. 호환성을 깨는 변경은 외부 사용자가 거의 없을 때 2.0 으로 한 번에. 새 기능은 안정화 뒤에 판단.
+- **버그(patch) S1~S7:** Combobox 한글 조합 중 Enter, 서식 입력의 `form.reset()`, `050` 번호 서식·12자리 잘림, `+82` 번호, `0000000000` 사업자번호 통과, 세로 Stepper 간격, 숨긴 SkipLink 그림자.
+- **기능 공백(minor) S8~S11:** Button·IconButton `asChild`, Stepper 진행 중 상태, 마스킹 함수의 인식 실패 처리, `fieldset disabled` 모양.
+- **2.0(major) S12~S15:** 입력 칸 테두리 3:1 이상(`border.input`·`inputHover`·`control`), CSS `@layer bestow`, `as` 다형성 타입(호환 유지), 비활성 투명도 0.5 통일(`opacity.disabled`). 자세한 것은 `MIGRATION-2.0.md`.
+- **재발 방지 S16~S19:** 폼 공통 계약 테스트(`form-contract.test.tsx`), 실제 브라우저 IME E2E, 커버리지 보고(`pnpm test:coverage`), 누락 테스트 보강(카카오 스크립트 재시도 버그 발견).
+- **런칭 전 완료 조건(모두 충족, 2026-11-05):** 1~7단계·main CI 녹색, 2.0 배포(11-04), 사람 확인(ResidentNumberInput VoiceOver·iOS Safari 가상 키보드 — NVDA·Android 는 런칭 뒤로), README 비교표 갱신. → 2026-11-05 GeekNews 런칭.
 
 ## 진행 기록 보관 (2026-10-14 ~ 10-21)
 

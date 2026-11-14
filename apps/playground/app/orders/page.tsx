@@ -2,7 +2,7 @@
 
 // 파일럿(ROADMAP P14-1): 실제 서비스에서 흔한 "주문 관리" 관리자 화면을 디자인 시스템만으로 만든다.
 // 목록(검색·필터·정렬·선택·일괄 작업·페이지) → 상세(Drawer) → 등록(Modal 폼, 검증·오류 요약).
-// 만들면서 막힌 점·직접 짜야 했던 부분은 docs/PILOT-FINDINGS.md 에 모은다.
+// 만들면서 막힌 점·직접 짜야 했던 부분은 docs/archive/PILOT-FINDINGS.md 에 모았다.
 import { useMemo, useState, type FormEvent } from 'react';
 import {
   AmountInput,
