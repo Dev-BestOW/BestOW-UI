@@ -12,7 +12,7 @@
 
 **2026-11-13 세션:** 사용자 할 일 완료 확인(Search Console·네이버 sitemap 제출, force push 금지 규칙, Dependabot) — 버전 PR #30 은 아직 열림(머지는 사용자 판단).
 24번 글 초안 2편(사업자등록번호 검증 공식 `business-number-checksum.md`, 인증번호 문자 자동 채우기 `sms-otp-autofill-react.md` — 둘 다 astro-blog draft), 3편 약관 전체 동의 체크박스 접근성 `agreement-checkbox-a11y.md` — 세 편 모두 astro-blog `content-queue/001~003-*.md`(draft: false)로 옮겨 매일 09:00 하나씩 예약 발행.
-**25~27번 완료, 28번 토큰·스타일·주요 컴포넌트 완료**(아래). 다음: 28번 남은 정리(MCP 한도 뒤) 또는 29번 측정(사용자 결정 필요), Context7 등록(사용자), 버전 PR #30 배포 뒤 npm 검색 순위 조회, push 뒤 `create-next-app --example` 실제 설치 확인.
+**25~27번 완료, 28번 토큰·스타일·주요 컴포넌트 완료, 29번 통계 연결(토큰 대기)**(아래). 다음: 28번 남은 정리(MCP 한도 뒤) 또는 29번 측정(사용자 결정 필요), Context7 등록(사용자), 버전 PR #30 배포 뒤 npm 검색 순위 조회, push 뒤 `create-next-app --example` 실제 설치 확인.
 
 **지금 할 일(2026-11-11 결정): "사용자 유치 플랜" 23번부터** — 아래 "다음 플랜" 맨 위 절. 런칭 6일 뒤 점검에서 막힌 곳이 기능이 아니라
 **발견 → 신뢰 → 첫 사용** 경로로 나왔다(스타 4·외부 이슈 0·Discussions 0·웹 검색 결과 없음). 새 컴포넌트(6번 C Tag 입력·B 비동기 검색)는 외부 요청이 생길 때까지 미룬다.
@@ -66,6 +66,7 @@ main CI 의 site E2E 실패(320px 리플로 — CI Linux 글꼴이 넓어 대표
    (저장소에 `pull.rebase=true`, `rebase.autoStash=true` 설정됨. Claude 는 커밋·push 하지 않음 — 이 세션 셸은 GitHub 인증이 없어 push 불가).
 2. 열린 버전 PR 확인: `curl -s https://api.github.com/repos/Dev-BestOW/BestOW-UI/pulls?state=open` — 있으면 머지 여부를 사용자에게 알린다.
 3. 배포 버전 확인: `curl -s https://registry.npmjs.org/@bestow-ui%2freact | python3 -c "import json,sys;print(json.load(sys.stdin)['dist-tags'])"`
+3-1. 기준값: `node scripts/stats.mjs` → 출력 한 줄을 "진행 기록" 에 붙인다(29번).
 4. main CI 확인: `curl -s https://api.github.com/repos/Dev-BestOW/BestOW-UI/commits/<sha>/check-runs` — 실패면 annotations 로 원인부터.
 5. `pnpm install && pnpm build` 후 아래 "다음 플랜" 중 사용자가 고른 작업부터 진행.
 
@@ -160,7 +161,12 @@ main CI 의 site E2E 실패(320px 리플로 — CI Linux 글꼴이 넓어 대표
     **2단계(2026-11-14) 컴포넌트:** Components 페이지 Button 36·TextField 12·Checkbox 18·Badge 18, Korean Kit 페이지 VerificationCodeInput 3·Phone/Business/AccountNumberInput(TextField 인스턴스), 글자 스타일 4 추가.
     속성 이름은 코드 props 그대로, 색·간격·모서리·글자 크기 변수 연결(감사: Components 페이지 미연결 색 = Checkbox icon 프레임 흰 배경 12곳뿐), 스크린샷 확인. Starter 제약: 페이지 3개, **MCP 호출 한도에 걸림** →
     남은 일: Checkbox icon 프레임 배경 삭제·Korean Kit 감사(docs/FIGMA.md). 다음 후보: Select·RadioGroup·Switch·AgreementGroup·Alert·Modal, 아이콘 컴포넌트. 공개·게시 여부는 사용자 결정. 원래 계획: 기존 15번 그대로(tokens → Figma 변수 → 주요 컴포넌트·Code Connect). 팀 도입용이라 23~26 뒤.
-29. **측정** — Pages 방문 통계가 없어 유입·이탈을 모른다. 쿠키 없는 통계 도구를 붙일지 **사용자 결정 필요**(붙이면 SECURITY·문서에 밝힌다).
+29. 🟡 (2026-11-14, 토큰만 남음) **측정** — 사용자 결정: **Cloudflare Web Analytics**(쿠키 없음). 소개 사이트·playground `app/analytics.tsx`, Storybook `main.ts` managerHead 가
+    저장소 변수 `CF_WEB_ANALYTICS_TOKEN`(16진수 32자, 형식이 틀리면 빌드 실패)이 있는 배포 빌드에서만 beacon 을 넣는다(storybook.yml 두 단계에 env). 가짜 토큰 빌드로 세 곳 확인(Storybook 은 manager 에만,
+    OG 태그 유지), 브라우저에서 data-cf-beacon 확인, site E2E "첫 화면" 에 토큰 없으면 스크립트 0개(토큰 빌드로 실패 확인). SECURITY.md "웹사이트 방문 통계".
+    **사람이 할 일:** Cloudflare 대시보드 › Web Analytics › 사이트 추가(dev-bestow.github.io) → 토큰을 GitHub 저장소 Settings › Secrets and variables › Actions › **Variables** 에 `CF_WEB_ANALYTICS_TOKEN` 으로 → 다음 배포부터 집계.
+    기준값: `node scripts/stats.mjs`(스타·포크·이슈·npm 평일 중앙값 — 배포일·다음날·주말 제외, `GITHUB_TOKEN` 있으면 Discussions)를 세션 시작 때 돌려 진행 기록에 붙인다.
+    원래 계획: Pages 방문 통계가 없어 유입·이탈을 모른다. 쿠키 없는 통계 도구를 붙일지 **사용자 결정 필요**(붙이면 SECURITY·문서에 밝힌다).
     그 전에는 세션 시작 때 스타·이슈·Discussions·npm 평일 기준값을 진행 기록에 남긴다(배포일 제외).
 30. **꾸준한 노출·안정 인상** — 24번 글을 velog·요즘IT → 접근성 커뮤니티 → 발표 지원 순으로(사람이 할 일의 런칭 순서와 같음). 배포는 SUPPORT.md 주기대로 묶는다(한 달 30개 버전은 불안정해 보임 — 기존 16번).
 
@@ -485,3 +491,5 @@ Storybook → https://dev-bestow.github.io/BestOW-UI/ , 예제 앱 → https://d
 | 2026-11-14 | 27번 AI 코딩 도구 규칙 파일: `docs/ai/bestow-ui.md` + 빌드 때 Pages `/ai/`(md·Cursor mdc)로, 규칙 속 이름을 export 와 대조(변이 확인), README·npm README·llms.txt 안내 |
 | 2026-11-14 | 28번 Figma 1단계: 새 파일 BestOW UI Library 에 tokens → 변수 133·글자 스타일 9·그림자 6·Foundations 견본, 생성 스크립트 `scripts/generate-figma-tokens.mjs`·`docs/FIGMA.md`. Starter 요금제라 다크 모드·Code Connect 불가 |
 | 2026-11-14 | 28번 Figma 2단계: 컴포넌트 세트 Button·TextField·Checkbox·Badge·VerificationCodeInput + 한국 입력 3(TextField 인스턴스), 컴포넌트 글자 스타일 4(생성 스크립트에도). Starter 페이지 3개·MCP 호출 한도로 정리 2건 남음 |
+| 2026-11-14 | 기준값: 스타 4 · 포크 0 · 이슈 열림 0/닫힘 0 · Discussions ?(GITHUB_TOKEN 없음) · npm 평일 중앙값(최근 28일, 배포일·다음날 제외) react 12/일(12일) · korean-utils 5/일(14일) · tokens 5/일(15일) · icons 4/일(17일) — 같은 기간 react 합계 2,001(대부분 배포·CI) |
+| 2026-11-14 | 29번 측정: `scripts/stats.mjs`(기준값 한 줄), Cloudflare Web Analytics(사용자 결정) — 배포 빌드에만 토큰으로 beacon, site E2E 로 테스트 빌드에 없는지 확인, SECURITY.md 공개. 토큰 등록은 사용자 |

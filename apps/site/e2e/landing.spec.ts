@@ -23,6 +23,8 @@ test('첫 화면: 제목·한국어 lang·링크 미리보기 태그', async ({ 
     'href',
     'https://dev-bestow.github.io/BestOW-UI/',
   );
+  // 방문 통계는 배포 빌드에만(토큰 CF_WEB_ANALYTICS_TOKEN) — 테스트·로컬 빌드에 들어가면 가짜 방문이 쌓인다
+  await expect(page.locator('script[src*="cloudflareinsights"]')).toHaveCount(0);
   // 문서 링크는 Storybook 의 새 자리(/storybook/)로
   await expect(page.getByRole('link', { name: '시작하기 문서 보기' })).toHaveAttribute(
     'href',

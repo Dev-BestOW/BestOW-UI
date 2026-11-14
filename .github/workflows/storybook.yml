@@ -34,6 +34,8 @@ jobs:
         run: pnpm build-storybook
         env:
           STORYBOOK_DISABLE_TELEMETRY: 1
+          # 방문 통계(Cloudflare Web Analytics) 토큰 — 저장소 Settings › Variables 의 공개 값(비밀 아님). 없으면 통계 없이 배포
+          CF_WEB_ANALYTICS_TOKEN: ${{ vars.CF_WEB_ANALYTICS_TOKEN }}
 
       # 소개 사이트(루트)와 Next.js 예제 앱(/playground/)을 정적 export 한다.
       - id: pages
@@ -48,6 +50,7 @@ jobs:
           NEXT_TELEMETRY_DISABLED: 1
           SITE_BASE_PATH: ${{ steps.pages.outputs.base_path }}
           PLAYGROUND_BASE_PATH: ${{ steps.pages.outputs.base_path }}/playground
+          CF_WEB_ANALYTICS_TOKEN: ${{ vars.CF_WEB_ANALYTICS_TOKEN }}
 
       # 루트 = 소개 사이트, /storybook/ = Storybook, /playground/ = 예제 앱, 루트 llms*.txt (scripts/assemble-pages.sh)
       - name: Assemble Pages

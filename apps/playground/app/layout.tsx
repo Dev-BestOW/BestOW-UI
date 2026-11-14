@@ -1,6 +1,7 @@
 import '@bestow-ui/react/styles.css';
 import type { Metadata } from 'next';
 import type { ReactNode } from 'react';
+import { Analytics } from './analytics';
 import { Providers } from './providers';
 
 export const metadata: Metadata = {
@@ -23,6 +24,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="ko">
       <body style={{ margin: 0 }}>
         <Providers>{children}</Providers>
+        <Analytics />
       </body>
     </html>
   );

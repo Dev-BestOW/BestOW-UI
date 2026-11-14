@@ -31,6 +31,14 @@ const config: StorybookConfig & { title: string } = {
   // public/llms.txt(직접 작성)·llms-full.txt(빌드 때 scripts/generate-llms.mjs 가 생성) — AI 코딩 도구용 문서.
   // 배포 때 Pages 루트로도 복사한다(scripts/assemble-pages.sh). 링크 미리보기 이미지·sitemap 은 소개 사이트(apps/site/public)에.
   staticDirs: ['../public'],
+  // 방문 통계(Cloudflare Web Analytics, 쿠키 없음) — 배포 빌드에서만 저장소 변수 CF_WEB_ANALYTICS_TOKEN 이 들어온다.
+  // head 에는 manager-head.html 이 이미 들어 있다. 로컬·CI 빌드는 토큰이 없어 그대로(apps/site/app/analytics.tsx 와 같은 규칙)
+  managerHead: (head: string | undefined = '') => {
+    const token = process.env.CF_WEB_ANALYTICS_TOKEN;
+    if (!token) return head;
+    if (!/^[0-9a-f]{32}$/.test(token)) throw new Error('CF_WEB_ANALYTICS_TOKEN 형식이 아니에요(16진수 32자)');
+    return `${head}\n<script defer src="https://static.cloudflareinsights.com/beacon.min.js" data-cf-beacon='{"token":"${token}"}'></script>`;
+  },
   addons: ['@storybook/addon-docs', '@storybook/addon-a11y', '@storybook/addon-vitest'],
   framework: '@storybook/react-vite',
   viteFinal: (config) =>

@@ -83,7 +83,9 @@ examples/
   workflows/size.yml           PR: 번들 크기를 base 와 비교해 PR 코멘트 하나로 보고(push 마다 갱신, scripts/size-report.mjs).
                                보고만 하고 실패하지 않음(한도 검사는 ci.yml). 포크 PR 은 Summary 에만. 버전 PR 은 건너뜀
   workflows/release.yml        main: changesets/action — 버전 PR 생성 또는 npm 배포 (OIDC)
-  workflows/storybook.yml      main: 소개 사이트(루트) + Storybook(/storybook/) + playground(/playground/) 를 GitHub Pages 로 배포
+  workflows/storybook.yml      main: 소개 사이트(루트) + Storybook(/storybook/) + playground(/playground/) 를 GitHub Pages 로 배포.
+                               방문 통계(Cloudflare Web Analytics, 쿠키 없음 — SECURITY.md)는 저장소 변수 CF_WEB_ANALYTICS_TOKEN 이 있을 때만 이 배포 빌드에 들어간다
+                               (apps/site·playground 의 app/analytics.tsx, .storybook/main.ts managerHead). 로컬·CI·E2E 빌드에는 없다(site E2E 가 확인)
                                (scripts/assemble-pages.sh 가 폴더를 모으고 빠진 파일이 있으면 실패)
                                → https://dev-bestow.github.io/BestOW-UI/ , …/BestOW-UI/storybook/ , …/BestOW-UI/playground/
 ```

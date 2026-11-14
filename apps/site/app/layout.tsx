@@ -3,6 +3,7 @@ import './site.css';
 import type { Metadata } from 'next';
 import Script from 'next/script';
 import type { ReactNode } from 'react';
+import { Analytics } from './analytics';
 import { basePath, siteOrigin } from './links';
 import { Providers } from './providers';
 
@@ -53,6 +54,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
           {redirectOldStorybookLinks}
         </Script>
         <Providers>{children}</Providers>
+        <Analytics />
       </body>
     </html>
   );
