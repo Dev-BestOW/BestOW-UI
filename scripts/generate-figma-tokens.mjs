@@ -115,7 +115,7 @@ const textStyle = (name, size, weight, height, letterSpacingEm = 0) => ({
   fontWeight: Number(fontWeight[weight]),
   lineHeightPercent: Math.round(Number(lineHeight[height]) * 100),
   letterSpacingPercent: Math.round(letterSpacingEm * 100),
-  description: `Typography variant — font-size ${size}, weight ${weight}, line-height ${height}`,
+  description: `font-size ${size}, weight ${weight}, line-height ${height}`,
 });
 const textStyles = [
   textStyle('Display', '4xl', 'bold', 'tight', -0.02),
@@ -127,6 +127,11 @@ const textStyles = [
   textStyle('Body/Default', 'md', 'regular', 'normal'),
   textStyle('Body/Small', 'sm', 'regular', 'normal'),
   textStyle('Caption', 'xs', 'regular', 'normal'),
+  // 컴포넌트 글자 — Input.css.ts(label)·Button.css.ts·Badge.css.ts 와 같게
+  textStyle('Label/Field', 'sm', 'medium', 'normal'),
+  textStyle('Label/Button', 'sm', 'semibold', 'tight'),
+  textStyle('Label/Button Large', 'md', 'semibold', 'tight'),
+  textStyle('Label/Badge', 'xs', 'medium', 'tight'),
 ];
 
 // ── 그림자 (효과 스타일은 모드가 없어 라이트·다크를 따로) ──
