@@ -108,12 +108,14 @@ test('ResidentNumberInput 데모: 13자리를 앞칸에 붙여 넣으면 두 칸
   const demo = await openDemo(page, 'resident-number-input');
   const front = demo.getByRole('textbox', { name: '앞 6자리' });
   await front.focus();
-  await page.evaluate(() => {
+  // 실제 클립보드는 브라우저마다 권한이 달라(Firefox 는 쓰기 권한을 줄 수 없음) 붙여넣기 이벤트를 직접 보낸다.
+  // ClipboardEvent 생성자에 clipboardData 를 넘기는 방식은 CI Firefox 에서 빈 값이 됐다(2026-11-15) — 속성으로 붙이고 요소에 직접 보낸다
+  await front.evaluate((input) => {
     const data = new DataTransfer();
     data.setData('text/plain', '900101-1234567');
-    document.activeElement?.dispatchEvent(
-      new ClipboardEvent('paste', { clipboardData: data, bubbles: true, cancelable: true }),
-    );
+    const event = new Event('paste', { bubbles: true, cancelable: true });
+    Object.defineProperty(event, 'clipboardData', { value: data });
+    input.dispatchEvent(event);
   });
   await expect(front).toHaveValue('900101');
   await expect(demo.getByLabel('뒤 7자리')).toHaveValue('1234567');
