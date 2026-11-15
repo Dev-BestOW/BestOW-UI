@@ -6,14 +6,16 @@
 >
 > **갱신 규칙:** 작업을 끝내면 "남은 일" 을 고치고 맨 아래 "진행 기록" 에 한 줄 추가한다. 끝난 항목의 상세 메모는 ROADMAP-HISTORY 로 옮기고 여기에는 남기지 않는다.
 
-## 🔁 다음 세션 시작하기 (인수인계 — 2026-11-14 기준)
+## 🔁 다음 세션 시작하기 (인수인계 — 2026-11-15 기준)
 
 **지금 상태**
 - npm: react 2.1.0 · tokens 2.0.0 · korean-utils 0.4.0 · icons 0.2.0. 열린 버전 PR #30(MultiCombobox, korean-utils 문서 메타) — **11/19(목) 정기 배포일에 머지**.
 - **배포 주기: 격주 목요일**(11/19 → 12/3 → 12/17, SUPPORT.md). 보안·심각한 버그만 바로 patch. 작업을 끝내면 다음 배포일을 함께 알린다.
 - 방향(2026-11-11 결정): 기능보다 **발견 → 신뢰 → 첫 사용** 경로. 새 컴포넌트는 외부 요청이 생길 때까지 미룬다. 사용자 유치 플랜 23~30번은 Claude 몫을 모두 끝냈다(상세는 ROADMAP-HISTORY).
-- 기준값(2026-11-14): 스타 4 · 포크 0 · 외부 이슈 0 · npm 평일 react 12/일. 방문 통계(Cloudflare Web Analytics)는 11/14 부터 집계 — **일주일 쌓이면 읽히는 문서·유입 경로를 보고 다음 작업을 고른다.**
-- 블로그(astro-blog): 글 3편이 content-queue 에서 예약 발행 대기. 예약 워크플로가 9/13 부터 꺼져 있었다(60일 무활동) — 사용자가 켜면 월~수 09:00 발행.
+- 기준값(2026-11-15): 스타 4 · 포크 0 · 외부 이슈 0(good first issue #31~#34 는 직접 등록) · npm 평일 react 14/일. 방문 통계(Cloudflare Web Analytics)는 11/14 부터 집계 — **일주일 쌓이면 읽히는 문서·유입 경로를 보고 다음 작업을 고른다.**
+- 블로그(astro-blog): 글 3편이 content-queue 에서 예약 발행 대기. 사용자가 11/14(토) 예약 워크플로를 다시 켰다 — 매일 1편, 11/15(일)부터 일~화(사용자가 그대로 두기로 함).
+  cron 은 00:00 UTC 지만 실제 실행은 예전부터 약 4시간 늦다(9월 기록 04:00 UTC 전후 = 13시 KST). 11/15 11:49 KST 에 아직 안 돈 것은 이 지연.
+- **SEO·GEO 진행 중:** Task 1·2 끝(소개 사이트 `/components/<slug>/` 한국 키트 13쪽). 다음은 Task 3 — 목록 쪽이 없어 지금은 이동 경로 가운데 항목이 링크가 아니고, sitemap·머리글에도 아직 없다.
 
 **세션 시작 체크리스트**
 1. `git status` / `git fetch` 로 로컬이 origin/main 과 같은지 확인. 뒤처져 있으면 사용자에게 `git pull` 을 요청한다
@@ -52,15 +54,17 @@
 
 ### 사람이 할 일
 - [ ] **bestow-ui.com 마무리**: Cloudflare Web Analytics 에 bestow-ui.com 방문이 잡히는지 확인(안 잡히면 사이트 추가·토큰 교체), (선택) 조직 루트 저장소 `dev-bestow.github.io` 이동 대상·robots.txt 를 새 주소로. 도메인 자동 갱신 유지. (Search Console·네이버 소유확인·sitemap 제출은 2026-11-14 끝남)
-- [ ] 블로그 예약 발행 워크플로 켜기 — 일요일 09:00 이후 ~ 월요일 09:00 전에 Actions › Daily post › Enable workflow(Run 은 누르지 않기).
 - [ ] 11/19 버전 PR #30 머지(첫 정기 배포).
-- [ ] velog 게시 · 요즘IT 기고 제안 · 발표 지원(CFP 공고 때) · 접근성 커뮤니티 글 — 같은 Artifact.
+- [ ] velog 게시 · 요즘IT 기고 제안 · 발표 지원(CFP 공고 때) · 접근성 커뮤니티 글 — 초안: 알리기 준비물 Artifact https://claude.ai/artifact/LvPgoSsmGKHjLd34FP789u
 - [ ] Context7 등록(AI 도구가 문서를 찾는 경로).
 - [ ] Figma: 요금제 올릴지(다크 모드·라이브러리 게시·페이지 제한), Community 공개 여부 — `docs/FIGMA.md`.
 - [ ] 스크린리더·기기: ResidentNumberInput NVDA, (가능하면) iOS VoiceOver·센스리더, (선택) Android Chrome 가상 키보드 — `SCREEN-READER-CHECKLIST.md`.
 - [ ] 이 라이브러리로 만든 실제 서비스가 생기면 알려 주기 — README "사용 사례".
 
 ### Claude 가 확인할 것 (push·배포 뒤)
+- [ ] **main CI Cross-browser (firefox)** — 주민번호 붙여넣기 E2E 수정(💚) push 뒤 통과하는지. 실패하면 annotations 로 원인부터(로컬 Firefox 실행 불가).
+- [ ] 블로그 예약 발행이 실제로 돌았는지: `curl -s "https://api.github.com/repos/Dev-BestOW/astro-blog/actions/runs?per_page=3"` — 11/15~11/17 에 001~003 발행 커밋. 하루 넘게 안 돌면 GitHub 가 건너뛴 것 → 사용자에게 Run workflow 요청.
+- [ ] 배포된 `/components/` 13쪽 열림·canonical(Task 1·2).
 - [ ] 배포된 `/ai/bestow-ui.md`·`/ai/bestow-ui.mdc` 열림(27번).
 - [ ] `npx create-next-app --example …/examples/next-starter` 실제 설치(26번), shadcn-starter StackBlitz 링크(25번).
 - [ ] 11/19 배포 뒤 npm 검색 `사업자등록번호`·`전화번호` 순위 다시 조회(24번).
@@ -128,3 +132,5 @@
 | 2026-11-14 | 사용자: bestow-ui.com 을 Google Search Console·네이버 서치어드바이저에 등록하고 sitemap 제출 |
 | 2026-11-15 | 기준값: 스타 4 · 포크 0 · 이슈 열림 4/닫힘 0(good first issue #31~#34 등록됨) · npm 평일 중앙값 react 14/일 · korean-utils 6/일 · tokens 5/일 · icons 6/일 |
 | 2026-11-15 | SEO·GEO Task 1·2: 소개 사이트 `/components/<slug>/` 한국 키트 13쪽(정적 HTML) — 글은 `kit.ts`, props·키보드·스크린리더·선택 기준은 빌드 때 소스(`source.ts` — react 소스·componentA11y·choosing, 못 찾으면 빌드 실패)에서. 데모 13(날짜는 오늘 고정, 주소는 가짜 공급자), site 단위 테스트(변이 확인)·E2E 18(5회 반복), 코드 예시 tsc 확인, Storybook 링크 index.json 대조. `publicTypes` 를 `scripts/lib/public-types.mjs` 로 |
+| 2026-11-15 | CI Cross-browser (firefox) 실패: site E2E 주민번호 붙여넣기 — `new ClipboardEvent('paste', { clipboardData })` 가 Firefox 에서 빈 값. 이벤트에 `clipboardData` 를 defineProperty 로 붙이고 앞칸에 직접 보내게(Chromium·WebKit 5회 반복, 붙여넣기 처리 끈 변이로 실패 확인). Firefox 통과는 push 뒤 CI 로 |
+| 2026-11-15 | 블로그 예약 발행 점검: 워크플로 active(11/14 켬)·큐 3편 그대로, 오전에 안 돈 것은 GitHub 예약 실행 지연(예전 실행도 약 4시간 늦음). 사용자가 일요일 시작 그대로 두기로 |
