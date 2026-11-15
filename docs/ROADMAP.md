@@ -54,7 +54,6 @@
 - [ ] **bestow-ui.com 마무리**: Cloudflare Web Analytics 에 bestow-ui.com 방문이 잡히는지 확인(안 잡히면 사이트 추가·토큰 교체), (선택) 조직 루트 저장소 `dev-bestow.github.io` 이동 대상·robots.txt 를 새 주소로. 도메인 자동 갱신 유지. (Search Console·네이버 소유확인·sitemap 제출은 2026-11-14 끝남)
 - [ ] 블로그 예약 발행 워크플로 켜기 — 일요일 09:00 이후 ~ 월요일 09:00 전에 Actions › Daily post › Enable workflow(Run 은 누르지 않기).
 - [ ] 11/19 버전 PR #30 머지(첫 정기 배포).
-- [ ] good first issue 4개 등록(초안: 알리기 준비물 Artifact https://claude.ai/artifact/LvPgoSsmGKHjLd34FP789u) — 블로그 글이 나가기 전에.
 - [ ] velog 게시 · 요즘IT 기고 제안 · 발표 지원(CFP 공고 때) · 접근성 커뮤니티 글 — 같은 Artifact.
 - [ ] Context7 등록(AI 도구가 문서를 찾는 경로).
 - [ ] Figma: 요금제 올릴지(다크 모드·라이브러리 게시·페이지 제한), Community 공개 여부 — `docs/FIGMA.md`.
@@ -69,7 +68,7 @@
 - [ ] 방문 통계 일주일 뒤 읽히는 문서·유입 경로 정리 → 다음 작업 제안, 29번 ✅.
 
 ### Claude 가 할 일
-- **다음 작업: SEO·GEO 계획 [`SEO-GEO-PLAN.md`](SEO-GEO-PLAN.md)** — 사용자가 계획서 검토 뒤 시작. Task 1(컴포넌트 문서 틀 + PhoneNumberInput 한 쪽, 사용자 확인)부터 순서대로, 작업마다 커밋 확인 후 다음.
+- **다음 작업: SEO·GEO 계획 [`SEO-GEO-PLAN.md`](SEO-GEO-PLAN.md) Task 3**(목록 쪽·머리글·sitemap 연결) — Task 1·2(한국 키트 13쪽) 끝. 작업마다 커밋 확인 후 다음.
 - **28번 Figma 정리 2건**(MCP 호출 한도가 풀리면): Checkbox `icon` 프레임 12개 흰 배경 지우기, Korean Kit 페이지 변수 연결 감사 — `docs/FIGMA.md`.
 - 28번 다음 컴포넌트(요청 시): Select·RadioGroup·Switch·AgreementGroup·Alert·Modal, 아이콘 컴포넌트(Button 아이콘 자리).
 - **외부 요청이 생기면:** Tag 입력(MultiCombobox 와 칩 공유), Combobox 비동기 검색.
@@ -127,3 +126,5 @@
 | 2026-11-14 | bestow-ui.com 연결 확인: DNS(A·AAAA·www CNAME·인증 TXT), HTTPS, 16쪽 200(사이트·Storybook·playground·robots·sitemap·llms·ai·확인 파일), canonical·OG·sitemap 새 주소, 옛 `?path=`·`iframe.html?id=` 가 Chrome 에서 새 도메인 Storybook 으로, http·www → https 루트 |
 | 2026-11-14 | 네이버 소유 확인 파일(사이트 루트, prettier 제외, E2E). SEO·GEO 조사(Storybook 문서는 같은 제목·canonical 에 JS 렌더라 검색에 안 잡힘) → 계획서 `SEO-GEO-PLAN.md`(한국 키트 13쪽 정적 문서·JSON-LD·비교 쪽·GEO 점검) |
 | 2026-11-14 | 사용자: bestow-ui.com 을 Google Search Console·네이버 서치어드바이저에 등록하고 sitemap 제출 |
+| 2026-11-15 | 기준값: 스타 4 · 포크 0 · 이슈 열림 4/닫힘 0(good first issue #31~#34 등록됨) · npm 평일 중앙값 react 14/일 · korean-utils 6/일 · tokens 5/일 · icons 6/일 |
+| 2026-11-15 | SEO·GEO Task 1·2: 소개 사이트 `/components/<slug>/` 한국 키트 13쪽(정적 HTML) — 글은 `kit.ts`, props·키보드·스크린리더·선택 기준은 빌드 때 소스(`source.ts` — react 소스·componentA11y·choosing, 못 찾으면 빌드 실패)에서. 데모 13(날짜는 오늘 고정, 주소는 가짜 공급자), site 단위 테스트(변이 확인)·E2E 18(5회 반복), 코드 예시 tsc 확인, Storybook 링크 index.json 대조. `publicTypes` 를 `scripts/lib/public-types.mjs` 로 |

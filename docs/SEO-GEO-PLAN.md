@@ -74,12 +74,12 @@
   - `function componentHref(slug: string): string`: `${basePath}/components/${slug}/`
   - `scripts/lib/public-types.mjs`: `export function publicTypes(code: string): string`(generate-llms 에서 그대로 옮김)
 
-- [ ] **1-1: 저장소 밖 import 확인 (짧은 실험)**
+- [x] **1-1: 저장소 밖 import 확인 (짧은 실험)**
   `source.ts` 에서 `../../../storybook/stories/accessibility/componentA11y` 와 `../../../../scripts/lib/public-types.mjs` 를 import 하고 `pnpm build-site` 를 돌려 본다.
   기대: 빌드 성공. Next 16 은 lockfile 이 있는 저장소 루트를 Turbopack root 로 잡는다.
   실패하면 `next.config.ts` 에 `turbopack: { root: fileURLToPath(new URL('../..', import.meta.url)) }` 를 더하고 다시 확인한다.
 
-- [ ] **1-2: 실패하는 단위 테스트 작성** (`source.test.ts`)
+- [x] **1-2: 실패하는 단위 테스트 작성** (`source.test.ts`)
   ```ts
   test('componentProps: 인터페이스와 JSDoc 을 소스 그대로', () => {
     const props = componentProps('PhoneNumberInput');
@@ -101,15 +101,15 @@
     }
   });
   ```
-- [ ] **1-3: 실행해서 실패하는지 확인**: `pnpm --filter @bestow-ui/site test`, 기대: 함수 없음으로 FAIL.
-- [ ] **1-4: `public-types.mjs` 로 옮기기, `source.ts`·`kit.ts` 구현.** `kitPages` 에는 PhoneNumberInput 하나만 넣는다.
+- [x] **1-3: 실행해서 실패하는지 확인**: `pnpm --filter @bestow-ui/site test`, 기대: 함수 없음으로 FAIL.
+- [x] **1-4: `public-types.mjs` 로 옮기기, `source.ts`·`kit.ts` 구현.** `kitPages` 에는 PhoneNumberInput 하나만 넣는다.
   - slug `phone-number-input`
   - title `React 전화번호 입력 컴포넌트 — 하이픈 자동·커서 유지`
   - utilsSlug `phone-number`
   - 본문은 `guides.ts` 의 phone-number 쪽과 겹치지 않게 **입력 칸으로서의 문제**를 쓴다: 커서 위치, 하이픈 뒤 Backspace, 붙여넣기, 모바일 숫자 키패드, 스크린리더 알림.
-- [ ] **1-5: 실행해서 통과하는지 확인**: 같은 명령, 기대: 4 passed.
+- [x] **1-5: 실행해서 통과하는지 확인**: 같은 명령, 기대: 4 passed.
   변이 확인: `componentA11yFor` 를 `includes` 로 바꾸면 DatePicker 테스트가 실패하는지 보고, scratchpad 백업으로 되돌린다.
-- [ ] **1-6: 쪽 그리기** (`[slug]/page.tsx`)
+- [x] **1-6: 쪽 그리기** (`[slug]/page.tsx`)
   korean-utils 쪽과 같은 틀이다: Breadcrumb(홈 › 한국 입력 컴포넌트 › 이름), h1 = title, 머리말 = summary. 절 순서:
   1. "무엇이 어려운가요"(problem)
   2. "직접 입력해 보세요"(Demo)
@@ -122,7 +122,7 @@
 
   메타는 `pageMetadata({ path: '/components/<slug>/', title: \`${title} — BestOW UI\`, description: summary })` 로 만든다.
   `generateStaticParams` 를 쓰고 `dynamicParams = false` 로 둔다.
-- [ ] **1-7: E2E 작성** (`components.spec.ts`). korean-utils.spec 의 "함수 문서" 테스트와 같은 단언을 쓴다:
+- [x] **1-7: E2E 작성** (`components.spec.ts`). korean-utils.spec 의 "함수 문서" 테스트와 같은 단언을 쓴다:
   - h1 = title, `<title>` = `${title} — BestOW UI`
   - meta description = summary
   - canonical·og:url = `https://bestow-ui.com/components/<slug>/`, og:image = `https://bestow-ui.com/og.png`
@@ -130,9 +130,9 @@
   - Storybook 링크 href = `/storybook/?path=/docs/korean-kit-phonenumberinput--docs`
   - 데모: `pressSequentially('01012345678')` → 값 `010-1234-5678`
   - axe 라이트·다크 0, 320px 가로 스크롤 없음
-- [ ] **1-8: 실행**: `pnpm build && pnpm build-site && pnpm --filter @bestow-ui/site test:e2e`, 기대: 모두 통과.
-- [ ] **1-9: 사용자 확인**: `pnpm site` 로 `http://localhost:3002/components/phone-number-input/` 을 보여 주고 글·절 순서를 승인받는다. 고칠 것은 반영한다.
-- [ ] **1-10: 전체 검증 → 커밋 요청**: `✨ 소개 사이트에 컴포넌트 문서 쪽 틀과 PhoneNumberInput 쪽 추가`
+- [x] **1-8: 실행**: `pnpm build && pnpm build-site && pnpm --filter @bestow-ui/site test:e2e`, 기대: 모두 통과.
+- [x] **1-9: 사용자 확인**: `pnpm site` 로 `http://localhost:3002/components/phone-number-input/` 을 보여 주고 글·절 순서를 승인받는다. 고칠 것은 반영한다.
+- [x] **1-10: 전체 검증 → 커밋 요청**: `✨ 소개 사이트에 컴포넌트 문서 쪽 틀과 PhoneNumberInput 쪽 추가`
 
 ### Task 2: 나머지 한국 키트 12개 쪽
 
@@ -154,7 +154,7 @@
 11. `date-range-picker`
 12. `calendar`
 
-- [ ] **2-1: E2E 를 데이터로 돌리게 바꾼다.** Task 1 의 메타·링크·props·axe 단언을 `for (const page of kitPages)` 로 바꾼다. 기대: 쪽이 없어 FAIL.
+- [x] **2-1: E2E 를 데이터로 돌리게 바꾼다.** Task 1 의 메타·링크·props·axe 단언을 `for (const page of kitPages)` 로 바꾼다. 기대: 쪽이 없어 FAIL.
   데모는 쪽마다 한 가지만 확인한다:
   - BusinessNumberInput: `1248100998` → 오류 없음, `1248100999` → 오류 문구
   - VerificationCodeInput: 6자리 입력 → 완료 상태
@@ -163,9 +163,9 @@
   - AddressInput: 가짜 공급자로 주소 고르기 → 값이 칸에 들어감, **`t1.kakaocdn.net` 요청 0**
   - ResidentNumberInput·CardNumberInput·AccountNumberInput·CorporateNumberInput: 서식이 입혀짐
   - DatePicker·DateRangePicker·Calendar: `today="2026-11-14"` 로 열어 날짜 고르기
-- [ ] **2-2: 12개 쪽 데이터·데모 작성.** 컴포넌트마다 실제 동작을 스토리·테스트에서 확인하고 쓴다. 문서에 없는 동작을 지어내지 않는다.
-- [ ] **2-3: 실행**: Task 1-8 과 같은 명령, 기대: 모두 통과. 새 E2E 는 `--repeat-each 5` 로 불안정하지 않은지 본다.
-- [ ] **2-4: 전체 검증 → 커밋 요청**: `✨ 한국 키트 컴포넌트 문서 쪽 12개 추가`
+- [x] **2-2: 12개 쪽 데이터·데모 작성.** 컴포넌트마다 실제 동작을 스토리·테스트에서 확인하고 쓴다. 문서에 없는 동작을 지어내지 않는다.
+- [x] **2-3: 실행**: Task 1-8 과 같은 명령, 기대: 모두 통과. 새 E2E 는 `--repeat-each 5` 로 불안정하지 않은지 본다.
+- [x] **2-4: 전체 검증 → 커밋 요청**: `✨ 한국 키트 컴포넌트 문서 쪽 12개 추가`
 
 ### Task 3: 목록 쪽·사이트 연결
 

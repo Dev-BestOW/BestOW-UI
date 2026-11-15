@@ -9,6 +9,11 @@ describe('componentProps', () => {
     expect(props).toMatch(/\/\*\*/);
   });
 
+  test('props 가 쓰는 같은 폴더의 타입도 함께 (agreements.ts·presets.ts)', () => {
+    expect(componentProps('AgreementGroup')).toContain('export interface AgreementItem');
+    expect(componentProps('DateRangePicker')).toContain('export interface DateRange {');
+  });
+
   test('없는 컴포넌트는 빌드를 멈춘다', () => {
     expect(() => componentProps('NoSuchInput')).toThrow(/NoSuchInput/);
   });
