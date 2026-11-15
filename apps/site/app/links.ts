@@ -31,3 +31,8 @@ export const links = {
 export function koreanUtilsHref(slug: string) {
   return `${basePath}/korean-utils/${slug}/`;
 }
+
+/** 한국 키트 컴포넌트 문서 한 쪽의 주소 */
+export function componentHref(slug: string) {
+  return `${basePath}/components/${slug}/`;
+}

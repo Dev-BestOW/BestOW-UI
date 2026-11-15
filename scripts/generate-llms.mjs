@@ -5,6 +5,7 @@
 import { readdirSync, readFileSync, existsSync, writeFileSync, mkdirSync } from 'node:fs';
 import { dirname, join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { publicTypes } from './lib/public-types.mjs';
 
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..');
 const outDir = resolve(process.argv[2] ?? join(root, 'apps/storybook/public'));
@@ -19,30 +20,6 @@ const readme = (path) =>
     .map((line) => line.replace(/^(#{2,5}) /, '#$1 '))
     .join('\n')
     .trim();
-
-/** `export interface X {` ~ 줄 맨 앞의 `}` 까지와, 바로 위 JSDoc. 한 줄 `export type` 도 */
-function publicTypes(code) {
-  const blocks = [];
-  const lines = code.split('\n');
-  for (let i = 0; i < lines.length; i++) {
-    const line = lines[i];
-    const isInterface = /^export interface \w+/.test(line);
-    const isType = /^export type \w+/.test(line);
-    if (!isInterface && !isType) continue;
-    let start = i;
-    // 바로 위의 /** … */ 를 함께
-    if (lines[i - 1]?.trim().endsWith('*/')) {
-      start = i - 1;
-      while (start > 0 && !lines[start].trim().startsWith('/**')) start--;
-    }
-    let end = i;
-    if (isInterface && !line.trim().endsWith('}')) while (end < lines.length && lines[end] !== '}') end++;
-    if (isType) while (end < lines.length && !lines[end].trimEnd().endsWith(';')) end++;
-    blocks.push(lines.slice(start, end + 1).join('\n'));
-    i = end;
-  }
-  return blocks.join('\n\n');
-}
 
 /** export 한 컴포넌트·함수 바로 위의 JSDoc 설명 (있으면) */
 function componentDocs(code) {
