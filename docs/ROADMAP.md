@@ -62,9 +62,7 @@
 - [ ] 이 라이브러리로 만든 실제 서비스가 생기면 알려 주기 — README "사용 사례".
 
 ### Claude 가 확인할 것 (push·배포 뒤)
-- [ ] **main CI Cross-browser (firefox)** — 주민번호 붙여넣기 E2E 수정(💚) push 뒤 통과하는지. 실패하면 annotations 로 원인부터(로컬 Firefox 실행 불가).
 - [ ] 블로그 예약 발행이 실제로 돌았는지: `curl -s "https://api.github.com/repos/Dev-BestOW/astro-blog/actions/runs?per_page=3"` — 11/15~11/17 에 001~003 발행 커밋. 하루 넘게 안 돌면 GitHub 가 건너뛴 것 → 사용자에게 Run workflow 요청.
-- [ ] 배포된 `/components/` 13쪽 열림·canonical(Task 1·2).
 - [ ] 배포된 `/ai/bestow-ui.md`·`/ai/bestow-ui.mdc` 열림(27번).
 - [ ] `npx create-next-app --example …/examples/next-starter` 실제 설치(26번), shadcn-starter StackBlitz 링크(25번).
 - [ ] 11/19 배포 뒤 npm 검색 `사업자등록번호`·`전화번호` 순위 다시 조회(24번).
@@ -134,3 +132,4 @@
 | 2026-11-15 | SEO·GEO Task 1·2: 소개 사이트 `/components/<slug>/` 한국 키트 13쪽(정적 HTML) — 글은 `kit.ts`, props·키보드·스크린리더·선택 기준은 빌드 때 소스(`source.ts` — react 소스·componentA11y·choosing, 못 찾으면 빌드 실패)에서. 데모 13(날짜는 오늘 고정, 주소는 가짜 공급자), site 단위 테스트(변이 확인)·E2E 18(5회 반복), 코드 예시 tsc 확인, Storybook 링크 index.json 대조. `publicTypes` 를 `scripts/lib/public-types.mjs` 로 |
 | 2026-11-15 | CI Cross-browser (firefox) 실패: site E2E 주민번호 붙여넣기 — `new ClipboardEvent('paste', { clipboardData })` 가 Firefox 에서 빈 값. 이벤트에 `clipboardData` 를 defineProperty 로 붙이고 앞칸에 직접 보내게(Chromium·WebKit 5회 반복, 붙여넣기 처리 끈 변이로 실패 확인). Firefox 통과는 push 뒤 CI 로 |
 | 2026-11-15 | 블로그 예약 발행 점검: 워크플로 active(11/14 켬)·큐 3편 그대로, 오전에 안 돈 것은 GitHub 예약 실행 지연(예전 실행도 약 4시간 늦음). 사용자가 일요일 시작 그대로 두기로 |
+| 2026-11-15 | 확인: main CI 전부 녹색(Firefox 붙여넣기 E2E 수정 통과), 배포된 `/components/` 쪽 200·canonical 새 주소. (블로그 astro-blog 에 AdSense 준비·게시자 ID 등록 — 이 저장소와 무관, 심사 대기) |
