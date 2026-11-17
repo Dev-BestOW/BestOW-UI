@@ -20,7 +20,7 @@ AI 코딩 도구용 [llms.txt](https://bestow-ui.com/llms.txt)
 ## 특징
 
 - 🇰🇷 **한국 서비스 키트** — 약관 동의(전체 동의), 인증번호(문자 자동 채우기·남은 시간), 전화번호·사업자등록번호(검증 공식)·금액(“12만 5,000원” 읽기),
-  주소(카카오 우편번호), 날짜(일요일 시작·공휴일 표시)·기간(빠른 선택). → [Storybook › Korean Kit](https://bestow-ui.com/storybook/?path=/docs/korean-kit-agreementgroup--docs)
+  주소(카카오 우편번호), 날짜(일요일 시작·공휴일 표시)·기간(빠른 선택). → [한국 입력 컴포넌트 문서](https://bestow-ui.com/components/)(직접 입력해 보기·코드·키보드·스크린리더 동작)
 - ♿ **검사로 증명하는 접근성** — 모든 스토리를 실제 브라우저(Chromium·WebKit·Firefox)에서 라이트·다크 두 테마로 axe 검사해요(CI).
   입력 칸·체크 컨트롤 테두리도 배경과 3:1 이상이에요. 고대비 모드·320px 리플로·기본 글꼴 2배도 확인하고, KWCAG 2.2 33개 항목별 대응 근거와 검사가 실제로 찾아 고친 문제를 기록했어요.
   주요 컴포넌트는 스크린리더(VoiceOver·NVDA)로 직접 들어 보고 [점검 기록](docs/SCREEN-READER-CHECKLIST.md)을 남겼어요.

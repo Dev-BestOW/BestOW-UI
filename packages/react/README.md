@@ -13,6 +13,7 @@
 
 - **한국 서비스 키트** — 약관 동의(전체 동의), 인증번호(문자 자동 채우기·남은 시간), 전화번호·사업자등록번호(검증)·
   금액("12만 5,000원" 읽기)·주소(카카오 우편번호)·날짜(일요일 시작·공휴일)·기간(빠른 선택) 입력.
+  → [한국 입력 컴포넌트 문서](https://bestow-ui.com/components/)
 - **검사로 증명하는 접근성** — 모든 스토리를 실제 브라우저(Chromium·WebKit·Firefox)에서 라이트·다크 두 테마로 axe 검사해요.
   고대비 모드·320px 리플로·기본 글꼴 2배도 CI 로 확인하고, [KWCAG 2.2 항목별 대응 근거](https://bestow-ui.com/storybook/?path=/docs/accessibility-kwcag-2-2-%EB%8C%80%EC%9D%91--docs)를 문서로 정리했어요.
   주요 컴포넌트는 스크린리더(VoiceOver·NVDA)로 직접 들어 보고 [점검 기록](https://github.com/Dev-BestOW/BestOW-UI/blob/main/docs/SCREEN-READER-CHECKLIST.md)을 남겼어요.

@@ -1,5 +1,7 @@
 # SEO·GEO 개선 계획
 
+> **2026-11-17 Task 1~6 끝.** 이제 남은 것은 아래 "사람이 할 일" 과 한 달에 한 번 [`GEO-CHECK.md`](GEO-CHECK.md) 기록이다.
+>
 > **실행하는 쪽(사람·에이전트)에게:** 작업(Task)을 순서대로 하나씩 진행한다. 단계는 체크박스(`- [ ]`)로 표시한다.
 > 작업 하나가 끝날 때마다 검증 → 사용자에게 커밋 요청 → **커밋된 것을 확인한 뒤** 다음 작업으로 넘어간다(Claude 는 커밋·push 하지 않는다).
 
@@ -229,7 +231,7 @@ AI 가 "한국 서비스용 React UI 라이브러리 추천" 같은 질문에 �
 
 **파일:** 만들기 `docs/GEO-CHECK.md`, 고치기 `CLAUDE.md`(apps/site 설명), `docs/ROADMAP.md`, README·npm README(문서 쪽 링크 — 고치면 patch changeset)
 
-- [ ] **6-1: `docs/GEO-CHECK.md` 작성.** 한 달에 한 번 같은 질문 5개를 ChatGPT·Perplexity·Gemini 에 던져 BestOW UI 가 언급·인용되는지 표에 기록한다. 질문:
+- [x] **6-1: `docs/GEO-CHECK.md` 작성.** 한 달에 한 번 같은 질문 5개를 ChatGPT·Perplexity·Gemini 에 던져 BestOW UI 가 언급·인용되는지 표에 기록한다. 질문:
   1. "React 에서 전화번호 하이픈 자동 입력 컴포넌트 추천해 줘"
   2. "사업자등록번호 검증 React"
   3. "한국 서비스용 React 디자인 시스템"
@@ -237,9 +239,10 @@ AI 가 "한국 서비스용 React UI 라이브러리 추천" 같은 질문에 �
   5. "약관 전체 동의 체크박스 React 접근성"
 
   같은 표에 Search Console 노출·클릭과 Cloudflare 의 AI 유입(chatgpt.com·perplexity.ai)도 함께 적는다.
-- [ ] **6-2: CLAUDE.md 갱신**: apps/site 설명에 `/components/`(데이터 kit.ts, 소스에서 props·접근성 읽기, **새 한국 키트 컴포넌트는 kit.ts 에도 넣는다**), `/compare/`, JSON-LD 를 더한다.
-- [ ] **6-3: README 들의 "Storybook › Korean Kit" 링크를 정적 문서 쪽으로 바꿀지 결정.** 추천: 사이트 쪽으로 바꾼다. 검색 엔진이 읽을 수 있는 쪽으로 링크가 모여야 한다.
-- [ ] **6-4: ROADMAP 갱신 → 전체 검증 → 커밋 요청**: `📝 GEO 점검 방법과 문서 쪽 안내 정리`
+- [x] **6-2: CLAUDE.md 갱신**: apps/site 설명에 `/components/`(데이터 kit.ts, 소스에서 props·접근성 읽기, **새 한국 키트 컴포넌트는 kit.ts 에도 넣는다**), `/compare/`, JSON-LD 를 더한다.
+- [x] **6-3: README 들의 "Storybook › Korean Kit" 링크를 정적 문서 쪽으로 바꿀지 결정.** 추천: 사이트 쪽으로 바꾼다. 검색 엔진이 읽을 수 있는 쪽으로 링크가 모여야 한다.
+  (2026-11-17 바꿈: 루트·react·korean-utils README → `/components/`·`/components/phone-number-input/`, react·korean-utils patch changeset)
+- [x] **6-4: ROADMAP 갱신 → 전체 검증 → 커밋 요청**: `📝 GEO 점검 방법과 문서 쪽 안내 정리`
 
 ## 사람이 할 일 (코드 밖)
 

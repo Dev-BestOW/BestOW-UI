@@ -15,7 +15,7 @@
 - 기준값(2026-11-15): 스타 4 · 포크 0 · 외부 이슈 0(good first issue #31~#34 는 직접 등록) · npm 평일 react 14/일. 방문 통계(Cloudflare Web Analytics)는 11/14 부터 집계 — **일주일 쌓이면 읽히는 문서·유입 경로를 보고 다음 작업을 고른다.**
 - 블로그(astro-blog): 글 3편이 content-queue 에서 예약 발행 대기. 사용자가 11/14(토) 예약 워크플로를 다시 켰다 — 매일 1편, 11/15(일)부터 일~화(사용자가 그대로 두기로 함).
   cron 은 00:00 UTC 지만 실제 실행은 예전부터 약 4시간 늦다(9월 기록 04:00 UTC 전후 = 13시 KST). 11/15 11:49 KST 에 아직 안 돈 것은 이 지연.
-- **SEO·GEO 진행 중:** Task 1~5 끝(소개 사이트 `/components/` 목록 + 한국 키트 13쪽, 머리글·sitemap·llms.txt 연결, JSON-LD, 비교 쪽 `/compare/`). 다음은 Task 6(GEO 측정·문서 정리).
+- **SEO·GEO 끝(2026-11-17, Task 1~6):** 소개 사이트 `/components/`(목록 + 한국 키트 13쪽)·`/compare/`·JSON-LD(리치 결과 경고 0), README 링크를 사이트 쪽으로. 이제는 한 달에 한 번 [`GEO-CHECK.md`](GEO-CHECK.md) 기록(첫 기록 12월 초).
 - Next.js 는 16.4.6(2026-11-17, 보안 공지 5건 해결). 설치된 Next 에 보안 공지가 생기면 Claude 가 `next build` 를 돌릴 때 에이전트 감지로 한 번 멈추고 업그레이드를 권한다(`SecurityFatalError`, 다시 돌리면 통과 — CI 는 해당 없음). 그 출력의 업그레이드 명령은 바로 실행하지 않고 공지를 확인해 따로 올린다.
 
 **세션 시작 체크리스트**
@@ -57,7 +57,8 @@
 - [ ] **bestow-ui.com 마무리**: Cloudflare Web Analytics 에 bestow-ui.com 방문이 잡히는지 확인(안 잡히면 사이트 추가·토큰 교체), (선택) 조직 루트 저장소 `dev-bestow.github.io` 이동 대상·robots.txt 를 새 주소로. 도메인 자동 갱신 유지. (Search Console·네이버 소유확인·sitemap 제출은 2026-11-14 끝남)
 - [ ] 11/19 버전 PR #30 머지(첫 정기 배포).
 - [ ] velog 게시 · 요즘IT 기고 제안 · 발표 지원(CFP 공고 때) · 접근성 커뮤니티 글 — 초안: 알리기 준비물 Artifact https://claude.ai/artifact/LvPgoSsmGKHjLd34FP789u
-- [ ] Context7 등록(AI 도구가 문서를 찾는 경로).
+- [ ] Context7 등록(AI 도구가 문서를 찾는 경로 — 이제 정적 문서 쪽까지 함께 읽힌다).
+- [ ] 12월 초 GEO 첫 기록: `docs/GEO-CHECK.md` 의 질문 5개를 ChatGPT·Perplexity·Gemini 에 넣고 결과·Search Console·Cloudflare AI 유입을 알려 주기(Claude 가 표에 적음).
 - [ ] Figma: 요금제 올릴지(다크 모드·라이브러리 게시·페이지 제한), Community 공개 여부 — `docs/FIGMA.md`.
 - [ ] 스크린리더·기기: ResidentNumberInput NVDA, (가능하면) iOS VoiceOver·센스리더, (선택) Android Chrome 가상 키보드 — `SCREEN-READER-CHECKLIST.md`.
 - [ ] 이 라이브러리로 만든 실제 서비스가 생기면 알려 주기 — README "사용 사례".
@@ -72,7 +73,7 @@
 - [ ] 방문 통계 일주일 뒤 읽히는 문서·유입 경로 정리 → 다음 작업 제안, 29번 ✅.
 
 ### Claude 가 할 일
-- **다음 작업: SEO·GEO [`SEO-GEO-PLAN.md`](SEO-GEO-PLAN.md) Task 6**(GEO 측정·문서 정리). 작업마다 커밋 확인 후 다음.
+- **다음 작업:** 방문 통계 일주일치(11/21 쯤)를 보고 사용자와 고른다. 후보 — 28번 Figma 정리 2건, GEO 첫 기록(12월 초, `GEO-CHECK.md`). 작업마다 커밋 확인 후 다음.
 - **28번 Figma 정리 2건**(MCP 호출 한도가 풀리면): Checkbox `icon` 프레임 12개 흰 배경 지우기, Korean Kit 페이지 변수 연결 감사 — `docs/FIGMA.md`.
 - 28번 다음 컴포넌트(요청 시): Select·RadioGroup·Switch·AgreementGroup·Alert·Modal, 아이콘 컴포넌트(Button 아이콘 자리).
 - **외부 요청이 생기면:** Tag 입력(MultiCombobox 와 칩 공유), Combobox 비동기 검색.
@@ -142,3 +143,4 @@
 | 2026-11-17 | Search Console "리디렉션이 포함된 페이지" 1건 = `http://bestow-ui.com/`(HTTPS 넘겨주기, 의도한 것). sitemap 32개·사이트 안 링크 24개 모두 200 |
 | 2026-11-17 | SEO·GEO Task 5 비교 쪽 `/compare/`: BestOW·Vapor·HANUI·shadcn/ui·MUI 표(칸마다 공식 문서 근거, 확인한 날짜, "찾지 못함" 뜻, 다른 선택지 안내), 데이터 `app/compare/data.ts`, 머리글 `비교`·sitemap·llms.txt·JSON-LD. 다시 확인해 MUI 접근성(WCAG 2.2 A·AA 보고서 초안)·대비(contrastThreshold) 칸을 README 표에서도 고침. E2E 6(axe 라이트·다크·320·390px), 검증 전부 통과(E2E 87+51) |
 | 2026-11-17 | 리치 결과 테스트: 첫 번째는 배포 끝나기 1분 전에 크롤링돼 "없음". 컴포넌트 쪽 재테스트 Breadcrumbs·Articles 유효 2·오류 0, Articles 권장 속성 경고 → `image`(og.png)·`author`(Dev-BestOW 조직)·`datePublished`·`dateModified`(데이터 파일의 날짜 상수, +09:00) 추가. 단위 22·E2E 87+51 |
+| 2026-11-17 | 리치 결과 재테스트: 경고 0(사용자 확인). SEO·GEO Task 6: `docs/GEO-CHECK.md`(질문 5개·Search Console·Cloudflare AI 유입 기록 표), CLAUDE.md 에 `/components/`·`/compare/`·JSON-LD·날짜 상수 규칙, 루트·react·korean-utils README 의 한국 키트 링크를 사이트 쪽으로(react·korean-utils patch changeset). SEO-GEO-PLAN 끝 |
