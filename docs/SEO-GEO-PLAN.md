@@ -248,7 +248,7 @@ AI 가 "한국 서비스용 React UI 라이브러리 추천" 같은 질문에 �
 
 - Search Console 도메인 속성 등록·sitemap 제출(진행 중). 네이버 소유확인·sitemap 제출.
 - **Context7 등록**: Cursor·Claude 가 라이브러리 문서를 찾는 경로라 GEO 효과가 가장 직접적이다. Task 3 뒤에 하면 정적 문서 쪽까지 함께 읽힌다.
-- 블로그 예약 발행 켜기, velog·요즘IT·GeekNews 알리기(준비물 Artifact). AI 는 여러 곳에서 같은 이름을 볼수록 믿는다.
+- velog·요즘IT·GeekNews 알리기(준비물 Artifact). AI 는 여러 곳에서 같은 이름을 볼수록 믿는다.
   글마다 사이트의 컴포넌트·함수 쪽으로 링크한다.
 - 배포 2~4주 뒤 Search Console 에서 `/components/` 쪽의 색인 여부와 검색어를 확인하고, GEO-CHECK 첫 기록을 남긴다.
 

@@ -13,8 +13,6 @@
 - **배포 주기: 격주 목요일**(11/19 → 12/3 → 12/17, SUPPORT.md). 보안·심각한 버그만 바로 patch. 작업을 끝내면 다음 배포일을 함께 알린다.
 - 방향(2026-11-11 결정): 기능보다 **발견 → 신뢰 → 첫 사용** 경로. 새 컴포넌트는 외부 요청이 생길 때까지 미룬다. 사용자 유치 플랜 23~30번은 Claude 몫을 모두 끝냈다(상세는 ROADMAP-HISTORY).
 - 기준값(2026-11-15): 스타 4 · 포크 0 · 외부 이슈 0(good first issue #31~#34 는 직접 등록) · npm 평일 react 14/일. 방문 통계(Cloudflare Web Analytics)는 11/14 부터 집계 — **일주일 쌓이면 읽히는 문서·유입 경로를 보고 다음 작업을 고른다.**
-- 블로그(astro-blog): 글 3편이 content-queue 에서 예약 발행 대기. 사용자가 11/14(토) 예약 워크플로를 다시 켰다 — 매일 1편, 11/15(일)부터 일~화(사용자가 그대로 두기로 함).
-  cron 은 00:00 UTC 지만 실제 실행은 예전부터 약 4시간 늦다(9월 기록 04:00 UTC 전후 = 13시 KST). 11/15 11:49 KST 에 아직 안 돈 것은 이 지연.
 - **SEO·GEO 끝(2026-11-17, Task 1~6):** 소개 사이트 `/components/`(목록 + 한국 키트 13쪽)·`/compare/`·JSON-LD(리치 결과 경고 0), README 링크를 사이트 쪽으로. 이제는 한 달에 한 번 [`GEO-CHECK.md`](GEO-CHECK.md) 기록(첫 기록 12월 초).
 - Next.js 는 16.4.6(2026-11-17, 보안 공지 5건 해결). 설치된 Next 에 보안 공지가 생기면 Claude 가 `next build` 를 돌릴 때 에이전트 감지로 한 번 멈추고 업그레이드를 권한다(`SecurityFatalError`, 다시 돌리면 통과 — CI 는 해당 없음). 그 출력의 업그레이드 명령은 바로 실행하지 않고 공지를 확인해 따로 올린다.
 
@@ -63,7 +61,6 @@
 - [ ] 이 라이브러리로 만든 실제 서비스가 생기면 알려 주기 — README "사용 사례".
 
 ### Claude 가 확인할 것 (push·배포 뒤)
-- [ ] 블로그 예약 발행 3편째(11/17) — 11/15·11/16 은 발행됨(05:0x UTC). `curl -s "https://api.github.com/repos/Dev-BestOW/astro-blog/actions/runs?per_page=3"`
 - [ ] Task 3 push 뒤 배포된 `/components/` 200·sitemap 에 14개 주소.
 - [ ] `npx create-next-app --example …/examples/next-starter` 실제 설치(26번), shadcn-starter StackBlitz 링크(25번).
 - [ ] 11/19 배포 뒤 npm 검색 `사업자등록번호`·`전화번호` 순위 다시 조회(24번).
@@ -111,17 +108,15 @@
 | 2026-11-11 | Dependabot 보안 경고 2건(moderate): glob 13(GHSA-3g3m-2fjr-6pw4, Storybook docgen 플러그인)·minimatch 10(GHSA-g3hv-75wg-m249, typescript-eslint) — 상위 최신판도 옛 버전이라 `pnpm-workspace.yaml` 끝 overrides 로 glob 14·minimatch 11. 개발 도구만이라 changeset 없음. ci.yml react18 job 은 그 블록에 줄만 덧붙이게 |
 | 2026-11-11 | 23번 B 소개 사이트: `apps/site`(Next.js 정적 export, Pages 루트) — 한국 키트 데모·대표색 바꾸기·소개·시작 방법, Storybook 을 /storybook/ 으로 옮기고 옛 `?path=`·iframe.html 주소 넘겨주기, assemble-pages.sh, CI build-site·site E2E 14(변이 2), 문서 링크 /storybook/ 으로. 공개 API 변화 없음(changeset 없음), 스토리·기준 이미지 영향 없음 |
 | 2026-11-11 | 23번 배포 확인 + main CI site E2E 수정: 대표색 SegmentedControl 을 데모에서만 줄바꿈 허용(CI Linux 글꼴로 320px 에서 335px), fixture 가 hydration 과 /storybook/ 도착 중 먼저 오는 것을 기다림(WebKit 은 넘겨주기 전에 goto 가 끝남), Firefox bounce tracker·넘겨주기 중 끊긴 스크립트 경고 무시. 스타 4·포크 0·외부 이슈 0, 버전 PR #30 열림 |
-| 2026-11-13 | 사용자 할 일 완료(Search Console·네이버 sitemap 제출 등), main CI 녹색, 스타 4·포크 0·외부 이슈 0, 버전 PR #30 열림. 24번 글 초안 1편: astro-blog `business-number-checksum.md`(draft) — 몫 항의 역할·검출률(한 자리 100%·이웃 바꿈 89%) 계산으로 확인, 블로그 check 0 errors·build 통과 |
-| 2026-11-13 | 24번 글 초안 2편: astro-blog `sms-otp-autofill-react.md`(draft) — VerificationCodeInput 구조 기반(입력창 하나·one-time-code·WebOTP·자동 제출·만료 알림), Storybook 링크 index.json 으로 확인, 블로그 check 0 errors·build 통과 |
-| 2026-11-13 | 24번 글 초안 3편: astro-blog `agreement-checkbox-a11y.md`(draft) — AgreementGroup 구조 기반, KWCAG 번호(5.4.1·6.4.3)는 kwcag.ts 로 확인, "스크린리더로 찾았다" 는 기록과 다른 서술은 고침. 블로그 check 0 errors·build 통과 |
-| 2026-11-13 | 24번 글 3편 astro-blog content-queue 예약(001~003). 25번: `examples/shadcn-starter` + Guides MDX(shadcn 변수 → overrides, 대비 모자란 변수는 잇지 않음) + README·llms.txt 링크. 검증 전부 통과(lint·format·build·size·typecheck·test 615·stories 666·build 3종·E2E 87+24) |
+| 2026-11-13 | 사용자 할 일 완료(Search Console·네이버 sitemap 제출 등), main CI 녹색, 스타 4·포크 0·외부 이슈 0, 버전 PR #30 열림. 24번 홍보 글은 블로그 저장소에서 관리 |
+| 2026-11-13 | 25번: `examples/shadcn-starter` + Guides MDX(shadcn 변수 → overrides, 대비 모자란 변수는 잇지 않음) + README·llms.txt 링크. 검증 전부 통과(lint·format·build·size·typecheck·test 615·stories 666·build 3종·E2E 87+24) |
 | 2026-11-14 | 26번 Next.js 템플릿 `examples/next-starter`(3단계 가입·로그인·내 정보, react-hook-form + zod, 스키마를 서버 액션과 공유, 단계마다 폼) + README·Patterns·llms.txt 연결. 브라우저 흐름 16개·axe 라이트·다크 0 |
 | 2026-11-14 | 27번 AI 코딩 도구 규칙 파일: `docs/ai/bestow-ui.md` + 빌드 때 Pages `/ai/`(md·Cursor mdc)로, 규칙 속 이름을 export 와 대조(변이 확인), README·npm README·llms.txt 안내 |
 | 2026-11-14 | 28번 Figma 1단계: 새 파일 BestOW UI Library 에 tokens → 변수 133·글자 스타일 9·그림자 6·Foundations 견본, 생성 스크립트 `scripts/generate-figma-tokens.mjs`·`docs/FIGMA.md`. Starter 요금제라 다크 모드·Code Connect 불가 |
 | 2026-11-14 | 28번 Figma 2단계: 컴포넌트 세트 Button·TextField·Checkbox·Badge·VerificationCodeInput + 한국 입력 3(TextField 인스턴스), 컴포넌트 글자 스타일 4(생성 스크립트에도). Starter 페이지 3개·MCP 호출 한도로 정리 2건 남음 |
 | 2026-11-14 | 기준값: 스타 4 · 포크 0 · 이슈 열림 0/닫힘 0 · Discussions ?(GITHUB_TOKEN 없음) · npm 평일 중앙값(최근 28일, 배포일·다음날 제외) react 12/일(12일) · korean-utils 5/일(14일) · tokens 5/일(15일) · icons 4/일(17일) — 같은 기간 react 합계 2,001(대부분 배포·CI) |
 | 2026-11-14 | 29번 측정: `scripts/stats.mjs`(기준값 한 줄), Cloudflare Web Analytics(사용자 결정) — 배포 빌드에만 토큰으로 beacon, site E2E 로 테스트 빌드에 없는지 확인, SECURITY.md 공개. 토큰 등록은 사용자 |
-| 2026-11-14 | 30번: 배포 주기 격주 목요일(SUPPORT.md·CLAUDE.md), 알리기 준비물 Artifact(velog·요즘IT·발표 제안서·커뮤니티), 블로그 예약 발행 워크플로 9/13 이후 멈춤 발견 |
+| 2026-11-14 | 30번: 배포 주기 격주 목요일(SUPPORT.md·CLAUDE.md), 알리기 준비물 Artifact(velog·요즘IT·발표 제안서·커뮤니티) |
 | 2026-11-14 | 16번: CONTRIBUTING "처음 기여하기" + README 링크, good first issue 초안 4개(커버리지로 찾은 실제 빈 곳 — presets 분기 2·en 2·Tag 14, vite-starter 영어 전환) |
 | 2026-11-14 | 14번: Guides "TanStack Table 과 함께 쓰기" — 예시 스토리(정렬·검색·페이지·선택·결과 없음, play 테스트·변이 확인)와 문서(연결 표·접근성·서버 모드). 새 스토리 1개 시각 회귀 기준 이미지 생성 필요(main push 때 자동) |
 | 2026-11-14 | 문서 정리: STABILIZATION 삭제(요약은 HISTORY), 파일럿·설계 기록 docs/archive, ROADMAP 503 → 약 120줄(옛 계획 절 403줄·11-10 까지 진행 기록 52줄은 HISTORY 에 그대로 보관). 미완료 항목 모두 "남은 일" 로, 깨진 링크 0 |
@@ -132,9 +127,8 @@
 | 2026-11-15 | 기준값: 스타 4 · 포크 0 · 이슈 열림 4/닫힘 0(good first issue #31~#34 등록됨) · npm 평일 중앙값 react 14/일 · korean-utils 6/일 · tokens 5/일 · icons 6/일 |
 | 2026-11-15 | SEO·GEO Task 1·2: 소개 사이트 `/components/<slug>/` 한국 키트 13쪽(정적 HTML) — 글은 `kit.ts`, props·키보드·스크린리더·선택 기준은 빌드 때 소스(`source.ts` — react 소스·componentA11y·choosing, 못 찾으면 빌드 실패)에서. 데모 13(날짜는 오늘 고정, 주소는 가짜 공급자), site 단위 테스트(변이 확인)·E2E 18(5회 반복), 코드 예시 tsc 확인, Storybook 링크 index.json 대조. `publicTypes` 를 `scripts/lib/public-types.mjs` 로 |
 | 2026-11-15 | CI Cross-browser (firefox) 실패: site E2E 주민번호 붙여넣기 — `new ClipboardEvent('paste', { clipboardData })` 가 Firefox 에서 빈 값. 이벤트에 `clipboardData` 를 defineProperty 로 붙이고 앞칸에 직접 보내게(Chromium·WebKit 5회 반복, 붙여넣기 처리 끈 변이로 실패 확인). Firefox 통과는 push 뒤 CI 로 |
-| 2026-11-15 | 블로그 예약 발행 점검: 워크플로 active(11/14 켬)·큐 3편 그대로, 오전에 안 돈 것은 GitHub 예약 실행 지연(예전 실행도 약 4시간 늦음). 사용자가 일요일 시작 그대로 두기로 |
-| 2026-11-15 | 확인: main CI 전부 녹색(Firefox 붙여넣기 E2E 수정 통과), 배포된 `/components/` 쪽 200·canonical 새 주소. (블로그 astro-blog 에 AdSense 준비·게시자 ID 등록 — 이 저장소와 무관, 심사 대기) |
-| 2026-11-17 | 기준값: 스타 4 · 포크 0 · 이슈 열림 4/닫힘 0 · npm 평일 중앙값 react 13/일 · korean-utils 6/일 · tokens 5/일 · icons 5/일. main CI 녹색, 버전 PR #30 열림, `/ai/bestow-ui.md`·`.mdc` 200 확인, 블로그 11/15·11/16 발행 |
+| 2026-11-15 | 확인: main CI 전부 녹색(Firefox 붙여넣기 E2E 수정 통과), 배포된 `/components/` 쪽 200·canonical 새 주소. |
+| 2026-11-17 | 기준값: 스타 4 · 포크 0 · 이슈 열림 4/닫힘 0 · npm 평일 중앙값 react 13/일 · korean-utils 6/일 · tokens 5/일 · icons 5/일. main CI 녹색, 버전 PR #30 열림, `/ai/bestow-ui.md`·`.mdc` 200 확인 |
 | 2026-11-17 | SEO·GEO Task 3: 소개 사이트 `/components/` 목록 쪽(13쪽 링크·쪽 메타), 머리글 `컴포넌트`, 컴포넌트 쪽 이동 경로 가운데 항목 링크, 첫 화면·함수 목록·함수 쪽의 컴포넌트 링크를 사이트 쪽으로(함수 쪽엔 Storybook 링크도), sitemap 14개, llms.txt 한 줄. guides `component.slug` + 단위 테스트(변이 확인), E2E 87+45 |
 | 2026-11-17 | Next.js 16.4.2 → 16.4.6(GHSA-pc58-hwjq-p385 등 moderate 5건, 16.4.5 에서 고침): site·playground·next-starter 범위 `^16.4.6`(하한을 올려 옛 버전으로 내려가지 않게), lockfile 은 next·@next/* 만. next-starter build, 검증 전부 통과(test 615·stories 670·E2E 87+45). 앱 전용이라 changeset 없음 |
 | 2026-11-17 | SEO·GEO Task 4 JSON-LD: `app/structured-data.tsx` — 첫 화면 SoftwareSourceCode, 함수 쪽 10·컴포넌트 쪽 13 에 TechArticle + BreadcrumbList(화면 Breadcrumb 과 같은 `Crumb[]` 에서), `<` → \u003c 직렬화. 단위 테스트 5(변이 확인), E2E 3개 spec 에 단언(`fixtures.jsonLd`), 검증 전부 통과. 리치 결과 테스트는 배포 뒤 |
@@ -146,4 +140,4 @@
 | 2026-11-17 | Context7 저장소 설정 적용(사용자 Switch·Refresh): 조각 928 → 434, 출처 16개 파일 모두 사용자 문서(README 들·Storybook MDX·MIGRATION·CONTRIBUTING·llms.txt), 내부 문서 0, 규칙 12개 모두 "LIBRARY RULES" 로 나감, 영어 설명 반영. 확인: `curl -s "https://context7.com/api/v1/dev-bestow/bestow-ui?type=txt&tokens=50000" \| grep '^Source:'` |
 | 2026-11-17 | Context7 인증(사용자 신청, 자동 심사) 통과: `verified: true`·trustScore 7.5(스타 4 라 자동 인증은 안 됐고 양식으로 신청). 설정은 이제 `context7.json` 으로만 바뀜(관리 화면은 읽기 전용, 버전 감지만 화면에서) |
 | 2026-11-17 | 네이버 URL 검사 경고(제목 40자·설명 80자 초과) — 29쪽 중 26쪽이 넘음. 화면 h1·머리말은 두고 메타만: `seo.ts` `pageTitle`(사이트 이름은 40자 안에 들 때만), kit.ts `metaDescription`(summary 를 줄인 것, 대조함), 첫 화면·목록·비교 설명 줄임, h1 이 40자 넘던 카드번호·기간 선택 제목 줄임. landing E2E 가 sitemap 의 모든 쪽 + 404 를 검사(변이 확인) |
-| 2026-11-17 | 사용자: 네이버 URL 검사 재확인(길이 경고 해결), 새 쪽 수집·색인 요청(네이버 웹 페이지 수집·Search Console URL 검사 — `/components/`·`/compare/`·전화·사업자번호 쪽), 블로그 jiwon-seok.com RSS(`/rss.xml`) 네이버 제출. 다음 측정은 12월 초 GEO-CHECK 첫 기록 |
+| 2026-11-17 | 사용자: 네이버 URL 검사 재확인(길이 경고 해결), 새 쪽 수집·색인 요청(네이버 웹 페이지 수집·Search Console URL 검사 — `/components/`·`/compare/`·전화·사업자번호 쪽). 다음 측정은 12월 초 GEO-CHECK 첫 기록 |
