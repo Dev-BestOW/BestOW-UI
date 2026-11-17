@@ -85,6 +85,7 @@
 > **Vapor 도 vanilla-extract·CSS 레이어라 "런타임 CSS 0"·"레이어" 는 Vapor 대비 차별점이 아니다** — 차별점은 한국 서비스 입력·한국어 기본 문구·KWCAG 항목별 근거·대표색 하나 브랜드.
 > HANUI: GitHub README(KRDS 기반 공공 웹, Radix + Tailwind, 코드 복사 CLI, "KWCAG 2.2 / WCAG 2.1 AA", 55+ 컴포넌트), npm `@hanui/react` 0.3.1(2026-03, MIT).
 > 둘 다 한국 서비스 입력(약관 동의·인증번호·전화·사업자번호·금액·주소)은 문서에서 찾지 못했다.
+> 2026-11-17(소개 사이트 `/compare/` 를 만들며 다시 확인): MUI 접근성 문서에 "WCAG 2.2 A·AA" 대응 보고서(초안, 12개 컴포넌트, 자체 평가)가 생겼고, palette 의 `contrastThreshold`(기본 3, 4.5 권장 안내)로 글자색을 고른다 → README 표의 MUI 접근성·대비 칸을 고침. Vapor `@vapor-ui/core` 1.7.1(Base UI·vanilla-extract 그대로), HANUI·shadcn/ui 는 그대로. 비교 표 데이터는 `apps/site/app/compare/data.ts`(README 와 함께 고친다).
 
 | | BestOW UI | 글로벌 DS (MUI·Chakra·Mantine 등) | shadcn/ui | 한국 회사 DS |
 |---|---|---|---|---|

@@ -15,7 +15,7 @@
 - 기준값(2026-11-15): 스타 4 · 포크 0 · 외부 이슈 0(good first issue #31~#34 는 직접 등록) · npm 평일 react 14/일. 방문 통계(Cloudflare Web Analytics)는 11/14 부터 집계 — **일주일 쌓이면 읽히는 문서·유입 경로를 보고 다음 작업을 고른다.**
 - 블로그(astro-blog): 글 3편이 content-queue 에서 예약 발행 대기. 사용자가 11/14(토) 예약 워크플로를 다시 켰다 — 매일 1편, 11/15(일)부터 일~화(사용자가 그대로 두기로 함).
   cron 은 00:00 UTC 지만 실제 실행은 예전부터 약 4시간 늦다(9월 기록 04:00 UTC 전후 = 13시 KST). 11/15 11:49 KST 에 아직 안 돈 것은 이 지연.
-- **SEO·GEO 진행 중:** Task 1~4 끝(소개 사이트 `/components/` 목록 + 한국 키트 13쪽, 머리글·sitemap·llms.txt 연결, JSON-LD). 다음은 Task 5(비교 쪽 `/compare/`).
+- **SEO·GEO 진행 중:** Task 1~5 끝(소개 사이트 `/components/` 목록 + 한국 키트 13쪽, 머리글·sitemap·llms.txt 연결, JSON-LD, 비교 쪽 `/compare/`). 다음은 Task 6(GEO 측정·문서 정리).
 - Next.js 는 16.4.6(2026-11-17, 보안 공지 5건 해결). 설치된 Next 에 보안 공지가 생기면 Claude 가 `next build` 를 돌릴 때 에이전트 감지로 한 번 멈추고 업그레이드를 권한다(`SecurityFatalError`, 다시 돌리면 통과 — CI 는 해당 없음). 그 출력의 업그레이드 명령은 바로 실행하지 않고 공지를 확인해 따로 올린다.
 
 **세션 시작 체크리스트**
@@ -72,7 +72,7 @@
 - [ ] 방문 통계 일주일 뒤 읽히는 문서·유입 경로 정리 → 다음 작업 제안, 29번 ✅.
 
 ### Claude 가 할 일
-- **다음 작업: SEO·GEO [`SEO-GEO-PLAN.md`](SEO-GEO-PLAN.md) Task 5**(비교 쪽 `/compare/`). 작업마다 커밋 확인 후 다음.
+- **다음 작업: SEO·GEO [`SEO-GEO-PLAN.md`](SEO-GEO-PLAN.md) Task 6**(GEO 측정·문서 정리). 작업마다 커밋 확인 후 다음.
 - **28번 Figma 정리 2건**(MCP 호출 한도가 풀리면): Checkbox `icon` 프레임 12개 흰 배경 지우기, Korean Kit 페이지 변수 연결 감사 — `docs/FIGMA.md`.
 - 28번 다음 컴포넌트(요청 시): Select·RadioGroup·Switch·AgreementGroup·Alert·Modal, 아이콘 컴포넌트(Button 아이콘 자리).
 - **외부 요청이 생기면:** Tag 입력(MultiCombobox 와 칩 공유), Combobox 비동기 검색.
@@ -139,3 +139,5 @@
 | 2026-11-17 | SEO·GEO Task 3: 소개 사이트 `/components/` 목록 쪽(13쪽 링크·쪽 메타), 머리글 `컴포넌트`, 컴포넌트 쪽 이동 경로 가운데 항목 링크, 첫 화면·함수 목록·함수 쪽의 컴포넌트 링크를 사이트 쪽으로(함수 쪽엔 Storybook 링크도), sitemap 14개, llms.txt 한 줄. guides `component.slug` + 단위 테스트(변이 확인), E2E 87+45 |
 | 2026-11-17 | Next.js 16.4.2 → 16.4.6(GHSA-pc58-hwjq-p385 등 moderate 5건, 16.4.5 에서 고침): site·playground·next-starter 범위 `^16.4.6`(하한을 올려 옛 버전으로 내려가지 않게), lockfile 은 next·@next/* 만. next-starter build, 검증 전부 통과(test 615·stories 670·E2E 87+45). 앱 전용이라 changeset 없음 |
 | 2026-11-17 | SEO·GEO Task 4 JSON-LD: `app/structured-data.tsx` — 첫 화면 SoftwareSourceCode, 함수 쪽 10·컴포넌트 쪽 13 에 TechArticle + BreadcrumbList(화면 Breadcrumb 과 같은 `Crumb[]` 에서), `<` → \u003c 직렬화. 단위 테스트 5(변이 확인), E2E 3개 spec 에 단언(`fixtures.jsonLd`), 검증 전부 통과. 리치 결과 테스트는 배포 뒤 |
+| 2026-11-17 | Search Console "리디렉션이 포함된 페이지" 1건 = `http://bestow-ui.com/`(HTTPS 넘겨주기, 의도한 것). sitemap 32개·사이트 안 링크 24개 모두 200 |
+| 2026-11-17 | SEO·GEO Task 5 비교 쪽 `/compare/`: BestOW·Vapor·HANUI·shadcn/ui·MUI 표(칸마다 공식 문서 근거, 확인한 날짜, "찾지 못함" 뜻, 다른 선택지 안내), 데이터 `app/compare/data.ts`, 머리글 `비교`·sitemap·llms.txt·JSON-LD. 다시 확인해 MUI 접근성(WCAG 2.2 A·AA 보고서 초안)·대비(contrastThreshold) 칸을 README 표에서도 고침. E2E 6(axe 라이트·다크·320·390px), 검증 전부 통과(E2E 87+51) |

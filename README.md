@@ -39,10 +39,10 @@ AI 코딩 도구용 [llms.txt](https://bestow-ui.com/llms.txt)
 | 기반·스타일 | Radix + vanilla-extract, CSS 파일 하나 | Base UI + vanilla-extract | Radix + Tailwind | Tailwind 필요 | Emotion (기본) |
 | 한국 서비스 입력 (약관 동의·인증번호·전화·사업자번호·금액·주소) | **기본 제공** | — | — | 직접 구현 | 직접 구현 |
 | 기본 문구 | **한국어** (`en` 묶음 포함) | — | — | 복사한 코드에서 직접 수정 | 영어, `koKR` 로캘 제공 |
-| 접근성 근거 | **KWCAG 2.2 33개 항목별 대응 문서** + 모든 스토리 axe CI(3개 브라우저·라이트·다크) + 스크린리더 점검 기록 | WCAG 2.2 AA 준수 (원칙 문서) | KWCAG 2.2 / WCAG 2.1 AA (README) | — | — |
-| 브랜드색을 넣었을 때 대비 | 4.5:1 자동 보장·테스트 | 대비를 맞춘 팔레트 생성(Color Generator) | — | 직접 확인 | 직접 확인 |
+| 접근성 근거 | **KWCAG 2.2 33개 항목별 대응 문서** + 모든 스토리 axe CI(3개 브라우저·라이트·다크) + 스크린리더 점검 기록 | WCAG 2.2 AA 준수 (원칙 문서) | KWCAG 2.2 / WCAG 2.1 AA (README) | — | WCAG 2.2 A·AA 대응 보고서 (초안·일부 컴포넌트·자체 평가) |
+| 브랜드색을 넣었을 때 대비 | 4.5:1 자동 보장·테스트 | 대비를 맞춘 팔레트 생성(Color Generator) | — | 직접 확인 | 글자색 자동 선택 (기본 3:1, `contrastThreshold` 로 4.5:1) |
 
-> 2026-11-04 각 공식 문서·README·npm 정보 기준(— 는 찾지 못함). 다른 라이브러리도 각자 접근성에 힘쓰고 있어요 — 이 표는 "한국 민간 서비스를 만들 때" 기준의 차이예요.
+> 2026-11-17 각 공식 문서·README·npm 정보 기준(— 는 찾지 못함). 칸마다 근거 링크를 단 표는 [라이브러리 비교 쪽](https://bestow-ui.com/compare/)에 있어요. 다른 라이브러리도 각자 접근성에 힘쓰고 있어요 — 이 표는 "한국 민간 서비스를 만들 때" 기준의 차이예요.
 > 공공 웹사이트라 KRDS 를 따라야 하면 HANUI, 구름처럼 큰 조직의 디자인 시스템이 필요하면 Vapor UI 도 살펴보세요.
 > 틀린 내용이 있으면 [이슈](https://github.com/Dev-BestOW/BestOW-UI/issues)로 알려 주세요.
 

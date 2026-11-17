@@ -450,3 +450,32 @@ body {
   overflow-wrap: anywhere;
   font-weight: var(--bestow-font-weight-semibold);
 }
+
+/* 비교 표(/compare/) — 다섯 라이브러리가 넓은 화면에서 스크롤 없이 보이게 쪽을 넓힌다. 근거 링크는 글 아래 줄에 작게 */
+.doc-wide {
+  max-width: 64rem;
+}
+
+.compare-row {
+  min-width: 7rem;
+  word-break: keep-all;
+}
+
+.compare-note {
+  margin-top: var(--bestow-space-3);
+}
+
+.compare-cell {
+  min-width: 9rem;
+  vertical-align: top;
+}
+
+.compare-source {
+  display: block;
+  margin-top: var(--bestow-space-1);
+  font-size: var(--bestow-font-size-xs);
+}
+
+.compare-missing {
+  color: var(--bestow-color-fg-muted);
+}

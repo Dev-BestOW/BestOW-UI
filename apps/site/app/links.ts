@@ -20,6 +20,7 @@ export const links = {
   playground: `${basePath}/playground/`,
   koreanUtils: `${basePath}/korean-utils/`,
   components: `${basePath}/components/`,
+  compare: `${basePath}/compare/`,
   koreanUtilsNpm: 'https://www.npmjs.com/package/@bestow-ui/korean-utils',
   llms: `${basePath}/llms.txt`,
   github: 'https://github.com/Dev-BestOW/BestOW-UI',

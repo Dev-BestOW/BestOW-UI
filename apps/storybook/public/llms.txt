@@ -15,6 +15,7 @@
 - [@bestow-ui/korean-utils README](https://raw.githubusercontent.com/Dev-BestOW/BestOW-UI/main/packages/korean-utils/README.md): 전화번호·사업자등록번호·주민등록번호·금액 한글 읽기·한국어 날짜·마스킹(이름·전화·주민번호·카드) 함수
 - [한국 입력 컴포넌트 문서(정적 HTML)](https://bestow-ui.com/components/): 전화번호·사업자등록번호·주민등록번호·카드·계좌·법인번호·금액 입력, 인증번호, 약관 전체 동의, 주소, DatePicker·DateRangePicker·Calendar 13종 — 쪽마다 푸는 문제·코드 예시·키보드·스크린리더 동작·props 타입 정의(소스에서 생성)
 - [@bestow-ui/korean-utils 함수별 문서](https://bestow-ui.com/korean-utils/): 함수마다 푸는 문제·코드 예시·알아 둘 점·같은 동작의 React 입력 컴포넌트, 은행 코드 목록
+- [한국 서비스용 React UI 라이브러리 비교](https://bestow-ui.com/compare/): BestOW UI·Vapor UI·HANUI·shadcn/ui·MUI — 한국 서비스 입력·기본 문구·접근성 근거·브랜드색 대비, 칸마다 공식 문서 근거와 확인한 날짜. 공공 웹(KRDS)이면 HANUI
 - [저장소 README](https://raw.githubusercontent.com/Dev-BestOW/BestOW-UI/main/README.md): Next.js App Router 에서 5분 만에 시작하기, 다른 라이브러리와 비교
 
 ## 예제
