@@ -15,7 +15,7 @@
 - 기준값(2026-11-15): 스타 4 · 포크 0 · 외부 이슈 0(good first issue #31~#34 는 직접 등록) · npm 평일 react 14/일. 방문 통계(Cloudflare Web Analytics)는 11/14 부터 집계 — **일주일 쌓이면 읽히는 문서·유입 경로를 보고 다음 작업을 고른다.**
 - 블로그(astro-blog): 글 3편이 content-queue 에서 예약 발행 대기. 사용자가 11/14(토) 예약 워크플로를 다시 켰다 — 매일 1편, 11/15(일)부터 일~화(사용자가 그대로 두기로 함).
   cron 은 00:00 UTC 지만 실제 실행은 예전부터 약 4시간 늦다(9월 기록 04:00 UTC 전후 = 13시 KST). 11/15 11:49 KST 에 아직 안 돈 것은 이 지연.
-- **SEO·GEO 진행 중:** Task 1~3 끝(소개 사이트 `/components/` 목록 + 한국 키트 13쪽, 머리글·sitemap·llms.txt 연결). 다음은 Task 4(JSON-LD).
+- **SEO·GEO 진행 중:** Task 1~4 끝(소개 사이트 `/components/` 목록 + 한국 키트 13쪽, 머리글·sitemap·llms.txt 연결, JSON-LD). 다음은 Task 5(비교 쪽 `/compare/`).
 - Next.js 는 16.4.6(2026-11-17, 보안 공지 5건 해결). 설치된 Next 에 보안 공지가 생기면 Claude 가 `next build` 를 돌릴 때 에이전트 감지로 한 번 멈추고 업그레이드를 권한다(`SecurityFatalError`, 다시 돌리면 통과 — CI 는 해당 없음). 그 출력의 업그레이드 명령은 바로 실행하지 않고 공지를 확인해 따로 올린다.
 
 **세션 시작 체크리스트**
@@ -65,13 +65,14 @@
 ### Claude 가 확인할 것 (push·배포 뒤)
 - [ ] 블로그 예약 발행 3편째(11/17) — 11/15·11/16 은 발행됨(05:0x UTC). `curl -s "https://api.github.com/repos/Dev-BestOW/astro-blog/actions/runs?per_page=3"`
 - [ ] Task 3 push 뒤 배포된 `/components/` 200·sitemap 에 14개 주소.
+- [ ] Task 4 push 뒤 Google 리치 결과 테스트(https://search.google.com/test/rich-results)에 첫 화면·컴포넌트 쪽·함수 쪽 하나씩 — 오류 0(사용자가 하거나 결과 화면을 받아 확인, SEO-GEO-PLAN 4-4).
 - [ ] `npx create-next-app --example …/examples/next-starter` 실제 설치(26번), shadcn-starter StackBlitz 링크(25번).
 - [ ] 11/19 배포 뒤 npm 검색 `사업자등록번호`·`전화번호` 순위 다시 조회(24번).
 - [ ] TanStack Table 가이드 스토리의 시각 회귀 기준 이미지가 main push 때 자동 생성됐는지.
 - [ ] 방문 통계 일주일 뒤 읽히는 문서·유입 경로 정리 → 다음 작업 제안, 29번 ✅.
 
 ### Claude 가 할 일
-- **다음 작업: SEO·GEO [`SEO-GEO-PLAN.md`](SEO-GEO-PLAN.md) Task 4**(JSON-LD). 작업마다 커밋 확인 후 다음.
+- **다음 작업: SEO·GEO [`SEO-GEO-PLAN.md`](SEO-GEO-PLAN.md) Task 5**(비교 쪽 `/compare/`). 작업마다 커밋 확인 후 다음.
 - **28번 Figma 정리 2건**(MCP 호출 한도가 풀리면): Checkbox `icon` 프레임 12개 흰 배경 지우기, Korean Kit 페이지 변수 연결 감사 — `docs/FIGMA.md`.
 - 28번 다음 컴포넌트(요청 시): Select·RadioGroup·Switch·AgreementGroup·Alert·Modal, 아이콘 컴포넌트(Button 아이콘 자리).
 - **외부 요청이 생기면:** Tag 입력(MultiCombobox 와 칩 공유), Combobox 비동기 검색.
@@ -137,3 +138,4 @@
 | 2026-11-17 | 기준값: 스타 4 · 포크 0 · 이슈 열림 4/닫힘 0 · npm 평일 중앙값 react 13/일 · korean-utils 6/일 · tokens 5/일 · icons 5/일. main CI 녹색, 버전 PR #30 열림, `/ai/bestow-ui.md`·`.mdc` 200 확인, 블로그 11/15·11/16 발행 |
 | 2026-11-17 | SEO·GEO Task 3: 소개 사이트 `/components/` 목록 쪽(13쪽 링크·쪽 메타), 머리글 `컴포넌트`, 컴포넌트 쪽 이동 경로 가운데 항목 링크, 첫 화면·함수 목록·함수 쪽의 컴포넌트 링크를 사이트 쪽으로(함수 쪽엔 Storybook 링크도), sitemap 14개, llms.txt 한 줄. guides `component.slug` + 단위 테스트(변이 확인), E2E 87+45 |
 | 2026-11-17 | Next.js 16.4.2 → 16.4.6(GHSA-pc58-hwjq-p385 등 moderate 5건, 16.4.5 에서 고침): site·playground·next-starter 범위 `^16.4.6`(하한을 올려 옛 버전으로 내려가지 않게), lockfile 은 next·@next/* 만. next-starter build, 검증 전부 통과(test 615·stories 670·E2E 87+45). 앱 전용이라 changeset 없음 |
+| 2026-11-17 | SEO·GEO Task 4 JSON-LD: `app/structured-data.tsx` — 첫 화면 SoftwareSourceCode, 함수 쪽 10·컴포넌트 쪽 13 에 TechArticle + BreadcrumbList(화면 Breadcrumb 과 같은 `Crumb[]` 에서), `<` → \u003c 직렬화. 단위 테스트 5(변이 확인), E2E 3개 spec 에 단언(`fixtures.jsonLd`), 검증 전부 통과. 리치 결과 테스트는 배포 뒤 |

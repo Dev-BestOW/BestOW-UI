@@ -203,11 +203,11 @@
   - `url: siteOrigin + basePath + '/'`
 - `function docArticle(input: { path: string; title: string; description: string; crumbs: { name: string; path: string }[] }): object[]`: 문서 쪽용. `TechArticle`(headline·description·url·inLanguage `ko`)과 `BreadcrumbList` 두 개를 돌려준다.
 
-- [ ] **4-1: 실패하는 단위 테스트**: `<` 가 든 글자가 `<` 로 나가고 `JSON.parse` 하면 원래 글자와 같은지, `BreadcrumbList` 의 `position` 이 1부터 이어지는지.
-- [ ] **4-2: 실패하는 E2E**: 각 쪽의 `script[type="application/ld+json"]` 를 `JSON.parse` 해서 `@type` 과 `url`(= canonical)을 확인한다.
-- [ ] **4-3: 구현** → 단위·E2E 통과 확인.
+- [x] **4-1: 실패하는 단위 테스트**: `<` 가 든 글자가 `<` 로 나가고 `JSON.parse` 하면 원래 글자와 같은지, `BreadcrumbList` 의 `position` 이 1부터 이어지는지.
+- [x] **4-2: 실패하는 E2E**: 각 쪽의 `script[type="application/ld+json"]` 를 `JSON.parse` 해서 `@type` 과 `url`(= canonical)을 확인한다.
+- [x] **4-3: 구현** → 단위·E2E 통과 확인. (이동 경로는 `Crumb[]` 하나로 화면 Breadcrumb(`breadcrumbItems`)과 JSON-LD 를 함께 만든다. 목록 쪽 2개는 글이 아니라 넣지 않았다)
 - [ ] **4-4: 배포 뒤 확인**(push 후): Google 리치 결과 테스트(https://search.google.com/test/rich-results)에 첫 화면과 한 쪽씩 넣어 오류 0 인지 본다. 사용자가 하거나, 결과 화면을 받아 Claude 가 확인한다.
-- [ ] **4-5: 전체 검증 → 커밋 요청**: `✨ 소개 사이트에 구조화 데이터(JSON-LD) 추가`
+- [x] **4-5: 전체 검증 → 커밋 요청**: `✨ 소개 사이트에 구조화 데이터(JSON-LD) 추가`
 
 ### Task 5: 비교 쪽 `/compare/`
 

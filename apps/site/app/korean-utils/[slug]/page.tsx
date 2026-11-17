@@ -12,8 +12,9 @@ import {
 } from '@bestow-ui/react';
 import { notFound } from 'next/navigation';
 import { CopyCommand } from '../../CopyCommand';
-import { basePath, componentHref, koreanUtilsHref, links, storybookHref } from '../../links';
+import { componentHref, koreanUtilsHref, links, storybookHref } from '../../links';
 import { pageMetadata } from '../../seo';
+import { breadcrumbItems, docArticle, JsonLd } from '../../structured-data';
 import { findGuide, guides } from '../guides';
 import { Try } from '../Try';
 
@@ -39,16 +40,19 @@ export default async function Page({ params }: Props) {
   const guide = findGuide((await params).slug);
   if (!guide) notFound();
   const others = guides.filter((g) => g.slug !== guide.slug);
+  const path = `/korean-utils/${guide.slug}/`;
+  const crumbs = [
+    { name: '홈', path: '/' },
+    { name: '서식·검증 함수', path: '/korean-utils/' },
+    { name: guide.title, path },
+  ];
 
   return (
     <article className="doc site-inner">
-      <Breadcrumb
-        items={[
-          { label: '홈', href: `${basePath}/` },
-          { label: '서식·검증 함수', href: links.koreanUtils },
-          { label: guide.title },
-        ]}
-      />
+      {docArticle({ path, title: guide.title, description: guide.summary, crumbs }).map((data) => (
+        <JsonLd key={data['@type']} data={data} />
+      ))}
+      <Breadcrumb items={breadcrumbItems(crumbs)} />
       <header className="doc-header">
         <Typography as="h1" variant="h1">
           {guide.title}

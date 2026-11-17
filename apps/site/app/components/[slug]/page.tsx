@@ -1,8 +1,9 @@
 import { Breadcrumb, DescriptionList, Link, Typography } from '@bestow-ui/react';
 import { notFound } from 'next/navigation';
 import { CopyCommand } from '../../CopyCommand';
-import { basePath, koreanUtilsHref, links, storybookHref } from '../../links';
+import { koreanUtilsHref, storybookHref } from '../../links';
 import { pageMetadata } from '../../seo';
+import { breadcrumbItems, docArticle, JsonLd } from '../../structured-data';
 import { Demo } from '../Demo';
 import { findKitPage, kitPages } from '../kit';
 import { choosingFor, componentA11yFor, componentProps } from '../source';
@@ -47,16 +48,19 @@ export default async function Page({ params }: Props) {
   const props = componentProps(page.name);
   const a11y = componentA11yFor(page.name);
   const choice = choosingFor(page.name);
+  const path = `/components/${page.slug}/`;
+  const crumbs = [
+    { name: '홈', path: '/' },
+    { name: '한국 입력 컴포넌트', path: '/components/' },
+    { name: page.name, path },
+  ];
 
   return (
     <article className="doc site-inner">
-      <Breadcrumb
-        items={[
-          { label: '홈', href: `${basePath}/` },
-          { label: '한국 입력 컴포넌트', href: links.components },
-          { label: page.name },
-        ]}
-      />
+      {docArticle({ path, title: page.title, description: page.summary, crumbs }).map((data) => (
+        <JsonLd key={data['@type']} data={data} />
+      ))}
+      <Breadcrumb items={breadcrumbItems(crumbs)} />
       <header className="doc-header">
         <Typography as="h1" variant="h1">
           {page.title}

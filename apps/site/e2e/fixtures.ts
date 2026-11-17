@@ -88,3 +88,9 @@ export async function axeViolations(page: Page): Promise<string[]> {
     return result.violations.map((v) => `${v.id}: ${v.nodes.map((n) => n.target.join(' ')).join(', ')}`);
   });
 }
+
+/** 쪽의 JSON-LD(구조화 데이터)를 모두 읽는다 — script 하나에 객체 하나 */
+export async function jsonLd(page: Page): Promise<Record<string, unknown>[]> {
+  const texts = await page.locator('script[type="application/ld+json"]').allTextContents();
+  return texts.map((text) => JSON.parse(text) as Record<string, unknown>);
+}
