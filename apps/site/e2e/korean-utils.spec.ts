@@ -17,6 +17,11 @@ test('목록: 모든 함수 문서로 가는 링크', async ({ page }) => {
   await expect(
     page.getByRole('navigation', { name: '사이트' }).getByRole('link', { name: '서식 함수' }),
   ).toHaveAttribute('href', LIST);
+  // 입력 칸이 필요하면 컴포넌트 문서 목록으로
+  await expect(page.getByRole('link', { name: '한국 입력 컴포넌트 문서 보기' })).toHaveAttribute(
+    'href',
+    '/components/',
+  );
 });
 
 test('함수 문서: 제목·설명·canonical·미리보기 태그', async ({ page }) => {
@@ -30,10 +35,14 @@ test('함수 문서: 제목·설명·canonical·미리보기 태그', async ({ p
     await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', url);
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://bestow-ui.com/og.png');
     if (guide.component) {
+      // 컴포넌트 문서는 사이트 쪽(정적 HTML)으로, Storybook 은 따로
       await expect(page.getByRole('link', { name: `${guide.component.name} 문서 보기` })).toHaveAttribute(
         'href',
-        `/storybook/?path=${guide.component.path}`,
+        `/components/${guide.component.slug}/`,
       );
+      await expect(
+        page.getByRole('link', { name: `${guide.component.name} Storybook 에서 조작해 보기` }),
+      ).toHaveAttribute('href', `/storybook/?path=${guide.component.path}`);
     }
   }
 });

@@ -48,6 +48,9 @@ export function Providers({ children }: { children: ReactNode }) {
               <Link href={links.introduction} color="neutral" underline="hover">
                 문서
               </Link>
+              <Link href={links.components} color="neutral" underline="hover">
+                컴포넌트
+              </Link>
               <Link href={links.koreanUtils} color="neutral" underline="hover">
                 서식 함수
               </Link>

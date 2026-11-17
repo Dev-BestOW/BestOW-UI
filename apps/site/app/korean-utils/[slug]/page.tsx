@@ -12,7 +12,7 @@ import {
 } from '@bestow-ui/react';
 import { notFound } from 'next/navigation';
 import { CopyCommand } from '../../CopyCommand';
-import { basePath, koreanUtilsHref, links, storybookHref } from '../../links';
+import { basePath, componentHref, koreanUtilsHref, links, storybookHref } from '../../links';
 import { pageMetadata } from '../../seo';
 import { findGuide, guides } from '../guides';
 import { Try } from '../Try';
@@ -143,7 +143,14 @@ export default async function Page({ params }: Props) {
             <code className="doc-inline-code">{guide.component.name}</code>({' '}
             <Link href={links.npm}>@bestow-ui/react</Link>)는 이 함수를 쓰는 입력 칸이에요. {guide.component.body}
           </Typography>
-          <Link href={storybookHref(guide.component.path)}>{guide.component.name} 문서 보기</Link>
+          <ul className="doc-others">
+            <li>
+              <Link href={componentHref(guide.component.slug)}>{guide.component.name} 문서 보기</Link>
+            </li>
+            <li>
+              <Link href={storybookHref(guide.component.path)}>{guide.component.name} Storybook 에서 조작해 보기</Link>
+            </li>
+          </ul>
         </section>
       )}
 

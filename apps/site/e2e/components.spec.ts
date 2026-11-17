@@ -3,7 +3,25 @@ import { kitPages } from '../app/components/kit';
 import { axeViolations, expect, test } from './fixtures';
 
 const LIST = '/components/';
-const pages = kitPages.map(({ slug }) => `${LIST}${slug}/`);
+const pages = [LIST, ...kitPages.map(({ slug }) => `${LIST}${slug}/`)];
+
+test('목록: 모든 컴포넌트 문서로 가는 링크, 머리글에서 들어오기', async ({ page }) => {
+  await page.goto(LIST);
+  await expect(page.getByRole('heading', { level: 1 })).toHaveText('한국 서비스 입력 컴포넌트');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://bestow-ui.com${LIST}`);
+  const list = page.getByRole('region', { name: '컴포넌트 목록' });
+  for (const kit of kitPages) {
+    await expect(list.getByRole('link', { name: kit.title })).toHaveAttribute('href', `${LIST}${kit.slug}/`);
+  }
+  await expect(
+    page.getByRole('navigation', { name: '사이트' }).getByRole('link', { name: '컴포넌트' }),
+  ).toHaveAttribute('href', LIST);
+});
+
+test('sitemap.xml 에 목록과 모든 컴포넌트 문서가 있다', async ({ request }) => {
+  const xml = await (await request.get('/sitemap.xml')).text();
+  for (const path of pages) expect(xml).toContain(`<loc>https://bestow-ui.com${path}</loc>`);
+});
 
 test('컴포넌트 문서: 제목·설명·canonical·미리보기 태그·props·Storybook 링크', async ({ page }) => {
   for (const kit of kitPages) {
@@ -23,6 +41,10 @@ test('컴포넌트 문서: 제목·설명·canonical·미리보기 태그·props
       'href',
       `/storybook/?path=${kit.storybookPath}`,
     );
+    // 이동 경로 가운데 항목이 목록 쪽으로
+    await expect(
+      page.getByRole('navigation', { name: '이동 경로' }).getByRole('link', { name: '한국 입력 컴포넌트' }),
+    ).toHaveAttribute('href', LIST);
     if (kit.utilsSlug) {
       await expect(page.getByRole('link', { name: /같은 서식 함수/ })).toHaveAttribute(
         'href',

@@ -1,7 +1,7 @@
 import { Breadcrumb, DescriptionList, Link, Typography } from '@bestow-ui/react';
 import { notFound } from 'next/navigation';
 import { CopyCommand } from '../../CopyCommand';
-import { basePath, koreanUtilsHref, storybookHref } from '../../links';
+import { basePath, koreanUtilsHref, links, storybookHref } from '../../links';
 import { pageMetadata } from '../../seo';
 import { Demo } from '../Demo';
 import { findKitPage, kitPages } from '../kit';
@@ -50,9 +50,12 @@ export default async function Page({ params }: Props) {
 
   return (
     <article className="doc site-inner">
-      {/* 가운데 항목은 목록 쪽(SEO-GEO-PLAN Task 3)이 생기면 링크로 */}
       <Breadcrumb
-        items={[{ label: '홈', href: `${basePath}/` }, { label: '한국 입력 컴포넌트' }, { label: page.name }]}
+        items={[
+          { label: '홈', href: `${basePath}/` },
+          { label: '한국 입력 컴포넌트', href: links.components },
+          { label: page.name },
+        ]}
       />
       <header className="doc-header">
         <Typography as="h1" variant="h1">

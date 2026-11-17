@@ -8,7 +8,7 @@ const reasons = [
   {
     title: '한국 서비스 키트',
     body: '약관 전체 동의, 문자 자동 채우기가 되는 인증번호, 검증 공식이 들어간 사업자등록번호, “12만 5,000원” 으로 읽어 주는 금액 칸, 카카오 우편번호 주소, 일요일부터 시작하는 달력까지 13종이에요. 서식·검증 함수만 필요하면 React 없이 쓰는 @bestow-ui/korean-utils 도 있어요.',
-    link: { href: links.koreanKit, label: '한국 서비스 키트 문서' },
+    link: { href: links.components, label: '한국 입력 컴포넌트 문서' },
   },
   {
     title: '검사로 증명하는 접근성',

@@ -176,16 +176,17 @@
 
 **인터페이스:** `links.components = \`${basePath}/components/\``(links.ts)
 
-- [ ] **3-1: 실패하는 E2E 작성**
+- [x] **3-1: 실패하는 E2E 작성**
   - 목록 쪽 h1 `한국 서비스 입력 컴포넌트`, 모든 kitPages 로 가는 링크
   - 머리글 nav `컴포넌트` 링크
   - sitemap 에 `/components/` 와 13쪽
   - korean-utils 함수 쪽의 "PhoneNumberInput 문서 보기" href 가 `/components/phone-number-input/`
-- [ ] **3-2: 구현.**
+- [x] **3-2: 구현.**
   - guides.ts 의 `component.path`(Storybook)는 지우지 않고 `component.slug` 를 더한다. 링크는 사이트 쪽으로 바꾼다. 사이트 쪽 안에 Storybook 링크가 있다.
+    (함수 쪽에는 Storybook 링크도 따로 남겼다. slug 가 kitPages 의 같은 이름 쪽인지는 `guides.test.ts` 가 확인 — 변이 확인)
   - llms.txt 에 "한국 입력 컴포넌트 문서(정적 HTML)" 줄을 더한다.
-- [ ] **3-3: 실행해서 통과 확인**
-- [ ] **3-4: 전체 검증 → 커밋 요청**: `✨ 컴포넌트 문서 목록·머리글·sitemap 연결`
+- [x] **3-3: 실행해서 통과 확인**
+- [x] **3-4: 전체 검증 → 커밋 요청**: `✨ 컴포넌트 문서 목록·머리글·sitemap 연결`
 
 ### Task 4: 구조화 데이터 (JSON-LD)
 

@@ -55,7 +55,7 @@ export default function Page() {
         <Typography className="doc-text">
           React 를 쓴다면 이 함수들로 만든 입력 컴포넌트가 <Link href={links.npm}>@bestow-ui/react</Link> 에 있어요.
           커서 위치·하이픈 뒤 Backspace·스크린리더 알림까지 처리했고, 접근성 검사를 통과해야 배포돼요.{' '}
-          <Link href={links.koreanKit}>한국 서비스 키트 문서 보기</Link>
+          <Link href={links.components}>한국 입력 컴포넌트 문서 보기</Link>
         </Typography>
       </section>
     </div>

@@ -1,4 +1,5 @@
 import type { MetadataRoute } from 'next';
+import { kitPages } from './components/kit';
 import { guides } from './korean-utils/guides';
 import { basePath, siteOrigin } from './links';
 
@@ -6,7 +7,7 @@ import { basePath, siteOrigin } from './links';
 export const dynamic = 'force-static';
 
 /**
- * 검색 엔진에 제출하는 주소 목록(Search Console·네이버 서치어드바이저). 함수 문서는 guides 에서 만든다.
+ * 검색 엔진에 제출하는 주소 목록(Search Console·네이버 서치어드바이저). 함수 문서는 guides, 컴포넌트 문서는 kitPages 에서 만든다.
  * Storybook·playground 는 이 Next.js 앱 밖이라 주소를 직접 적는다.
  */
 export default function sitemap(): MetadataRoute.Sitemap {
@@ -15,6 +16,8 @@ export default function sitemap(): MetadataRoute.Sitemap {
     '/',
     '/korean-utils/',
     ...guides.map(({ slug }) => `/korean-utils/${slug}/`),
+    '/components/',
+    ...kitPages.map(({ slug }) => `/components/${slug}/`),
     '/storybook/',
     '/playground/',
     '/playground/signup/',

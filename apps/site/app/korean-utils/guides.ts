@@ -15,8 +15,11 @@ export interface Guide {
   code: string;
   /** 알아 둘 점 */
   notes: string[];
-  /** 같은 동작의 React 입력 컴포넌트(Storybook 문서 path) */
-  component?: { name: string; path: string; body: string };
+  /**
+   * 같은 동작의 React 입력 컴포넌트. `slug` 는 사이트 문서 쪽(/components/<slug>/ — components/kit.ts),
+   * `path` 는 Storybook 문서의 `?path=` 값
+   */
+  component?: { name: string; slug: string; path: string; body: string };
 }
 
 export const guides: Guide[] = [
@@ -44,6 +47,7 @@ phoneNumberDigits('+82 10-1234-5678'); // '01012345678' (저장용)`,
     ],
     component: {
       name: 'PhoneNumberInput',
+      slug: 'phone-number-input',
       path: '/docs/korean-kit-phonenumberinput--docs',
       body: '입력 중에 하이픈 뒤에서 Backspace 를 눌러도 숫자가 지워지고, 중간을 고쳐도 커서가 끝으로 튀지 않아요.',
     },
@@ -68,6 +72,7 @@ isValidBusinessNumber('124-81-00999'); // false (마지막 숫자가 다름)`,
     ],
     component: {
       name: 'BusinessNumberInput',
+      slug: 'business-number-input',
       path: '/docs/korean-kit-businessnumberinput--docs',
       body: '10자리를 채우면 이 공식으로 확인하고, 틀리면 0.8초 뒤 스크린리더에도 알려요.',
     },
@@ -92,6 +97,7 @@ formatKoreanAmount(20000, '포인트'); // '2만포인트'`,
     ],
     component: {
       name: 'AmountInput',
+      slug: 'amount-input',
       path: '/docs/korean-kit-amountinput--docs',
       body: '입력하는 동안 쉼표를 넣고, showKoreanAmount 를 켜면 칸 아래에 한글 금액을 보여 줘요.',
     },
@@ -120,6 +126,7 @@ formatResidentNumber('9001011234567');   // '900101-1234567'`,
     ],
     component: {
       name: 'ResidentNumberInput',
+      slug: 'resident-number-input',
       path: '/docs/korean-kit-residentnumberinput--docs',
       body: '앞·뒤 칸을 나누고 뒷칸은 가려서 입력받아요. 앞 7자리만 받는 모드도 있어요.',
     },
@@ -173,6 +180,7 @@ cardNumberLength('3782'); // 15 (입력창 최대 자릿수)`,
     ],
     component: {
       name: 'CardNumberInput',
+      slug: 'card-number-input',
       path: '/docs/korean-kit-cardnumberinput--docs',
       body: '카드 종류에 맞게 하이픈을 넣고, 다 채우면 이 공식으로 확인해요.',
     },
@@ -193,6 +201,7 @@ isValidCorporateNumber('130111-0006247'); // false`,
     notes: ['공식을 통과해도 실제로 등기된 법인이라는 뜻은 아니에요. 등기 여부는 인터넷등기소에서 확인해요.'],
     component: {
       name: 'CorporateNumberInput',
+      slug: 'corporate-number-input',
       path: '/docs/korean-kit-corporatenumberinput--docs',
       body: '입력하는 동안 하이픈을 넣고, 13자리를 채우면 이 공식으로 확인해요.',
     },
@@ -219,6 +228,7 @@ isValidAccountNumber('12345');          // false`,
     ],
     component: {
       name: 'AccountNumberInput',
+      slug: 'account-number-input',
       path: '/docs/korean-kit-accountnumberinput--docs',
       body: '은행 선택과 계좌번호 입력을 한 묶음으로 받아요.',
     },
@@ -243,6 +253,7 @@ KOREAN_WEEKDAYS; // ['일', '월', '화', '수', '목', '금', '토']`,
     ],
     component: {
       name: 'DatePicker',
+      slug: 'date-picker',
       path: '/docs/korean-kit-datepicker--docs',
       body: '일요일부터 시작하는 달력과 YYYY-MM-DD 직접 입력을 함께 써요.',
     },
@@ -268,6 +279,7 @@ composeExtraAddress({ userSelectedType: 'J', bname: '역삼동', buildingName: '
     notes: ['앞에 공백이 붙어 있어 도로명 주소 뒤에 그대로 이어 붙이면 돼요.'],
     component: {
       name: 'AddressInput',
+      slug: 'address-input',
       path: '/docs/korean-kit-addressinput--docs',
       body: '우편번호 찾기 창, 참고항목, 상세 주소 칸을 한 번에 그려요. 우편번호 서비스는 공급자로 바꿔 넣을 수 있어요.',
     },

@@ -14,12 +14,12 @@ export function storybookHref(path?: string) {
 
 export const links = {
   introduction: storybookHref('/docs/introduction--docs'),
-  koreanKit: storybookHref('/docs/korean-kit-agreementgroup--docs'),
   kwcag: storybookHref('/docs/accessibility-kwcag-2-2-%EB%8C%80%EC%9D%91--docs'),
   themeBuilder: storybookHref('/story/foundations-theme-builder--builder'),
   choosing: storybookHref('/docs/guides-%EC%96%B8%EC%A0%9C-%EB%AC%B4%EC%97%87%EC%9D%84-%EC%93%B0%EB%82%98--docs'),
   playground: `${basePath}/playground/`,
   koreanUtils: `${basePath}/korean-utils/`,
+  components: `${basePath}/components/`,
   koreanUtilsNpm: 'https://www.npmjs.com/package/@bestow-ui/korean-utils',
   llms: `${basePath}/llms.txt`,
   github: 'https://github.com/Dev-BestOW/BestOW-UI',

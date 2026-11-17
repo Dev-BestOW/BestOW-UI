@@ -24,6 +24,8 @@ test('첫 화면: 제목·한국어 lang·링크 미리보기 태그', async ({ 
     'href',
     '/storybook/?path=/docs/introduction--docs',
   );
+  // 한국 키트 소개에서 컴포넌트 문서 목록(정적 HTML)으로
+  await expect(page.getByRole('link', { name: '한국 입력 컴포넌트 문서' })).toHaveAttribute('href', '/components/');
 });
 
 test('og.png·sitemap.xml·robots.txt·iframe.html 이 사이트 루트에 있다', async ({ request }) => {
