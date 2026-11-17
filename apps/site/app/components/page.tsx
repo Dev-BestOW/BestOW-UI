@@ -5,9 +5,8 @@ import { basePath, componentHref, links } from '../links';
 import { pageMetadata } from '../seo';
 import { kitPages } from './kit';
 
-const title = '한국 서비스 입력 컴포넌트 — BestOW UI';
-const description =
-  '전화번호·사업자등록번호·주민등록번호·카드·계좌·금액 입력, 문자 인증번호, 약관 전체 동의, 카카오 우편번호 주소, 한국식 달력까지 React 컴포넌트 13종. 하이픈 자동·검증 공식·스크린리더 알림을 챙겼어요.';
+const title = '한국 서비스 입력 컴포넌트';
+const description = '전화·사업자번호·주민번호·카드·계좌·금액·주소·인증번호·약관 동의·달력 React 컴포넌트 13종 문서.';
 
 export const metadata = pageMetadata({ path: '/components/', title, description });
 

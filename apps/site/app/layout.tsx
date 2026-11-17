@@ -7,9 +7,10 @@ import { Analytics } from './analytics';
 import { basePath, siteOrigin } from './links';
 import { Providers } from './providers';
 
-const title = 'BestOW UI — 한국 서비스를 위한 접근성 검증 React 디자인 시스템';
+// 검색 결과에 잘리지 않게 제목 40자·설명 80자 이내(seo.ts — 네이버 권장)
+const title = 'BestOW UI — 한국 서비스용 접근성 검증 React UI';
 const description =
-  '한국 서비스를 만들 때 바로 쓰는, 접근성이 검증된 React 디자인 시스템. 약관 동의·인증번호·전화번호·사업자등록번호·금액·주소 입력, KWCAG 2.2 대응 근거, 대표색 하나로 다크·브랜드 테마.';
+  '전화번호·사업자등록번호·금액·주소·약관 동의 입력을 갖춘 React 디자인 시스템. KWCAG 2.2 근거, 대표색 하나로 테마.';
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteOrigin),

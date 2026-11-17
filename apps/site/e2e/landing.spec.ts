@@ -1,3 +1,4 @@
+import { descriptionLimit, titleLimit } from '../app/seo';
 import { axeViolations, expect, jsonLd, test } from './fixtures';
 
 const HOME = '/';
@@ -112,3 +113,29 @@ for (const width of [320, 390]) {
     expect(await page.evaluate(() => document.documentElement.scrollWidth)).toBeLessThanOrEqual(width);
   });
 }
+
+// 네이버 서치어드바이저 권장 길이 — 넘으면 검색 결과에서 잘린다. sitemap 의 이 사이트 쪽 전부 + 404
+test('모든 쪽의 제목 40자·설명 80자 이내(OG 포함)', async ({ page, request }) => {
+  const xml = await (await request.get('/sitemap.xml')).text();
+  const paths = [...xml.matchAll(/<loc>https:\/\/bestow-ui\.com(\/[^<]*)<\/loc>/g)]
+    .map(([, path]) => path)
+    .filter((path) => !path.startsWith('/storybook/') && !path.startsWith('/playground/'));
+  expect(paths.length).toBeGreaterThan(20);
+  for (const path of [...paths, '/404.html']) {
+    await page.goto(path);
+    const meta = await page.evaluate(() => {
+      const content = (selector: string) => document.querySelector(selector)?.getAttribute('content') ?? '';
+      return {
+        title: document.title,
+        description: content('meta[name="description"]'),
+        ogTitle: content('meta[property="og:title"]'),
+        ogDescription: content('meta[property="og:description"]'),
+      };
+    });
+    expect(meta.title.length, `${path} 제목: ${meta.title}`).toBeLessThanOrEqual(titleLimit);
+    expect(meta.ogTitle.length, `${path} OG 제목: ${meta.ogTitle}`).toBeLessThanOrEqual(titleLimit);
+    expect(meta.description.length, `${path} 설명: ${meta.description}`).toBeLessThanOrEqual(descriptionLimit);
+    expect(meta.description.length, `${path} 설명 없음`).toBeGreaterThan(20);
+    expect(meta.ogDescription.length, `${path} OG 설명: ${meta.ogDescription}`).toBeLessThanOrEqual(descriptionLimit);
+  }
+});

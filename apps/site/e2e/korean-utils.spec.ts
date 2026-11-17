@@ -1,5 +1,6 @@
 import * as utils from '@bestow-ui/korean-utils';
 import { guides } from '../app/korean-utils/guides';
+import { pageTitle } from '../app/seo';
 import { axeViolations, expect, jsonLd, test } from './fixtures';
 
 const LIST = '/korean-utils/';
@@ -28,7 +29,7 @@ test('함수 문서: 제목·설명·canonical·미리보기 태그', async ({ p
   for (const guide of guides) {
     await page.goto(`${LIST}${guide.slug}/`);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(guide.title);
-    await expect(page).toHaveTitle(`${guide.title} — @bestow-ui/korean-utils`);
+    await expect(page).toHaveTitle(pageTitle(guide.title));
     await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', guide.summary);
     const url = `https://bestow-ui.com${LIST}${guide.slug}/`;
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', url);

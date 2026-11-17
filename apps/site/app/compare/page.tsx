@@ -18,7 +18,7 @@ import { checkedAt, comparedLibraries, rows } from './data';
 const path = '/compare/';
 const title = '한국 서비스용 React UI 라이브러리 비교';
 const description =
-  'BestOW UI·Vapor UI·HANUI·shadcn/ui·MUI 를 한국 서비스를 만들 때의 기준(한국 서비스 입력, 한국어 문구, KWCAG 접근성 근거, 브랜드색 대비)으로 비교했어요. 칸마다 각 공식 문서 근거를 달았어요.';
+  'BestOW UI·Vapor UI·HANUI·shadcn/ui·MUI 를 한국 서비스 입력·접근성 근거·브랜드색 대비로 비교했어요.';
 // Storybook 문서 id(index.json 으로 확인) — 제목이 바뀌면 함께 고친다
 const shadcnGuide = storybookHref(encodeURI('/docs/guides-shadcn·tailwind-프로젝트에-한국-키트만-쓰기--docs'));
 const crumbs = [
@@ -26,7 +26,7 @@ const crumbs = [
   { name: '라이브러리 비교', path },
 ];
 
-export const metadata = pageMetadata({ path, title: `${title} — BestOW UI`, description });
+export const metadata = pageMetadata({ path, title, description });
 
 export default function Page() {
   return (

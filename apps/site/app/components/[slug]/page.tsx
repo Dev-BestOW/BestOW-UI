@@ -21,8 +21,8 @@ export async function generateMetadata({ params }: Props) {
   if (!page) return {};
   return pageMetadata({
     path: `/components/${page.slug}/`,
-    title: `${page.title} — BestOW UI`,
-    description: page.summary,
+    title: page.title,
+    description: page.metaDescription,
   });
 }
 

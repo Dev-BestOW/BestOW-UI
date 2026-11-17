@@ -1,5 +1,6 @@
 import type { Page } from '@playwright/test';
 import { kitPages } from '../app/components/kit';
+import { pageTitle } from '../app/seo';
 import { axeViolations, expect, jsonLd, test } from './fixtures';
 
 const LIST = '/components/';
@@ -27,8 +28,8 @@ test('컴포넌트 문서: 제목·설명·canonical·미리보기 태그·props
   for (const kit of kitPages) {
     await page.goto(`${LIST}${kit.slug}/`);
     await expect(page.getByRole('heading', { level: 1 })).toHaveText(kit.title);
-    await expect(page).toHaveTitle(`${kit.title} — BestOW UI`);
-    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', kit.summary);
+    await expect(page).toHaveTitle(pageTitle(kit.title));
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', kit.metaDescription);
     const url = `https://bestow-ui.com${LIST}${kit.slug}/`;
     await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', url);
     await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', url);

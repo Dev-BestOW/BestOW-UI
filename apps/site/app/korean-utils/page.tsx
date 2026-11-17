@@ -5,9 +5,9 @@ import { basePath, koreanUtilsHref, links } from '../links';
 import { pageMetadata } from '../seo';
 import { guides } from './guides';
 
-const title = '한국 서비스 서식·검증 함수 — @bestow-ui/korean-utils';
+const title = '한국 서비스 서식·검증 함수';
 const description =
-  '전화번호 하이픈, 사업자등록번호·법인등록번호 검증 공식, 주민등록번호 생년월일 읽기, 카드번호 Luhn, 은행 코드, 금액 한글 읽기, 마스킹. 의존성 없는 함수 모음이라 React 없이도 써요.';
+  '전화번호 하이픈, 사업자등록번호 검증, 주민번호 읽기, 금액 한글 읽기, 마스킹. 의존성 없는 함수 모음.';
 
 export const metadata = pageMetadata({ path: '/korean-utils/', title, description });
 

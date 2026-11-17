@@ -31,7 +31,7 @@ export async function generateMetadata({ params }: Props) {
   if (!guide) return {};
   return pageMetadata({
     path: `/korean-utils/${guide.slug}/`,
-    title: `${guide.title} — @bestow-ui/korean-utils`,
+    title: guide.title,
     description: guide.summary,
   });
 }
