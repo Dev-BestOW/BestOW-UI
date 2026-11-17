@@ -206,7 +206,8 @@
 - [x] **4-1: 실패하는 단위 테스트**: `<` 가 든 글자가 `<` 로 나가고 `JSON.parse` 하면 원래 글자와 같은지, `BreadcrumbList` 의 `position` 이 1부터 이어지는지.
 - [x] **4-2: 실패하는 E2E**: 각 쪽의 `script[type="application/ld+json"]` 를 `JSON.parse` 해서 `@type` 과 `url`(= canonical)을 확인한다.
 - [x] **4-3: 구현** → 단위·E2E 통과 확인. (이동 경로는 `Crumb[]` 하나로 화면 Breadcrumb(`breadcrumbItems`)과 JSON-LD 를 함께 만든다. 목록 쪽 2개는 글이 아니라 넣지 않았다)
-- [ ] **4-4: 배포 뒤 확인**(push 후): Google 리치 결과 테스트(https://search.google.com/test/rich-results)에 첫 화면과 한 쪽씩 넣어 오류 0 인지 본다. 사용자가 하거나, 결과 화면을 받아 Claude 가 확인한다.
+- [x] **4-4: 배포 뒤 확인**(push 후): Google 리치 결과 테스트(https://search.google.com/test/rich-results)에 첫 화면과 한 쪽씩 넣어 오류 0 인지 본다. 사용자가 하거나, 결과 화면을 받아 Claude 가 확인한다.
+  (2026-11-17: 컴포넌트 쪽 Breadcrumbs·Articles 유효 2, 오류 0. Articles "심각하지 않은 문제" → Google 권장 속성 image·author·datePublished·dateModified 추가. 첫 화면 SoftwareSourceCode 는 리치 결과 종류가 아니라 "없음" 이 정상)
 - [x] **4-5: 전체 검증 → 커밋 요청**: `✨ 소개 사이트에 구조화 데이터(JSON-LD) 추가`
 
 ### Task 5: 비교 쪽 `/compare/`

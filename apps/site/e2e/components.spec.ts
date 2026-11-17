@@ -34,7 +34,17 @@ test('컴포넌트 문서: 제목·설명·canonical·미리보기 태그·props
     await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', url);
     // 구조화 데이터 — 글(TechArticle)과 이동 경로(BreadcrumbList). 주소는 canonical 과 같다
     const [article, breadcrumb] = await jsonLd(page);
-    expect(article).toMatchObject({ '@type': 'TechArticle', headline: kit.title, url, inLanguage: 'ko' });
+    expect(article).toMatchObject({
+      '@type': 'TechArticle',
+      headline: kit.title,
+      url,
+      inLanguage: 'ko',
+      // Google Article 권장 속성
+      image: 'https://bestow-ui.com/og.png',
+      author: { name: 'Dev-BestOW' },
+      datePublished: expect.stringMatching(/^\d{4}-\d{2}-\d{2}T00:00:00\+09:00$/),
+      dateModified: expect.stringMatching(/^\d{4}-\d{2}-\d{2}T00:00:00\+09:00$/),
+    });
     expect(breadcrumb).toMatchObject({ '@type': 'BreadcrumbList' });
     expect((breadcrumb.itemListElement as { item: string }[]).at(-1)?.item).toBe(url);
     await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://bestow-ui.com/og.png');

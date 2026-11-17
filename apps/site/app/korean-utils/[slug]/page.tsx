@@ -15,7 +15,7 @@ import { CopyCommand } from '../../CopyCommand';
 import { componentHref, koreanUtilsHref, links, storybookHref } from '../../links';
 import { pageMetadata } from '../../seo';
 import { breadcrumbItems, docArticle, JsonLd } from '../../structured-data';
-import { findGuide, guides } from '../guides';
+import { findGuide, guideDates, guides } from '../guides';
 import { Try } from '../Try';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -49,7 +49,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <article className="doc site-inner">
-      {docArticle({ path, title: guide.title, description: guide.summary, crumbs }).map((data) => (
+      {docArticle({ path, title: guide.title, description: guide.summary, crumbs, dates: guideDates }).map((data) => (
         <JsonLd key={data['@type']} data={data} />
       ))}
       <Breadcrumb items={breadcrumbItems(crumbs)} />

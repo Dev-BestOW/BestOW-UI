@@ -31,9 +31,11 @@ export const metadata = pageMetadata({ path, title: `${title} — BestOW UI`, de
 export default function Page() {
   return (
     <article className="doc doc-wide site-inner">
-      {docArticle({ path, title, description, crumbs }).map((data) => (
-        <JsonLd key={data['@type']} data={data} />
-      ))}
+      {docArticle({ path, title, description, crumbs, dates: { published: '2026-11-17', modified: checkedAt } }).map(
+        (data) => (
+          <JsonLd key={data['@type']} data={data} />
+        ),
+      )}
       <Breadcrumb items={breadcrumbItems(crumbs)} />
       <header className="doc-header">
         <Typography as="h1" variant="h1">

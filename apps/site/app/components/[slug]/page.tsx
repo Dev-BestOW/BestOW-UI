@@ -5,7 +5,7 @@ import { koreanUtilsHref, storybookHref } from '../../links';
 import { pageMetadata } from '../../seo';
 import { breadcrumbItems, docArticle, JsonLd } from '../../structured-data';
 import { Demo } from '../Demo';
-import { findKitPage, kitPages } from '../kit';
+import { findKitPage, kitDates, kitPages } from '../kit';
 import { choosingFor, componentA11yFor, componentProps } from '../source';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -57,7 +57,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <article className="doc site-inner">
-      {docArticle({ path, title: page.title, description: page.summary, crumbs }).map((data) => (
+      {docArticle({ path, title: page.title, description: page.summary, crumbs, dates: kitDates }).map((data) => (
         <JsonLd key={data['@type']} data={data} />
       ))}
       <Breadcrumb items={breadcrumbItems(crumbs)} />

@@ -22,6 +22,9 @@ export interface Guide {
   component?: { name: string; slug: string; path: string; body: string };
 }
 
+/** 이 쪽들의 JSON-LD 날짜 — 글을 고치면 modified 를 그날로 */
+export const guideDates = { published: '2026-11-11', modified: '2026-11-17' };
+
 export const guides: Guide[] = [
   {
     slug: 'phone-number',

@@ -65,7 +65,7 @@
 ### Claude 가 확인할 것 (push·배포 뒤)
 - [ ] 블로그 예약 발행 3편째(11/17) — 11/15·11/16 은 발행됨(05:0x UTC). `curl -s "https://api.github.com/repos/Dev-BestOW/astro-blog/actions/runs?per_page=3"`
 - [ ] Task 3 push 뒤 배포된 `/components/` 200·sitemap 에 14개 주소.
-- [ ] Task 4 push 뒤 Google 리치 결과 테스트(https://search.google.com/test/rich-results)에 첫 화면·컴포넌트 쪽·함수 쪽 하나씩 — 오류 0(사용자가 하거나 결과 화면을 받아 확인, SEO-GEO-PLAN 4-4).
+- [ ] 이번 push 뒤 리치 결과 테스트에서 Articles "심각하지 않은 문제" 가 사라졌는지(컴포넌트 쪽 하나). 테스트는 배포(storybook.yml)가 끝난 뒤에 돌린다.
 - [ ] `npx create-next-app --example …/examples/next-starter` 실제 설치(26번), shadcn-starter StackBlitz 링크(25번).
 - [ ] 11/19 배포 뒤 npm 검색 `사업자등록번호`·`전화번호` 순위 다시 조회(24번).
 - [ ] TanStack Table 가이드 스토리의 시각 회귀 기준 이미지가 main push 때 자동 생성됐는지.
@@ -141,3 +141,4 @@
 | 2026-11-17 | SEO·GEO Task 4 JSON-LD: `app/structured-data.tsx` — 첫 화면 SoftwareSourceCode, 함수 쪽 10·컴포넌트 쪽 13 에 TechArticle + BreadcrumbList(화면 Breadcrumb 과 같은 `Crumb[]` 에서), `<` → \u003c 직렬화. 단위 테스트 5(변이 확인), E2E 3개 spec 에 단언(`fixtures.jsonLd`), 검증 전부 통과. 리치 결과 테스트는 배포 뒤 |
 | 2026-11-17 | Search Console "리디렉션이 포함된 페이지" 1건 = `http://bestow-ui.com/`(HTTPS 넘겨주기, 의도한 것). sitemap 32개·사이트 안 링크 24개 모두 200 |
 | 2026-11-17 | SEO·GEO Task 5 비교 쪽 `/compare/`: BestOW·Vapor·HANUI·shadcn/ui·MUI 표(칸마다 공식 문서 근거, 확인한 날짜, "찾지 못함" 뜻, 다른 선택지 안내), 데이터 `app/compare/data.ts`, 머리글 `비교`·sitemap·llms.txt·JSON-LD. 다시 확인해 MUI 접근성(WCAG 2.2 A·AA 보고서 초안)·대비(contrastThreshold) 칸을 README 표에서도 고침. E2E 6(axe 라이트·다크·320·390px), 검증 전부 통과(E2E 87+51) |
+| 2026-11-17 | 리치 결과 테스트: 첫 번째는 배포 끝나기 1분 전에 크롤링돼 "없음". 컴포넌트 쪽 재테스트 Breadcrumbs·Articles 유효 2·오류 0, Articles 권장 속성 경고 → `image`(og.png)·`author`(Dev-BestOW 조직)·`datePublished`·`dateModified`(데이터 파일의 날짜 상수, +09:00) 추가. 단위 22·E2E 87+51 |

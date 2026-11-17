@@ -38,6 +38,22 @@ export function softwareSourceCode() {
   };
 }
 
+/** 글쓴이 — 저장소를 가진 GitHub 조직 */
+const author = { '@type': 'Organization', name: 'Dev-BestOW', url: 'https://github.com/Dev-BestOW' };
+
+/** 'YYYY-MM-DD' → 한국 시간 자정의 ISO 8601(시간대가 없으면 Google 은 Googlebot 시간대로 본다) */
+function koreanDate(date: string) {
+  return `${date}T00:00:00+09:00`;
+}
+
+/** 글의 날짜 — 데이터 파일(kit.ts·guides.ts·compare/data.ts)에 둔다. 글을 고치면 modified 를 그날로 */
+export interface DocDates {
+  /** 처음 배포한 날 'YYYY-MM-DD' */
+  published: string;
+  /** 글을 마지막으로 고친 날 'YYYY-MM-DD' */
+  modified: string;
+}
+
 export interface Crumb {
   name: string;
   /** basePath 뒤의 경로 */
@@ -57,11 +73,13 @@ export function docArticle({
   title,
   description,
   crumbs,
+  dates,
 }: {
   path: string;
   title: string;
   description: string;
   crumbs: Crumb[];
+  dates: DocDates;
 }) {
   return [
     {
@@ -71,6 +89,11 @@ export function docArticle({
       description,
       url: absoluteUrl(path),
       inLanguage: 'ko',
+      // Google Article 권장 속성(없으면 리치 결과 테스트가 "심각하지 않은 문제" 로 알린다)
+      image: absoluteUrl('/og.png'),
+      author,
+      datePublished: koreanDate(dates.published),
+      dateModified: koreanDate(dates.modified),
     },
     {
       '@context': context,

@@ -34,6 +34,7 @@ describe('docArticle', () => {
       { name: '한국 입력 컴포넌트', path: '/components/' },
       { name: 'PhoneNumberInput', path: '/components/phone-number-input/' },
     ],
+    dates: { published: '2026-11-15', modified: '2026-11-17' },
   });
 
   test('TechArticle — 제목·설명·절대 주소·한국어', () => {
@@ -44,6 +45,15 @@ describe('docArticle', () => {
       description: '설명',
       url: 'https://bestow-ui.com/components/phone-number-input/',
       inLanguage: 'ko',
+    });
+  });
+
+  test('Google Article 권장 속성 — 이미지·글쓴이·한국 시간 날짜', () => {
+    expect(article).toMatchObject({
+      image: 'https://bestow-ui.com/og.png',
+      author: { '@type': 'Organization', name: 'Dev-BestOW', url: 'https://github.com/Dev-BestOW' },
+      datePublished: '2026-11-15T00:00:00+09:00',
+      dateModified: '2026-11-17T00:00:00+09:00',
     });
   });
 

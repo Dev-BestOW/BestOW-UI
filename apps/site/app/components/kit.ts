@@ -22,6 +22,9 @@ export interface KitPage {
   utilsSlug?: string;
 }
 
+/** 이 쪽들의 JSON-LD 날짜 — 글을 고치면 modified 를 그날로 */
+export const kitDates = { published: '2026-11-15', modified: '2026-11-17' };
+
 export const kitPages: KitPage[] = [
   {
     slug: 'phone-number-input',
