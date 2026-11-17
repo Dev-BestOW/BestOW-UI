@@ -57,7 +57,6 @@
 - [ ] **bestow-ui.com 마무리**: Cloudflare Web Analytics 에 bestow-ui.com 방문이 잡히는지 확인(안 잡히면 사이트 추가·토큰 교체), (선택) 조직 루트 저장소 `dev-bestow.github.io` 이동 대상·robots.txt 를 새 주소로. 도메인 자동 갱신 유지. (Search Console·네이버 소유확인·sitemap 제출은 2026-11-14 끝남)
 - [ ] 11/19 버전 PR #30 머지(첫 정기 배포).
 - [ ] velog 게시 · 요즘IT 기고 제안 · 발표 지원(CFP 공고 때) · 접근성 커뮤니티 글 — 초안: 알리기 준비물 Artifact https://claude.ai/artifact/LvPgoSsmGKHjLd34FP789u
-- [ ] Context7: 등록·소유 완료(2026-11-17, /dev-bestow/bestow-ui). `context7.json` push 뒤 관리 화면 맨 아래 **Config source → Switch**(저장소 파일로) → **Refresh**.
 - [ ] 12월 초 GEO 첫 기록: `docs/GEO-CHECK.md` 의 질문 5개를 ChatGPT·Perplexity·Gemini 에 넣고 결과·Search Console·Cloudflare AI 유입을 알려 주기(Claude 가 표에 적음).
 - [ ] Figma: 요금제 올릴지(다크 모드·라이브러리 게시·페이지 제한), Community 공개 여부 — `docs/FIGMA.md`.
 - [ ] 스크린리더·기기: ResidentNumberInput NVDA, (가능하면) iOS VoiceOver·센스리더, (선택) Android Chrome 가상 키보드 — `SCREEN-READER-CHECKLIST.md`.
@@ -66,7 +65,6 @@
 ### Claude 가 확인할 것 (push·배포 뒤)
 - [ ] 블로그 예약 발행 3편째(11/17) — 11/15·11/16 은 발행됨(05:0x UTC). `curl -s "https://api.github.com/repos/Dev-BestOW/astro-blog/actions/runs?per_page=3"`
 - [ ] Task 3 push 뒤 배포된 `/components/` 200·sitemap 에 14개 주소.
-- [ ] Context7 Switch·Refresh 뒤 색인 출처에 ROADMAP·CLAUDE.md 가 빠졌는지: `curl -s "https://context7.com/api/v1/dev-bestow/bestow-ui?type=txt&tokens=20000" | grep '^Source:'`, rules 가 적용됐는지(관리 화면 AI rules·라이브러리 로그).
 - [ ] `npx create-next-app --example …/examples/next-starter` 실제 설치(26번), shadcn-starter StackBlitz 링크(25번).
 - [ ] 11/19 배포 뒤 npm 검색 `사업자등록번호`·`전화번호` 순위 다시 조회(24번).
 - [ ] TanStack Table 가이드 스토리의 시각 회귀 기준 이미지가 main push 때 자동 생성됐는지.
@@ -145,3 +143,4 @@
 | 2026-11-17 | 리치 결과 테스트: 첫 번째는 배포 끝나기 1분 전에 크롤링돼 "없음". 컴포넌트 쪽 재테스트 Breadcrumbs·Articles 유효 2·오류 0, Articles 권장 속성 경고 → `image`(og.png)·`author`(Dev-BestOW 조직)·`datePublished`·`dateModified`(데이터 파일의 날짜 상수, +09:00) 추가. 단위 22·E2E 87+51 |
 | 2026-11-17 | 리치 결과 재테스트: 경고 0(사용자 확인). SEO·GEO Task 6: `docs/GEO-CHECK.md`(질문 5개·Search Console·Cloudflare AI 유입 기록 표), CLAUDE.md 에 `/components/`·`/compare/`·JSON-LD·날짜 상수 규칙, 루트·react·korean-utils README 의 한국 키트 링크를 사이트 쪽으로(react·korean-utils patch changeset). SEO-GEO-PLAN 끝 |
 | 2026-11-17 | Context7 등록(사용자): /dev-bestow/bestow-ui finalized, 조각 928 — 한국어인데 언어 불일치 없이 색인. 직접 추가해 이미 "Owned by your teamspace"(Claim 불필요). 출처에 ROADMAP·CLAUDE.md 등 내부 문서가 섞여 루트 `context7.json`(기본 제외 + 내부 문서 9개, 규칙 12개 — 스키마 한도 확인, 이름 23개 export 대조) |
+| 2026-11-17 | Context7 저장소 설정 적용(사용자 Switch·Refresh): 조각 928 → 434, 출처 16개 파일 모두 사용자 문서(README 들·Storybook MDX·MIGRATION·CONTRIBUTING·llms.txt), 내부 문서 0, 규칙 12개 모두 "LIBRARY RULES" 로 나감, 영어 설명 반영. 확인: `curl -s "https://context7.com/api/v1/dev-bestow/bestow-ui?type=txt&tokens=50000" \| grep '^Source:'` |
