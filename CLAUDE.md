@@ -48,6 +48,8 @@ apps/
                                커밋 안 함)를 Pages 루트에도 복사해 배포(scripts/assemble-pages.sh) — AI 코딩 도구용. 컴포넌트 props 의 JSDoc 이 곧 그 문서다.
                                사용자가 프로젝트에 넣는 규칙 파일은 `docs/ai/bestow-ui.md`(직접 작성) → 같은 스크립트가 `ai/bestow-ui.md`·Cursor 용 `.mdc` 로 내보내 Pages `/ai/` 에 배포.
                                규칙에 적은 컴포넌트·함수 이름이 dist export 에 없으면 빌드 실패 — **공개 이름을 바꾸거나 컴포넌트를 더하면 이 파일도 고친다**.
+                               Context7(AI 도구 문서 검색, /dev-bestow/bestow-ui)은 루트 `context7.json` 을 읽는다 — 내부 문서 제외 목록(기본값 + ROADMAP·CLAUDE.md 등, 적으면 기본값을 대체하므로
+                               기본값도 함께 적음)과 rules(위 규칙 파일의 요약, 한 줄 255자·하나라도 거절되면 전부 빠짐). 새 내부 문서를 만들거나 규칙 파일·공개 이름을 바꾸면 함께 고친다.
   site/ (private)              Pages 루트의 소개 사이트(Next.js 16 정적 export, basePath 기본 '' — SITE_BASE_PATH, 배포는 configure-pages 의 base_path). 패키지 dist 를 쓴다.
                                첫 화면 데모(KitDemo — 한국 키트 입력 + 대표색 바꾸기), 링크 미리보기 메타(layout.tsx metadata)·public/og.png·app/sitemap.ts(guides·kitPages 로 생성).
                                /korean-utils/ — korean-utils 함수 문서(데이터 korean-utils/guides.ts, 직접 입력 Try.tsx, 쪽 메타 seo.ts). 코드 예시의 `호출; // 결과`
