@@ -55,7 +55,7 @@
 ### 사람이 할 일
 - [ ] **bestow-ui.com 마무리**: Cloudflare Web Analytics 에 bestow-ui.com 방문이 잡히는지 확인(안 잡히면 사이트 추가·토큰 교체), (선택) 조직 루트 저장소 `dev-bestow.github.io` 이동 대상·robots.txt 를 새 주소로. 도메인 자동 갱신 유지. (Search Console·네이버 소유확인·sitemap 제출은 2026-11-14 끝남)
 - [ ] 11/19 버전 PR #30 머지(첫 정기 배포).
-- [ ] **인프라 보안 설정(2026-11-18 점검)** — ① npm 4개 패키지 Publishing access 를 "Require 2FA and disallow tokens"(OIDC 배포는 그대로, 새 패키지 첫 배포 때만 잠시 해제) ② npm·GitHub(조직 2FA 필수)·Cloudflare 2단계 인증 ③ 저장소 Code security: Secret scanning·Push protection·Private vulnerability reporting ④ main 규칙: CI 녹색일 때만 머지·force push·삭제 금지 ⑤ Cloudflare 도메인 자동 갱신(만료 2027-11-14). (선택) CAA `0 issue "letsencrypt.org"` — 프록시 등 구성을 바꾸면 갱신이 막힐 수 있음.
+- [ ] **인프라 보안 설정(2026-11-18 점검)** — ④ (선택) Settings › Actions › "Allow GitHub Actions to create and approve pull requests" 끄기 — 버전 PR 은 App 토큰으로 만들어 영향 없음 ⑤ (선택) Dependabot security updates(자동 PR) 켜기 ⑥ (선택) CAA `0 issue "letsencrypt.org"`. 이미 된 것: Cloudflare 도메인 자동 갱신·이전 잠금·WHOIS 비공개(만료 2027-11-14 — 결제 카드 유효기간 유지), DNSSEC 켬(2026-11-18 — **DNS 를 Cloudflare 밖으로 옮길 때는 먼저 끈다**), npm·GitHub·Cloudflare 계정 2FA(사용자 확인), npm 4개 패키지 Publishing access "2FA 필수·bypass 토큰 금지"(Trusted Publisher Valid), Secret scanning·Push protection·Private vulnerability reporting·Dependabot alerts(열린 경고 0)·Pages HTTPS 강제·도메인 검증, main 규칙(삭제·force push 금지 — 직접 push 와 봇 커밋 때문에 "CI 통과 필수" 는 넣지 않음, 버전 PR 은 녹색 확인 후 머지).
 - [ ] velog 게시 · 요즘IT 기고 제안 · 발표 지원(CFP 공고 때) · 접근성 커뮤니티 글 — 초안: 알리기 준비물 Artifact https://claude.ai/artifact/LvPgoSsmGKHjLd34FP789u
 - [ ] 12월 초 GEO 첫 기록: `docs/GEO-CHECK.md` 의 질문 5개를 ChatGPT·Perplexity·Gemini 에 넣고 결과·Search Console·Cloudflare AI 유입을 알려 주기(Claude 가 표에 적음).
 - [ ] Figma: 요금제 올릴지(다크 모드·라이브러리 게시·페이지 제한), Community 공개 여부 — `docs/FIGMA.md`.
@@ -67,6 +67,7 @@
 - [ ] `npx create-next-app --example …/examples/next-starter` 실제 설치(26번), shadcn-starter StackBlitz 링크(25번).
 - [ ] 11/19 배포 뒤 npm 검색 `사업자등록번호`·`전화번호` 순위 다시 조회(24번).
 - [ ] TanStack Table 가이드 스토리의 시각 회귀 기준 이미지가 main push 때 자동 생성됐는지.
+- [ ] DNSSEC: `.com` 에 DS 레코드가 올라갔는지(`dig +short bestow-ui.com DS @a.gtld-servers.net`), 1.1.1.1 응답에 `ad` 플래그. 2026-11-18 에는 서명(DNSKEY·RRSIG)만 있고 DS 는 대기 중.
 - [ ] AgreementGroup "하위 항목" 스토리 기준 이미지(`korean-kit-agreementgroup--nested-items`)가 main push 때 자동 생성됐는지(Calendar·Combobox·AmountInput 새 스토리는 생성 확인 — 기존 이미지 변경 0).
 - [ ] 방문 통계 일주일 뒤 읽히는 문서·유입 경로 정리 → 다음 작업 제안, 29번 ✅.
 
@@ -149,3 +150,4 @@
 | 2026-11-18 | 🐛 Calendar 선택된 토요일 글자 대비: 토요일 규칙의 `:not([data-holiday])` 가 우선순위를 높여 선택 색(흰 글자)을 덮음 → 같은 우선순위로 낮추고 순서로 정함(토요일 → 일요일·공휴일 → 선택). 스토리 "선택된 토요일" 추가(고치기 전 axe 라이트·다크 실패 확인), patch changeset |
 | 2026-11-18 | 한국 키트 강화(`KOREAN-KIT-PLAN.md` Task 1~3, 작업마다 커밋): ① korean-utils `matchesKorean`·`getChoseong`(초성·입력 중인 마지막 글자 `국미`→국민·`한`→하나) + Combobox·MultiCombobox 기본 필터 + 사이트 `/korean-utils/hangul-search/`, korean-utils 전체 한도 2.2→2.7 kB(사용자 결정)·"초성 검색 하나" 감시 항목 ② AmountInput `quickAmounts`·`showMaxButton`(누른 뒤 합계를 status 로 0.8초 뒤), 메시지 키 `quickAmounts`·`maxAmount` ③ AgreementGroup `children`(값에는 하위 value 만, items 에 없는 value 는 걸러 냄)·`AgreementSubItem`. 각각 TDD·변이 확인·E2E 5회 반복, 새 스토리 3개 |
 | 2026-11-18 | 인프라 점검(읽기만): 사이트·주요 경로 200, 옛 주소·http·www 301, 인증서 Let's Encrypt ~2027-02-12, 도메인 Cloudflare 만료 2027-11-14·이전 잠금, 최근 Actions 100회 실패 0(main CI 취소 16/30 은 연속 push·기준 이미지 봇 커밋 때문, 마지막 커밋은 끝까지 검사), 방문 통계 스크립트 3곳 1개씩, sitemap 34. 메일 위조 방지 없음 → 사용자가 Cloudflare DNS 에 null MX `0 .`·SPF `v=spf1 -all`·DMARC `p=reject` 추가(1.1.1.1·8.8.8.8·원본 NS 확인). 남은 설정은 "사람이 할 일" |
+| 2026-11-18 | 인프라 점검 2(gh 로그인으로): Secret scanning·Push protection·Private vulnerability reporting·Dependabot alerts 켜짐(열린 경고 0·비밀 경고 0), Dependabot security updates 꺼짐, Pages HTTPS 강제·도메인 verified, main ruleset(삭제·force push 금지), Actions 기본 권한 read·PR 승인 허용, deploy key·webhook 0, 협업자 본인뿐. 저장소는 조직이 아니라 개인 계정 소유 |
