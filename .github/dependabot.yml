@@ -1,0 +1,24 @@
+# Dependabot — 보안 업데이트 PR 만 받는다(버전 올리기 PR 은 받지 않음: open-pull-requests-limit 0).
+# 보안 경고가 생기면 Dependabot 이 고친 버전으로 lockfile(필요하면 package.json)을 바꾼 PR 을 연다 — 저장소 Settings 의
+# "Dependabot security updates" 가 켜져 있어야 한다. 이 파일은 그 PR 의 커밋 메시지와 살필 곳만 정한다.
+# 머지 전에 확인할 것(CLAUDE.md "배포"):
+#   - packages/*/package.json 의 dependencies 가 바뀌었으면 changeset(patch)을 더해야 npm 에 나간다. devDependencies·lockfile 만이면 필요 없다.
+#   - 상위 패키지가 옛 버전을 고정해 PR 을 못 만들면 pnpm-workspace.yaml 끝 overrides 로 직접 고친다(2026-11-11 glob·minimatch 처럼).
+#   - pnpm 11 은 올라온 지 24시간 안 된 버전을 받지 않는다 — 방금 나온 수정판이면 PR 이 하루 늦게 열리거나 실패할 수 있다.
+version: 2
+updates:
+  - package-ecosystem: npm # pnpm 워크스페이스 전체(pnpm-lock.yaml 하나)
+    directory: /
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 0
+    commit-message:
+      prefix: '⬆️'
+
+  - package-ecosystem: github-actions # workflow 와 공통 composite action 의 uses:
+    directories: [/, /.github/actions/setup]
+    schedule:
+      interval: weekly
+    open-pull-requests-limit: 0
+    commit-message:
+      prefix: '⬆️'

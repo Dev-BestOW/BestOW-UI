@@ -2,7 +2,7 @@ name: Bundle size
 
 # PR 의 번들 크기를 base 브랜치와 비교해 PR 코멘트 하나로 알린다 (push 할 때마다 같은 코멘트를 갱신).
 # 한도 검사(실패 처리)는 ci.yml 의 "Bundle size" 단계가 맡는다 — 이 워크플로는 보고만 하고 실패하지 않는다.
-# 포크에서 온 PR 은 토큰이 읽기 전용이라 코멘트 대신 실행 요약(Summary)에만 표를 남긴다.
+# 포크·Dependabot 이 만든 PR 은 토큰이 읽기 전용이라 코멘트 대신 실행 요약(Summary)에만 표를 남긴다.
 on:
   pull_request:
 
@@ -50,8 +50,9 @@ jobs:
           node scripts/size-report.mjs "$RUNNER_TEMP/base-size.json" "$RUNNER_TEMP/pr-size.json" > "$RUNNER_TEMP/size-report.md"
           cat "$RUNNER_TEMP/size-report.md" >> "$GITHUB_STEP_SUMMARY"
 
+      # Dependabot PR 도 포크처럼 토큰이 읽기 전용이다(권한을 적어도 쓰기가 안 됨) — Summary 에만 남긴다
       - name: Comment on PR
-        if: ${{ github.event.pull_request.head.repo.full_name == github.repository }}
+        if: ${{ github.event.pull_request.head.repo.full_name == github.repository && github.actor != 'dependabot[bot]' }}
         env:
           GH_TOKEN: ${{ github.token }}
           REPO: ${{ github.repository }}
