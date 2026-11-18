@@ -98,6 +98,10 @@ examples/
                                (apps/site·playground 의 app/analytics.tsx, .storybook/main.ts managerHead). 로컬·CI·E2E 빌드에는 없다(site E2E 가 확인)
                                (scripts/assemble-pages.sh 가 폴더를 모으고 빠진 파일이 있으면 실패)
                                → https://bestow-ui.com/ , …/storybook/ , …/playground/ (사용자 도메인 — 아래 함정 "bestow-ui.com")
+                               /.well-known/security.txt(원본 apps/site/public, RFC 9116 — **Expires 를 해마다 1년 안쪽으로**, site E2E 가 30일 남으면 실패)는 숨김 폴더라
+                               upload-pages-artifact 의 `include-hidden-files: true` 로 올린다. 다른 숨김 파일이 섞이면 assemble-pages.sh 가 배포를 멈춘다
+  workflows/uptime.yml         6시간마다 + 수동: scripts/uptime-check.mjs(의존성 없음)로 배포된 사이트 감시 — 주요 쪽 200·옛 주소·http·www 301·인증서 14일·security.txt 30일.
+                               실패하면 GitHub 가 메일로 알린다(결과 표는 실행 Summary). 60일 동안 커밋이 없으면 예약 실행이 멈추니 Actions 에서 다시 켠다
 ```
 
 ### react 패키지 내부

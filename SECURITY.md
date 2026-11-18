@@ -14,6 +14,8 @@
 보안 문제는 **공개 이슈로 올리지 말아 주세요.** 저장소의 **Security → Report a vulnerability**
 (GitHub 비공개 취약점 신고)로 알려 주세요. 신고 내용은 관리자에게만 보여요.
 
+같은 연락처를 표준 위치 [`https://bestow-ui.com/.well-known/security.txt`](https://bestow-ui.com/.well-known/security.txt)(RFC 9116)에도 적어 두었어요.
+
 알려 주실 때 다음이 있으면 빨리 확인할 수 있어요.
 
 - 영향을 받는 패키지와 버전

@@ -1,0 +1,8 @@
+# BestOW UI 보안 연락처 (RFC 9116). 보안 문제는 공개 이슈 대신 아래 Contact(GitHub 비공개 취약점 신고)로 알려 주세요.
+# Security contact for BestOW UI. Please report vulnerabilities privately via the Contact URL below.
+# 관리: Expires 는 1년 이내로 둔다 — 30일 남으면 사이트 감시(.github/workflows/uptime.yml)가 실패해 알려 준다.
+Contact: https://github.com/Dev-BestOW/BestOW-UI/security/advisories/new
+Expires: 2027-11-17T15:00:00.000Z
+Policy: https://github.com/Dev-BestOW/BestOW-UI/blob/main/SECURITY.md
+Preferred-Languages: ko, en
+Canonical: https://bestow-ui.com/.well-known/security.txt

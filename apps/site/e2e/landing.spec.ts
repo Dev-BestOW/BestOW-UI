@@ -45,6 +45,21 @@ test('og.png·sitemap.xml·robots.txt·iframe.html 이 사이트 루트에 있�
   expect(await (await request.get(`${HOME}robots.txt`)).text()).toContain('Sitemap: https://bestow-ui.com/sitemap.xml');
 });
 
+// 보안 연락처(RFC 9116) — Pages 배포는 숨김 폴더를 빼므로 storybook.yml 의 include-hidden-files 와 함께 지킨다
+test('/.well-known/security.txt: 연락처·정책·canonical, 만료가 30일 넘게 남음', async ({ request }) => {
+  const response = await request.get('/.well-known/security.txt');
+  expect(response.status()).toBe(200);
+  const text = await response.text();
+  const field = (name: string) => new RegExp(`^${name}: (.+)$`, 'm').exec(text)?.[1];
+  expect(field('Contact')).toBe('https://github.com/Dev-BestOW/BestOW-UI/security/advisories/new');
+  expect(field('Policy')).toBe('https://github.com/Dev-BestOW/BestOW-UI/blob/main/SECURITY.md');
+  expect(field('Canonical')).toBe('https://bestow-ui.com/.well-known/security.txt');
+  expect(field('Preferred-Languages')).toBe('ko, en');
+  const daysLeft = (Date.parse(field('Expires') ?? '') - Date.now()) / 86_400_000;
+  expect(daysLeft, 'Expires 를 1년 안쪽의 새 날짜로 바꿔 주세요').toBeGreaterThan(30);
+  expect(daysLeft, 'RFC 9116 은 1년 이내를 권한다').toBeLessThanOrEqual(366);
+});
+
 for (const mode of ['light', 'dark'] as const) {
   test(`axe 위반 0 — ${mode}`, async ({ page }) => {
     await page.emulateMedia({ colorScheme: mode });
