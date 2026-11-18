@@ -45,6 +45,8 @@ export {
   KOREAN_BANKS,
   type KoreanBank,
 } from '@bestow-ui/korean-utils';
+// 한국어 검색 함수(초성·입력 중인 한글) — Combobox 기본 필터가 쓴다
+export { getChoseong, matchesKorean } from '@bestow-ui/korean-utils';
 export { parseISODate, toISODate } from './utils/date';
 export { media, type Breakpoint, type Responsive } from './utils/responsive';
 export {

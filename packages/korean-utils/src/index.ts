@@ -13,3 +13,4 @@ export { maskCardNumber, maskDigits, maskName, maskPhoneNumber, maskResidentNumb
 export { cardNumberLength, formatCardNumber, isValidCardNumber } from './card';
 export { formatCorporateNumber, isValidCorporateNumber } from './corporate';
 export { accountNumberDigits, isValidAccountNumber, KOREAN_BANKS, type KoreanBank } from './bank';
+export { getChoseong, matchesKorean } from './hangul';

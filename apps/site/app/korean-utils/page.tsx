@@ -21,7 +21,7 @@ export default function Page() {
         </Typography>
         <Typography variant="body-lg" color="muted" className="doc-lead">
           매번 검색해서 복사하던 전화번호 하이픈, 사업자등록번호 검증 공식, 주민등록번호 읽기, 마스킹을 함수로 모았어요.
-          의존성이 없어 React·Vue·Svelte·Node 서버 어디서나 쓰고, 쓰는 함수만 번들에 들어가요(전체 약 2 kB).
+          의존성이 없어 React·Vue·Svelte·Node 서버 어디서나 쓰고, 쓰는 함수만 번들에 들어가요(전체 약 2.4 kB).
         </Typography>
         <CopyCommand command="npm install @bestow-ui/korean-utils" />
         <Typography variant="body-sm" color="muted">

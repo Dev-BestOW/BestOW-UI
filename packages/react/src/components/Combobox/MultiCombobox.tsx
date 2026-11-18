@@ -31,7 +31,7 @@ export interface MultiComboboxProps {
   defaultValue?: string[];
   /** 고른 값이 바뀔 때 호출된다 */
   onValueChange?: (values: string[]) => void;
-  /** 입력한 글자로 선택지를 거르는 함수 (기본: 대소문자 구분 없이 label 에 포함) */
+  /** 입력한 글자로 선택지를 거르는 함수 (기본 `matchesKorean`: 대소문자 무시, 초성 `ㄱㅁ`·입력 중인 한글 `국미` 도 찾음) */
   filter?: (option: ComboboxOption, query: string) => boolean;
   /** 검색 결과가 없을 때 문구 */
   emptyMessage?: ReactNode;

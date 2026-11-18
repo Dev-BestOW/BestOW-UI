@@ -73,6 +73,21 @@ export const Open: Story = {
   },
 };
 
+/** 기본 거르기는 초성(`ㄷㄱ` → 대구)과 입력 중인 한글(`대그` → 대구)도 찾는다 — `matchesKorean` */
+export const ChoseongSearch: Story = {
+  name: '초성으로 찾기',
+  play: async ({ canvasElement }) => {
+    const input = within(canvasElement).getByRole('combobox', { name: '도시' });
+    await userEvent.type(input, 'ㄷㄱ');
+    const listbox = within(document.body).getByRole('listbox', { name: '도시' });
+    await expect(
+      within(listbox)
+        .getAllByRole('option')
+        .map((o) => o.textContent),
+    ).toEqual(['대구']);
+  },
+};
+
 export const Selected: Story = { args: { defaultValue: 'busan' } };
 
 export const WithError: Story = {

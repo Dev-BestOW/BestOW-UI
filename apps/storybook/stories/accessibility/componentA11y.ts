@@ -146,14 +146,14 @@ export const componentA11y: ComponentA11yGroup[] = [
       {
         name: 'Combobox',
         keyboard:
-          '입력하면 목록이 걸러진다. ↓/↑ 열기·이동(비활성 항목 건너뜀), Enter 선택(목록이 열려 있으면 폼 제출 대신), Esc 닫기, Tab 은 닫고 다음으로. 글자를 모두 지우고 닫으면(Enter·Esc·Tab) 선택이 지워진다. 한글 조합 중 누른 키는 조합을 끝내는 데만 쓴다.',
+          '입력하면 목록이 걸러진다(기본은 초성 `ㄱㅁ`·입력 중인 한글 `국미` 도 찾아, 한글을 치는 도중 목록이 사라졌다 나타나지 않는다). ↓/↑ 열기·이동(비활성 항목 건너뜀), Enter 선택(목록이 열려 있으면 폼 제출 대신), Esc 닫기, Tab 은 닫고 다음으로. 글자를 모두 지우고 닫으면(Enter·Esc·Tab) 선택이 지워진다. 한글 조합 중 누른 키는 조합을 끝내는 데만 쓴다.',
         screenReader:
           'combobox(aria-autocomplete="list") + listbox. 포커스는 입력에 둔 채 aria-activedescendant 로 현재 항목을 알린다. "결과가 없어요" 는 처음부터 있는 숨은 status 영역에, 입력이 0.8초 멈춘 뒤 넣어 읽힌다(새로 생긴 live region·입력과 같은 순간의 변경은 VoiceOver 가 읽지 않음 — VoiceOver+Safari 수동 확인 2026-10-21). clearable 의 "선택 지우기" 버튼은 마우스용이라 Tab 순서에서 빠진다(키보드는 글자를 지워서 지운다).',
       },
       {
         name: 'MultiCombobox',
         keyboard:
-          '입력하면 목록이 걸러진다. ↓/↑ 열기·이동(비활성·최대 개수에 걸린 항목 건너뜀), Enter 고르기·풀기(목록은 열린 채 검색어만 지움), Esc 닫기, Tab 은 닫고 다음으로. 빈 입력창 맨 앞에서 Backspace 는 마지막 칩을 지운다. 칩 삭제 버튼은 Tab 순서(칩 → 입력창)에 있고 Enter·Space·Delete·Backspace 로 지운다. 한글 조합 중 누른 키는 조합을 끝내는 데만 쓴다.',
+          '입력하면 목록이 걸러진다(Combobox 와 같은 기본 거르기 — 초성·입력 중인 한글). ↓/↑ 열기·이동(비활성·최대 개수에 걸린 항목 건너뜀), Enter 고르기·풀기(목록은 열린 채 검색어만 지움), Esc 닫기, Tab 은 닫고 다음으로. 빈 입력창 맨 앞에서 Backspace 는 마지막 칩을 지운다. 칩 삭제 버튼은 Tab 순서(칩 → 입력창)에 있고 Enter·Space·Delete·Backspace 로 지운다. 한글 조합 중 누른 키는 조합을 끝내는 데만 쓴다.',
         screenReader:
           'combobox + listbox(aria-multiselectable), 고른 항목은 aria-selected. 칩은 "고른 항목" 목록(ul), 삭제 버튼 이름 "서울 삭제". 칩을 지우면 포커스가 다음 칩 → 앞 칩 → 입력창으로 가고, "서울 삭제됨" 을 처음부터 있는 숨은 status 영역에 0.5초 뒤 넣는다(포커스 이동과 같은 순간이면 VoiceOver 가 버림). maxSelected 를 다 채우면 "최대 n개까지 고를 수 있어요" 를 같은 방식으로 알리고 칸 설명(aria-describedby)에도 둔다. "모두 지우기" 버튼은 마우스용이라 Tab 순서에서 빠진다.',
         yours:

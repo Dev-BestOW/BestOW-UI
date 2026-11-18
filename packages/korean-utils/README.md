@@ -3,12 +3,12 @@
 [![npm](https://img.shields.io/npm/v/@bestow-ui/korean-utils)](https://www.npmjs.com/package/@bestow-ui/korean-utils)
 [![license](https://img.shields.io/npm/l/@bestow-ui/korean-utils)](https://github.com/Dev-BestOW/BestOW-UI/blob/main/LICENSE)
 
-> Formatting, validation and masking helpers for Korean services — phone numbers, business, corporate and resident registration numbers, card and bank account numbers, KRW amounts in Korean, dates. Zero dependencies. Docs are in Korean.
+> Formatting, validation and masking helpers for Korean services — phone numbers, business, corporate and resident registration numbers, card and bank account numbers, KRW amounts in Korean, dates, Hangul initial-consonant (choseong) search. Zero dependencies. Docs are in Korean.
 
 **한국 서비스에 늘 필요한 서식·검증 함수를 모았어요.** 전화번호 하이픈, 사업자·법인등록번호 검증 공식, 주민등록번호 생년월일·성별 읽기, 카드번호(Luhn)·계좌번호와 은행 목록(금융결제원 코드),
-"12만 5,000원" 금액 읽기, 한국어 날짜, 카카오 우편번호 참고항목, 화면에 보여 줄 때의 마스킹(`홍*동`, `010-****-5678`)까지.
+"12만 5,000원" 금액 읽기, 한국어 날짜, 카카오 우편번호 참고항목, 화면에 보여 줄 때의 마스킹(`홍*동`, `010-****-5678`), 초성 검색(`ㄱㅁ` → 국민은행)까지.
 
-- **의존성 0, 프레임워크 무관** — React·Vue·Svelte·Node 서버 어디서나 써요. 전체 약 2 kB(은행 목록 포함), 함수 하나만 쓰면 그만큼만 번들에 들어가요(`maskName` 하나 99 B, 카드번호 서식·검증 260 B, minify + brotli).
+- **의존성 0, 프레임워크 무관** — React·Vue·Svelte·Node 서버 어디서나 써요. 전체 약 2.4 kB(은행 목록 포함), 함수 하나만 쓰면 그만큼만 번들에 들어가요(`maskName` 하나 99 B, 카드번호 서식·검증 260 B, 초성 검색 430 B, minify + brotli).
 - **입력 중인 값도 자연스럽게** — `formatPhoneNumber('0101234')` → `'010-123-4'` 처럼 덜 입력한 값도 나눠서, 입력창의 onChange 에 그대로 쓸 수 있어요.
 - **하이픈이 섞여도 됨** — 숫자가 아닌 글자는 무시해요.
 - [BestOW UI](https://github.com/Dev-BestOW/BestOW-UI) 디자인 시스템의 `PhoneNumberInput`·`BusinessNumberInput`·`CardNumberInput`·`AmountInput` 등이 쓰는 함수 그대로예요.
@@ -92,6 +92,8 @@ maskDigits('110-123-456789', { end: 4 }); // '***-***-**6789' (계좌번호처�
 | `maskResidentNumber(input)` | 뒤 6자리 가리기(`900101-1******`) |
 | `maskCardNumber(input)` | 앞 4·뒤 4자리만 남기기. 13자리 미만이면 모두 가림 |
 | `maskDigits(input, { start, end })` | 숫자 중 앞 `start`·뒤 `end` 개만 남기고 가리기(구분 글자는 그대로). 남길 자리가 전체를 덮으면 모두 가림 |
+| `matchesKorean(target, query)` | 한국어 목록 검색. 대소문자·앞뒤 공백 무시, 초성(`ㄱㅁ` → 국민은행)과 입력 중인 마지막 글자(`국미` → 국민, `한` → 하나)도 맞음. 빈 검색어는 모두 맞음 |
+| `getChoseong(text)` | 한글 음절을 초성으로(`'국민은행'` → `'ㄱㅁㅇㅎ'`). 다른 글자는 그대로 |
 | `composeExtraAddress(data)` | [카카오(다음) 우편번호 서비스](https://postcode.map.kakao.com/guide) 결과로 도로명 주소 참고항목(법정동, 공동주택 건물명)을 만든다 — 예: `' (역삼동, 래미안)'` |
 
 ### 입력창에서 쓰기

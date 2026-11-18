@@ -136,6 +136,17 @@ describe('MultiCombobox', () => {
     expect(chips()).toEqual(['부산', '인천']);
   });
 
+  it('초성으로 찾는다', async () => {
+    const user = userEvent.setup();
+    render(<MultiCombobox label="지역" options={regions} />);
+    await user.type(input(), 'ㅂㅅ');
+    expect(
+      within(screen.getByRole('listbox', { name: '지역' }))
+        .getAllByRole('option')
+        .map((o) => o.textContent),
+    ).toEqual(['부산']);
+  });
+
   it('Esc 는 닫고 검색어를 지우지만 고른 값은 그대로다', async () => {
     const user = userEvent.setup();
     render(<MultiCombobox label="지역" options={regions} defaultValue={['seoul']} />);

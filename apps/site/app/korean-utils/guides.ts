@@ -23,7 +23,7 @@ export interface Guide {
 }
 
 /** 이 쪽들의 JSON-LD 날짜 — 글을 고치면 modified 를 그날로 */
-export const guideDates = { published: '2026-11-11', modified: '2026-11-17' };
+export const guideDates = { published: '2026-11-11', modified: '2026-11-18' };
 
 export const guides: Guide[] = [
   {
@@ -286,6 +286,35 @@ composeExtraAddress({ userSelectedType: 'J', bname: '역삼동', buildingName: '
       path: '/docs/korean-kit-addressinput--docs',
       body: '우편번호 찾기 창, 참고항목, 상세 주소 칸을 한 번에 그려요. 우편번호 서비스는 공급자로 바꿔 넣을 수 있어요.',
     },
+  },
+  {
+    slug: 'hangul-search',
+    title: '한글 초성 검색 — ㄱㅁ 으로 국민은행 찾기',
+    summary: 'ㄱㅁ 처럼 초성만 쳐도, 국미 처럼 한글을 입력하는 도중이어도 목록에서 국민은행을 찾아요.',
+    problem: [
+      '은행·지역·상품 목록을 검색할 때 한국 사용자는 초성만 치는 경우가 많아요. label.includes(검색어) 로 거르면 "ㄱㅁ" 은 아무것도 찾지 못해요.',
+      '한글은 입력하는 도중의 글자가 그대로 검색어로 들어와요. "국민" 을 치는 동안 검색어는 "국" → "국ㅁ" → "국미" → "국민" 으로 바뀌는데, "국미" 에서 국민은행이 목록에서 사라졌다 다시 나타나요. "하나" 를 칠 때는 "한" 이 먼저 들어와 하나은행이 잠깐 사라지고요.',
+    ],
+    functions: ['matchesKorean', 'getChoseong'],
+    code: `import { getChoseong, matchesKorean } from '@bestow-ui/korean-utils';
+
+matchesKorean('KB국민은행', 'ㄱㅁ'); // true
+matchesKorean('KB국민은행', '국ㅁ'); // true
+matchesKorean('KB국민은행', '국미'); // true (입력 중인 글자)
+matchesKorean('하나은행', '한');      // true (받침이 다음 글자의 첫소리)
+matchesKorean('KB국민은행', 'kb');   // true
+matchesKorean('신한은행', 'ㅎㅅ');    // false
+
+getChoseong('국민은행'); // 'ㄱㅁㅇㅎ'
+
+// 목록 거르기
+['KB국민은행', '신한은행', '하나은행'].filter((name) => matchesKorean(name, 'ㅅㅎ')); // ['신한은행']`,
+    notes: [
+      '대소문자와 검색어 앞뒤 공백은 무시해요. 빈 검색어는 모두 맞아요.',
+      '입력 중인 글자 규칙(국미 → 국민, 한 → 하나)은 검색어의 마지막 글자에만 써요. 앞 글자는 이미 다 친 글자라 정확히 같아야 해요.',
+      '쌍자음은 따로 봐요. ㄱ 으로 까치를 찾지 않아요.',
+      'BestOW UI 의 Combobox·MultiCombobox 는 이 함수를 기본 필터로 써요. 다른 기준이 필요하면 filter prop 으로 바꿀 수 있어요.',
+    ],
   },
 ];
 

@@ -11,6 +11,7 @@ import {
   formatKoreanDate,
   formatPhoneNumber,
   formatResidentNumber,
+  getChoseong,
   isValidAccountNumber,
   isValidBusinessNumber,
   isValidCardNumber,
@@ -21,6 +22,7 @@ import {
   maskName,
   maskPhoneNumber,
   maskResidentNumber,
+  matchesKorean,
   parseResidentNumber,
   phoneNumberDigits,
   phoneNumberMaxDigits,
@@ -273,6 +275,30 @@ function ExtraAddress() {
   );
 }
 
+function HangulSearch() {
+  const [value, setValue] = useState('ㄱㅁ');
+  const banks = ['KB국민은행', '신한은행', '하나은행', '우리은행', '카카오뱅크'];
+  const found = banks.filter((name) => matchesKorean(name, value));
+  return (
+    <>
+      <Field
+        label="검색어"
+        value={value}
+        onChange={setValue}
+        inputMode="text"
+        helperText="ㅅㅎ·국미·한·kb 로 바꿔 보세요"
+      />
+      <Results
+        rows={[
+          ["matchesKorean('KB국민은행', 검색어)", matchesKorean('KB국민은행', value)],
+          ['getChoseong(검색어)', getChoseong(value)],
+          ['은행 목록.filter(…)', found.length ? found.join(', ') : '(없음)'],
+        ]}
+      />
+    </>
+  );
+}
+
 const demos: Record<string, () => ReactNode> = {
   'phone-number': PhoneNumber,
   'business-number': BusinessNumber,
@@ -284,6 +310,7 @@ const demos: Record<string, () => ReactNode> = {
   'bank-account': BankAccount,
   'korean-date': KoreanDate,
   'extra-address': ExtraAddress,
+  'hangul-search': HangulSearch,
 };
 
 /** 함수 문서의 "직접 입력해 보세요" — 입력하는 동안 함수 결과를 바로 보여 준다 */

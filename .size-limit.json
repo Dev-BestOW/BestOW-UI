@@ -71,7 +71,7 @@
     "name": "korean-utils: 전체",
     "path": "packages/korean-utils/dist/index.js",
     "import": "*",
-    "limit": "2.2 kB"
+    "limit": "2.7 kB"
   },
   {
     "name": "korean-utils: 카드번호 서식·검증 (은행 목록이 딸려 오지 않는지 감시)",
@@ -90,5 +90,11 @@
     "path": "packages/korean-utils/dist/index.js",
     "import": "{ formatPhoneNumber }",
     "limit": "300 B"
+  },
+  {
+    "name": "korean-utils: 초성 검색 하나 (다른 함수가 딸려 오지 않는지 감시)",
+    "path": "packages/korean-utils/dist/index.js",
+    "import": "{ matchesKorean }",
+    "limit": "600 B"
   }
 ]

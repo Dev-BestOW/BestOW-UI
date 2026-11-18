@@ -73,6 +73,44 @@ describe('Combobox', () => {
     expect(input().hasAttribute('aria-controls')).toBe(false);
   });
 
+  describe('한국어 검색', () => {
+    const banks: ComboboxOption[] = [
+      { value: '004', label: 'KB국민은행' },
+      { value: '088', label: '신한은행' },
+      { value: '081', label: '하나은행' },
+    ];
+    const bankInput = () => screen.getByRole('combobox', { name: '은행' });
+    const shown = () =>
+      within(screen.getByRole('listbox', { name: '은행' }))
+        .getAllByRole('option')
+        .map((o) => o.textContent);
+
+    it('초성으로 찾는다', async () => {
+      const user = userEvent.setup();
+      render(<Combobox label="은행" options={banks} />);
+      await user.type(bankInput(), 'ㄱㅁ');
+      expect(shown()).toEqual(['KB국민은행']);
+    });
+
+    it('조합 중인 글자로도 목록이 남는다', async () => {
+      const user = userEvent.setup();
+      render(<Combobox label="은행" options={banks} />);
+      await user.type(bankInput(), '국미');
+      expect(shown()).toEqual(['KB국민은행']);
+      expect(screen.queryByText('결과가 없어요', { selector: 'div' })).toBeNull();
+      await user.clear(bankInput());
+      await user.type(bankInput(), '한');
+      expect(shown()).toEqual(['신한은행', '하나은행']);
+    });
+
+    it('filter prop 이 기본 필터를 대신한다', async () => {
+      const user = userEvent.setup();
+      render(<Combobox label="은행" options={banks} filter={(o, q) => o.value.startsWith(q)} />);
+      await user.type(bankInput(), '08');
+      expect(shown()).toEqual(['신한은행', '하나은행']);
+    });
+  });
+
   it('Esc 로 닫으면 입력하던 글자를 지우고 선택된 이름으로 되돌린다', async () => {
     const user = userEvent.setup();
     render(<Combobox label="과일" options={fruits} defaultValue="apple" />);

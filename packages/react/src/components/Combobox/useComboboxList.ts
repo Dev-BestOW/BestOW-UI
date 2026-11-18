@@ -1,9 +1,10 @@
 import { useEffect, useId, useMemo, useState, type KeyboardEvent } from 'react';
+import { matchesKorean } from '@bestow-ui/korean-utils';
 import { ANNOUNCE_DELAY } from '../../utils/useDelayedAnnouncement';
 import type { ComboboxOption } from './Combobox';
 
-export const defaultComboboxFilter = (option: ComboboxOption, query: string) =>
-  option.label.toLowerCase().includes(query.trim().toLowerCase());
+/** 기본 거르기 — 대소문자 무시, 초성(`ㄱㅁ` → 국민은행), 입력 중인 한글(`국미` → 국민)까지 */
+export const defaultComboboxFilter = (option: ComboboxOption, query: string) => matchesKorean(option.label, query);
 
 /**
  * 한글 조합 중의 키는 조합을 끝내는 입력이다. 여기서 항목을 고르면 조합이 끝나며 글자가 이름 뒤에 붙는다("국민은행국").

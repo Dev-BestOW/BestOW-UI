@@ -11,6 +11,8 @@
     "format",
     "validation",
     "hangul",
+    "choseong",
+    "초성검색",
     "kakao-postcode",
     "bestow-ui",
     "전화번호",
