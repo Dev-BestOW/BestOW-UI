@@ -34,3 +34,19 @@ test('빈 제출 → 오류 요약 포커스 → 링크로 칸 이동 → 채워
   await expect(page.getByRole('status').filter({ hasText: '가입했어요' })).toBeVisible();
   await expect(page.getByText('me@bestow.dev · 좌석 1개 · 서류 1개')).toBeVisible();
 });
+
+test('약관 하위 항목: 부모를 누르면 채널이 모두 켜지고, 채널 하나를 끄면 부분 선택', async ({ page }) => {
+  await page.goto('/signup');
+  const ads = page.getByRole('checkbox', { name: '선택 광고성 정보 수신 동의' });
+  const channels = page.getByRole('list', { name: '선택 광고성 정보 수신 동의' });
+  await ads.check();
+  await expect(channels.getByRole('checkbox', { name: '문자' })).toBeChecked();
+  await expect(channels.getByRole('checkbox', { name: '이메일' })).toBeChecked();
+  await channels.getByRole('checkbox', { name: '문자' }).focus();
+  await page.keyboard.press('Space');
+  await expect(channels.getByRole('checkbox', { name: '문자' })).not.toBeChecked();
+  expect(await ads.evaluate((el: HTMLInputElement) => el.indeterminate)).toBe(true);
+  expect(
+    await page.getByRole('checkbox', { name: '전체 동의' }).evaluate((el: HTMLInputElement) => el.indeterminate),
+  ).toBe(true);
+});

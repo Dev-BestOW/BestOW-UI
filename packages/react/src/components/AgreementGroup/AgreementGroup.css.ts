@@ -58,6 +58,18 @@ export const row = style({
   fontSize: vars.font.size.sm,
 });
 
+// 하위 항목 — 부모 체크박스 글자 줄에 맞춰 들여 쓴다 (Checkbox.css.ts 의 sm 컨트롤 폭 16px + 간격 space[2])
+export const subList = style({
+  display: 'flex',
+  flexWrap: 'wrap',
+  gap: `${vars.space[2]} ${vars.space[4]}`,
+  margin: 0,
+  padding: `0 ${vars.space[4]} ${vars.space[2]}`,
+  paddingInlineStart: `calc(${vars.space[4]} + 16px + ${vars.space[2]})`,
+  listStyle: 'none',
+  fontSize: vars.font.size.sm,
+});
+
 export const tag = style({
   fontWeight: vars.font.weight.semibold,
   selectors: {

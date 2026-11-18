@@ -212,6 +212,7 @@ function Everything() {
           <AmountInput quickAmounts={[10000]} max={100000} showMaxButton />
           <AddressInput />
           <AgreementGroup items={[{ value: 'terms', label: '이용약관', required: true }]} />
+          <AgreementGroup items={[{ value: 'm', label: '마케팅', children: [{ value: 'sms', label: '문자' }] }]} />
           <VerificationCodeInput />
           <Calendar today="2026-10-19" />
           <DatePicker label="날짜" today="2026-10-19" />

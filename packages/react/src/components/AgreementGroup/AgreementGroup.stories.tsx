@@ -60,6 +60,32 @@ export const Expanded: Story = {
   },
 };
 
+/** 하위 항목(children) — 광고성 정보는 수신 채널별로 동의를 받는다. 부모는 하위 항목이 모두 켜지면 체크, 일부면 부분 선택 */
+export const NestedItems: Story = {
+  name: '하위 항목 (수신 채널별 동의)',
+  args: {
+    items: [
+      ...items.slice(0, 3),
+      {
+        value: 'marketing',
+        label: '마케팅 정보 수신 동의',
+        content: '새 기능과 이벤트 소식을 보내 드려요. 언제든 설정에서 끌 수 있어요.',
+        children: [
+          { value: 'marketing-sms', label: '문자' },
+          { value: 'marketing-email', label: '이메일' },
+          { value: 'marketing-push', label: '앱 푸시' },
+        ],
+      },
+    ],
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('checkbox', { name: '문자' }));
+    const parent = canvas.getByRole('checkbox', { name: '선택 마케팅 정보 수신 동의' }) as HTMLInputElement;
+    await expect(parent.indeterminate).toBe(true);
+  },
+};
+
 function SignupDemo() {
   const [agreed, setAgreed] = useState<string[]>([]);
   const [submitted, setSubmitted] = useState(false);

@@ -55,7 +55,11 @@ export {
   type AddressProvider,
   type AddressSearchResult,
 } from './components/AddressInput/addressProviders';
-export { hasAllRequiredAgreements, type AgreementItem } from './components/AgreementGroup/agreements';
+export {
+  hasAllRequiredAgreements,
+  type AgreementItem,
+  type AgreementSubItem,
+} from './components/AgreementGroup/agreements';
 
 // hook·이벤트 핸들러가 없는 표시용 컴포넌트 — 서버 컴포넌트로 렌더링된다(클라이언트 JS 없음, `as` 에 서버 컴포넌트도 넘길 수 있음).
 // playground 첫 페이지가 `as` 에 서버 함수를 넘겨 빌드로 확인한다(클라이언트 컴포넌트면 "Functions cannot be passed" 로 실패).

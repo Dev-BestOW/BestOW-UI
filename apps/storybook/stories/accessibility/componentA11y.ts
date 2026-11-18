@@ -229,7 +229,7 @@ export const componentA11y: ComponentA11yGroup[] = [
         name: 'AgreementGroup',
         keyboard: '체크박스는 Space, "보기" 버튼으로 약관 펼침.',
         screenReader:
-          'fieldset(legend = label). "전체 동의" 는 일부 선택 시 혼합 상태. 항목 이름이 "필수 서비스 이용약관" 처럼 필수/선택으로 시작. 보기 버튼은 aria-expanded·aria-controls, 펼친 약관은 이름 있는 region(스크롤 가능하면 포커스 가능).',
+          'fieldset(legend = label). "전체 동의" 는 일부 선택 시 혼합 상태. 항목 이름이 "필수 서비스 이용약관" 처럼 필수/선택으로 시작. 보기 버튼은 aria-expanded·aria-controls, 펼친 약관은 이름 있는 region(스크롤 가능하면 포커스 가능). 하위 항목(children)은 부모 이름("선택 마케팅 정보 수신 동의")을 가진 목록(ul) 안의 체크박스이고, 부모는 하위 항목이 일부만 켜지면 혼합 상태다.',
       },
       {
         name: 'AddressInput',

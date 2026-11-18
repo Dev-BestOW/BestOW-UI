@@ -31,7 +31,7 @@ props 를 모르면 추측하지 말고 전체 문서를 읽는다: https://best
 | 금액 | `AmountInput` ("12만 5,000원" 읽기 표시, `quickAmounts={[10000, 50000]}`·`showMaxButton` 으로 +1만·전액 버튼) | `number \| null` |
 | 주소 | `AddressInput` (기본 카카오 우편번호 검색) | `{ zonecode, address, extraAddress, detail }` |
 | 날짜·기간 | `DatePicker` `DateRangePicker` | `'YYYY-MM-DD'` 문자열(Date 객체 아님) |
-| 약관 동의 | `AgreementGroup` (`items` 에 `required`·`content`) + `hasAllRequiredAgreements(items, value)` | 동의한 value 배열 |
+| 약관 동의 | `AgreementGroup` (`items` 에 `required`·`content`, 수신 채널별 동의는 `children: [{ value: 'sms', label: '문자' }]` — 값에는 하위 value 만) + `hasAllRequiredAgreements(items, value)` | 동의한 value 배열 |
 
 - 하이픈·쉼표를 직접 넣는 `onChange` 서식 코드나 `<input type="number">` 를 만들지 않는다. 값은 항상 **서식 없는 원본**(숫자 문자열·number)으로 저장한다.
 - 서식·검증만 필요하면 `formatPhoneNumber` `isValidBusinessNumber` `isValidAccountNumber` `isValidCardNumber` `formatKoreanAmount` 를 쓴다(서버에서도 된다).

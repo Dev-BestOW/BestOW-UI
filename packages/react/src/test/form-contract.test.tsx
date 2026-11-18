@@ -175,6 +175,26 @@ const cases: Case[] = [
     change: (user) => user.click(screen.getByRole('checkbox', { name: /약관/ })),
   },
   {
+    name: 'AgreementGroup (하위 항목)',
+    element: (
+      <AgreementGroup
+        name="f"
+        defaultValue={['sms']}
+        items={[
+          {
+            value: 'm',
+            label: '마케팅',
+            children: [
+              { value: 'sms', label: '문자' },
+              { value: 'email', label: '이메일' },
+            ],
+          },
+        ]}
+      />
+    ),
+    change: (user) => user.click(screen.getByRole('checkbox', { name: /마케팅/ })),
+  },
+  {
     name: 'Slider',
     element: <Slider label="칸" name="f" defaultValue={[10]} />,
     change: async (user) => {

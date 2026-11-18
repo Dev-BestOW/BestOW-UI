@@ -165,7 +165,16 @@ import { useState } from 'react';
 const items: AgreementItem[] = [
   { value: 'terms', label: '서비스 이용약관 동의', required: true, content: '제1조 (목적) …' },
   { value: 'privacy', label: '개인정보 수집·이용 동의', required: true, content: '수집 항목: …' },
-  { value: 'marketing', label: '마케팅 정보 수신 동의' },
+  {
+    value: 'marketing',
+    label: '마케팅 정보 수신 동의',
+    // 수신 채널별 동의 — 값에는 'sms'·'email'·'push' 만 들어가요
+    children: [
+      { value: 'sms', label: '문자' },
+      { value: 'email', label: '이메일' },
+      { value: 'push', label: '앱 푸시' },
+    ],
+  },
 ];
 
 export function SignupAgreements({ submitted }: { submitted: boolean }) {
@@ -187,6 +196,7 @@ export function SignupAgreements({ submitted }: { submitted: boolean }) {
       '필수 동의를 확인하는 것은 쓰는 쪽 몫이에요. hasAllRequiredAgreements(items, value) 로 확인하고, 빠졌으면 error·helperText 를 주세요. error 일 때는 동의하지 않은 필수 항목만 빨갛게 표시돼요.',
       '"보기" 버튼의 이름은 "필수 서비스 이용약관 동의 보기" 처럼 어떤 약관인지 담아요. 펼친 약관은 이름 있는 영역이에요.',
       '선택 항목을 처음부터 동의한 상태(defaultValue)로 두지 마세요. 선택 동의는 사용자가 직접 골라야 해요.',
+      '광고성 정보처럼 채널별로 동의를 받을 때는 children 으로 하위 항목을 둬요. 부모를 누르면 하위 항목이 모두 켜지고, 일부만 켜면 부모가 부분 선택으로 보여요. 이때 부모의 value 는 값에 들어가지 않고 하위 항목 value 만 들어가요. 필수 부모는 하위 항목이 모두 동의해야 충족돼요.',
       'name 을 주면 동의한 value 마다 hidden input 이 생겨 form 으로 제출돼요.',
       '"전체 동의"·"필수"·"선택"·"보기"·"접기" 문구는 prop 이나 LocaleProvider 로 바꿀 수 있어요.',
     ],

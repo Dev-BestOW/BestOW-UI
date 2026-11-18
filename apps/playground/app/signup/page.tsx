@@ -36,7 +36,15 @@ interface Values {
 const AGREEMENTS = [
   { value: 'terms', label: '서비스 이용약관 동의', required: true },
   { value: 'privacy', label: '개인정보 수집·이용 동의', required: true },
-  { value: 'ads', label: '광고성 정보 수신 동의' },
+  {
+    value: 'ads',
+    label: '광고성 정보 수신 동의',
+    // 수신 채널별 동의 — 값에는 'ads-sms'·'ads-email' 만 들어간다
+    children: [
+      { value: 'ads-sms', label: '문자' },
+      { value: 'ads-email', label: '이메일' },
+    ],
+  },
 ];
 
 function SignupForm({ onSubmit }: { onSubmit: (values: Values) => void }) {

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { render, screen } from '@testing-library/react';
+import { render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { AgreementGroup } from './AgreementGroup';
 import { hasAllRequiredAgreements, type AgreementItem } from './agreements';
@@ -93,5 +93,108 @@ describe('AgreementGroup', () => {
       (i) => i.value,
     );
     expect(values).toEqual(['terms', 'marketing']);
+  });
+});
+
+describe('AgreementGroup 하위 항목', () => {
+  const nested: AgreementItem[] = [
+    { value: 'terms', label: '서비스 이용약관 동의', required: true },
+    {
+      value: 'marketing',
+      label: '마케팅 정보 수신 동의',
+      children: [
+        { value: 'sms', label: '문자' },
+        { value: 'email', label: '이메일' },
+        { value: 'push', label: '앱 푸시' },
+      ],
+    },
+  ];
+  const parent = () => box('선택 마케팅 정보 수신 동의');
+
+  it('부모를 누르면 하위 항목이 모두 켜지고, 다시 누르면 모두 꺼진다', async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(<AgreementGroup items={nested} onValueChange={onValueChange} />);
+    await user.click(parent());
+    const [on] = onValueChange.mock.lastCall!;
+    expect(on).toHaveLength(3);
+    expect(on).toEqual(expect.arrayContaining(['sms', 'email', 'push']));
+    expect(parent().checked).toBe(true);
+    await user.click(parent());
+    expect(onValueChange).toHaveBeenLastCalledWith([]);
+  });
+
+  it('하위 항목 일부만 켜면 부모와 전체 동의가 부분 선택', async () => {
+    const user = userEvent.setup();
+    render(<AgreementGroup items={nested} />);
+    await user.click(box('문자'));
+    expect(parent().checked).toBe(false);
+    expect(parent().indeterminate).toBe(true);
+    expect(all().indeterminate).toBe(true);
+    await user.click(box('이메일'));
+    await user.click(box('앱 푸시'));
+    expect(parent().checked).toBe(true);
+    expect(parent().indeterminate).toBe(false);
+  });
+
+  it('전체 동의는 말단 value 만 낸다', async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    render(<AgreementGroup items={nested} onValueChange={onValueChange} />);
+    await user.click(all());
+    expect(onValueChange).toHaveBeenLastCalledWith(['terms', 'sms', 'email', 'push']);
+    expect(all().checked).toBe(true);
+  });
+
+  it('옛 값에 부모 value 가 있어도 무시하고 제출하지 않는다', () => {
+    const { container } = render(<AgreementGroup items={nested} defaultValue={['marketing']} name="agree" />);
+    expect(parent().checked).toBe(false);
+    expect(parent().indeterminate).toBe(false);
+    expect(all().indeterminate).toBe(false);
+    expect(container.querySelectorAll('input[type="hidden"][name="agree"]')).toHaveLength(0);
+  });
+
+  it('하위 항목 목록은 부모 이름을 갖고, 하위 항목 이름에는 필수·선택이 붙지 않는다', () => {
+    render(<AgreementGroup items={nested} />);
+    const list = screen.getByRole('list', { name: '선택 마케팅 정보 수신 동의' });
+    expect(within(list).getAllByRole('checkbox')).toHaveLength(3);
+    for (const name of ['문자', '이메일', '앱 푸시']) expect(within(list).getByRole('checkbox', { name })).toBeTruthy();
+  });
+
+  it('필수 부모의 동의하지 않은 하위 항목은 error 일 때 invalid', () => {
+    const requiredNested: AgreementItem[] = [
+      {
+        value: 'age',
+        label: '연령 확인',
+        required: true,
+        children: [
+          { value: 'over14', label: '만 14세 이상' },
+          { value: 'adult', label: '성인' },
+        ],
+      },
+    ];
+    render(<AgreementGroup items={requiredNested} defaultValue={['over14']} error />);
+    expect(box('만 14세 이상').getAttribute('aria-invalid')).not.toBe('true');
+    expect(box('성인').getAttribute('aria-invalid')).toBe('true');
+  });
+});
+
+describe('hasAllRequiredAgreements 하위 항목', () => {
+  const requiredParent: AgreementItem[] = [
+    {
+      value: 'p',
+      label: '필수 묶음',
+      required: true,
+      children: [
+        { value: 'a', label: 'A' },
+        { value: 'b', label: 'B' },
+      ],
+    },
+    { value: 'opt', label: '선택', children: [{ value: 'c', label: 'C' }] },
+  ];
+  it('필수 부모는 하위 항목이 모두 동의해야 충족된다', () => {
+    expect(hasAllRequiredAgreements(requiredParent, ['a'])).toBe(false);
+    expect(hasAllRequiredAgreements(requiredParent, ['a', 'b'])).toBe(true);
+    expect(hasAllRequiredAgreements(requiredParent, ['p'])).toBe(false);
   });
 });

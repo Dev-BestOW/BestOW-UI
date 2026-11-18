@@ -6,7 +6,7 @@ import { useFormReset } from '../../utils/useFormReset';
 import { Checkbox } from '../Checkbox';
 import * as fieldStyles from '../Input/Input.css';
 import * as styles from './AgreementGroup.css';
-import type { AgreementItem } from './agreements';
+import { leafValues, type AgreementItem } from './agreements';
 import { useMessages } from '../../i18n/LocaleProvider';
 
 export interface AgreementGroupProps {
@@ -74,7 +74,9 @@ export const AgreementGroup = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, Ag
     // value 를 넘기면 undefined 여도 제어 모드로 둔다 (uncontrolled → controlled 경고 방지)
     const isControlled = 'value' in props;
     const [innerValue, setInnerValue] = useState<string[]>(defaultValue ?? []);
-    const agreed = isControlled ? (value ?? []) : innerValue;
+    const allValues = leafValues(items);
+    // 하위 항목이 있는 부모의 value 처럼 동의 값이 될 수 없는 값은 무시한다 (출력에도 넣지 않는다)
+    const agreed = (isControlled ? (value ?? []) : innerValue).filter((v) => allValues.includes(v));
     const [expanded, setExpanded] = useState<string[]>([]);
 
     const rootRef = useRef<HTMLFieldSetElement>(null);
@@ -90,12 +92,14 @@ export const AgreementGroup = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, Ag
       onValueChange?.(next);
     };
 
-    const allValues = items.map((item) => item.value);
     const agreedCount = allValues.filter((v) => agreed.includes(v)).length;
-    const allChecked = items.length > 0 && agreedCount === items.length;
+    const allChecked = allValues.length > 0 && agreedCount === allValues.length;
 
-    const toggleItem = (itemValue: string, checked: boolean) =>
-      update(checked ? [...agreed.filter((v) => v !== itemValue), itemValue] : agreed.filter((v) => v !== itemValue));
+    // 항목(하위 항목이 있으면 그 전부)을 켜거나 끈다
+    const toggleValues = (values: string[], checked: boolean) => {
+      const rest = agreed.filter((v) => !values.includes(v));
+      update(checked ? [...rest, ...values] : rest);
+    };
 
     return (
       <fieldset
@@ -122,14 +126,18 @@ export const AgreementGroup = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, Ag
               const toggleTextId = `${baseId}-${item.value}-toggle`;
               const contentId = `${baseId}-${item.value}-content`;
               const isOpen = expanded.includes(item.value);
+              const values = leafValues([item]);
+              const childCount = values.filter((v) => agreed.includes(v)).length;
+              const children = item.children?.length ? item.children : null;
               return (
                 <li key={item.value} className={styles.item}>
                   <div className={styles.row}>
                     <Checkbox
                       size="sm"
-                      checked={agreed.includes(item.value)}
-                      invalid={error && item.required && !agreed.includes(item.value)}
-                      onChange={(event) => toggleItem(item.value, event.target.checked)}
+                      checked={childCount === values.length}
+                      indeterminate={children ? childCount > 0 && childCount < values.length : undefined}
+                      invalid={error && item.required && childCount < values.length}
+                      onChange={(event) => toggleValues(values, event.target.checked)}
                       label={
                         <span id={labelId}>
                           <span className={styles.tag} data-required={item.required || undefined}>
@@ -156,6 +164,21 @@ export const AgreementGroup = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, Ag
                       </button>
                     )}
                   </div>
+                  {children && (
+                    <ul aria-labelledby={labelId} className={styles.subList}>
+                      {children.map((child) => (
+                        <li key={child.value}>
+                          <Checkbox
+                            size="sm"
+                            label={child.label}
+                            checked={agreed.includes(child.value)}
+                            invalid={error && item.required && !agreed.includes(child.value)}
+                            onChange={(event) => toggleValues([child.value], event.target.checked)}
+                          />
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                   {item.content && isOpen && (
                     // 내용이 길면 스크롤된다 — 키보드로도 스크롤할 수 있게 포커스를 받는 이름 있는 영역으로 둔다
                     // eslint-disable-next-line jsx-a11y/no-noninteractive-tabindex
