@@ -113,6 +113,9 @@ export interface BestowMessages {
   /** AmountInput — "금액", "원" */
   amount: string;
   currencyUnit: string;
+  /** AmountInput 빠른 금액 — 버튼 묶음 이름 "빠른 금액", "전액" (1.0 이후 추가, 선택 키) */
+  quickAmounts?: string;
+  maxAmount?: string;
   /** AddressInput */
   address: string;
   addressSearch: string;

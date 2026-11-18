@@ -209,6 +209,7 @@ function Everything() {
           <CorporateNumberInput />
           <AccountNumberInput defaultValue="110123456789" />
           <AmountInput />
+          <AmountInput quickAmounts={[10000]} max={100000} showMaxButton />
           <AddressInput />
           <AgreementGroup items={[{ value: 'terms', label: '이용약관', required: true }]} />
           <VerificationCodeInput />

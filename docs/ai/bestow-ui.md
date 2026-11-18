@@ -28,7 +28,7 @@ props 를 모르면 추측하지 말고 전체 문서를 읽는다: https://best
 | 법인등록번호·카드번호·계좌번호 | `CorporateNumberInput` `CardNumberInput` `AccountNumberInput` | 숫자 문자열 |
 | 은행 목록 | `KOREAN_BANKS`(`{ code, name }`) → `NativeSelect`·`Select` 의 options | 은행 코드 `'004'` |
 | 주민등록번호 | `ResidentNumberInput` (뒷자리 가림) | 숫자 13자리 문자열 |
-| 금액 | `AmountInput` ("12만 5,000원" 읽기 표시) | `number \| null` |
+| 금액 | `AmountInput` ("12만 5,000원" 읽기 표시, `quickAmounts={[10000, 50000]}`·`showMaxButton` 으로 +1만·전액 버튼) | `number \| null` |
 | 주소 | `AddressInput` (기본 카카오 우편번호 검색) | `{ zonecode, address, extraAddress, detail }` |
 | 날짜·기간 | `DatePicker` `DateRangePicker` | `'YYYY-MM-DD'` 문자열(Date 객체 아님) |
 | 약관 동의 | `AgreementGroup` (`items` 에 `required`·`content`) + `hasAllRequiredAgreements(items, value)` | 동의한 value 배열 |

@@ -279,7 +279,7 @@ export default function InteractivePage() {
         />
         {/* 기본 공급자: 카카오 우편번호 (검색을 누를 때 스크립트를 불러온다) */}
         <AddressInput label="사업장 주소" />
-        <AmountInput label="정산 금액" max={100000000} fullWidth />
+        <AmountInput label="정산 금액" max={100000000} quickAmounts={[10000, 100000]} fullWidth />
         <FileUpload
           label="통장 사본"
           name="bankbook"

@@ -36,6 +36,24 @@ export const WithMax: Story = {
   args: { label: '충전 금액', max: 2000000, helperText: '한 번에 200만원까지 충전할 수 있어요.' },
 };
 
+/** 송금·충전 화면의 빠른 금액 버튼 — 누를 때마다 더하고, "전액" 은 max 로. 누른 뒤 합계를 스크린리더에 알린다 */
+export const QuickAmounts: Story = {
+  name: '빠른 금액',
+  args: {
+    label: '충전 금액',
+    quickAmounts: [10000, 50000, 100000],
+    max: 1000000,
+    showMaxButton: true,
+    helperText: '한 번에 100만원까지 충전할 수 있어요.',
+  },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: '+5만' }));
+    await userEvent.click(canvas.getByRole('button', { name: '+10만' }));
+    await expect(canvas.getByRole('textbox', { name: '충전 금액' })).toHaveValue('150,000');
+  },
+};
+
 /** 실제 브라우저에서 쉼표가 늘어날 때 커서 위치를 확인한다 */
 export const CaretStays: Story = {
   name: '쉼표가 생겨도 커서 유지',

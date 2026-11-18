@@ -110,6 +110,11 @@ const cases: Case[] = [
     change: typeInto('칸', '{Backspace}'),
   },
   { name: 'AmountInput', element: <AmountInput label="칸" name="f" />, change: typeInto('칸', '1000') },
+  {
+    name: 'AmountInput (빠른 금액)',
+    element: <AmountInput label="칸" name="f" quickAmounts={[10000]} max={100000} showMaxButton />,
+    change: (user) => user.click(screen.getByRole('button', { name: '+1만' })),
+  },
   { name: 'NumberInput', element: <NumberInput label="칸" name="f" defaultValue={1} />, change: typeInto('칸', '2') },
   {
     name: 'ResidentNumberInput',

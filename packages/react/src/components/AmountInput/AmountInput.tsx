@@ -1,8 +1,11 @@
-import { forwardRef, useRef, type ReactNode } from 'react';
+import { forwardRef, useRef, useState, type ReactNode } from 'react';
 import { formatKoreanAmount } from '@bestow-ui/korean-utils';
 import { cx } from '../../utils/cx';
 import { mergeRefs } from '../../utils/mergeRefs';
 import { useFormattedInput } from '../../utils/useFormattedInput';
+import { useDelayedAnnouncement } from '../../utils/useDelayedAnnouncement';
+import { visuallyHidden } from '../../styles/visuallyHidden.css';
+import { Button } from '../Button';
 import { TextField, type TextFieldProps } from '../Input';
 import * as styles from './AmountInput.css';
 import { useMessages } from '../../i18n/LocaleProvider';
@@ -26,6 +29,17 @@ export interface AmountInputProps extends Omit<
    * helperText 를 주면 그 아래 줄로 함께 보여 준다.
    */
   showKoreanAmount?: boolean;
+  /**
+   * 누를 때마다 더할 금액 버튼 (예: `[10000, 50000, 100000]` → "+1만"·"+5만"·"+10만").
+   * 입력칸 아래에 놓이고, 누른 뒤 합계를 스크린리더에 알린다. max 를 넘으면 max 로 맞춘다.
+   */
+  quickAmounts?: number[];
+  /** "전액" 버튼 — 누르면 max 로 바꾼다. max 가 있을 때만 보인다 */
+  showMaxButton?: boolean;
+  /** 빠른 금액 버튼 묶음의 이름 (기본 "빠른 금액") */
+  quickAmountsLabel?: string;
+  /** "전액" 버튼 문구 */
+  maxButtonText?: string;
   // ── 아래는 TextFieldProps 에서 물려받는 prop 중 자주 쓰는 것. 타입은 같고, Storybook 자동 문서(react-docgen 이
   //    Omit 으로 물려받은 prop 을 풀지 못함)에 보이도록 다시 적는다.
   /** 입력창 위에 표시할 레이블 */
@@ -62,6 +76,12 @@ export const AmountInput = /* @__PURE__ */ forwardRef<HTMLInputElement, AmountIn
       max,
       unit: unitProp,
       showKoreanAmount = true,
+      quickAmounts,
+      showMaxButton,
+      quickAmountsLabel: quickAmountsLabelProp,
+      maxButtonText: maxButtonTextProp,
+      fullWidth,
+      disabled,
       label: labelProp,
       placeholder = '0',
       helperText,
@@ -96,17 +116,34 @@ export const AmountInput = /* @__PURE__ */ forwardRef<HTMLInputElement, AmountIn
       inputRef,
     });
 
+    const isControlled = 'value' in props;
+    const hasMaxButton = Boolean(showMaxButton) && max !== undefined;
+    const hasQuickButtons = (quickAmounts?.length ?? 0) > 0 || hasMaxButton;
+    // 빠른 금액을 누른 뒤의 합계 — 버튼에 포커스가 머물러 화면의 금액 변화를 모르니 알려 준다. 직접 입력하면 비운다
+    const [quickMessage, setQuickMessage] = useState('');
+    const announcement = useDelayedAnnouncement(quickMessage);
+
+    const setAmount = (amount: number) => {
+      const next = sanitize(String(amount));
+      if (!isControlled) field.setRaw(next);
+      if (next !== field.raw) onValueChange?.(Number(next));
+      setQuickMessage(formatKoreanAmount(Number(next), unit));
+    };
+
     const reading: ReactNode =
       showKoreanAmount && field.raw !== '' ? formatKoreanAmount(Number(field.raw), unit) : null;
 
-    return (
+    const textField = (
       <TextField
         ref={mergeRefs(ref, inputRef)}
         label={label}
         placeholder={placeholder}
         inputMode="numeric"
         value={field.display}
-        onChange={field.onChange}
+        onChange={(event) => {
+          field.onChange(event);
+          setQuickMessage('');
+        }}
         onKeyDown={(event) => {
           field.onKeyDown(event);
           onKeyDown?.(event);
@@ -124,8 +161,49 @@ export const AmountInput = /* @__PURE__ */ forwardRef<HTMLInputElement, AmountIn
           )
         }
         className={cx(styles.input, className)}
+        fullWidth={fullWidth}
+        disabled={disabled}
         {...rest}
       />
+    );
+    if (!hasQuickButtons) return textField;
+
+    const quickAmountsLabel = quickAmountsLabelProp ?? m.quickAmounts ?? '빠른 금액';
+    const maxButtonText = maxButtonTextProp ?? m.maxAmount ?? '전액';
+    return (
+      <div className={cx(styles.root, fullWidth && styles.rootFullWidth)}>
+        {textField}
+        <div role="group" aria-label={quickAmountsLabel} className={styles.quickAmounts}>
+          {quickAmounts?.map((amount) => (
+            <Button
+              key={amount}
+              type="button"
+              size="sm"
+              variant="outline"
+              color="neutral"
+              disabled={disabled}
+              onClick={() => setAmount(Number(field.raw || 0) + amount)}
+            >
+              {`+${formatKoreanAmount(amount, '')}`}
+            </Button>
+          ))}
+          {hasMaxButton && (
+            <Button
+              type="button"
+              size="sm"
+              variant="outline"
+              color="neutral"
+              disabled={disabled}
+              onClick={() => max !== undefined && setAmount(max)}
+            >
+              {maxButtonText}
+            </Button>
+          )}
+        </div>
+        <span role="status" className={visuallyHidden}>
+          {announcement}
+        </span>
+      </div>
     );
   },
 );

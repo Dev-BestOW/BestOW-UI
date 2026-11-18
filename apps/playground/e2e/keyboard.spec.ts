@@ -239,6 +239,21 @@ test('서식 입력: 숫자만 입력하면 하이픈·쉼표가 붙는다 (Date
   await expect(amount).toHaveValue('1,250,000');
 });
 
+test('빠른 금액: 키보드로 버튼을 눌러 더하고, 합계를 알린다', async ({ page }) => {
+  await page.goto('/interactive');
+  const amount = page.getByRole('textbox', { name: '정산 금액' });
+  const quick = page.getByRole('group', { name: '빠른 금액' });
+  await amount.focus();
+  await page.keyboard.press('Tab');
+  await expect(quick.getByRole('button', { name: '+1만' })).toBeFocused();
+  await page.keyboard.press('Enter');
+  await page.keyboard.press('Tab');
+  await expect(quick.getByRole('button', { name: '+10만' })).toBeFocused();
+  await page.keyboard.press('Space');
+  await expect(amount).toHaveValue('110,000');
+  await expect(page.getByRole('status').filter({ hasText: '11만원' })).toHaveText('11만원');
+});
+
 test('카드·법인·계좌: 카드는 4자리씩 끊고 맞으면 가린 번호, 틀리면 오류 / 계좌는 붙여 넣어도 숫자만 / 은행은 금융결제원 목록', async ({
   page,
 }) => {

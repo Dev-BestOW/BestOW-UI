@@ -91,6 +91,8 @@ export const en: BestowMessages = {
   accountNumberIncomplete: 'Enter at least 10 digits.',
   amount: 'Amount',
   currencyUnit: 'KRW',
+  quickAmounts: 'Quick amounts',
+  maxAmount: 'Max',
   address: 'Address',
   addressSearch: 'Find address',
   addressSearchDescription: 'Search by road name, building name, or lot number.',

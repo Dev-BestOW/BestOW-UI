@@ -25,7 +25,7 @@ export interface KitPage {
 }
 
 /** 이 쪽들의 JSON-LD 날짜 — 글을 고치면 modified 를 그날로 */
-export const kitDates = { published: '2026-11-15', modified: '2026-11-17' };
+export const kitDates = { published: '2026-11-15', modified: '2026-11-18' };
 
 export const kitPages: KitPage[] = [
   {
@@ -216,6 +216,8 @@ export function TransferAmount() {
       value={amount}
       onValueChange={setAmount}
       max={5_000_000}
+      quickAmounts={[10_000, 50_000, 100_000]} // +1만·+5만·+10만 버튼
+      showMaxButton // "전액" — max 로
       helperText="한 번에 500만원까지 보낼 수 있어요"
     />
   );
@@ -224,6 +226,7 @@ export function TransferAmount() {
       '값은 number, 비우면 null 이에요. 음수와 소수점은 받지 않아요(원 단위 정수).',
       'max 를 넘게 입력하면 max 로 맞춰요. 왜 맞춰졌는지 알 수 있게 helperText 로 한도를 함께 알려 주세요.',
       '한글 금액은 도움말 자리에 보이고, 스크린리더도 칸 설명으로 함께 읽어요. helperText 를 주면 그 아래 줄에 붙어요. 끄려면 showKoreanAmount={false} 예요.',
+      'quickAmounts 를 주면 칸 아래에 "+1만" 같은 빠른 금액 버튼이 생겨 누를 때마다 더해요. showMaxButton 은 max 로 채우는 "전액" 버튼이에요(max 가 있을 때만). 버튼을 눌러도 포커스는 버튼에 있어 칸이 바뀐 것을 모르니, 잠시 뒤 합계("15만원")를 스크린리더에 알려요.',
       'unit 으로 단위를 바꿔요(예: "포인트"). 칸 뒤와 한글 금액에 함께 붙어요.',
       '최대 15자리(천조 원 단위)까지 받아요. name 으로 form 을 그대로 제출하면 쉼표가 든 화면 글자가 가요.',
     ],

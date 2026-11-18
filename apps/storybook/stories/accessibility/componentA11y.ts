@@ -197,7 +197,7 @@ export const componentA11y: ComponentA11yGroup[] = [
         keyboard:
           '하이픈·쉼표는 자동. 서식 문자 뒤에서 Backspace/Delete 를 누르면 그 너머 숫자를 지운다(커서 위치 유지).',
         screenReader:
-          '모바일에서 숫자 키패드(전화번호는 inputMode="tel", 나머지는 "numeric"). AmountInput 은 "12만 3,400원" 같은 한글 금액을 helperText 로 함께 읽는다. 사업자번호는 검증 실패를 aria-invalid + 문구로 — 10자리를 채운 순간의 오류는 숨은 status 영역에 입력이 0.8초 멈춘 뒤 넣어 다시 들어가지 않아도 읽힌다(VoiceOver 점검 2026-10-21 의 개선 후보).',
+          '모바일에서 숫자 키패드(전화번호는 inputMode="tel", 나머지는 "numeric"). AmountInput 은 "12만 3,400원" 같은 한글 금액을 helperText 로 함께 읽는다. 빠른 금액 버튼(quickAmounts·showMaxButton)은 "빠른 금액" 이름의 group 안 일반 버튼이고, 누르면 포커스는 버튼에 둔 채 합계를 처음부터 있는 숨은 status 영역에 0.8초 뒤 넣는다. 사업자번호는 검증 실패를 aria-invalid + 문구로 — 10자리를 채운 순간의 오류는 숨은 status 영역에 입력이 0.8초 멈춘 뒤 넣어 다시 들어가지 않아도 읽힌다(VoiceOver 점검 2026-10-21 의 개선 후보).',
       },
       {
         name: 'CardNumberInput · CorporateNumberInput · AccountNumberInput',
