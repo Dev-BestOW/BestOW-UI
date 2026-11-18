@@ -64,6 +64,9 @@ export const day = style({
   fontVariantNumeric: 'tabular-nums',
   cursor: 'pointer',
   selectors: {
+    // 글자색 규칙은 모두 같은 우선순위(클래스 + 속성 하나)로 두고 순서로 정한다: 토요일 → 일요일·공휴일(공휴일인 토요일은 빨강) → 선택.
+    // 토요일을 `:not([data-holiday])` 로 쓰면 우선순위가 높아져 선택된 토요일이 파란 배경에 파란 글자가 됐다(2026-11-18).
+    '&[data-weekday="6"]': { color: vars.color.primary.text },
     '&[data-weekday="0"], &[data-holiday]': { color: vars.color.danger.text },
     // 공휴일을 색만으로 알리지 않도록 숫자 아래에 점을 찍는다 (KWCAG 5.4.1 / WCAG 1.4.1)
     '&[data-holiday]::after': {
@@ -77,7 +80,6 @@ export const day = style({
       borderRadius: vars.radius.full,
       backgroundColor: 'currentColor',
     },
-    '&[data-weekday="6"]:not([data-holiday])': { color: vars.color.primary.text },
     '&:hover:not([aria-disabled="true"])': { backgroundColor: vars.color.bg.muted },
     '&[aria-current="date"]': { borderColor: vars.color.border.strong, fontWeight: vars.font.weight.semibold },
     '&[data-selected]': {

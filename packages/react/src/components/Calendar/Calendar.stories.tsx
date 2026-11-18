@@ -28,6 +28,9 @@ export const Playground: Story = {};
 
 export const Selected: Story = { name: '선택된 날짜', args: { defaultValue: '2026-10-21' } };
 
+// 토요일 파랑 글자가 선택 색(흰 글자)을 덮어 파란 배경에 파란 글자가 되던 문제(2026-11-18)를 axe 대비 검사로 막는다
+export const SelectedSaturday: Story = { name: '선택된 토요일', args: { defaultValue: '2026-10-17' } };
+
 export const Holidays: Story = { name: '공휴일 표시', args: { isHoliday } };
 
 export const Range: Story = {
