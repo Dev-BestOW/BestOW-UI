@@ -55,7 +55,6 @@
 ### 사람이 할 일
 - [ ] **bestow-ui.com 마무리**: Cloudflare Web Analytics 에 bestow-ui.com 방문이 잡히는지 확인(안 잡히면 사이트 추가·토큰 교체), (선택) 조직 루트 저장소 `dev-bestow.github.io` 이동 대상·robots.txt 를 새 주소로. 도메인 자동 갱신 유지. (Search Console·네이버 소유확인·sitemap 제출은 2026-11-14 끝남)
 - [ ] 11/19 버전 PR #30 머지(첫 정기 배포).
-- [ ] **인프라 보안 설정(2026-11-18 점검)** — ⑥ (선택) CAA `0 issue "letsencrypt.org"`. 이미 된 것: Actions "PR 만들기·승인 허용" 끔(2026-11-18, gh — 기본 토큰은 size.yml PR 댓글만, 버전 PR·기준 이미지 커밋은 App 토큰), Cloudflare 도메인 자동 갱신·이전 잠금·WHOIS 비공개(만료 2027-11-14 — 결제 카드 유효기간 유지), DNSSEC 켬(2026-11-18 — **DNS 를 Cloudflare 밖으로 옮길 때는 먼저 끈다**), npm·GitHub·Cloudflare 계정 2FA(사용자 확인), npm 4개 패키지 Publishing access "2FA 필수·bypass 토큰 금지"(Trusted Publisher Valid), Secret scanning·Push protection·Private vulnerability reporting·Dependabot alerts(열린 경고 0)·Dependabot security updates(2026-11-18, 보안 PR 만 — `.github/dependabot.yml`)·Pages HTTPS 강제·도메인 검증, main 규칙(삭제·force push 금지 — 직접 push 와 봇 커밋 때문에 "CI 통과 필수" 는 넣지 않음, 버전 PR 은 녹색 확인 후 머지).
 - [ ] velog 게시 · 요즘IT 기고 제안 · 발표 지원(CFP 공고 때) · 접근성 커뮤니티 글 — 초안: 알리기 준비물 Artifact https://claude.ai/artifact/LvPgoSsmGKHjLd34FP789u
 - [ ] 12월 초 GEO 첫 기록: `docs/GEO-CHECK.md` 의 질문 5개를 ChatGPT·Perplexity·Gemini 에 넣고 결과·Search Console·Cloudflare AI 유입을 알려 주기(Claude 가 표에 적음).
 - [ ] Figma: 요금제 올릴지(다크 모드·라이브러리 게시·페이지 제한), Community 공개 여부 — `docs/FIGMA.md`.
@@ -152,3 +151,4 @@
 | 2026-11-18 | 인프라: `/.well-known/security.txt`(RFC 9116, 연락처 = GitHub 비공개 신고, Expires 2027-11-17 — site E2E 가 30일 전부터 실패) + Pages 배포 `include-hidden-files`(조립 스크립트가 security.txt 누락·다른 숨김 파일을 막음 — `.DS_Store` 넣어 변이 확인). 사이트 감시 `uptime.yml`(6시간마다, `scripts/uptime-check.mjs` — 쪽 9·넘겨주기 3·인증서 14일·security.txt 30일, 재시도 3회, 실패 시 GitHub 메일). 운영 사이트에 돌려 배포 전 security.txt 404 를 잡는 것 확인 |
 | 2026-11-18 | 배포 확인: `/.well-known/security.txt` 200, Uptime 수동 실행 14개 모두 ✅. DNSSEC 완료 — `.com` DS(키 태그 2371, 알고리즘 13) 등록, 1.1.1.1 응답에 `ad` 플래그 |
 | 2026-11-18 | 인프라: Dependabot security updates 켬(gh) + `.github/dependabot.yml`(npm·github-actions, 버전 올리기 PR 은 `open-pull-requests-limit: 0` 으로 끔, 커밋 접두어 ⬆️). size.yml PR 댓글은 Dependabot PR 에서 건너뜀(읽기 전용 토큰이라 실패했을 것). 패키지 dependencies 를 바꾼 보안 PR 은 changeset 을 더해 머지 |
+| 2026-11-18 | 인프라: CAA `0 issue "letsencrypt.org"`(Cloudflare). Universal SSL 이 켜져 있으면 Cloudflare 가 자기 CA 4곳(comodoca·digicert·pki.goog·ssl.com)을 숨은 CAA 로 더해 꺼 둠(모든 레코드가 DNS only 라 쓰지 않음) → 네임서버·1.1.1.1·8.8.8.8 모두 letsencrypt.org 하나, 사이트 200·www 301 그대로. 인프라 보안 점검 항목 모두 끝 |

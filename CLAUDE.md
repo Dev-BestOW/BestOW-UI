@@ -340,4 +340,6 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
   같은 경로로 넘겨 준다. 배포 빌드의 basePath 는 configure-pages 의 `base_path`(도메인이면 '') — Settings 에서 도메인을 빼면 다시 /BestOW-UI 로 빌드된다.
   주소를 적는 곳: `apps/site/app/links.ts` 의 `siteOrigin`(canonical·OG·sitemap·robots), Storybook `manager-head.html`, playground `layout.tsx` OG, README·package.json `homepage`.
   **도메인 자동 갱신과 GitHub 조직 Verified domains 를 유지한다** — 만료되면 남이 사서 npm README 링크를 가로챌 수 있다.
+  DNS(Cloudflare)는 모두 **DNS only** 로 둔다(프록시를 켜면 GitHub 의 Let's Encrypt 발급·Enforce HTTPS 가 꼬임 — 화면의 "Proxying is required" 안내는 무시). DNSSEC 켬 — **DNS 를 Cloudflare 밖으로 옮길 땐 먼저 끈다**.
+  CAA 는 `letsencrypt.org` 하나, Universal SSL 은 꺼 둠(켜면 Cloudflare CA 4곳이 CAA 에 자동으로 붙는다) — **프록시를 쓰게 되면 Universal SSL 을 먼저 다시 켠다**.
 - GitHub Actions `pull_request` 의 `branches`/`branches-ignore` 는 **base 브랜치** 기준이다. head 브랜치(예: changeset-release/**)로 거르려면 job 의 `if` 를 쓴다.
