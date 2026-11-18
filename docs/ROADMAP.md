@@ -67,8 +67,6 @@
 - [ ] `npx create-next-app --example …/examples/next-starter` 실제 설치(26번), shadcn-starter StackBlitz 링크(25번).
 - [ ] 11/19 배포 뒤 npm 검색 `사업자등록번호`·`전화번호` 순위 다시 조회(24번).
 - [ ] TanStack Table 가이드 스토리의 시각 회귀 기준 이미지가 main push 때 자동 생성됐는지.
-- [ ] 사이트 감시·security.txt push 뒤: 배포된 `/.well-known/security.txt` 200, Actions › Uptime 을 수동 실행(Run workflow)해 14개 모두 ✅(배포 전 로컬 실행은 security.txt 2개만 실패 — 정상).
-- [ ] DNSSEC: `.com` 에 DS 레코드가 올라갔는지(`dig +short bestow-ui.com DS @a.gtld-servers.net`), 1.1.1.1 응답에 `ad` 플래그. 2026-11-18 에는 서명(DNSKEY·RRSIG)만 있고 DS 는 대기 중.
 - [ ] AgreementGroup "하위 항목" 스토리 기준 이미지(`korean-kit-agreementgroup--nested-items`)가 main push 때 자동 생성됐는지(Calendar·Combobox·AmountInput 새 스토리는 생성 확인 — 기존 이미지 변경 0).
 - [ ] 방문 통계 일주일 뒤 읽히는 문서·유입 경로 정리 → 다음 작업 제안, 29번 ✅.
 
@@ -152,3 +150,4 @@
 | 2026-11-18 | 인프라 점검(읽기만): 사이트·주요 경로 200, 옛 주소·http·www 301, 인증서 Let's Encrypt ~2027-02-12, 도메인 Cloudflare 만료 2027-11-14·이전 잠금, 최근 Actions 100회 실패 0(main CI 취소 16/30 은 연속 push·기준 이미지 봇 커밋 때문, 마지막 커밋은 끝까지 검사), 방문 통계 스크립트 3곳 1개씩, sitemap 34. 메일 위조 방지 없음 → 사용자가 Cloudflare DNS 에 null MX `0 .`·SPF `v=spf1 -all`·DMARC `p=reject` 추가(1.1.1.1·8.8.8.8·원본 NS 확인). 남은 설정은 "사람이 할 일" |
 | 2026-11-18 | 인프라 점검 2(gh 로그인으로): Secret scanning·Push protection·Private vulnerability reporting·Dependabot alerts 켜짐(열린 경고 0·비밀 경고 0), Dependabot security updates 꺼짐, Pages HTTPS 강제·도메인 verified, main ruleset(삭제·force push 금지), Actions 기본 권한 read·PR 승인 허용, deploy key·webhook 0, 협업자 본인뿐. 저장소는 조직이 아니라 개인 계정 소유 |
 | 2026-11-18 | 인프라: `/.well-known/security.txt`(RFC 9116, 연락처 = GitHub 비공개 신고, Expires 2027-11-17 — site E2E 가 30일 전부터 실패) + Pages 배포 `include-hidden-files`(조립 스크립트가 security.txt 누락·다른 숨김 파일을 막음 — `.DS_Store` 넣어 변이 확인). 사이트 감시 `uptime.yml`(6시간마다, `scripts/uptime-check.mjs` — 쪽 9·넘겨주기 3·인증서 14일·security.txt 30일, 재시도 3회, 실패 시 GitHub 메일). 운영 사이트에 돌려 배포 전 security.txt 404 를 잡는 것 확인 |
+| 2026-11-18 | 배포 확인: `/.well-known/security.txt` 200, Uptime 수동 실행 14개 모두 ✅. DNSSEC 완료 — `.com` DS(키 태그 2371, 알고리즘 13) 등록, 1.1.1.1 응답에 `ad` 플래그 |
