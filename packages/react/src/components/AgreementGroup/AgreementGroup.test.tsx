@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { render, screen, within } from '@testing-library/react';
+import { act, render, screen, within } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { AgreementGroup } from './AgreementGroup';
 import { hasAllRequiredAgreements, type AgreementItem } from './agreements';
@@ -159,6 +159,19 @@ describe('AgreementGroup 하위 항목', () => {
     const list = screen.getByRole('list', { name: '선택 마케팅 정보 수신 동의' });
     expect(within(list).getAllByRole('checkbox')).toHaveLength(3);
     for (const name of ['문자', '이메일', '앱 푸시']) expect(within(list).getByRole('checkbox', { name })).toBeTruthy();
+  });
+
+  it('form reset 도 하위 항목이 있는 부모 value 를 알리지 않는다', async () => {
+    const user = userEvent.setup();
+    const onValueChange = vi.fn();
+    const { container } = render(
+      <form>
+        <AgreementGroup items={nested} defaultValue={['marketing', 'sms']} onValueChange={onValueChange} />
+      </form>,
+    );
+    await user.click(box('이메일'));
+    act(() => container.querySelector('form')!.reset());
+    expect(onValueChange).toHaveBeenLastCalledWith(['sms']);
   });
 
   it('필수 부모의 동의하지 않은 하위 항목은 error 일 때 invalid', () => {

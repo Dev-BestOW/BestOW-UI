@@ -82,7 +82,7 @@ export const AgreementGroup = /* @__PURE__ */ forwardRef<HTMLFieldSetElement, Ag
     const rootRef = useRef<HTMLFieldSetElement>(null);
     useFormReset(rootRef, () => {
       if (isControlled) return;
-      const next = defaultValue ?? [];
+      const next = (defaultValue ?? []).filter((v) => allValues.includes(v));
       setInnerValue(next);
       if (next.join() !== agreed.join()) onValueChange?.(next);
     });

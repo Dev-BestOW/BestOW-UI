@@ -1,5 +1,7 @@
 # 한국 키트 강화 계획 (초성 검색 · 빠른 금액 · 약관 하위 항목)
 
+> **2026-11-18 Task 1~4 끝.** 계획과 다르게 정한 것: korean-utils 전체 크기 한도 2.7 kB(사용자 결정), AmountInput 문구 prop `quickAmountsLabel`·`maxButtonText` 추가, AgreementGroup 은 items 에 없는 value 를 동의 값에서 걸러 낸다.
+
 > **실행하는 쪽(사람·에이전트)에게:** 작업(Task)을 순서대로 하나씩 진행한다. 단계는 체크박스(`- [ ]`)로 표시한다.
 > 작업 하나가 끝날 때마다 검증 → 사용자에게 커밋 요청 → **커밋된 것을 확인한 뒤** 다음 작업으로 넘어간다(Claude 는 커밋·push 하지 않는다).
 > 작업 규칙·함정은 [`CLAUDE.md`](../CLAUDE.md). 이 문서는 내부 문서라 `context7.json` 의 제외 목록에 넣었다.
@@ -69,7 +71,7 @@
 - Produces: `getChoseong(text: string): string`, `matchesKorean(target: string, query: string): boolean`. 둘 다 korean-utils 와 react 에서 export 한다.
 - Produces: `defaultComboboxFilter(option, query) = matchesKorean(option.label, query)`
 
-- [ ] **Step 1: 실패하는 테스트 작성** — `hangul.test.ts`
+- [x] **Step 1: 실패하는 테스트 작성** — `hangul.test.ts`
 
 ```ts
 it('getChoseong', () => {
@@ -95,9 +97,9 @@ it.each([
 });
 ```
 
-- [ ] **Step 2: 실패 확인** — `pnpm --filter @bestow-ui/korean-utils test hangul` → import 오류로 FAIL
+- [x] **Step 2: 실패 확인** — `pnpm --filter @bestow-ui/korean-utils test hangul` → import 오류로 FAIL
 
-- [ ] **Step 3: `hangul.ts` 구현**
+- [x] **Step 3: `hangul.ts` 구현**
   - 음절 범위는 `U+AC00–U+D7A3` 이다. 초성 = `⌊(c−0xAC00)/588⌋`, 중성 = `⌊(c−0xAC00)%588/28⌋`, 받침 = `(c−0xAC00)%28` 이다.
   - 초성 호환 자모는 `'ㄱㄲㄴㄷㄸㄹㅁㅂㅃㅅㅆㅇㅈㅉㅊㅋㅌㅍㅎ'` 이다.
   - 받침 → 호환 자모 표는 `['', 'ㄱ','ㄲ','ㄳ','ㄴ','ㄵ','ㄶ','ㄷ','ㄹ','ㄺ','ㄻ','ㄼ','ㄽ','ㄾ','ㄿ','ㅀ','ㅁ','ㅂ','ㅄ','ㅅ','ㅆ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ']` 이다.
@@ -107,21 +109,21 @@ it.each([
     3. **query 의 마지막 글자이고**, 받침 없는 음절이며, target 음절과 초성·중성이 같다.
     4. **query 의 마지막 글자이고**, 받침이 있는 음절이며, target 음절은 초성·중성이 같고 받침이 없다. 그리고 target 의 다음 글자 초성이 그 받침과 같다(이때 target 을 한 글자 더 읽는다).
 
-- [ ] **Step 4: 통과 확인** — `pnpm --filter @bestow-ui/korean-utils test` PASS. `index.ts` export 와 `index.test.ts` 이름 목록에 `getChoseong`·`matchesKorean` 을 더한 뒤 다시 PASS.
+- [x] **Step 4: 통과 확인** — `pnpm --filter @bestow-ui/korean-utils test` PASS. `index.ts` export 와 `index.test.ts` 이름 목록에 `getChoseong`·`matchesKorean` 을 더한 뒤 다시 PASS.
 
-- [ ] **Step 5: Combobox 테스트 추가(실패)** — `Combobox.test.tsx`
+- [x] **Step 5: Combobox 테스트 추가(실패)** — `Combobox.test.tsx`
   - `'초성으로 찾는다'`: 은행 목록에 `ㄱㅁ` 을 입력하면 option `KB국민은행` 이 보이고 `신한은행` 은 없다.
   - `'조합 중인 글자로도 목록이 남는다'`: `국미` 를 입력해도 `KB국민은행` 이 보이고 "결과가 없어요" 가 없다.
   - `'filter prop 이 기본 필터를 대신한다'`: 기존 테스트가 있으면 그대로 둔다.
   - MultiCombobox 에도 초성 테스트를 하나 둔다.
 
-- [ ] **Step 6: `defaultComboboxFilter` 를 `matchesKorean` 으로 바꾸고 통과 확인** — `pnpm --filter @bestow-ui/react test Combobox` PASS
+- [x] **Step 6: `defaultComboboxFilter` 를 `matchesKorean` 으로 바꾸고 통과 확인** — `pnpm --filter @bestow-ui/react test Combobox` PASS
   - 변이 확인: 규칙 3 을 지우면 `국미` 테스트가 실패해야 한다. 복원은 scratchpad 백업 파일 복사로만 한다.
 
-- [ ] **Step 7: react 다시 export** — `shared.ts` 의 korean-utils export 묶음에 두 이름을 더한다.
+- [x] **Step 7: react 다시 export** — `shared.ts` 의 korean-utils export 묶음에 두 이름을 더한다.
   - `pnpm --filter @bestow-ui/react test shared` PASS 를 확인한다.
 
-- [ ] **Step 8: 스토리·문서**
+- [x] **Step 8: 스토리·문서**
   - `Combobox.stories.tsx` 에 `ChoseongSearch` 를 만든다. play 에서 `ㄱㅁ` 을 입력하고 목록 option 을 `toBeInTheDocument()` 로 확인한다.
   - `guides.ts` 에 `hangul-search` 쪽을 더한다.
     - 코드 예시는 `matchesKorean('KB국민은행', 'ㄱㅁ'); // true` 형식이다. E2E 가 이 줄을 계산해 비교한다.
@@ -129,7 +131,7 @@ it.each([
   - `docs/ai/bestow-ui.md` 에 두 함수와 "Combobox 는 초성 검색이 기본" 한 줄을 더한다.
   - korean-utils README 함수 목록, componentA11y Combobox 줄도 고친다.
 
-- [ ] **Step 9: changeset** — `.changeset/korean-choseong-search.md`
+- [x] **Step 9: changeset** — `.changeset/korean-choseong-search.md`
 
 ```md
 ---
@@ -140,7 +142,7 @@ it.each([
 초성 검색 함수 `getChoseong`·`matchesKorean` 추가. Combobox·MultiCombobox 의 기본 필터가 초성(`ㄱㅁ` → 국민은행)과 입력 중인 한글(`국미` → 국민)도 찾는다.
 ```
 
-- [ ] **Step 10: 검증 → 사용자에게 커밋 요청 → 커밋 확인**
+- [x] **Step 10: 검증 → 사용자에게 커밋 요청 → 커밋 확인**
   - CLAUDE.md "검증" 전체를 돌린다(site E2E 에 새 guides 쪽이 들어간다).
   - 추천 메시지: `✨ 초성 검색(getChoseong·matchesKorean)과 Combobox 초성·조합 중 검색`
 
@@ -160,7 +162,7 @@ it.each([
 - Produces: `AmountInputProps.quickAmounts?: number[]`(누를 때마다 더할 금액), `AmountInputProps.showMaxButton?: boolean`(`max` 가 있을 때만 "전액" 버튼을 그림)
 - Produces: `BestowMessages.quickAmounts?: string`(묶음 이름, 기본 '빠른 금액', en 'Quick amounts'), `BestowMessages.maxAmount?: string`(기본 '전액', en 'Max')
 
-- [ ] **Step 1: 실패하는 테스트 작성** — `AmountInput.test.tsx`
+- [x] **Step 1: 실패하는 테스트 작성** — `AmountInput.test.tsx`
   - `'빠른 금액 버튼이 금액을 더한다'`: `quickAmounts={[10000, 50000]}` 에서 "+1만" 을 두 번, "+5만" 을 한 번 누르면 `onValueChange` 가 차례로 `10000`·`20000`·`70000` 으로 불리고, 입력값은 `'70,000'` 이다.
   - `'max 를 넘으면 max 로 맞춘다'`: `max={30000}`·`defaultValue={25000}` 에서 "+1만" → `30000` 이다.
   - `'전액은 max 로 바꾼다'`: `max={500000} showMaxButton` 에서 "전액" → `500000` 이다. `max` 가 없으면 "전액" 버튼이 없다.
@@ -171,9 +173,9 @@ it.each([
   - `'누른 뒤 합계를 status 로 알린다'`: fake timer 로 800ms 를 진행하면 `role="status"` 에 `'7만원'` 이 들어 있다.
   - `'quickAmounts 가 없으면 예전과 같은 DOM'`: 그룹이 없고 루트가 TextField 의 div 다(스냅숏 대신 `container.firstChild` 의 class 비교).
 
-- [ ] **Step 2: 실패 확인** — `pnpm --filter @bestow-ui/react test AmountInput` FAIL
+- [x] **Step 2: 실패 확인** — `pnpm --filter @bestow-ui/react test AmountInput` FAIL
 
-- [ ] **Step 3: 구현**
+- [x] **Step 3: 구현**
   - `quickAmounts` 가 있거나 `showMaxButton && max !== undefined` 일 때만 `<div className={styles.root}>` 로 감싼다. 안에는 TextField, `role="group" aria-label={그룹 이름}` 버튼 줄, `role="status"` 시각 숨김 영역이 들어간다. 없으면 지금 JSX 를 그대로 반환한다.
   - `fullWidth` 는 감싼 div 에도 적용한다.
   - 버튼은 `<Button size="sm" variant="outline" color="neutral" type="button">`, 글자는 `+${formatKoreanAmount(n, '')}` 다.
@@ -182,19 +184,19 @@ it.each([
   - 알림 문구는 누를 때 `formatKoreanAmount(next, unit)` 으로 상태에 넣고, 키보드로 입력하면 `''` 로 비운다. `useDelayedAnnouncement` 로 늦춰 status 에 넣는다.
   - 스타일: 버튼 줄은 `display:flex; flex-wrap:wrap; gap: vars.space[2]; margin-top: vars.space[2]`. 320px 에서 줄바꿈된다.
 
-- [ ] **Step 4: 통과 확인** — `pnpm --filter @bestow-ui/react test AmountInput form-contract ssr` PASS
+- [x] **Step 4: 통과 확인** — `pnpm --filter @bestow-ui/react test AmountInput form-contract ssr` PASS
   - 변이 확인: `max` 맞추기(sanitize 거치기)를 빼면 max 테스트가 실패해야 한다.
 
-- [ ] **Step 5: 스토리·문서·playground**
+- [x] **Step 5: 스토리·문서·playground**
   - `QuickAmounts` 스토리: `quickAmounts={[10000, 50000, 100000]} max={1000000} showMaxButton`.
   - kit.ts 의 amount-input 쪽 code 에 `quickAmounts` 예시를 넣고, notes 에 "누른 뒤 합계를 스크린리더에 알려요" 를 넣는다.
   - componentA11y 를 고친다.
   - playground interactive 와 keyboard E2E(`--repeat-each 5`)를 더한다.
 
-- [ ] **Step 6: changeset** — `.changeset/amount-quick-buttons.md`(`"@bestow-ui/react": minor`)
+- [x] **Step 6: changeset** — `.changeset/amount-quick-buttons.md`(`"@bestow-ui/react": minor`)
   - 내용: "AmountInput `quickAmounts`·`showMaxButton` — +1만·전액 같은 빠른 금액 버튼"
 
-- [ ] **Step 7: 검증 → `pnpm size` 로 한국 키트 조합 확인(33.5 kB 이하) → 사용자에게 커밋 요청 → 커밋 확인**
+- [x] **Step 7: 검증 → `pnpm size` 로 한국 키트 조합 확인(33.5 kB 이하) → 사용자에게 커밋 요청 → 커밋 확인**
   - 추천 메시지: `✨ AmountInput 빠른 금액 버튼(quickAmounts·showMaxButton)`
 
 ---
@@ -215,7 +217,7 @@ it.each([
   - "전체 동의" 는 모든 말단(하위 항목이 없는 항목과 하위 항목)을 기준으로 한다.
   - `hasAllRequiredAgreements` 에서 필수 부모는 하위 항목이 모두 동의해야 충족된다.
 
-- [ ] **Step 1: 실패하는 테스트 작성**
+- [x] **Step 1: 실패하는 테스트 작성**
   - 공통 데이터: `items = [terms(required), { value: 'marketing', label: '마케팅 정보 수신 동의', children: [{value:'sms',label:'문자'},{value:'email',label:'이메일'},{value:'push',label:'앱 푸시'}] }]`
   - `'부모를 누르면 하위 항목이 모두 켜진다'`: "선택 마케팅 정보 수신 동의" 체크 → `onValueChange(['sms','email','push'])`(순서 무관 `arrayContaining` + 길이 3).
   - `'하위 항목 일부만 켜면 부모는 부분 선택'`: "문자" 만 켜면 부모 체크박스 `indeterminate === true`, 전체 동의도 indeterminate 다.
@@ -226,9 +228,9 @@ it.each([
     - 필수 부모 + 하위 2개 중 하나만 동의 → false, 둘 다 → true.
     - 하위 항목 없는 기존 동작은 그대로다(기존 테스트 유지).
 
-- [ ] **Step 2: 실패 확인** — `pnpm --filter @bestow-ui/react test AgreementGroup` FAIL
+- [x] **Step 2: 실패 확인** — `pnpm --filter @bestow-ui/react test AgreementGroup` FAIL
 
-- [ ] **Step 3: 구현**
+- [x] **Step 3: 구현**
   - `agreements.ts` 에 `leafValues(items): string[]` 내부 함수를 둔다. 하위 항목이 있으면 그 value 들, 없으면 자기 value 다.
   - `AgreementGroup.tsx`:
     - `allValues` 를 `leafValues` 로 바꾼다.
@@ -239,30 +241,30 @@ it.each([
     - `AgreementSubItem` 타입은 `AgreementItem` 과 같은 줄(`packages/react/src/shared.ts:56`)에서 export 한다.
   - 스타일: `subList` 는 `paddingInlineStart` 를 Checkbox 컨트롤 너비 + 간격만큼(`vars.space.*`), 간격 `vars.space[2]`.
 
-- [ ] **Step 4: 통과 확인** — `pnpm --filter @bestow-ui/react test AgreementGroup agreements form-contract ssr react-hook-form` PASS
+- [x] **Step 4: 통과 확인** — `pnpm --filter @bestow-ui/react test AgreementGroup agreements form-contract ssr react-hook-form` PASS
   - 변이 확인: 출력에서 부모 value 거르기를 빼면 "전체 동의는 말단 value 만" 이 실패해야 한다.
 
-- [ ] **Step 5: 스토리·문서·playground**
+- [x] **Step 5: 스토리·문서·playground**
   - `NestedItems` 스토리를 더한다.
   - kit.ts code 예시의 marketing 을 하위 항목으로 바꾸고, notes 에 "하위 항목이 있는 부모의 value 는 값에 들어가지 않아요" 를 넣는다.
   - componentA11y(하위 목록 이름·부분 선택)를 고친다.
   - playground signup 과 E2E 를 고친다.
 
-- [ ] **Step 6: changeset** — `.changeset/agreement-sub-items.md`(`"@bestow-ui/react": minor`)
+- [x] **Step 6: changeset** — `.changeset/agreement-sub-items.md`(`"@bestow-ui/react": minor`)
   - 내용: "AgreementGroup 하위 항목(`children`) — 마케팅 수신 동의를 문자·이메일·푸시로 나눠 받기"
 
-- [ ] **Step 7: 검증 → `pnpm size` → 사용자에게 커밋 요청 → 커밋 확인**
+- [x] **Step 7: 검증 → `pnpm size` → 사용자에게 커밋 요청 → 커밋 확인**
   - 추천 메시지: `✨ AgreementGroup 하위 항목(마케팅 수신 채널별 동의)`
 
 ---
 
 ### Task 4: 마무리 기록
 
-- [ ] ROADMAP 을 고친다.
+- [x] ROADMAP 을 고친다.
   - 인수인계 "지금 상태" 에 12/3 배포 예정 내용을 적는다.
   - "진행 기록" 에 한 줄을 더한다.
   - 이 문서 맨 위에 "끝" 표시를 한다.
-- [ ] 시각 회귀를 확인한다.
+- [x] 시각 회귀를 확인한다.
   - 새 스토리 3개(`ChoseongSearch`·`QuickAmounts`·`NestedItems`)의 라이트·다크 기준 이미지가 main push 때 자동 생성되는지 본다.
   - 기존 스토리는 바뀌지 않아야 한다. 바뀌면 원인부터 찾는다.
-- [ ] 사용자에게 커밋 요청: `📝 ROADMAP 에 한국 키트 강화(초성 검색·빠른 금액·약관 하위 항목) 기록`
+- [x] 사용자에게 커밋 요청: `📝 ROADMAP 에 한국 키트 강화(초성 검색·빠른 금액·약관 하위 항목) 기록`

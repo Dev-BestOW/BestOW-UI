@@ -6,13 +6,14 @@
 >
 > **갱신 규칙:** 작업을 끝내면 "남은 일" 을 고치고 맨 아래 "진행 기록" 에 한 줄 추가한다. 끝난 항목의 상세 메모는 ROADMAP-HISTORY 로 옮기고 여기에는 남기지 않는다.
 
-## 🔁 다음 세션 시작하기 (인수인계 — 2026-11-17 기준)
+## 🔁 다음 세션 시작하기 (인수인계 — 2026-11-18 기준)
 
 **지금 상태**
 - npm: react 2.1.0 · tokens 2.0.0 · korean-utils 0.4.0 · icons 0.2.0. 열린 버전 PR #30(MultiCombobox, korean-utils 문서 메타) — **11/19(목) 정기 배포일에 머지**.
 - **배포 주기: 격주 목요일**(11/19 → 12/3 → 12/17, SUPPORT.md). 보안·심각한 버그만 바로 patch. 작업을 끝내면 다음 배포일을 함께 알린다.
 - 방향(2026-11-11 결정): 기능보다 **발견 → 신뢰 → 첫 사용** 경로. 새 컴포넌트는 외부 요청이 생길 때까지 미룬다. 사용자 유치 플랜 23~30번은 Claude 몫을 모두 끝냈다(상세는 ROADMAP-HISTORY).
 - 기준값(2026-11-15): 스타 4 · 포크 0 · 외부 이슈 0(good first issue #31~#34 는 직접 등록) · npm 평일 react 14/일. 방문 통계(Cloudflare Web Analytics)는 11/14 부터 집계 — **일주일 쌓이면 읽히는 문서·유입 경로를 보고 다음 작업을 고른다.**
+- **한국 키트 강화 끝(2026-11-18, [`KOREAN-KIT-PLAN.md`](KOREAN-KIT-PLAN.md) Task 1~3):** 초성 검색(korean-utils `matchesKorean`·`getChoseong`, Combobox 기본 필터), AmountInput 빠른 금액(`quickAmounts`·`showMaxButton`), AgreementGroup 하위 항목(`children`) + Calendar 선택된 토요일 대비 수정. changeset 4개(react minor·korean-utils minor) — 11/19 버전 PR 머지 전에 main 에 있으면 함께, 아니면 12/3 배포. korean-utils 전체 크기 한도 2.7 kB(사용자 결정).
 - **SEO·GEO 끝(2026-11-17, Task 1~6):** 소개 사이트 `/components/`(목록 + 한국 키트 13쪽)·`/compare/`·JSON-LD(리치 결과 경고 0), README 링크를 사이트 쪽으로. 이제는 한 달에 한 번 [`GEO-CHECK.md`](GEO-CHECK.md) 기록(첫 기록 12월 초).
 - Next.js 는 16.4.6(2026-11-17, 보안 공지 5건 해결). 설치된 Next 에 보안 공지가 생기면 Claude 가 `next build` 를 돌릴 때 에이전트 감지로 한 번 멈추고 업그레이드를 권한다(`SecurityFatalError`, 다시 돌리면 통과 — CI 는 해당 없음). 그 출력의 업그레이드 명령은 바로 실행하지 않고 공지를 확인해 따로 올린다.
 
@@ -65,6 +66,7 @@
 - [ ] `npx create-next-app --example …/examples/next-starter` 실제 설치(26번), shadcn-starter StackBlitz 링크(25번).
 - [ ] 11/19 배포 뒤 npm 검색 `사업자등록번호`·`전화번호` 순위 다시 조회(24번).
 - [ ] TanStack Table 가이드 스토리의 시각 회귀 기준 이미지가 main push 때 자동 생성됐는지.
+- [ ] AgreementGroup "하위 항목" 스토리 기준 이미지(`korean-kit-agreementgroup--nested-items`)가 main push 때 자동 생성됐는지(Calendar·Combobox·AmountInput 새 스토리는 생성 확인 — 기존 이미지 변경 0).
 - [ ] 방문 통계 일주일 뒤 읽히는 문서·유입 경로 정리 → 다음 작업 제안, 29번 ✅.
 
 ### Claude 가 할 일
@@ -143,3 +145,4 @@
 | 2026-11-17 | 사용자: 네이버 URL 검사 재확인(길이 경고 해결), 새 쪽 수집·색인 요청(네이버 웹 페이지 수집·Search Console URL 검사 — `/components/`·`/compare/`·전화·사업자번호 쪽). 다음 측정은 12월 초 GEO-CHECK 첫 기록 |
 | 2026-11-18 | 한국 키트 강화 계획 `KOREAN-KIT-PLAN.md`(초성 검색·AmountInput 빠른 금액·AgreementGroup 하위 항목, 12/3 목표) |
 | 2026-11-18 | 🐛 Calendar 선택된 토요일 글자 대비: 토요일 규칙의 `:not([data-holiday])` 가 우선순위를 높여 선택 색(흰 글자)을 덮음 → 같은 우선순위로 낮추고 순서로 정함(토요일 → 일요일·공휴일 → 선택). 스토리 "선택된 토요일" 추가(고치기 전 axe 라이트·다크 실패 확인), patch changeset |
+| 2026-11-18 | 한국 키트 강화(`KOREAN-KIT-PLAN.md` Task 1~3, 작업마다 커밋): ① korean-utils `matchesKorean`·`getChoseong`(초성·입력 중인 마지막 글자 `국미`→국민·`한`→하나) + Combobox·MultiCombobox 기본 필터 + 사이트 `/korean-utils/hangul-search/`, korean-utils 전체 한도 2.2→2.7 kB(사용자 결정)·"초성 검색 하나" 감시 항목 ② AmountInput `quickAmounts`·`showMaxButton`(누른 뒤 합계를 status 로 0.8초 뒤), 메시지 키 `quickAmounts`·`maxAmount` ③ AgreementGroup `children`(값에는 하위 value 만, items 에 없는 value 는 걸러 냄)·`AgreementSubItem`. 각각 TDD·변이 확인·E2E 5회 반복, 새 스토리 3개 |
