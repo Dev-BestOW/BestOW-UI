@@ -61,7 +61,6 @@
 - [ ] 이 라이브러리로 만든 실제 서비스가 생기면 알려 주기 — README "사용 사례".
 
 ### Claude 가 확인할 것 (push·배포 뒤)
-- [ ] shadcn-starter StackBlitz 링크(25번) — 브라우저로 열어 한국 키트 입력이 뜨는지.
 - [ ] 방문 통계 일주일 뒤 읽히는 문서·유입 경로 정리 → 다음 작업 제안, 29번 ✅.
 
 ### Claude 가 할 일
@@ -149,3 +148,5 @@
 | 2026-11-18 | 인프라: CAA `0 issue "letsencrypt.org"`(Cloudflare). Universal SSL 이 켜져 있으면 Cloudflare 가 자기 CA 4곳(comodoca·digicert·pki.goog·ssl.com)을 숨은 CAA 로 더해 꺼 둠(모든 레코드가 DNS only 라 쓰지 않음) → 네임서버·1.1.1.1·8.8.8.8 모두 letsencrypt.org 하나, 사이트 200·www 301 그대로. 인프라 보안 점검 항목 모두 끝 |
 | 2026-11-19 | 기준값: 스타 4 · 포크 0 · 이슈 열림 4/닫힘 0 · npm 평일 중앙값 react 10/일 · korean-utils 5/일 · tokens 3/일 · icons 3/일. main CI 녹색, 버전 PR #30(react 2.2.0·korean-utils 0.5.0, 한국 키트 강화 포함) CI 녹색·머지 가능. 확인 끝: `/components/` 200·sitemap 14개, TanStack Table·AgreementGroup 하위 항목 기준 이미지 자동 생성됨 |
 | 2026-11-19 | 첫 정기 배포(PR #30 머지): react 2.2.0·tokens 2.2.0·korean-utils 0.5.0·icons 0.2.1, provenance 있음, Release·Pages 배포 녹색. 새 폴더 설치로 `MultiCombobox`·`matchesKorean` export 확인. next-starter `create-next-app --example` 설치·build 통과(react 2.2.0·next 16.4.6). npm 검색 순위(korean-utils): 전화번호 1·주민등록번호 1·사업자등록번호 4·초성 11, kwcag 는 react 4 |
+| 2026-11-19 | StackBlitz 예제 점검: headless Chrome 으로 링크를 열면 shadcn·vite 둘 다 "Cloning repo from GitHub" 에서 3분 넘게 멈춤(자동화 브라우저 문제로 보임 — 사용자 브라우저 확인 남김). 대신 두 예제를 새 폴더에서 npm 배포본으로 설치(react 2.2.0)·build·preview → 한국 키트 입력 렌더링, 휴대폰 번호 `010-1234-5678` 서식, 콘솔 오류는 파비콘 404 뿐 |
+| 2026-11-19 | 사용자: shadcn-starter·vite-starter StackBlitz 링크 둘 다 브라우저에서 정상 확인(25번 끝). 자동화 Chrome 으로는 StackBlitz 확인이 안 되니 다음부터 사용자에게 부탁 |
