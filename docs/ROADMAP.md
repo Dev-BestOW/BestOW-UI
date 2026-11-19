@@ -9,7 +9,7 @@
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-11-18 기준)
 
 **지금 상태**
-- npm: react 2.1.0 · tokens 2.0.0 · korean-utils 0.4.0 · icons 0.2.0. 열린 버전 PR #30(MultiCombobox, korean-utils 문서 메타) — **11/19(목) 정기 배포일에 머지**.
+- npm: react 2.2.0 · tokens 2.2.0(react 와 linked) · korean-utils 0.5.0 · icons 0.2.1 (2026-11-19 첫 정기 배포). 다음 배포 12/3.
 - **배포 주기: 격주 목요일**(11/19 → 12/3 → 12/17, SUPPORT.md). 보안·심각한 버그만 바로 patch. 작업을 끝내면 다음 배포일을 함께 알린다.
 - 방향(2026-11-11 결정): 기능보다 **발견 → 신뢰 → 첫 사용** 경로. 새 컴포넌트는 외부 요청이 생길 때까지 미룬다. 사용자 유치 플랜 23~30번은 Claude 몫을 모두 끝냈다(상세는 ROADMAP-HISTORY).
 - 기준값(2026-11-15): 스타 4 · 포크 0 · 외부 이슈 0(good first issue #31~#34 는 직접 등록) · npm 평일 react 14/일. 방문 통계(Cloudflare Web Analytics)는 11/14 부터 집계 — **일주일 쌓이면 읽히는 문서·유입 경로를 보고 다음 작업을 고른다.**
@@ -54,7 +54,6 @@
 
 ### 사람이 할 일
 - [ ] **bestow-ui.com 마무리**: Cloudflare Web Analytics 에 bestow-ui.com 방문이 잡히는지 확인(안 잡히면 사이트 추가·토큰 교체), (선택) 조직 루트 저장소 `dev-bestow.github.io` 이동 대상·robots.txt 를 새 주소로. 도메인 자동 갱신 유지. (Search Console·네이버 소유확인·sitemap 제출은 2026-11-14 끝남)
-- [ ] 11/19 버전 PR #30 머지(첫 정기 배포).
 - [ ] velog 게시 · 요즘IT 기고 제안 · 발표 지원(CFP 공고 때) · 접근성 커뮤니티 글 — 초안: 알리기 준비물 Artifact https://claude.ai/artifact/LvPgoSsmGKHjLd34FP789u
 - [ ] 12월 초 GEO 첫 기록: `docs/GEO-CHECK.md` 의 질문 5개를 ChatGPT·Perplexity·Gemini 에 넣고 결과·Search Console·Cloudflare AI 유입을 알려 주기(Claude 가 표에 적음).
 - [ ] Figma: 요금제 올릴지(다크 모드·라이브러리 게시·페이지 제한), Community 공개 여부 — `docs/FIGMA.md`.
@@ -62,11 +61,7 @@
 - [ ] 이 라이브러리로 만든 실제 서비스가 생기면 알려 주기 — README "사용 사례".
 
 ### Claude 가 확인할 것 (push·배포 뒤)
-- [ ] Task 3 push 뒤 배포된 `/components/` 200·sitemap 에 14개 주소.
-- [ ] `npx create-next-app --example …/examples/next-starter` 실제 설치(26번), shadcn-starter StackBlitz 링크(25번).
-- [ ] 11/19 배포 뒤 npm 검색 `사업자등록번호`·`전화번호` 순위 다시 조회(24번).
-- [ ] TanStack Table 가이드 스토리의 시각 회귀 기준 이미지가 main push 때 자동 생성됐는지.
-- [ ] AgreementGroup "하위 항목" 스토리 기준 이미지(`korean-kit-agreementgroup--nested-items`)가 main push 때 자동 생성됐는지(Calendar·Combobox·AmountInput 새 스토리는 생성 확인 — 기존 이미지 변경 0).
+- [ ] shadcn-starter StackBlitz 링크(25번) — 브라우저로 열어 한국 키트 입력이 뜨는지.
 - [ ] 방문 통계 일주일 뒤 읽히는 문서·유입 경로 정리 → 다음 작업 제안, 29번 ✅.
 
 ### Claude 가 할 일
@@ -152,3 +147,5 @@
 | 2026-11-18 | 배포 확인: `/.well-known/security.txt` 200, Uptime 수동 실행 14개 모두 ✅. DNSSEC 완료 — `.com` DS(키 태그 2371, 알고리즘 13) 등록, 1.1.1.1 응답에 `ad` 플래그 |
 | 2026-11-18 | 인프라: Dependabot security updates 켬(gh) + `.github/dependabot.yml`(npm·github-actions, 버전 올리기 PR 은 `open-pull-requests-limit: 0` 으로 끔, 커밋 접두어 ⬆️). size.yml PR 댓글은 Dependabot PR 에서 건너뜀(읽기 전용 토큰이라 실패했을 것). 패키지 dependencies 를 바꾼 보안 PR 은 changeset 을 더해 머지 |
 | 2026-11-18 | 인프라: CAA `0 issue "letsencrypt.org"`(Cloudflare). Universal SSL 이 켜져 있으면 Cloudflare 가 자기 CA 4곳(comodoca·digicert·pki.goog·ssl.com)을 숨은 CAA 로 더해 꺼 둠(모든 레코드가 DNS only 라 쓰지 않음) → 네임서버·1.1.1.1·8.8.8.8 모두 letsencrypt.org 하나, 사이트 200·www 301 그대로. 인프라 보안 점검 항목 모두 끝 |
+| 2026-11-19 | 기준값: 스타 4 · 포크 0 · 이슈 열림 4/닫힘 0 · npm 평일 중앙값 react 10/일 · korean-utils 5/일 · tokens 3/일 · icons 3/일. main CI 녹색, 버전 PR #30(react 2.2.0·korean-utils 0.5.0, 한국 키트 강화 포함) CI 녹색·머지 가능. 확인 끝: `/components/` 200·sitemap 14개, TanStack Table·AgreementGroup 하위 항목 기준 이미지 자동 생성됨 |
+| 2026-11-19 | 첫 정기 배포(PR #30 머지): react 2.2.0·tokens 2.2.0·korean-utils 0.5.0·icons 0.2.1, provenance 있음, Release·Pages 배포 녹색. 새 폴더 설치로 `MultiCombobox`·`matchesKorean` export 확인. next-starter `create-next-app --example` 설치·build 통과(react 2.2.0·next 16.4.6). npm 검색 순위(korean-utils): 전화번호 1·주민등록번호 1·사업자등록번호 4·초성 11, kwcag 는 react 4 |
