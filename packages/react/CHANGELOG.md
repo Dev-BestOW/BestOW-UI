@@ -1,5 +1,34 @@
 # @bestow-ui/react
 
+## 2.2.0
+
+### Minor Changes
+
+- c28dc18: AgreementGroup 에 하위 항목(`children`)을 추가했어요 — 마케팅 수신 동의를 문자·이메일·푸시로 나눠 받을 수 있어요. 부모는 하위 항목이 모두 켜지면 체크, 일부면 부분 선택이고, 동의 값에는 하위 항목 value 만 들어가요. `hasAllRequiredAgreements` 는 필수 부모의 하위 항목이 모두 동의해야 충족으로 봐요. 타입 `AgreementSubItem` 도 export 해요.
+- 7bb7ac8: AmountInput 에 빠른 금액 버튼을 추가했어요 — `quickAmounts={[10000, 50000]}` 는 누를 때마다 더하는 "+1만"·"+5만" 버튼, `showMaxButton` 은 max 로 채우는 "전액" 버튼이에요. 누른 뒤 합계를 스크린리더에 알려요. 문구는 `quickAmountsLabel`·`maxButtonText` prop 이나 LocaleProvider 의 `quickAmounts`·`maxAmount` 로 바꿔요.
+- b574862: 초성 검색 함수 `getChoseong`·`matchesKorean` 을 추가했어요(react 에서도 같은 이름으로 export). Combobox·MultiCombobox 의 기본 필터가 초성(`ㄱㅁ` → 국민은행)과 입력 중인 한글(`국미` → 국민, `한` → 하나)도 찾아요 — 한글을 치는 도중 목록이 사라졌다 나타나지 않아요. 예전 기본(대소문자 무시 포함 검색)이 찾던 항목은 그대로 찾아요.
+- 198897f: `MultiCombobox` 추가 — 입력해서 거르며 여러 개를 고르는 선택 상자.
+  
+  - 고른 값은 입력창 안의 칩(Tag)으로, 고른 순서대로 보인다. `value`·`defaultValue`·`onValueChange` 는 `string[]`. `options` 에 없는 값도 값 그대로 칩이 된다.
+  - Enter·클릭으로 고르기·풀기(목록은 열린 채 검색어만 지움, listbox `aria-multiselectable`). 빈 입력창에서 Backspace 로 마지막 칩을 지운다. 칩 삭제 버튼은 Tab 순서에 있고, 지우면 포커스가 다음 칩 → 앞 칩 → 입력창으로 가며 0.5초 뒤 "<이름> 삭제됨" 을 알린다.
+  - `maxSelected` — 다 고르면 나머지 항목이 비활성이 되고 "최대 n개까지 고를 수 있어요" 를 칸 설명으로 보여 주고 알린다. `removeLabel` 로 칩 삭제 버튼 이름을 바꾼다. `clearable` 은 모두 지우기.
+  - `name` 이면 고른 값마다 hidden input 하나(`name=a&name=b`). `form.reset()`·`fieldset disabled` 계약을 따른다.
+  - `BestowMessages` 에 선택 키 `selectedOptions`(칩 목록 이름 "고른 항목")·`maxSelected` 추가(`en` 포함).
+  - `Combobox` 는 목록 로직을 MultiCombobox 와 함께 쓰도록 내부를 나눴다(동작 변화 없음).
+
+### Patch Changes
+
+- a1fb2bd: Calendar·DatePicker·DateRangePicker 에서 토요일을 선택하면 파란 배경에 파란 글자가 되어 거의 보이지 않던 문제 수정. 선택한 날짜는 요일과 상관없이 흰 글자로 보인다.
+- 7a57c90: 홈페이지·문서 주소를 새 도메인 https://bestow-ui.com/ 으로 바꿨어요(package.json `homepage`·README 링크). 옛 주소(dev-bestow.github.io/BestOW-UI/)도 같은 쪽으로 넘어가요. 코드 변화는 없어요.
+- a213e6c: README 의 한국 서비스 키트 링크를 소개 사이트의 컴포넌트 문서(https://bestow-ui.com/components/)로 바꿨어요.
+- Updated dependencies [7a57c90]
+- Updated dependencies [b574862]
+- Updated dependencies [0026943]
+- Updated dependencies [a213e6c]
+  - @bestow-ui/tokens@2.2.0
+  - @bestow-ui/icons@0.2.1
+  - @bestow-ui/korean-utils@0.5.0
+
 ## 2.1.0
 
 ### Minor Changes
