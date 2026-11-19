@@ -6,7 +6,8 @@
 
 - 설치: `npm install @bestow-ui/react` → 앱 진입점에서 `import '@bestow-ui/react/styles.css'`, 스타일은 CSS 레이어 `bestow` 안이라 레이어 밖 CSS(className)가 항상 이긴다 — 리셋 CSS 는 `@layer base` 에, Tailwind v4 는 `@layer theme, base, bestow, components, utilities;` 를 전역 CSS 맨 위에(v3 는 preflight 끄기). shadcn/ui 프로젝트에 섞어 쓸 때는 `createTheme({ common: { color: { primary: { solid: 'var(--primary)', contrast: 'var(--primary-foreground)' }, bg: { default: 'var(--background)' }, fg: { default: 'var(--foreground)' } }, font: { family: { sans: 'var(--font-sans)' } } } })` 를 ThemeProvider `overrides` 로(portal 까지 적용, `.dark` 를 따라감) — 입력 칸 테두리(`--input`)·포커스(`--ring`)·보조 글자(`--muted-foreground`)는 대비가 모자라 BestOW 값을 둔다. 예제 `examples/shadcn-starter`. 가입·본인 확인·정산 정보·로그인 Next.js 템플릿: `npx create-next-app@latest my-app --example "https://github.com/Dev-BestOW/BestOW-UI/tree/main/examples/next-starter"`(react-hook-form + zod, 스키마를 클라이언트·서버 액션이 함께 씀, 단계마다 폼 하나). 최상위를 `<ThemeProvider theme="light">` 로 감싼다(OS 설정을 따르려면 `theme="system"` — 서버 렌더링도 CSS 미디어쿼리로 그려 깜빡임 없음).
 - React 18·19, Next.js App Router(서버 컴포넌트) 지원. 스타일은 vanilla-extract 로 빌드된 CSS 파일 하나(런타임 CSS 0). 오버레이는 Radix UI 기반.
-- 한국 서비스 서식·검증 함수만 필요하면(React 없이도) `@bestow-ui/korean-utils`.
+- 목록 검색은 한글에 맞춰져 있다: `Combobox`(하나)·`MultiCombobox`(여러 개, 값 `string[]`, 칩·`maxSelected`)가 초성(`ㄱㅁ` → 국민은행)과 입력 중인 한글(`국미` → 국민)로 찾는 것이 기본이고, 직접 거를 때는 `matchesKorean(target, query)`. `AmountInput` 은 `quickAmounts={[10000, 50000]}`(+1만·+5만)·`showMaxButton`(전액) 버튼, `AgreementGroup` 은 수신 채널별 하위 동의(`children`).
+- 한국 서비스 서식·검증 함수만 필요하면(React 없이도) `@bestow-ui/korean-utils` — 초성 검색 `matchesKorean`·`getChoseong` 도 여기.
 
 ## 문서
 
@@ -14,7 +15,7 @@
 - [@bestow-ui/react README](https://raw.githubusercontent.com/Dev-BestOW/BestOW-UI/main/packages/react/README.md): 설치, Next.js 설정, 다크 모드, 브랜드 테마, 문구 바꾸기, 컴포넌트 목록
 - [@bestow-ui/korean-utils README](https://raw.githubusercontent.com/Dev-BestOW/BestOW-UI/main/packages/korean-utils/README.md): 전화번호·사업자등록번호·주민등록번호·금액 한글 읽기·한국어 날짜·마스킹(이름·전화·주민번호·카드) 함수
 - [한국 입력 컴포넌트 문서(정적 HTML)](https://bestow-ui.com/components/): 전화번호·사업자등록번호·주민등록번호·카드·계좌·법인번호·금액 입력, 인증번호, 약관 전체 동의, 주소, DatePicker·DateRangePicker·Calendar 13종 — 쪽마다 푸는 문제·코드 예시·키보드·스크린리더 동작·props 타입 정의(소스에서 생성)
-- [@bestow-ui/korean-utils 함수별 문서](https://bestow-ui.com/korean-utils/): 함수마다 푸는 문제·코드 예시·알아 둘 점·같은 동작의 React 입력 컴포넌트, 은행 코드 목록
+- [@bestow-ui/korean-utils 함수별 문서](https://bestow-ui.com/korean-utils/): 함수마다 푸는 문제·코드 예시·알아 둘 점·같은 동작의 React 입력 컴포넌트, 은행 코드 목록, [초성 검색](https://bestow-ui.com/korean-utils/hangul-search/)
 - [한국 서비스용 React UI 라이브러리 비교](https://bestow-ui.com/compare/): BestOW UI·Vapor UI·HANUI·shadcn/ui·MUI — 한국 서비스 입력·기본 문구·접근성 근거·브랜드색 대비, 칸마다 공식 문서 근거와 확인한 날짜. 공공 웹(KRDS)이면 HANUI
 - [저장소 README](https://raw.githubusercontent.com/Dev-BestOW/BestOW-UI/main/README.md): Next.js App Router 에서 5분 만에 시작하기, 다른 라이브러리와 비교
 

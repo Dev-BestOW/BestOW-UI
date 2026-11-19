@@ -39,7 +39,7 @@ props 를 모르면 추측하지 말고 전체 문서를 읽는다: https://best
 ## 컴포넌트 고르기
 
 - 하나 고르기: 2~5개는 `RadioGroup`(폼)·`SegmentedControl`(바로 반영되는 보기 전환), 많으면 `NativeSelect`(가볍다, 모바일은 OS 선택 창) 또는 `Select`, 아주 많아 검색해야 하면 `Combobox`(초성 `ㄱㅁ`·입력 중인 한글로도 찾는 것이 기본 — 직접 거를 때도 `matchesKorean` 을 쓴다).
-- 여러 개 고르기: `CheckboxGroup`. 켜고 끄기: `Switch`(바로 반영), 폼 제출 값이면 `Checkbox`.
+- 여러 개 고르기: 항목이 적으면 `CheckboxGroup`, 많아 검색해야 하면 `MultiCombobox`(값 `string[]`, 고른 값은 칩, 개수 제한 `maxSelected` — Combobox 와 같은 초성 검색). 켜고 끄기: `Switch`(바로 반영), 폼 제출 값이면 `Checkbox`.
 - 알림: 화면 안 안내 `Alert`, 잠깐 뜨는 결과는 토스트(`useToast` — `ToastProvider` 안에서), 확인이 필요하면 `Modal`. 옆에서 열리는 패널 `Drawer`.
 - 입력: `TextField` `Textarea` `PasswordInput` `SearchInput` `NumberInput`. 단계 표시 `Stepper`(표시용 — 이동은 이전·다음 버튼).
 

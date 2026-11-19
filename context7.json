@@ -68,6 +68,8 @@
     "최상위를 <ThemeProvider theme=\"system\"> 으로 감싼다. Next.js App Router 에서는 Provider 를 'use client' 파일(app/providers.tsx)로 분리한다.",
     "한국 서비스 입력은 직접 만들지 않는다: PhoneNumberInput·VerificationCodeInput·BusinessNumberInput·CorporateNumberInput·CardNumberInput·AccountNumberInput·ResidentNumberInput·AmountInput·AddressInput·DatePicker·AgreementGroup 을 쓴다.",
     "값은 서식 없는 원본으로 다룬다: 번호 입력은 숫자만 든 문자열('01012345678'), AmountInput 은 number | null, 날짜는 'YYYY-MM-DD' 문자열(Date 객체 아님).",
+    "검색해 고르는 목록은 Combobox(하나)·MultiCombobox(여러 개, 값 string[])를 쓴다. 초성(ㄱㅁ → 국민은행)과 입력 중인 한글로 찾는 것이 기본이다. 직접 거를 때는 matchesKorean(target, query) 를 쓴다.",
+    "AmountInput 의 빠른 금액 버튼은 quickAmounts={[10000, 50000]}(+1만·+5만)·showMaxButton(전액)으로 켠다. 직접 버튼을 만들지 않는다.",
     "값은 value + onValueChange(제어) 또는 defaultValue(비제어)로 다룬다. onChange(event) 로 값을 꺼내지 않는다.",
     "폼 컴포넌트는 label(짧은 이름)·helperText(설명)·error·required 를 쓴다. label 이 있으면 aria-label 을 따로 주지 않는다.",
     "react-hook-form 에서는 TextField·PasswordInput·NativeSelect 는 register 를 펼치고, 값을 고르거나 서식이 붙는 컴포넌트는 Controller 로 value·onValueChange 를 잇는다. 폼 맨 위에 ErrorSummary 를 둔다.",
