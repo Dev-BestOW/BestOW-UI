@@ -16,7 +16,9 @@ React + vanilla-extract 기반 디자인 시스템 모노레포. npm 에 `@besto
 - **브랜치 흐름은 GitHub Flow**(2026-11-20 결정): ROADMAP 한 단계 = 작업 브랜치 하나(`feat/…`·`fix/…`·`docs/…`·`ci/…`) = PR 하나 → CI 통과 → **squash merge**
   (PR 제목이 main 의 커밋 제목). develop·release 브랜치는 두지 않는다 — 배포 시점은 changesets 버전 PR(격주 목요일)이 정한다.
   main ruleset(`.github/rulesets/main.json`, 적용은 `scripts/apply-repo-settings.sh`)이 PR·필수 검사를 요구하고, 관리자와 release App 만 우회한다.
-  관리자 직접 push 는 ROADMAP·HISTORY 같은 내부 문서만 고칠 때만. 코드·사이트·워크플로를 바꾸는 작업을 시작할 때 main 에 있으면 브랜치 이름을 추천한다.
+  관리자 직접 push 는 ROADMAP·HISTORY 같은 내부 문서만 고칠 때만. 코드·사이트·워크플로를 바꾸는 작업은 **Claude 가 파일을 고치기 전에 로컬 브랜치를 만든다**
+  (작업 트리 깨끗한지 → 최신 main → `git switch -c <종류>/<이름>`, 만든 이름을 알림). 커밋·push·PR 은 사용자 몫 — 끝나면 커밋 메시지와
+  `git push -u origin HEAD && gh pr create --fill && gh pr merge --auto --squash` 를 안내한다.
   ci.yml·visual.yml 의 job `name` 을 바꾸면 main.json 의 필수 검사 이름도 고치고 사용자에게 스크립트 재실행을 알린다(안 하면 PR 이 영영 "검사 대기").
   나중에만: major 준비 기간에 사전 배포가 필요하면 `next`(changesets pre mode, release.yml 에 브랜치 추가), 다음 major 배포 직후 `v<이전 major>.x` 유지보수 브랜치.
 - **작업을 마치면 커밋 메시지를 추천한다** — [gitmoji](https://gitmoji.dev/) + 한국어 한 줄 (기존 기록과 같은 형식,
