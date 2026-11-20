@@ -76,6 +76,12 @@ test('데모: 입력 서식, 대표색 바꾸기, 필수 약관 안내', async (
   await phone.pressSequentially('01012345678');
   await expect(phone).toHaveValue('010-1234-5678');
 
+  // 은행은 초성으로 찾는다 — ㄱㅁ → KB국민은행(목록은 portal 이라 page 에서 찾는다)
+  const bank = demo.getByRole('combobox', { name: '정산 은행' });
+  await bank.fill('ㄱㅁ');
+  await page.getByRole('option', { name: 'KB국민은행' }).click();
+  await expect(bank).toHaveValue('KB국민은행');
+
   const amount = demo.getByRole('textbox', { name: '결제 금액' });
   await amount.pressSequentially('125000');
   await expect(amount).toHaveValue('125,000');

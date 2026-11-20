@@ -66,7 +66,7 @@
 ### Claude 가 할 일
 - **스프린트 11/19 ~ 12/3 (다음 배포일까지, 2026-11-19 사용자 결정)** — 2.2.0 새 기능을 발견 경로에 싣는다. 작업마다 커밋 확인 후 다음.
   - 1주차: [x] ① AI 도구 문서에 2.2.0 반영(`docs/ai/bestow-ui.md`·`llms.txt`·`context7.json` — MultiCombobox·초성 검색·빠른 금액)
-    [ ] ② 첫 화면 데모·korean-utils README 에 초성 검색(npm `초성` 11위) [ ] ③ 11/21 방문 통계 읽기(29번 ✅, 사용자가 숫자 전달)
+    [x] ② 첫 화면 데모·korean-utils README 에 초성 검색(npm `초성` 11위) [ ] ③ 11/21 방문 통계 읽기(29번 ✅, 사용자가 숫자 전달)
   - 2주차: [ ] ④ 사이트 `/changelog/`(패키지 CHANGELOG 를 빌드 때 읽어 한국어 변경 기록 쪽) [ ] ⑤ 28번 Figma 정리 2건(MCP 한도 풀리면)
     [ ] ⑥ 통계로 고르는 작업 하나 [ ] ⑦ 12/1~2 GEO 첫 기록(`GEO-CHECK.md`, 사용자가 AI 답변 전달)
   - 하지 않음: 새 컴포넌트(외부 요청 없음)·3.0 준비·의존성 2차(대기 중).
@@ -156,3 +156,4 @@
 | 2026-11-19 | StackBlitz 예제 점검: headless Chrome 으로 링크를 열면 shadcn·vite 둘 다 "Cloning repo from GitHub" 에서 3분 넘게 멈춤(자동화 브라우저 문제로 보임 — 사용자 브라우저 확인 남김). 대신 두 예제를 새 폴더에서 npm 배포본으로 설치(react 2.2.0)·build·preview → 한국 키트 입력 렌더링, 휴대폰 번호 `010-1234-5678` 서식, 콘솔 오류는 파비콘 404 뿐 |
 | 2026-11-19 | 사용자: shadcn-starter·vite-starter StackBlitz 링크 둘 다 브라우저에서 정상 확인(25번 끝). 자동화 Chrome 으로는 StackBlitz 확인이 안 되니 다음부터 사용자에게 부탁 |
 | 2026-11-19 | 스프린트(11/19~12/3) 계획을 "Claude 가 할 일" 에. ① AI 도구 문서에 2.2.0: `docs/ai/bestow-ui.md`(여러 개 고르기에 MultiCombobox), `llms.txt`(초성 검색 Combobox·MultiCombobox·`matchesKorean`, AmountInput 빠른 금액, AgreementGroup 하위 동의, 초성 검색 쪽 링크), `context7.json` 규칙 12 → 14(최장 214자). 빌드 이름 대조 통과, 검증 전부 통과(test 160+4+640+22·stories 678·E2E 89+53). 첫 실행의 korean-utils 실패는 두 패키지가 같은 vitest 캐시를 동시에 지우던 `ENOTEMPTY`(다시 돌리니 통과). Context7 은 push 뒤 Refresh 해야 반영 |
+| 2026-11-20 | ② 초성 검색 알리기: 소개 사이트 첫 화면 데모에 `정산 은행` Combobox(`KOREAN_BANKS`, 도움말 "ㄱㅁ 을 입력해 보세요") + landing E2E(ㄱㅁ → KB국민은행 고르기, 5회 반복·포함 검색 필터로 바꾼 변이에서 실패 확인). korean-utils npm 설명에 초성 검색·README 문서 목록에 초성 검색 쪽 링크(patch changeset), 루트 README 패키지 표에 초성 검색 |

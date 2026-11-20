@@ -19,7 +19,7 @@
 
 - [전화번호 하이픈 넣기](https://bestow-ui.com/korean-utils/phone-number/) · [사업자등록번호 검증](https://bestow-ui.com/korean-utils/business-number/) · [법인등록번호 검증](https://bestow-ui.com/korean-utils/corporate-number/)
 - [주민등록번호 생년월일·성별 읽기](https://bestow-ui.com/korean-utils/resident-number/) · [카드번호 서식·Luhn 검증](https://bestow-ui.com/korean-utils/card-number/) · [은행 코드 목록과 계좌번호](https://bestow-ui.com/korean-utils/bank-account/)
-- [금액 한글 읽기](https://bestow-ui.com/korean-utils/korean-amount/) · [한국어 날짜](https://bestow-ui.com/korean-utils/korean-date/) · [주소 참고항목](https://bestow-ui.com/korean-utils/extra-address/) · [개인정보 마스킹](https://bestow-ui.com/korean-utils/masking/)
+- [금액 한글 읽기](https://bestow-ui.com/korean-utils/korean-amount/) · [한국어 날짜](https://bestow-ui.com/korean-utils/korean-date/) · [주소 참고항목](https://bestow-ui.com/korean-utils/extra-address/) · [개인정보 마스킹](https://bestow-ui.com/korean-utils/masking/) · [초성 검색](https://bestow-ui.com/korean-utils/hangul-search/)
 
 ## 설치
 

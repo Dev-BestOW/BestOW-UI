@@ -5,10 +5,12 @@ import {
   AmountInput,
   Button,
   BusinessNumberInput,
+  Combobox,
   contrastRatio,
   createIntentColors,
   createTheme,
   hasAllRequiredAgreements,
+  KOREAN_BANKS,
   PhoneNumberInput,
   SegmentedControl,
   Stack,
@@ -33,6 +35,9 @@ const agreements: AgreementItem[] = [
   { value: 'privacy', label: '개인정보 수집·이용 동의', required: true },
   { value: 'ads', label: '광고성 정보 수신 동의' },
 ];
+
+/** 은행 목록 — 초성 검색(ㄱㅁ → 국민은행)을 보여 주는 Combobox 용 */
+const bankOptions = KOREAN_BANKS.map(({ code, name }) => ({ value: code, label: name }));
 
 type IntentPair = { solid: string; contrast: string };
 type IntentInput = { light: { color: { primary: IntentPair } }; dark: { color: { primary: IntentPair } } };
@@ -80,7 +85,8 @@ export function KitDemo() {
           직접 입력해 보세요
         </Typography>
         <Typography variant="body-sm" color="muted">
-          하이픈·쉼표는 입력하는 동안 붙고, 사업자등록번호는 10자리를 채우면 검증 공식으로 확인해요.
+          하이픈·쉼표는 입력하는 동안 붙고, 사업자등록번호는 10자리를 채우면 검증 공식으로 확인해요. 은행은 초성으로도
+          찾아요.
         </Typography>
       </Stack>
 
@@ -108,6 +114,13 @@ export function KitDemo() {
         <Stack gap={4}>
           <PhoneNumberInput label="휴대폰 번호" fullWidth />
           <BusinessNumberInput label="사업자등록번호" fullWidth />
+          <Combobox
+            label="정산 은행"
+            options={bankOptions}
+            placeholder="은행 이름 검색"
+            helperText="초성으로도 찾아요 — ㄱㅁ 을 입력해 보세요."
+            fullWidth
+          />
           <AmountInput label="결제 금액" showKoreanAmount fullWidth />
           <AgreementGroup
             label="약관 동의"

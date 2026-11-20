@@ -228,7 +228,7 @@ props 까지 모두 담은 한 파일은 [`llms-full.txt`](https://bestow-ui.com
 | [`@bestow-ui/react`](packages/react) | 테마(ThemeProvider)와 React 컴포넌트 |
 | [`@bestow-ui/tokens`](packages/tokens) | 색상·간격·타이포그래피 등 디자인 토큰 (원시 값) |
 | [`@bestow-ui/icons`](packages/icons) | SVG 아이콘 React 컴포넌트 (기본 세트는 [Lucide](https://lucide.dev), ISC) |
-| [`@bestow-ui/korean-utils`](packages/korean-utils) | 전화번호·사업자등록번호·금액(“12만 5,000원”)·한국어 날짜 서식·검증 함수. **의존성 없음, React 없이도 써요** |
+| [`@bestow-ui/korean-utils`](packages/korean-utils) | 전화번호·사업자등록번호·금액(“12만 5,000원”)·한국어 날짜 서식·검증, 초성 검색(`ㄱㅁ` → 국민은행) 함수. **의존성 없음, React 없이도 써요** |
 
 ## 지원 범위 · 보안
 
