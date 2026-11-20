@@ -56,12 +56,13 @@ apps/
                                기본값도 함께 적음)과 rules(위 규칙 파일의 요약, 한 줄 255자·하나라도 거절되면 전부 빠짐). 새 내부 문서를 만들거나 규칙 파일·공개 이름을 바꾸면 함께 고친다.
   site/ (private)              Pages 루트의 소개 사이트(Next.js 16 정적 export, basePath 기본 '' — SITE_BASE_PATH, 배포는 configure-pages 의 base_path). 패키지 dist 를 쓴다.
                                첫 화면 데모(KitDemo — 한국 키트 입력 + 대표색 바꾸기), 링크 미리보기 메타(layout.tsx metadata)·public/og.png·app/sitemap.ts(guides·kitPages 로 생성).
+                               파비콘은 PNG(icon-96.png)·favicon.ico — public/icon.svg 에서 `node scripts/generate-favicons.mjs`(구글 형식 목록에 SVG 없음).
                                /korean-utils/ — korean-utils 함수 문서(데이터 korean-utils/guides.ts, 직접 입력 Try.tsx, 쪽 메타 seo.ts). 코드 예시의 `호출; // 결과`
                                줄은 E2E 가 실제로 계산해 비교한다 — 함수 동작을 바꾸면 guides 도 고친다. 새 함수가 생기면 guides 에 쪽을 더한다.
                                /components/ — 한국 키트 13쪽 정적 문서(글은 components/kit.ts, props·키보드·스크린리더·선택 기준은 빌드 때 source.ts 가 react 소스·componentA11y·choosing 에서 읽음 —
                                못 찾으면 빌드 실패, 데모 Demo.tsx 는 오늘 고정·가짜 주소 공급자). **새 한국 키트 컴포넌트는 kit.ts 에도 넣고**, 동작·문구를 바꾸면 kit.ts 글도 고친다.
                                /compare/ — 다른 라이브러리 비교(데이터 compare/data.ts, 칸마다 공식 문서 근거·확인한 날짜 — 루트 README 비교 표와 함께 고친다).
-                               JSON-LD(structured-data.tsx): 첫 화면 SoftwareSourceCode, 문서 쪽 TechArticle + BreadcrumbList(화면 Breadcrumb 과 같은 Crumb[]). 날짜는 데이터 파일의 상수
+                               JSON-LD(structured-data.tsx): 첫 화면 WebSite(구글 사이트 이름)·SoftwareSourceCode, 문서 쪽 TechArticle + BreadcrumbList(화면 Breadcrumb 과 같은 Crumb[]). 날짜는 데이터 파일의 상수
                                (kitDates·guideDates·checkedAt) — **글을 고치면 modified 를 그날로**. GEO 점검은 docs/GEO-CHECK.md(한 달에 한 번).
                                검색 메타는 제목 40자·설명 80자 이내(네이버 권장, seo.ts `pageTitle` 이 " — BestOW UI" 를 들어갈 때만 붙임, kit.ts `metaDescription`) — landing E2E 가 모든 쪽을 검사.
                                **옛 Storybook 주소 넘겨주기**: 2026-11 까지 루트가 Storybook 이라 README·npm·블로그에 `dev-bestow.github.io/BestOW-UI/?path=…` 가 남아 있다(GitHub 가 bestow-ui.com 같은 경로로 301) —

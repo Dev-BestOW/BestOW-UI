@@ -3,7 +3,7 @@ import reactPackage from '@bestow-ui/react/package.json';
 import { CopyCommand } from './CopyCommand';
 import { KitDemo } from './KitDemo';
 import { links } from './links';
-import { JsonLd, softwareSourceCode } from './structured-data';
+import { JsonLd, softwareSourceCode, webSite } from './structured-data';
 
 const reasons = [
   {
@@ -72,6 +72,7 @@ const more = [
 export default function Page() {
   return (
     <>
+      <JsonLd data={webSite()} />
       <JsonLd data={softwareSourceCode()} />
       <div className="hero site-inner">
         <div className="hero-copy">

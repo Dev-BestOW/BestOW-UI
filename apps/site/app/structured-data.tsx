@@ -22,6 +22,18 @@ export function JsonLd({ data }: { data: object }) {
   return <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: serializeJsonLd(data) }} />;
 }
 
+/**
+ * 첫 화면 — 사이트 이름. 구글은 검색 결과의 사이트 이름을 첫 화면의 WebSite `name` 으로 정한다(첫 화면에만, og:site_name 과 같은 이름)
+ */
+export function webSite() {
+  return {
+    '@context': context,
+    '@type': 'WebSite',
+    name: 'BestOW UI',
+    url: absoluteUrl('/'),
+  };
+}
+
 /** 첫 화면 — 라이브러리(저장소) 자체 */
 export function softwareSourceCode() {
   return {

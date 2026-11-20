@@ -1,5 +1,16 @@
 import { describe, expect, test } from 'vitest';
-import { breadcrumbItems, docArticle, serializeJsonLd, softwareSourceCode } from './structured-data';
+import { breadcrumbItems, docArticle, serializeJsonLd, softwareSourceCode, webSite } from './structured-data';
+
+describe('webSite', () => {
+  test('첫 화면 — 구글 사이트 이름(og:site_name 과 같은 이름)과 절대 주소', () => {
+    expect(webSite()).toEqual({
+      '@context': 'https://schema.org',
+      '@type': 'WebSite',
+      name: 'BestOW UI',
+      url: 'https://bestow-ui.com/',
+    });
+  });
+});
 
 describe('serializeJsonLd', () => {
   test('`<` 를 \\u003c 로 바꿔 </script> 로 스크립트가 끊기지 않는다', () => {

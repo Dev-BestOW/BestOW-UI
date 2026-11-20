@@ -18,8 +18,13 @@ test('첫 화면: 제목·한국어 lang·링크 미리보기 태그', async ({ 
     'fjhHTSTn5cz8gnw_LCEgdNw4vawqPE4__ZqF4UQp9lo',
   );
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', 'https://bestow-ui.com/');
-  // 구조화 데이터 — 저장소·라이선스를 검색 엔진에 알린다
+  // 파비콘 — 같은 rel 하나, 절대 주소, PNG(구글 형식 목록에 SVG 가 없음)
+  await expect(page.locator('link[rel="icon"]')).toHaveCount(1);
+  await expect(page.locator('link[rel="icon"]')).toHaveAttribute('href', 'https://bestow-ui.com/icon-96.png');
+  await expect(page.locator('link[rel="shortcut icon"]')).toHaveCount(0);
+  // 구조화 데이터 — 사이트 이름(구글), 저장소·라이선스를 검색 엔진에 알린다
   expect(await jsonLd(page)).toEqual([
+    { '@context': 'https://schema.org', '@type': 'WebSite', name: 'BestOW UI', url: 'https://bestow-ui.com/' },
     expect.objectContaining({
       '@type': 'SoftwareSourceCode',
       url: 'https://bestow-ui.com/',
@@ -37,8 +42,8 @@ test('첫 화면: 제목·한국어 lang·링크 미리보기 태그', async ({ 
   await expect(page.getByRole('link', { name: '한국 입력 컴포넌트 문서' })).toHaveAttribute('href', '/components/');
 });
 
-test('og.png·sitemap.xml·robots.txt·iframe.html 이 사이트 루트에 있다', async ({ request }) => {
-  for (const path of ['og.png', 'sitemap.xml', 'robots.txt', 'iframe.html']) {
+test('og.png·파비콘·sitemap.xml·robots.txt·iframe.html 이 사이트 루트에 있다', async ({ request }) => {
+  for (const path of ['og.png', 'icon-96.png', 'favicon.ico', 'sitemap.xml', 'robots.txt', 'iframe.html']) {
     expect((await request.get(`${HOME}${path}`)).status(), path).toBe(200);
   }
   // robots.txt 는 호스트 루트에서만 읽힌다 — 사용자 도메인이라 둘 수 있다. sitemap 위치를 알린다

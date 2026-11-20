@@ -9,7 +9,7 @@
 ## 🔁 다음 세션 시작하기 (인수인계 — 2026-11-20 기준)
 
 **지금 상태**
-- **2026-11-20 세션:** 첫 정기 배포 확인, 스프린트 ①② 끝, 네이버·구글 검색 기준 점검 → 개인 스킬 `korean-seo`(GitHub Dev-BestOW/korean-seo-skill, 설치됨)로 정리. 사이트·블로그 작업은 이 스킬 기준. **다음: 11/21 방문 통계(③)**, 그다음 아래 "구글 기준 남은 3건".
+- **2026-11-20 세션:** 첫 정기 배포 확인, 스프린트 ①② 끝, 네이버·구글 검색 기준 점검 → 개인 스킬 `korean-seo`(GitHub Dev-BestOW/korean-seo-skill, 설치됨)로 정리. 사이트·블로그 작업은 이 스킬 기준. **다음: 11/21 방문 통계(③)**. 구글 기준 남은 3건은 11/20 끝(배포 뒤 Search Console 에서 파비콘·사이트 이름 반영 확인 — 며칠~몇 주).
 - npm: react 2.2.0 · tokens 2.2.0(react 와 linked) · korean-utils 0.5.0 · icons 0.2.1 (2026-11-19 첫 정기 배포). 다음 배포 12/3.
 - **배포 주기: 격주 목요일**(11/19 → 12/3 → 12/17, SUPPORT.md). 보안·심각한 버그만 바로 patch. 작업을 끝내면 다음 배포일을 함께 알린다.
 - 방향(2026-11-11 결정): 기능보다 **발견 → 신뢰 → 첫 사용** 경로. 새 컴포넌트는 외부 요청이 생길 때까지 미룬다. 사용자 유치 플랜 23~30번은 Claude 몫을 모두 끝냈다(상세는 ROADMAP-HISTORY).
@@ -71,7 +71,6 @@
   - 2주차: [ ] ④ 사이트 `/changelog/`(패키지 CHANGELOG 를 빌드 때 읽어 한국어 변경 기록 쪽) [ ] ⑤ 28번 Figma 정리 2건(MCP 한도 풀리면)
     [ ] ⑥ 통계로 고르는 작업 하나 [ ] ⑦ 12/1~2 GEO 첫 기록(`GEO-CHECK.md`, 사용자가 AI 답변 전달)
   - 하지 않음: 새 컴포넌트(외부 요청 없음)·3.0 준비·의존성 2차(대기 중).
-- **구글 기준 남은 3건(korean-seo 스킬 `check-site.py` 로 2026-11-20 발견):** 파비콘이 SVG 뿐(구글 형식 목록에 SVG 없음 → PNG 96×96·ICO 추가, 같은 rel 하나), 첫 화면에 `WebSite` JSON-LD(name·url — 구글 사이트 이름) 추가, Storybook 설명 113자 → 80자(manager-head.html).
 - (선택) IndexNow — 배포 뒤 바뀐 쪽 알림. (선택) 문서 쪽별 OG 이미지 — 29쪽이 같은 og.png 라 네이버가 대표 이미지로 안 쓸 수 있음(네이버 웹마스터 가이드 점검 4건은 2026-11-20 끝).
 - **28번 Figma 정리 2건**(MCP 호출 한도가 풀리면): Checkbox `icon` 프레임 12개 흰 배경 지우기, Korean Kit 페이지 변수 연결 감사 — `docs/FIGMA.md`.
 - 28번 다음 컴포넌트(요청 시): Select·RadioGroup·Switch·AgreementGroup·Alert·Modal, 아이콘 컴포넌트(Button 아이콘 자리).
@@ -164,3 +163,4 @@
 | 2026-11-20 | 네이버 가이드 점검 4건(naver-seo 스킬 기준): ① 소개 사이트 파비콘 절대 주소(app/icon.svg → public, layout `icons` 에 `siteOrigin`), Storybook 파비콘은 `assemble-pages.sh` 가 `./favicon.svg` 를 절대 주소로 바꿈(못 바꾸면 배포 실패) ② playground 5쪽을 사이트맵에서 빼고 `noindex, follow`(사이트맵 34 → 29) ③ JSON-LD·화면 이동 경로 첫 이름 "홈" → "BestOW UI" ④ Storybook 제목 55 → 29자("BestOW UI 컴포넌트 문서 - Storybook"). 조립한 배포 폴더로 태그 확인, 검증 전부 통과(test 160+4+640+22·stories 678·E2E 89+53). playground 파비콘은 noindex 라 그대로 |
 | 2026-11-20 | 조직 루트 저장소 `dev-bestow.github.io`: index.html 의 canonical·meta refresh 를 옛 `/BestOW-UI/` 에서 `https://bestow-ui.com/` 으로(두 번 넘어가던 것을 한 번에), robots.txt 의 다른 호스트로 넘어가는 Sitemap 줄 삭제. 네이버 사이트 목록 4개 정리 계획: 옛 http 블로그·dev-bestow.github.io 등록은 12월 초 삭제 |
 | 2026-11-20 | 구글 Search Central 핵심 44쪽 정독(나머지 훑음) → 개인 스킬에 구글 기준 추가, 이름 `naver-seo` → `korean-seo`(0.3.0). 스킬 없이/있이 비교 테스트(구글 파비콘 형식에 SVG 없음을 모델이 몰랐음 → 고쳐짐). 검사기로 bestow-ui.com 구글 기준 남은 3건 발견("Claude 가 할 일") |
+| 2026-11-20 | 구글 기준 3건(korean-seo 스킬): ① 소개 사이트 파비콘 SVG → PNG 96×96(`link rel="icon"` 하나, 절대 주소) + 루트 `favicon.ico`(32·48px), `scripts/generate-favicons.mjs` 가 `public/icon.svg` 에서 만듦. Storybook `favicon.svg` 는 그대로(구글은 호스트마다 첫 화면 파비콘만 씀) ② 첫 화면 `WebSite` JSON-LD(name "BestOW UI"·url) — 단위 테스트·landing E2E ③ Storybook description 113 → 75자(manager-head.html) |
