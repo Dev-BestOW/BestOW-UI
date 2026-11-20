@@ -54,6 +54,7 @@
 ## 남은 일
 
 ### 사람이 할 일
+- [ ] **브랜치 흐름 적용(2026-11-20 결정, GitHub Flow)**: release App ID 를 확인해(Settings › Developer settings › GitHub Apps › bestow-ui-release) `scripts/apply-repo-settings.sh <App ID>` 실행 → 다음 작업부터 브랜치 + PR(squash). 적용 뒤 첫 PR 에서 필수 검사 5개가 잡히는지, 봇의 시각 회귀 기준 이미지 커밋이 main 에 들어가는지 확인.
 - [ ] **bestow-ui.com 마무리**: Cloudflare Web Analytics 에 bestow-ui.com 방문이 잡히는지 확인(안 잡히면 사이트 추가·토큰 교체), 도메인 자동 갱신 유지. 12월 초 네이버 서치어드바이저의 옛 `https://dev-bestow.github.io` 등록 삭제(루트 저장소는 2026-11-20 에 bestow-ui.com 으로 바로 보내게 고침 — 등록을 지운 뒤 그 저장소의 `naver*.html` 도 삭제). (Search Console·네이버 소유확인·sitemap 제출은 2026-11-14 끝남)
 - [ ] velog 게시 · 요즘IT 기고 제안 · 발표 지원(CFP 공고 때) · 접근성 커뮤니티 글 — 초안: 알리기 준비물 Artifact https://claude.ai/artifact/LvPgoSsmGKHjLd34FP789u
 - [ ] 12월 초 GEO 첫 기록: `docs/GEO-CHECK.md` 의 질문 5개를 ChatGPT·Perplexity·Gemini 에 넣고 결과·Search Console·Cloudflare AI 유입을 알려 주기(Claude 가 표에 적음).
@@ -164,3 +165,4 @@
 | 2026-11-20 | 조직 루트 저장소 `dev-bestow.github.io`: index.html 의 canonical·meta refresh 를 옛 `/BestOW-UI/` 에서 `https://bestow-ui.com/` 으로(두 번 넘어가던 것을 한 번에), robots.txt 의 다른 호스트로 넘어가는 Sitemap 줄 삭제. 네이버 사이트 목록 4개 정리 계획: 옛 http 블로그·dev-bestow.github.io 등록은 12월 초 삭제 |
 | 2026-11-20 | 구글 Search Central 핵심 44쪽 정독(나머지 훑음) → 개인 스킬에 구글 기준 추가, 이름 `naver-seo` → `korean-seo`(0.3.0). 스킬 없이/있이 비교 테스트(구글 파비콘 형식에 SVG 없음을 모델이 몰랐음 → 고쳐짐). 검사기로 bestow-ui.com 구글 기준 남은 3건 발견("Claude 가 할 일") |
 | 2026-11-20 | 구글 기준 3건(korean-seo 스킬): ① 소개 사이트 파비콘 SVG → PNG 96×96(`link rel="icon"` 하나, 절대 주소) + 루트 `favicon.ico`(32·48px), `scripts/generate-favicons.mjs` 가 `public/icon.svg` 에서 만듦. Storybook `favicon.svg` 는 그대로(구글은 호스트마다 첫 화면 파비콘만 씀) ② 첫 화면 `WebSite` JSON-LD(name "BestOW UI"·url) — 단위 테스트·landing E2E ③ Storybook description 113 → 75자(manager-head.html) |
+| 2026-11-20 | 브랜치 흐름을 GitHub Flow 로 결정(main 하나 + 짧은 작업 브랜치 → PR → squash, develop·release 없음 — 배포 시점은 changesets 버전 PR). `.github/rulesets/main.json`(PR 필수·squash 만·필수 검사 5개·우회는 관리자·release App) + `scripts/apply-repo-settings.sh`(병합 설정 포함, 사용자가 실행), PR 템플릿에 제목 = 커밋 제목·메인테이너 확인 목록, CLAUDE.md·CONTRIBUTING 작업 흐름 |

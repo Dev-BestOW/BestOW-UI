@@ -84,7 +84,10 @@ pnpm storybook    # http://localhost:6006
 
 ## 작업 흐름
 
-1. `main` 에서 브랜치를 만들어 작업해요.
+브랜치는 **GitHub Flow** 로 가져가요 — `main` 하나만 오래 살고, 작업마다 짧은 브랜치를 만들어 PR 로 합쳐요.
+`develop`·`release` 브랜치는 없어요. 언제 배포할지는 changesets 버전 PR(격주 목요일, [SUPPORT.md](SUPPORT.md))이 정해요.
+
+1. `main` 에서 브랜치를 만들어 작업해요. 이름은 `feat/…`·`fix/…`·`docs/…`·`ci/…` 처럼 앞에 종류를 붙여요. 한 브랜치에는 한 가지 일만 담아요.
 2. 공개 API 가 바뀌면 changeset 을 추가해요 ([아래](#changeset-작성법) 참고).
 3. PR 을 올리기 전에 아래 명령이 모두 통과하는지 확인해요. CI 도 같은 순서로 검사해요.
 
@@ -93,7 +96,19 @@ pnpm storybook    # http://localhost:6006
      && pnpm test && pnpm test:stories && pnpm build-storybook && pnpm build-playground && pnpm test:e2e
    ```
 
-4. PR 이 `main` 에 머지되면 봇이 "chore: version packages" PR 을 만들어요. 그 PR 을 머지하면 npm 배포와 GitHub Release 가 자동으로 진행돼요.
+4. PR 제목은 gitmoji + 한국어 한 줄로 써요(예: `🐛 Calendar 토요일 대비 수정`). **squash merge** 만 쓰기 때문에 PR 제목이 그대로 `main` 의 커밋 제목이 돼요.
+5. `main` 은 보호돼 있어요 — PR 로만 들어가고, CI(`Typecheck · Test · Build`·`Cross-browser (webkit)`·`Cross-browser (firefox)`·`React 18`·`Storybook screenshots`)가
+   모두 통과해야 머지할 수 있어요. 머지된 브랜치는 자동으로 지워져요.
+6. PR 이 `main` 에 머지되면 봇이 "chore: version packages" PR 을 만들어요. 그 PR 을 머지하면 npm 배포와 GitHub Release 가 자동으로 진행돼요.
+
+**메인테이너용 메모**
+
+- 기다리지 않으려면 PR 을 열고 `gh pr merge --auto --squash` 를 걸어 두세요. 검사가 다 통과하면 알아서 머지돼요.
+- 급한 버그는 `fix/…` 브랜치 + patch changeset 으로 PR 을 올리고, 머지 뒤 버전 PR 을 정기 배포일을 기다리지 않고 바로 머지해요.
+- 우회는 관리자와 release App(버전 PR·시각 회귀 기준 이미지 커밋)만 할 수 있어요. 관리자가 `main` 에 바로 push 하는 건 ROADMAP 같은 내부 문서만 고칠 때뿐이에요.
+- 규칙 원본은 [`.github/rulesets/main.json`](.github/rulesets/main.json)이에요. 고친 뒤 `scripts/apply-repo-settings.sh <release App ID>` 로 적용해요.
+  CI job 이름을 바꾸면 필수 검사 이름도 함께 고쳐야 해요(안 고치면 PR 이 "검사 대기" 에서 멈춰요).
+- 나중에만 쓰는 브랜치: major 사전 배포가 필요하면 `next`(changesets pre mode), 다음 major 배포 직후에는 이전 major 보안 패치용 `v<major>.x`.
 
 ## CI/CD (GitHub Actions)
 

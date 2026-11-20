@@ -13,8 +13,15 @@ React + vanilla-extract 기반 디자인 시스템 모노레포. npm 에 `@besto
   (지난 세션에서 긴 완료 보고를 영어로 써서 여러 번 지적받았다. 특히 마지막 요약을 쓸 때 주의.)
 - **이 저장소의 문서(ROADMAP·HISTORY 등)에는 디자인 시스템 기록만 남긴다.** 블로그(astro-blog) 작업 기록은 그 저장소의 SPEC·ROADMAP 에 남긴다.
 - **git commit / push 는 하지 않는다.** 사용자가 직접 한다. 작업이 끝나면 바뀐 파일과 확인 결과만 보고한다.
+- **브랜치 흐름은 GitHub Flow**(2026-11-20 결정): ROADMAP 한 단계 = 작업 브랜치 하나(`feat/…`·`fix/…`·`docs/…`·`ci/…`) = PR 하나 → CI 통과 → **squash merge**
+  (PR 제목이 main 의 커밋 제목). develop·release 브랜치는 두지 않는다 — 배포 시점은 changesets 버전 PR(격주 목요일)이 정한다.
+  main ruleset(`.github/rulesets/main.json`, 적용은 `scripts/apply-repo-settings.sh`)이 PR·필수 검사를 요구하고, 관리자와 release App 만 우회한다.
+  관리자 직접 push 는 ROADMAP·HISTORY 같은 내부 문서만 고칠 때만. 코드·사이트·워크플로를 바꾸는 작업을 시작할 때 main 에 있으면 브랜치 이름을 추천한다.
+  ci.yml·visual.yml 의 job `name` 을 바꾸면 main.json 의 필수 검사 이름도 고치고 사용자에게 스크립트 재실행을 알린다(안 하면 PR 이 영영 "검사 대기").
+  나중에만: major 준비 기간에 사전 배포가 필요하면 `next`(changesets pre mode, release.yml 에 브랜치 추가), 다음 major 배포 직후 `v<이전 major>.x` 유지보수 브랜치.
 - **작업을 마치면 커밋 메시지를 추천한다** — [gitmoji](https://gitmoji.dev/) + 한국어 한 줄 (기존 기록과 같은 형식,
   예: `✨ LocaleProvider(다국어 문구)와 한글 줄바꿈 기본값 추가`). 여러 영역에 걸치면 짧은 본문(글머리표)을 붙인다.
+  그 한 줄을 PR 제목으로도 쓰게 안내한다(squash merge 라 PR 제목이 커밋 제목이 된다).
   자주 쓰는 것: ✨ 기능 · 🐛 버그 · ♻️ 리팩터링 · 📝 문서 · ✅ 테스트 · 💚 CI 수정 · 👷 CI 설정 · ⬆️ 의존성 · 🏷️ 타입 ·
   🗑️ deprecated · 💥 breaking · 🔧 설정 · 📸 스냅숏 · ♿️ 접근성 · 🌐 다국어 · 💄 UI 스타일 · ⚡️ 성능.
 - 변경 후에는 아래 "검증" 명령을 모두 실행하고 결과를 보고한다.
@@ -86,6 +93,9 @@ examples/
                                (아직 배포 안 된 API 를 쓰면 안 됨). README 의 "StackBlitz 에서 바로 써 보기" 링크가 여기를 연다.
 .github/
   actions/setup/               pnpm + Node(.nvmrc=22) + pnpm install 공통 composite action
+  rulesets/main.json           main ruleset 정의(PR 필수·squash 만·필수 검사 5개·삭제/force push 금지, 우회: 관리자·release App). GitHub 에는
+                               `scripts/apply-repo-settings.sh <App ID>` 로 적용(병합 설정 — squash 만·PR 제목·브랜치 자동 삭제·auto-merge — 도 함께). 사용자가 실행한다
+  pull_request_template.md     PR 제목 = 커밋 제목 안내 + 기여자 확인 + 메인테이너 확인(changeset·시각 회귀·접근성 문서·공개 이름·사이트 문서·검색 메타)
   workflows/ci.yml             PR·main: 아이콘 생성물 확인 → lint → format:check → build → size → typecheck → test
                                → test:stories(브라우저 렌더링 + axe, 라이트·다크) → build-storybook → build-playground → build-site → test:e2e(playground·site)
                                + browsers job(matrix webkit·firefox): test:stories·test:e2e 를 그 브라우저로 (시각 회귀는 Chromium 만,
