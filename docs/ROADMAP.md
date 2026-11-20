@@ -53,7 +53,7 @@
 ## 남은 일
 
 ### 사람이 할 일
-- [ ] **bestow-ui.com 마무리**: Cloudflare Web Analytics 에 bestow-ui.com 방문이 잡히는지 확인(안 잡히면 사이트 추가·토큰 교체), (선택) 조직 루트 저장소 `dev-bestow.github.io` 이동 대상·robots.txt 를 새 주소로. 도메인 자동 갱신 유지. (Search Console·네이버 소유확인·sitemap 제출은 2026-11-14 끝남)
+- [ ] **bestow-ui.com 마무리**: Cloudflare Web Analytics 에 bestow-ui.com 방문이 잡히는지 확인(안 잡히면 사이트 추가·토큰 교체), 도메인 자동 갱신 유지. 12월 초 네이버 서치어드바이저의 옛 `https://dev-bestow.github.io` 등록 삭제(루트 저장소는 2026-11-20 에 bestow-ui.com 으로 바로 보내게 고침 — 등록을 지운 뒤 그 저장소의 `naver*.html` 도 삭제). (Search Console·네이버 소유확인·sitemap 제출은 2026-11-14 끝남)
 - [ ] velog 게시 · 요즘IT 기고 제안 · 발표 지원(CFP 공고 때) · 접근성 커뮤니티 글 — 초안: 알리기 준비물 Artifact https://claude.ai/artifact/LvPgoSsmGKHjLd34FP789u
 - [ ] 12월 초 GEO 첫 기록: `docs/GEO-CHECK.md` 의 질문 5개를 ChatGPT·Perplexity·Gemini 에 넣고 결과·Search Console·Cloudflare AI 유입을 알려 주기(Claude 가 표에 적음).
 - [ ] Figma: 요금제 올릴지(다크 모드·라이브러리 게시·페이지 제한), Community 공개 여부 — `docs/FIGMA.md`.
@@ -160,3 +160,4 @@
 | 2026-11-20 | ② 초성 검색 알리기: 소개 사이트 첫 화면 데모에 `정산 은행` Combobox(`KOREAN_BANKS`, 도움말 "ㄱㅁ 을 입력해 보세요") + landing E2E(ㄱㅁ → KB국민은행 고르기, 5회 반복·포함 검색 필터로 바꾼 변이에서 실패 확인). korean-utils npm 설명에 초성 검색·README 문서 목록에 초성 검색 쪽 링크(patch changeset), 루트 README 패키지 표에 초성 검색 |
 | 2026-11-20 | 네이버 서치어드바이저 웹마스터 가이드 54쪽 전체 검토 → bestow-ui.com 34쪽 점검: 정상(robots text/plain·http·www 301·404 상태·사이트맵 절대 주소·canonical·viewport·alt), 고칠 것 4(파비콘 상대 경로·playground 중복 제목·이동 경로 "홈"·Storybook 제목 55자)는 "Claude 가 할 일" 에. CLAUDE.md 작업 규칙에 사이트 검색 노출 기준 |
 | 2026-11-20 | 네이버 가이드 점검 4건(naver-seo 스킬 기준): ① 소개 사이트 파비콘 절대 주소(app/icon.svg → public, layout `icons` 에 `siteOrigin`), Storybook 파비콘은 `assemble-pages.sh` 가 `./favicon.svg` 를 절대 주소로 바꿈(못 바꾸면 배포 실패) ② playground 5쪽을 사이트맵에서 빼고 `noindex, follow`(사이트맵 34 → 29) ③ JSON-LD·화면 이동 경로 첫 이름 "홈" → "BestOW UI" ④ Storybook 제목 55 → 29자("BestOW UI 컴포넌트 문서 - Storybook"). 조립한 배포 폴더로 태그 확인, 검증 전부 통과(test 160+4+640+22·stories 678·E2E 89+53). playground 파비콘은 noindex 라 그대로 |
+| 2026-11-20 | 조직 루트 저장소 `dev-bestow.github.io`: index.html 의 canonical·meta refresh 를 옛 `/BestOW-UI/` 에서 `https://bestow-ui.com/` 으로(두 번 넘어가던 것을 한 번에), robots.txt 의 다른 호스트로 넘어가는 Sitemap 줄 삭제. 네이버 사이트 목록 4개 정리 계획: 옛 http 블로그·dev-bestow.github.io 등록은 12월 초 삭제 |
