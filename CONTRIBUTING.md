@@ -97,7 +97,7 @@ pnpm storybook    # http://localhost:6006
    ```
 
 4. PR 제목은 gitmoji + 한국어 한 줄로 써요(예: `🐛 Calendar 토요일 대비 수정`). **squash merge** 만 쓰기 때문에 PR 제목이 그대로 `main` 의 커밋 제목이 돼요.
-5. `main` 은 보호돼 있어요 — PR 로만 들어가고, CI(`Typecheck · Test · Build`·`Cross-browser (webkit)`·`Cross-browser (firefox)`·`React 18`·`Storybook screenshots`)가
+5. `main` 은 보호돼 있어요 — PR 로만 들어가고, CI(`Typecheck · Test · Build`·`Stories (브라우저 3종)`·`E2E (브라우저 3종)`·`React 18`·`Storybook screenshots`)가
    모두 통과해야 머지할 수 있어요. 머지된 브랜치는 자동으로 지워져요.
 6. PR 이 `main` 에 머지되면 봇이 "chore: version packages" PR 을 만들어요. 그 PR 을 머지하면 npm 배포와 GitHub Release 가 자동으로 진행돼요.
 
@@ -114,7 +114,7 @@ pnpm storybook    # http://localhost:6006
 
 | 워크플로 | 트리거 | 내용 |
 |---|---|---|
-| `ci.yml` | PR, main push | 아이콘 생성물 확인 → lint → 포맷 → 빌드 → 번들 크기 → 타입 체크 → 테스트(SSR 포함) → 스토리 렌더링·axe → Storybook·예제 앱 빌드 → 예제 앱 E2E(데스크톱·모바일·고대비·리플로). 같은 스토리 테스트·E2E 를 WebKit·Firefox 로, 단위 테스트를 React 18 로도 실행 |
+| `ci.yml` | PR, main push | job 9개를 나란히: 아이콘 생성물 확인 → lint → 포맷 → 빌드 → 번들 크기 → 타입 체크 → 테스트(SSR 포함) / 스토리 렌더링·axe(Chromium·WebKit·Firefox 각각, Storybook 빌드) / 예제 앱·소개 사이트 빌드 → E2E(데스크톱·모바일·고대비·리플로, 브라우저 3종 각각) / 단위 테스트를 React 18 로 |
 | `size.yml` | PR | 번들 크기를 base 와 비교해 PR 코멘트로 |
 | `visual.yml` | PR, main push, 수동 | 모든 스토리(열린 상태 포함)의 라이트·다크 스크린샷 비교. 새 스토리는 main push 때 기준 이미지 자동 커밋, 바뀐 화면은 수동 실행 + update 로 갱신 |
 | `release.yml` | main push | changeset 이 있으면 "version packages" PR 생성(GitHub App 토큰), 그 PR 이 머지되면 npm 배포(Trusted Publishing) |

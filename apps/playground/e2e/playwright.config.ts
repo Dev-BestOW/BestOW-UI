@@ -23,7 +23,7 @@ export default defineConfig({
     trace: 'retain-on-failure',
   },
   projects: browsers.flatMap((browser) => {
-    // Chromium 은 로컬에서 시스템 Chrome, CI 는 `playwright install` 로 받은 Chromium
+    // Chromium 은 로컬에서 시스템 Chrome, CI 는 Playwright Docker 이미지에 든 Chromium
     const channel =
       browser === 'chromium' && !process.env.CI ? (process.env.PLAYWRIGHT_CHANNEL ?? 'chrome') : undefined;
     const projects = [

@@ -33,8 +33,12 @@
         "do_not_enforce_on_create": false,
         "required_status_checks": [
           { "context": "Typecheck · Test · Build", "integration_id": 15368 },
-          { "context": "Cross-browser (webkit)", "integration_id": 15368 },
-          { "context": "Cross-browser (firefox)", "integration_id": 15368 },
+          { "context": "Stories (chromium)", "integration_id": 15368 },
+          { "context": "Stories (webkit)", "integration_id": 15368 },
+          { "context": "Stories (firefox)", "integration_id": 15368 },
+          { "context": "E2E (chromium)", "integration_id": 15368 },
+          { "context": "E2E (webkit)", "integration_id": 15368 },
+          { "context": "E2E (firefox)", "integration_id": 15368 },
           { "context": "React 18", "integration_id": 15368 },
           { "context": "Storybook screenshots", "integration_id": 15368 }
         ]
