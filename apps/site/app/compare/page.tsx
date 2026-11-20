@@ -22,7 +22,7 @@ const description =
 // Storybook 문서 id(index.json 으로 확인) — 제목이 바뀌면 함께 고친다
 const shadcnGuide = storybookHref(encodeURI('/docs/guides-shadcn·tailwind-프로젝트에-한국-키트만-쓰기--docs'));
 const crumbs = [
-  { name: '홈', path: '/' },
+  { name: 'BestOW UI', path: '/' },
   { name: '라이브러리 비교', path },
 ];
 

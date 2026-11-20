@@ -18,6 +18,11 @@ cp -R apps/storybook/storybook-static/ai "$out/ai"
 for file in index.html og.png sitemap.xml robots.txt iframe.html .well-known/security.txt llms.txt llms-full.txt ai/bestow-ui.md ai/bestow-ui.mdc storybook/index.html storybook/iframe.html playground/index.html; do
   test -f "$out/$file" || { echo "::error::$file 이 없습니다"; exit 1; }
 done
+# Storybook 템플릿의 파비콘은 상대 경로(./favicon.svg)라 절대 주소로 바꾼다 — 네이버 웹마스터 가이드 "파비콘": href 절대 경로.
+# 링크를 하나 더 다는 대신 바꾸는 이유: 같은 rel 의 파비콘이 둘이면 반영되지 않을 수 있다. 주소는 manager-head.html 과 같은 배포 주소.
+sb_favicon='https://bestow-ui.com/storybook/favicon.svg'
+perl -pi -e "s#href=\"\\./favicon\\.svg\"#href=\"$sb_favicon\"#" "$out/storybook/index.html"
+grep -q "rel=\"icon\"[^>]*href=\"$sb_favicon\"" "$out/storybook/index.html" || { echo "::error::Storybook 파비콘을 절대 주소로 바꾸지 못했습니다(템플릿이 바뀌었는지 확인)"; exit 1; }
 # include-hidden-files 로 숨김 파일도 올라가므로 .well-known 말고는 없어야 한다 (.DS_Store·.env 같은 것이 섞여 배포되지 않게)
 hidden=$(cd "$out" && find . -name '.*' ! -path './.well-known' ! -path './.well-known/*' ! -name '.' | sort)
 if [ -n "$hidden" ]; then

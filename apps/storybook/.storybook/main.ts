@@ -21,7 +21,7 @@ const bestowCssLayer: Plugin = {
 // `title` 은 Storybook 타입에 없는 프리셋 값이다 — 없으면 package.json 의 name 을 써서 페이지 제목이 "storybook - Storybook" 이 된다
 // (검색 결과·링크 미리보기에 그대로 보임). 빌드한 index.html 의 <title> 로 확인한다. 설명·OG 태그는 manager-head.html.
 const config: StorybookConfig & { title: string } = {
-  title: 'BestOW UI — 한국 서비스를 위한 접근성 검증 React 디자인 시스템',
+  title: 'BestOW UI 컴포넌트 문서',
   stories: [
     '../../../packages/*/src/**/*.mdx',
     '../../../packages/*/src/**/*.stories.@(ts|tsx)',

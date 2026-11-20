@@ -14,7 +14,7 @@ export const metadata = pageMetadata({ path: '/korean-utils/', title, descriptio
 export default function Page() {
   return (
     <div className="doc site-inner">
-      <Breadcrumb items={[{ label: '홈', href: `${basePath}/` }, { label: '서식·검증 함수' }]} />
+      <Breadcrumb items={[{ label: 'BestOW UI', href: `${basePath}/` }, { label: '서식·검증 함수' }]} />
       <header className="doc-header">
         <Typography as="h1" variant="h1">
           한국 서비스 서식·검증 함수

@@ -30,7 +30,7 @@ describe('docArticle', () => {
     title: '전화번호 입력',
     description: '설명',
     crumbs: [
-      { name: '홈', path: '/' },
+      { name: 'BestOW UI', path: '/' },
       { name: '한국 입력 컴포넌트', path: '/components/' },
       { name: 'PhoneNumberInput', path: '/components/phone-number-input/' },
     ],
@@ -60,7 +60,7 @@ describe('docArticle', () => {
   test('BreadcrumbList — position 은 1부터 이어지고 item 은 절대 주소', () => {
     expect(breadcrumb).toMatchObject({ '@context': 'https://schema.org', '@type': 'BreadcrumbList' });
     expect(breadcrumb.itemListElement).toEqual([
-      { '@type': 'ListItem', position: 1, name: '홈', item: 'https://bestow-ui.com/' },
+      { '@type': 'ListItem', position: 1, name: 'BestOW UI', item: 'https://bestow-ui.com/' },
       { '@type': 'ListItem', position: 2, name: '한국 입력 컴포넌트', item: 'https://bestow-ui.com/components/' },
       {
         '@type': 'ListItem',
@@ -76,10 +76,14 @@ describe('breadcrumbItems', () => {
   test('화면의 이동 경로 — 마지막(지금 쪽)만 링크가 아니다', () => {
     expect(
       breadcrumbItems([
-        { name: '홈', path: '/' },
+        { name: 'BestOW UI', path: '/' },
         { name: '서식·검증 함수', path: '/korean-utils/' },
         { name: '전화번호', path: '/korean-utils/phone-number/' },
       ]),
-    ).toEqual([{ label: '홈', href: '/' }, { label: '서식·검증 함수', href: '/korean-utils/' }, { label: '전화번호' }]);
+    ).toEqual([
+      { label: 'BestOW UI', href: '/' },
+      { label: '서식·검증 함수', href: '/korean-utils/' },
+      { label: '전화번호' },
+    ]);
   });
 });

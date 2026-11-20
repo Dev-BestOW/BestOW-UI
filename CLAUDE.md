@@ -341,7 +341,7 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
   버전 PR 을 다시 만들지 않아 PR 이 옛 기준 이미지로 실패했다(2026-11-04, PR #28). 봇 커밋은 release.yml 과 같은 GitHub App 토큰으로 push 한다.
 - **사이트 주소는 사용자 도메인 `bestow-ui.com`**(2026-11-14 결정, 저장소 Settings › Pages 의 Custom domain). GitHub 가 옛 `dev-bestow.github.io/BestOW-UI/…` 를
   같은 경로로 넘겨 준다. 배포 빌드의 basePath 는 configure-pages 의 `base_path`(도메인이면 '') — Settings 에서 도메인을 빼면 다시 /BestOW-UI 로 빌드된다.
-  주소를 적는 곳: `apps/site/app/links.ts` 의 `siteOrigin`(canonical·OG·sitemap·robots), Storybook `manager-head.html`, playground `layout.tsx` OG, README·package.json `homepage`.
+  주소를 적는 곳: `apps/site/app/links.ts` 의 `siteOrigin`(canonical·OG·sitemap·robots·파비콘), Storybook `manager-head.html`, `scripts/assemble-pages.sh`(Storybook 파비콘 절대 주소), playground `layout.tsx` OG, README·package.json `homepage`.
   **도메인 자동 갱신과 GitHub 조직 Verified domains 를 유지한다** — 만료되면 남이 사서 npm README 링크를 가로챌 수 있다.
   DNS(Cloudflare)는 모두 **DNS only** 로 둔다(프록시를 켜면 GitHub 의 Let's Encrypt 발급·Enforce HTTPS 가 꼬임 — 화면의 "Proxying is required" 안내는 무시). DNSSEC 켬 — **DNS 를 Cloudflare 밖으로 옮길 땐 먼저 끈다**.
   CAA 는 `letsencrypt.org` 하나, Universal SSL 은 꺼 둠(켜면 Cloudflare CA 4곳이 CAA 에 자동으로 붙는다) — **프록시를 쓰게 되면 Universal SSL 을 먼저 다시 켠다**.

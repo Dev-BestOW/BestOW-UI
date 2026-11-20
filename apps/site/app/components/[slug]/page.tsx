@@ -50,7 +50,7 @@ export default async function Page({ params }: Props) {
   const choice = choosingFor(page.name);
   const path = `/components/${page.slug}/`;
   const crumbs = [
-    { name: '홈', path: '/' },
+    { name: 'BestOW UI', path: '/' },
     { name: '한국 입력 컴포넌트', path: '/components/' },
     { name: page.name, path },
   ];

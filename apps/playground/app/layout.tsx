@@ -17,6 +17,8 @@ export const metadata: Metadata = {
     images: [{ url: 'https://bestow-ui.com/og.png', width: 1200, height: 630 }],
   },
   twitter: { card: 'summary_large_image' },
+  // 예제 앱이라 검색에서 뺀다(쪽마다 제목이 같아 중복 문서). 링크는 따라가게 follow — 사이트맵에도 넣지 않는다(apps/site sitemap.ts)
+  robots: { index: false, follow: true },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

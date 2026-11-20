@@ -42,7 +42,7 @@ export default async function Page({ params }: Props) {
   const others = guides.filter((g) => g.slug !== guide.slug);
   const path = `/korean-utils/${guide.slug}/`;
   const crumbs = [
-    { name: '홈', path: '/' },
+    { name: 'BestOW UI', path: '/' },
     { name: '서식·검증 함수', path: '/korean-utils/' },
     { name: guide.title, path },
   ];

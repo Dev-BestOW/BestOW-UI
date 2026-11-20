@@ -70,12 +70,7 @@
   - 2주차: [ ] ④ 사이트 `/changelog/`(패키지 CHANGELOG 를 빌드 때 읽어 한국어 변경 기록 쪽) [ ] ⑤ 28번 Figma 정리 2건(MCP 한도 풀리면)
     [ ] ⑥ 통계로 고르는 작업 하나 [ ] ⑦ 12/1~2 GEO 첫 기록(`GEO-CHECK.md`, 사용자가 AI 답변 전달)
   - 하지 않음: 새 컴포넌트(외부 요청 없음)·3.0 준비·의존성 2차(대기 중).
-- **네이버 웹마스터 가이드 점검 결과(2026-11-20, 34쪽 Yeti UA 점검 — robots·301·404·사이트맵·canonical·alt 정상)** — 스프린트 사이 작은 작업, 한 묶음으로:
-  - [ ] 파비콘 절대 주소: site `icon.svg`·Storybook·playground 의 `<link rel="icon">` 가 상대 경로, `/favicon.ico` 404 (가이드 "파비콘": 절대 경로).
-  - [ ] playground 5쪽을 사이트맵에서 빼기 — 제목·설명이 모두 "BestOW UI Playground" 로 같고 canonical·og:url 없음(중복 문서). 데모 앱이라 검색 대상 아님.
-  - [ ] JSON-LD 이동 경로 첫 이름 "홈" → "BestOW UI"(가이드 BreadcrumbList: "홈"·"top" 같은 일반 낱말 금지). 화면 Breadcrumb 과 같은 `Crumb[]` 이라 화면 글자도 함께 볼 것.
-  - [ ] Storybook 제목 55자 → 40자 안(`main.ts` `title`, manager-head 의 og:title).
-  - [ ] (선택) IndexNow — 배포 뒤 바뀐 쪽 알림. (선택) 문서 쪽별 OG 이미지 — 34쪽이 같은 og.png 라 네이버가 대표 이미지로 안 쓸 수 있음.
+- (선택) IndexNow — 배포 뒤 바뀐 쪽 알림. (선택) 문서 쪽별 OG 이미지 — 29쪽이 같은 og.png 라 네이버가 대표 이미지로 안 쓸 수 있음(네이버 웹마스터 가이드 점검 4건은 2026-11-20 끝).
 - **28번 Figma 정리 2건**(MCP 호출 한도가 풀리면): Checkbox `icon` 프레임 12개 흰 배경 지우기, Korean Kit 페이지 변수 연결 감사 — `docs/FIGMA.md`.
 - 28번 다음 컴포넌트(요청 시): Select·RadioGroup·Switch·AgreementGroup·Alert·Modal, 아이콘 컴포넌트(Button 아이콘 자리).
 - **외부 요청이 생기면:** Tag 입력(MultiCombobox 와 칩 공유), Combobox 비동기 검색.
@@ -164,3 +159,4 @@
 | 2026-11-19 | 스프린트(11/19~12/3) 계획을 "Claude 가 할 일" 에. ① AI 도구 문서에 2.2.0: `docs/ai/bestow-ui.md`(여러 개 고르기에 MultiCombobox), `llms.txt`(초성 검색 Combobox·MultiCombobox·`matchesKorean`, AmountInput 빠른 금액, AgreementGroup 하위 동의, 초성 검색 쪽 링크), `context7.json` 규칙 12 → 14(최장 214자). 빌드 이름 대조 통과, 검증 전부 통과(test 160+4+640+22·stories 678·E2E 89+53). 첫 실행의 korean-utils 실패는 두 패키지가 같은 vitest 캐시를 동시에 지우던 `ENOTEMPTY`(다시 돌리니 통과). Context7 은 push 뒤 Refresh 해야 반영 |
 | 2026-11-20 | ② 초성 검색 알리기: 소개 사이트 첫 화면 데모에 `정산 은행` Combobox(`KOREAN_BANKS`, 도움말 "ㄱㅁ 을 입력해 보세요") + landing E2E(ㄱㅁ → KB국민은행 고르기, 5회 반복·포함 검색 필터로 바꾼 변이에서 실패 확인). korean-utils npm 설명에 초성 검색·README 문서 목록에 초성 검색 쪽 링크(patch changeset), 루트 README 패키지 표에 초성 검색 |
 | 2026-11-20 | 네이버 서치어드바이저 웹마스터 가이드 54쪽 전체 검토 → bestow-ui.com 34쪽 점검: 정상(robots text/plain·http·www 301·404 상태·사이트맵 절대 주소·canonical·viewport·alt), 고칠 것 4(파비콘 상대 경로·playground 중복 제목·이동 경로 "홈"·Storybook 제목 55자)는 "Claude 가 할 일" 에. CLAUDE.md 작업 규칙에 사이트 검색 노출 기준 |
+| 2026-11-20 | 네이버 가이드 점검 4건(naver-seo 스킬 기준): ① 소개 사이트 파비콘 절대 주소(app/icon.svg → public, layout `icons` 에 `siteOrigin`), Storybook 파비콘은 `assemble-pages.sh` 가 `./favicon.svg` 를 절대 주소로 바꿈(못 바꾸면 배포 실패) ② playground 5쪽을 사이트맵에서 빼고 `noindex, follow`(사이트맵 34 → 29) ③ JSON-LD·화면 이동 경로 첫 이름 "홈" → "BestOW UI" ④ Storybook 제목 55 → 29자("BestOW UI 컴포넌트 문서 - Storybook"). 조립한 배포 폴더로 태그 확인, 검증 전부 통과(test 160+4+640+22·stories 678·E2E 89+53). playground 파비콘은 noindex 라 그대로 |

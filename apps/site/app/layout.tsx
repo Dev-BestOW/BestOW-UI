@@ -36,6 +36,8 @@ export const metadata: Metadata = {
     ],
   },
   twitter: { card: 'summary_large_image' },
+  // 네이버 웹마스터 가이드 "파비콘": href 는 절대 경로. app/icon.svg(파일 규칙)는 상대 경로로 나와서 public 으로 옮기고 여기서 적는다
+  icons: { icon: { url: `${siteOrigin}${basePath}/icon.svg`, type: 'image/svg+xml' } },
   // 검색 엔진 소유 확인(Search Console). 지우면 확인이 풀린다 — 새 주소 https://bestow-ui.com/ 속성에 다른 값을 받으면 바꾼다(E2E landing 도)
   verification: { google: 'fjhHTSTn5cz8gnw_LCEgdNw4vawqPE4__ZqF4UQp9lo' },
 };
