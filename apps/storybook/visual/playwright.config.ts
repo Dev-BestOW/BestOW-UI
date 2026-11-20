@@ -9,6 +9,8 @@ export default defineConfig({
   testDir: '.',
   snapshotPathTemplate: '{testDir}/__screenshots__/{platform}/{arg}{ext}',
   fullyParallel: true,
+  // CI 기본 workers 는 CPU 의 절반(4코어 러너 → 2). 스크린샷 비교는 정적 Storybook 이라 4개로 돌려도 안정적이고 3분 넘던 비교가 줄어든다
+  workers: process.env.CI ? 4 : undefined,
   forbidOnly: !!process.env.CI,
   retries: 0,
   // github reporter: 바뀐 스토리 이름이 annotation 으로 남아 인증 없이 공개 API 로 확인할 수 있다

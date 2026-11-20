@@ -95,13 +95,14 @@ examples/
                                (아직 배포 안 된 API 를 쓰면 안 됨). README 의 "StackBlitz 에서 바로 써 보기" 링크가 여기를 연다.
 .github/
   actions/setup/               pnpm + Node(.nvmrc=22) + pnpm install 공통 composite action
-  rulesets/main.json           main ruleset 정의(PR 필수·squash 만·필수 검사 5개·삭제/force push 금지, 우회: 관리자·release App). GitHub 에는
+  rulesets/main.json           main ruleset 정의(PR 필수·squash 만·필수 검사 9개·삭제/force push 금지, 우회: 관리자·release App). GitHub 에는
                                `scripts/apply-repo-settings.sh <App ID>` 로 적용(병합 설정 — squash 만·PR 제목·브랜치 자동 삭제·auto-merge — 도 함께). 사용자가 실행한다
   pull_request_template.md     PR 제목 = 커밋 제목 안내 + 기여자 확인 + 메인테이너 확인(changeset·시각 회귀·접근성 문서·공개 이름·사이트 문서·검색 메타)
-  workflows/ci.yml             PR·main: 아이콘 생성물 확인 → lint → format:check → build → size → typecheck → test
-                               → test:stories(브라우저 렌더링 + axe, 라이트·다크) → build-storybook → build-playground → build-site → test:e2e(playground·site)
-                               + browsers job(matrix webkit·firefox): test:stories·test:e2e 를 그 브라우저로 (시각 회귀는 Chromium 만,
-                                 스토리가 실패해도 E2E 까지 돈다) + react18 job: pnpm overrides 로 React 18 만 쓰게 한 뒤 react 패키지 typecheck·test
+  workflows/ci.yml             PR·main, job 9개가 나란히(2026-11-20 — 한 줄로 돌던 7분 → 약 4분): check(아이콘 생성물 확인 → lint → format:check → build → size → typecheck → test)
+                               + stories(matrix chromium·webkit·firefox — test:stories 브라우저 렌더링 + axe 라이트·다크, chromium 은 build-storybook 도)
+                               + e2e(matrix 같은 3개 — build-playground → build-site → test:e2e) + react18(pnpm overrides 로 React 18 만 쓰게 한 뒤 react 패키지 typecheck·test).
+                               stories·e2e 는 Playwright Docker 이미지(`--user 1001`, 브라우저 설치 없음). 시각 회귀는 Chromium 만(visual.yml).
+                               **job 이름 = main ruleset 필수 검사** — 바꾸면 .github/rulesets/main.json + 스크립트 재실행
   workflows/visual.yml         PR·main: Playwright Docker 이미지에서 모든 스토리 라이트·다크 스크린샷 비교. 봇 커밋은 App 토큰(release.yml 과 같은 App)으로 push.
                                새 스토리(기준 이미지 없음)는 자동 생성 → main push 면 봇이 커밋(--update-snapshots=missing).
                                기존 화면이 바뀌면 실패 → 수동 실행 + update 체크 → 기준 이미지 갱신 후 그 브랜치에 봇이 커밋.
@@ -316,10 +317,10 @@ playground(`pnpm --filter @bestow-ui/playground start` 또는 `exec next dev`)�
 - **Storybook 태그 `'!이름'` 은 "그 태그 빼기" 명령**이라 index.json 에 남지 않는다(`'!test'`·`'!autodocs'` 는 그래서 동작). 우리 스크립트가 읽는 표시는
   평범한 이름(`no-visual`)으로 단다 — `'!visual'` 로 달았던 11개 스토리가 2026-11-06 까지 계속 스크린샷에 찍혔다. 스토리를 빼면 그 기준 이미지(라이트·다크)도 지운다.
 - 시각 회귀 기준 이미지(`apps/storybook/visual/__screenshots__/linux`)는 **Linux Docker 이미지에서만** 만든다(글꼴·렌더링 차이).
-  `playwright`/`@playwright/test` 버전과 visual.yml 의 `mcr.microsoft.com/playwright:vX.Y.Z` 태그를 항상 같이 올린다.
+  `playwright`/`@playwright/test` 버전과 visual.yml·ci.yml(stories·e2e)의 `mcr.microsoft.com/playwright:vX.Y.Z` 태그를 항상 같이 올린다.
   macOS 에서 돌리면 `__screenshots__/darwin` 에 따로 저장된다(커밋 안 함).
 - CI 러너는 `ubuntu-24.04` 로 고정했다 (`ubuntu-latest` 가 2026-10-19 부터 Ubuntu 26). 올릴 때는 모든 workflow 를 같이 바꾸고
-  `playwright install --with-deps` 가 새 OS 를 지원하는지 확인한다.
+  Playwright Docker 이미지(`-noble` = Ubuntu 24.04)도 같은 OS 태그로 맞출지 확인한다.
 - Storybook 의 react-docgen 은 `Omit<ButtonProps, …>` 처럼 **다른 컴포넌트 props 를 물려받은 타입을 풀지 못한다** → 자동 문서에 타입이 비고,
   `color` 같은 이름은 색상 선택기로 잘못 잡혀 "Control of type color only supports string" 경고가 난다. 주요 prop 은 직접 선언한다(IconButton·TextField·
   PhoneNumberInput 참고). 유니온 타입이라 다시 선언할 수 없으면(Accordion) 스토리 meta 의 `argTypes` 에 설명·타입을 적는다.
