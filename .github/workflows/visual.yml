@@ -5,6 +5,9 @@ name: Visual regression
 # - 새 스토리(기준 이미지 없음): 자동으로 찍고 통과. main push 일 때 봇이 커밋한다 (PR 에서는 머지 후 main 에서 커밋).
 # - 기존 화면이 바뀜: 실패 → 리포트(visual-report)로 의도한 변경인지 확인 후
 #   Actions → Visual regression → Run workflow → 브랜치 선택 + "update" 체크 → 그 브랜치에 봇이 커밋한다.
+# 비교는 기계 2대(shard)로 나눠 돌린다 — 한 대(4코어)는 CPU 가 가득 차 workers 를 2 → 4 로 늘려도 3.7 → 3.4분뿐이었다
+# (2026-11-20 로그 측정: 테스트당 0.68초 → 1.25초). 새로 찍은 기준 이미지는 shard 마다 artifact 로 올리고,
+# 마지막 job(Storybook screenshots — main ruleset 필수 검사 이름)이 모아서 한 번에 커밋한다. shard 가 하나라도 실패하면 커밋하지 않는다.
 # 봇 커밋은 App 토큰으로 push 해서 CI·release.yml(버전 PR 갱신)이 그 커밋에서도 돈다. 그 push 로 이 워크플로가 다시 돌아도
 # 새로 찍을 이미지가 없어 커밋하지 않으므로 반복되지 않는다.
 on:
@@ -28,27 +31,17 @@ permissions:
   contents: read
 
 jobs:
-  visual:
-    name: Storybook screenshots
+  shard:
+    name: Screenshots (${{ matrix.shard }}/2)
     runs-on: ubuntu-24.04
     # playwright / @playwright/test 버전(apps/storybook/package.json)과 반드시 같은 태그를 쓴다
     container: mcr.microsoft.com/playwright:v1.64.1-noble
-    permissions:
-      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        shard: [1, 2]
     steps:
-      # 기준 이미지 커밋은 GitHub App(bestow-ui-release, release.yml 과 같은 App) 토큰으로 push 한다 — 기본 GITHUB_TOKEN 으로 push 한 커밋은
-      # 다른 워크플로를 실행하지 않아, main 에 기준 이미지가 들어가도 release.yml 이 버전 PR 을 다시 만들지 않았다
-      # (2026-11-04: PR #28 이 옛 기준 이미지로 비교돼 실패, main CI 도 그 커밋에서 돌지 않음). 커밋하는 실행에서만 만든다
-      # — pull_request(포크 PR 은 secret 이 없음)·비교 실행은 기본 토큰 그대로.
-      - uses: actions/create-github-app-token@v3
-        id: app-token
-        if: ${{ github.event_name == 'push' || inputs.update }}
-        with:
-          client-id: ${{ vars.RELEASE_APP_CLIENT_ID }}
-          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
       - uses: actions/checkout@v7
-        with:
-          token: ${{ steps.app-token.outputs.token || github.token }}
       - run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
       - uses: ./.github/actions/setup
 
@@ -60,48 +53,97 @@ jobs:
       # 있는 기준 이미지는 비교하고(다르면 실패), 없는 것(새 스토리)만 새로 찍는다
       - name: Compare screenshots
         if: ${{ !inputs.update }}
-        run: pnpm test:visual --update-snapshots=missing
+        run: pnpm test:visual --update-snapshots=missing --shard=${{ matrix.shard }}/2
 
-      - name: Commit new baselines (main)
-        if: ${{ !inputs.update && github.event_name == 'push' }}
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add apps/storybook/visual/__screenshots__/linux
-          if git diff --cached --quiet; then
-            echo "새 기준 이미지 없음"
-            exit 0
-          fi
-          git commit -m "📸 새 스토리 기준 이미지 추가"
-          # 그 사이 main 이 앞서 갔으면(버전 PR 머지 등) 그 위로 옮겨서 push 한다
-          git push || (git fetch --unshallow origin main || git fetch origin main; git rebase origin/main && git push)
-
+      # 이 shard 가 맡은 스토리를 모두 새로 찍는다. 지운 스토리의 옛 이미지는 마지막 job 이 폴더를 비우고 모아서 정리한다
       - name: Update baselines
         if: ${{ inputs.update }}
         run: |
           rm -rf apps/storybook/visual/__screenshots__/linux
-          pnpm test:visual:update
+          pnpm test:visual:update --shard=${{ matrix.shard }}/2
 
-      - name: Commit updated baselines
-        if: ${{ inputs.update }}
+      # 커밋할 실행(main push·update)에서만 이미지를 저장소 경로 그대로 모아 올린다.
+      # 비교 실행은 새로 생긴 것(git 이 모르는 파일)만, update 는 이 shard 가 찍은 것 전부(이미 있던 경로라 git 에는 "수정" 으로 보임)
+      - name: Collect baselines
+        if: ${{ github.event_name == 'push' || inputs.update }}
+        env:
+          UPDATE: ${{ inputs.update }}
         run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add apps/storybook/visual/__screenshots__/linux
-          if git diff --cached --quiet; then
-            echo "기준 이미지 변경 없음"
+          dir=apps/storybook/visual/__screenshots__/linux
+          mkdir -p .visual-baselines
+          if [ "$UPDATE" = "true" ]; then
+            find "$dir" -type f
           else
-            git commit -m "📸 시각 회귀 기준 이미지 갱신"
-            # 갱신하는 동안 브랜치가 앞서 갔으면(다른 커밋 push 등) 그 위로 옮겨서 push 한다
-            git push || (git fetch --unshallow origin "$GITHUB_REF_NAME" || git fetch origin "$GITHUB_REF_NAME"; git rebase "origin/$GITHUB_REF_NAME" && git push)
-          fi
+            git ls-files --others --exclude-standard -- "$dir"
+          fi | xargs -r cp --parents -t .visual-baselines
+          echo "올릴 기준 이미지 $(find .visual-baselines -type f | wc -l)개"
+      - uses: actions/upload-artifact@v7
+        if: ${{ github.event_name == 'push' || inputs.update }}
+        with:
+          name: visual-baselines-${{ matrix.shard }}
+          path: .visual-baselines
+          if-no-files-found: ignore
+          retention-days: 1
 
       - name: Upload report
         if: ${{ failure() }}
         uses: actions/upload-artifact@v7
         with:
-          name: visual-report
+          name: visual-report-${{ matrix.shard }}
           path: |
             apps/storybook/playwright-report
             apps/storybook/test-results
           retention-days: 7
+
+  visual:
+    name: Storybook screenshots
+    needs: shard
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check shards
+        if: ${{ needs.shard.result != 'success' }}
+        run: |
+          echo "::error::스크린샷 비교가 실패한 shard 가 있습니다(${{ needs.shard.result }}). 각 Screenshots job 의 visual-report 를 확인하세요."
+          exit 1
+
+      # 기준 이미지 커밋은 GitHub App(bestow-ui-release, release.yml 과 같은 App) 토큰으로 push 한다 — 기본 GITHUB_TOKEN 으로 push 한 커밋은
+      # 다른 워크플로를 실행하지 않아, main 에 기준 이미지가 들어가도 release.yml 이 버전 PR 을 다시 만들지 않았다
+      # (2026-11-04: PR #28 이 옛 기준 이미지로 비교돼 실패, main CI 도 그 커밋에서 돌지 않음). 커밋하는 실행에서만 만든다
+      # — pull_request(포크 PR 은 secret 이 없음)·비교 실행은 커밋하지 않는다.
+      - uses: actions/create-github-app-token@v3
+        id: app-token
+        if: ${{ github.event_name == 'push' || inputs.update }}
+        with:
+          client-id: ${{ vars.RELEASE_APP_CLIENT_ID }}
+          private-key: ${{ secrets.RELEASE_APP_PRIVATE_KEY }}
+      - uses: actions/checkout@v7
+        if: ${{ github.event_name == 'push' || inputs.update }}
+        with:
+          token: ${{ steps.app-token.outputs.token }}
+
+      - name: Clear baselines (update)
+        if: ${{ inputs.update }}
+        run: rm -rf apps/storybook/visual/__screenshots__/linux
+      - uses: actions/download-artifact@v8
+        if: ${{ github.event_name == 'push' || inputs.update }}
+        with:
+          pattern: visual-baselines-*
+          merge-multiple: true
+          path: .
+
+      - name: Commit baselines
+        if: ${{ github.event_name == 'push' || inputs.update }}
+        env:
+          MESSAGE: ${{ inputs.update && '📸 시각 회귀 기준 이미지 갱신' || '📸 새 스토리 기준 이미지 추가' }}
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A apps/storybook/visual/__screenshots__/linux
+          if git diff --cached --quiet; then
+            echo "커밋할 기준 이미지 없음"
+            exit 0
+          fi
+          git commit -m "$MESSAGE"
+          # 그 사이 브랜치가 앞서 갔으면(버전 PR 머지·다른 push 등) 그 위로 옮겨서 push 한다
+          git push || (git fetch --unshallow origin "$GITHUB_REF_NAME" || git fetch origin "$GITHUB_REF_NAME"; git rebase "origin/$GITHUB_REF_NAME" && git push)
