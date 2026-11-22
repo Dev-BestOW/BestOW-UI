@@ -99,7 +99,10 @@ jobs:
       matrix:
         browser: [chromium, webkit, firefox]
     steps:
+      # 소개 사이트 /changelog/ 가 배포 날짜를 git 태그에서 읽는다(얕은 기록이면 빌드가 멈춤)
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
       - uses: ./.github/actions/setup
 
       - name: Build packages

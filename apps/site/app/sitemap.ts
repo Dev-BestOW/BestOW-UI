@@ -19,6 +19,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     ...guides.map(({ slug }) => `/korean-utils/${slug}/`),
     '/components/',
     '/compare/',
+    '/changelog/',
     ...kitPages.map(({ slug }) => `/components/${slug}/`),
     '/storybook/',
   ];

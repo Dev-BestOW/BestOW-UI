@@ -66,7 +66,8 @@ const more = [
     body: 'Select 와 NativeSelect, Modal 과 Drawer 처럼 비슷한 컴포넌트 고르는 기준이에요.',
   },
   { href: links.llms, label: 'llms.txt', body: 'Cursor·Claude 같은 AI 코딩 도구에 넣는 문서예요.' },
-  { href: links.github, label: 'GitHub', body: '소스, 이슈, Discussions, 변경 기록이 있어요.' },
+  { href: links.changelog, label: '변경 기록', body: '버전마다 새 기능과 고친 것을 배포 날짜순으로 모았어요.' },
+  { href: links.github, label: 'GitHub', body: '소스, 이슈, Discussions 가 있어요.' },
 ];
 
 export default function Page() {
