@@ -9,7 +9,8 @@ export default defineConfig({
   testDir: '.',
   snapshotPathTemplate: '{testDir}/__screenshots__/{platform}/{arg}{ext}',
   fullyParallel: true,
-  // CI 기본 workers 는 CPU 의 절반(4코어 러너 → 2). 스크린샷 비교는 정적 Storybook 이라 4개로 돌려도 안정적이고 3분 넘던 비교가 줄어든다
+  // 기본 workers 는 CPU 의 50%(Playwright config.ts) — GitHub 공개 저장소 리눅스 러너는 4 CPU(GitHub 문서)라 2개였다.
+  // 4개로 늘려도 비교는 3.7 → 3.4분뿐(2026-11-20, 테스트당 0.68 → 1.25초 — CPU 포화)이라 시간은 shard 로 줄였다(visual.yml). 4개에서도 실패 없이 돌아 그대로 둔다
   workers: process.env.CI ? 4 : undefined,
   forbidOnly: !!process.env.CI,
   retries: 0,
