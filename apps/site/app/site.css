@@ -479,3 +479,43 @@ body {
 .compare-missing {
   color: var(--bestow-color-fg-muted);
 }
+
+/* 변경 기록(/changelog/) — 배포 날짜(h2) 아래 패키지 버전(h3), 그 아래 종류 배지 + 항목 목록 */
+.changelog-day {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bestow-space-6);
+}
+
+.changelog-release {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bestow-space-3);
+  scroll-margin-top: var(--bestow-space-16);
+}
+
+.changelog-section {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--bestow-space-2);
+}
+
+.changelog-list {
+  margin: 0;
+  padding-inline-start: var(--bestow-space-6);
+  display: flex;
+  flex-direction: column;
+  gap: var(--bestow-space-2);
+}
+
+.changelog-list > li {
+  display: flex;
+  flex-direction: column;
+  gap: var(--bestow-space-2);
+}
+
+.changelog-text {
+  margin: 0;
+  overflow-wrap: anywhere;
+}

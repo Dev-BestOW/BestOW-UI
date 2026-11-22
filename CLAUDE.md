@@ -70,6 +70,9 @@ apps/
                                줄은 E2E 가 실제로 계산해 비교한다 — 함수 동작을 바꾸면 guides 도 고친다. 새 함수가 생기면 guides 에 쪽을 더한다.
                                /components/ — 한국 키트 13쪽 정적 문서(글은 components/kit.ts, props·키보드·스크린리더·선택 기준은 빌드 때 source.ts 가 react 소스·componentA11y·choosing 에서 읽음 —
                                못 찾으면 빌드 실패, 데모 Demo.tsx 는 오늘 고정·가짜 주소 공급자). **새 한국 키트 컴포넌트는 kit.ts 에도 넣고**, 동작·문구를 바꾸면 kit.ts 글도 고친다.
+                               /changelog/ — 변경 기록(app/changelog: 빌드 때 packages/*/CHANGELOG.md 를 읽고 배포 날짜는 git 태그 `@bestow-ui/<패키지>@<버전>` 의 커밋 날짜 —
+                               태그 없는 첫 버전은 CHANGELOG 에 그 제목이 들어간 커밋). 얕은 git 기록이면 빌드가 멈추므로 사이트를 빌드하는 job(ci.yml e2e·storybook.yml)은
+                               `fetch-depth: 0`. 커밋 해시·"Updated dependencies" 는 빼고, 마크다운은 Markdown.tsx 가 쓰는 문법만 그린다 — changeset 에 새 문법(표·이미지)을 쓰면 여기도 고친다.
                                /compare/ — 다른 라이브러리 비교(데이터 compare/data.ts, 칸마다 공식 문서 근거·확인한 날짜 — 루트 README 비교 표와 함께 고친다).
                                JSON-LD(structured-data.tsx): 첫 화면 WebSite(구글 사이트 이름)·SoftwareSourceCode, 문서 쪽 TechArticle + BreadcrumbList(화면 Breadcrumb 과 같은 Crumb[]). 날짜는 데이터 파일의 상수
                                (kitDates·guideDates·checkedAt) — **글을 고치면 modified 를 그날로**. GEO 점검은 docs/GEO-CHECK.md(한 달에 한 번).

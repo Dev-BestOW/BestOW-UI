@@ -21,6 +21,8 @@ export const links = {
   koreanUtils: `${basePath}/korean-utils/`,
   components: `${basePath}/components/`,
   compare: `${basePath}/compare/`,
+  changelog: `${basePath}/changelog/`,
+  support: 'https://github.com/Dev-BestOW/BestOW-UI/blob/main/SUPPORT.md',
   koreanUtilsNpm: 'https://www.npmjs.com/package/@bestow-ui/korean-utils',
   llms: `${basePath}/llms.txt`,
   github: 'https://github.com/Dev-BestOW/BestOW-UI',

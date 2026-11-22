@@ -69,7 +69,7 @@
 - **스프린트 11/19 ~ 12/3 (다음 배포일까지, 2026-11-19 사용자 결정)** — 2.2.0 새 기능을 발견 경로에 싣는다. 작업마다 커밋 확인 후 다음.
   - 1주차: [x] ① AI 도구 문서에 2.2.0 반영(`docs/ai/bestow-ui.md`·`llms.txt`·`context7.json` — MultiCombobox·초성 검색·빠른 금액)
     [x] ② 첫 화면 데모·korean-utils README 에 초성 검색(npm `초성` 11위) [ ] ③ 11/21 방문 통계 읽기(29번 ✅, 사용자가 숫자 전달)
-  - 2주차: [ ] ④ 사이트 `/changelog/`(패키지 CHANGELOG 를 빌드 때 읽어 한국어 변경 기록 쪽) [ ] ⑤ 28번 Figma 정리 2건(MCP 한도 풀리면)
+  - 2주차: [x] ④ 사이트 `/changelog/`(패키지 CHANGELOG 를 빌드 때 읽어 한국어 변경 기록 쪽) [ ] ⑤ 28번 Figma 정리 2건(MCP 한도 풀리면)
     [ ] ⑥ 통계로 고르는 작업 하나 [ ] ⑦ 12/1~2 GEO 첫 기록(`GEO-CHECK.md`, 사용자가 AI 답변 전달)
   - 하지 않음: 새 컴포넌트(외부 요청 없음)·3.0 준비·의존성 2차(대기 중).
 - (선택) IndexNow — 배포 뒤 바뀐 쪽 알림. (선택) 문서 쪽별 OG 이미지 — 29쪽이 같은 og.png 라 네이버가 대표 이미지로 안 쓸 수 있음(네이버 웹마스터 가이드 점검 4건은 2026-11-20 끝).
@@ -170,3 +170,4 @@
 | 2026-11-20 | CI 나누기 PR #36 머지(CI 7분 → 4.3분, 필수 검사 9개 적용). 로그로 확인: Firefox 스토리는 원래 115~182초로 흔들림(컨테이너 탓 아님), 시각 회귀 workers 2 → 4 는 3.7 → 3.4분뿐(테스트당 0.68 → 1.25초, 4코어 CPU 포화). → 브랜치 `ci/visual-shard`: visual.yml 을 shard 2대 + 모아서 커밋하는 `Storybook screenshots` job 으로. 효과는 PR 에서 3회 측정 후 판단 |
 | 2026-11-22 | `ci/visual-shard` 3회 측정(PR #37): 비교 단계 shard 최대 2.2·2.1·2.1분(이전 1대 3.7·3.7·3.7·3.4분), 시각 회귀 실행 전체 208·222·211초(이전 278·298·296·289초) — 편차보다 큰 개선. update 시험에서 버그 발견: 모은 폴더 `.visual-baselines` 가 점으로 시작해 upload-artifact 가 숨김 파일로 건너뜀(`No files were found`) → 마지막 job 이 기준 이미지 654개를 지운 커밋을 브랜치에 push. 폴더 이름을 바꾸고 update 는 업로드가 없으면 실패·받은 수가 절반 미만이면 커밋 안 함 |
 | 2026-11-22 | 주석 근거 바로잡기(브랜치 `docs/ci-container-comment`): ci.yml 의 "root 면 Firefox 가 안 뜬다(Playwright 문서)" 는 문서에 없는 내용이라 "문서 예시를 따름, root 는 시험 안 함" 으로. visual 설정 주석의 기본 workers 50%(Playwright 소스)·러너 4 CPU(GitHub 문서)는 원문 확인, 측정값으로 고쳐 씀 |
+| 2026-11-22 | ④ 소개 사이트 `/changelog/`(브랜치 `feat/site-changelog`): packages 4개의 CHANGELOG.md 를 빌드 때 읽어 배포 날짜별(최근 먼저)로 패키지 버전·종류(업그레이드할 때 확인할 변경·새 기능·고친 것)·항목. 날짜는 git 태그 커밋 날짜(태그 없는 icons·korean-utils 0.1.0 은 CHANGELOG 에 들어간 커밋), 얕은 기록이면 빌드 중단 → ci.yml e2e·storybook.yml checkout `fetch-depth: 0`. 커밋 해시·Updated dependencies 제거, 마크다운은 직접 그림(굵게 안 코드·링크 안 코드, 가림 예시 별표는 굵게 아님 — 단위 테스트 8개, 변이로 실패 확인). 첫 화면 "더 보기"·sitemap 에 연결, JSON-LD TechArticle(modified = 최근 배포일)+BreadcrumbList. E2E changelog.spec(제목·날짜 순서·최신 react 버전 id·해시 없음·axe 라이트·다크·320·390px) |
