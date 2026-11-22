@@ -106,6 +106,7 @@ examples/
   workflows/visual.yml         PR·main: Playwright Docker 이미지에서 모든 스토리 라이트·다크 스크린샷 비교. 봇 커밋은 App 토큰(release.yml 과 같은 App)으로 push.
                                기계 2대로 나눔(`Screenshots (1/2)`·`(2/2)`, `--shard`) — 새로 찍은 이미지는 shard 마다 artifact, 마지막 job `Storybook screenshots`(필수 검사)가
                                모아 한 번에 커밋(update 는 폴더를 비우고 모음 — 지운 스토리 정리). shard 가 하나라도 실패하면 커밋 안 함.
+                               **artifact 로 올릴 폴더 이름을 점(.)으로 시작하지 않는다** — upload-artifact 가 숨김으로 보고 건너뛰어, update 가 기준 이미지를 모두 지운 커밋을 만든 적이 있다(2026-11-21)
                                새 스토리(기준 이미지 없음)는 자동 생성 → main push 면 봇이 커밋(--update-snapshots=missing).
                                기존 화면이 바뀌면 실패 → 수동 실행 + update 체크 → 기준 이미지 갱신 후 그 브랜치에 봇이 커밋.
                                update 실행은 별도 concurrency 그룹이라 도중에 push 가 와도 취소되지 않고, 커밋 시 브랜치가 앞서 있으면 rebase 후 push
