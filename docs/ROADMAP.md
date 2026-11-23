@@ -10,7 +10,7 @@
 
 **지금 상태**
 - **2026-11-22 세션:** GitHub Flow 도입(main ruleset·squash, 작업 브랜치는 Claude 가 만들고 커밋·PR 은 사용자), CI 7분 → 4.3분(PR #36·#37·#38), ④ `/changelog/`(PR #39 — auto-merge 로 머지됐는지 먼저 확인).
-  **다음: ③ 방문 통계 읽기(사용자가 Cloudflare 숫자 전달) → ⑥ 통계로 고르는 작업.** 블로그·velog 작업은 개인 스킬 `blog-velog`(비공개 저장소 Dev-BestOW/blog-velog-skill).
+  **2026-11-23: ③ 방문 통계는 신호 부족으로 닫음(Cloudflare 무료는 10건 중 1건만 기록 — 10일에 27건, 절반 넘게 우리 확인). 다음: ⑥ 을 Search Console 실적(검색어·노출 쪽)으로 고르기(사용자가 전달).** 블로그·velog 작업은 개인 스킬 `blog-velog`(비공개 저장소 Dev-BestOW/blog-velog-skill).
 - 2026-11-20 세션: 첫 정기 배포 확인, 스프린트 ①② 끝, 네이버·구글 검색 기준 점검 → 개인 스킬 `korean-seo`(GitHub Dev-BestOW/korean-seo-skill, 설치됨)로 정리. 사이트·블로그 작업은 이 스킬 기준. **다음: 11/21 방문 통계(③)**. 구글 기준 남은 3건은 11/20 끝(배포 뒤 Search Console 에서 파비콘·사이트 이름 반영 확인 — 며칠~몇 주).
 - npm: react 2.2.0 · tokens 2.2.0(react 와 linked) · korean-utils 0.5.0 · icons 0.2.1 (2026-11-19 첫 정기 배포). 다음 배포 12/3.
 - **배포 주기: 격주 목요일**(11/19 → 12/3 → 12/17, SUPPORT.md). 보안·심각한 버그만 바로 patch. 작업을 끝내면 다음 배포일을 함께 알린다.
@@ -57,7 +57,7 @@
 
 ### 사람이 할 일
 - [ ] **브랜치 흐름 첫 PR 확인(GitHub Flow, ruleset·병합 설정은 2026-11-20 적용 끝)**: 다음 작업부터 브랜치 + PR(squash). 첫 PR 에서 필수 검사(9개 — CI 나누기 PR 이후)가 Required 로 잡히는지, 머지 뒤 봇의 시각 회귀 기준 이미지 커밋이 main 에 들어가는지 확인(release App 우회 — actor_id 5326267).
-- [ ] **bestow-ui.com 마무리**: Cloudflare Web Analytics 에 bestow-ui.com 방문이 잡히는지 확인(안 잡히면 사이트 추가·토큰 교체), 도메인 자동 갱신 유지. 12월 초 네이버 서치어드바이저의 옛 `https://dev-bestow.github.io` 등록 삭제(루트 저장소는 2026-11-20 에 bestow-ui.com 으로 바로 보내게 고침 — 등록을 지운 뒤 그 저장소의 `naver*.html` 도 삭제). (Search Console·네이버 소유확인·sitemap 제출은 2026-11-14 끝남)
+- [ ] **bestow-ui.com 마무리**: 도메인 자동 갱신 유지(Cloudflare 에 bestow-ui.com 방문이 잡히는 것은 2026-11-23 API 로 확인). 12월 초 네이버 서치어드바이저의 옛 `https://dev-bestow.github.io` 등록 삭제(루트 저장소는 2026-11-20 에 bestow-ui.com 으로 바로 보내게 고침 — 등록을 지운 뒤 그 저장소의 `naver*.html` 도 삭제). (Search Console·네이버 소유확인·sitemap 제출은 2026-11-14 끝남)
 - [ ] velog 게시 · 요즘IT 기고 제안 · 발표 지원(CFP 공고 때) · 접근성 커뮤니티 글 — 초안: 알리기 준비물 Artifact https://claude.ai/artifact/LvPgoSsmGKHjLd34FP789u
 - [ ] 12월 초 GEO 첫 기록: `docs/GEO-CHECK.md` 의 질문 5개를 ChatGPT·Perplexity·Gemini 에 넣고 결과·Search Console·Cloudflare AI 유입을 알려 주기(Claude 가 표에 적음).
 - [ ] Figma: 요금제 올릴지(다크 모드·라이브러리 게시·페이지 제한), Community 공개 여부 — `docs/FIGMA.md`.
@@ -65,14 +65,14 @@
 - [ ] 이 라이브러리로 만든 실제 서비스가 생기면 알려 주기 — README "사용 사례".
 
 ### Claude 가 확인할 것 (push·배포 뒤)
-- [ ] 방문 통계 일주일 뒤 읽히는 문서·유입 경로 정리 → 다음 작업 제안, 29번 ✅.
+- [ ] 12월 중순 Cloudflare 방문 통계 한 달치 다시 읽기(API — 사용자 토큰 `~/.config/bestow/cloudflare.env`, Account Analytics Read·12/23 만료. GraphQL `rumPageloadEventsAdaptiveGroups`, siteTag `6f3d59147f9b4a9f83b7e3e68b4719d2`). 표본 간격(sampleInterval)부터 보고 숫자를 10배 추정인지 구분.
 
 ### Claude 가 할 일
 - **스프린트 11/19 ~ 12/3 (다음 배포일까지, 2026-11-19 사용자 결정)** — 2.2.0 새 기능을 발견 경로에 싣는다. 작업마다 커밋 확인 후 다음.
   - 1주차: [x] ① AI 도구 문서에 2.2.0 반영(`docs/ai/bestow-ui.md`·`llms.txt`·`context7.json` — MultiCombobox·초성 검색·빠른 금액)
-    [x] ② 첫 화면 데모·korean-utils README 에 초성 검색(npm `초성` 11위) [ ] ③ 11/21 방문 통계 읽기(29번 ✅, 사용자가 숫자 전달)
+    [x] ② 첫 화면 데모·korean-utils README 에 초성 검색(npm `초성` 11위) [x] ③ 방문 통계 읽기(신호 부족 — 11/23)
   - 2주차: [x] ④ 사이트 `/changelog/`(패키지 CHANGELOG 를 빌드 때 읽어 한국어 변경 기록 쪽) [ ] ⑤ 28번 Figma 정리 2건(MCP 한도 풀리면)
-    [ ] ⑥ 통계로 고르는 작업 하나 [ ] ⑦ 12/1~2 GEO 첫 기록(`GEO-CHECK.md`, 사용자가 AI 답변 전달)
+    [ ] ⑥ 통계로 고르는 작업 하나(Search Console 실적 기준) [ ] ⑦ 12/1~2 GEO 첫 기록(`GEO-CHECK.md`, 사용자가 AI 답변 전달)
   - 하지 않음: 새 컴포넌트(외부 요청 없음)·3.0 준비·의존성 2차(대기 중).
 - (선택) IndexNow — 배포 뒤 바뀐 쪽 알림. (선택) 문서 쪽별 OG 이미지 — 29쪽이 같은 og.png 라 네이버가 대표 이미지로 안 쓸 수 있음(네이버 웹마스터 가이드 점검 4건은 2026-11-20 끝).
 - **28번 Figma 정리 2건**(MCP 호출 한도가 풀리면): Checkbox `icon` 프레임 12개 흰 배경 지우기, Korean Kit 페이지 변수 연결 감사 — `docs/FIGMA.md`.
@@ -173,3 +173,5 @@
 | 2026-11-22 | `ci/visual-shard` 3회 측정(PR #37): 비교 단계 shard 최대 2.2·2.1·2.1분(이전 1대 3.7·3.7·3.7·3.4분), 시각 회귀 실행 전체 208·222·211초(이전 278·298·296·289초) — 편차보다 큰 개선. update 시험에서 버그 발견: 모은 폴더 `.visual-baselines` 가 점으로 시작해 upload-artifact 가 숨김 파일로 건너뜀(`No files were found`) → 마지막 job 이 기준 이미지 654개를 지운 커밋을 브랜치에 push. 폴더 이름을 바꾸고 update 는 업로드가 없으면 실패·받은 수가 절반 미만이면 커밋 안 함 |
 | 2026-11-22 | 주석 근거 바로잡기(브랜치 `docs/ci-container-comment`): ci.yml 의 "root 면 Firefox 가 안 뜬다(Playwright 문서)" 는 문서에 없는 내용이라 "문서 예시를 따름, root 는 시험 안 함" 으로. visual 설정 주석의 기본 workers 50%(Playwright 소스)·러너 4 CPU(GitHub 문서)는 원문 확인, 측정값으로 고쳐 씀 |
 | 2026-11-22 | ④ 소개 사이트 `/changelog/`(브랜치 `feat/site-changelog`): packages 4개의 CHANGELOG.md 를 빌드 때 읽어 배포 날짜별(최근 먼저)로 패키지 버전·종류(업그레이드할 때 확인할 변경·새 기능·고친 것)·항목. 날짜는 git 태그 커밋 날짜(태그 없는 icons·korean-utils 0.1.0 은 CHANGELOG 에 들어간 커밋), 얕은 기록이면 빌드 중단 → ci.yml e2e·storybook.yml checkout `fetch-depth: 0`. 커밋 해시·Updated dependencies 제거, 마크다운은 직접 그림(굵게 안 코드·링크 안 코드, 가림 예시 별표는 굵게 아님 — 단위 테스트 8개, 변이로 실패 확인). 첫 화면 "더 보기"·sitemap 에 연결, JSON-LD TechArticle(modified = 최근 배포일)+BreadcrumbList. E2E changelog.spec(제목·날짜 순서·최신 react 버전 id·해시 없음·axe 라이트·다크·320·390px) |
+| 2026-11-23 | 기준값: 스타 4 · 포크 0 · 이슈 열림 4/닫힘 0 · npm 평일 중앙값(최근 28일, 배포일·다음날 제외) react 10/일 · korean-utils 5/일 · tokens 4/일 · icons 3/일. 버전 PR #35 열림(12/3 머지) |
+| 2026-11-23 | ③ 방문 통계(Cloudflare GraphQL API, 11/14~23): 모든 행 sampleInterval 10 — 받은 기록 27건(대시보드 Visits 90 은 10배 추정). 한국 Mac Chrome 쪽 이동 17건은 11/14·11/17 배포 확인 시각과 겹쳐 우리 방문으로 봄(가설), 바깥 유입 google 1·bing 1·github 1·직접 7, 네이버·velog·블로그·AI 0, `/components/`·`/compare/` 바깥 유입 0. 쪽을 고를 근거가 못 돼 ⑥ 은 Search Console 실적으로. bestow-ui.com 방문 집계는 정상 |
