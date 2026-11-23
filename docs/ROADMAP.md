@@ -10,7 +10,7 @@
 
 **지금 상태**
 - **2026-11-23 세션:** ③ 방문 통계(Cloudflare API — 10% 표본이라 신호 부족) → Search Console 실적·색인으로 ⑥ 고름. PR #40 Storybook `iframe.html` noindex·indexifembedded, PR #41 함수 문서 주민번호 뒷자리 표·은행 코드표 기준 달·쪽별 `modified`. 개인 스킬 korean-seo 0.5.1(색인 사유별 대응·iframe noindex)로 정리·설치.
-  ⑤ Figma 정리 2건도 끝(`FIGMA.md`). **다음: 문서 쪽 화면 날짜 확인**(korean-seo 의 "보이는 날짜 = dateModified" — 우리 문서 쪽은 날짜가 JSON-LD 에만 있음, 구글 게시 날짜 문서 원문 확인 후 판단). 12/1~2 ⑦ GEO, 12/3 버전 PR #35 머지, 12월 중순 Cloudflare·Search Console 한 달치 재확인.
+  ⑤ Figma 정리 2건도 끝(`FIGMA.md`). 문서 쪽 화면 날짜도 끝(브랜치 `feat/site-visible-dates` — 머지 확인). **다음: 12/1~2 ⑦ GEO**(그 전에 할 일이 없으면 (선택) 한국 키트 쪽별 `modified` 또는 IndexNow). 12/3 버전 PR #35 머지, 12월 중순 Cloudflare·Search Console 한 달치 재확인.
   사용자 몫: Search Console 에서 `/components/`·`/compare/`·`/korean-utils/resident-number/`·`/korean-utils/bank-account/` 색인 생성 요청, "표준 없는 중복 페이지" 수정사항 확인.
 - 2026-11-22 세션: GitHub Flow 도입(main ruleset·squash, 작업 브랜치는 Claude 가 만들고 커밋·PR 은 사용자), CI 7분 → 4.3분(PR #36·#37·#38), ④ `/changelog/`(PR #39). 블로그·velog 작업은 개인 스킬 `blog-velog`(비공개 저장소 Dev-BestOW/blog-velog-skill).
 - 2026-11-20 세션: 첫 정기 배포 확인, 스프린트 ①② 끝, 네이버·구글 검색 기준 점검 → 개인 스킬 `korean-seo`(GitHub Dev-BestOW/korean-seo-skill, 설치됨)로 정리. 사이트·블로그 작업은 이 스킬 기준. **다음: 11/21 방문 통계(③)**. 구글 기준 남은 3건은 11/20 끝(배포 뒤 Search Console 에서 파비콘·사이트 이름 반영 확인 — 며칠~몇 주).
@@ -180,3 +180,4 @@
 | 2026-11-23 | Search Console 색인(11/16 기준, 11/20 수정 전): 색인 9 · 안 됨 18 — 발견됨·미색인 9(새 도메인, 기다림)·리디렉션 3(http·www·옛 주소, 정상)·크롤링됨·미색인 3(`/components/`·`/compare/`·`/korean-utils/resident-number/`, 11/17 크롤링)·표준 없는 중복 3(모두 `/storybook/iframe.html?id=…`·`?path=…`). 브랜치 `fix/storybook-iframe-noindex`: `.storybook/preview-head.html` 에 `noindex, indexifembedded`(구글 robots meta 문서 — indexifembedded 는 noindex 와 함께일 때만), assemble-pages.sh 가 배포 폴더에서 확인 |
 | 2026-11-23 | ⑥ (브랜치 `feat/site-korean-utils-tables`, Search Console 노출 14/16 이 함수 문서 두 쪽): `/korean-utils/resident-number/` 에 뒷자리 첫 숫자 표(1~8·9·0 → 세기·성별·내외국인, `parseResidentNumber` 로 만듦 — "앞자리는 생년월일" 안내), `/korean-utils/bank-account/` 칸 제목 "은행 코드표"·기준 달(`bankCodesCheckedAt`, bank.ts 주석과 같은지 단위 테스트). 함수 문서 날짜를 쪽별 `modified` 로 — 고친 두 쪽만 11/23. 제목·설명은 그대로. 배포 뒤 Search Console 에서 resident-number 색인 생성 요청(사용자) |
 | 2026-11-23 | ⑤ Figma 정리 2건(MCP 한도 풀려 있음): Checkbox `icon` 프레임 12개의 숨김 흰 채우기 삭제(스크린샷 확인), Korean Kit 페이지 변수 연결 감사 — 인스턴스 밖 연결 안 된 값은 세트 테두리 상자 모서리 하나뿐(모든 세트 공통 장식, 둠). 코드 변화 없음 |
+| 2026-11-23 | 문서 쪽 화면 날짜(브랜치 `feat/site-visible-dates`): 구글 "Influence your byline dates" 원문 확인 — 보이는 날짜를 두고 구조화 데이터와 맞추라고 권함(필수는 아님). 머리에 `DocDates`(게시·마지막 수정, `<time dateTime>`, 같으면 게시만) — 한국 키트·함수 문서·비교·변경 기록이 JSON-LD 와 같은 dates 값을 씀. E2E `expectVisibleDates`(변이: 수정일 자리에 게시일 → 3종 실패). 한국 키트 13쪽은 아직 날짜 하나를 함께 씀(쪽별 `modified` 는 선택) |

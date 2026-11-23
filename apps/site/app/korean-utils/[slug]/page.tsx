@@ -1,4 +1,5 @@
 import { Breadcrumb, Link, Typography } from '@bestow-ui/react';
+import { DocDates } from '../../DocDates';
 import { notFound } from 'next/navigation';
 import { CopyCommand } from '../../CopyCommand';
 import { componentHref, koreanUtilsHref, links, storybookHref } from '../../links';
@@ -31,6 +32,7 @@ export default async function Page({ params }: Props) {
   if (!guide) notFound();
   const others = guides.filter((g) => g.slug !== guide.slug);
   const path = `/korean-utils/${guide.slug}/`;
+  const dates = guideDatesFor(guide);
   const crumbs = [
     { name: 'BestOW UI', path: '/' },
     { name: '서식·검증 함수', path: '/korean-utils/' },
@@ -39,11 +41,9 @@ export default async function Page({ params }: Props) {
 
   return (
     <article className="doc site-inner">
-      {docArticle({ path, title: guide.title, description: guide.summary, crumbs, dates: guideDatesFor(guide) }).map(
-        (data) => (
-          <JsonLd key={data['@type']} data={data} />
-        ),
-      )}
+      {docArticle({ path, title: guide.title, description: guide.summary, crumbs, dates }).map((data) => (
+        <JsonLd key={data['@type']} data={data} />
+      ))}
       <Breadcrumb items={breadcrumbItems(crumbs)} />
       <header className="doc-header">
         <Typography as="h1" variant="h1">
@@ -52,6 +52,7 @@ export default async function Page({ params }: Props) {
         <Typography variant="body-lg" color="muted" className="doc-lead">
           {guide.summary}
         </Typography>
+        <DocDates dates={dates} />
       </header>
 
       <section aria-labelledby="problem-title">

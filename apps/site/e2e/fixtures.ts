@@ -94,3 +94,19 @@ export async function jsonLd(page: Page): Promise<Record<string, unknown>[]> {
   const texts = await page.locator('script[type="application/ld+json"]').allTextContents();
   return texts.map((text) => JSON.parse(text) as Record<string, unknown>);
 }
+
+/**
+ * 머리의 보이는 날짜(게시·마지막 수정)가 JSON-LD datePublished·dateModified 와 같은지 — 구글 "Influence your byline dates":
+ * 보이는 날짜와 구조화 데이터를 맞춘다. 두 날짜가 같으면 게시일만 보인다.
+ */
+export async function expectVisibleDates(page: Page, article: Record<string, unknown>) {
+  const day = (value: unknown) => String(value).slice(0, 10);
+  const published = day(article.datePublished);
+  const modified = day(article.dateModified);
+  const times = page.locator('header time');
+  await expect(times).toHaveCount(published === modified ? 1 : 2);
+  await expect(times.first()).toHaveAttribute('datetime', published);
+  if (published !== modified) await expect(times.nth(1)).toHaveAttribute('datetime', modified);
+  const [year, month, date] = modified.split('-').map(Number);
+  await expect(page.locator('header .doc-dates')).toContainText(`${year}년 ${month}월 ${date}일`);
+}

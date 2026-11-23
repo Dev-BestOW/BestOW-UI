@@ -1,4 +1,5 @@
 import { Badge, Breadcrumb, Link, Typography } from '@bestow-ui/react';
+import { DocDates } from '../DocDates';
 import { links } from '../links';
 import { pageMetadata } from '../seo';
 import { breadcrumbItems, docArticle, JsonLd } from '../structured-data';
@@ -27,13 +28,12 @@ const anchor = (release: Release) => `${release.pkg.replace('@bestow-ui/', '')}-
 export default function Page() {
   const all = releases();
   const days = [...new Set(all.map((release) => release.date))];
+  const dates = { published: '2026-11-22', modified: days[0]! };
   return (
     <article className="doc site-inner">
-      {docArticle({ path, title, description, crumbs, dates: { published: '2026-11-22', modified: days[0]! } }).map(
-        (data) => (
-          <JsonLd key={data['@type']} data={data} />
-        ),
-      )}
+      {docArticle({ path, title, description, crumbs, dates }).map((data) => (
+        <JsonLd key={data['@type']} data={data} />
+      ))}
       <Breadcrumb items={breadcrumbItems(crumbs)} />
       <header className="doc-header">
         <Typography as="h1" variant="h1">
@@ -43,6 +43,7 @@ export default function Page() {
           npm 에 배포한 버전마다 무엇이 바뀌었는지 최근 것부터 모았어요. 정기 배포는 격주 목요일이고, 버전 규칙과 지원
           범위는 <Link href={links.support}>지원 정책</Link>에 있어요.
         </Typography>
+        <DocDates dates={dates} />
       </header>
 
       {days.map((day) => (

@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs';
-import { axeViolations, expect, jsonLd, test } from './fixtures';
+import { axeViolations, expect, expectVisibleDates, jsonLd, test } from './fixtures';
 
 const PATH = '/changelog/';
 // 지금 react 의 최신 버전 — 화면 제목·id 와 비교한다(버전이 올라가도 따라온다)
@@ -11,6 +11,7 @@ test('변경 기록: 제목·날짜·패키지 버전·항목, 커밋 해시·Up
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('변경 기록');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://bestow-ui.com${PATH}`);
   const [article, breadcrumb] = await jsonLd(page);
+  await expectVisibleDates(page, article);
   expect(article).toMatchObject({ '@type': 'TechArticle', url: `https://bestow-ui.com${PATH}` });
   expect(breadcrumb).toMatchObject({ '@type': 'BreadcrumbList' });
 

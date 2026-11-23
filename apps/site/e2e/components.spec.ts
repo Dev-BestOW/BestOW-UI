@@ -1,7 +1,7 @@
 import type { Page } from '@playwright/test';
 import { kitPages } from '../app/components/kit';
 import { pageTitle } from '../app/seo';
-import { axeViolations, expect, jsonLd, test } from './fixtures';
+import { axeViolations, expect, expectVisibleDates, jsonLd, test } from './fixtures';
 
 const LIST = '/components/';
 const pages = [LIST, ...kitPages.map(({ slug }) => `${LIST}${slug}/`)];
@@ -35,6 +35,7 @@ test('컴포넌트 문서: 제목·설명·canonical·미리보기 태그·props
     await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', url);
     // 구조화 데이터 — 글(TechArticle)과 이동 경로(BreadcrumbList). 주소는 canonical 과 같다
     const [article, breadcrumb] = await jsonLd(page);
+    await expectVisibleDates(page, article);
     expect(article).toMatchObject({
       '@type': 'TechArticle',
       headline: kit.title,
