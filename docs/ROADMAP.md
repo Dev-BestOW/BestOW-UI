@@ -72,7 +72,7 @@
   - 1주차: [x] ① AI 도구 문서에 2.2.0 반영(`docs/ai/bestow-ui.md`·`llms.txt`·`context7.json` — MultiCombobox·초성 검색·빠른 금액)
     [x] ② 첫 화면 데모·korean-utils README 에 초성 검색(npm `초성` 11위) [x] ③ 방문 통계 읽기(신호 부족 — 11/23)
   - 2주차: [x] ④ 사이트 `/changelog/`(패키지 CHANGELOG 를 빌드 때 읽어 한국어 변경 기록 쪽) [ ] ⑤ 28번 Figma 정리 2건(MCP 한도 풀리면)
-    [ ] ⑥ 통계로 고르는 작업 하나(Search Console 실적 기준) [ ] ⑦ 12/1~2 GEO 첫 기록(`GEO-CHECK.md`, 사용자가 AI 답변 전달)
+    [x] ⑥ 통계로 고르는 작업 하나(Search Console 실적 기준 — 주민번호·은행 코드 표, 11/23) [ ] ⑦ 12/1~2 GEO 첫 기록(`GEO-CHECK.md`, 사용자가 AI 답변 전달)
   - 하지 않음: 새 컴포넌트(외부 요청 없음)·3.0 준비·의존성 2차(대기 중).
 - (선택) IndexNow — 배포 뒤 바뀐 쪽 알림. (선택) 문서 쪽별 OG 이미지 — 29쪽이 같은 og.png 라 네이버가 대표 이미지로 안 쓸 수 있음(네이버 웹마스터 가이드 점검 4건은 2026-11-20 끝).
 - **28번 Figma 정리 2건**(MCP 호출 한도가 풀리면): Checkbox `icon` 프레임 12개 흰 배경 지우기, Korean Kit 페이지 변수 연결 감사 — `docs/FIGMA.md`.
@@ -177,3 +177,4 @@
 | 2026-11-23 | ③ 방문 통계(Cloudflare GraphQL API, 11/14~23): 모든 행 sampleInterval 10 — 받은 기록 27건(대시보드 Visits 90 은 10배 추정). 한국 Mac Chrome 쪽 이동 17건은 11/14·11/17 배포 확인 시각과 겹쳐 우리 방문으로 봄(가설), 바깥 유입 google 1·bing 1·github 1·직접 7, 네이버·velog·블로그·AI 0, `/components/`·`/compare/` 바깥 유입 0. 쪽을 고를 근거가 못 돼 ⑥ 은 Search Console 실적으로. bestow-ui.com 방문 집계는 정상 |
 | 2026-11-23 | Search Console 실적(11/12~20, 웹): 노출 16·클릭 1(11/16 `/storybook/` 1위 — 이름 검색으로 봄), 한국만, 데스크톱 11·모바일 5. 노출 쪽: `/korean-utils/bank-account/` 9(평균 29.6위)·`resident-number/` 5(17위)·첫 화면 2·`/compare/`·`/components/` 1. 드러난 검색어 3개 모두 정보 검색("토스뱅크 은행 코드" 55위·"토스뱅크 코드번호" 61위·"여자 주민등록번호 앞자리" 47위) — 개발자 검색어(React·컴포넌트)는 아직 0 |
 | 2026-11-23 | Search Console 색인(11/16 기준, 11/20 수정 전): 색인 9 · 안 됨 18 — 발견됨·미색인 9(새 도메인, 기다림)·리디렉션 3(http·www·옛 주소, 정상)·크롤링됨·미색인 3(`/components/`·`/compare/`·`/korean-utils/resident-number/`, 11/17 크롤링)·표준 없는 중복 3(모두 `/storybook/iframe.html?id=…`·`?path=…`). 브랜치 `fix/storybook-iframe-noindex`: `.storybook/preview-head.html` 에 `noindex, indexifembedded`(구글 robots meta 문서 — indexifembedded 는 noindex 와 함께일 때만), assemble-pages.sh 가 배포 폴더에서 확인 |
+| 2026-11-23 | ⑥ (브랜치 `feat/site-korean-utils-tables`, Search Console 노출 14/16 이 함수 문서 두 쪽): `/korean-utils/resident-number/` 에 뒷자리 첫 숫자 표(1~8·9·0 → 세기·성별·내외국인, `parseResidentNumber` 로 만듦 — "앞자리는 생년월일" 안내), `/korean-utils/bank-account/` 칸 제목 "은행 코드표"·기준 달(`bankCodesCheckedAt`, bank.ts 주석과 같은지 단위 테스트). 함수 문서 날짜를 쪽별 `modified` 로 — 고친 두 쪽만 11/23. 제목·설명은 그대로. 배포 뒤 Search Console 에서 resident-number 색인 생성 요청(사용자) |

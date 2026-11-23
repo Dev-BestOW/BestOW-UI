@@ -80,6 +80,24 @@ test('은행 코드 표: KOREAN_BANKS 전부', async ({ page }) => {
   await expect(table.getByRole('row', { name: '090 카카오뱅크' })).toBeVisible();
 });
 
+test('주민등록번호 뒷자리 첫 숫자 표', async ({ page }) => {
+  await page.goto(`${LIST}resident-number/`);
+  const table = page.getByRole('table', { name: '주민등록번호 뒷자리 첫 숫자' });
+  await expect(table.getByRole('row')).toHaveCount(11);
+  // 표는 parseResidentNumber 로 만든다 — 함수가 바뀌면 여기서 드러난다(손으로 적은 기대값)
+  for (const name of [
+    '1 1900년대 남성 내국인',
+    '2 1900년대 여성 내국인',
+    '3 2000년대 남성 내국인',
+    '4 2000년대 여성 내국인',
+    '5 1900년대 남성 외국인',
+    '8 2000년대 여성 외국인',
+    '9 1800년대 남성 내국인',
+    '0 1800년대 여성 내국인',
+  ])
+    await expect(table.getByRole('row', { name, exact: true })).toBeVisible();
+});
+
 test('sitemap.xml 에 모든 함수 문서가 있다', async ({ request }) => {
   const xml = await (await request.get('/sitemap.xml')).text();
   for (const path of pages) expect(xml).toContain(`<loc>https://bestow-ui.com${path}</loc>`);
