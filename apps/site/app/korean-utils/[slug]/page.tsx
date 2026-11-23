@@ -1,21 +1,11 @@
-import { KOREAN_BANKS } from '@bestow-ui/korean-utils';
-import {
-  Breadcrumb,
-  Link,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-  Typography,
-} from '@bestow-ui/react';
+import { Breadcrumb, Link, Typography } from '@bestow-ui/react';
 import { notFound } from 'next/navigation';
 import { CopyCommand } from '../../CopyCommand';
 import { componentHref, koreanUtilsHref, links, storybookHref } from '../../links';
 import { pageMetadata } from '../../seo';
 import { breadcrumbItems, docArticle, JsonLd } from '../../structured-data';
-import { findGuide, guideDates, guides } from '../guides';
+import { findGuide, guideDatesFor, guides } from '../guides';
+import { BankCodeTable, ResidentCodeTable } from '../Tables';
 import { Try } from '../Try';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -49,9 +39,11 @@ export default async function Page({ params }: Props) {
 
   return (
     <article className="doc site-inner">
-      {docArticle({ path, title: guide.title, description: guide.summary, crumbs, dates: guideDates }).map((data) => (
-        <JsonLd key={data['@type']} data={data} />
-      ))}
+      {docArticle({ path, title: guide.title, description: guide.summary, crumbs, dates: guideDatesFor(guide) }).map(
+        (data) => (
+          <JsonLd key={data['@type']} data={data} />
+        ),
+      )}
       <Breadcrumb items={breadcrumbItems(crumbs)} />
       <header className="doc-header">
         <Typography as="h1" variant="h1">
@@ -97,33 +89,8 @@ export default async function Page({ params }: Props) {
         </pre>
       </section>
 
-      {guide.slug === 'bank-account' && (
-        <section aria-labelledby="banks-title">
-          <Typography id="banks-title" as="h2" variant="h2" className="doc-section-title">
-            은행 코드 목록
-          </Typography>
-          <Typography className="doc-text">
-            KOREAN_BANKS 에 든 {KOREAN_BANKS.length}곳이에요. 금융결제원 표준 코드 3자리이고, 많이 쓰는 은행부터
-            적었어요.
-          </Typography>
-          <Table caption="국내 은행 코드(금융결제원)" size="sm">
-            <TableHeader>
-              <TableRow>
-                <TableHead>코드</TableHead>
-                <TableHead>은행</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {KOREAN_BANKS.map((bank) => (
-                <TableRow key={bank.code}>
-                  <TableCell>{bank.code}</TableCell>
-                  <TableCell>{bank.name}</TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </section>
-      )}
+      {guide.slug === 'resident-number' && <ResidentCodeTable />}
+      {guide.slug === 'bank-account' && <BankCodeTable />}
 
       <section aria-labelledby="notes-title">
         <Typography id="notes-title" as="h2" variant="h2" className="doc-section-title">

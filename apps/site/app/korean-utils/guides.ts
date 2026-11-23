@@ -20,10 +20,22 @@ export interface Guide {
    * `path` 는 Storybook 문서의 `?path=` 값
    */
   component?: { name: string; slug: string; path: string; body: string };
+  /** 이 쪽만 고친 날(JSON-LD dateModified). 없으면 guideDates.modified — 고치지 않은 쪽의 날짜는 올리지 않는다(구글: 내용이 그대로인데 날짜만 바꾸지 말 것) */
+  modified?: string;
 }
 
-/** 이 쪽들의 JSON-LD 날짜 — 글을 고치면 modified 를 그날로 */
+/** 이 쪽들의 JSON-LD 날짜 — 모든 쪽을 함께 고치면 modified 를 그날로, 한 쪽만 고치면 그 쪽의 `modified` 를 */
 export const guideDates = { published: '2026-11-11', modified: '2026-11-18' };
+
+export function guideDatesFor(guide: Guide) {
+  return { published: guideDates.published, modified: guide.modified ?? guideDates.modified };
+}
+
+/**
+ * 은행 코드표의 기준 달 — packages/korean-utils/src/bank.ts 주석의 "YYYY-MM 기준" 과 같아야 한다(guides.test.ts 가 확인).
+ * KOREAN_BANKS 를 갱신하면 두 곳을 함께 고친다
+ */
+export const bankCodesCheckedAt = { month: '2026-11', label: '2026년 11월' };
 
 export const guides: Guide[] = [
   {
@@ -107,6 +119,7 @@ formatKoreanAmount(20000, '포인트'); // '2만포인트'`,
   },
   {
     slug: 'resident-number',
+    modified: '2026-11-23',
     title: '주민등록번호 생년월일·성별 읽기와 형식 확인',
     summary: '주민등록번호 앞 7자리로 생년월일·성별·외국인 여부를 읽고, 2020년 10월 이후 번호도 틀리지 않게 확인해요.',
     problem: [
@@ -211,6 +224,7 @@ isValidCorporateNumber('130111-0006247'); // false`,
   },
   {
     slug: 'bank-account',
+    modified: '2026-11-23',
     title: '은행 코드 목록과 계좌번호 확인',
     summary: '국내 은행 26곳의 금융결제원 표준 코드(카카오뱅크 090, 토스뱅크 092 등)와 계좌번호 자릿수 확인.',
     problem: [

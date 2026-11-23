@@ -67,7 +67,7 @@ apps/
                                첫 화면 데모(KitDemo — 한국 키트 입력 + 대표색 바꾸기), 링크 미리보기 메타(layout.tsx metadata)·public/og.png·app/sitemap.ts(guides·kitPages 로 생성).
                                파비콘은 PNG(icon-96.png)·favicon.ico — public/icon.svg 에서 `node scripts/generate-favicons.mjs`(구글 형식 목록에 SVG 없음).
                                /korean-utils/ — korean-utils 함수 문서(데이터 korean-utils/guides.ts, 직접 입력 Try.tsx, 쪽 메타 seo.ts). 코드 예시의 `호출; // 결과`
-                               줄은 E2E 가 실제로 계산해 비교한다 — 함수 동작을 바꾸면 guides 도 고친다. 새 함수가 생기면 guides 에 쪽을 더한다.
+                               줄은 E2E 가 실제로 계산해 비교한다 — 함수 동작을 바꾸면 guides 도 고친다. 참고 표(Tables.tsx — 주민번호 뒷자리 첫 숫자·은행 코드)는 함수·KOREAN_BANKS 로 만들고, 은행 표 기준 달 `bankCodesCheckedAt` 은 bank.ts 주석과 같아야 한다(단위 테스트). 새 함수가 생기면 guides 에 쪽을 더한다.
                                /components/ — 한국 키트 13쪽 정적 문서(글은 components/kit.ts, props·키보드·스크린리더·선택 기준은 빌드 때 source.ts 가 react 소스·componentA11y·choosing 에서 읽음 —
                                못 찾으면 빌드 실패, 데모 Demo.tsx 는 오늘 고정·가짜 주소 공급자). **새 한국 키트 컴포넌트는 kit.ts 에도 넣고**, 동작·문구를 바꾸면 kit.ts 글도 고친다.
                                /changelog/ — 변경 기록(app/changelog: 빌드 때 packages/*/CHANGELOG.md 를 읽고 배포 날짜는 git 태그 `@bestow-ui/<패키지>@<버전>` 의 커밋 날짜 —
@@ -75,7 +75,7 @@ apps/
                                `fetch-depth: 0`. 커밋 해시·"Updated dependencies" 는 빼고, 마크다운은 Markdown.tsx 가 쓰는 문법만 그린다 — changeset 에 새 문법(표·이미지)을 쓰면 여기도 고친다.
                                /compare/ — 다른 라이브러리 비교(데이터 compare/data.ts, 칸마다 공식 문서 근거·확인한 날짜 — 루트 README 비교 표와 함께 고친다).
                                JSON-LD(structured-data.tsx): 첫 화면 WebSite(구글 사이트 이름)·SoftwareSourceCode, 문서 쪽 TechArticle + BreadcrumbList(화면 Breadcrumb 과 같은 Crumb[]). 날짜는 데이터 파일의 상수
-                               (kitDates·guideDates·checkedAt) — **글을 고치면 modified 를 그날로**. GEO 점검은 docs/GEO-CHECK.md(한 달에 한 번).
+                               (kitDates·guideDates·checkedAt) — **글을 고치면 modified 를 그날로**(함수 문서는 한 쪽만 고치면 guides.ts 그 항목의 `modified` — 고치지 않은 쪽 날짜는 올리지 않는다). GEO 점검은 docs/GEO-CHECK.md(한 달에 한 번).
                                검색 메타는 제목 40자·설명 80자 이내(네이버 권장, seo.ts `pageTitle` 이 " — BestOW UI" 를 들어갈 때만 붙임, kit.ts `metaDescription`) — landing E2E 가 모든 쪽을 검사.
                                **옛 Storybook 주소 넘겨주기**: 2026-11 까지 루트가 Storybook 이라 README·npm·블로그에 `dev-bestow.github.io/BestOW-UI/?path=…` 가 남아 있다(GitHub 가 bestow-ui.com 같은 경로로 301) —
                                layout.tsx 의 beforeInteractive 스크립트가 `?path=`·`?id=`·`?viewMode=` 를 /storybook/ 으로, public/iframe.html 이 옛 스토리 단독 주소를 넘긴다.
