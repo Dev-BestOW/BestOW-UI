@@ -23,6 +23,8 @@ done
 sb_favicon='https://bestow-ui.com/storybook/favicon.svg'
 perl -pi -e "s#href=\"\\./favicon\\.svg\"#href=\"$sb_favicon\"#" "$out/storybook/index.html"
 grep -q "rel=\"icon\"[^>]*href=\"$sb_favicon\"" "$out/storybook/index.html" || { echo "::error::Storybook 파비콘을 절대 주소로 바꾸지 못했습니다(템플릿이 바뀌었는지 확인)"; exit 1; }
+# 스토리 단독 화면은 검색에서 뺀다(.storybook/preview-head.html) — 빠지면 구글이 iframe.html?id=… 를 중복 쪽으로 다시 모은다
+grep -q '<meta name="robots" content="noindex, indexifembedded"' "$out/storybook/iframe.html" || { echo "::error::storybook/iframe.html 에 noindex 가 없습니다(.storybook/preview-head.html 확인)"; exit 1; }
 # include-hidden-files 로 숨김 파일도 올라가므로 .well-known 말고는 없어야 한다 (.DS_Store·.env 같은 것이 섞여 배포되지 않게)
 hidden=$(cd "$out" && find . -name '.*' ! -path './.well-known' ! -path './.well-known/*' ! -name '.' | sort)
 if [ -n "$hidden" ]; then
