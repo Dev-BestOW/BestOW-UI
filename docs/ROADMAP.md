@@ -6,11 +6,13 @@
 >
 > **갱신 규칙:** 작업을 끝내면 "남은 일" 을 고치고 맨 아래 "진행 기록" 에 한 줄 추가한다. 끝난 항목의 상세 메모는 ROADMAP-HISTORY 로 옮기고 여기에는 남기지 않는다.
 
-## 🔁 다음 세션 시작하기 (인수인계 — 2026-11-22 기준)
+## 🔁 다음 세션 시작하기 (인수인계 — 2026-11-23 기준)
 
 **지금 상태**
-- **2026-11-22 세션:** GitHub Flow 도입(main ruleset·squash, 작업 브랜치는 Claude 가 만들고 커밋·PR 은 사용자), CI 7분 → 4.3분(PR #36·#37·#38), ④ `/changelog/`(PR #39 — auto-merge 로 머지됐는지 먼저 확인).
-  **2026-11-23: ③ 방문 통계는 신호 부족으로 닫음(Cloudflare 무료는 10건 중 1건만 기록 — 10일에 27건, 절반 넘게 우리 확인). 다음: ⑥ 을 Search Console 실적(검색어·노출 쪽)으로 고르기(사용자가 전달).** 블로그·velog 작업은 개인 스킬 `blog-velog`(비공개 저장소 Dev-BestOW/blog-velog-skill).
+- **2026-11-23 세션:** ③ 방문 통계(Cloudflare API — 10% 표본이라 신호 부족) → Search Console 실적·색인으로 ⑥ 고름. PR #40 Storybook `iframe.html` noindex·indexifembedded, PR #41 함수 문서 주민번호 뒷자리 표·은행 코드표 기준 달·쪽별 `modified`. 개인 스킬 korean-seo 0.5.1(색인 사유별 대응·iframe noindex)로 정리·설치.
+  **다음: ⑤ Figma 정리 2건(MCP 연결 확인됨, 한도는 호출해 봐야 앎) 또는 문서 쪽 화면 날짜 확인**(korean-seo 의 "보이는 날짜 = dateModified" — 우리 문서 쪽은 날짜가 JSON-LD 에만 있음, 구글 게시 날짜 문서 원문 확인 후 판단). 12/1~2 ⑦ GEO, 12/3 버전 PR #35 머지, 12월 중순 Cloudflare·Search Console 한 달치 재확인.
+  사용자 몫: Search Console 에서 `/components/`·`/compare/`·`/korean-utils/resident-number/`·`/korean-utils/bank-account/` 색인 생성 요청, "표준 없는 중복 페이지" 수정사항 확인.
+- 2026-11-22 세션: GitHub Flow 도입(main ruleset·squash, 작업 브랜치는 Claude 가 만들고 커밋·PR 은 사용자), CI 7분 → 4.3분(PR #36·#37·#38), ④ `/changelog/`(PR #39). 블로그·velog 작업은 개인 스킬 `blog-velog`(비공개 저장소 Dev-BestOW/blog-velog-skill).
 - 2026-11-20 세션: 첫 정기 배포 확인, 스프린트 ①② 끝, 네이버·구글 검색 기준 점검 → 개인 스킬 `korean-seo`(GitHub Dev-BestOW/korean-seo-skill, 설치됨)로 정리. 사이트·블로그 작업은 이 스킬 기준. **다음: 11/21 방문 통계(③)**. 구글 기준 남은 3건은 11/20 끝(배포 뒤 Search Console 에서 파비콘·사이트 이름 반영 확인 — 며칠~몇 주).
 - npm: react 2.2.0 · tokens 2.2.0(react 와 linked) · korean-utils 0.5.0 · icons 0.2.1 (2026-11-19 첫 정기 배포). 다음 배포 12/3.
 - **배포 주기: 격주 목요일**(11/19 → 12/3 → 12/17, SUPPORT.md). 보안·심각한 버그만 바로 patch. 작업을 끝내면 다음 배포일을 함께 알린다.
