@@ -10,7 +10,7 @@
 
 **지금 상태**
 - **2026-11-23 세션:** ③ 방문 통계(Cloudflare API — 10% 표본이라 신호 부족) → Search Console 실적·색인으로 ⑥ 고름. PR #40 Storybook `iframe.html` noindex·indexifembedded, PR #41 함수 문서 주민번호 뒷자리 표·은행 코드표 기준 달·쪽별 `modified`. 개인 스킬 korean-seo 0.5.1(색인 사유별 대응·iframe noindex)로 정리·설치.
-  **다음: ⑤ Figma 정리 2건(MCP 연결 확인됨, 한도는 호출해 봐야 앎) 또는 문서 쪽 화면 날짜 확인**(korean-seo 의 "보이는 날짜 = dateModified" — 우리 문서 쪽은 날짜가 JSON-LD 에만 있음, 구글 게시 날짜 문서 원문 확인 후 판단). 12/1~2 ⑦ GEO, 12/3 버전 PR #35 머지, 12월 중순 Cloudflare·Search Console 한 달치 재확인.
+  ⑤ Figma 정리 2건도 끝(`FIGMA.md`). **다음: 문서 쪽 화면 날짜 확인**(korean-seo 의 "보이는 날짜 = dateModified" — 우리 문서 쪽은 날짜가 JSON-LD 에만 있음, 구글 게시 날짜 문서 원문 확인 후 판단). 12/1~2 ⑦ GEO, 12/3 버전 PR #35 머지, 12월 중순 Cloudflare·Search Console 한 달치 재확인.
   사용자 몫: Search Console 에서 `/components/`·`/compare/`·`/korean-utils/resident-number/`·`/korean-utils/bank-account/` 색인 생성 요청, "표준 없는 중복 페이지" 수정사항 확인.
 - 2026-11-22 세션: GitHub Flow 도입(main ruleset·squash, 작업 브랜치는 Claude 가 만들고 커밋·PR 은 사용자), CI 7분 → 4.3분(PR #36·#37·#38), ④ `/changelog/`(PR #39). 블로그·velog 작업은 개인 스킬 `blog-velog`(비공개 저장소 Dev-BestOW/blog-velog-skill).
 - 2026-11-20 세션: 첫 정기 배포 확인, 스프린트 ①② 끝, 네이버·구글 검색 기준 점검 → 개인 스킬 `korean-seo`(GitHub Dev-BestOW/korean-seo-skill, 설치됨)로 정리. 사이트·블로그 작업은 이 스킬 기준. **다음: 11/21 방문 통계(③)**. 구글 기준 남은 3건은 11/20 끝(배포 뒤 Search Console 에서 파비콘·사이트 이름 반영 확인 — 며칠~몇 주).
@@ -73,11 +73,10 @@
 - **스프린트 11/19 ~ 12/3 (다음 배포일까지, 2026-11-19 사용자 결정)** — 2.2.0 새 기능을 발견 경로에 싣는다. 작업마다 커밋 확인 후 다음.
   - 1주차: [x] ① AI 도구 문서에 2.2.0 반영(`docs/ai/bestow-ui.md`·`llms.txt`·`context7.json` — MultiCombobox·초성 검색·빠른 금액)
     [x] ② 첫 화면 데모·korean-utils README 에 초성 검색(npm `초성` 11위) [x] ③ 방문 통계 읽기(신호 부족 — 11/23)
-  - 2주차: [x] ④ 사이트 `/changelog/`(패키지 CHANGELOG 를 빌드 때 읽어 한국어 변경 기록 쪽) [ ] ⑤ 28번 Figma 정리 2건(MCP 한도 풀리면)
+  - 2주차: [x] ④ 사이트 `/changelog/`(패키지 CHANGELOG 를 빌드 때 읽어 한국어 변경 기록 쪽) [x] ⑤ 28번 Figma 정리 2건(11/23)
     [x] ⑥ 통계로 고르는 작업 하나(Search Console 실적 기준 — 주민번호·은행 코드 표, 11/23) [ ] ⑦ 12/1~2 GEO 첫 기록(`GEO-CHECK.md`, 사용자가 AI 답변 전달)
   - 하지 않음: 새 컴포넌트(외부 요청 없음)·3.0 준비·의존성 2차(대기 중).
 - (선택) IndexNow — 배포 뒤 바뀐 쪽 알림. (선택) 문서 쪽별 OG 이미지 — 29쪽이 같은 og.png 라 네이버가 대표 이미지로 안 쓸 수 있음(네이버 웹마스터 가이드 점검 4건은 2026-11-20 끝).
-- **28번 Figma 정리 2건**(MCP 호출 한도가 풀리면): Checkbox `icon` 프레임 12개 흰 배경 지우기, Korean Kit 페이지 변수 연결 감사 — `docs/FIGMA.md`.
 - 28번 다음 컴포넌트(요청 시): Select·RadioGroup·Switch·AgreementGroup·Alert·Modal, 아이콘 컴포넌트(Button 아이콘 자리).
 - **외부 요청이 생기면:** Tag 입력(MultiCombobox 와 칩 공유), Combobox 비동기 검색.
 - **막혀 있거나 시점을 기다림:** 의존성 2차(TypeScript 7 — typescript-eslint 지원 대기, ESLint 10 — jsx-a11y 지원 대기, jsdom 30 — Node ≥22.22.2, CI Ubuntu 26 — Playwright `-resolute` 이미지와 모든 workflow 함께).
@@ -180,3 +179,4 @@
 | 2026-11-23 | Search Console 실적(11/12~20, 웹): 노출 16·클릭 1(11/16 `/storybook/` 1위 — 이름 검색으로 봄), 한국만, 데스크톱 11·모바일 5. 노출 쪽: `/korean-utils/bank-account/` 9(평균 29.6위)·`resident-number/` 5(17위)·첫 화면 2·`/compare/`·`/components/` 1. 드러난 검색어 3개 모두 정보 검색("토스뱅크 은행 코드" 55위·"토스뱅크 코드번호" 61위·"여자 주민등록번호 앞자리" 47위) — 개발자 검색어(React·컴포넌트)는 아직 0 |
 | 2026-11-23 | Search Console 색인(11/16 기준, 11/20 수정 전): 색인 9 · 안 됨 18 — 발견됨·미색인 9(새 도메인, 기다림)·리디렉션 3(http·www·옛 주소, 정상)·크롤링됨·미색인 3(`/components/`·`/compare/`·`/korean-utils/resident-number/`, 11/17 크롤링)·표준 없는 중복 3(모두 `/storybook/iframe.html?id=…`·`?path=…`). 브랜치 `fix/storybook-iframe-noindex`: `.storybook/preview-head.html` 에 `noindex, indexifembedded`(구글 robots meta 문서 — indexifembedded 는 noindex 와 함께일 때만), assemble-pages.sh 가 배포 폴더에서 확인 |
 | 2026-11-23 | ⑥ (브랜치 `feat/site-korean-utils-tables`, Search Console 노출 14/16 이 함수 문서 두 쪽): `/korean-utils/resident-number/` 에 뒷자리 첫 숫자 표(1~8·9·0 → 세기·성별·내외국인, `parseResidentNumber` 로 만듦 — "앞자리는 생년월일" 안내), `/korean-utils/bank-account/` 칸 제목 "은행 코드표"·기준 달(`bankCodesCheckedAt`, bank.ts 주석과 같은지 단위 테스트). 함수 문서 날짜를 쪽별 `modified` 로 — 고친 두 쪽만 11/23. 제목·설명은 그대로. 배포 뒤 Search Console 에서 resident-number 색인 생성 요청(사용자) |
+| 2026-11-23 | ⑤ Figma 정리 2건(MCP 한도 풀려 있음): Checkbox `icon` 프레임 12개의 숨김 흰 채우기 삭제(스크린샷 확인), Korean Kit 페이지 변수 연결 감사 — 인스턴스 밖 연결 안 된 값은 세트 테두리 상자 모서리 하나뿐(모든 세트 공통 장식, 둠). 코드 변화 없음 |

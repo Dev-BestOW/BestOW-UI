@@ -43,8 +43,7 @@
   `Heading/H3·H4` 는 Bold 로 두었다. Pretendard 를 설치한 디자이너는 글꼴만 바꿔 쓰면 된다(크기·줄 간격은 같다).
 - **Code Connect 는 쓰지 않는다** — Figma Organization·Enterprise 요금제 기능이다. 대신 변수의 코드 표시로 Dev Mode 에서 CSS 변수가 보인다.
 - **페이지는 3개까지**(Starter) — 그래서 컴포넌트를 한 페이지(`Components`)에 모았다.
-- **MCP 호출 한도**(Starter) — 2026-11-14 컴포넌트 작업 중 한도에 걸렸다. 남은 일: Checkbox 의 `icon` 프레임 12개에 SVG 를 불러올 때 생긴 흰 배경(fills)을 지운다
-  (Figma 에서 Checkbox 세트 안 `icon` 프레임을 모두 골라 채우기 삭제, 또는 한도가 풀린 뒤 `icon.fills = []`), Korean Kit 페이지의 변수 연결 감사.
+- **MCP 호출 한도**(Starter) — 2026-11-14 컴포넌트 작업 중 한도에 걸렸다(2026-11-23 에는 풀려 있었다). 한 번에 몰아서 고치지 말고 읽기 → 고치기를 작게 나눈다.
 
 ## 다시 맞추기 (토큰을 바꿨을 때)
 
@@ -56,6 +55,6 @@
 
 ## 다음 단계 (ROADMAP 28번)
 
-- 위 "MCP 호출 한도" 의 남은 일 두 가지.
+- 정리 2건 끝(2026-11-23): Checkbox `icon` 프레임 12개의 남은(숨김) 흰 채우기 삭제, Korean Kit 페이지 변수 연결 감사 — 인스턴스 밖 색·간격·모서리·글자 중 연결 안 된 값은 컴포넌트 세트 테두리 상자의 모서리 12 하나(모든 세트에 같은 장식, 인스턴스에 안 물려짐)라 그대로 둠.
 - 다음 후보 컴포넌트: Select·NativeSelect·RadioGroup·Switch·AgreementGroup·Alert·Modal. 아이콘(@bestow-ui/icons)을 컴포넌트로 만들면 Button 에 아이콘 자리(INSTANCE_SWAP).
 - 요금제를 올리면: `Color` Dark 모드, 팀 라이브러리 게시, 페이지를 컴포넌트별로 나누기.
