@@ -1,7 +1,7 @@
 import * as utils from '@bestow-ui/korean-utils';
 import { guides } from '../app/korean-utils/guides';
 import { pageTitle } from '../app/seo';
-import { axeViolations, expect, jsonLd, test } from './fixtures';
+import { axeViolations, expect, expectVisibleDates, jsonLd, test } from './fixtures';
 
 const LIST = '/korean-utils/';
 const pages = [LIST, ...guides.map(({ slug }) => `${LIST}${slug}/`)];
@@ -36,6 +36,7 @@ test('함수 문서: 제목·설명·canonical·미리보기 태그', async ({ p
     await expect(page.locator('meta[property="og:url"]')).toHaveAttribute('content', url);
     // 구조화 데이터 — 글(TechArticle)과 이동 경로(BreadcrumbList). 주소는 canonical 과 같다
     const [article, breadcrumb] = await jsonLd(page);
+    await expectVisibleDates(page, article);
     expect(article).toMatchObject({ '@type': 'TechArticle', headline: guide.title, url, inLanguage: 'ko' });
     expect(breadcrumb).toMatchObject({ '@type': 'BreadcrumbList' });
     expect((breadcrumb.itemListElement as { item: string }[]).at(-1)?.item).toBe(url);

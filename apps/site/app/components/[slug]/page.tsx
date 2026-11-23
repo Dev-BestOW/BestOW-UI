@@ -1,4 +1,5 @@
 import { Breadcrumb, DescriptionList, Link, Typography } from '@bestow-ui/react';
+import { DocDates } from '../../DocDates';
 import { notFound } from 'next/navigation';
 import { CopyCommand } from '../../CopyCommand';
 import { koreanUtilsHref, storybookHref } from '../../links';
@@ -49,6 +50,7 @@ export default async function Page({ params }: Props) {
   const a11y = componentA11yFor(page.name);
   const choice = choosingFor(page.name);
   const path = `/components/${page.slug}/`;
+  const dates = kitDates;
   const crumbs = [
     { name: 'BestOW UI', path: '/' },
     { name: '한국 입력 컴포넌트', path: '/components/' },
@@ -57,7 +59,7 @@ export default async function Page({ params }: Props) {
 
   return (
     <article className="doc site-inner">
-      {docArticle({ path, title: page.title, description: page.summary, crumbs, dates: kitDates }).map((data) => (
+      {docArticle({ path, title: page.title, description: page.summary, crumbs, dates }).map((data) => (
         <JsonLd key={data['@type']} data={data} />
       ))}
       <Breadcrumb items={breadcrumbItems(crumbs)} />
@@ -68,6 +70,7 @@ export default async function Page({ params }: Props) {
         <Typography variant="body-lg" color="muted" className="doc-lead">
           {page.summary}
         </Typography>
+        <DocDates dates={dates} />
       </header>
 
       <section aria-labelledby="problem-title">

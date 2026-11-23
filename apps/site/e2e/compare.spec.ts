@@ -1,5 +1,5 @@
 import { comparedLibraries } from '../app/compare/data';
-import { axeViolations, expect, jsonLd, test } from './fixtures';
+import { axeViolations, expect, expectVisibleDates, jsonLd, test } from './fixtures';
 
 const PATH = '/compare/';
 
@@ -8,6 +8,7 @@ test('비교: 제목·표·라이브러리 열·근거 링크·조사한 날짜'
   await expect(page.getByRole('heading', { level: 1 })).toHaveText('한국 서비스용 React UI 라이브러리 비교');
   await expect(page.locator('link[rel="canonical"]')).toHaveAttribute('href', `https://bestow-ui.com${PATH}`);
   const [article] = await jsonLd(page);
+  await expectVisibleDates(page, article);
   expect(article).toMatchObject({ '@type': 'TechArticle', url: `https://bestow-ui.com${PATH}` });
 
   const table = page.getByRole('table', { name: 'BestOW UI·Vapor UI·HANUI·shadcn/ui·MUI 비교' });

@@ -10,6 +10,7 @@ import {
   Typography,
   VisuallyHidden,
 } from '@bestow-ui/react';
+import { DocDates } from '../DocDates';
 import { links, storybookHref } from '../links';
 import { pageMetadata } from '../seo';
 import { breadcrumbItems, docArticle, JsonLd } from '../structured-data';
@@ -29,13 +30,12 @@ const crumbs = [
 export const metadata = pageMetadata({ path, title, description });
 
 export default function Page() {
+  const dates = { published: '2026-11-17', modified: checkedAt };
   return (
     <article className="doc doc-wide site-inner">
-      {docArticle({ path, title, description, crumbs, dates: { published: '2026-11-17', modified: checkedAt } }).map(
-        (data) => (
-          <JsonLd key={data['@type']} data={data} />
-        ),
-      )}
+      {docArticle({ path, title, description, crumbs, dates }).map((data) => (
+        <JsonLd key={data['@type']} data={data} />
+      ))}
       <Breadcrumb items={breadcrumbItems(crumbs)} />
       <header className="doc-header">
         <Typography as="h1" variant="h1">
@@ -45,6 +45,7 @@ export default function Page() {
           가입·본인 확인·결제 화면이 있는 한국 서비스를 React 로 만들 때 무엇이 다른지 모았어요. 다른 라이브러리 칸은 각
           공식 문서·README·npm 에서 확인한 것만 적고 근거를 달았어요.
         </Typography>
+        <DocDates dates={dates} />
       </header>
 
       <section aria-labelledby="table-title">

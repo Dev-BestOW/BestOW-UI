@@ -75,7 +75,7 @@ apps/
                                `fetch-depth: 0`. 커밋 해시·"Updated dependencies" 는 빼고, 마크다운은 Markdown.tsx 가 쓰는 문법만 그린다 — changeset 에 새 문법(표·이미지)을 쓰면 여기도 고친다.
                                /compare/ — 다른 라이브러리 비교(데이터 compare/data.ts, 칸마다 공식 문서 근거·확인한 날짜 — 루트 README 비교 표와 함께 고친다).
                                JSON-LD(structured-data.tsx): 첫 화면 WebSite(구글 사이트 이름)·SoftwareSourceCode, 문서 쪽 TechArticle + BreadcrumbList(화면 Breadcrumb 과 같은 Crumb[]). 날짜는 데이터 파일의 상수
-                               (kitDates·guideDates·checkedAt) — **글을 고치면 modified 를 그날로**(함수 문서는 한 쪽만 고치면 guides.ts 그 항목의 `modified` — 고치지 않은 쪽 날짜는 올리지 않는다). GEO 점검은 docs/GEO-CHECK.md(한 달에 한 번).
+                               (kitDates·guideDates·checkedAt) — 같은 값을 머리의 `DocDates`(게시·마지막 수정, 구글: 보이는 날짜 = 구조화 데이터, E2E `expectVisibleDates`)도 쓴다. **글을 고치면 modified 를 그날로**(함수 문서는 한 쪽만 고치면 guides.ts 그 항목의 `modified` — 고치지 않은 쪽 날짜는 올리지 않는다). GEO 점검은 docs/GEO-CHECK.md(한 달에 한 번).
                                검색 메타는 제목 40자·설명 80자 이내(네이버 권장, seo.ts `pageTitle` 이 " — BestOW UI" 를 들어갈 때만 붙임, kit.ts `metaDescription`) — landing E2E 가 모든 쪽을 검사.
                                **옛 Storybook 주소 넘겨주기**: 2026-11 까지 루트가 Storybook 이라 README·npm·블로그에 `dev-bestow.github.io/BestOW-UI/?path=…` 가 남아 있다(GitHub 가 bestow-ui.com 같은 경로로 301) —
                                layout.tsx 의 beforeInteractive 스크립트가 `?path=`·`?id=`·`?viewMode=` 를 /storybook/ 으로, public/iframe.html 이 옛 스토리 단독 주소를 넘긴다.
