@@ -1,0 +1,7 @@
+<!--
+  스토리 단독 화면(iframe.html?id=…)은 검색 결과에 따로 나오지 않게 한다 — 2026-11-17 구글이 3개를
+  "사용자가 선택한 표준이 없는 중복 페이지"로 잡았다. 검색에 나올 주소는 /storybook/(manager-head.html 의 canonical).
+  indexifembedded: noindex 와 함께일 때만, /storybook/ 화면 안에 끼워진 내용은 그 쪽의 일부로 색인해도 된다(구글 robots meta 문서).
+  scripts/assemble-pages.sh 가 배포 폴더의 storybook/iframe.html 에 이 태그가 있는지 확인한다.
+-->
+<meta name="robots" content="noindex, indexifembedded" />

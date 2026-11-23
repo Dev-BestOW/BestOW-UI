@@ -55,7 +55,7 @@ apps/
                                guides/TanStackTable — TanStack Table(@tanstack/react-table, storybook devDependency 만)과 Table 을 잇는 예시 스토리 + 문서. Table·Pagination·Checkbox API 가 바뀌면 함께 고친다(play 테스트가 잡는다).
                                vite alias 로 dist 가 아닌 각 패키지 src 를 바로 본다.
                                Pages 의 /storybook/ 에 배포한다(루트는 apps/site). 문서·README 의 Storybook 링크는 `https://bestow-ui.com/storybook/?path=…`.
-                               검색·링크 미리보기: 페이지 제목은 main.ts 의 `title`, 설명·OG 태그는 .storybook/manager-head.html, 이미지는 apps/site/public/og.png
+                               검색·링크 미리보기: 페이지 제목은 main.ts 의 `title`, 설명·OG 태그는 .storybook/manager-head.html(스토리 단독 화면 iframe.html 은 preview-head.html 의 `noindex, indexifembedded` — 구글이 중복 쪽으로 잡았다, assemble-pages.sh 가 확인), 이미지는 apps/site/public/og.png
                                (`node scripts/generate-og.mjs` — 히어로 이미지·소개 문구가 바뀌면 다시 만든다). 주소는 배포 주소를 직접 적었다(Pages 경로가 바뀌면 함께 고친다).
                                public/llms.txt(직접 작성)·llms-full.txt(build 때 scripts/generate-llms.mjs 가 README·props 정의·choosing·componentA11y 로 생성,
                                커밋 안 함)를 Pages 루트에도 복사해 배포(scripts/assemble-pages.sh) — AI 코딩 도구용. 컴포넌트 props 의 JSDoc 이 곧 그 문서다.
