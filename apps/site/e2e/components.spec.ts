@@ -42,14 +42,17 @@ test('컴포넌트 문서: 제목·설명·canonical·미리보기 태그·props
       url,
       inLanguage: 'ko',
       // Google Article 권장 속성
-      image: 'https://bestow-ui.com/og.png',
+      image: `https://bestow-ui.com/og/components-${kit.slug}.png`,
       author: { name: 'Dev-BestOW' },
       datePublished: expect.stringMatching(/^\d{4}-\d{2}-\d{2}T00:00:00\+09:00$/),
       dateModified: expect.stringMatching(/^\d{4}-\d{2}-\d{2}T00:00:00\+09:00$/),
     });
     expect(breadcrumb).toMatchObject({ '@type': 'BreadcrumbList' });
     expect((breadcrumb.itemListElement as { item: string }[]).at(-1)?.item).toBe(url);
-    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://bestow-ui.com/og.png');
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+      'content',
+      `https://bestow-ui.com/og/components-${kit.slug}.png`,
+    );
     // props 는 빌드 때 소스에서 읽어 온다
     await expect(page.getByRole('region', { name: `${kit.name} props 타입 정의` })).toContainText(
       `export interface ${kit.name}Props`,

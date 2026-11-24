@@ -1,13 +1,15 @@
 import type { Metadata } from 'next';
 import { basePath } from './links';
 
-/** 링크 미리보기 이미지 — public/og.png(scripts/generate-og.mjs). 하위 쪽은 openGraph 를 통째로 덮어쓰므로 쪽마다 다시 넣는다 */
-const ogImage = {
-  url: `${basePath}/og.png`,
-  width: 1200,
-  height: 630,
-  alt: 'BestOW UI — 한국 서비스를 위한 접근성 검증 React 디자인 시스템. 회원가입 화면의 휴대폰 번호·약관 동의 입력',
-};
+/**
+ * 문서 쪽의 링크 미리보기 이미지 경로(basePath 뒤, 앞 `/` 없음) — '/components/amount-input/' → 'og/components-amount-input.png'.
+ * 쪽마다 다른 이미지다(네이버: 여러 쪽에 되풀이되는 이미지는 대표 이미지로 쓰이지 않을 수 있음). scripts/generate-og.mjs 가 빌드된 쪽의
+ * h1·이동 경로로 찍어 public/og/ 에 커밋한다 — 쪽을 더하거나 제목을 바꾸면 다시 실행(E2E 가 apps/site/og-manifest.json 과 h1 을 비교).
+ * 첫 화면은 public/og.png(layout.tsx). 같은 규칙이 generate-og.mjs 의 ogImageFile 에도 있다.
+ */
+export function ogImagePath(path: string) {
+  return `og/${path.replace(/^\/|\/$/g, '').replaceAll('/', '-')}.png`;
+}
 
 /**
  * 검색 결과 제목·설명 길이 — 네이버 서치어드바이저 권장(제목 40자, 설명 80자, OG 도 같음). 넘으면 잘려 보인다.
@@ -42,7 +44,16 @@ export function pageMetadata({
     title,
     description,
     alternates: { canonical: url },
-    openGraph: { type: 'article', siteName: 'BestOW UI', locale: 'ko_KR', url, title, description, images: [ogImage] },
+    // 하위 쪽은 openGraph 를 통째로 덮어쓰므로 이미지도 여기서 넣는다
+    openGraph: {
+      type: 'article',
+      siteName: 'BestOW UI',
+      locale: 'ko_KR',
+      url,
+      title,
+      description,
+      images: [{ url: `${basePath}/${ogImagePath(path)}`, width: 1200, height: 630, alt: title }],
+    },
     twitter: { card: 'summary_large_image' },
   };
 }

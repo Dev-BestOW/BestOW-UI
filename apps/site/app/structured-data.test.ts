@@ -59,9 +59,9 @@ describe('docArticle', () => {
     });
   });
 
-  test('Google Article 권장 속성 — 이미지·글쓴이·한국 시간 날짜', () => {
+  test('Google Article 권장 속성 — 쪽마다 다른 이미지·글쓴이·한국 시간 날짜', () => {
     expect(article).toMatchObject({
-      image: 'https://bestow-ui.com/og.png',
+      image: 'https://bestow-ui.com/og/components-phone-number-input.png',
       author: { '@type': 'Organization', name: 'Dev-BestOW', url: 'https://github.com/Dev-BestOW' },
       datePublished: '2026-11-15T00:00:00+09:00',
       dateModified: '2026-11-17T00:00:00+09:00',

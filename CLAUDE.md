@@ -56,7 +56,7 @@ apps/
                                vite alias 로 dist 가 아닌 각 패키지 src 를 바로 본다.
                                Pages 의 /storybook/ 에 배포한다(루트는 apps/site). 문서·README 의 Storybook 링크는 `https://bestow-ui.com/storybook/?path=…`.
                                검색·링크 미리보기: 페이지 제목은 main.ts 의 `title`, 설명·OG 태그는 .storybook/manager-head.html(스토리 단독 화면 iframe.html 은 preview-head.html 의 `noindex, indexifembedded` — 구글이 중복 쪽으로 잡았다, assemble-pages.sh 가 확인), 이미지는 apps/site/public/og.png
-                               (`node scripts/generate-og.mjs` — 히어로 이미지·소개 문구가 바뀌면 다시 만든다). 주소는 배포 주소를 직접 적었다(Pages 경로가 바뀌면 함께 고친다).
+                               (`node scripts/generate-og.mjs home` — 히어로 이미지·소개 문구가 바뀌면 다시 만든다). 주소는 배포 주소를 직접 적었다(Pages 경로가 바뀌면 함께 고친다).
                                public/llms.txt(직접 작성)·llms-full.txt(build 때 scripts/generate-llms.mjs 가 README·props 정의·choosing·componentA11y 로 생성,
                                커밋 안 함)를 Pages 루트에도 복사해 배포(scripts/assemble-pages.sh) — AI 코딩 도구용. 컴포넌트 props 의 JSDoc 이 곧 그 문서다.
                                사용자가 프로젝트에 넣는 규칙 파일은 `docs/ai/bestow-ui.md`(직접 작성) → 같은 스크립트가 `ai/bestow-ui.md`·Cursor 용 `.mdc` 로 내보내 Pages `/ai/` 에 배포.
@@ -65,6 +65,8 @@ apps/
                                기본값도 함께 적음)과 rules(위 규칙 파일의 요약, 한 줄 255자·하나라도 거절되면 전부 빠짐). 새 내부 문서를 만들거나 규칙 파일·공개 이름을 바꾸면 함께 고친다.
   site/ (private)              Pages 루트의 소개 사이트(Next.js 16 정적 export, basePath 기본 '' — SITE_BASE_PATH, 배포는 configure-pages 의 base_path). 패키지 dist 를 쓴다.
                                첫 화면 데모(KitDemo — 한국 키트 입력 + 대표색 바꾸기), 링크 미리보기 메타(layout.tsx metadata)·public/og.png·app/sitemap.ts(guides·kitPages 로 생성).
+                               문서 쪽은 쪽마다 다른 OG 이미지 `public/og/<경로>.png`(seo.ts `ogImagePath`, 네이버: 되풀이되는 이미지는 대표 이미지로 안 쓰일 수 있음) — 빌드된 쪽의 h1·이동 경로를
+                               scripts/og-page.html 로 찍어 커밋한다. **문서 쪽 제목을 바꾸거나 쪽을 더하면 `pnpm build-site && node scripts/generate-og.mjs pages`**(찍은 제목은 og-manifest.json — landing E2E 가 h1 과 비교해 잡는다).
                                파비콘은 PNG(icon-96.png)·favicon.ico — public/icon.svg 에서 `node scripts/generate-favicons.mjs`(구글 형식 목록에 SVG 없음).
                                /korean-utils/ — korean-utils 함수 문서(데이터 korean-utils/guides.ts, 직접 입력 Try.tsx, 쪽 메타 seo.ts). 코드 예시의 `호출; // 결과`
                                줄은 E2E 가 실제로 계산해 비교한다 — 함수 동작을 바꾸면 guides 도 고친다. 참고 표(Tables.tsx — 주민번호 뒷자리 첫 숫자·은행 코드)는 함수·KOREAN_BANKS 로 만들고, 은행 표 기준 달 `bankCodesCheckedAt` 은 bank.ts 주석과 같아야 한다(단위 테스트). 새 함수가 생기면 guides 에 쪽을 더한다.
