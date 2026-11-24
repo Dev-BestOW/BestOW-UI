@@ -22,10 +22,19 @@ export interface KitPage {
   storybookPath: string;
   /** 같은 서식·검증 함수 쪽(/korean-utils/<utilsSlug>/) */
   utilsSlug?: string;
+  /**
+   * 이 쪽만 고친 날(JSON-LD dateModified·화면 "마지막 수정"). 없으면 kitDates.modified — 고치지 않은 쪽의 날짜는 올리지 않는다
+   * (구글: 내용이 그대로인데 날짜만 바꾸지 말 것). 소스에서 읽어 오는 절(props·키보드·스크린리더·선택 기준)이 바뀌어도 그 쪽을 고친 것이다
+   */
+  modified?: string;
 }
 
-/** 이 쪽들의 JSON-LD 날짜 — 글을 고치면 modified 를 그날로 */
-export const kitDates = { published: '2026-11-15', modified: '2026-11-18' };
+/** 이 쪽들의 JSON-LD 날짜 — 모든 쪽을 함께 고치면 modified 를 그날로, 한 쪽만 고치면 그 쪽의 `modified` 를 */
+export const kitDates = { published: '2026-11-15', modified: '2026-11-17' };
+
+export function kitDatesFor(page: KitPage) {
+  return { published: kitDates.published, modified: page.modified ?? kitDates.modified };
+}
 
 export const kitPages: KitPage[] = [
   {
@@ -149,6 +158,7 @@ export function PhoneVerification({
   },
   {
     slug: 'agreement-group',
+    modified: '2026-11-18', // 하위 항목(children)
     name: 'AgreementGroup',
     title: 'React 약관 전체 동의 체크박스 — 필수·선택 표시와 약관 펼치기',
     summary:
@@ -204,6 +214,7 @@ export function SignupAgreements({ submitted }: { submitted: boolean }) {
   },
   {
     slug: 'amount-input',
+    modified: '2026-11-18', // 빠른 금액(quickAmounts·showMaxButton)
     name: 'AmountInput',
     title: 'React 금액 입력 컴포넌트 — 천 단위 쉼표·한글 금액 읽기',
     summary:

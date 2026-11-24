@@ -6,7 +6,7 @@ import { koreanUtilsHref, storybookHref } from '../../links';
 import { pageMetadata } from '../../seo';
 import { breadcrumbItems, docArticle, JsonLd } from '../../structured-data';
 import { Demo } from '../Demo';
-import { findKitPage, kitDates, kitPages } from '../kit';
+import { findKitPage, kitDatesFor, kitPages } from '../kit';
 import { choosingFor, componentA11yFor, componentProps } from '../source';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -50,7 +50,7 @@ export default async function Page({ params }: Props) {
   const a11y = componentA11yFor(page.name);
   const choice = choosingFor(page.name);
   const path = `/components/${page.slug}/`;
-  const dates = kitDates;
+  const dates = kitDatesFor(page);
   const crumbs = [
     { name: 'BestOW UI', path: '/' },
     { name: '한국 입력 컴포넌트', path: '/components/' },
