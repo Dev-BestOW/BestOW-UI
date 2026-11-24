@@ -6,6 +6,9 @@ import { links, storybookHref } from '../links';
 /** 마지막으로 각 공식 문서를 다시 확인한 날 */
 export const checkedAt = '2026-11-17';
 
+/** /compare/ 의 게시·마지막 수정 날짜 — 쪽 머리·JSON-LD·sitemap lastmod 가 함께 쓴다 */
+export const compareDates = { published: '2026-11-17', modified: checkedAt };
+
 export const rows = [
   { key: 'audience', label: '누구를 위해' },
   { key: 'distribution', label: '쓰는 방식' },

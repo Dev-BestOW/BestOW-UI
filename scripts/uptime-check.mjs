@@ -23,6 +23,8 @@ const pages = [
   ['/robots.txt', 'Sitemap:'],
   ['/llms.txt', 'BestOW UI'],
   ['/.well-known/security.txt', 'Contact:'],
+  // IndexNow 키 파일(scripts/indexnow.mjs) — 없으면 검색엔진이 403 으로 거절한다
+  ['/6326583d6a16688a70dd461a4f9753ef.txt', '6326583d6a16688a70dd461a4f9753ef'],
 ];
 
 /** [요청 주소, 넘겨받아야 할 주소] */

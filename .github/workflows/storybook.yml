@@ -11,6 +11,7 @@ on:
       - 'pnpm-lock.yaml'
       - 'scripts/generate-llms.mjs' # llms-full.txt 생성
       - 'scripts/assemble-pages.sh'
+      - 'scripts/indexnow.mjs'
       - '.github/workflows/storybook.yml'
   workflow_dispatch:
 
@@ -26,6 +27,8 @@ permissions:
 jobs:
   build:
     runs-on: ubuntu-24.04
+    outputs:
+      indexnow-urls: ${{ steps.indexnow.outputs.urls }}
     steps:
       # 소개 사이트 /changelog/ 가 배포 날짜를 git 태그에서 읽는다(얕은 기록이면 빌드가 멈춤)
       - uses: actions/checkout@v7
@@ -59,6 +62,11 @@ jobs:
       - name: Assemble Pages
         run: bash scripts/assemble-pages.sh pages-dist
 
+      # 배포 전에(아직 옛 sitemap 이 떠 있을 때) 새 sitemap 과 비교해 IndexNow 로 알릴 주소를 고른다 — 보내기는 deploy 뒤
+      - name: Find changed pages (IndexNow)
+        id: indexnow
+        run: echo "urls=$(node scripts/indexnow.mjs changed pages-dist/sitemap.xml)" >> "$GITHUB_OUTPUT"
+
       - uses: actions/upload-pages-artifact@v5
         with:
           path: pages-dist
@@ -74,3 +82,15 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v5
+
+      # 바뀐 쪽을 네이버·api.indexnow.org 에 알린다(scripts/indexnow.mjs). 실패해도 경고만 — 배포는 이미 끝났다
+      - if: needs.build.outputs.indexnow-urls != '[]'
+        uses: actions/checkout@v7
+        with:
+          sparse-checkout: scripts/indexnow.mjs
+          sparse-checkout-cone-mode: false
+      - name: Notify IndexNow
+        if: needs.build.outputs.indexnow-urls != '[]'
+        run: node scripts/indexnow.mjs submit
+        env:
+          INDEXNOW_URLS: ${{ needs.build.outputs.indexnow-urls }}
