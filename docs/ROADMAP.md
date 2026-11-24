@@ -11,7 +11,7 @@
 **지금 상태**
 - **2026-11-23 세션:** ③ 방문 통계(Cloudflare API — 10% 표본이라 신호 부족) → Search Console 실적·색인으로 ⑥ 고름. PR #40 Storybook `iframe.html` noindex·indexifembedded, PR #41 함수 문서 주민번호 뒷자리 표·은행 코드표 기준 달·쪽별 `modified`. 개인 스킬 korean-seo 0.5.1(색인 사유별 대응·iframe noindex)로 정리·설치.
   ⑤ Figma 정리 2건도 끝(`FIGMA.md`). 문서 쪽 화면 날짜도 끝(브랜치 `feat/site-visible-dates` — 머지 확인). 한국 키트 쪽별 `modified` 도 끝(11/24, 브랜치 `feat/kit-page-modified` — 머지 확인). IndexNow 도 끝(11/24, 브랜치 `feat/indexnow` — 머지 뒤 첫 배포가 키 파일을 올림, 다음 배포부터 바뀐 쪽을 보냄). 문서 쪽별 OG 이미지도 끝(11/24, 브랜치 `feat/site-page-og-images` — 머지 확인). **다음: 12/1~2 ⑦ GEO**. 12/3 버전 PR #35 머지, 12월 중순 Cloudflare·Search Console 한 달치 재확인.
-  Search Console(11/24 사용자): 4쪽(`/components/`·`/compare/`·`/korean-utils/resident-number/`·`/korean-utils/bank-account/`) 색인 생성 요청 끝, "표준 없는 중복 페이지" 수정사항 확인 접수 중(보통 2주 — 12월 중순 통계 때 결과 확인). 네이버 웹 페이지 수집 요청(같은 4쪽, 선택)은 남음.
+  Search Console(11/24 사용자): 4쪽(`/components/`·`/compare/`·`/korean-utils/resident-number/`·`/korean-utils/bank-account/`) 색인 생성 요청 끝, "표준 없는 중복 페이지" 수정사항 확인 접수 중(보통 2주 — 12월 중순 통계 때 결과 확인). 네이버 수집 요청도 끝(`/components/`·`/compare/` 11/17, `resident-number`·`bank-account` 11/24 — 표를 더한 뒤).
 - 2026-11-22 세션: GitHub Flow 도입(main ruleset·squash, 작업 브랜치는 Claude 가 만들고 커밋·PR 은 사용자), CI 7분 → 4.3분(PR #36·#37·#38), ④ `/changelog/`(PR #39). 블로그·velog 작업은 개인 스킬 `blog-velog`(비공개 저장소 Dev-BestOW/blog-velog-skill).
 - 2026-11-20 세션: 첫 정기 배포 확인, 스프린트 ①② 끝, 네이버·구글 검색 기준 점검 → 개인 스킬 `korean-seo`(GitHub Dev-BestOW/korean-seo-skill, 설치됨)로 정리. 사이트·블로그 작업은 이 스킬 기준. **다음: 11/21 방문 통계(③)**. 구글 기준 남은 3건은 11/20 끝(배포 뒤 Search Console 에서 파비콘·사이트 이름 반영 확인 — 며칠~몇 주).
 - npm: react 2.2.0 · tokens 2.2.0(react 와 linked) · korean-utils 0.5.0 · icons 0.2.1 (2026-11-19 첫 정기 배포). 다음 배포 12/3.
