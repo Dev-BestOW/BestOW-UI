@@ -1,3 +1,4 @@
+import { KEY } from '../../../scripts/indexnow.mjs';
 import { descriptionLimit, titleLimit } from '../app/seo';
 import { axeViolations, expect, jsonLd, test } from './fixtures';
 
@@ -48,6 +49,34 @@ test('og.png·파비콘·sitemap.xml·robots.txt·iframe.html 이 사이트 루�
   }
   // robots.txt 는 호스트 루트에서만 읽힌다 — 사용자 도메인이라 둘 수 있다. sitemap 위치를 알린다
   expect(await (await request.get(`${HOME}robots.txt`)).text()).toContain('Sitemap: https://bestow-ui.com/sitemap.xml');
+});
+
+// sitemap lastmod = 쪽의 "마지막 수정"(JSON-LD dateModified) — IndexNow(scripts/indexnow.mjs)가 이 값이 바뀐 주소만 알린다.
+// 날짜 없는 목록 쪽에는 lastmod 를 달지 않는다(빌드 날짜를 달면 구글이 lastmod 를 믿지 않고, IndexNow 가 매번 모든 쪽을 보낸다)
+test('sitemap.xml 의 lastmod 가 문서 쪽의 dateModified 와 같다', async ({ page, request }) => {
+  const xml = await (await request.get('/sitemap.xml')).text();
+  const entries = [...xml.matchAll(/<url>([\s\S]*?)<\/url>/g)].map(([, body]) => ({
+    path: new URL(/<loc>([^<]+)<\/loc>/.exec(body!)![1]!).pathname,
+    lastmod: /<lastmod>([^<]+)<\/lastmod>/.exec(body!)?.[1],
+  }));
+  const dated = entries.filter((entry) => entry.lastmod);
+  // 함수 문서·한국 키트 문서·비교·변경 기록
+  expect(dated.length).toBeGreaterThan(20);
+  for (const path of ['/', '/components/', '/korean-utils/', '/storybook/']) {
+    expect(entries.find((entry) => entry.path === path)?.lastmod, path).toBeUndefined();
+  }
+  for (const { path, lastmod } of dated) {
+    await page.goto(path);
+    const article = (await jsonLd(page)).find((data) => data['@type'] === 'TechArticle');
+    expect(String(article?.dateModified).slice(0, 10), path).toBe(lastmod);
+  }
+});
+
+// IndexNow 키 파일 — 검색엔진이 이 파일로 소유를 확인한다(없으면 403). 키는 scripts/indexnow.mjs 의 KEY
+test('IndexNow 키 파일이 사이트 루트에 있다', async ({ request }) => {
+  const response = await request.get(`/${KEY}.txt`);
+  expect(response.status()).toBe(200);
+  expect((await response.text()).trim()).toBe(KEY);
 });
 
 // 보안 연락처(RFC 9116) — Pages 배포는 숨김 폴더를 빼므로 storybook.yml 의 include-hidden-files 와 함께 지킨다

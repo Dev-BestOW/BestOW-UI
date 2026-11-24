@@ -126,6 +126,11 @@ export function releases(): Release[] {
     .map(({ order: _order, ...release }) => release);
 }
 
+/** /changelog/ 의 게시·마지막 수정 날짜(가장 최근 배포일) — 쪽 머리·JSON-LD·sitemap lastmod 가 함께 쓴다 */
+export function changelogDates(all: Release[] = releases()) {
+  return { published: '2026-11-22', modified: all[0]!.date };
+}
+
 /** 화면에 보일 날짜 '2026년 11월 19일' */
 export function koreanDay(date: string): string {
   const [year, month, day] = date.split('-').map(Number);

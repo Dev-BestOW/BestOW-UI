@@ -14,7 +14,7 @@ import { DocDates } from '../DocDates';
 import { links, storybookHref } from '../links';
 import { pageMetadata } from '../seo';
 import { breadcrumbItems, docArticle, JsonLd } from '../structured-data';
-import { checkedAt, comparedLibraries, rows } from './data';
+import { checkedAt, compareDates, comparedLibraries, rows } from './data';
 
 const path = '/compare/';
 const title = '한국 서비스용 React UI 라이브러리 비교';
@@ -30,7 +30,7 @@ const crumbs = [
 export const metadata = pageMetadata({ path, title, description });
 
 export default function Page() {
-  const dates = { published: '2026-11-17', modified: checkedAt };
+  const dates = compareDates;
   return (
     <article className="doc doc-wide site-inner">
       {docArticle({ path, title, description, crumbs, dates }).map((data) => (

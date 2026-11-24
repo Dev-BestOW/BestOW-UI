@@ -3,7 +3,7 @@ import { DocDates } from '../DocDates';
 import { links } from '../links';
 import { pageMetadata } from '../seo';
 import { breadcrumbItems, docArticle, JsonLd } from '../structured-data';
-import { koreanDay, releases, type ChangeKind, type Release } from './changelog';
+import { changelogDates, koreanDay, releases, type ChangeKind, type Release } from './changelog';
 import { Block } from './Markdown';
 
 const path = '/changelog/';
@@ -28,7 +28,7 @@ const anchor = (release: Release) => `${release.pkg.replace('@bestow-ui/', '')}-
 export default function Page() {
   const all = releases();
   const days = [...new Set(all.map((release) => release.date))];
-  const dates = { published: '2026-11-22', modified: days[0]! };
+  const dates = changelogDates(all);
   return (
     <article className="doc site-inner">
       {docArticle({ path, title, description, crumbs, dates }).map((data) => (

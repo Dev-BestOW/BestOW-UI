@@ -123,6 +123,9 @@ examples/
                                방문 통계(Cloudflare Web Analytics, 쿠키 없음 — SECURITY.md)는 저장소 변수 CF_WEB_ANALYTICS_TOKEN 이 있을 때만 이 배포 빌드에 들어간다
                                (apps/site·playground 의 app/analytics.tsx, .storybook/main.ts managerHead). 로컬·CI·E2E 빌드에는 없다(site E2E 가 확인)
                                (scripts/assemble-pages.sh 가 폴더를 모으고 빠진 파일이 있으면 실패)
+                               IndexNow(scripts/indexnow.mjs, 의존성 없음): build job 이 배포 전 지금 떠 있는 sitemap 과 새 sitemap 을 비교해 바뀐 주소(새로 생김·없어짐·`lastmod` 바뀜)를 고르고,
+                               deploy 뒤 네이버·api.indexnow.org 에 보낸다(실패해도 경고만). sitemap `lastmod` 는 문서 쪽의 "마지막 수정"(kit·guides·compare·changelog 날짜 — E2E 가 JSON-LD 와 같은지 확인)이고
+                               날짜 없는 목록 쪽에는 달지 않는다 — **빌드 날짜를 달면 매 배포 모든 쪽을 보낸다**. 키 파일 `apps/site/public/<KEY>.txt`(공개 값, 바꾸면 스크립트·assemble-pages.sh·uptime-check 도)
                                → https://bestow-ui.com/ , …/storybook/ , …/playground/ (사용자 도메인 — 아래 함정 "bestow-ui.com")
                                /.well-known/security.txt(원본 apps/site/public, RFC 9116 — **Expires 를 해마다 1년 안쪽으로**, site E2E 가 30일 남으면 실패)는 숨김 폴더라
                                upload-pages-artifact 의 `include-hidden-files: true` 로 올린다. 다른 숨김 파일이 섞이면 assemble-pages.sh 가 배포를 멈춘다
