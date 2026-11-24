@@ -1,6 +1,7 @@
 // 구조화 데이터(JSON-LD, schema.org) — 검색 엔진·AI 답변이 쪽이 무엇인지(저장소·글·이동 경로) 알게 한다.
 // 계획: docs/SEO-GEO-PLAN.md Task 4. 주소는 canonical(seo.ts)과 같은 절대 주소로 만든다.
 import { basePath, links, siteOrigin } from './links';
+import { ogImagePath } from './seo';
 
 const context = 'https://schema.org';
 
@@ -102,7 +103,7 @@ export function docArticle({
       url: absoluteUrl(path),
       inLanguage: 'ko',
       // Google Article 권장 속성(없으면 리치 결과 테스트가 "심각하지 않은 문제" 로 알린다)
-      image: absoluteUrl('/og.png'),
+      image: absoluteUrl(`/${ogImagePath(path)}`),
       author,
       datePublished: koreanDate(dates.published),
       dateModified: koreanDate(dates.modified),

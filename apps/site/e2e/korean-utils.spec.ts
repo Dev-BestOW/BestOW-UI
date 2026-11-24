@@ -37,10 +37,19 @@ test('함수 문서: 제목·설명·canonical·미리보기 태그', async ({ p
     // 구조화 데이터 — 글(TechArticle)과 이동 경로(BreadcrumbList). 주소는 canonical 과 같다
     const [article, breadcrumb] = await jsonLd(page);
     await expectVisibleDates(page, article);
-    expect(article).toMatchObject({ '@type': 'TechArticle', headline: guide.title, url, inLanguage: 'ko' });
+    expect(article).toMatchObject({
+      '@type': 'TechArticle',
+      headline: guide.title,
+      url,
+      inLanguage: 'ko',
+      image: `https://bestow-ui.com/og/korean-utils-${guide.slug}.png`,
+    });
     expect(breadcrumb).toMatchObject({ '@type': 'BreadcrumbList' });
     expect((breadcrumb.itemListElement as { item: string }[]).at(-1)?.item).toBe(url);
-    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', 'https://bestow-ui.com/og.png');
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute(
+      'content',
+      `https://bestow-ui.com/og/korean-utils-${guide.slug}.png`,
+    );
     if (guide.component) {
       // 컴포넌트 문서는 사이트 쪽(정적 HTML)으로, Storybook 은 따로
       await expect(page.getByRole('link', { name: `${guide.component.name} 문서 보기` })).toHaveAttribute(

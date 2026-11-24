@@ -1,5 +1,6 @@
+import { readFileSync } from 'node:fs';
 import { KEY } from '../../../scripts/indexnow.mjs';
-import { descriptionLimit, titleLimit } from '../app/seo';
+import { descriptionLimit, ogImagePath, titleLimit } from '../app/seo';
 import { axeViolations, expect, jsonLd, test } from './fixtures';
 
 const HOME = '/';
@@ -70,6 +71,38 @@ test('sitemap.xml 의 lastmod 가 문서 쪽의 dateModified 와 같다', async 
     const article = (await jsonLd(page)).find((data) => data['@type'] === 'TechArticle');
     expect(String(article?.dateModified).slice(0, 10), path).toBe(lastmod);
   }
+});
+
+// 문서 쪽마다 다른 링크 미리보기 이미지(네이버: 되풀이되는 이미지는 대표 이미지로 안 쓰일 수 있음). scripts/generate-og.mjs 가 찍을 때의
+// h1 을 og-manifest.json 에 남긴다 — 제목을 바꾸거나 쪽을 더했는데 다시 찍지 않으면 여기서 실패한다
+test('문서 쪽마다 자기 OG 이미지가 있고 지금 제목으로 찍혀 있다', async ({ page, request }) => {
+  const manifest = JSON.parse(readFileSync(new URL('../og-manifest.json', import.meta.url), 'utf8')) as Record<
+    string,
+    string
+  >;
+  const xml = await (await request.get('/sitemap.xml')).text();
+  const paths = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)]
+    .map(([, loc]) => new URL(loc!).pathname)
+    .filter((path) => path !== '/' && path !== '/storybook/');
+  expect(Object.keys(manifest).sort(), '다시 찍기: pnpm build-site && node scripts/generate-og.mjs pages').toEqual(
+    [...paths].sort(),
+  );
+  const images = new Set<string>();
+  for (const path of paths) {
+    await page.goto(path);
+    const h1 = (await page.getByRole('heading', { level: 1 }).textContent())?.trim();
+    expect(manifest[path], `${path} 제목이 바뀌었어요 — pnpm build-site && node scripts/generate-og.mjs pages`).toBe(
+      h1,
+    );
+    const image = `https://bestow-ui.com/${ogImagePath(path)}`;
+    await expect(page.locator('meta[property="og:image"]')).toHaveAttribute('content', image);
+    images.add(image);
+    // 네이버 대표 이미지 조건: 5,000바이트 이상(크기 1200×630 은 seo.ts 가 적는다)
+    const response = await request.get(`/${ogImagePath(path)}`);
+    expect(response.status(), path).toBe(200);
+    expect((await response.body()).length, path).toBeGreaterThan(5000);
+  }
+  expect(images.size).toBe(paths.length);
 });
 
 // IndexNow 키 파일 — 검색엔진이 이 파일로 소유를 확인한다(없으면 403). 키는 scripts/indexnow.mjs 의 KEY
