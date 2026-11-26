@@ -6,7 +6,7 @@ import { componentHref, koreanUtilsHref, links, storybookHref } from '../../link
 import { pageMetadata } from '../../seo';
 import { breadcrumbItems, docArticle, JsonLd } from '../../structured-data';
 import { findGuide, guideDatesFor, guides } from '../guides';
-import { BankCodeTable, ResidentCodeTable } from '../Tables';
+import { BankCodeTable, BusinessCodeTable, ResidentCodeTable } from '../Tables';
 import { Try } from '../Try';
 
 type Props = { params: Promise<{ slug: string }> };
@@ -92,6 +92,7 @@ export default async function Page({ params }: Props) {
 
       {guide.slug === 'resident-number' && <ResidentCodeTable />}
       {guide.slug === 'bank-account' && <BankCodeTable />}
+      {guide.slug === 'business-number' && <BusinessCodeTable />}
 
       <section aria-labelledby="notes-title">
         <Typography id="notes-title" as="h2" variant="h2" className="doc-section-title">
