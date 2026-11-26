@@ -90,6 +90,14 @@ test('은행 코드 표: KOREAN_BANKS 전부', async ({ page }) => {
   await expect(table.getByRole('row', { name: '090 카카오뱅크' })).toBeVisible();
 });
 
+test('사업자등록번호 가운데 두 자리 표', async ({ page }) => {
+  await page.goto(`${LIST}business-number/`);
+  const table = page.getByRole('table', { name: '사업자등록번호 가운데 두 자리' });
+  await expect(table.getByRole('row')).toHaveCount(10);
+  // 본문 예시(124-81-00998)가 말하는 줄
+  await expect(table.getByRole('row', { name: '81, 86, 87, 88 영리법인 본점', exact: true })).toBeVisible();
+});
+
 test('주민등록번호 뒷자리 첫 숫자 표', async ({ page }) => {
   await page.goto(`${LIST}resident-number/`);
   const table = page.getByRole('table', { name: '주민등록번호 뒷자리 첫 숫자' });
