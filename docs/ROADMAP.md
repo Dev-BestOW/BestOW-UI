@@ -10,7 +10,7 @@
 
 **지금 상태**
 - **2026-11-23 세션:** ③ 방문 통계(Cloudflare API — 10% 표본이라 신호 부족) → Search Console 실적·색인으로 ⑥ 고름. PR #40 Storybook `iframe.html` noindex·indexifembedded, PR #41 함수 문서 주민번호 뒷자리 표·은행 코드표 기준 달·쪽별 `modified`. 개인 스킬 korean-seo 0.5.1(색인 사유별 대응·iframe noindex)로 정리·설치.
-  ⑤ Figma 정리 2건도 끝(`FIGMA.md`). 문서 쪽 화면 날짜도 끝(브랜치 `feat/site-visible-dates` — 머지 확인). 한국 키트 쪽별 `modified` 도 끝(11/24, 브랜치 `feat/kit-page-modified` — 머지 확인). IndexNow 도 끝(11/24, 브랜치 `feat/indexnow` — 머지 뒤 첫 배포가 키 파일을 올림, 다음 배포부터 바뀐 쪽을 보냄). 문서 쪽별 OG 이미지도 끝(11/24, 브랜치 `feat/site-page-og-images` — 머지 확인). 11/25 사업자등록번호 쪽에 가운데 두 자리 표(브랜치 `docs/site-page-refresh` — 머지 뒤 배포가 IndexNow 첫 전송, 아래 확인 항목). **다음: 12/1~2 ⑦ GEO**. 12/3 버전 PR #35 머지, 12월 중순 Cloudflare·Search Console 한 달치 재확인.
+  ⑤ Figma 정리 2건도 끝(`FIGMA.md`). 문서 쪽 화면 날짜도 끝(브랜치 `feat/site-visible-dates` — 머지 확인). 한국 키트 쪽별 `modified` 도 끝(11/24, 브랜치 `feat/kit-page-modified` — 머지 확인). IndexNow 도 끝(11/24, 브랜치 `feat/indexnow` — 머지 뒤 첫 배포가 키 파일을 올림, 다음 배포부터 바뀐 쪽을 보냄). 문서 쪽별 OG 이미지도 끝(11/24, 브랜치 `feat/site-page-og-images` — 머지 확인). 11/25 사업자등록번호 쪽에 가운데 두 자리 표(PR #46 — 머지 뒤 배포에서 IndexNow 첫 전송 성공, 11/26 확인). **다음: 12/1~2 ⑦ GEO**. 12/3 버전 PR #35 머지, 12월 중순 Cloudflare·Search Console 한 달치 재확인.
   Search Console(11/24 사용자): 4쪽(`/components/`·`/compare/`·`/korean-utils/resident-number/`·`/korean-utils/bank-account/`) 색인 생성 요청 끝, "표준 없는 중복 페이지" 수정사항 확인 접수 중(보통 2주 — 12월 중순 통계 때 결과 확인). 네이버 수집 요청도 끝(`/components/`·`/compare/` 11/17, `resident-number`·`bank-account` 11/24 — 표를 더한 뒤).
 - 2026-11-22 세션: GitHub Flow 도입(main ruleset·squash, 작업 브랜치는 Claude 가 만들고 커밋·PR 은 사용자), CI 7분 → 4.3분(PR #36·#37·#38), ④ `/changelog/`(PR #39). 블로그·velog 작업은 개인 스킬 `blog-velog`(비공개 저장소 Dev-BestOW/blog-velog-skill).
 - 2026-11-20 세션: 첫 정기 배포 확인, 스프린트 ①② 끝, 네이버·구글 검색 기준 점검 → 개인 스킬 `korean-seo`(GitHub Dev-BestOW/korean-seo-skill, 설치됨)로 정리. 사이트·블로그 작업은 이 스킬 기준. **다음: 11/21 방문 통계(③)**. 구글 기준 남은 3건은 11/20 끝(배포 뒤 Search Console 에서 파비콘·사이트 이름 반영 확인 — 며칠~몇 주).
@@ -68,7 +68,7 @@
 
 ### Claude 가 확인할 것 (push·배포 뒤)
 - [ ] 12월 중순: Search Console "표준 없는 중복 페이지" 수정사항 확인 결과(11/24 접수)와 4쪽 색인 여부를 사용자에게 물어 기록.
-- [ ] IndexNow 첫 전송 확인: `feat/indexnow` 머지 뒤 첫 배포는 옛 sitemap 에 lastmod 가 없어 보낼 주소가 없다(정상, #45 배포도 바뀐 쪽 없음 → skipped). 그다음 글을 고친 배포(`docs/site-page-refresh` — `/korean-utils/business-number/` 하나가 가야 함)에서 storybook.yml deploy job 의 "Notify IndexNow" 가 200·202 인지(경고 annotation 이 없으면 성공 — `check-runs/<id>/annotations`), 네이버 서치어드바이저 › 요청 › IndexNow 기록에 보이는지.
+- [x] IndexNow 첫 전송 확인(11/26): #46 배포(run 45735809452)에서 "Notify IndexNow" success·경고 annotation 0 — 바뀐 쪽은 `/korean-utils/business-number/` 하나(sitemap lastmod 11/25). 네이버 서치어드바이저에는 IndexNow 기록 메뉴가 없다(요청 › 웹 페이지 수집·검색 제외·RSS·사이트맵 제출뿐, 웹 페이지 수집 내역은 직접 요청만) — 앞으로 전송 확인은 deploy job 결과·annotation 으로만.
 - [ ] 12월 중순 Cloudflare 방문 통계 한 달치 다시 읽기(API — 사용자 토큰 `~/.config/bestow/cloudflare.env`, Account Analytics Read·12/23 만료. GraphQL `rumPageloadEventsAdaptiveGroups`, siteTag `6f3d59147f9b4a9f83b7e3e68b4719d2`). 표본 간격(sampleInterval)부터 보고 숫자를 10배 추정인지 구분.
 
 ### Claude 가 할 일
